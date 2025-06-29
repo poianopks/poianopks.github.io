@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>성실피아노조울 피아노운반 매매</title>
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      height: 100%;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #fff;
+      color: #222;
+    }
+    body {
+      min-height: 100vh;
+      background: #fff;
+    }
+    header {
+      background: #fff;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .main-title {
+      font-size: 1.7rem;
+      font-weight: 900;
+      text-align: center;
+      padding: 22px 0 8px 0;
+      letter-spacing: 2px;
+      color: #222;
+      background: #fff;
+    }
+    .nav {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0 10px;
+      background: #fff;
+    }
+    .nav button {
+      background: none; border: none; outline: none;
+      padding: 16px 12px 12px 12px;
+      color: #b21d1d;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: border 0.2s, color 0.2s;
+    }
+    .nav button.active {
+      color: #222;
+      border-bottom: 3px solid #222;
+      background: #ffe066;
+    }
+    .main-visual {
+      width: 100vw;
+      min-height: 300px;
+      height: auto;
+      background: url('https://pplx-res.cloudinary.com/image/upload/v1750468233/user_uploads/16013413/f20c2156-8e9f-4698-8e2d-9774dbf4e92d/Screenshot_20250621_100039_Gallery.jpg') no-repeat center center;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+      padding: 0;
+      margin: 0;
+      border: none;
+    }
+    .content-section {
+      display: none;
+      padding: 20px 12px 60px 12px;
+      max-width: 500px;
+      margin: 0 auto;
+      background: #fff;
+      min-height: 70vh;
+      transition: background 0.3s;
+      box-sizing: border-box;
+    }
+    .content-section.active {
+      display: block;
+      animation: fadein 0.4s;
+    }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: none;}
+    }
+    .home-border {
+      position: relative;
+      background: #fff;
+      border: 3px solid #90ee90;
+      border-radius: 32px;
+      padding: 28px 16px 40px 16px;
+      margin-top: 32px;
+      margin-bottom: 32px;
+      box-sizing: border-box;
+    }
+    @media (max-width: 540px) {
+      .main-visual { min-height: 180px; }
+      .home-border {
+        border-radius: 38px 38px 50% 50%/ 38px 38px 60% 60%;
+        padding: 18px 6vw 28px 6vw;
+      }
+    }
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      padding: 0;
+      margin-top: 0;
+    }
+    .section-desc {
+      font-size: 1.05rem;
+      color: #666;
+      margin-bottom: 16px;
+      background: none;
+      padding: 0;
+    }
+    .mini-img {
+      width: 36px; height: 36px;
+      object-fit: contain;
+      margin-right: 6px;
+      vertical-align: middle;
+      border-radius: 8px;
+      border: 1px solid #eee;
+      background: #fafafa;
+    }
+    .main-img {
+      width: 100%;
+      max-width: 380px;
+      display: block;
+      margin: 12px auto 18px auto;
+      border-radius: 12px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+      background: #f8f8f8;
+    }
+    .profile-photo {
+      width: 100%;
+      max-width: 320px;
+      display: block;
+      margin: 0 auto 16px auto;
+      border-radius: 14px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.13);
+      background: #fff;
+    }
+    .yellow-box, .white-box {
+      background: #fff;
+      color: #222;
+      font-weight: 700;
+      font-size: 1.08rem;
+      padding: 12px;
+      border-radius: 9px;
+      margin: 16px 0 10px 0;
+      line-height: 1.5;
+      border: 1px solid #eee;
+    }
+    ul, ol { padding-left: 18px; }
+    li { margin-bottom: 5px; font-size: 0.97rem;}
+    table {
+      border-collapse: collapse;
+      margin: 10px 0 16px 0;
+      width: 100%;
+      font-size: 0.98rem;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 7px 6px;
+      text-align: left;
+      background: #fff;
+    }
+    th { background: #ffe066; }
+    .fab-group {
+      position: fixed;
+      right: 18px;
+      bottom: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      z-index: 99;
+      align-items: flex-end;
+    }
+    .fab {
+      width: 54px; height: 54px;
+      background: #ffd600;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; color: #fff;
+      border: 2px solid #fff;
+      cursor: pointer;
+      transition: box-shadow 0.2s;
+      text-decoration: none;
+      position: relative;
+      z-index: 2;
+    }
+    .fab:active { box-shadow: 0 1px 3px rgba(0,0,0,0.08);}
+    .navertalk-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 6px;
+      background: #03c75a;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.07rem;
+      border-radius: 20px;
+      padding: 10px 22px 10px 18px;
+      box-shadow: 0 2px 10px rgba(3,199,90,0.06);
+      cursor: pointer;
+      text-decoration: none;
+      gap: 8px;
+      transition: background 0.2s;
+      width: 135px;
+    }
+    .navertalk-link:hover {
+      background: #02b152;
+    }
+    .navertalk-icon {
+      font-size: 1.3rem;
+      margin-right: 2px;
+      display: inline-block;
+    }
+    @media (max-width: 540px) {
+      .main-visual { min-height: 180px; }
+      .main-title { font-size: 1.1rem; padding: 12px 0 4px 0;}
+      .main-img { max-width: 95vw; }
+      .profile-photo { max-width: 92vw; }
+      .section-title { font-size: 1.08rem;}
+      .mini-img { width: 28px; height: 28px;}
+      .fab { width: 46px; height: 46px; font-size: 22px;}
+      #phonePopup .popup-content { font-size: 1.1rem; padding: 18px 10vw;}
+      .navertalk-link { font-size: 0.99rem; width: 110px; padding: 8px 10px 8px 10px;}
+      .navertalk-icon { font-size: 1.1rem; }
+    }
+    #phonePopup {
+      display: none;
+      position: fixed;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.3);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    #phonePopup .popup-content {
+      background: #fff;
+      color: #222;
+      font-size: 1.25rem;
+      font-weight: 900;
+      border-radius: 12px;
+      padding: 28px 34px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.23);
+      text-align: center;
+      min-width: 180px;
+    }
+    #phonePopup .close-btn {
+      margin-top: 16px;
+      background: #ffe066;
+      border: none;
+      border-radius: 7px;
+      padding: 8px 20px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="main-title">
+      성실피아노조울 피아노운반 매매
+    </div>
+    <nav class="nav" id="mainNav">
+      <button class="active" onclick="showSection(0)">홈</button>
+      <button onclick="showSection(1)">조율사 프로필</button>
+      <button onclick="showSection(2)">피아노 조율</button>
+      <button onclick="showSection(3)">피아노 운반/조율</button>
+      <button onclick="showSection(4)">피아노 방음장치</button>
+    </nav>
+  </header>
+
+  <!-- 메인 비주얼(홈) -->
+  <div class="main-visual" id="mainVisual"></div>
+
+  <!-- 홈 : 연녹색 테두리만 적용 -->
+  <section class="content-section active" id="homeSection">
+    <div class="home-border">
+      <div class="section-title" style="margin-top:0;">
+        <img src="https://pplx-res.cloudinary.com/image/upload/v1750451928/user_uploads/16013413/5e177f73-1170-4a6f-adf2-7af1750be5e8/Screenshot_20250611_202810_Samsung-Internet.jpg" class="mini-img" alt="피아노">
+        성실피아노 홈페이지
+      </div>
+      <div class="section-desc" style="margin-top:0;">
+        피아노 조율·운반·수리·매매·방음·사일런트·리모델링·대여<br>
+        35년 경력, 신뢰와 정직의 피아노 전문 서비스
+      </div>
+      <div class="white-box" style="margin-top:6px;">
+        상담문의: <b>010-8756-8740</b><br>
+        피아노조율, 운반, 수리, 매매, 방음, 사일런트, 리모델링, 대여
+      </div>
+    </div>
+  </section>
+
+  <!-- 조율사 프로필 : 첨부사진 표시 -->
+  <section class="content-section" id="profileSection">
+    <div class="section-title">
+      <img src="https://pplx-res.cloudinary.com/image/upload/v1750451928/user_uploads/16013413/51dfcad1-4f22-44cb-9c7d-dcf9d58aa8d6/Screenshot_20250603_193713_Samsung-Internet.jpg" class="mini-img" alt="프로필">
+      조율사 프로필
+    </div>
+    <!-- 첨부사진 표시 -->
+    <img src="https://pplx-res.cloudinary.com/image/upload/v1750471596/user_uploads/16013413/2f76ab7d-48ab-4511-9d0e-1e9f20169251/Screenshot_20250621_110528_Gallery.jpg" class="profile-photo" alt="조율사 사진">
+    <div class="white-box" style="text-align:left; font-weight:500; font-size:1.05rem; line-height:1.7;">
+      중앙대 영화 연극과 조율<br>
+      성균관대 영화 연극과 조율<br>
+      서울대 한소리 연속조율<br>
+      한양대 직녀관 음악동아리 조율<br>
+      숭실대 컴퓨터과 음악실 조율<br>
+      대학로 연습실 서울문화재단 조율<br>
+      대학로 (주)신시 뮤지컬 극장 공연시 조율<br>
+      팔레스 호텔 조율<br>
+      홀리데인서울(가든호텔) 조율<br>
+      신라 호텔 영빈관 조율 (외부 행사) 전속 아님<br>
+      리더스 클럽(레스토랑, 예식장) 6개점 조율<br>
+      서울대 병원 음악회 조율<br>
+      아리랑 티브이 방송국 조율 8월~9월 사이 (전속 아님)<br>
+      대학로 민들레 영토 사랑을 나누는 공간 조율<br>
+      경찰대 병원 음악회 조율<br>
+      금융결제원 조율<br>
+      한국 능력 개발원 조율<br>
+      용인 자연농원 호스텔 (구연수원) 조율<br>
+      봉천 순복음 교회 조율<br>
+      은천 교회 조율<br>
+      영광 교회 조율<br>
+      예원 피아노 조율<br>
+      이화 피아노 조율+<br>
+      등 가정집 전공자<br>
+      비 전공자 등<br>
+      매일 조율 하고 있습니다
+    </div>
+  </section>
+
+  <!-- 피아노 조율 -->
+  <section class="content-section">
+    <div class="section-title">
+      <img src="https://pplx-res.cloudinary.com/image/upload/v1750451928/user_uploads/16013413/914dcf23-fbe5-4934-b64e-c6b1911930f5/Screenshot_20250611_202604_Samsung-Internet.jpg" class="mini-img" alt="건반">
+      피아노 조율
+    </div>
+    <img src="https://pplx-res.cloudinary.com/image/upload/v1750451928/user_uploads/16013413/914dcf23-fbe5-4934-b64e-c6b1911930f5/Screenshot_20250611_202604_Samsung-Internet.jpg" class="main-img" alt="피아노 조율">
+    <div class="white-box">
+      피아노조율 운반1급, 35년 경력<br>
+      <span style="font-size:0.97rem;">피아노조율 운반1급, 35년 경력의 전문가가 직접 방문하여 최고의 소리를 선사합니다.</span>
+    </div>
+    <div class="section-desc">
+      <b>조율비 안내</b><br>
+      피아노 상태와 방치 기간에 따라 <b>기본 70000원</b>~15만원<br>
+      가정용 업라이트 기준 8만원, 그랜드피아노 12만원<br>
+      <b>정확한 견적은 상담 후 안내</b>
+    </div>
+    <table>
+      <tr><th>조율 가격</th><td>기본 70,000 ~ 150,000원</td></tr>
+      <tr><th>방치/고장 상태</th><td>별도 상담</td></tr>
+    </table>
+  </section>
+
+  <!-- 피아노 운반/조율 -->
+  <section class="content-section">
+    <div class="section-title">
+      <img src="https://pplx-res.cloudinary.com/image/upload/v1750451928/user_uploads/16013413/5e177f73-1170-4a6f-adf2-7af1750be5e8/Screenshot_20250611_202810_Samsung-Internet.jpg" class="mini-img" alt="운반">
+      피아노 운반/조율
+    </div>
+    <img src="https://pplx-res.cloudinary.com/image/upload/v1750451928/user_uploads/16013413/5e177f73-1170-4a6f-adf2-7af1750be5e8/Screenshot_20250611_202810_Samsung-Internet.jpg" class="main-img" alt="운반">
+    <div class="white-box">
+      피아노 운반비 <b>기본 69,000원</b><br>
+      (조율비 별도, 추가금 발생 가능)<br>
+      <span style="font-size:0.97rem; color:#b21d1d;">한집안 방에서 다른방 이동 69,000원</span>
+    </div>
+    <ul>
+      <li>운반비 기본 69,000원</li>
+      <li>조율비 별도 추가금 발생</li>
+      <li>이동거리, 주택/빌라/층계단에 따라 비용 추가</li>
+      <li>엘리베이터 사용시 1층으로 계산</li>
+      <li>35년 경력의 달인 배달</li>
+      <li>그랜드피아노 운반/조율 250,000~300,000원</li>
+    </ul>
+  </section>
+
+  <!-- 피아노 방음장치 -->
+  <section class="content-section">
+    <div class="section-title">
+      <img src="https://pplx-res.cloudinary.com/image/upload/v1750451928/user_uploads/16013413/99bf4f5c-d393-4c57-acb5-24a0897fa218/Screenshot_20250611_203206_Samsung-Internet.jpg" class="mini-img" alt="방음">
+      피아노 방음장치
+    </div>
+    <img src="https://pplx-res.cloudinary.com/image/upload/v1750451928/user_uploads/16013413/99bf4f5c-d393-4c57-acb5-24a0897fa218/Screenshot_20250611_203206_Samsung-Internet.jpg" class="main-img" alt="방음장치">
+    <div class="white-box">
+      <b>제니오 방음 피아노</b><br>
+      애센스 / 베이직 / 프리미엄
+    </div>
+    <ul>
+      <li>건반 무게 그대로, 헤드폰/스피커 사용</li>
+      <li>볼륨 조정 가능, 다양한 음색 지원</li>
+      <li>피아노 음색·기타·바이올린 등 다양한 음색</li>
+    </ul>
+    <div class="section-desc" style="font-size:0.97rem;">
+      제니오는 피아노를 위한 필수 장치입니다.<br>
+      미디 반주, 디지털 피아노 음색, 연습/레슨에 최적
+    </div>
+  </section>
+
+  <!-- 플로팅 버튼 -->
+  <div class="fab-group">
+    <a href="#" class="fab" title="전화상담" onclick="showPhonePopup(event)"><span>📞</span></a>
+    <a href="#" class="fab" title="장바구니" onclick="showCartPhonePopup(event)"><span>🛒</span></a>
+    <a href="#" class="fab" title="카카오톡상담"><span>💬</span></a>
+    <!-- 네이버 톡톡 버튼 -->
+    <a href="https://talk.naver.com/ct/wcbaf0?frm=mmd#nafullscreen" target="_blank" class="navertalk-link" style="margin-top: 4px;">
+      <span class="navertalk-icon">💬</span>네이버 톡톡
+    </a>
+  </div>
+
+  <!-- 전화번호 팝업 -->
+  <div id="phonePopup">
+    <div class="popup-content">
+      010 8756 8740
+      <br>
+      <button class="close-btn" onclick="closePhonePopup()">닫기</button>
+    </div>
+  </div>
+
+  <script>
+    // 메뉴 클릭시 해당 섹션만 보여줌
+    function showSection(idx) {
+      var navBtns = document.querySelectorAll('.nav button');
+      var sections = document.querySelectorAll('.content-section');
+      navBtns.forEach((btn, i) => {
+        if(i === idx) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+      sections.forEach((sec, i) => {
+        if(i === idx) sec.classList.add('active');
+        else sec.classList.remove('active');
+      });
+      window.scrollTo(0,0);
+    }
+    // 전화번호 팝업
+    function showPhonePopup(e) {
+      e.preventDefault();
+      document.getElementById('phonePopup').style.display = 'flex';
+    }
+    function closePhonePopup() {
+      document.getElementById('phonePopup').style.display = 'none';
+    }
+    // 장바구니(🛒) 클릭시 전화번호 팝업
+    function showCartPhonePopup(e) {
+      e.preventDefault();
+      document.getElementById('phonePopup').style.display = 'flex';
+    }
+  </script>
+</body>
+</html>
