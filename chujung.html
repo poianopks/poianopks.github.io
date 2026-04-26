@@ -1,1 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 시장 계절 진단 실시간 앱 (Yahoo + FRED + DART)</title>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Malgun Gothic',sans-serif;background:#0f1724;color:#e6edf3;padding:12px}
+  h1{text-align:center;color:#58a6ff;margin-bottom:15px;font-size:1.3em}
+  h2{color:#79c0ff;margin:12px 0 8px;padding-bottom:5px;border-bottom:2px solid #1f6feb;font-size:1.1em}
+  .section{background:#161b22;padding:12px;margin-bottom:12px;border-radius:10px;border:1px solid #30363d}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  label{display:block;font-weight:bold;margin-bottom:4px;font-size:0.85em;color:#8b949e}
+  input,select{width:100%;padding:8px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:5px;font-size:14px}
+  button{background:#238636;color:white;border:none;padding:10px;border-radius:5px;cursor:pointer;font-size:14px;width:100%;margin-top:8px;font-weight:bold}
+  button:hover{background:#2ea043}
+  .verdict{padding:14px;border-radius:8px;margin-top:10px;font-weight:bold;text-align:center;font-size:1.1em}
+  .spring{background:#0d4429;color:#7ee787;border:2px solid #2ea043}
+  .winter{background:#5c1a1a;color:#ffa198;border:2px solid #f85149}
+  .neutral{background:#5c4a0d;color:#f0c674;border:2px solid #d29922}
+  .ind{display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px solid #21262d;font-size:0.9em}
+  .badge{padding:3px 8px;border-radius:4px;font-size:0.75em;font-weight:bold}
+  .b-spring{background:#2ea043;color:white}
+  .b-winter{background:#f85149;color:white}
+  .b-neutral{background:#d29922;color:black}
+  .chart-box{width:100%;height:360px;margin-top:8px;background:#0d1117;border-radius:5px}
+  .help{font-size:0.75em;color:#6e7681;margin-top:3px}
+  .live{display:inline-block;width:8px;height:8px;background:#f85149;border-radius:50%;animation:blink 1s infinite;margin-right:6px}
+  @keyframes blink{50%{opacity:0.3}}
+  .status{font-size:0.8em;color:#8b949e;text-align:center;margin-top:10px}
+  table{width:100%;border-collapse:collapse;margin-top:8px;font-size:0.8em}
+  th,td{padding:5px;border:1px solid #30363d;text-align:left}
+  th{background:#1f6feb;color:white}
+  a{color:#58a6ff}
+  .key-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+</style>
+</head>
+<body>
 
+<h1><span class="live"></span>실시간 시장 계절 진단 통합 앱</h1>
+<div class="status" id="lastUpdate">최초 로딩 중...</div>
+
+<!-- API 키 설정 -->
+<div class="section">
+  <h2>🔑 API 키 설정 (한 번만 입력, localStorage 저장)</h2>
+  <div class="key-row">
+    <div>
+      abel>FRED API Key (무료)</label>
+      <input type="text" id="fredKey" placeholder="32자리">
+      <div class="help"><a href="https://fred.stlouisfed.org/docs/api/api_key.html" target="_blank">발급받기</a></div>
+    </div>
+    <div>
+      abel>DART API Key (무료)</label>
+      <input type="text" id="dartKey" placeholder="40자리">
+      <div class="help"><a href="https://opendart.fss.or.kr" target="_blank">발급받기</a></div>
+    </div>
+  </div>
+  <button onclick="saveKeys()">💾 키 저장 후 자동시작</button>
+</div>
+
+<!-- 1. 거시경제 온도계 (실시간 자동) -->
+<div class="section">
+  <h2>1️⃣ 거시경제 온도계 (자동 5분 갱신)</h2>
+  <div id="macroIndicators">데이터 불러오는 중...</div>
+  <div id="macroVerdict"></div>
+</div>
+
+<!-- 2. KOSPI / NASDAQ 월봉 -->
+<div class="section">
+  <h2>2️⃣ KOSPI · NASDAQ 100 월봉 (Yahoo Finance)</h2>
+  <div id="kospiInfo" class="ind"></div>
+  <div id="kospiChart" class="chart-box"></div>
+  <div id="nasdaqInfo" class="ind"></div>
+  <div id="nasdaqChart" class="chart-box"></div>
+  <div id="chartVerdict"></div>
+</div>
+
+<!-- 3. DART 재무 -->
+<div class="section">
+  <h2>3️⃣ DART 한국 기업 재무정보</h2>
+  <div class="grid2">
+    <div>
+      abel>기업</label>
+      <select id="corpCode">
+        <option value="00126380">삼성전자</option>
+        <option value="00164779">SK하이닉스</option>
+        <option value="00164742">LG에너지솔루션</option>
+        <option value="00126362">현대차</option>
+        <option value="00266961">NAVER</option>
+        <option value="00258801">카카오</option>
+      </select>
+    </div>
+    <div>
+      abel>연도/보고서</label>
+      <select id="reprtCode">
+        <option value="11011">2025 사업보고서</option>
+        <option value="11014">2025 3분기</option>
+        <option value="11012">2025 반기</option>
+        <option value="11013">2025 1분기</option>
+      </select>
+    </div>
+  </div>
+  <button onclick="fetchDart()">📋 재무정보 조회</button>
+  <div id="dartResult"></div>
+</div>
+
+<!-- 4. 종합 판단 -->
+<div class="section">
+  <h2>4️⃣ 종합 시장 진단</h2>
+  <div id="finalResult">거시경제 데이터 로딩 후 자동 표시됩니다.</div>
+</div>
+
+<script>
+const PROXY = 'https://corsproxy.io/?';
+let macroData = {};
+let updateTimer = null;
+
+// ===== 키 관리 =====
+function loadKeys(){
+  document.getElementById('fredKey').value = localStorage.getItem('fredKey') || '';
+  document.getElementById('dartKey').value = localStorage.getItem('dartKey') || '';
+}
+function saveKeys(){
+  localStorage.setItem('fredKey', document.getElementById('fredKey').value.trim());
+  localStorage.setItem('dartKey', document.getElementById('dartKey').value.trim());
+  alert('저장 완료. 자동 갱신을 시작합니다.');
+  startAutoUpdate();
+}
+
+// ===== Yahoo Finance ticker fetch =====
+async function yahoo(symbol, interval='1d', range='5d'){
+  const url = `${PROXY}${encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=${interval}&range=${range}`)}`;
+  const r = await fetch(url);
+  const d = await r.json();
+  return d.chart.result[0];
+}
+
+// ===== FRED API fetch =====
+async function fred(seriesId){
+  const key = localStorage.getItem('fredKey');
+  if(!key) return null;
+  const url = `${PROXY}${encodeURIComponent(`https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${key}&file_type=json&limit=2&sort_order=desc`)}`;
+  const r = await fetch(url);
+  const d = await r.json();
+  return d.observations ? parseFloat(d.observations[0].value) : null;
+}
+
+// ===== 거시경제 자동 갱신 =====
+async function updateMacro(){
+  const html = [];
+  let spring=0, winter=0;
+
+  // 1. 10년물 국채금리 (^TNX, %)
+  try{
+    const t = await yahoo('%5ETNX');
+    const y = t.meta.regularMarketPrice;
+    macroData.yield = y;
+    let s = y < 4.0 ? 'spring' : y > 4.5 ? 'winter' : 'neutral';
+    if(s==='spring')spring++; else if(s==='winter')winter++;
+    html.push(`<div class="ind">🇺🇸 10년물 국채: <b>${y.toFixed(2)}%</b> <span class="badge b-${s}">${s==='spring'?'봄':s==='winter'?'겨울':'중립'}</span></div>`);
+  }catch(e){html.push(`<div class="ind">🇺🇸 10년물: 조회 실패</div>`)}
+
+  // 2. 달러 인덱스 (DX-Y.NYB)
+  try{
+    const t = await yahoo('DX-Y.NYB');
+    const x = t.meta.regularMarketPrice;
+    macroData.dxy = x;
+    let s = x < 100 ? 'spring' : x > 105 ? 'winter' : 'neutral';
+    if(s==='spring')spring++; else if(s==='winter')winter++;
+    html.push(`<div class="ind">💵 달러 인덱스 DXY: <b>${x.toFixed(2)}</b> <span class="badge b-${s}">${s==='spring'?'봄':s==='winter'?'겨울':'중립'}</span></div>`);
+  }catch(e){html.push(`<div class="ind">💵 DXY: 조회 실패</div>`)}
+
+  // 3. FRED 연준 대차대조표 (WALCL, 백만달러)
+  try{
+    const v = await fred('WALCL');
+    if(v){
+      macroData.walcl = v;
+      // 추세 판단: 8조달러 이하 + 안정 → 봄, 축소 지속 → 겨울 (단순 규칙)
+      let s = v < 7000000 ? 'winter' : v > 8500000 ? 'spring' : 'neutral';
+      if(s==='spring')spring++; else if(s==='winter')winter++;
+      html.push(`<div class="ind">💧 연준 대차대조표 WALCL: <b>$${(v/1000000).toFixed(2)}T</b> <span class="badge b-${s}">${s==='spring'?'봄':s==='winter'?'겨울':'중립'}</span></div>`);
+    } else {
