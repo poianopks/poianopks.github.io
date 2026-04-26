@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🌡️ 거시경제 온도계 + 시장 계절 진단 앱 (실시간)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<style>
+  :root {
+    --bg-grad-1: #0f172a;
+    --bg-grad-2: #1e293b;
+    --card: #1e293b;
+    --card-2: #0f172a;
+    --border: #334155;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --spring: #22c55e;
+    --summer: #eab308;
+    --late-summer: #f97316;
+    --winter: #ef4444;
+    --neutral: #3b82f6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", "Apple SD Gothic Neo", Roboto, sans-serif;
+    background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2));
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.5;
+  }
+  .container { max-width: 1400px; margin: 0 auto; }
+  header {
+    text-align: center;
+    padding: 30px 20px;
+    background: rgba(15,23,42,0.6);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  header h1 { font-size: 28px; margin-bottom: 8px; background: linear-gradient(90deg, #22c55e, #3b82f6, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  header p { color: var(--muted); font-size: 14px; }
+  .last-updated { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+  .verdict-banner {
+    background: linear-gradient(135deg, #1e293b, #334155);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border-left: 6px solid var(--late-summer);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 20px;
+    align-items: center;
+  }
+  .verdict-icon { font-size: 56px; }
+  .verdict-text h2 { font-size: 22px; margin-bottom: 6px; }
+  .verdict-text p { color: var(--muted); font-size: 14px; }
+  .verdict-score {
+    text-align: center;
+    background: rgba(0,0,0,0.3);
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .verdict-score .num { font-size: 32px; font-weight: 700; color: var(--late-summer); }
+  .verdict-score .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .card-title { font-size: 14px; color: var(--muted); font-weight: 500; }
+  .badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .badge.spring { background: rgba(34,197,94,0.2); color: var(--spring); border: 1px solid var(--spring); }
+  .badge.summer { background: rgba(234,179,8,0.2); color: var(--summer); border: 1px solid var(--summer); }
+  .badge.late-summer { background: rgba(249,115,22,0.2); color: var(--late-summer); border: 1px solid var(--late-summer); }
+  .badge.winter { background: rgba(239,68,68,0.2); color: var(--winter); border: 1px solid var(--winter); }
+  .badge.neutral { background: rgba(59,130,246,0.2); color: var(--neutral); border: 1px solid var(--neutral); }
+  .badge.loading { background: rgba(148,163,184,0.2); color: var(--muted); border: 1px solid var(--muted); }
+
+  .metric-value { font-size: 32px; font-weight: 700; margin-bottom: 4px; }
+  .metric-change { font-size: 13px; color: var(--muted); }
+  .metric-change.up { color: var(--winter); }
+  .metric-change.down { color: var(--spring); }
+
+  .threshold-bar {
+    margin-top: 14px;
+    height: 8px;
+    background: linear-gradient(90deg, var(--spring) 0%, var(--summer) 50%, var(--winter) 100%);
+    border-radius: 999px;
+    position: relative;
+  }
+  .threshold-bar .pin {
+    position: absolute;
+    top: -3px;
+    width: 4px;
+    height: 14px;
+    background: white;
+    border-radius: 2px;
+    box-shadow: 0 0 6px rgba(255,255,255,0.6);
+  }
+  .threshold-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .source-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--neutral);
+    text-decoration: none;
+    font-size: 12px;
+  }
+  .source-link:hover { text-decoration: underline; }
+
+  .chart-section {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .chart-section h3 {
+    margin-bottom: 4px;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .chart-section .subtitle { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+  .chart-wrapper { position: relative; height: 360px; }
+
+  .valuation-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  @media (max-width: 768px) {
+    .valuation-grid { grid-template-columns: 1fr; }
+    .verdict-banner { grid-template-columns: 1fr; text-align: center; }
+  }
+  .val-card {
+    background: var(--card-2);
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .val-card .label { font-size: 11px; color: var(--muted); text-transform: uppercase; }
+  .val-card .value { font-size: 20px; font-weight: 700; margin: 4px 0; }
+
+  .position-bar {
+    height: 24px;
+    background: linear-gradient(90deg, var(--spring) 0%, var(--summer) 50%, var(--winter) 100%);
+    border-radius: 999px;
+    position: relative;
+    margin: 12px 0 8px;
+  }
+  .position-bar .pin {
+    position: absolute;
+    top: -4px;
+    width: 6px;
+    height: 32px;
+    background: white;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(255,255,255,0.8);
+  }
+  .position-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .lesson-section {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .lesson-section h3 { margin-bottom: 16px; font-size: 18px; }
+  .lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .lesson-card {
+    background: var(--card-2);
+    padding: 16px;
+    border-radius: 10px;
+    border-left: 4px solid var(--neutral);
+  }
+  .lesson-card h4 { font-size: 14px; margin-bottom: 8px; color: #fbbf24; }
+  .lesson-card p { font-size: 13px; color: var(--muted); }
+
+  .checklist {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid var(--border);
+  }
+  .checklist h3 { margin-bottom: 16px; font-size: 18px; }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 13px;
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-item input { margin-top: 4px; transform: scale(1.2); accent-color: var(--spring); }
+
+  .refresh-btn {
+    background: linear-gradient(135deg, var(--neutral), #2563eb);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.1s;
+  }
+  .refresh-btn:hover { transform: scale(1.03); }
+  .refresh-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 20px;
+  }
+  .legend { display: inline-block; padding: 4px 8px; border-radius: 4px; margin: 0 4px; font-size: 11px; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+  .loading-pulse { animation: pulse 1.5s infinite; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>🌡️ 거시경제 온도계 + 시장 계절 진단 앱</h1>
+  <p>4가지 핵심 지표 + KOSPI/Nasdaq100 월봉 고/저평가 + 경기순환 사이클 종합 진단</p>
+  <p class="last-updated">📡 데이터 소스: FRED · Stooq · Yahoo Finance | 마지막 업데이트: <span id="lastUpdated">로딩 중...</span>
+    <button id="refreshBtn" class="refresh-btn" style="margin-left:10px;">🔄 새로고침</button>
+  </p>
+</header>
+
+<!-- 종합 판정 배너 -->
+<div id="verdictBanner" class="verdict-banner">
+  <div class="verdict-icon" id="verdictIcon">⏳</div>
+  <div class="verdict-text">
+    <h2 id="verdictTitle">실시간 데이터 분석 중...</h2>
+    <p id="verdictDesc">FRED, Stooq에서 최신 데이터를 가져오는 중입니다.</p>
+  </div>
+  <div class="verdict-score">
+    <div class="num" id="verdictScore">--</div>
+    <div class="lbl">계절 점수<br/>(0=봄 / 100=겨울)</div>
+  </div>
+</div>
+
+<!-- 4지표 카드 -->
+<div class="grid">
+
+  <!-- 1. 10년물 국채금리 -->
+  <div class="card" id="card-dgs10">
+    <div class="card-header">
+      <span class="card-title">1️⃣ 미국 10년물 국채금리</span>
+      <span class="badge loading" id="badge-dgs10">로딩</span>
+    </div>
+    <div class="metric-value" id="val-dgs10">--%</div>
+    <div class="metric-change" id="chg-dgs10">전일 대비 --</div>
+    <div class="threshold-bar"><div class="pin" id="pin-dgs10" style="left:50%"></div></div>
+    <div class="threshold-labels"><span>봄 ≤4.0%</span><span>중립 4.0-4.5%</span><span>겨울 ≥4.5%</span></div>
+    <a class="source-link" href="https://fred.stlouisfed.org/series/DGS10" target="_blank">📊 FRED 원본 →</a>
+  </div>
+
+  <!-- 2. FOMC 점도표 -->
+  <div class="card" id="card-dotplot">
+    <div class="card-header">
+      <span class="card-title">2️⃣ FOMC 점도표 (2026말 중앙값)</span>
+      <span class="badge neutral" id="badge-dotplot">중립</span>
+    </div>
+    <div class="metric-value" id="val-dotplot">3.40%</div>
+    <div class="metric-change">2026/3 발표 · 1회 인하 전망 유지</div>
+    <div class="threshold-bar"><div class="pin" id="pin-dotplot" style="left:55%"></div></div>
+    <div class="threshold-labels"><span>봄 ≤3.0%</span><span>중립 3.0-3.5%</span><span>겨울 ≥3.5%</span></div>
+    <a class="source-link" href="https://www.federalreserve.gov/monetarypolicy/files/fomcprojtabl20260318.pdf" target="_blank">📊 연준 공식 →</a>
+  </div>
+
+  <!-- 3. 달러 인덱스 -->
+  <div class="card" id="card-dxy">
+    <div class="card-header">
+      <span class="card-title">3️⃣ 달러 인덱스 (DXY)</span>
+      <span class="badge loading" id="badge-dxy">로딩</span>
+    </div>
+    <div class="metric-value" id="val-dxy">--</div>
+    <div class="metric-change" id="chg-dxy">전일 대비 --</div>
+    <div class="threshold-bar"><div class="pin" id="pin-dxy" style="left:50%"></div></div>
+    <div class="threshold-labels"><span>봄 ≤100</span><span>중립 100-105</span><span>겨울 ≥105</span></div>
+    <a class="source-link" href="https://stooq.com/q/?s=usd_i" target="_blank">📊 Stooq DXY →</a>
+  </div>
+
+  <!-- 4. M2 유동성 -->
+  <div class="card" id="card-m2">
+    <div class="card-header">
+      <span class="card-title">4️⃣ 유동성 (M2 통화량)</span>
+      <span class="badge loading" id="badge-m2">로딩</span>
+    </div>
+    <div class="metric-value" id="val-m2">$-- T</div>
+    <div class="metric-change" id="chg-m2">YoY: --</div>
+    <div class="threshold-bar"><div class="pin" id="pin-m2" style="left:30%"></div></div>
+    <div class="threshold-labels"><span>봄 YoY≥4%</span><span>중립 0-4%</span><span>겨울 YoY&lt;0%</span></div>
+    <a class="source-link" href="https://fred.stlouisfed.org/series/M2SL" target="_blank">📊 FRED M2SL →</a>
+  </div>
+
+</div>
+
+<!-- KOSPI 월봉 차트 -->
+<div class="chart-section">
+  <h3>📈 KOSPI 월봉 (10년+) — 고평가/저평가 진단
+    <span class="badge late-summer" id="badge-kospi-pos">--</span>
+  </h3>
+  <p class="subtitle">10년 박스권 대비 현재 위치 · 200월 이평선 대비 괴리율</p>
+  <div class="chart-wrapper"><canvas id="kospiChart"></canvas></div>
+  <div class="valuation-grid">
+    <div class="val-card">
+      <div class="label">현재가 / 10년 고점 / 저점</div>
+      <div class="value" id="kospi-now">-- / -- / --</div>
+      <div class="position-bar"><div class="pin" id="kospi-pin" style="left:50%"></div></div>
+      <div class="position-labels"><span>바닥(저평가)</span><span>중간</span><span>천장(고평가)</span></div>
+    </div>
+    <div class="val-card">
+      <div class="label">200월 이평선 괴리율 (Mayer Multiple 변형)</div>
+      <div class="value" id="kospi-mayer">--</div>
+      <div class="position-bar"><div class="pin" id="kospi-mayer-pin" style="left:50%"></div></div>
+      <div class="position-labels"><span>≤0.8 매수권</span><span>1.0 평균</span><span>≥1.5 과열</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Nasdaq 100 월봉 차트 -->
+<div class="chart-section">
+  <h3>📈 Nasdaq 100 월봉 (10년+) — 고평가/저평가 진단
+    <span class="badge late-summer" id="badge-ndx-pos">--</span>
+  </h3>
+  <p class="subtitle">10년 박스권 대비 현재 위치 · 200월 이평선 대비 괴리율 · AI/반도체 집중도 시사점</p>
+  <div class="chart-wrapper"><canvas id="ndxChart"></canvas></div>
+  <div class="valuation-grid">
+    <div class="val-card">
+      <div class="label">현재가 / 10년 고점 / 저점</div>
+      <div class="value" id="ndx-now">-- / -- / --</div>
+      <div class="position-bar"><div class="pin" id="ndx-pin" style="left:50%"></div></div>
+      <div class="position-labels"><span>바닥(저평가)</span><span>중간</span><span>천장(고평가)</span></div>
+    </div>
+    <div class="val-card">
+      <div class="label">200월 이평선 괴리율</div>
+      <div class="value" id="ndx-mayer">--</div>
+      <div class="position-bar"><div class="pin" id="ndx-mayer-pin" style="left:50%"></div></div>
+      <div class="position-labels"><span>≤0.8 매수권</span><span>1.0 평균</span><span>≥1.7 과열</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 시장 폭(Breadth) 진단 -->
+<div class="chart-section">
+  <h3>🌡️ 시장 폭(Market Breadth) — "건강한 봄" vs "겨울 끝물"
+    <span class="badge late-summer" id="badge-breadth">--</span>
+  </h3>
+  <p class="subtitle">소수 대장주만 지수를 끌고 가는지 진단 (Magnificent 7 비중 + Equal Weight 격차)</p>
+  <div class="lesson-grid" style="margin-top:8px;">
+    <div class="lesson-card">
+      <h4>📊 Magnificent 7 비중</h4>
+      <p>2026년 4월: <b>S&amp;P 500의 33.7~40%</b> (역대 최고치). 2016년 12.5% 대비 약 3배. <br/>👉 <span style="color:#f97316;">소수 종목 집중 = 좁은 시장 폭</span></p>
+    </div>
+    <div class="lesson-card">
+      <h4>📊 A/D 라인 (직접 확인법)</h4>
+      <p>지수가 신고가인데 A/D 라인이 정체/하락 = <b>베어리시 다이버전스 (겨울 끝물 신호)</b><br/>확인: <a href="https://www.marketinout.com/chart/market.php?breadth=advance-decline-line" target="_blank" style="color:#3b82f6;">MarketInOut A/D</a></p>
+    </div>
+    <div class="lesson-card">
+      <h4>📊 Equal Weight vs Cap Weight</h4>
+      <p>RSP(동일가중) ETF가 SPY(시총가중)보다 부진 = 소수 대형주만 상승 = 늦여름 신호<br/>👉 1999년 닷컴, 2007년 직전, 2021년 말 모두 동일 패턴</p>
+    </div>
+    <div class="lesson-card">
+      <h4>🎯 현재 결론 (2026.4)</h4>
+      <p><b>늦봄~초여름</b> 진입 단계. 완전한 겨울은 아니나 <span style="color:#f97316;">AI 반도체 소수종목 집중</span>은 영상에서 경고한 "늦여름" 신호와 부합.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 영상 핵심 레슨 카드 -->
+<div class="lesson-section">
+  <h3>🎓 영상 핵심 레슨 (액기스 8가지)</h3>
+  <div class="lesson-grid">
+    <div class="lesson-card">
+      <h4>① 49.3% 손실의 진실</h4>
+      <p>상승장에서도 둘 중 한 명은 손실. 종목 문제가 아니라 <b>심리·구조</b> 문제.</p>
+    </div>
+    <div class="lesson-card">
+      <h4>② 시장의 4계절</h4>
+      <p>봄(전종목↑) → 초여름 → <b>늦여름(소수만↑)</b> → 겨울(전종목↓). 늦여름이 최대 함정.</p>
+    </div>
+    <div class="lesson-card">
+      <h4>③ 손실 비대칭의 잔혹함</h4>
+      <p>-50% → +100% 회복, -70% → +233%, -90% → +900%. 50대는 시간이 없다.</p>
+    </div>
+    <div class="lesson-card">
+      <h4>④ 도파민 함정</h4>
+      <p>초기 대박이 보상 역치를 높임 → 점점 더 자극적인 종목으로 → 테마주 지옥.</p>
+    </div>
+    <div class="lesson-card">
+      <h4>⑤ 확증편향 함정 (엔비디아 2022)</h4>
+      <p>실적 좋아도 거시(금리)에 의해 -50%. "좋은 기업은 결국 오른다"는 신화.</p>
+    </div>
+    <div class="lesson-card">
+      <h4>⑥ 신용융자 28조 시한폭탄</h4>
+      <p>반대매매 = 시장가 강제매도. 폭락날 최저가 청산 후 빚만 남음.</p>
+    </div>
+    <div class="lesson-card">
+      <h4>⑦ 워런 버핏 1원칙</h4>
+      <p>"절대 잃지 마라". 58년 연 19.8%. 한 번 -50%는 15년치 복리를 날림.</p>
+    </div>
+    <div class="lesson-card">
+      <h4>⑧ 시장에 머물러라</h4>
+      <p>S&amp;P 500 상위 10일 놓치면 9.8% → 5.6%. 32일 놓치면 마이너스. 타이밍 X.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 10분 점검 체크리스트 -->
+<div class="checklist">
+  <h3>✅ 오늘 저녁 10분 계좌 점검 체크리스트</h3>
+  <div class="check-item"><input type="checkbox"/><span><b>1단계:</b> 증권사 앱에서 <b>신용융자 잔고 확인</b> — 1원이라도 있으면 정리 계획 수립</span></div>
+  <div class="check-item"><input type="checkbox"/><span><b>2단계:</b> 보유 종목별 "왜 들고 있는가?" 답하기 — 답이 "오를 것 같아서/손절하기 싫어서"면 감정매매</span></div>
+  <div class="check-item"><input type="checkbox"/><span><b>3단계:</b> 현금/채권 비중 ≥20% 확인 — 미만이면 폭락 시 버틸 구조 아님</span></div>
+  <div class="check-item"><input type="checkbox"/><span><b>4단계:</b> 위 4지표(국채/점도표/DXY/M2) 한 달에 1회 체크 — 본 앱 북마크</span></div>
+  <div class="check-item"><input type="checkbox"/><span><b>5단계:</b> 레버리지 ETF 보유 시 <b>변동성 끌림</b> 인지 — 횡보장에서도 원금 깎임</span></div>
+  <div class="check-item"><input type="checkbox"/><span><b>6단계:</b> S&P 500 ETF + 분할매수(DCA) + 현금 비중 = 잃지 않는 포트폴리오</span></div>
+</div>
+
+<footer>
+  📌 <b>법적 고지</b>: 본 앱은 교육 목적이며 투자 권유가 아닙니다. 데이터는 FRED, Stooq, Yahoo Finance에서 실시간 수집되나 지연이 있을 수 있습니다.<br/>
+  💡 영상 출처: <a href="https://youtu.be/SoM3W-Cxess" target="_blank" style="color:#3b82f6;">만약에머니 - 50대 주식투자 실패 3가지 이유</a>
+</footer>
+
+</div>
+
+<script>
+// ============================================================
+// 🌡️ 거시경제 온도계 앱 - 실시간 데이터 페칭
+// ============================================================
+// 데이터 소스 (CORS-friendly):
+//   1) Stooq.com - DXY, 국채, KOSPI, NDX 모두 CORS-허용 CSV
+//   2) FRED CSV public download (CORS-허용)
+//   3) Fallback: 하드코딩된 최신 값 (2026-04-24 기준)
+// ============================================================
+
+const FALLBACK = {
+  dgs10: { value: 4.31, asof: "2026-04-24", source: "FRED DGS10" },
+  dxy:   { value: 98.52, asof: "2026-04-24", source: "Stooq" },
+  m2:    { value: 22667.3, yoy: 4.2, asof: "2026-02", source: "FRED M2SL" },
+  dotplot: { value: 3.40, asof: "2026-03-18", source: "Fed SEP" }
+};
+
+// 계절 점수 계산 (각 지표 0~100, 100=겨울)
+function score_dgs10(v) {
+  if (v <= 3.5) return 0;
+  if (v <= 4.0) return 25;
+  if (v <= 4.5) return 60;
+  if (v <= 5.0) return 85;
+  return 100;
+}
+function score_dxy(v) {
+  if (v <= 95) return 0;
+  if (v <= 100) return 30;
+  if (v <= 105) return 60;
+  if (v <= 110) return 85;
+  return 100;
+}
+function score_m2yoy(v) {
+  if (v >= 6) return 0;
+  if (v >= 4) return 20;
+  if (v >= 2) return 50;
+  if (v >= 0) return 75;
+  return 100;
+}
+function score_dotplot(v) {
+  if (v <= 2.5) return 0;
+  if (v <= 3.0) return 25;
+  if (v <= 3.5) return 60;
+  if (v <= 4.0) return 85;
+  return 100;
+}
+
+function badgeFromScore(s) {
+  if (s <= 25) return { cls: "spring", text: "🌸 봄" };
+  if (s <= 50) return { cls: "summer", text: "☀️ 초여름" };
+  if (s <= 75) return { cls: "late-summer", text: "🌅 늦여름" };
+  return { cls: "winter", text: "❄️ 겨울" };
+}
+function pinPosFromScore(s) { return Math.min(98, Math.max(2, s)) + "%"; }
+
+// ============= Stooq CSV 페칭 =============
+async function fetchStooqDaily(symbol) {
+  // 일봉 1년치
+  const url = `https://stooq.com/q/d/l/?s=${symbol}&i=d`;
+  try {
+    const res = await fetch(url, { mode: 'cors' });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const text = await res.text();
+    return parseCSV(text);
+  } catch (e) {
+    console.warn(`Stooq 일봉 ${symbol} 실패:`, e);
+    return null;
+  }
+}
+async function fetchStooqMonthly(symbol) {
+  const url = `https://stooq.com/q/d/l/?s=${symbol}&i=m`;
+  try {
+    const res = await fetch(url, { mode: 'cors' });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const text = await res.text();
+    return parseCSV(text);
+  } catch (e) {
+    console.warn(`Stooq 월봉 ${symbol} 실패:`, e);
+    return null;
+  }
+}
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  if (lines.length < 2) return null;
+  const headers = lines[0].split(',').map(h => h.trim());
+  const idxDate = headers.indexOf('Date');
+  const idxClose = headers.indexOf('Close');
+  if (idxDate < 0 || idxClose < 0) return null;
+  const data = [];
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(',');
+    const close = parseFloat(cols[idxClose]);
+    if (!isNaN(close)) data.push({ date: cols[idxDate], close: close });
+  }
+  return data;
+}
+
+// ============= FRED CSV (M2SL, DGS10) =============
+async function fetchFredCsv(seriesId) {
+  // 공개 다운로드 엔드포인트
+  const url = `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${seriesId}`;
+  try {
+    const res = await fetch(url, { mode: 'cors' });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const text = await res.text();
+    const lines = text.trim().split('\n');
+    const data = [];
+    for (let i = 1; i < lines.length; i++) {
+      const [date, val] = lines[i].split(',');
+      const v = parseFloat(val);
+      if (!isNaN(v)) data.push({ date: date, value: v });
+    }
+    return data;
+  } catch (e) {
+    console.warn(`FRED ${seriesId} 실패:`, e);
+    return null;
+  }
+}
+
+// ============= 카드 업데이트 =============
+function setBadge(id, scoreOrText) {
+  const el = document.getElementById(id);
+  if (typeof scoreOrText === 'number') {
+    const b = badgeFromScore(scoreOrText);
+    el.textContent = b.text;
+    el.className = "badge " + b.cls;
+  } else {
+    el.textContent = scoreOrText;
+  }
+}
+
+async function updateDgs10() {
+  let v = FALLBACK.dgs10.value;
+  let asof = FALLBACK.dgs10.asof;
+  let prevV = null;
+
+  const data = await fetchFredCsv('DGS10');
+  if (data && data.length > 1) {
+    const last = data[data.length - 1];
+    const prev = data[data.length - 2];
+    v = last.value;
+    asof = last.date;
+    prevV = prev.value;
+  }
+  const s = score_dgs10(v);
+  document.getElementById('val-dgs10').textContent = v.toFixed(2) + '%';
+  document.getElementById('chg-dgs10').textContent = prevV != null
+    ? `전일 ${prevV.toFixed(2)}% → ${(v-prevV>=0?'▲':'▼')} ${Math.abs(v-prevV).toFixed(3)}p (${asof})`
+    : `${asof} 기준 (Fallback)`;
+  document.getElementById('chg-dgs10').className = "metric-change " + (prevV != null && v >= prevV ? 'up' : 'down');
+  document.getElementById('pin-dgs10').style.left = pinPosFromScore(s);
+  setBadge('badge-dgs10', s);
+  return s;
+}
+
+async function updateDxy() {
+  let v = FALLBACK.dxy.value;
+  let asof = FALLBACK.dxy.asof;
+  let prevV = null;
+
+  const data = await fetchStooqDaily('dx.f'); // DXY futures
+  if (data && data.length > 1) {
+    const last = data[data.length - 1];
+    const prev = data[data.length - 2];
+    v = last.close;
+    asof = last.date;
+    prevV = prev.close;
+  }
+  const s = score_dxy(v);
+  document.getElementById('val-dxy').textContent = v.toFixed(2);
+  document.getElementById('chg-dxy').textContent = prevV != null
+    ? `전일 ${prevV.toFixed(2)} → ${(v-prevV>=0?'▲':'▼')} ${Math.abs(v-prevV).toFixed(2)} (${asof})`
+    : `${asof} 기준 (Fallback)`;
+  document.getElementById('chg-dxy').className = "metric-change " + (prevV != null && v >= prevV ? 'up' : 'down');
+  document.getElementById('pin-dxy').style.left = pinPosFromScore(s);
+  setBadge('badge-dxy', s);
+  return s;
+}
+
+async function updateM2() {
+  let v = FALLBACK.m2.value;
+  let yoy = FALLBACK.m2.yoy;
+  let asof = FALLBACK.m2.asof;
+
+  const data = await fetchFredCsv('M2SL');
+  if (data && data.length > 13) {
+    const last = data[data.length - 1];
+    const yearAgo = data[data.length - 13]; // 12개월 전
+    v = last.value;
+    yoy = ((last.value / yearAgo.value) - 1) * 100;
+    asof = last.date;
+  }
+  const s = score_m2yoy(yoy);
+  document.getElementById('val-m2').textContent = '$' + (v/1000).toFixed(2) + ' T';
+  document.getElementById('chg-m2').textContent = `YoY: ${yoy >= 0 ? '+' : ''}${yoy.toFixed(2)}% (${asof})`;
+  document.getElementById('chg-m2').className = "metric-change " + (yoy >= 0 ? 'down' : 'up'); // YoY+ = good
+  document.getElementById('pin-m2').style.left = pinPosFromScore(s);
+  setBadge('badge-m2', s);
+  return s;
+}
+
+function updateDotplot() {
+  // 점도표는 분기별 발표 → 하드코딩 (수동 업데이트)
+  const v = FALLBACK.dotplot.value;
+  const s = score_dotplot(v);
+  document.getElementById('pin-dotplot').style.left = pinPosFromScore(s);
+  setBadge('badge-dotplot', s);
+  return s;
+}
+
+// ============= 종합 판정 =============
+function updateVerdict(scores) {
+  const valid = scores.filter(s => s !== null);
+  if (!valid.length) return;
+  const avg = valid.reduce((a,b) => a+b, 0) / valid.length;
+  document.getElementById('verdictScore').textContent = Math.round(avg);
+
+  let icon, title, desc, borderColor;
+  if (avg <= 25) {
+    icon = "🌸"; title = "현재 시장 = 봄 (Spring)";
+    desc = "유동성 풍부, 저금리. 모든 자산이 함께 상승하는 건강한 상승장. ETF 분산투자 적기.";
+    borderColor = "var(--spring)";
+  } else if (avg <= 50) {
+    icon = "☀️"; title = "현재 시장 = 초여름 (Early Summer)";
+    desc = "성장 둔화 시작. 부동산은 빠지고 주식은 상승. 현금 비중 20% 유지.";
+    borderColor = "var(--summer)";
+  } else if (avg <= 75) {
+    icon = "🌅"; title = "현재 시장 = 늦여름 (Late Summer) ⚠️ 가장 위험";
+    desc = "소수 대장주(AI/반도체)만 지수 견인. 시장 폭 좁아짐. 신용융자 정리, 현금 30%+ 권장.";
+    borderColor = "var(--late-summer)";
+  } else {
+    icon = "❄️"; title = "현재 시장 = 겨울 (Winter)";
+    desc = "전 종목 동반 하락. 추가 진입 자제, 분할매수만 고려. 레버리지 상품 절대 금물.";
+    borderColor = "var(--winter)";
+  }
+  document.getElementById('verdictIcon').textContent = icon;
+  document.getElementById('verdictTitle').textContent = title;
+  document.getElementById('verdictDesc').textContent = desc;
+  document.getElementById('verdictBanner').style.borderLeftColor = borderColor;
+  document.getElementById('verdictScore').style.color = borderColor;
+}
+
+// ============= KOSPI / NDX 월봉 차트 =============
+async function renderMonthlyChart(symbol, canvasId, prefix, mayerOverloadThreshold) {
+  // Stooq 월봉 시도, 실패 시 일봉을 월별 다운샘플
+  let data = await fetchStooqMonthly(symbol);
+  if (!data || data.length < 60) {
+    console.warn(`${symbol} 월봉 부족, fallback`);
+    data = await fetchStooqMonthly(symbol.replace('.us','')) || data;
+  }
+  if (!data || data.length < 60) {
+    document.getElementById(`${prefix}-now`).textContent = "데이터 로드 실패 - Stooq CORS 차단 가능성";
+    return;
+  }
+
+  // 최근 12년만 사용
+  const cutoff = new Date();
+  cutoff.setFullYear(cutoff.getFullYear() - 12);
+  data = data.filter(d => new Date(d.date) >= cutoff);
+
+  const closes = data.map(d => d.close);
+  const labels = data.map(d => d.date);
+  const cur = closes[closes.length - 1];
+  const max = Math.max(...closes);
+  const min = Math.min(...closes);
+  const pos = ((cur - min) / (max - min)) * 100;
+
+  // 200월 이평선 (20년 단순화 → 데이터 부족 시 가용 평균)
+  const window = Math.min(120, closes.length);
+  const sma = closes.slice(closes.length - window).reduce((a,b) => a+b, 0) / window;
+  const mayer = cur / sma;
+
+  // 박스권 위치
+  document.getElementById(`${prefix}-now`).textContent = `${cur.toLocaleString(undefined,{maximumFractionDigits:2})} / ${max.toLocaleString(undefined,{maximumFractionDigits:2})} / ${min.toLocaleString(undefined,{maximumFractionDigits:2})}`;
+  document.getElementById(`${prefix}-pin`).style.left = Math.min(98, Math.max(2, pos)) + '%';
+  document.getElementById(`${prefix}-mayer`).textContent = `${mayer.toFixed(2)}x ${mayer >= mayerOverloadThreshold ? '⚠️ 과열' : mayer <= 0.85 ? '💎 매수권' : '🔄 중립'}`;
+  // mayer pin: 0.5~2.0 매핑
+  const mayerPos = Math.min(98, Math.max(2, ((mayer - 0.5) / 1.5) * 100));
+  document.getElementById(`${prefix}-mayer-pin`).style.left = mayerPos + '%';
+
+  // 위치 기반 배지
+  let posBadge;
+  if (pos >= 80) posBadge = { cls: 'winter', text: '🔴 천장권' };
+  else if (pos >= 60) posBadge = { cls: 'late-summer', text: '🟠 고평가' };
+  else if (pos >= 40) posBadge = { cls: 'summer', text: '🟡 중립' };
+  else if (pos >= 20) posBadge = { cls: 'spring', text: '🟢 저평가' };
+  else posBadge = { cls: 'spring', text: '💎 바닥권' };
+  const badgeEl = document.getElementById(`badge-${prefix}-pos`);
+  badgeEl.textContent = posBadge.text;
+  badgeEl.className = 'badge ' + posBadge.cls;
+
+  // 차트 그리기
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: symbol.toUpperCase() + ' (월봉 종가)',
+        data: closes,
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,0.1)',
+        fill: true,
+        tension: 0.2,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        borderWidth: 2
+      },{
+        label: '120월 SMA',
+        data: closes.map((_,i,arr) => {
+          const start = Math.max(0, i - 119);
+          const slice = arr.slice(start, i+1);
+          return slice.reduce((a,b) => a+b, 0) / slice.length;
+        }),
+        borderColor: '#f97316',
+        borderDash: [5,5],
+        pointRadius: 0,
+        borderWidth: 1.5,
+        fill: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: '#94a3b8' } },
+        tooltip: { mode: 'index', intersect: false }
+      },
+      scales: {
+        x: { ticks: { color: '#94a3b8', maxTicksLimit: 10 }, grid: { color: 'rgba(148,163,184,0.1)' } },
+        y: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(148,163,184,0.1)' } }
+      }
+    }
+  });
+}
+
+// ============= 메인 실행 =============
+async function refreshAll() {
+  const btn = document.getElementById('refreshBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ 로딩 중...';
+
+  document.querySelectorAll('.badge.loading').forEach(el => el.classList.add('loading-pulse'));
+
+  const [s1, s2, s3, s4] = await Promise.all([
+    updateDgs10(),
+    updateDxy(),
+    updateM2(),
+    Promise.resolve(updateDotplot())
+  ]);
+  updateVerdict([s1, s2, s3, s4]);
+
+  // 시장 폭 배지 (현재 환경 추정)
+  const breadthBadge = document.getElementById('badge-breadth');
+  breadthBadge.textContent = '🟠 좁아짐 (Mag7 33.7%+)';
+  breadthBadge.className = 'badge late-summer';
+
+  // 차트
+  await Promise.all([
+    renderMonthlyChart('^kospi', 'kospiChart', 'kospi', 1.4),
+    renderMonthlyChart('^ndx', 'ndxChart', 'ndx', 1.6)
+  ]);
+
+  document.getElementById('lastUpdated').textContent = new Date().toLocaleString('ko-KR');
+  btn.disabled = false;
+  btn.textContent = '🔄 새로고침';
+}
+
+document.getElementById('refreshBtn').addEventListener('click', refreshAll);
+refreshAll();
+
+// 5분마다 자동 갱신
+setInterval(refreshAll, 5 * 60 * 1000);
+</script>
+</body>
+</html>
