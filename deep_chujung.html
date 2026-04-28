@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📈 한미 통합 월봉 온도계 (CORS 해결판)</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        body { font-family: 'Arial', sans-serif; background: #0b0c10; color: #e0e0e0; max-width: 1000px; margin: auto; padding: 15px; }
+        .panel { background: #1f2833; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 8px rgb(0,0,0,0.5); }
+        h2 { color: #66fcf1; margin-top: 0; }
+        .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 700px) { .grid-2col { grid-template-columns: 1fr; } }
+        .gauge-container { display: flex; flex-wrap: wrap; gap: 15px; }
+        .gauge-box { text-align: center; background: #0b0c10; padding: 12px; border-radius: 10px; flex: 1 1 140px; }
+        .value { font-size: 1.8em; font-weight: bold; }
+        .spring { color: #2ecc71; } .winter { color: #e74c3c; } .neutral { color: #f1c40f; }
+        button { background: #45a29e; border: none; color: white; padding: 14px 28px; font-size: 1.1em; border-radius: 40px; cursor: pointer; width: 100%; font-weight: bold; }
+        button:hover { background: #66fcf1; color: black; }
+        .explain-box { background: #0b0c10; padding: 10px; border-radius: 8px; margin-top: 12px; font-size: 0.9em; color: #c5c6c7; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.85em; }
+        .badge-spring { background: #2ecc71; color: black; } .badge-winter { background: #e74c3c; color: white; }
+        canvas { background: #0b0c10; border-radius: 8px; padding: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🌍 한·미 거시 온도계 + 월봉 차트 (CORS 해결판)</h1>
+    <p>⚠️ <strong>주의:</strong> 현재 페이지에 FRED API 키가 하드코딩되어 있습니다. 절대 재배포하지 마세요.</p>
+
+    <!-- 거시경제 온도계 -->
+    <div class="panel">
+        <h2>1️⃣ 미국 거시경제 계절 판단</h2>
+        <div class="gauge-container" id="gaugePanel">
+            <div class="gauge-box"><div>🇺🇸 10년 국채</div><div class="value" id="dgs10">--</div><div id="dgs10_judge"></div></div>
+            <div class="gauge-box"><div>🏦 기준금리</div><div class="value" id="fedFunds">--</div><div id="fed_judge"></div></div>
+            <div class="gauge-box"><div>💵 달러지수</div><div class="value" id="dollar">--</div><div id="dollar_judge"></div></div>
+            <div class="gauge-box"><div>💰 연준자산</div><div class="value" id="wacl">--</div><div id="wacl_judge"></div></div>
+        </div>
+        <div id="seasonSummary" class="explain-box"></div>
+    </div>
+
+    <!-- 차트 2개 -->
+    <div class="grid-2col">
+        <div class="panel">
+            <h2>🇺🇸 S&P 500 월봉</h2>
+            <canvas id="spChart" height="200"></canvas>
+            <div id="spPosition" class="explain-box"></div>
+        </div>
+        <div class="panel">
+            <h2>🇰🇷 코스피 월봉</h2>
+            <canvas id="kospiChart" height="200"></canvas>
+            <div id="kospiPosition" class="explain-box"></div>
+            <p style="font-size:0.8em; color:#aaa;">※ CORS 프록시를 통해 데이터 수집 (약간 느릴 수 있음)</p>
+        </div>
+    </div>
+
+    <button onclick="fetchAllData()">🔄 모든 지표 업데이트</button>
+
+    <script>
+        // ========== 여기에 네 FRED API 키 (위험 노출!) ==========
+        const FRED_KEY = "22b9989ae6992a16229509c7438dbd6b";
+        // ===================================================
+        
+        // CORS 프록시 URL (무료 오픈 프록시)
+        const CORS_PROXY = "https://corsproxy.io/?";
+
+        // 야후 파이낸스 데이터 조회 (CORS 우회)
+        async function fetchMonthlyPrices(symbol, startDate = "2016-01-01") {
+            const period1 = Math.floor(new Date(startDate).getTime() / 1000);
+            const period2 = Math.floor(Date.now() / 1000);
+            const targetUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?period1=${period1}&period2=${period2}&interval=1mo`;
+            
+            // 프록시를 경유하여 호출 (CORS 차단 회피)
+            const response = await fetch(CORS_PROXY + encodeURIComponent(targetUrl));
+            const json = await response.json();
+            const result = json.chart.result[0];
+            const timestamps = result.timestamp;
+            const closes = result.indicators.quote[0].close;
+            const labels = [];
+            const prices = [];
+            for (let i = 0; i < timestamps.length; i++) {
+                if (closes[i] !== null) {
+                    const date = new Date(timestamps[i] * 1000);
+                    labels.push(date.toISOString().slice(0, 7));
+                    prices.push(closes[i]);
+                }
+            }
+            return { labels, prices };
+        }
+
+        // FRED 데이터 조회 (FRED는 CORS를 대부분 허용하지만, 안전하게 프록시 사용 가능)
+        async function fetchFredData(seriesId, opts={}) {
+            let url = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${FRED_KEY}&file_type=json&sort_order=desc`;
+            if (opts.limit) url += `&limit=${opts.limit}`;
+            if (opts.observation_start) url += `&observation_start=${opts.observation_start}`;
+            
+            // 혹시 모를 CORS 문제 대비
+            const response = await fetch(CORS_PROXY + encodeURIComponent(url));
+            return await response.json();
+        }
+
+        // 차트 그리기
+        function drawMonthlyChart(canvasId, labels, prices, maPeriod = 12) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            if (window[canvasId] && window[canvasId] instanceof Chart) window[canvasId].destroy();
+            const ma = [];
+            for (let i = 0; i < prices.length; i++) {
+                if (i < maPeriod - 1) { ma.push(null); continue; }
+                const slice = prices.slice(i - maPeriod + 1, i + 1);
+                ma.push(slice.reduce((a,b) => a+b, 0) / maPeriod);
+            }
+            window[canvasId] = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: '월봉 종가', data: prices, borderColor: '#66fcf1', tension: 0.15, pointRadius: 0 },
+                        { label: `${maPeriod}개월 이동평균`, data: ma, borderColor: '#f1c40f', borderDash: [5,5], pointRadius: 0 }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { ticks: { callback: v => v.toLocaleString() } } } }
+            });
+            return { latestPrice: prices[prices.length-1], latestMA: ma[ma.length-1] };
+        }
+
+        // 위치 판단
+        function positionComment(latest, ma, name) {
+            if (!latest || !ma) return "데이터 부족";
+            const diff = ((latest - ma) / ma * 100).toFixed(1);
+            if (diff > 15) return `🔴 ${name} 고평가 (천장 부근) - 평균 대비 ${diff}% 높음`;
+            if (diff > 5)  return `🟡 ${name} 약간 고평가 - ${diff}% 높음, 신중`;
+            if (diff < -10) return `🟢 ${name} 저평가 (바닥 부근) - ${diff}% 낮음, 기회`;
+            if (diff < -3)  return `🟢 ${name} 조정 구간 - ${diff}% 낮음`;
+            return `✅ ${name} 중립 - ${diff}% 차이`;
+        }
+
+        async function fetchAllData() {
+            try {
+                // 1. 온도계
+                const [dgs, fedRes, dollarRes, waclRes] = await Promise.all([
+                    fetchFredData("DGS10", {limit:1}),
+                    fetchFredData("DFEDTAR", {limit:1}),
+                    fetchFredData("DTWEXBGS", {limit:1}),
+                    fetchFredData("WALCL", {limit:2})
+                ]);
+                const dgs10 = parseFloat(dgs.observations[0].value);
+                const fedVal = parseFloat(fedRes.observations[0].value);
+                const dollarVal = parseFloat(dollarRes.observations[0].value);
+                const waclNow = parseFloat(waclRes.observations[0].value)/1e6;
+                const waclPrev = parseFloat(waclRes.observations[1].value)/1e6;
+                const waclChange = waclNow - waclPrev;
+
+                document.getElementById("dgs10").textContent = dgs10.toFixed(2)+"%";
+                const dgsJudge = dgs10<4.0 ? "봄" : dgs10>4.5 ? "겨울" : "중립";
+                document.getElementById("dgs10_judge").innerHTML = `<span class="badge ${dgsJudge==='봄'?'badge-spring':'badge-winter'}">${dgsJudge}</span>`;
+
+                document.getElementById("fedFunds").textContent = fedVal.toFixed(2)+"%";
+                const fedJudge = fedVal<=3.5 ? "봄(인하)" : fedVal>=4.8 ? "겨울(긴축)" : "중립";
+                document.getElementById("fed_judge").innerHTML = `<span class="badge ${fedJudge.includes('봄')?'badge-spring':'badge-winter'}">${fedJudge}</span>`;
+
+                document.getElementById("dollar").textContent = dollarVal.toFixed(2);
+                const dollarJudge = dollarVal<100 ? "봄" : dollarVal>105 ? "겨울" : "중립";
+                document.getElementById("dollar_judge").innerHTML = `<span class="badge ${dollarJudge==='봄'?'badge-spring':'badge-winter'}">${dollarJudge}</span>`;
+
+                document.getElementById("wacl").textContent = waclNow.toFixed(1)+"T";
+                const waclJudge = waclChange>=0 ? "봄(확대)" : "겨울(축소)";
+                document.getElementById("wacl_judge").innerHTML = `<span class="badge ${waclJudge.includes('봄')?'badge-spring':'badge-winter'}">${waclJudge}</span>`;
+
+                let spring=0, winter=0;
+                [dgsJudge, fedJudge, dollarJudge, waclJudge].forEach(s => {
+                    if (s.includes("봄")) spring++; else if (s.includes("겨울")) winter++;
+                });
+                let seasonMsg = "";
+                if (spring>=3) seasonMsg = "🌸 봄 (유동성 장세) – 전 종목 상승";
+                else if (winter>=3) seasonMsg = "❄️ 겨울 (경색 장세) – 소수 종목만 오르는 끝물 가능성";
+                else seasonMsg = "⚠️ 환절기 – 혼조세, 신중한 분할 대응";
+                document.getElementById("seasonSummary").innerHTML = `<strong>현재 시장 계절:</strong> ${seasonMsg}`;
+
+                // 2. S&P 500
+                const sp = await fetchMonthlyPrices("^GSPC");
+                const spData = drawMonthlyChart("spChart", sp.labels, sp.prices);
+                document.getElementById("spPosition").innerHTML = positionComment(spData.latestPrice, spData.latestMA, "S&P500");
+
+                // 3. 코스피
+                const ks = await fetchMonthlyPrices("^KS11");
+                const ksData = drawMonthlyChart("kospiChart", ks.labels, ks.prices);
+                document.getElementById("kospiPosition").innerHTML = positionComment(ksData.latestPrice, ksData.latestMA, "코스피");
+
+            } catch (e) {
+                alert("데이터 로딩 실패: 프록시 서버가 불안정할 수 있습니다. 새로고침해보세요.\n오류: " + e.message);
+            }
+        }
+
+        fetchAllData();
+    </script>
+</body>
+</html>
