@@ -1,3 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>망원경 투자자 v4 · Telescope Investor</title>
+<meta name="description" content="실시간 지수·공포탐욕·환율 데이터를 통합한 9가지 투자 시나리오 의사결정 앱">
+<style>
+:root{
+  --bg:#f3f6fc; --bg2:#ffffff; --panel:#ffffff; --panel2:#f8faff;
+  --line:#e3e9f5; --line2:#d4dcec;
+  --text:#0c1430; --text2:#1f2a52; --mute:#5b6794; --mute2:#8c97bd;
+  --primary:#3b82f6; --primary-d:#1d4ed8;
+  --green:#10b981; --red:#ef4444; --gold:#f59e0b; --purple:#8b5cf6; --orange:#f97316;
+  --ok:#10b981; --warn:#f59e0b; --danger:#ef4444;
+  --shadow:0 8px 24px rgba(15,30,80,.08);
+  --shadow-lg:0 16px 48px rgba(15,30,80,.12);
+  --r:16px; --r-sm:10px;
+}
+[data-theme="dark"]{
+  --bg:#0b1020; --bg2:#0f1530; --panel:#141c3a; --panel2:#1a2347;
+  --line:#2a3568; --line2:#374480;
+  --text:#e7ecff; --text2:#cfd6f5; --mute:#9aa6cf; --mute2:#7e8bc1;
+  --shadow:0 8px 30px rgba(0,0,0,.35);
+  --shadow-lg:0 16px 48px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",Segoe UI,Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;min-height:100vh;transition:background .3s, color .3s}
+body{background:radial-gradient(1200px 700px at 10% -10%, #e0eaff 0%, var(--bg) 60%)}
+[data-theme="dark"] body{background:radial-gradient(1200px 700px at 20% -10%, #1c2553 0%, var(--bg) 60%)}
+
+.wrap{max-width:1200px;margin:0 auto;padding:18px 16px 60px}
+
+/* ============ Header ============ */
+header.brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+header.brand .logo{width:46px;height:46px;border-radius:14px;
+  background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+  display:grid;place-items:center;font-size:24px;box-shadow:var(--shadow);color:#fff}
+header.brand .titles h1{font-size:22px;margin:0;letter-spacing:-.4px;font-weight:800}
+header.brand .titles h1 .en{color:var(--mute);font-weight:500;font-size:14px;margin-left:6px}
+header.brand .titles .sub{font-size:12px;color:var(--mute);margin-top:2px}
+header.brand .controls{margin-left:auto;display:flex;gap:8px;align-items:center}
+.btn-ico{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  width:36px;height:36px;display:grid;place-items:center;cursor:pointer;color:var(--text);
+  font-size:16px;transition:background .2s, border-color .2s}
+.btn-ico:hover{background:var(--panel2);border-color:var(--line2)}
+
+/* ============ Hero ============ */
+.hero{margin:0 0 22px;text-align:center;padding:30px 14px 20px}
+.hero .tag{font-size:12px;color:var(--primary);font-weight:700;letter-spacing:1.5px;
+  display:inline-flex;align-items:center;gap:6px;text-transform:uppercase}
+.hero h2{font-size:clamp(32px,6.5vw,52px);margin:8px 0 6px;letter-spacing:-2px;
+  font-weight:900;line-height:1.05}
+.hero h2 .accent{background:linear-gradient(135deg,#3b82f6,#8b5cf6,#ec4899);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .desc{color:var(--mute);font-size:14px;margin:0 auto;max-width:580px;line-height:1.6}
+.hero .date-pill{display:inline-flex;align-items:center;gap:8px;
+  background:var(--panel);border:1px solid var(--line);border-radius:999px;
+  padding:8px 16px;margin-top:14px;font-size:13px;color:var(--text2);
+  box-shadow:var(--shadow)}
+
+/* ============ Status banner ============ */
+.status{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.status .chip{display:inline-flex;align-items:center;gap:6px;background:var(--panel);
+  border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:11px;
+  color:var(--mute);font-weight:600;box-shadow:var(--shadow)}
+.status .chip .dot{width:7px;height:7px;border-radius:50%}
+.dot-ok{background:var(--green);box-shadow:0 0 6px var(--green)}
+.dot-warn{background:var(--gold)}
+.dot-err{background:var(--red)}
+.dot-load{background:var(--mute);animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ============ Today's Brief ============ */
+.brief{background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;
+  border-radius:var(--r);padding:18px 22px;margin-bottom:18px;
+  display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-lg);
+  position:relative;overflow:hidden}
+.brief::before{content:"";position:absolute;right:-30px;top:-30px;
+  width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.1)}
+.brief .ico{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.2);
+  display:grid;place-items:center;font-size:22px;flex-shrink:0;z-index:1}
+.brief .text{flex:1;z-index:1;min-width:0}
+.brief .text .ttl{font-size:12px;opacity:.9;margin-bottom:3px;font-weight:600;letter-spacing:.3px;text-transform:uppercase}
 .brief .text .msg{font-size:15px;font-weight:700;line-height:1.5}
 
 .section-title{display:flex;align-items:center;gap:8px;margin:24px 0 12px;
@@ -51,6 +137,1063 @@
 .tk .pr{font-size:17px;font-weight:800;margin-top:4px;letter-spacing:-.5px}
 .tk .ch{font-size:11px;margin-top:2px;font-weight:600}
 .tk .badge-live{position:absolute;top:6px;right:6px;background:var(--green);color:#fff;
+  font-size:8px;padding:1px 5px;border-radius:4px;font-weight:800;letter-spacing:.3px}
+
+/* ============ Diagnosis ============ */
+.diag{background:linear-gradient(135deg,#1e293b,#475569);color:#fff;
+  border-radius:var(--r);padding:18px 22px;margin-bottom:22px;
+  display:flex;gap:14px;align-items:center;box-shadow:var(--shadow-lg);
+  position:relative;overflow:hidden;flex-wrap:wrap}
+.diag::after{content:"";position:absolute;left:-40px;bottom:-40px;
+  width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06)}
+.diag .telescope{font-size:36px;z-index:1}
+.diag .info{flex:1;z-index:1;min-width:200px}
+.diag .info .lbl{font-size:11px;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.diag .info .stmt{font-size:16px;font-weight:700;line-height:1.5}
+.diag .info .stmt b{color:#fbbf24}
+.diag .info .why{font-size:12px;opacity:.85;margin-top:6px;line-height:1.5}
+.diag .apply-btn{background:#fbbf24;color:#0c1430;border:none;padding:10px 18px;
+  border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;z-index:1;
+  transition:transform .15s;white-space:nowrap}
+.diag .apply-btn:hover{transform:scale(1.05)}
+
+/* ============ Menu Cards ============ */
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:560px){.row3{grid-template-columns:1fr}}
+.btn-card{cursor:pointer;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r);padding:16px;position:relative;
+  transition:transform .15s, border-color .15s, box-shadow .15s;user-select:none}
+.btn-card:hover{transform:translateY(-2px);border-color:var(--primary);box-shadow:var(--shadow-lg)}
+.btn-card.active{border-color:var(--primary);border-width:2px;padding:15px;
+  background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(139,92,246,.04));
+  box-shadow:0 0 0 4px rgba(59,130,246,.15),var(--shadow-lg)}
+.btn-card .emoji{font-size:28px;line-height:1}
+.btn-card .label{font-weight:800;margin-top:8px;font-size:14px;letter-spacing:-.2px}
+.btn-card .desc{font-size:12px;color:var(--mute);margin-top:4px;line-height:1.5}
+.btn-card .tag{position:absolute;top:10px;right:12px;font-size:10px;font-weight:700;
+  color:var(--mute);background:var(--panel2);border:1px solid var(--line);
+  border-radius:6px;padding:2px 7px}
+.btn-card.active .tag{color:var(--primary);border-color:var(--primary)}
+.btn-card .recommended{position:absolute;top:-7px;left:12px;font-size:10px;
+  background:var(--gold);color:#0c1430;padding:2px 8px;border-radius:999px;
+  font-weight:800;letter-spacing:.3px;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+
+/* ============ Result ============ */
+.result{margin-top:22px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r);padding:22px;box-shadow:var(--shadow-lg)}
+.result .badge{display:inline-flex;align-items:center;gap:6px;
+  background:var(--panel2);border:1px solid var(--line);border-radius:999px;
+  padding:5px 12px;font-size:12px;color:var(--mute);font-weight:600}
+.result h3{margin:8px 0 4px;font-size:24px;letter-spacing:-.5px;line-height:1.3}
+.result .verdict{display:inline-block;font-size:12px;font-weight:800;
+  padding:5px 12px;border-radius:999px;margin-top:6px;letter-spacing:.3px}
+.v-ok{background:rgba(16,185,129,.12);color:var(--ok);border:1px solid rgba(16,185,129,.4)}
+.v-warn{background:rgba(245,158,11,.12);color:var(--warn);border:1px solid rgba(245,158,11,.4)}
+.v-danger{background:rgba(239,68,68,.12);color:var(--danger);border:1px solid rgba(239,68,68,.4)}
+.result p.kpi{color:var(--text2);font-size:14px;line-height:1.7;margin:14px 0 0}
+.result .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media (max-width:640px){.result .grid2{grid-template-columns:1fr}}
+.result .box{background:var(--panel2);border:1px solid var(--line);
+  border-radius:var(--r-sm);padding:14px}
+.result .box h4{margin:0 0 8px;font-size:11px;color:var(--mute);
+  text-transform:uppercase;letter-spacing:.5px;font-weight:800}
+.result .box p{margin:0;font-size:13px;line-height:1.6;color:var(--text2)}
+.result .legend{font-size:11px;color:var(--mute2);margin-top:12px;
+  padding-top:10px;border-top:1px solid var(--line)}
+
+/* ============ Data Source Table ============ */
+.data-table{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:18px;box-shadow:var(--shadow);margin-top:18px}
+.data-table h4{margin:0 0 12px;font-size:14px;display:flex;align-items:center;gap:8px}
+.data-table table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{text-align:left;padding:8px 10px;background:var(--panel2);
+  border-bottom:1px solid var(--line);color:var(--mute);font-weight:700;
+  text-transform:uppercase;letter-spacing:.3px;font-size:10px}
+.data-table td{padding:9px 10px;border-bottom:1px solid var(--line);color:var(--text2)}
+.data-table tr:last-child td{border-bottom:none}
+.data-table .src-ok{color:var(--green);font-weight:700}
+.data-table .src-err{color:var(--red);font-weight:700}
+.data-table .src-load{color:var(--mute);font-weight:700}
+.data-table code{background:var(--panel2);padding:1px 6px;border-radius:4px;
+  font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--purple)}
+
+/* ============ ATH Tracker (v4) ============ */
+.ath-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:18px;box-shadow:var(--shadow);margin-bottom:18px}
+.ath-bench-toggle{display:flex;gap:6px;margin-bottom:14px;padding:4px;
+  background:var(--panel2);border-radius:10px;border:1px solid var(--line)}
+.bench-btn{flex:1;background:transparent;border:none;padding:8px 12px;border-radius:8px;
+  cursor:pointer;font-size:12px;font-weight:700;color:var(--mute);transition:all .2s}
+.bench-btn.active{background:var(--panel);color:var(--text);box-shadow:var(--shadow)}
+.ath-item{background:var(--panel2);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:12px 14px;margin-bottom:8px;position:relative;overflow:hidden}
+.ath-item:last-child{margin-bottom:0}
+.ath-item .ah-head{display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.ath-item .ah-name{font-size:13px;font-weight:800;letter-spacing:-.2px}
+.ath-item .ah-dd{font-size:18px;font-weight:900;letter-spacing:-.5px}
+.ath-item .ah-meta{display:flex;justify-content:space-between;font-size:11px;
+  color:var(--mute);margin-bottom:6px}
+.ath-item .ah-bar{position:relative;height:8px;background:var(--line);border-radius:999px;
+  overflow:hidden}
+.ath-item .ah-bar-fill{position:absolute;top:0;left:0;height:100%;
+  background:linear-gradient(90deg,var(--red),var(--gold),var(--green));
+  border-radius:999px;transition:width 1.2s ease-out}
+.ath-item .ah-mark{position:absolute;top:-3px;width:2px;height:14px;background:var(--text);border-radius:1px}
+.ath-item .ah-tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:10px;
+  font-weight:800;letter-spacing:.3px}
+.tag-ath{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.4)}
+.tag-near{background:rgba(132,204,22,.15);color:#84cc16;border:1px solid rgba(132,204,22,.4)}
+.tag-pullback{background:rgba(245,158,11,.15);color:var(--gold);border:1px solid rgba(245,158,11,.4)}
+.tag-correction{background:rgba(249,115,22,.15);color:#f97316;border:1px solid rgba(249,115,22,.4)}
+.tag-bear{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.4)}
+
+/* ============ Wisdom ============ */
+.wisdom{margin-top:22px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r);padding:20px;box-shadow:var(--shadow)}
+.wisdom h4{margin:0 0 12px;font-size:14px;color:var(--gold);display:flex;align-items:center;gap:6px}
+.wisdom blockquote{margin:8px 0;padding:12px 16px;background:var(--panel2);
+  border-left:3px solid var(--primary);border-radius:0 var(--r-sm) var(--r-sm) 0;
+  font-size:13px;color:var(--text2);line-height:1.7;font-style:italic}
+.wisdom blockquote.gold{border-left-color:var(--gold)}
+.wisdom blockquote.purple{border-left-color:var(--purple)}
+.wisdom .who{display:block;margin-top:8px;color:var(--mute);font-size:11px;
+  font-style:normal;font-weight:600;letter-spacing:.3px}
+
+footer{text-align:center;color:var(--mute);font-size:11px;margin-top:24px;line-height:1.7;padding:16px}
+footer a{color:var(--primary);text-decoration:none}
+
+.skeleton{background:linear-gradient(90deg,var(--panel2) 0%,var(--line) 50%,var(--panel2) 100%);
+  background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;color:transparent}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="brand">
+    <div class="logo">🔭</div>
+    <div class="titles">
+      <h1>망원경 투자자 v4<span class="en">Telescope Investor</span></h1>
+      <div class="sub">실시간 지수·공포탐욕·환율 통합 · 9가지 시나리오 의사결정</div>
+    </div>
+    <div class="controls">
+      <button class="btn-ico" id="themeToggle" title="라이트/다크 모드">🌙</button>
+      <button class="btn-ico" id="refreshBtn" title="새로고침">↻</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="tag">📡 DAILY INSIGHTS · 망원경을 들고</div>
+    <h2>Hang on, <span class="accent">Telescope!</span></h2>
+    <p class="desc">잠깐의 시간, 망원경으로 시장의 폭풍을 먼저 보고<br>나의 행동을 정하는 시간</p>
+    <div class="date-pill">
+      <span>📅</span>
+      <span id="todayDate">날짜 로딩 중…</span>
+    </div>
+  </section>
+
+  <!-- STATUS CHIPS (실시간 데이터 소스 상태) -->
+  <div class="status" id="statusBar">
+    <span class="chip"><span class="dot dot-load"></span>Yahoo Finance · 로딩</span>
+    <span class="chip"><span class="dot dot-load"></span>CNN F&G · 로딩</span>
+    <span class="chip"><span class="dot dot-load"></span>환율 · 로딩</span>
+  </div>
+
+  <!-- TODAY'S BRIEF -->
+  <div class="brief">
+    <div class="ico">🌅</div>
+    <div class="text">
+      <div class="ttl">오늘의 시장 핵심 요약</div>
+      <div class="msg" id="briefMsg">시장 데이터 분석 중…</div>
+    </div>
+  </div>
+
+  <!-- ============ FEAR & GREED ============ -->
+  <div class="section-title"><span class="num">1</span> 시장 심리 게이지 · CNN Fear & Greed Index <span class="info" id="fngSource">소스: CNN</span></div>
+  <div class="fng-card">
+    <div class="fng-gauge">
+      <svg viewBox="0 0 240 170">
+        <defs>
+          <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ef4444"/>
+            <stop offset="25%" stop-color="#f97316"/>
+            <stop offset="50%" stop-color="#f59e0b"/>
+            <stop offset="75%" stop-color="#84cc16"/>
+            <stop offset="100%" stop-color="#10b981"/>
+          </linearGradient>
+        </defs>
+        <path d="M 30 140 A 90 90 0 0 1 210 140" stroke="url(#gaugeGrad)" stroke-width="16" fill="none" stroke-linecap="round" opacity=".25"/>
+        <path id="gaugeFill" d="M 30 140 A 90 90 0 0 1 210 140" stroke="url(#gaugeGrad)" stroke-width="16" fill="none" stroke-linecap="round"
+              stroke-dasharray="283" stroke-dashoffset="283"/>
+        <g id="needle" transform="rotate(-90 120 140)">
+          <line x1="120" y1="140" x2="120" y2="60" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="120" cy="140" r="7" fill="currentColor"/>
+        </g>
+        <text x="22" y="158" font-size="9" fill="currentColor" opacity=".6" text-anchor="middle">극공포</text>
+        <text x="60" y="58" font-size="9" fill="currentColor" opacity=".6" text-anchor="middle">공포</text>
+        <text x="120" y="40" font-size="9" fill="currentColor" opacity=".6" text-anchor="middle">중립</text>
+        <text x="180" y="58" font-size="9" fill="currentColor" opacity=".6" text-anchor="middle">탐욕</text>
+        <text x="218" y="158" font-size="9" fill="currentColor" opacity=".6" text-anchor="middle">극탐욕</text>
+      </svg>
+      <div class="fng-score">
+        <div class="val" id="fngVal">--</div>
+        <div class="lbl">Fear & Greed</div>
+        <div class="rating" id="fngRating" style="background:rgba(245,158,11,.15);color:var(--gold)">측정 중</div>
+      </div>
+    </div>
+    <div class="fng-info">
+      <h3 id="fngTitle">시장 심리 측정 중…</h3>
+      <div class="src"><span class="live"></span>CNN Business Fear & Greed Index · 0(극공포) ~ 100(극탐욕)</div>
+      <div class="fng-comp">
+        <div class="fng-comp-item"><div class="k">전일</div><div class="v skeleton" id="fngPrev">--</div></div>
+        <div class="fng-comp-item"><div class="k">1주일 전</div><div class="v skeleton" id="fngWeek">--</div></div>
+        <div class="fng-comp-item"><div class="k">1개월 전</div><div class="v skeleton" id="fngMonth">--</div></div>
+        <div class="fng-comp-item"><div class="k">1년 전</div><div class="v skeleton" id="fngYear">--</div></div>
+        <div class="fng-comp-item"><div class="k">VIX (변동성)</div><div class="v skeleton" id="vixVal">--</div></div>
+        <div class="fng-comp-item"><div class="k">S&P 모멘텀</div><div class="v skeleton" id="momVal">--</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ LIVE TICKER ============ -->
+  <div class="section-title"><span class="num">2</span> 실시간 시세 · 지수 · 환율 <span class="info">7개 종목 · 1분 자동 갱신</span></div>
+  <section class="ticker">
+    <div class="ticker-head">
+      <span class="dot"></span>
+      <strong>LIVE</strong>
+      <span id="ts" style="color:var(--mute)">데이터 불러오는 중…</span>
+      <span class="ts">Yahoo Finance · 15분 지연 가능</span>
+    </div>
+    <div class="strip" id="strip">
+      <div class="tk"><div class="nm">SK하이닉스</div><div class="pr skeleton">000000원</div><div class="ch">로딩…</div></div>
+      <div class="tk"><div class="nm">삼성전자</div><div class="pr skeleton">000000원</div><div class="ch">로딩…</div></div>
+      <div class="tk"><div class="nm">NVIDIA</div><div class="pr skeleton">$000.00</div><div class="ch">로딩…</div></div>
+      <div class="tk"><div class="nm">버크셔(BRK.B)</div><div class="pr skeleton">$000.00</div><div class="ch">로딩…</div></div>
+      <div class="tk"><div class="nm">S&P 500</div><div class="pr skeleton">0000</div><div class="ch">로딩…</div></div>
+      <div class="tk"><div class="nm">KOSPI</div><div class="pr skeleton">0000</div><div class="ch">로딩…</div></div>
+      <div class="tk fx"><div class="nm">USD/KRW</div><div class="pr skeleton">0000원</div><div class="ch">로딩…</div></div>
+    </div>
+  </section>
+
+  <!-- ============ ATH TRACKER (NEW in v4) ============ -->
+  <div class="section-title"><span class="num">3</span> ATH 추적 · 사상 최고가 대비 현재 위치 <span class="info" id="benchToggleInfo">기준: 🇰🇷 KOSPI</span></div>
+  <div class="ath-card">
+    <div class="ath-bench-toggle">
+      <button class="bench-btn active" data-bench="KOSPI">🇰🇷 KOSPI 기준</button>
+      <button class="bench-btn" data-bench="SP500">🇺🇸 S&P 500 기준</button>
+    </div>
+    <div id="athList">
+      <div class="ath-item skeleton" style="height:60px"></div>
+      <div class="ath-item skeleton" style="height:60px;margin-top:8px"></div>
+      <div class="ath-item skeleton" style="height:60px;margin-top:8px"></div>
+    </div>
+  </div>
+
+  <!-- ============ AUTO DIAGNOSIS ============ -->
+  <div class="section-title"><span class="num">4</span> 망원경의 자동 진단 (다중 지수 종합)</div>
+  <div class="diag">
+    <div class="telescope">🔭</div>
+    <div class="info">
+      <div class="lbl">현재 시장 진단 (F&G + VIX + S&P 모멘텀 종합)</div>
+      <div class="stmt" id="diagStmt">데이터 수집 중…</div>
+      <div class="why" id="diagWhy">잠시만 기다려 주세요</div>
+    </div>
+    <button class="apply-btn" id="applyDiag" title="진단을 메뉴에 자동 적용">자동 선택 ▶</button>
+  </div>
+
+  <!-- Q1 -->
+  <div class="section-title"><span class="num">Q1</span> 시장 상태 (망원경에 보이는 풍경)</div>
+  <div class="row3" id="marketRow">
+    <div class="btn-card" data-market="1">
+      <span class="tag">1</span><div class="emoji">🚀</div>
+      <div class="label">ATH 신기록 시장</div>
+      <div class="desc">매일 사상 최고가 갱신. 모두 환호. 빚내서 매수.</div>
+    </div>
+    <div class="btn-card" data-market="2">
+      <span class="tag">2</span><div class="emoji">📉</div>
+      <div class="label">평균회귀로 가는 시장</div>
+      <div class="desc">고점 대비 하락 시작. 거품이 꺼지는 중.</div>
+    </div>
+    <div class="btn-card" data-market="3">
+      <span class="tag">3</span><div class="emoji">↔️</div>
+      <div class="label">횡보 시장</div>
+      <div class="desc">올라가지도 내려가지도 않음. 방향 모호.</div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="section-title"><span class="num">Q2</span> 나의 행동 (망원경 본 후 어떻게)</div>
+  <div class="row3" id="actionRow">
+    <div class="btn-card" data-action="A">
+      <span class="tag">A</span><div class="emoji">🏃</div>
+      <div class="label">뛰어간다</div>
+      <div class="desc">즉시 풀베팅. 마이클 버리식 조기 진입.</div>
+    </div>
+    <div class="btn-card" data-action="B">
+      <span class="tag">B</span><div class="emoji">🧎</div>
+      <div class="label">천천히 기어간다</div>
+      <div class="desc">분할 매수/매도. 시간 분산.</div>
+    </div>
+    <div class="btn-card" data-action="C">
+      <span class="tag">C</span><div class="emoji">🪑</div>
+      <div class="label">올 때까지 기다린다</div>
+      <div class="desc">현금 보유. 워런 버핏식 의자.</div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <section class="result" id="result">
+    <span class="badge" id="comboBadge">조합을 선택하세요</span>
+    <h3 id="title">위에서 Q1과 Q2를 선택하면 9가지 시나리오 중 하나가 펼쳐집니다</h3>
+    <span class="verdict v-warn" id="verdict">대기 중</span>
+    <p class="kpi" id="explain">시장 상태(1·2·3) 하나 + 행동(A·B·C) 하나 = 9가지 시나리오. 위 망원경 자동 진단을 따라가도 됩니다.</p>
+    <div class="grid2">
+      <div class="box"><h4>📜 역사 사례</h4><p id="history">선택 대기 중…</p></div>
+      <div class="box"><h4>💰 실제 종목 예시</h4><p id="example">선택 대기 중…</p></div>
+    </div>
+    <div class="grid2" style="margin-top:8px">
+      <div class="box"><h4>⚠️ 위험 요소</h4><p id="risk">선택 대기 중…</p></div>
+      <div class="box"><h4>✅ 생존 체크리스트</h4><p id="check">선택 대기 중…</p></div>
+    </div>
+    <div class="legend">💡 이 앱은 교육 목적입니다. 실제 투자 결정은 본인 책임입니다.</div>
+  </section>
+
+  <!-- DATA SOURCES TABLE -->
+  <div class="data-table">
+    <h4>🔗 데이터 연결 상태 (실시간 모니터링)</h4>
+    <table>
+      <thead>
+        <tr><th>데이터</th><th>API 엔드포인트</th><th>접근 방식</th><th>상태</th><th>마지막 갱신</th></tr>
+      </thead>
+      <tbody id="dataSourceTable">
+        <tr><td>주가·지수·환율</td><td><code>query1.finance.yahoo.com</code></td><td>직접 호출</td><td id="src-yahoo" class="src-load">⏳ 로딩</td><td id="ts-yahoo">-</td></tr>
+        <tr><td>VIX 변동성</td><td><code>^VIX (Yahoo)</code></td><td>직접 호출</td><td id="src-vix" class="src-load">⏳ 로딩</td><td id="ts-vix">-</td></tr>
+        <tr><td>S&P 모멘텀(125일선)</td><td><code>^GSPC (Yahoo) 1y</code></td><td>직접 호출 + 계산</td><td id="src-mom" class="src-load">⏳ 로딩</td><td id="ts-mom">-</td></tr>
+        <tr><td>KOSPI ATH/Drawdown</td><td><code>^KS11 (Yahoo) 1y</code></td><td>직접 호출 + 계산</td><td id="src-kospi" class="src-load">⏳ 로딩</td><td id="ts-kospi">-</td></tr>
+        <tr><td>공포·탐욕 지수</td><td><code>production.dataviz.cnn.io</code></td><td>CORS 프록시</td><td id="src-cnn" class="src-load">⏳ 로딩</td><td id="ts-cnn">-</td></tr>
+        <tr><td>자체계산 F&G (Fallback)</td><td><code>VIX + 모멘텀</code></td><td>내부 계산</td><td id="src-calc" class="src-load">대기</td><td id="ts-calc">-</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- WISDOM -->
+  <section class="wisdom">
+    <h4>📖 30년 시장의 압축 — 선생님 명언 + 리버모어</h4>
+    <blockquote class="gold">
+      "주식은 ATH는 존재하고, 역(逆) ATH는 존재하지 않는다. 단지 모멘텀은 영원하지 않고 평균회귀가 존재한다."
+      <span class="who">— 선생님 글</span>
+    </blockquote>
+    <blockquote>
+      "마이클 버리는 망원경으로 봤다. 그러나 조급히 뛰어가 숏을 쳤다. 아주 느긋히 걸어서 혹은 기어서 조금씩 숏을 쳤어야 했다."
+      <span class="who">— 선생님 글</span>
+    </blockquote>
+    <blockquote class="purple">
+      "워런 버핏은 뛰지도 걷지도 않았다. 단지 폭풍우가 가까이 올 때까지 기다리고 있다. 대중과 같이 매수 동참도 안 하고, 버리처럼 숏도 안 하고."
+      <span class="who">— 선생님 글</span>
+    </blockquote>
+    <blockquote class="gold">
+      "나는 옳았다. 그리고 망했다. 나는 달려갔어야 할 게 아니라 걸어갔어야 했다."
+      <span class="who">— 제시 리버모어, 1906년 샌프란시스코 대지진 직후</span>
+    </blockquote>
+  </section>
+
+  <footer>
+    🔭 <strong>Telescope Investor v4</strong> · 시장은 당신이 옳다는 사실에 관심이 없다 — 옳은 시점에 살아남았는지만 본다.<br>
+    데이터: <a href="https://edition.cnn.com/markets/fear-and-greed" target="_blank">CNN F&G</a> · 
+    <a href="https://finance.yahoo.com" target="_blank">Yahoo Finance</a> · 
+    프록시: <a href="https://allorigins.win" target="_blank">allorigins.win</a><br>
+    본 앱은 교육·학습 목적이며 투자 권유가 아닙니다.
+  </footer>
+</div>
+
+<script>
+'use strict';
+
+/* =====================================================
+   ⚙️ CONFIG — 데이터 소스 정의 (한눈에 보이게)
+   ===================================================== */
+const CONFIG = {
+  // Yahoo Finance — 직접 호출 (CORS 허용됨)
+  yahoo: {
+    base: 'https://query1.finance.yahoo.com/v8/finance/chart/',
+    direct: true  // 브라우저에서 바로 호출 가능
+  },
+  // CNN Fear & Greed — CORS 프록시 필요
+  cnn_fng: {
+    url: 'https://production.dataviz.cnn.io/index/fearandgreed/graphdata',
+    direct: false  // 프록시 필요
+  },
+  // CORS 프록시 (3중 fallback)
+  proxies: [
+    url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+    url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+    url => `https://corsproxy.io/?${encodeURIComponent(url)}`
+  ],
+  // 갱신 주기
+  refresh: {
+    ticker: 60_000,    // 1분
+    fng: 5 * 60_000,   // 5분
+    full: 5 * 60_000   // 전체 새로고침 5분
+  }
+};
+
+/* =====================================================
+   📊 종목 리스트
+   ===================================================== */
+const TICKERS = [
+  { sym:'000660.KS', name:'SK하이닉스',   curr:'₩' },
+  { sym:'005930.KS', name:'삼성전자',     curr:'₩' },
+  { sym:'NVDA',      name:'NVIDIA',       curr:'$' },
+  { sym:'BRK-B',     name:'버크셔 BRK.B', curr:'$' },
+  { sym:'^GSPC',     name:'S&P 500',      curr:''  },
+  { sym:'^KS11',     name:'KOSPI',        curr:''  },
+  { sym:'KRW=X',     name:'USD/KRW',      curr:'',  fx:true }
+];
+
+/* =====================================================
+   🎬 9가지 시나리오
+   ===================================================== */
+const SCENARIOS = {
+  "1A": { title:"🚀🏃 ATH에 풀베팅 — 가장 위험한 자리", verdict:"danger", verdictText:"⚠️ 최고 위험",
+    explain:"사상 최고가에서 빚까지 내서 매수하는 가장 위험한 행동. 1929·2000·2021년 대중이 모두 이 자리에서 깡통을 찼습니다. 선생님 말씀처럼 '평균회귀가 존재'합니다.",
+    history:"1929년 대공황 직전 백화점 짐꾼·구두닦이까지 주식 추천. 1999년 닷컴버블 정점. 2021년 NAVER 460,000원 영끌 매수 → 1년 후 -65%.",
+    example:"2024년 11월 엔비디아 $150 신고가 풀매수 → 2025년 4월 $94까지 -37%. 옳은 방향(AI 성장)이었지만 옳은 가격이 아니었음.",
+    risk:"① 상승 여지 < 하락 위험(비대칭) ② 빚 쓰면 마진콜 ③ 본인 판단 아닌 FOMO",
+    check:"ATH 확인 → 신규 매수 보류. 보유 중이면 일부 차익실현. 빚 쓰지 마세요."
+  },
+  "1B": { title:"🚀🧎 ATH에 분할 매수 — 위험 분산하지만 비싼 자리", verdict:"warn", verdictText:"⚠️ 주의",
+    explain:"ATH에서도 분할 매수는 풀베팅보다 훨씬 안전. 그러나 가격 자체가 비싼 자리라는 사실은 바뀌지 않음. 인덱스 적립식은 견딜 수 있지만 개별 종목은 회복 못 할 수도.",
+    history:"S&P 500을 2000년 3월·2007년 10월부터 적립식 → 10년 후 회복+수익. 개별주 시스코·인텔은 25년 후에도 본전 미회복.",
+    example:"2024년 ATH에서 S&P ETF 월 100만원 적립 → 단기 -10% 가능하지만 10년 평균 7% 기대. 개별주는 분할이어도 위험.",
+    risk:"① 비싼 평단 ② 회복 5~10년 ③ 마음 흔들려 중단",
+    check:"인덱스(S&P 500, KOSPI 200)면 OK. 개별 종목이면 신중. 5년 안 쓸 돈으로만."
+  },
+  "1C": { title:"🚀🪑 ATH에서 현금 보유 — 워런 버핏의 정답", verdict:"ok", verdictText:"✅ 가장 현명함",
+    explain:"사상 최고가에서 현금 들고 의자에 앉아 있는 자세. 매일 오르는 뉴스에 '나만 바보' 같지만 폭풍이 오면 진짜 부자 되는 순간. 버핏이 2024~2026년 현금 3,000억$ 쌓는 이유.",
+    history:"1969년 버핏 펀드 청산 → 1973~74년 폭락 때 줍기. 1999년 다시 빠져나옴 → 2000년 닷컴 폭락 후 줍기.",
+    example:"버크셔 현금: 2024년 말 약 3,250억$ (역사상 최대). 버핏 95세에도 '칠 만한 공이 없다'며 의자.",
+    risk:"① 상승 놓치는 기회비용(그러나<폭락 시 기회) ② 인플레이션 ③ '나만 못 번다' 멘탈",
+    check:"비상금+생활비 1년치 확보. 나머지 단기 채권·MMF로 인플 방어. 매일 시세 안 봐도 됨."
+  },
+  "2A": { title:"📉🏃 폭락 중 풀매수 — 칼날 잡기", verdict:"danger", verdictText:"⚠️ 위험",
+    explain:"'이 정도면 빠졌다'며 한꺼번에 매수. 평균회귀는 '평균까지'가 아니라 '평균 지나서 반대편으로' 가는 경향. 떨어지는 칼은 두 번 떨어집니다.",
+    history:"2008년 9월 리먼 후 '바닥' 풀매수자들 → 2009년 3월까지 추가 -40%. 2000년 닷컴은 -83%까지.",
+    example:"2025년 4월 엔비디아 $94 '바닥' 풀매수 → $87까지 추가 하락 후 회복. 운 좋은 케이스.",
+    risk:"① 바닥 밑 지하실 ② 더 떨어지면 견딜 시드 부족 ③ 한 종목 집중",
+    check:"한 번에 다 사지 말 것. 시드의 30% 이상 한 번에 베팅 금지."
+  },
+  "2B": { title:"📉🧎 폭락 중 분할 매수 — 가장 좋은 자리", verdict:"ok", verdictText:"✅ 우수",
+    explain:"선생님이 30년에 깨달은 정답. 떨어지는 시장에서 시간 분산해 조금씩 매수. 옳은 방향 + 옳은 행동. 단 '옳은 종목'이어야.",
+    history:"1973~74 폭락 적립자 5년 후 +120%. 2008~09 KOSPI 200 적립자 2011년 사상 최고가.",
+    example:"2022년 NAVER 460,000→160,000원 폭락. 200,000원부터 분할 → 평단 170,000원 → 2026년 200,000원대 +18%.",
+    risk:"① 3년+ 하락 시 멘탈 ② 개별주는 회복 못 할 수도(코닥·노키아) ③ 도중 본업 잃으면 적립 중단",
+    check:"인덱스 ETF + 최소 24개월 분할. 시드 30%는 '진짜 바닥'용 남기기."
+  },
+  "2C": { title:"📉🪑 폭락 중 현금 — 더 큰 바닥 기다리기", verdict:"warn", verdictText:"⚖️ 보수적",
+    explain:"이미 떨어지는데도 '아직이다'라며 현금. 공포 정점까지 기다리는 자세. 좋지만 너무 기다리면 회복 놓침.",
+    history:"버핏은 2008년 10월 'Buy American' NYT 칼럼 후 매수. 너무 일찍 산 사람들은 2009년 3월까지 추가 -25%.",
+    example:"2022년 NAVER 폭락 때 '160,000원까지 가야'라며 기다렸다가 165,000원에서 멈춰 못 잡은 사례 다수.",
+    risk:"① 바닥은 사후에만 보임 ② 너무 기다리다 반등 놓침 ③ '내가 옳다' 자만",
+    check:"VIX, 신용대출 잔액, 거래량 등 '진짜 패닉' 신호 보고 분할 매수 전환."
+  },
+  "3A": { title:"↔️🏃 횡보장에 풀베팅 — 방향 모르고 도박", verdict:"danger", verdictText:"⚠️ 위험",
+    explain:"방향 없는 시장에 한쪽 풀베팅. 횡보는 '다음 큰 움직임' 준비 시간 — 어디로 갈지 모르면 동전 던지기.",
+    history:"2014~2016 KOSPI 1,900~2,100 횡보. 위쪽도 아래쪽도 둘 다 손해. 옵션·레버리지 시간가치로 녹음.",
+    example:"삼성전자 2021~2024 5~8만원 횡보에서 단타 → 수수료+세금으로 손실.",
+    risk:"① 손익비 안 나옴 ② 단타 시 수수료 누적 ③ 인버스 변동성 갉아먹기",
+    check:"횡보장 풀베팅 금지. 쉬는 게 베팅."
+  },
+  "3B": { title:"↔️🧎 횡보장에 적립식 — 무난한 정답", verdict:"ok", verdictText:"✅ 안정적",
+    explain:"방향 모를 때 가장 무난. 횡보에서 분할 매수하면 자연스럽게 '평균'에 평단 형성. 다음 방향 위면 큰 수익, 아래면 분할로 견딤.",
+    history:"1968~1982 다우 '잃어버린 15년' 적립자 1990년대 폭등에서 큰 수익. 일본도 1990~2012 후 2013년 회복.",
+    example:"2021~2024 삼성전자 6~8만원 적립 → 평단 7만 → 2025년 9만 돌파 +30%.",
+    risk:"① 20년+ 횡보(일본) 기회비용 ② 개별주는 영영 못 오를 수도 ③ 인덱스라야 안전",
+    check:"인덱스 ETF 자동 적립. 채권·금 일부 분산."
+  },
+  "3C": { title:"↔️🪑 횡보장에 현금 — 인내심 시험", verdict:"warn", verdictText:"⚖️ 가능",
+    explain:"방향 잡힐 때까지 기다리기. 안전하지만 5~10년 횡보면 기회비용 큼. 버핏도 '95% 사람은 S&P 500을 사고 직장 일에 집중하라'.",
+    history:"1968년 버핏 청산 → 1974년까지 6년 기다림 → 폭발적 수익. 그러나 6년은 보통 사람 견디기 어려움.",
+    example:"현금 100% 시 인플레 연 3%면 5년 실질 -14%.",
+    risk:"① 기회비용 ② 인플레이션 ③ 멘탈",
+    check:"단기 채권·MMF로 인플 일부 헤지. 명확한 신호(돌파/이탈) 시 움직임."
+  }
+};
+
+/* =====================================================
+   🎨 Theme toggle
+   ===================================================== */
+const themeBtn = document.getElementById('themeToggle');
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+  try{ localStorage.setItem('telescope-theme', t); }catch(e){}
+}
+setTheme((()=>{try{return localStorage.getItem('telescope-theme')}catch(e){return null}})() || 'light');
+themeBtn.addEventListener('click', ()=>{
+  setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+});
+
+/* =====================================================
+   📅 Today's date
+   ===================================================== */
+(function(){
+  const d = new Date();
+  const days = ['일','월','화','수','목','금','토'];
+  document.getElementById('todayDate').textContent = 
+    `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 (${days[d.getDay()]})`;
+})();
+
+/* =====================================================
+   🛰️ Universal fetch with multi-proxy fallback
+   ===================================================== */
+async function fetchJSON(url, useProxy = false){
+  const attempts = [];
+  if(!useProxy){
+    attempts.push(() => fetch(url, { cache:'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject(`HTTP ${r.status}`)));
+  }
+  for(const proxy of CONFIG.proxies){
+    attempts.push(() => fetch(proxy(url), { cache:'no-store' })
+      .then(r => r.ok ? r.json() : Promise.reject(`HTTP ${r.status}`))
+      .then(j => (j && typeof j.contents === 'string') ? JSON.parse(j.contents) : j));
+  }
+  let lastErr;
+  for(const fn of attempts){
+    try{ return await fn(); }catch(e){ lastErr = e; }
+  }
+  throw new Error('All fetch attempts failed: ' + lastErr);
+}
+
+/* =====================================================
+   📈 Yahoo Finance — quote
+   ===================================================== */
+async function fetchQuote(t){
+  const url = `${CONFIG.yahoo.base}${encodeURIComponent(t.sym)}?interval=1d&range=2d`;
+  try{
+    const data = await fetchJSON(url, false);
+    const meta = data?.chart?.result?.[0]?.meta;
+    if(!meta) throw new Error('no meta');
+    const price = meta.regularMarketPrice;
+    const prev  = meta.chartPreviousClose ?? meta.previousClose;
+    const change = price - prev;
+    const pct = (change/prev) * 100;
+    return { ...t, price, prev, change, pct };
+  }catch(e){
+    return { ...t, price:null, error:e.message };
+  }
+}
+
+/* =====================================================
+   📉 VIX
+   ===================================================== */
+async function fetchVIX(){
+  try{
+    const data = await fetchJSON(`${CONFIG.yahoo.base}%5EVIX?interval=1d&range=5d`, false);
+    const m = data?.chart?.result?.[0]?.meta;
+    return m ? { value: m.regularMarketPrice } : null;
+  }catch(e){ return null; }
+}
+
+/* =====================================================
+   📊 Index Analytics (v4) — ATH, Drawdown, 125-day MA
+   ===================================================== */
+async function fetchIndexStats(symbol, name){
+  try{
+    const data = await fetchJSON(`${CONFIG.yahoo.base}${encodeURIComponent(symbol)}?interval=1d&range=1y`, false);
+    const r = data?.chart?.result?.[0];
+    if(!r) return null;
+    const closes = (r.indicators?.quote?.[0]?.close || []).filter(c => c != null);
+    const highs  = (r.indicators?.quote?.[0]?.high  || []).filter(h => h != null);
+    const lows   = (r.indicators?.quote?.[0]?.low   || []).filter(l => l != null);
+    const price = r.meta?.regularMarketPrice;
+    if(closes.length < 50 || !price) return null;
+    const ath = Math.max(...highs);
+    const atl = Math.min(...lows);
+    const drawdown = (price/ath - 1) * 100;  // 음수: ATH 대비 하락률
+    const fromLow  = (price/atl - 1) * 100;  // 양수: 저점 대비 상승률
+    const ma125 = closes.slice(-Math.min(125, closes.length)).reduce((a,b)=>a+b,0)/Math.min(125, closes.length);
+    const ratio = price/ma125;
+    // 1년 범위에서 현재 위치 (0% = 저점, 100% = 고점)
+    const positionPct = ((price - atl) / (ath - atl)) * 100;
+    return { symbol, name, price, ath, atl, drawdown, fromLow, ma125, ratio, positionPct };
+  }catch(e){ return null; }
+}
+
+// 호환성 유지: v3의 함수명
+async function fetchSPMomentum(){
+  const s = await fetchIndexStats('^GSPC','S&P 500');
+  return s ? { price:s.price, ma125:s.ma125, ratio:s.ratio } : null;
+}
+
+/* =====================================================
+   😱 CNN Fear & Greed (via proxy)
+   ===================================================== */
+async function fetchFearGreed(){
+  try{
+    const data = await fetchJSON(CONFIG.cnn_fng.url, true);
+    const fg = data?.fear_and_greed;
+    if(!fg) throw new Error('no fg');
+    return {
+      score: fg.score,
+      rating: fg.rating,
+      prev: fg.previous_close,
+      week: fg.previous_1_week,
+      month: fg.previous_1_month,
+      year: fg.previous_1_year,
+      ts: fg.timestamp,
+      source: 'cnn'
+    };
+  }catch(e){
+    console.warn('CNN F&G failed:', e.message);
+    return null;
+  }
+}
+
+/* =====================================================
+   🧮 Fallback F&G computation
+   ===================================================== */
+function computeFGFallback(vix, momentum){
+  if(!vix || !momentum) return null;
+  const vixScore = Math.max(0, Math.min(100, 100 - (vix.value - 12) * 4));
+  const momScore = Math.max(0, Math.min(100, (momentum.ratio - 0.90) * 500));
+  const score = (vixScore + momScore) / 2;
+  const rating = score < 25 ? 'extreme fear' : score < 45 ? 'fear' : score < 55 ? 'neutral' : score < 75 ? 'greed' : 'extreme greed';
+  return { score, rating, source: 'computed' };
+}
+
+/* =====================================================
+   🎨 Render helpers
+   ===================================================== */
+function fmt(n, curr){
+  if(n == null || isNaN(n)) return '—';
+  if(curr === '₩') return curr + Math.round(n).toLocaleString('ko-KR');
+  if(curr === '$') return curr + n.toFixed(2);
+  return n.toLocaleString('ko-KR', { maximumFractionDigits:2 });
+}
+function fmtPct(p){
+  if(p == null || isNaN(p)) return '—';
+  return (p>=0?'+':'') + p.toFixed(2) + '%';
+}
+function ratingKR(r){
+  const k = (r||'').toLowerCase();
+  if(k.includes('extreme fear')) return '극도의 공포';
+  if(k === 'fear' || k.includes(' fear')) return '공포';
+  if(k.includes('neutral')) return '중립';
+  if(k.includes('extreme greed')) return '극도의 탐욕';
+  if(k.includes('greed')) return '탐욕';
+  return r || '—';
+}
+function ratingColor(s){
+  if(s < 25) return { bg:'rgba(239,68,68,.15)', c:'#ef4444' };
+  if(s < 45) return { bg:'rgba(249,115,22,.15)', c:'#f97316' };
+  if(s < 55) return { bg:'rgba(245,158,11,.15)', c:'#f59e0b' };
+  if(s < 75) return { bg:'rgba(132,204,22,.15)', c:'#84cc16' };
+  return { bg:'rgba(16,185,129,.15)', c:'#10b981' };
+}
+
+function renderGauge(score, rating, source){
+  const v = document.getElementById('fngVal');
+  const lbl = document.getElementById('fngRating');
+  const fill = document.getElementById('gaugeFill');
+  const needle = document.getElementById('needle');
+  const title = document.getElementById('fngTitle');
+  const srcLbl = document.getElementById('fngSource');
+  if(score == null){
+    v.textContent = '—'; lbl.textContent = '데이터 없음';
+    title.textContent = '시장 심리 데이터 불러오기 실패'; return;
+  }
+  const s = Math.round(score);
+  v.textContent = s;
+  const col = ratingColor(s);
+  v.style.color = col.c;
+  lbl.textContent = ratingKR(rating);
+  lbl.style.background = col.bg; lbl.style.color = col.c;
+  fill.style.transition = 'stroke-dashoffset 1.2s ease-out';
+  fill.style.strokeDashoffset = 283 * (1 - s/100);
+  const angle = -90 + (s/100)*180;
+  needle.style.transition = 'transform 1.2s ease-out';
+  needle.setAttribute('transform', `rotate(${angle} 120 140)`);
+  const srcTxt = source === 'computed' ? '(VIX+모멘텀 자체계산)' : '';
+  title.textContent = `${ratingKR(rating)} · ${s}/100 ${srcTxt}`;
+  srcLbl.textContent = source === 'computed' ? '소스: 자체계산' : '소스: CNN';
+}
+
+/* =====================================================
+   🤖 Auto diagnosis (v4 — 다중 지수 ATH/Drawdown 기반)
+   ===================================================== */
+function diagnoseMarket({ fgScore, vix, indexStats, benchmark }){
+  let market = null, action = null;
+  const why = [];
+  
+  // 기준 지수 (사용자 선택: KOSPI 또는 S&P)
+  const bench = indexStats?.[benchmark];
+  if(!bench){
+    return { market:null, action:null, why:['데이터 부족'] };
+  }
+  
+  const dd  = bench.drawdown;     // 음수 (ATH 대비)
+  const mom = bench.ratio;        // 125일선 대비 비율
+  const name = bench.name;
+  
+  // 시장 상태 결정 (Drawdown 우선, 모멘텀 보조)
+  if(dd >= -3 && mom > 1.02){
+    // ATH ±3% 이내 + 125일선 위 → 신기록 시장
+    market = '1';
+    why.push(`${name} ATH 대비 ${dd.toFixed(2)}% (신고가 근처)`);
+    if(fgScore != null) why.push(`F&G ${Math.round(fgScore)}`);
+  } else if(dd <= -5 || mom < 0.97 || (fgScore != null && fgScore < 35)){
+    // ATH 대비 -5% 이상 하락 → 평균회귀 진행 중
+    market = '2';
+    why.push(`${name} ATH 대비 ${dd.toFixed(2)}% (조정 중)`);
+    if(mom < 1) why.push(`125일선 대비 ${((mom-1)*100).toFixed(1)}%`);
+    if(fgScore != null && fgScore < 45) why.push(`F&G ${Math.round(fgScore)} (공포 가까움)`);
+  } else {
+    // 그 사이 → 횡보
+    market = '3';
+    why.push(`${name} ATH 대비 ${dd.toFixed(2)}% (애매한 구간)`);
+    if(fgScore != null) why.push(`F&G ${Math.round(fgScore)}`);
+  }
+  
+  // 행동 추천 (시장 상태별 + 공포·탐욕 강도)
+  if(market === '1'){
+    action = 'C';  // ATH 신기록 → 의자(현금)
+  } else if(market === '2'){
+    // 조정 깊이에 따라
+    if(dd < -20) action = 'B';  // -20% 이상 폭락 → 분할 매수 적극
+    else if(dd < -10) action = 'B';  // -10~-20% 조정 → 분할 매수
+    else action = 'B';  // -5~-10% 가벼운 조정 → 분할 시작
+  } else {
+    action = 'B';  // 횡보 → 적립식
+  }
+  
+  return { market, action, why, bench };
+}
+
+function renderDiagnosis(diag){
+  const stmt = document.getElementById('diagStmt');
+  const whyEl = document.getElementById('diagWhy');
+  if(!diag.market){
+    stmt.textContent = '데이터 부족 — 진단 불가';
+    whyEl.textContent = '나중에 다시 시도해 주세요'; return;
+  }
+  const mNames = { '1':'ATH 신기록 시장', '2':'평균회귀로 가는 시장 (ATH 아래)', '3':'횡보 시장' };
+  const mEm = { '1':'🚀', '2':'📉', '3':'↔️' };
+  const aNames = { 'A':'뛰어간다(풀베팅)', 'B':'천천히 기어간다(분할)', 'C':'올 때까지 기다린다(현금)' };
+  const aEm = { 'A':'🏃', 'B':'🧎', 'C':'🪑' };
+  stmt.innerHTML = `현재는 <b>${mEm[diag.market]} ${mNames[diag.market]}</b> · 권장: <b>${aEm[diag.action]} ${aNames[diag.action]}</b>`;
+  whyEl.textContent = '근거: ' + diag.why.join(' · ');
+  
+  // Mark recommended
+  document.querySelectorAll('.recommended').forEach(el => el.remove());
+  const m = document.querySelector(`[data-market="${diag.market}"]`);
+  const a = document.querySelector(`[data-action="${diag.action}"]`);
+  [m,a].forEach(el => {
+    if(el){ const tag = document.createElement('span'); tag.className='recommended'; tag.textContent='⭐ 진단'; el.appendChild(tag); }
+  });
+  
+  document.getElementById('applyDiag').onclick = () => {
+    if(m) m.click();
+    if(a) a.click();
+    document.getElementById('result').scrollIntoView({ behavior:'smooth', block:'start' });
+  };
+}
+
+/* =====================================================
+   🎯 Selection state & rendering
+   ===================================================== */
+const sel = { market:null, action:null };
+function bindClicks(attr, key){
+  document.querySelectorAll(`[data-${attr}]`).forEach(el => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll(`[data-${attr}]`).forEach(x => x.classList.remove('active'));
+      el.classList.add('active');
+      sel[key] = el.dataset[attr];
+      renderResult();
+    });
+  });
+}
+bindClicks('market','market');
+bindClicks('action','action');
+
+function renderResult(){
+  if(!sel.market || !sel.action){
+    document.getElementById('comboBadge').textContent = '조합을 선택하세요'; return;
+  }
+  const code = sel.market + sel.action;
+  const s = SCENARIOS[code];
+  const m = sel.market === '1' ? 'ATH 신기록' : sel.market === '2' ? '평균회귀' : '횡보';
+  const a = sel.action === 'A' ? '뛰기' : sel.action === 'B' ? '기어가기' : '기다리기';
+  document.getElementById('comboBadge').textContent = `시나리오 ${code} · ${m} × ${a}`;
+  document.getElementById('title').textContent = s.title;
+  document.getElementById('explain').textContent = s.explain;
+  document.getElementById('verdict').textContent = s.verdictText;
+  document.getElementById('verdict').className = 'verdict v-' + s.verdict;
+  document.getElementById('history').textContent = s.history;
+  document.getElementById('example').textContent = s.example;
+  document.getElementById('risk').textContent = s.risk;
+  document.getElementById('check').textContent = s.check;
+}
+
+/* =====================================================
+   📋 Status & data source table
+   ===================================================== */
+function setStatus(barText, sourceId, ok, ts){
+  const el = document.getElementById(sourceId);
+  if(el){
+    el.className = ok ? 'src-ok' : 'src-err';
+    el.textContent = ok ? '✅ 정상' : '❌ 실패';
+  }
+  const tsEl = document.getElementById(sourceId.replace('src-','ts-'));
+  if(tsEl && ts) tsEl.textContent = ts;
+}
+function renderStatusBar({ yahoo, cnn, fx }){
+  const bar = document.getElementById('statusBar');
+  bar.innerHTML = `
+    <span class="chip"><span class="dot ${yahoo?'dot-ok':'dot-err'}"></span>Yahoo Finance · ${yahoo?'정상':'실패'}</span>
+    <span class="chip"><span class="dot ${cnn?'dot-ok':'dot-warn'}"></span>CNN F&G · ${cnn?'정상':'자체계산'}</span>
+    <span class="chip"><span class="dot ${fx?'dot-ok':'dot-err'}"></span>USD/KRW 환율 · ${fx?'정상':'실패'}</span>
+  `;
+}
+
+/* =====================================================
+   🔄 Render ticker
+   ===================================================== */
+function renderTicker(results){
+  const strip = document.getElementById('strip');
+  strip.innerHTML = '';
+  results.forEach(r => {
+    const div = document.createElement('div');
+    div.className = 'tk' + (r.fx ? ' fx' : '');
+    const cls = r.price == null ? 'flat-c' : (r.change>=0 ? 'up-c' : 'dn-c');
+    const arrow = r.change>=0 ? '▲' : '▼';
+    div.innerHTML = `
+      ${r.price != null ? '<span class="badge-live">LIVE</span>' : ''}
+      <div class="nm"><span>${r.name}</span><span class="sym">${r.sym}</span></div>
+      <div class="pr">${fmt(r.price, r.curr)}</div>
+      <div class="ch ${cls}">${r.price==null?'불러오기 실패':`${arrow} ${fmt(Math.abs(r.change), r.curr)} (${fmtPct(r.pct)})`}</div>
+    `;
+    strip.appendChild(div);
+  });
+  document.getElementById('ts').textContent = `${new Date().toLocaleString('ko-KR')} 기준`;
+}
+
+/* =====================================================
+   📝 Today's brief
+   ===================================================== */
+function generateBrief({ fgScore, fgRating, vix, momentum, quotes }){
+  const parts = [];
+  if(fgScore != null) parts.push(`시장 심리 ${Math.round(fgScore)}점 (${ratingKR(fgRating)})`);
+  if(vix?.value != null){
+    const v = vix.value;
+    const lvl = v < 15 ? '안정' : v > 25 ? '경계' : '보통';
+    parts.push(`VIX ${v.toFixed(1)} ${lvl}`);
+  }
+  const valid = (quotes||[]).filter(q => q.price != null && q.pct != null && !q.fx);
+  if(valid.length){
+    const big = valid.reduce((a,b) => Math.abs(a.pct) > Math.abs(b.pct) ? a : b);
+    parts.push(`${big.name} ${big.pct>=0?'↑':'↓'}${Math.abs(big.pct).toFixed(2)}%`);
+  }
+  const fxQ = (quotes||[]).find(q => q.fx);
+  if(fxQ?.price) parts.push(`USD/KRW ${Math.round(fxQ.price).toLocaleString('ko-KR')}원`);
+  return parts.join(' · ') || '데이터 수집 중…';
+}
+
+/* =====================================================
+   🎯 ATH Tracker rendering (v4)
+   ===================================================== */
+function athTag(dd){
+  // dd = drawdown (음수)
+  if(dd >= -2) return { cls:'tag-ath',        text:'🚀 ATH 신기록' };
+  if(dd >= -5) return { cls:'tag-near',       text:'✨ ATH 근처' };
+  if(dd >= -10)return { cls:'tag-pullback',   text:'📊 조정(Pullback)' };
+  if(dd >= -20)return { cls:'tag-correction', text:'📉 본격 조정' };
+  return                 { cls:'tag-bear',       text:'🐻 약세장' };
+}
+function fmtIdx(n, sym){
+  if(n == null) return '—';
+  if(sym === '^KS11' || sym === '^GSPC' || sym === '^NDX') return n.toLocaleString('ko-KR', {maximumFractionDigits:2});
+  return '$' + n.toFixed(2);
+}
+function renderATHList(statsArr){
+  const list = document.getElementById('athList');
+  list.innerHTML = '';
+  statsArr.forEach(s => {
+    if(!s){
+      const d = document.createElement('div');
+      d.className = 'ath-item';
+      d.innerHTML = `<div class="ah-head"><span class="ah-name">데이터 없음</span></div>`;
+      list.appendChild(d);
+      return;
+    }
+    const tag = athTag(s.drawdown);
+    const ddColor = s.drawdown >= -3 ? 'var(--green)' : s.drawdown >= -10 ? 'var(--gold)' : 'var(--red)';
+    const positionPct = Math.max(0, Math.min(100, s.positionPct));
+    const div = document.createElement('div');
+    div.className = 'ath-item';
+    div.innerHTML = `
+      <div class="ah-head">
+        <span class="ah-name">${s.name} <span class="ah-tag ${tag.cls}">${tag.text}</span></span>
+        <span class="ah-dd" style="color:${ddColor}">${s.drawdown.toFixed(2)}%</span>
+      </div>
+      <div class="ah-meta">
+        <span>현재: <b style="color:var(--text)">${fmtIdx(s.price, s.symbol)}</b></span>
+        <span>1년 ATH: <b style="color:var(--text)">${fmtIdx(s.ath, s.symbol)}</b></span>
+        <span>1년 저점: <b style="color:var(--text)">${fmtIdx(s.atl, s.symbol)}</b></span>
+      </div>
+      <div class="ah-bar">
+        <div class="ah-bar-fill" style="width:${positionPct}%"></div>
+        <div class="ah-mark" style="left:calc(${positionPct}% - 1px)"></div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+/* =====================================================
+   🌐 Benchmark toggle (KOSPI vs S&P 500) — v4
+   ===================================================== */
+let currentBenchmark = (()=>{try{return localStorage.getItem('telescope-bench') || 'KOSPI'}catch(e){return 'KOSPI'}})();
+function setBenchmark(b){
+  currentBenchmark = b;
+  try{ localStorage.setItem('telescope-bench', b); }catch(e){}
+  document.querySelectorAll('.bench-btn').forEach(el => {
+    el.classList.toggle('active', el.dataset.bench === b);
+  });
+  document.getElementById('benchToggleInfo').textContent = `기준: ${b === 'KOSPI' ? '🇰🇷 KOSPI' : '🇺🇸 S&P 500'}`;
+}
+document.querySelectorAll('.bench-btn').forEach(el => {
+  el.addEventListener('click', () => {
+    setBenchmark(el.dataset.bench);
+    if(window._lastLoadData) refreshDiagnosisOnly(window._lastLoadData);
+  });
+});
+setBenchmark(currentBenchmark);
+
+function refreshDiagnosisOnly(data){
+  const diag = diagnoseMarket({
+    fgScore: data.fgData?.score, vix: data.vix,
+    indexStats: data.indexStats, benchmark: currentBenchmark
+  });
+  renderDiagnosis(diag);
+}
+
+/* =====================================================
+   🚀 Main load
+   ===================================================== */
+const nowStr = () => new Date().toLocaleTimeString('ko-KR');
+
+async function loadAll(){
+  document.getElementById('ts').textContent = '갱신 중…';
+  
+  // Parallel fetch (v4: KOSPI stats 추가)
+  const [quotes, fg, vix, spStats, kospiStats, nvdaStats] = await Promise.all([
+    Promise.all(TICKERS.map(fetchQuote)),
+    fetchFearGreed(),
+    fetchVIX(),
+    fetchIndexStats('^GSPC','S&P 500'),
+    fetchIndexStats('^KS11','KOSPI'),
+    fetchIndexStats('NVDA','NVIDIA')
+  ]);
+  const momentum = spStats ? { price:spStats.price, ma125:spStats.ma125, ratio:spStats.ratio } : null;
+  const indexStats = { KOSPI: kospiStats, SP500: spStats, NVDA: nvdaStats };
+  
+  // Render ticker
+  renderTicker(quotes);
+  const yahooOK = quotes.some(q => q.price != null);
+  const fxOK = quotes.find(q => q.fx)?.price != null;
+  setStatus(null, 'src-yahoo', yahooOK, nowStr());
+  
+  // VIX
+  const vixEl = document.getElementById('vixVal');
+  if(vix?.value != null){
+    vixEl.classList.remove('skeleton');
+    vixEl.textContent = vix.value.toFixed(2);
+    setStatus(null, 'src-vix', true, nowStr());
+  } else {
+    vixEl.textContent = '—'; vixEl.classList.remove('skeleton');
+    setStatus(null, 'src-vix', false, nowStr());
+  }
+  
+  // Momentum (v4: S&P drawdown 함께 표시)
+  const momEl = document.getElementById('momVal');
+  if(spStats){
+    momEl.classList.remove('skeleton');
+    const ddPct = spStats.drawdown;
+    const momPct = (spStats.ratio - 1) * 100;
+    momEl.innerHTML = `ATH ${ddPct.toFixed(1)}% <span class="${ddPct>=-3?'up-c':'dn-c'}">${ddPct>=-3?'▲':'▼'}</span>`;
+    momEl.title = `S&P 500: 125일선 대비 ${momPct>=0?'+':''}${momPct.toFixed(2)}%`;
+    setStatus(null, 'src-mom', true, nowStr());
+  } else {
+    momEl.textContent = '—'; momEl.classList.remove('skeleton');
+    setStatus(null, 'src-mom', false, nowStr());
+  }
+  
+  // KOSPI stats status (v4)
+  setStatus(null, 'src-kospi', !!kospiStats, nowStr());
+  
+  // Render ATH tracker list (v4)
+  renderATHList([ kospiStats, spStats, nvdaStats ]);
+  
+  // F&G data: CNN or fallback
+  let fgData = fg;
+  let cnnOK = !!fg;
+  if(!fgData){
+    fgData = computeFGFallback(vix, momentum);
+    setStatus(null, 'src-cnn', false, nowStr());
+    if(fgData){
+      const el = document.getElementById('src-calc');
+      el.className = 'src-ok'; el.textContent = '✅ 작동중';
+      document.getElementById('ts-calc').textContent = nowStr();
+    }
+  } else {
+    setStatus(null, 'src-cnn', true, nowStr());
+    document.getElementById('src-calc').textContent = '대기';
+  }
+  
+  if(fgData){
+    renderGauge(fgData.score, fgData.rating, fgData.source);
+    ['fngPrev','fngWeek','fngMonth','fngYear'].forEach(id => document.getElementById(id).classList.remove('skeleton'));
+    document.getElementById('fngPrev').textContent  = fgData.prev  != null ? Math.round(fgData.prev)  : '—';
+    document.getElementById('fngWeek').textContent  = fgData.week  != null ? Math.round(fgData.week)  : '—';
+    document.getElementById('fngMonth').textContent = fgData.month != null ? Math.round(fgData.month) : '—';
+    document.getElementById('fngYear').textContent  = fgData.year  != null ? Math.round(fgData.year)  : '—';
+  } else {
+    renderGauge(null);
+  }
+  
+  // Status bar
+  renderStatusBar({ yahoo: yahooOK, cnn: cnnOK, fx: fxOK });
+  
+  // Save data for benchmark toggle (v4)
+  window._lastLoadData = { fgData, vix, indexStats };
+  
+  // Diagnosis (v4: 사용자가 선택한 benchmark 사용)
+  renderDiagnosis(diagnoseMarket({
+    fgScore: fgData?.score, vix,
+    indexStats, benchmark: currentBenchmark
+  }));
+  
+  // Brief
+  document.getElementById('briefMsg').textContent = generateBrief({
+    fgScore: fgData?.score, fgRating: fgData?.rating,
+    vix, momentum, quotes
+  });
+}
+
+/* =====================================================
+   ⏰ Init + auto-refresh
+   ===================================================== */
+loadAll();
+document.getElementById('refreshBtn').addEventListener('click', loadAll);
+setInterval(loadAll, CONFIG.refresh.full);
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
   font-size:8px;padding:1px 5px;border-radius:4px;font-weight:800;letter-spacing:.3px}
 
 /* ============ Diagnosis ============ */
