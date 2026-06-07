@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KOSPI 평균회귀 vs 예외구간 의사결정 대시보드</title>
+  <style>
+    :root{
+      --bg:#070b16; --panel:#101827; --panel2:#0d1322; --card:#121c2e; --line:#26354f;
+      --text:#eaf0ff; --muted:#9eabc4; --red:#ff5572; --orange:#ffb84d; --yellow:#ffe66d;
+      --green:#37d99e; --blue:#5ea8ff; --purple:#b88cff; --cyan:#55e7ff; --white:#fff;
+      --shadow:0 24px 70px rgba(0,0,0,.38); --radius:22px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;background:radial-gradient(circle at 15% 0%,rgba(94,168,255,.28),transparent 32%),radial-gradient(circle at 85% 10%,rgba(255,85,114,.20),transparent 34%),linear-gradient(180deg,#070b16 0%,#0b1020 54%,#070b16 100%);color:var(--text);line-height:1.62;}
+    a{color:var(--cyan)} .wrap{max-width:1220px;margin:0 auto;padding:28px 18px 60px}.hero{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.12);border-radius:32px;background:linear-gradient(135deg,rgba(18,28,46,.92),rgba(11,16,32,.82));box-shadow:var(--shadow);padding:32px}.hero:before{content:"";position:absolute;inset:-2px;background:linear-gradient(90deg,transparent,rgba(85,231,255,.11),transparent);pointer-events:none}.topline{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid rgba(255,255,255,.13);border-radius:999px;background:rgba(255,255,255,.06);font-size:13px;color:#dbe6ff}.badge.live:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 8px rgba(55,217,158,.12);animation:pulse 1.7s infinite}@keyframes pulse{50%{box-shadow:0 0 0 13px rgba(55,217,158,0)}}h1{font-size:clamp(30px,5vw,60px);line-height:1.05;margin:10px 0 14px;letter-spacing:-.05em}.lead{max-width:920px;color:#c7d3ea;font-size:18px}.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-top:24px}.verdict{border-radius:24px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);padding:22px}.verdict h2{margin:0 0 8px;font-size:24px}.meter{height:16px;background:#18243a;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.09);margin:14px 0}.meter>i{display:block;height:100%;width:78%;background:linear-gradient(90deg,var(--green),var(--yellow),var(--orange),var(--red));border-radius:999px}.decision-big{font-weight:900;font-size:34px;color:var(--orange);letter-spacing:-.04em}.mini{font-size:13px;color:var(--muted)}.nav{position:sticky;top:0;z-index:10;backdrop-filter:blur(14px);background:rgba(7,11,22,.78);border-bottom:1px solid rgba(255,255,255,.08)}.nav-inner{max-width:1220px;margin:0 auto;padding:10px 18px;display:flex;gap:8px;overflow:auto}.nav a{white-space:nowrap;text-decoration:none;color:#d7e2f7;padding:9px 12px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);font-size:14px}.section{margin-top:24px;border:1px solid rgba(255,255,255,.10);border-radius:28px;background:rgba(13,19,34,.82);box-shadow:0 16px 40px rgba(0,0,0,.22);padding:26px}.section h2{margin:0 0 8px;font-size:28px;letter-spacing:-.03em}.section p{color:#c6d2e7}.grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.card{border:1px solid rgba(255,255,255,.10);background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));border-radius:22px;padding:18px;position:relative;overflow:hidden}.card h3{margin:0 0 8px;font-size:18px}.num{font-size:30px;font-weight:900;letter-spacing:-.04em}.red{color:var(--red)}.orange{color:var(--orange)}.yellow{color:var(--yellow)}.green{color:var(--green)}.blue{color:var(--blue)}.purple{color:var(--purple)}.label{display:inline-block;font-size:12px;font-weight:800;border-radius:999px;padding:4px 9px;margin-bottom:10px}.dynamic{background:rgba(55,217,158,.12);color:var(--green);border:1px solid rgba(55,217,158,.28)}.static{background:rgba(94,168,255,.12);color:var(--blue);border:1px solid rgba(94,168,255,.28)}.scenario-label{background:rgba(255,184,77,.13);color:var(--orange);border:1px solid rgba(255,184,77,.30)}table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:18px;font-size:14px}th,td{padding:13px 12px;border-bottom:1px solid rgba(255,255,255,.09);vertical-align:top}th{text-align:left;color:#e9f0ff;background:rgba(255,255,255,.07)}td{color:#c8d4e9}tr:hover td{background:rgba(255,255,255,.035)}.pill{display:inline-block;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:800}.pill.red{background:rgba(255,85,114,.14)}.pill.green{background:rgba(55,217,158,.14)}.pill.orange{background:rgba(255,184,77,.16)}.pill.blue{background:rgba(94,168,255,.14)}.controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}.control{border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:12px;background:rgba(255,255,255,.045)}.control label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}.control input{width:100%;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:#0b1220;color:var(--text);padding:10px;font-size:15px}.chartbox{height:320px;border-radius:24px;background:linear-gradient(180deg,rgba(94,168,255,.07),rgba(255,85,114,.05));border:1px solid rgba(255,255,255,.10);padding:16px}.legend{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0;color:var(--muted);font-size:13px}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px}.timeline{position:relative;height:300px;margin-top:16px;border:1px solid rgba(255,255,255,.10);border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));overflow:hidden}.axis{position:absolute;left:46px;right:22px;height:1px;background:rgba(255,255,255,.12)}.axis.a1{top:50px}.axis.a2{top:110px}.axis.a3{top:170px}.axis.a4{top:230px}.path{position:absolute;left:56px;right:34px;top:32px;height:230px}.path svg{width:100%;height:100%;overflow:visible}.ylabels{position:absolute;left:12px;top:36px;color:var(--muted);font-size:12px;display:grid;gap:37px}.scenario-card{min-height:245px}.allocation{display:grid;grid-template-columns:1fr 1.1fr;gap:18px}.donut{width:240px;height:240px;border-radius:50%;margin:16px auto;background:conic-gradient(var(--green) 0 45%, var(--blue) 45% 65%, var(--orange) 65% 85%, var(--purple) 85% 95%, #26354f 95% 100%);position:relative}.donut:after{content:"방어형\A 균형안";white-space:pre;display:grid;place-items:center;text-align:center;position:absolute;inset:54px;border-radius:50%;background:#0d1322;color:#eaf0ff;font-weight:900}.note{border-left:4px solid var(--cyan);background:rgba(85,231,255,.075);padding:14px 16px;border-radius:14px;color:#d3edff}.warning{border-left:4px solid var(--red);background:rgba(255,85,114,.095);padding:14px 16px;border-radius:14px;color:#ffe0e6}.footer{margin-top:24px;color:var(--muted);font-size:13px}.copybox{margin-top:18px;border:1px dashed rgba(255,255,255,.25);border-radius:18px;padding:14px;background:rgba(255,255,255,.04)}button.copy{cursor:pointer;border:0;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--purple));color:white;padding:10px 14px;font-weight:900}.small{font-size:12px;color:var(--muted)}@media(max-width:900px){.hero-grid,.g2,.g3,.g4,.allocation,.controls{grid-template-columns:1fr}.section{padding:20px}.hero{padding:24px}.num{font-size:26px}.chartbox{height:280px}}
+  </style>
+</head>
+<body>
+  <div class="nav"><div class="nav-inner"><a href="#summary">요약</a><a href="#compare">의견 비교</a><a href="#live">동적 계산</a><a href="#history">정적 역사</a><a href="#scenario">정적 예상 시나리오</a><a href="#allocation">1억 운용안</a><a href="#rules">실전 규칙</a></div></div>
+  <main class="wrap">
+    <header class="hero" id="summary">
+      <div class="topline"><span class="badge live">동적 표시: 현재 시각·입력값 계산</span><span class="badge">정적 고정: 역사 사례·시나리오</span><span class="badge">참고 앱: stock-insights Replit</span></div>
+      <h1>KOSPI는 평균회귀 구간인가, 예외 구간인가?</h1>
+      <p class="lead">이 HTML은 제공하신 Replit 앱의 구조를 참고하되, **동적 실시간 표시**와 **정적 역사·예상 시나리오**를 분리했습니다. 결론은 단순합니다. 코스피는 강세장일 수 있지만, 삼성전자·SK하이닉스 쏠림과 200일선 고이격 때문에 **몰빵 매수도, 인버스 몰빵도 피하고, 소액 참여와 현금·분할매수로 대응**하는 편이 더 합리적입니다.</p>
+      <div class="hero-grid">
+        <div class="verdict">
+          <span class="label dynamic">동적 표시</span>
+          <h2>현재 판단</h2>
+          <div class="decision-big" id="verdictText">과열 강세장 · 방어적 참여</div>
+          <div class="meter"><i id="riskbar"></i></div>
+          <p id="riskExplain">현재 입력 기준 위험도는 높습니다. 다만 평균회귀가 반드시 폭락으로만 오지는 않고, 횡보 중 200일선이 따라 올라오는 방식도 가능합니다.</p>
+        </div>
+        <div class="verdict">
+          <span class="label static">정적 고정 요약</span>
+          <h2>내 의견 vs 앱/텍스트</h2>
+          <p><b>유사도: 75~85%.</b> 둘 다 과열·쏠림·몰빵 금지에는 동의합니다. 차이는 앱/텍스트가 한국 ETF 0%에 가깝고, 제 의견은 1억 중 1,000만~2,000만 원 정도의 소액 참여를 허용한다는 점입니다.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="section" id="compare">
+      <span class="label static">정적 고정 비교</span>
+      <h2>Replit 앱·첨부 텍스트·내 의견 차이</h2>
+      <p>제공하신 앱은 매우 보수적입니다. 현재 코스피의 극단 이격을 역사적 위험으로 보고, 한국 ETF 신규매수를 중단하거나 0%에 가깝게 두며, 미국 ETF DCA와 현금 비중을 강조합니다. 제 의견은 그 위험 판단에는 대체로 동의하지만, AI 반도체 실적 사이클이 예외를 만들 수 있으므로 한국을 완전히 배제하지는 않습니다.</p>
+      <table>
+        <thead><tr><th>항목</th><th>Replit 앱·텍스트</th><th>내 의견</th><th>판정</th></tr></thead>
+        <tbody>
+          <tr><td>코스피 상태</td><td>200일·200주선 극단 이격, 평균회귀 위험 70~80%</td><td>과열 부담 큼. 다만 예외 가능성도 열어둠</td><td><span class="pill green">많이 비슷</span></td></tr>
+          <tr><td>삼성전자·SK하이닉스 쏠림</td><td>닷컴버블식 집중 위험</td><td>건강한 상승으로 단정 불가</td><td><span class="pill green">거의 같음</span></td></tr>
+          <tr><td>한국 ETF 현재 매수</td><td>0% 또는 이격 정상화까지 대기</td><td>1억 중 1,000만~2,000만 원 소액 참여 가능</td><td><span class="pill orange">핵심 차이</span></td></tr>
+          <tr><td>인버스·숏</td><td>비추천</td><td>초보자에게 강하게 비추천</td><td><span class="pill green">같음</span></td></tr>
+          <tr><td>전략 중심</td><td>현금 50% 이상, 미국 ETF DCA</td><td>현금+미국 ETF+한국 하락구간별 분할</td><td><span class="pill blue">조금 다름</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="live">
+      <span class="label dynamic">동적 실시간 표시: 사용자가 숫자를 바꾸면 즉시 재계산</span>
+      <h2>200일선 이격도 계산기</h2>
+      <p>아래 숫자는 브라우저에서 직접 바꿀 수 있습니다. 실제 시세 API를 붙이지 않은 단일 HTML이므로, 현재 시각은 동적으로 갱신되지만 지수 데이터는 사용자가 입력한 값 기준으로 계산됩니다.</p>
+      <div class="controls">
+        <div class="control"><label>코스피 현재 지수</label><input id="kospi" type="number" value="8160.59" step="0.01"></div>
+        <div class="control"><label>코스피 200일선</label><input id="ma200" type="number" value="4888.01" step="0.01"></div>
+        <div class="control"><label>삼성전자 이격도 %</label><input id="samsungGap" type="number" value="119.05" step="0.01"></div>
+        <div class="control"><label>SK하이닉스 이격도 %</label><input id="hynixGap" type="number" value="155.90" step="0.01"></div>
+      </div>
+      <div class="grid g4" style="margin-top:16px">
+        <div class="card"><h3>현재 이격도</h3><div class="num red" id="gapOut">+66.95%</div><p class="small">현재가가 200일선보다 얼마나 위/아래인지</p></div>
+        <div class="card"><h3>-10% 조정</h3><div class="num yellow" id="d10">7,344</div><p class="small">약한 평균회귀 후보</p></div>
+        <div class="card"><h3>-20% 조정</h3><div class="num orange" id="d20">6,528</div><p class="small">보통 평균회귀 후보</p></div>
+        <div class="card"><h3>200일선 회귀</h3><div class="num blue" id="toMa">4,888</div><p class="small">완전한 기술적 평균회귀 후보</p></div>
+      </div>
+      <div class="chartbox" style="margin-top:16px"><canvas id="barCanvas" width="1100" height="320"></canvas></div>
+      <p class="note">**동적**이라고 표시된 영역은 사용자가 숫자를 바꾸면 바로 변합니다. 반면 아래 역사 사례와 시나리오는 과거 데이터와 가정에 기반한 **정적 고정 정보**입니다.</p>
+    </section>
+
+    <section class="section" id="history">
+      <span class="label static">정적 고정 역사</span>
+      <h2>고이격 이후 역사적 패턴</h2>
+      <p>평균회귀의 핵심은 “가격이 반드시 폭락한다”가 아니라 “너무 멀어진 가격과 평균선의 간격이 줄어들 가능성이 커진다”입니다. 간격이 줄어드는 방식은 가격 하락, 횡보, 또는 평균선 상승 세 가지가 모두 가능합니다.</p>
+      <table>
+        <thead><tr><th>구간</th><th>과열 이격</th><th>사후 흐름</th><th>교훈</th></tr></thead>
+        <tbody>
+          <tr><td>1999 코스피 닷컴버블</td><td>+70%대</td><td>1~3년 내 큰 조정</td><td>소수 성장주 쏠림은 기대가 꺾이면 빠르게 평균회귀</td></tr>
+          <tr><td>2007 글로벌 금융위기 전</td><td>+30%대</td><td>금융위기와 함께 대폭 하락</td><td>이격 자체보다 외부 충격이 결합될 때 낙폭 확대</td></tr>
+          <tr><td>2021 코로나 유동성 장세</td><td>+30%대 후반</td><td>금리상승·유동성 회수로 하락</td><td>유동성 장세는 금리 환경 변화에 취약</td></tr>
+          <tr><td>1990 대만</td><td>극단 과열</td><td>급락 후 장기 회복</td><td>반도체·수출국 랠리도 밸류 과열 시 위험</td></tr>
+          <tr><td>1989 일본</td><td>자산버블</td><td>장기 침체</td><td>국가 전체 버블은 평균회귀가 수십 년 걸릴 수 있음</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="scenario">
+      <span class="label scenario-label">정적 고정 예상 시나리오</span>
+      <h2>KOSPI 3가지 경로: 맞히기보다 대비하기</h2>
+      <div class="timeline">
+        <div class="ylabels"><span>10,000</span><span>8,000</span><span>6,000</span><span>4,000</span><span>2,000</span></div>
+        <div class="axis a1"></div><div class="axis a2"></div><div class="axis a3"></div><div class="axis a4"></div>
+        <div class="path"><svg viewBox="0 0 1000 230" preserveAspectRatio="none"><path d="M0,60 C180,85 310,120 440,150 C610,188 790,175 1000,178" fill="none" stroke="#ff5572" stroke-width="8" stroke-linecap="round"/><path d="M0,60 C170,70 330,80 520,83 C700,86 850,75 1000,72" fill="none" stroke="#ffe66d" stroke-width="8" stroke-linecap="round"/><path d="M0,60 C130,38 250,26 390,18 C590,8 740,20 1000,38" fill="none" stroke="#37d99e" stroke-width="8" stroke-linecap="round"/></svg></div>
+      </div>
+      <div class="legend"><span><i class="dot" style="background:#ff5572"></i>A: 가격조정 평균회귀</span><span><i class="dot" style="background:#ffe66d"></i>B: 기간조정 횡보</span><span><i class="dot" style="background:#37d99e"></i>C: 예외적 추가상승</span></div>
+      <div class="grid g3">
+        <div class="card scenario-card"><h3 class="red">A. 평균회귀 가격조정</h3><div class="num red">45~50%</div><p>목표 지수는 6,500~5,500, 극단적으로는 4,900 전후까지 열어둡니다. 핵심 리스크는 쏠림 붕괴와 AI 기대 후퇴입니다.</p></div>
+        <div class="card scenario-card"><h3 class="yellow">B. 기간조정 횡보</h3><div class="num yellow">30~35%</div><p>주가는 7,000~8,500 박스권에서 쉬고, 200일선이 올라오며 이격이 줄어드는 시나리오입니다. 폭락 없이 평균회귀가 일어납니다.</p></div>
+        <div class="card scenario-card"><h3 class="green">C. 평균회귀 예외</h3><div class="num green">15~25%</div><p>AI 반도체 실적이 실제로 폭발하며 코스피가 9,000~10,000을 향하는 시나리오입니다. 단, 늦은 추격매수자는 이후 변동성에 취약합니다.</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="allocation">
+      <span class="label static">정적 고정 제안: 1억 예시</span>
+      <h2>1억 원 운용 예시: 몰빵 대신 생존 구조</h2>
+      <div class="allocation">
+        <div class="card"><div class="donut"></div><p class="small" style="text-align:center">예시 비중: 현금 45%, 미국 ETF 20%, 한국 ETF 20%, 금·달러 10%, 예비 5%</p></div>
+        <div>
+          <table>
+            <thead><tr><th>구분</th><th>금액 예시</th><th>역할</th></tr></thead>
+            <tbody>
+              <tr><td>현금·예금·MMF</td><td>4,000만~5,000만 원</td><td>코스피 7,300·6,500·5,800 하락 대응 탄약</td></tr>
+              <tr><td>미국 S&P500·나스닥 ETF</td><td>2,000만~3,000만 원</td><td>한국 반도체 쏠림 완화</td></tr>
+              <tr><td>한국 코스피 ETF</td><td>1,000만~2,000만 원</td><td>상승 지속 시 소외 방지. 단, 몰빵 금지</td></tr>
+              <tr><td>금·달러·단기채</td><td>500만~1,000만 원</td><td>환율·위기 방어</td></tr>
+              <tr><td>예비자금</td><td>500만 원 이상</td><td>판단 실수와 생활 리스크 방어</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="warning">이 표는 개인 맞춤 투자자문이 아니라 의사결정 프레임입니다. 사용자의 연령, 소득 안정성, 손실 감내력, 투자기간에 따라 비중은 크게 달라져야 합니다.</p>
+    </section>
+
+    <section class="section" id="rules">
+      <span class="label static">정적 고정 실전 규칙</span>
+      <h2>왕초보용 행동 규칙</h2>
+      <table>
+        <thead><tr><th>상황</th><th>하지 말 것</th><th>할 만한 것</th></tr></thead>
+        <tbody>
+          <tr><td>코스피가 8,000 위에서 계속 상승</td><td>FOMO 몰빵, 레버리지</td><td>기존 소액만 보유, 신규매수 속도 축소</td></tr>
+          <tr><td>7,300 부근 조정</td><td>공포 매도</td><td>1차 분할매수 검토</td></tr>
+          <tr><td>6,500 부근 조정</td><td>뉴스 보고 전액 매도</td><td>실적 전망 유지 시 2차 분할매수</td></tr>
+          <tr><td>5,800 이하 급락</td><td>인버스 뒤늦은 추격</td><td>현금으로 천천히 추가매수, 업황 재점검</td></tr>
+          <tr><td>삼성·SK 실적 하향</td><td>“언젠가 회복” 맹신</td><td>예외 시나리오 폐기, 방어비중 확대</td></tr>
+        </tbody>
+      </table>
+      <p class="note">최종 결론은 “한국 증시를 무조건 피하라”가 아니라, **한국 쏠림 위험을 인정하되 작은 금액으로 참여하고, 큰 돈은 조정 구간에 나눠 쓰라**입니다.</p>
+    </section>
+
+    <section class="section">
+      <h2>복사용 안내</h2>
+      <p>이 파일은 외부 라이브러리 없이 작동하는 단일 HTML입니다. 그대로 저장해 브라우저에서 열 수 있습니다. 실제 시세 API를 붙이면 완전한 실시간 대시보드로 확장할 수 있습니다.</p>
+      <div class="copybox"><button class="copy" onclick="navigator.clipboard.writeText(document.documentElement.outerHTML);this.textContent='복사 완료';">현재 HTML 전체 코드 복사</button><p class="small">브라우저 보안정책에 따라 로컬 파일에서는 복사 버튼이 제한될 수 있습니다. 그 경우 첨부된 HTML 파일을 텍스트 편집기로 열어 복사하세요.</p></div>
+    </section>
+
+    <div class="footer">
+      <p>면책: 본 자료는 투자 권유가 아니라 교육용·정보 제공용 시각화입니다. 역사적 패턴은 미래 수익률을 보장하지 않습니다. Replit 앱에서 언급된 Yahoo Finance 기반 수치와 사용자가 제공한 텍스트, 그리고 앞선 대화에서의 제 분석 의견을 종합해 만든 정적·동적 혼합 HTML입니다.</p>
+      <p>작성: Manus AI · 동적 시각: <span id="clock"></span></p>
+    </div>
+  </main>
+  <script>
+    const $=id=>document.getElementById(id);
+    function fmt(n){return Number(n).toLocaleString('ko-KR',{maximumFractionDigits:0});}
+    function pct(n){return (n>=0?'+':'')+n.toFixed(2)+'%';}
+    function update(){
+      const k=+$('kospi').value||0, ma=+$('ma200').value||1, sg=+$('samsungGap').value||0, hg=+$('hynixGap').value||0;
+      const gap=(k/ma-1)*100; $('gapOut').textContent=pct(gap); $('d10').textContent=fmt(k*.9); $('d20').textContent=fmt(k*.8); $('toMa').textContent=fmt(ma);
+      const score=Math.min(100, Math.max(0, gap*0.85 + Math.max(sg,hg)*0.18)); $('riskbar').style.width=score+'%';
+      let verdict='정상 강세장', color='var(--green)', explain='이격도가 높지 않아 추세 참여와 분할매수를 병행할 수 있습니다.';
+      if(gap>=60){verdict='극단 과열 · 평균회귀 경계'; color='var(--red)'; explain='현재가가 200일선에서 매우 멀어졌습니다. 숏보다 위험한 것은 몰빵이며, 현금과 분할매수가 핵심입니다.';}
+      else if(gap>=30){verdict='과열 강세장 · 방어적 참여'; color='var(--orange)'; explain='추세는 강하지만 신규 진입 가격 부담이 큽니다. 소액 참여와 조정 대기가 균형적입니다.';}
+      else if(gap>=10){verdict='강세장 정상권 · 분할 가능'; color='var(--yellow)'; explain='200일선 위 강세장입니다. 다만 업종 쏠림과 실적 확인이 필요합니다.';}
+      else if(gap<0){verdict='약세·조정권 · 리스크 점검'; color='var(--blue)'; explain='200일선 아래에서는 강세장 가정이 약해집니다. 분할매수는 더 천천히 접근해야 합니다.';}
+      $('verdictText').textContent=verdict; $('verdictText').style.color=color; $('riskExplain').textContent=explain;
+      drawBar(gap, sg, hg);
+    }
+    function drawBar(gap, sg, hg){
+      const c=$('barCanvas'), ctx=c.getContext('2d'), w=c.width, h=c.height; ctx.clearRect(0,0,w,h);
+      ctx.fillStyle='rgba(255,255,255,.04)'; ctx.fillRect(0,0,w,h);
+      const data=[['KOSPI',gap,'#ff5572'],['삼성전자',sg,'#5ea8ff'],['SK하이닉스',hg,'#b88cff'],['위험 기준 +20',20,'#ffe66d'],['극단 기준 +60',60,'#ffb84d']];
+      ctx.font='22px Noto Sans KR, Arial'; ctx.fillStyle='#eaf0ff'; ctx.fillText('200일선 이격도 비교',34,42);
+      const max=Math.max(180,...data.map(d=>Math.abs(d[1]))); const base=190; ctx.strokeStyle='rgba(255,255,255,.2)'; ctx.beginPath(); ctx.moveTo(250,70); ctx.lineTo(250,h-30); ctx.stroke();
+      data.forEach((d,i)=>{const y=78+i*45; ctx.fillStyle='#c8d4e9'; ctx.font='17px Noto Sans KR, Arial'; ctx.fillText(d[0],34,y+20); const len=Math.max(2,Math.abs(d[1])/max*(w-330)); ctx.fillStyle=d[2]; ctx.fillRect(250,y,len,28); ctx.fillStyle='#fff'; ctx.font='bold 17px Arial'; ctx.fillText(pct(d[1]),260+len,y+20);});
+    }
+    function tick(){ $('clock').textContent=new Date().toLocaleString('ko-KR'); }
+    ['kospi','ma200','samsungGap','hynixGap'].forEach(id=>$(id).addEventListener('input',update));
+    setInterval(tick,1000); tick(); update();
+  </script>
+</body>
+</html>
