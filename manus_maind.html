@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>20% 축소 일반 글씨 통합 메뉴: 결핍 마인드와 풍족 마인드</title>
+  <style>
+
+    :root {
+      --bg: #f2f2f2;
+      --panel: #f2f2f2;
+      --text-main: #242424;
+      --text-soft: #3a3a3a;
+      --accent: #0f4c81;
+      --danger: #9b1c1c;
+      --success: #176b35;
+      --line: rgba(0, 0, 0, 0.14);
+      --highlight: rgba(0, 0, 0, 0.06);
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
+      line-height: 1.78;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    body {
+      padding: 24px;
+      font-size: 14.4px;
+      font-weight: 400;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      background: var(--panel);
+    }
+
+    h1 {
+      font-size: 24.8px;
+      line-height: 1.35;
+      margin: 0 0 32px;
+      font-weight: 600;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    h2 {
+      font-size: 20px;
+      line-height: 1.45;
+      margin: 48px 0 22px;
+      font-weight: 600;
+      border-bottom: 3px solid var(--line);
+      padding-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    h3 {
+      font-size: 17.6px;
+      line-height: 1.5;
+      margin: 34px 0 14px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+    }
+
+    p {
+      margin: 17px 0;
+      font-size: 15.2px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    strong {
+      font-weight: 500;
+      color: #111111;
+    }
+
+    .big {
+      font-size: 17.6px;
+      font-weight: 600;
+      line-height: 1.65;
+    }
+
+    .quote {
+      margin: 22px 0;
+      padding: 14px 18px;
+      border-left: 6px solid var(--accent);
+      background: var(--highlight);
+      font-size: 16.8px;
+      font-weight: 600;
+      line-height: 1.7;
+    }
+
+    .danger { color: var(--danger); font-weight: 500; }
+    .success { color: var(--success); font-weight: 500; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 22px 0;
+      background: transparent;
+      font-size: 13.6px;
+      font-weight: 400;
+    }
+
+    th, td {
+      border: 2px solid var(--line);
+      padding: 14px 12px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      font-size: 14.4px;
+      font-weight: 600;
+      color: #111111;
+      background: rgba(0, 0, 0, 0.06);
+    }
+
+    ul, ol { padding-left: 28px; margin: 18px 0; }
+    li { margin: 10px 0; font-size: 15.2px; font-weight: 400; }
+
+    .box {
+      margin: 28px 0;
+      padding: 24px;
+      border: 3px solid var(--line);
+      border-radius: 18px;
+      background: transparent;
+    }
+
+    .small-note {
+      font-size: 12.8px;
+      color: var(--text-soft);
+      font-weight: 400;
+    }
+
+    .qa-card {
+      margin: 34px 0;
+      padding: 24px;
+      border-radius: 20px;
+      border: 3px solid var(--line);
+      background: transparent;
+    }
+
+    .question-label, .answer-label {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 5px 10px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.07);
+      font-size: 13.6px;
+      font-weight: 600;
+    }
+
+    .question {
+      font-size: 16.8px;
+      line-height: 1.65;
+      font-weight: 600;
+      margin: 8px 0 24px;
+    }
+
+    .answer {
+      font-size: 15.2px;
+      line-height: 1.82;
+      font-weight: 400;
+      margin: 12px 0;
+    }
+
+    .menu {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 14px 0 22px;
+      margin-bottom: 20px;
+      background: var(--bg);
+      border-bottom: 3px solid var(--line);
+    }
+
+    .menu button {
+      appearance: none;
+      border: 3px solid var(--line);
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.06);
+      color: var(--text-main);
+      padding: 10px 14px;
+      font-size: 14.4px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .menu button.active {
+      background: var(--text-main);
+      color: #ffffff;
+      border-color: var(--text-main);
+    }
+
+    .section-view { display: none; }
+    .section-view.active { display: block; }
+
+    @media (max-width: 640px) {
+      body { padding: 18px 15px; font-size: 15px; font-weight: 400; }
+      h1 { font-size: 22px; line-height: 1.42; margin-bottom: 24px; font-weight: 600; }
+      h2 { font-size: 19px; line-height: 1.48; margin: 34px 0 16px; font-weight: 600; }
+      h3 { font-size: 17px; line-height: 1.55; margin: 26px 0 12px; font-weight: 600; }
+      p, li { font-size: 15px; line-height: 1.9; font-weight: 400; }
+      .big, .quote { font-size: 16px; line-height: 1.82; font-weight: 400; }
+      .question { font-size: 16px; line-height: 1.75; font-weight: 500; }
+      .answer { font-size: 15px; line-height: 1.9; font-weight: 400; }
+      .question-label, .answer-label { font-size: 13px; font-weight: 500; }
+      table { font-size: 12px; line-height: 1.7; font-weight: 400; }
+      th { font-size: 13px; font-weight: 500; }
+      th, td { padding: 10px 8px; }
+      .menu { gap: 10px; padding: 10px 0 16px; }
+      .menu button { font-size: 15px; line-height: 1.45; padding: 10px 12px; flex: 1 1 100%; font-weight: 500; }
+      .box, .qa-card { padding: 18px; border-radius: 16px; }
+    }
+
+  </style>
+</head>
+<body>
+  <main class="wrap">
+
+<nav class="menu">
+  <button class="active" data-target="part1" onclick="showSection('part1')">1차 제목: 결핍·풍족 마인드 기본 정리</button>
+  <button data-target="part2" onclick="showSection('part2')">2차 제목: 나의 질문과 너의 답</button>
+</nav>
+<section id="part1" class="section-view active">
+<h1>결핍 마인드와 풍족 마인드<br />꾸준함, 성공확률, 주식 투자자의 마음가짐</h1>
+
+    <p class="big"><strong>핵심 결론은 이것입니다.</strong><br />성공확률을 높이는 마음은 <span class="success">풍족 마인드</span>입니다. 그러나 풍족 마인드는 “다 잘될 거야”라고 말만 하는 마음이 아닙니다. 풍족 마인드는 <strong>부족함을 인정하면서도, 내가 가진 것과 가능한 행동을 보고, 작게라도 계속 움직이는 마음</strong>입니다.</p>
+
+    <div class="quote">풍족 마인드는 “나는 완벽하니까 안 해도 된다”가 아닙니다.<br />풍족 마인드는 <strong>“나는 부족한 점도 있지만, 그래도 오늘 다시 작게 시작할 수 있다”</strong>입니다.</div>
+
+    <h2>1. 결핍 마인드는 무엇인가</h2>
+
+    <p><strong>결핍 마인드</strong>는 부족함을 보는 마음입니다. 부족함을 보는 것 자체가 나쁜 것은 아닙니다. 문제는 그 부족함 때문에 자기 자신을 공격하고, 불안과 조급함에 끌려가는 것입니다.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>흐름</th>
+          <th>마음속 말</th>
+          <th>결과</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="danger">불안</span></td>
+          <td>“이대로 살면 큰일 난다.”</td>
+          <td>마음이 급해진다.</td>
+        </tr>
+        <tr>
+          <td><span class="danger">무리</span></td>
+          <td>“오늘부터 완전히 바꿔야 해.”</td>
+          <td>처음부터 너무 크게 시작한다.</td>
+        </tr>
+        <tr>
+          <td><span class="danger">자책</span></td>
+          <td>“또 못 했네. 나는 왜 이럴까.”</td>
+          <td>자신감이 줄어든다.</td>
+        </tr>
+        <tr>
+          <td><span class="danger">포기</span></td>
+          <td>“역시 나는 안 되는 사람인가 봐.”</td>
+          <td>작심삼일이 되기 쉽다.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>결핍 마인드 사람에게도 <strong>게으른 낙관</strong>이 있을 수 있습니다. 예를 들어 “언젠가는 크게 성공할 거야”라고 말하면서 실제 행동은 하지 않는 경우입니다. 하지만 결핍 마인드에서 더 흔한 패턴은 <strong>불안하게 무리하다가 지쳐서 포기하는 흐름</strong>입니다.</p>
+
+    <h2>2. 풍족 마인드는 무엇인가</h2>
+
+    <p><strong>풍족 마인드</strong>는 모든 것이 완벽하게 충족된 절대만족 상태가 아닙니다. 돈, 건강, 습관, 인간관계, 일에서 부족함이 있어도 풍족 마인드를 가질 수 있습니다.</p>
+
+    <div class="quote">풍족 마인드는 <strong>부족한 것도 보지만, 이미 가진 것도 함께 보는 마음</strong>입니다. 그래서 부족함을 핑계로 무너지지 않고, 가진 것을 바탕으로 움직입니다.</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>결핍 마인드</th>
+          <th>풍족 마인드</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>현재의 나</td>
+          <td>“나는 부족해서 가치가 없다.”</td>
+          <td>“부족한 점도 있지만 가진 것도 있다.”</td>
+        </tr>
+        <tr>
+          <td>목표</td>
+          <td>증명하려고 세운다.</td>
+          <td>삶을 더 좋게 만들려고 세운다.</td>
+        </tr>
+        <tr>
+          <td>실패</td>
+          <td>“역시 나는 안 돼.”</td>
+          <td>“방법을 바꾸고 다시 하자.”</td>
+        </tr>
+        <tr>
+          <td>행동</td>
+          <td>무리하거나 포기한다.</td>
+          <td>작게라도 계속한다.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3. 게으른 낙관과 진짜 풍족 마인드의 차이</h2>
+
+    <p><strong>게으른 낙관</strong>은 “잘될 거야”라고 생각만 하고 실제 행동은 하지 않는 마음입니다. 겉으로는 긍정적으로 보이지만, 실제로는 삶을 바꾸는 힘이 약합니다.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>말</th>
+          <th>행동</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>게으른 낙관</td>
+          <td>“잘될 거야.”</td>
+          <td>하지만 오늘 아무것도 하지 않는다.</td>
+        </tr>
+        <tr>
+          <td>진짜 풍족 마인드</td>
+          <td>“잘될 수 있어.”</td>
+          <td>그래서 오늘 1개라도 한다.</td>
+        </tr>
+        <tr>
+          <td>결핍 마인드</td>
+          <td>“안 하면 망해.”</td>
+          <td>무리하다가 지치거나 포기한다.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="quote">진짜 풍족 마인드는 <strong>행동이 붙은 긍정</strong>입니다. 말만 긍정이면 게으른 낙관이고, 작게라도 행동하면 풍족 마인드입니다.</div>
+
+    <h2>4. 왜 작은 행동이 중요한가</h2>
+
+    <p>큰 행동을 계속할 수 있다면 큰 결과를 얻을 가능성이 큽니다. 그러나 중요한 조건이 있습니다. 그것은 <strong>계속할 수 있어야 한다</strong>는 점입니다.</p>
+
+    <p>책을 싫어하는 사람이 갑자기 “매일 책 2시간”을 목표로 잡으면 며칠은 가능할 수 있습니다. 하지만 부담이 너무 커서 작심삼일이 되기 쉽습니다. 반대로 “하루 1쪽”은 작아 보이지만 성공 확률이 높습니다.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>방식</th>
+          <th>장점</th>
+          <th>위험</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>큰 행동부터 시작</td>
+          <td>성공하면 결과가 크다.</td>
+          <td>지쳐서 포기할 확률이 높다.</td>
+        </tr>
+        <tr>
+          <td>작은 행동 반복</td>
+          <td>시작이 쉽고 계속할 확률이 높다.</td>
+          <td>처음에는 결과가 작아 보인다.</td>
+        </tr>
+        <tr>
+          <td>작게 시작해서 키우기</td>
+          <td>지속성과 성장 둘 다 얻을 수 있다.</td>
+          <td>조급함을 참아야 한다.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>5. 책 보기 싫고 방정리 싫은 사람의 한 달 계획</h2>
+
+    <p>책도 보기 싫고 방정리도 하기 싫은 사람에게 첫 목표는 완벽한 변화가 아닙니다. 첫 목표는 <strong>거부감을 줄이고, 작은 성공 경험을 쌓는 것</strong>입니다.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>기간</th>
+          <th>책</th>
+          <th>방정리</th>
+          <th>핵심 마음</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1주차</td>
+          <td>하루 1쪽</td>
+          <td>하루 3분 또는 쓰레기 3개 버리기</td>
+          <td>“너무 작아도 성공이다.”</td>
+        </tr>
+        <tr>
+          <td>2주차</td>
+          <td>하루 2~3쪽</td>
+          <td>하루 5분</td>
+          <td>“조금 늘려도 된다.”</td>
+        </tr>
+        <tr>
+          <td>3주차</td>
+          <td>하루 5쪽</td>
+          <td>하루 10분</td>
+          <td>“내가 변하고 있다.”</td>
+        </tr>
+        <tr>
+          <td>4주차</td>
+          <td>하루 10쪽</td>
+          <td>하루 15분</td>
+          <td>“이제 습관의 씨앗이 생겼다.”</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>풍족 마인드 시나리오</h3>
+
+    <p>풍족 마인드 사람은 이렇게 말합니다. <strong>“방이 지저분하긴 하다. 하지만 나는 오늘 쓰레기 3개는 버릴 수 있다.”</strong> 또 책이 싫을 때도 이렇게 말합니다. <strong>“책 읽는 습관은 부족하지만, 하루 1쪽은 시작할 수 있다.”</strong></p>
+
+    <p>하루 실패해도 자신을 버리지 않습니다. <strong>“오늘 못 했네. 내일 다시 작게 하자.”</strong> 이것이 풍족 마인드의 힘입니다. 풍족 마인드는 마음이 편해서 노는 것이 아니라, 마음이 덜 흔들리기 때문에 다시 움직일 수 있는 상태입니다.</p>
+
+    <h3>결핍 마인드 시나리오</h3>
+
+    <p>결핍 마인드 사람은 이렇게 시작하기 쉽습니다. <strong>“나는 왜 이렇게 게으르지? 오늘부터 책 1시간 보고 방도 완전히 치워야 해.”</strong> 처음에는 강하게 움직일 수 있습니다. 하지만 하루 실패하면 자책이 커집니다.</p>
+
+    <p><strong>“역시 나는 안 돼.”</strong> 이 말이 반복되면 행동보다 포기가 쉬워집니다. 그래서 결핍 마인드는 초반 추진력은 있을 수 있지만, 장기 지속력은 약해질 수 있습니다.</p>
+
+    <h2>6. 주식 투자에서의 마음가짐</h2>
+
+    <p>주식 투자에서는 보통 <strong>풍족 마인드 투자자가 더 좋은 성적을 낼 가능성이 큽니다.</strong> 주식은 지식도 중요하지만, 마음 관리가 매우 중요하기 때문입니다.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>구분</th>
+          <th>결핍 마인드 투자자</th>
+          <th>풍족 마인드 투자자</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>중심 감정</td>
+          <td>불안, 조급함, 비교</td>
+          <td>안정, 인내, 기준</td>
+        </tr>
+        <tr>
+          <td>매수</td>
+          <td>급하게 따라 산다.</td>
+          <td>기준에 맞을 때 산다.</td>
+        </tr>
+        <tr>
+          <td>하락</td>
+          <td>공포매도하거나 복수매매한다.</td>
+          <td>이유를 점검하고 손실을 관리한다.</td>
+        </tr>
+        <tr>
+          <td>남의 수익</td>
+          <td>“나만 뒤처졌다.”</td>
+          <td>“내 원칙을 지키자.”</td>
+        </tr>
+        <tr>
+          <td>장기 성적</td>
+          <td>크게 잃을 위험이 커진다.</td>
+          <td>오래 살아남을 가능성이 커진다.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="quote">주식에서 중요한 것은 빨리 부자가 되는 것보다 <strong>오래 살아남는 것</strong>입니다. 풍족 마인드 투자자는 기회가 또 온다는 것을 알기 때문에 조급하게 몰빵하지 않습니다.</div>
+
+    <p>하지만 주의해야 합니다. “언젠가 오르겠지” 하고 공부도 하지 않고 손실관리도 하지 않는 것은 풍족 마인드가 아닙니다. 그것은 <strong>게으른 낙관</strong>입니다.</p>
+
+    <h2>7. 삶에 적용하는 최종 공식</h2>
+
+    <div class="box">
+      <p class="big"><strong>성공확률을 높이는 공식</strong></p>
+      <p class="big"><span class="success">풍족 마인드</span> + <strong>작은 행동 반복</strong> + <strong>조금씩 키우기</strong> + <strong>실패해도 다시 시작하기</strong> = <span class="success">꾸준히 성공할 확률 상승</span></p>
+    </div>
+
+    <h2>8. 매일 읽으면 좋은 문장</h2>
+
+    <ul>
+      <li><strong>나는 부족한 점도 있지만, 이미 가진 것도 있다.</strong></li>
+      <li><strong>나는 완벽하지 않아도 오늘 작게 시작할 수 있다.</strong></li>
+      <li><strong>하루 실패는 인생 실패가 아니다.</strong></li>
+      <li><strong>작은 행동은 작아 보여도, 반복되면 내 삶의 방향을 바꾼다.</strong></li>
+      <li><strong>나는 나를 채찍질하지 않고, 나를 데리고 간다.</strong></li>
+      <li><strong>투자에서도 인생에서도, 오래 살아남는 사람이 결국 기회를 잡는다.</strong></li>
+    </ul>
+
+    <div class="quote">최종 한 문장입니다.<br /><strong>풍족 마인드는 더 바랄 게 없는 절대만족이 아니라, 부족함 속에서도 가진 것을 보고 다시 움직이는 힘입니다.</strong></div>
+
+    <p class="small-note">※ 이 HTML은 배경을 투명하게 설정했습니다. 웹페이지, 노션 임베드, 이미지 캡처, 개인 메모용 화면 등에 활용할 수 있습니다.</p>
+</section>
+<section id="part2" class="section-view">
+
+<h1>2차 대화 정리<br />나의 질문과 너의 답</h1>
+
+<p class="big"><strong>핵심 결론은 이것입니다.</strong><br />풍족 마인드는 현실을 피하는 마음이 아닙니다. 부족함과 가능성을 동시에 보고, 오늘 할 수 있는 작은 행동으로 성공확률을 높이는 마음입니다. 반대로 결핍 마인드는 부족함에 눌려 무리하거나 포기하기 쉽고, 게으른 낙관은 현실을 덜 보고 편한 희망에 기대기 쉽습니다.</p>
+
+<div class="quote">게으른 낙관은 <strong>“괜찮아, 잘될 거야”에서 멈추는 마음</strong>이고, 풍족 마인드는 <strong>“괜찮아, 그러니까 오늘 1개 하자”로 움직이는 마음</strong>입니다.</div>
+
+<section class="qa-card">
+  <div class="question-label">나의 질문 1</div>
+  <p class="question">주식투자에서 <strong>소탐대실</strong>, <strong>대탐소실</strong>, <strong>대탐대실</strong>은 결핍 마인드와 풍족 마인드 중 어디에 가까운가?</p>
+  <div class="answer-label">너의 답</div>
+  <p class="answer"><strong>소탐대실</strong>은 작은 이익을 탐하다가 큰 손실을 보는 것이므로 결핍 마인드에 가깝습니다. 작은 이익에 집착하고 손실을 인정하지 못하면 큰 손실로 번지기 쉽습니다.</p>
+  <p class="answer"><strong>대탐대실</strong>도 결핍 마인드에 가깝습니다. 큰돈을 벌려고 몰빵하거나, 레버리지를 쓰거나, 급등주를 따라가며 “이번 한 번에 인생을 바꿔야 한다”고 생각하면 큰 이익을 노리다가 큰 손실을 볼 위험이 커집니다.</p>
+  <p class="answer"><strong>대탐소실</strong>은 다릅니다. 큰 기회를 보되, 틀렸을 때 작은 손실로 끝내는 것입니다. 이것은 풍족 마인드 투자자에게 더 가깝습니다. 이유는 기회는 크게 열어두지만, 자기 판단이 틀릴 수 있음을 인정하고 손실을 작게 제한하기 때문입니다.</p>
+  <table>
+    <thead><tr><th>표현</th><th>뜻</th><th>가까운 마음</th></tr></thead>
+    <tbody>
+      <tr><td><strong>소탐대실</strong></td><td>작은 이익을 탐하다가 큰 손실을 봄</td><td><span class="danger">결핍 마인드</span></td></tr>
+      <tr><td><strong>대탐대실</strong></td><td>큰 이익을 무리하게 노리다가 큰 손실을 봄</td><td><span class="danger">결핍 마인드</span></td></tr>
+      <tr><td><strong>대탐소실</strong></td><td>큰 이익을 노리되 틀리면 작은 손실로 끝냄</td><td><span class="success">풍족 마인드</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="qa-card">
+  <div class="question-label">나의 질문 2</div>
+  <p class="question">게으른 낙관은 결핍 마인드와 풍족 마인드 중 어디에서 더 많이 생길 확률이 높은가?</p>
+  <div class="answer-label">너의 답</div>
+  <p class="answer">확률적으로는 <strong>결핍 마인드 쪽에서 게으른 낙관이 더 많이 생길 가능성</strong>이 큽니다. 겉으로는 “괜찮아, 언젠가 잘될 거야”라고 말하지만, 속으로는 현실을 확인하는 것이 무섭기 때문에 피하는 경우가 많기 때문입니다.</p>
+  <p class="answer">예를 들어 주식 손실을 보고 공부하지 않으면서 “언젠가 오르겠지”라고만 말한다면 이것은 풍족 마인드가 아닙니다. 현실 확인을 피하는 <strong>게으른 낙관</strong>입니다.</p>
+  <p class="answer">반대로 진짜 풍족 마인드는 “내가 틀렸을 수도 있다. 그래도 다시 점검하고 작은 행동을 하자”라고 움직입니다. 그래서 진짜 풍족 마인드는 게으른 낙관으로 갈 확률이 더 낮습니다.</p>
+  <table>
+    <thead><tr><th>구분</th><th>마음속 말</th><th>결과</th></tr></thead>
+    <tbody>
+      <tr><td>게으른 낙관</td><td>“괜찮아, 잘될 거야.”</td><td>현실 확인과 행동이 없음</td></tr>
+      <tr><td>결핍 마인드</td><td>“현실을 보면 너무 아프다.”</td><td>회피성 낙관으로 도망칠 수 있음</td></tr>
+      <tr><td>진짜 풍족 마인드</td><td>“부족하지만 할 수 있는 것도 있다.”</td><td>현실을 보고 작게 행동함</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="qa-card">
+  <div class="question-label">나의 질문 3</div>
+  <p class="question">결핍 마인드와 풍족 마인드 중 확률적으로 누가 더 게으를까?</p>
+  <div class="answer-label">너의 답</div>
+  <p class="answer">확률적으로는 <strong>결핍 마인드 사람이 더 게을러질 가능성</strong>이 큽니다. 결핍 마인드가 처음부터 게으르다는 뜻은 아닙니다. 오히려 처음에는 “빨리 바뀌어야 한다”고 강하게 움직일 수 있습니다.</p>
+  <p class="answer">하지만 결핍 마인드는 불안, 부담, 완벽주의, 자책이 커지기 쉽습니다. 그래서 시간이 지나면 시작 자체가 무서워지고, 결국 “나중에 하자”로 미루거나 포기할 수 있습니다.</p>
+  <p class="answer">풍족 마인드는 “완벽하지 않아도 된다. 오늘 1개만 하자”라고 생각하기 때문에 시작 장벽이 낮습니다. 그래서 게으름으로 갈 확률이 상대적으로 낮습니다.</p>
+  <div class="quote">결핍 마인드는 <strong>“해야 하는데 무서워서 미루게”</strong> 만들고, 풍족 마인드는 <strong>“작아도 괜찮으니 시작하게”</strong> 만듭니다.</div>
+</section>
+
+<section class="qa-card">
+  <div class="question-label">나의 질문 4</div>
+  <p class="question">게으른 낙관과 안 게으른 낙관의 차이는 무엇인가?</p>
+  <div class="answer-label">너의 답</div>
+  <p class="answer"><strong>게으른 낙관</strong>은 좋은 결과를 바라지만, 좋은 결과가 나올 행동은 하지 않는 마음입니다. 말은 긍정적이지만 현실 확인과 행동이 없습니다.</p>
+  <p class="answer"><strong>안 게으른 낙관</strong>은 잘될 가능성을 믿으면서도 현실을 보고 오늘 할 행동을 합니다. 긍정에 행동이 붙어 있습니다.</p>
+  <table>
+    <thead><tr><th>구분</th><th>현실 보기</th><th>행동</th></tr></thead>
+    <tbody>
+      <tr><td>게으른 낙관</td><td>현실을 덜 봄</td><td>미룸 또는 안 함</td></tr>
+      <tr><td>안 게으른 낙관</td><td>현실을 봄</td><td>작게라도 함</td></tr>
+      <tr><td>풍족 마인드</td><td>부족과 만족을 함께 봄</td><td>작게 움직임</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="qa-card">
+  <div class="question-label">나의 질문 5</div>
+  <p class="question">풍족 마인드는 만족과 부족을 함께 인정한다고 했는데, 게으른 낙관은 무엇을 인정하는가?</p>
+  <div class="answer-label">너의 답</div>
+  <p class="answer">게으른 낙관은 확률상 <strong>결핍과 부족은 제대로 인정하지 않고, 풍족과 만족 쪽만 편하게 보고 싶어 하는 마음</strong>에 가깝습니다.</p>
+  <p class="answer">즉, “부족한 문제는 보기 싫고, 잘될 가능성만 보고 싶다”는 흐름입니다. 그래서 게으른 낙관은 진짜 풍족 마인드와 다릅니다.</p>
+  <p class="answer">진짜 풍족 마인드는 부족도 인정하고 만족도 인정합니다. 그리고 그 다음에 행동합니다. 하지만 게으른 낙관은 편한 희망만 보고 행동하지 않습니다.</p>
+  <div class="quote">게으른 낙관은 <strong>현실을 덜 보고 편한 희망에 기대는 마음</strong>이고, 풍족 마인드는 <strong>현실과 희망을 둘 다 보고 작게 움직이는 마음</strong>입니다.</div>
+</section>
+
+<section class="qa-card">
+  <div class="question-label">나의 질문 6</div>
+  <p class="question">그렇다면 결핍 마인드는 어떤 마음인가?</p>
+  <div class="answer-label">너의 답</div>
+  <p class="answer"><strong>결핍 마인드</strong>는 현실의 부족함만 크게 보고, 희망과 가능성은 작게 보는 마음입니다. 현실을 아예 안 보는 것은 아닙니다. 오히려 부족한 현실을 너무 크게 봅니다.</p>
+  <p class="answer">그래서 결핍 마인드는 “큰일 났어, 나는 부족해”라는 생각에 눌리기 쉽습니다. 이 마음은 사람을 잠깐 움직이게 할 수 있지만, 오래 지속되면 무리하거나 포기하게 만들 수 있습니다.</p>
+  <table>
+    <thead><tr><th>마음</th><th>현실</th><th>희망</th><th>행동</th></tr></thead>
+    <tbody>
+      <tr><td>게으른 낙관</td><td>덜 봄</td><td>편하게 봄</td><td>안 함</td></tr>
+      <tr><td>결핍 마인드</td><td>부족만 크게 봄</td><td>작게 봄</td><td>무리하거나 포기함</td></tr>
+      <tr><td>풍족 마인드</td><td>부족도 봄</td><td>가능성도 봄</td><td>작게 움직임</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="qa-card">
+  <div class="question-label">나의 질문 7</div>
+  <p class="question">풍족 마인드는 왜 작게 움직이는가? 크게 움직이면 더 큰 결과가 나오는 것 아닌가?</p>
+  <div class="answer-label">너의 답</div>
+  <p class="answer">풍족 마인드가 작게 움직인다는 말은 <strong>평생 작게만 하라는 뜻이 아닙니다.</strong> 처음에는 작게 시작해서 계속할 수 있게 만들고, 나중에 크게 키운다는 뜻입니다.</p>
+  <p class="answer">큰 행동을 오래 계속할 수 있다면 큰 결과를 얻을 수 있습니다. 하지만 초보자에게 큰 행동은 부담이 큽니다. 부담이 크면 시작을 미루거나 작심삼일이 되기 쉽습니다.</p>
+  <p class="answer">그래서 풍족 마인드는 작은 불씨를 살리듯이 시작합니다. 처음에는 작아도 계속하면 커집니다.</p>
+  <p class="answer">반대로 결핍 마인드는 보통 두 방향으로 갑니다. 하나는 너무 크게 시작해서 지치는 것이고, 다른 하나는 부담이 너무 커서 아예 안 움직이는 것입니다.</p>
+  <div class="quote">풍족 마인드는 <strong>작게 시작해서 크게 키우고</strong>, 결핍 마인드는 <strong>크게 시작하다가 지치거나 부담 때문에 아예 미룹니다.</strong></div>
+</section>
+
+<section class="qa-card">
+  <div class="question-label">나의 질문 8</div>
+  <p class="question">“첫 목표는 크게 성공하는 것이 아니라, 포기하지 않는 구조를 만드는 것”은 무슨 뜻인가?</p>
+  <div class="answer-label">너의 답</div>
+  <p class="answer">이 말은 처음부터 큰 결과를 내려고 하지 말고, <strong>계속할 수 있는 환경과 방법을 먼저 만들라</strong>는 뜻입니다.</p>
+  <p class="answer">구조는 의지만 믿는 것이 아닙니다. 내가 덜 힘들게 계속하게 만드는 장치입니다. 예를 들어 책을 침대 옆에 두고, 운동화를 문 앞에 두고, 주식 매수 전에는 이유 3줄을 적는 식입니다.</p>
+  <p class="answer">왕초보에게 중요한 순서는 큰 성공이 먼저가 아닙니다. 작은 반복을 만들고, 포기하지 않는 구조를 만들고, 그 다음 결과를 키우는 것입니다.</p>
+  <table>
+    <thead><tr><th>상황</th><th>나쁜 목표</th><th>좋은 구조</th></tr></thead>
+    <tbody>
+      <tr><td>책 읽기</td><td>이번 달 책 5권</td><td>매일 책 1쪽</td></tr>
+      <tr><td>방정리</td><td>오늘 완벽하게 치우기</td><td>쓰레기 3개 버리기</td></tr>
+      <tr><td>운동</td><td>한 달 안에 몸짱</td><td>운동복 입고 5분 걷기</td></tr>
+      <tr><td>주식</td><td>이번 달 큰돈 벌기</td><td>매수 전 이유 3줄 적기</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<h2>최종 한 문장</h2>
+<div class="quote">결핍 마인드는 부족함에 눌리고, 게으른 낙관은 현실을 피하며, 풍족 마인드는 부족함과 가능성을 함께 보고 오늘 할 수 있는 작은 행동으로 성공확률을 높입니다.</div>
+
+</section>
+
+  </main>
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.section-view').forEach(function(el) {
+        el.classList.remove('active');
+      });
+      document.querySelectorAll('.menu button').forEach(function(btn) {
+        btn.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+      document.querySelector('[data-target="' + id + '"]').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
+
