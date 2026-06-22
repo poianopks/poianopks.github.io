@@ -3,22 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚡ ATH 생존전략 — KOSPI 9,052</title>
+<title>⚡ ATH 생존전략 — KOSPI 실시간</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #f8fafc; color: #1e293b; line-height: 1.6; }
   .wrap { max-width: 900px; margin: 0 auto; padding: 24px 16px 60px; }
   .space-y > * + * { margin-top: 24px; }
 
+  /* 실시간 상태바 */
+  .live-bar { background: #0f172a; color: #fff; border-radius: 10px; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; display: inline-block; margin-right: 6px; animation: pulse 1.5s infinite; }
+  .live-dot.offline { background: #f87171; animation: none; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .live-price { font-size: 18px; font-weight: 900; color: #fb923c; }
+  .live-chg { font-size: 13px; font-weight: 700; margin-left: 8px; }
+  .live-chg.up { color: #4ade80; } .live-chg.down { color: #f87171; }
+  .live-time { font-size: 11px; color: #94a3b8; }
+  .btn-refresh { background: #1e293b; border: 1px solid #334155; color: #94a3b8; border-radius: 6px; padding: 4px 10px; font-size: 11px; cursor: pointer; }
+  .btn-refresh:hover { color: #fff; border-color: #64748b; }
+
   /* 배너 */
   .banner { background: linear-gradient(135deg, #450a0a, #7f1d1d, #78350f); border: 1px solid #ef4444; border-radius: 16px; padding: 24px; color: #fff; }
+  .banner-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
   .banner h1 { font-size: 20px; font-weight: 900; margin-bottom: 4px; }
-  .banner p { font-size: 13px; color: #fca5a5; }
-  .banner-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 16px; }
+  .banner p { font-size: 13px; color: #fca5a5; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .badge-live { display: inline-flex; align-items: center; gap: 4px; background: rgba(74,222,128,.2); border: 1px solid #4ade80; border-radius: 999px; padding: 2px 8px; font-size: 11px; font-weight: 700; color: #4ade80; }
+  .banner-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
   @media(min-width:600px){ .banner-grid { grid-template-columns: repeat(4,1fr); } }
-  .banner-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; }
+  .banner-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; backdrop-filter: blur(4px); }
   .banner-card .lbl { font-size: 11px; color: #fca5a5; margin-bottom: 4px; }
-  .banner-card .val { font-size: 18px; font-weight: 900; }
+  .banner-card .val { font-size: 20px; font-weight: 900; }
   .banner-card .sub { font-size: 11px; color: #fca5a5; margin-top: 2px; }
   .oc { color: #fdba74; } .rc { color: #f87171; } .yc { color: #fde047; } .ac { color: #fbbf24; }
 
@@ -33,566 +47,477 @@
   .card.blue { border-color: #bfdbfe; background: #eff6ff; }
   .card.purple { border-color: #ddd6fe; background: #faf5ff; }
 
-  /* 팩트 그리드 */
+  /* 팩트 */
   .fact-grid { display: grid; gap: 20px; }
   @media(min-width:600px){ .fact-grid { grid-template-columns: 1fr 1fr; } }
-  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
-  .ol { color: #ea580c; } .bl { color: #2563eb; }
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .sl-live { display: inline-flex; align-items: center; gap: 3px; font-size: 10px; color: #10b981; font-weight: 700; }
   .row { display: flex; justify-content: space-between; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid #f1f5f9; gap: 12px; }
   .row:last-child { border: none; }
   .row .lbl { font-size: 13px; color: #64748b; flex-shrink: 0; }
-  .row .val { font-size: 13px; font-weight: 700; text-align: right; }
-  .row .sub { font-size: 11px; color: #94a3b8; text-align: right; }
+  .row .rval { text-align: right; }
+  .row .rval .v { font-size: 13px; font-weight: 700; }
+  .row .rval .s { font-size: 11px; color: #94a3b8; }
   .tc-orange { color: #ea580c; } .tc-red { color: #dc2626; }
   .factor-item { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-bottom: 1px solid #f1f5f9; }
   .factor-item:last-child { border: none; }
   .factor-item span { font-size: 13px; color: #475569; }
 
-  /* 숏 불리 6가지 */
+  /* 숏 불리 */
   .grid2 { display: grid; gap: 12px; }
   @media(min-width:600px){ .grid2 { grid-template-columns: 1fr 1fr; } }
   .why-card { background: #fff; border: 1px solid #fecaca; border-radius: 12px; padding: 14px; }
   .why-card .top { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
   .why-card .num { font-size: 18px; font-weight: 900; color: #f87171; }
-  .why-card .title { font-size: 13px; font-weight: 700; flex: 1; }
+  .why-card .ttl { font-size: 13px; font-weight: 700; flex: 1; }
   .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
-  .b-red { background: #fee2e2; color: #b91c1c; }
-  .b-orange { background: #ffedd5; color: #c2410c; }
-  .b-purple { background: #ede9fe; color: #6d28d9; }
-  .b-blue { background: #dbeafe; color: #1d4ed8; }
-  .b-yellow { background: #fef9c3; color: #a16207; }
-  .b-green { background: #d1fae5; color: #065f46; }
+  .b-red{background:#fee2e2;color:#b91c1c} .b-orange{background:#ffedd5;color:#c2410c}
+  .b-purple{background:#ede9fe;color:#6d28d9} .b-blue{background:#dbeafe;color:#1d4ed8}
+  .b-yellow{background:#fef9c3;color:#a16207} .b-green{background:#d1fae5;color:#065f46}
   .why-card p { font-size: 12px; color: #64748b; line-height: 1.6; }
 
-  /* 선택지 비교 */
+  /* 선택지 */
   .grid3 { display: grid; gap: 14px; }
-  @media(min-width:700px){ .grid3 { grid-template-columns: repeat(3, 1fr); } }
-  .choice-card { border-radius: 12px; border: 1px solid; padding: 14px; }
-  .cc-red { border-color: #fca5a5; background: #fff5f5; }
-  .cc-amber { border-color: #fcd34d; background: #fffbeb; }
-  .cc-green { border-color: #6ee7b7; background: #f0fdf4; }
-  .choice-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-  .choice-head .icon { font-size: 22px; }
-  .choice-head .name { font-size: 13px; font-weight: 700; }
+  @media(min-width:700px){ .grid3 { grid-template-columns: repeat(3,1fr); } }
+  .cc { border-radius: 12px; border: 1px solid; padding: 14px; }
+  .cc-red{border-color:#fca5a5;background:#fff5f5} .cc-amber{border-color:#fcd34d;background:#fffbeb} .cc-green{border-color:#6ee7b7;background:#f0fdf4}
+  .cc-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .cc-icon { font-size: 22px; } .cc-name { font-size: 13px; font-weight: 700; }
   .verdict { font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid; font-weight: 700; display: inline-block; margin-top: 2px; }
-  .v-red { background: #fee2e2; color: #b91c1c; border-color: #fca5a5; }
-  .v-amber { background: #fef3c7; color: #92400e; border-color: #fcd34d; }
-  .v-green { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
-  .pros-cons-title { font-size: 11px; font-weight: 600; margin: 8px 0 4px; }
-  .pros-title { color: #059669; } .cons-title { color: #dc2626; }
-  .item-row { display: flex; gap: 4px; font-size: 11px; color: #64748b; margin: 2px 0; }
-  .check-g { color: #10b981; } .check-r { color: #ef4444; }
-  .summary-box { background: rgba(255,255,255,0.7); border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px; font-size: 11px; color: #64748b; margin-top: 10px; }
+  .v-red{background:#fee2e2;color:#b91c1c;border-color:#fca5a5}
+  .v-amber{background:#fef3c7;color:#92400e;border-color:#fcd34d}
+  .v-green{background:#d1fae5;color:#065f46;border-color:#6ee7b7}
+  .pt{font-size:11px;font-weight:600;margin:8px 0 4px} .pt-g{color:#059669} .pt-r{color:#dc2626}
+  .it { display: flex; gap: 4px; font-size: 11px; color: #64748b; margin: 2px 0; }
+  .cg{color:#10b981} .cr{color:#ef4444}
+  .sumbox { background: rgba(255,255,255,.7); border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px; font-size: 11px; color: #64748b; margin-top: 10px; }
 
   /* 구조 설계 */
   .grid3s { display: grid; gap: 10px; }
   @media(min-width:600px){ .grid3s { grid-template-columns: repeat(3,1fr); } }
-  .alloc-box { border-radius: 10px; border: 1px solid; padding: 12px; }
-  .ab-blue { background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8; }
-  .ab-green { background: #f0fdf4; border-color: #bbf7d0; color: #065f46; }
-  .ab-red { background: #fff5f5; border-color: #fecaca; color: #dc2626; }
-  .alloc-box .lbl { font-size: 11px; margin-bottom: 4px; }
-  .alloc-box .pct { font-size: 26px; font-weight: 900; }
-  .alloc-box .amt { font-size: 13px; font-weight: 700; }
-  .alloc-box .desc { font-size: 11px; opacity: .7; margin-top: 4px; }
+  .ab { border-radius: 10px; border: 1px solid; padding: 12px; }
+  .ab-blue{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+  .ab-green{background:#f0fdf4;border-color:#bbf7d0;color:#065f46}
+  .ab-red{background:#fff5f5;border-color:#fecaca;color:#dc2626}
+  .ab .lbl{font-size:11px;margin-bottom:4px} .ab .pct{font-size:26px;font-weight:900}
+  .ab .amt{font-size:13px;font-weight:700} .ab .desc{font-size:11px;opacity:.7;margin-top:4px}
   .grid2s { display: grid; gap: 12px; margin-top: 12px; }
   @media(min-width:600px){ .grid2s { grid-template-columns: 1fr 1fr; } }
-  .scenario-box { background: rgba(255,255,255,0.8); border: 1px solid; border-radius: 10px; padding: 14px; }
-  .sb-blue { border-color: #bfdbfe; }
-  .sb-orange { border-color: #fed7aa; }
+  .sc-box { background: rgba(255,255,255,.8); border: 1px solid; border-radius: 10px; padding: 14px; }
+  .sc-box.blue{border-color:#bfdbfe} .sc-box.orange{border-color:#fed7aa}
   .sc-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
-  .blue-t { color: #1d4ed8; } .orange-t { color: #c2410c; }
+  .sc-title.blue-t{color:#1d4ed8} .sc-title.orange-t{color:#c2410c}
   .sc-row { display: flex; align-items: center; gap: 6px; font-size: 12px; margin: 4px 0; }
-  .sc-row .lbl { font-weight: 600; flex: 1; }
-  .sc-row .sub { color: #64748b; }
-  .principle-box { background: linear-gradient(90deg, #064e3b, #1e3a5f); border-radius: 10px; padding: 14px; color: #fff; margin-top: 12px; }
-  .principle-box .title { font-weight: 900; font-size: 13px; margin-bottom: 6px; }
-  .principle-box p { font-size: 13px; color: #a7f3d0; line-height: 1.7; }
-  .hl-red { color: #fca5a5; font-weight: 700; }
-  .hl-yellow { color: #fde047; font-weight: 700; }
+  .sc-row .slbl{font-weight:600;flex:1} .sc-row .ssub{color:#64748b}
+  .principle { background: linear-gradient(90deg,#064e3b,#1e3a5f); border-radius: 10px; padding: 14px; color: #fff; margin-top: 12px; }
+  .principle .ptitle{font-weight:900;font-size:13px;margin-bottom:6px}
+  .principle p{font-size:13px;color:#a7f3d0;line-height:1.7}
+  .hl-red{color:#fca5a5;font-weight:700} .hl-yellow{color:#fde047;font-weight:700}
 
-  /* 분할매수 플랜 표 */
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; padding: 8px 12px 8px 0; font-size: 11px; font-weight: 600; color: #64748b; border-bottom: 2px solid #e2e8f0; }
-  td { padding: 10px 12px 10px 0; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
-  tr:last-child td { border: none; }
-  tr:hover td { background: #f8fafc; }
-  .pct-orange { color: #ea580c; font-weight: 700; }
-  .pct-yellow { color: #ca8a04; font-weight: 700; }
-  .pct-amber { color: #d97706; font-weight: 700; }
-  .pct-red { color: #dc2626; font-weight: 700; }
-  .pct-red2 { color: #b91c1c; font-weight: 700; }
-  .note-box { background: #f8fafc; border-radius: 8px; padding: 10px 12px; font-size: 11px; color: #64748b; margin-top: 10px; }
+  /* 표 */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;padding:8px 12px 8px 0;font-size:11px;font-weight:600;color:#64748b;border-bottom:2px solid #e2e8f0}
+  td{padding:10px 12px 10px 0;border-bottom:1px solid #f1f5f9;vertical-align:top}
+  tr:last-child td{border:none} tr:hover td{background:#f8fafc}
+  .notebox{background:#f8fafc;border-radius:8px;padding:10px 12px;font-size:11px;color:#64748b;margin-top:10px}
 
-  /* 자금규모 비교 */
-  .amt-table th { color: #2563eb; }
-  .amt-table th:last-child { color: #059669; }
-  .blue-val { color: #1d4ed8; font-weight: 700; }
-  .green-val { color: #065f46; font-weight: 700; }
-  .plan-grid { display: grid; gap: 12px; margin-top: 14px; }
-  @media(min-width:600px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
-  .plan-box { border-radius: 10px; border: 1px solid; padding: 14px; }
-  .plan-blue { background: #eff6ff; border-color: #bfdbfe; }
-  .plan-green { background: #f0fdf4; border-color: #bbf7d0; }
-  .plan-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
-  .plan-blue .plan-title { color: #1d4ed8; }
-  .plan-green .plan-title { color: #065f46; }
-  .plan-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 12px; }
-  .plan-row:last-child { border: none; }
-  .plan-row .lbl { color: #64748b; }
-  .dark-box { background: #1e293b; border-radius: 10px; padding: 14px; color: #fff; font-size: 13px; line-height: 1.7; margin-top: 12px; }
-  .dark-box strong { color: #6ee7b7; }
+  /* 자금규모 */
+  .plan-grid{display:grid;gap:12px;margin-top:14px}
+  @media(min-width:600px){.plan-grid{grid-template-columns:1fr 1fr}}
+  .plan-box{border-radius:10px;border:1px solid;padding:14px}
+  .plan-blue{background:#eff6ff;border-color:#bfdbfe} .plan-green{background:#f0fdf4;border-color:#bbf7d0}
+  .plan-title{font-size:13px;font-weight:700;margin-bottom:10px}
+  .plan-blue .plan-title{color:#1d4ed8} .plan-green .plan-title{color:#065f46}
+  .plan-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:12px}
+  .plan-row:last-child{border:none} .plan-row .lbl{color:#64748b}
+  .dark-box{background:#1e293b;border-radius:10px;padding:14px;color:#fff;font-size:13px;line-height:1.7;margin-top:12px}
+  .dark-box strong{color:#6ee7b7}
 
-  /* 반도체 사이클 */
-  .world-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
-  @media(min-width:600px){ .world-grid { grid-template-columns: repeat(4,1fr); } }
-  .world-card { border-radius: 10px; border: 1px solid; padding: 12px; text-align: center; }
-  .wc-red { background: #fff5f5; border-color: #fca5a5; color: #dc2626; }
-  .wc-blue { background: #eff6ff; border-color: #bfdbfe; color: #2563eb; }
-  .wc-green { background: #f0fdf4; border-color: #bbf7d0; color: #059669; }
-  .wc-gray { background: #f8fafc; border-color: #e2e8f0; color: #475569; }
-  .world-card .badge2 { font-size: 11px; margin-bottom: 4px; }
-  .world-card .val { font-size: 17px; font-weight: 900; }
-  .world-card .sub { font-size: 11px; margin-top: 2px; opacity: .7; }
-  .semi-note { background: #fff; border-radius: 8px; padding: 10px 12px; font-size: 12px; color: #64748b; border: 1px solid #e2e8f0; margin-top: 10px; line-height: 1.7; }
-  .char-row { display: flex; gap: 8px; padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
-  .char-row:last-child { border: none; }
-  .char-row .icon { font-size: 15px; flex-shrink: 0; }
-  .char-row .ctitle { font-size: 12px; font-weight: 700; }
-  .char-row .cdesc { font-size: 12px; color: #64748b; }
-  .timing-row { display: flex; gap: 6px; padding: 7px 0; border-bottom: 1px solid #f1f5f9; font-size: 12px; }
-  .timing-row:last-child { border: none; }
-  .timing-row .step { font-weight: 900; color: #f97316; flex-shrink: 0; }
-  .timing-row .txt { color: #64748b; }
+  /* 반도체 */
+  .world-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  @media(min-width:600px){.world-grid{grid-template-columns:repeat(4,1fr)}}
+  .wc{border-radius:10px;border:1px solid;padding:12px;text-align:center}
+  .wc-red{background:#fff5f5;border-color:#fca5a5;color:#dc2626}
+  .wc-blue{background:#eff6ff;border-color:#bfdbfe;color:#2563eb}
+  .wc-green{background:#f0fdf4;border-color:#bbf7d0;color:#059669}
+  .wc-gray{background:#f8fafc;border-color:#e2e8f0;color:#475569}
+  .wc .b2{font-size:11px;margin-bottom:4px} .wc .wval{font-size:17px;font-weight:900} .wc .wsub{font-size:11px;margin-top:2px;opacity:.7}
+  .semi-note{background:#fff;border-radius:8px;padding:10px 12px;font-size:12px;color:#64748b;border:1px solid #e2e8f0;margin-top:10px;line-height:1.7}
+  .char-row{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9}
+  .char-row:last-child{border:none}
+  .char-row .ci{font-size:15px;flex-shrink:0} .char-row .ct{font-size:12px;font-weight:700} .char-row .cd{font-size:12px;color:#64748b}
+  .tr-row{display:flex;gap:6px;padding:7px 0;border-bottom:1px solid #f1f5f9;font-size:12px}
+  .tr-row:last-child{border:none} .tr-row .step{font-weight:900;color:#f97316;flex-shrink:0} .tr-row .txt{color:#64748b}
 
-  /* 시스코 비교 */
-  .cisco-table th { color: #2563eb; }
-  .cisco-table th:last-child { color: #059669; }
-  .cisco-grid { display: grid; gap: 10px; margin-top: 12px; }
-  @media(min-width:600px){ .cisco-grid { grid-template-columns: 1fr 1fr; } }
-  .cisco-box { border-radius: 10px; border: 1px solid; padding: 12px; }
-  .cisco-red { background: #fff5f5; border-color: #fecaca; }
-  .cisco-amber { background: #fffbeb; border-color: #fcd34d; }
-  .cisco-box .btitle { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
-  .cisco-red .btitle { color: #b91c1c; }
-  .cisco-amber .btitle { color: #92400e; }
-  .cisco-box p { font-size: 12px; color: #64748b; line-height: 1.7; }
+  /* 시스코 */
+  .cisco-grid{display:grid;gap:10px;margin-top:12px}
+  @media(min-width:600px){.cisco-grid{grid-template-columns:1fr 1fr}}
+  .cisco-box{border-radius:10px;border:1px solid;padding:12px}
+  .cisco-red{background:#fff5f5;border-color:#fecaca} .cisco-amber{background:#fffbeb;border-color:#fcd34d}
+  .cisco-box .bt{font-size:12px;font-weight:700;margin-bottom:6px}
+  .cisco-red .bt{color:#b91c1c} .cisco-amber .bt{color:#92400e}
+  .cisco-box p{font-size:12px;color:#64748b;line-height:1.7}
 
   /* Q&A */
-  .qa-item { border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin-bottom: 8px; }
-  .qa-q { display: flex; gap: 10px; padding: 14px 16px; background: #fff; cursor: pointer; align-items: flex-start; }
-  .qa-q:hover { background: #f8fafc; }
-  .qa-q .qnum { font-size: 13px; font-weight: 900; color: #3b82f6; flex-shrink: 0; margin-top: 1px; }
-  .qa-q .qtext { font-size: 13px; font-weight: 600; flex: 1; }
-  .qa-a { padding: 0 16px 16px 16px; }
-  .qa-a-inner { background: #f8fafc; border-radius: 10px; padding: 14px 14px 14px 20px; margin-left: 20px; }
-  .qa-a-inner .albl { font-size: 11px; font-weight: 700; color: #059669; margin-bottom: 6px; }
-  .qa-a-inner pre { font-size: 12px; color: #475569; white-space: pre-wrap; font-family: inherit; line-height: 1.75; }
+  details{margin-bottom:8px;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden}
+  summary{display:flex;gap:10px;padding:14px 16px;background:#fff;cursor:pointer;align-items:flex-start;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary:hover{background:#f8fafc}
+  .qnum{font-size:13px;font-weight:900;color:#3b82f6;flex-shrink:0;margin-top:1px}
+  .qtext{font-size:13px;font-weight:600;flex:1}
+  .arrow{font-size:11px;flex-shrink:0;margin-top:2px;transition:transform .2s}
+  details[open] .arrow{transform:rotate(180deg)}
+  .qa-a{padding:0 16px 16px 16px}
+  .qa-inner{background:#f8fafc;border-radius:10px;padding:14px 14px 14px 20px;margin-left:20px}
+  .albl{font-size:11px;font-weight:700;color:#059669;margin-bottom:6px}
+  .qa-inner pre{font-size:12px;color:#475569;white-space:pre-wrap;font-family:inherit;line-height:1.75}
 
   /* 결론 */
-  .conclusion { background: linear-gradient(135deg, #0f172a, #1e3a5f, #064e3b); border: 1px solid #34d399; border-radius: 16px; padding: 24px; color: #fff; }
-  .conclusion .c-center { text-align: center; margin-bottom: 20px; }
-  .conclusion .c-center .icon { font-size: 28px; margin-bottom: 8px; }
-  .conclusion .c-center h2 { font-size: 18px; font-weight: 900; }
-  .conclusion .c-center p { font-size: 13px; color: #94a3b8; margin-top: 4px; }
-  .conc-grid { display: grid; gap: 14px; margin-bottom: 16px; }
-  @media(min-width:600px){ .conc-grid { grid-template-columns: 1fr 1fr; } }
-  .conc-no { background: rgba(239,68,68,.15); border: 1px solid rgba(239,68,68,.3); border-radius: 12px; padding: 14px; }
-  .conc-yes { background: rgba(52,211,153,.1); border: 1px solid rgba(52,211,153,.3); border-radius: 12px; padding: 14px; }
-  .conc-no .ctitle { color: #f87171; font-weight: 700; font-size: 13px; margin-bottom: 8px; }
-  .conc-yes .ctitle { color: #34d399; font-weight: 700; font-size: 13px; margin-bottom: 8px; }
-  .conc-no li, .conc-yes li { font-size: 13px; list-style: none; padding: 2px 0; }
-  .conc-no li { color: #fca5a5; } .conc-yes li { color: #a7f3d0; }
-  .final-box { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; text-align: center; }
-  .final-box .main { color: #fde047; font-size: 15px; font-weight: 900; margin-bottom: 8px; }
-  .final-box p { font-size: 13px; color: #cbd5e1; line-height: 1.8; }
-  .final-box .down { color: #f87171; } .final-box .up { color: #34d399; }
-
-  details summary { cursor: pointer; list-style: none; }
-  details summary::-webkit-details-marker { display: none; }
-  details[open] .arrow { transform: rotate(180deg); }
-  .arrow { display: inline-block; transition: transform .2s; font-size: 11px; float: right; }
+  .conclusion{background:linear-gradient(135deg,#0f172a,#1e3a5f,#064e3b);border:1px solid #34d399;border-radius:16px;padding:24px;color:#fff}
+  .conc-center{text-align:center;margin-bottom:20px}
+  .conc-center .icon{font-size:28px;margin-bottom:8px}
+  .conc-center h2{font-size:18px;font-weight:900}
+  .conc-center p{font-size:13px;color:#94a3b8;margin-top:4px}
+  .conc-grid{display:grid;gap:14px;margin-bottom:16px}
+  @media(min-width:600px){.conc-grid{grid-template-columns:1fr 1fr}}
+  .conc-no{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:14px}
+  .conc-yes{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);border-radius:12px;padding:14px}
+  .conc-no .ctitle{color:#f87171;font-weight:700;font-size:13px;margin-bottom:8px}
+  .conc-yes .ctitle{color:#34d399;font-weight:700;font-size:13px;margin-bottom:8px}
+  .conc-no li,.conc-yes li{font-size:13px;list-style:none;padding:2px 0}
+  .conc-no li{color:#fca5a5} .conc-yes li{color:#a7f3d0}
+  .final-box{background:rgba(255,255,255,.1);border-radius:12px;padding:16px;text-align:center}
+  .final-box .main{color:#fde047;font-size:15px;font-weight:900;margin-bottom:8px}
+  .final-box p{font-size:13px;color:#cbd5e1;line-height:1.8}
+  .down{color:#f87171} .up{color:#34d399}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="space-y">
+<div class="space-y">
 
-    <!-- 배너 -->
-    <div class="banner">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-        <span style="font-size:28px">⚡</span>
-        <div>
-          <h1>ATH 연속 경신 — 지금 어떻게 할 것인가</h1>
-          <p>2026.06 기준 · KOSPI 9,052 · 역사적 신고가 9,385 (06/19)</p>
-        </div>
-      </div>
-      <div class="banner-grid">
-        <div class="banner-card"><div class="lbl">현재 KOSPI</div><div class="val oc">9,052</div><div class="sub">장마감 기준</div></div>
-        <div class="banner-card"><div class="lbl">역사적 ATH</div><div class="val rc">9,385</div><div class="sub">2026.06.19</div></div>
-        <div class="banner-card"><div class="lbl">4월 저점 대비</div><div class="val yc">+311%</div><div class="sub">2,284 → 9,385</div></div>
-        <div class="banner-card"><div class="lbl">1년 상승률</div><div class="val ac">약 +200%</div><div class="sub">역사적 폭등</div></div>
-      </div>
-    </div>
-
-    <!-- 팩트 체크 -->
-    <div class="card orange">
-      <div class="card-head"><h2>📊 현재 시장 팩트 체크</h2></div>
-      <div class="card-body">
-        <div class="fact-grid">
-          <div>
-            <div class="section-label ol">KOSPI 현황</div>
-            <div class="row"><span class="lbl">현재가</span><div><div class="val tc-orange">9,052</div><div class="sub">2026.06.21 장마감</div></div></div>
-            <div class="row"><span class="lbl">역사적 ATH</span><div><div class="val tc-red">9,385</div><div class="sub">2026.06.19</div></div></div>
-            <div class="row"><span class="lbl">4월 9일 저점</span><div><div class="val">2,284</div><div class="sub">트럼프 관세 충격 저점</div></div></div>
-            <div class="row"><span class="lbl">저점 대비 상승</span><div><div class="val tc-red">+311%</div><div class="sub">약 2.5개월 만에</div></div></div>
-            <div class="row"><span class="lbl">1년 상승률</span><div><div class="val tc-red">약 +200%</div></div></div>
-            <div class="row"><span class="lbl">200주 이동평균</span><div><div class="val">약 3,365</div><div class="sub">현재가 대비 +169% 위</div></div></div>
-            <div class="row"><span class="lbl">200주 이격도</span><div><div class="val tc-red">+169%</div><div class="sub">역사적 극단 과열</div></div></div>
-          </div>
-          <div>
-            <div class="section-label bl">배경 요인</div>
-            <div class="factor-item"><span style="font-size:16px">🤖</span><span>AI 반도체 수퍼사이클 — 삼성·SK하이닉스 쏠림 주도</span></div>
-            <div class="factor-item"><span style="font-size:16px">📉</span><span>트럼프 관세 충격 후 급반등 — 4월 저점이 너무 낮았음</span></div>
-            <div class="factor-item"><span style="font-size:16px">💰</span><span>빚투(신용융자) 급증 — 개인 레버리지 극대화</span></div>
-            <div class="factor-item"><span style="font-size:16px">📈</span><span>FOMO 매수 급증 — '더 오를 것 같다' 심리 확산</span></div>
-            <div class="factor-item"><span style="font-size:16px">🌐</span><span>나스닥은 적당히 오름 — KOSPI만 극단적 폭등</span></div>
-            <div class="factor-item"><span style="font-size:16px">⚠️</span><span>반도체 2~3종목 쏠림 — 지수 왜곡 위험</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 숏 불리 6가지 -->
-    <div class="card red">
-      <div class="card-head"><h2>📉 ATH에서 숏이 불리한 이유 — 6가지</h2></div>
-      <div class="card-body">
-        <div class="grid2">
-          <div class="why-card"><div class="top"><span class="num">①</span><span class="title">타이밍 불가능</span><span class="badge b-red">핵심</span></div><p>버블이 얼마나 더 갈지 아무도 모릅니다. 1999년 나스닥은 '버블' 경고 3년 후에 터졌습니다. 지금 숏 치면 9,000→10,000→11,000 구간을 손실 보며 버텨야 합니다.</p></div>
-          <div class="why-card"><div class="top"><span class="num">②</span><span class="title">인버스 ETF 시간 손실</span><span class="badge b-orange">비용</span></div><p>인버스 ETF는 일간 리밸런싱 구조입니다. 지수가 오르락내리락만 해도 인버스는 조금씩 녹습니다. 오래 보유할수록 손실이 쌓입니다.</p></div>
-          <div class="why-card"><div class="top"><span class="num">③</span><span class="title">심리적 압박 → 강제 손절</span><span class="badge b-purple">심리</span></div><p>숏 보유 중 시장이 3~5% 더 오르면 손실이 커집니다. 대부분 '잠깐 오르다 내리겠지' 버티다 강제 손절. 손절 직후 폭락이 오는 패턴이 반복됩니다.</p></div>
-          <div class="why-card"><div class="top"><span class="num">④</span><span class="title">방향이 맞아도 수익이 없다</span><span class="badge b-blue">청산</span></div><p>폭락 시 패닉 후 빠른 반등이 옵니다. 어디서 숏 청산할지도 어렵습니다. 저점을 잡아 청산하지 못하면 반등에 수익을 반납합니다.</p></div>
-          <div class="why-card"><div class="top"><span class="num">⑤</span><span class="title">ATH는 매수 심리 우위 증거</span><span class="badge b-yellow">추세</span></div><p>ATH 경신 자체가 현재 매수세 &gt; 매도세임을 의미합니다. 이 흐름에 역행하는 것은 방향의 문제가 아니라 세력의 방향과 싸우는 것입니다.</p></div>
-          <div class="why-card"><div class="top"><span class="num">⑥</span><span class="title">현금은 시간 비용이 없다</span><span class="badge b-green">확률</span></div><p>현금을 들고 기다리는 데 드는 비용은 0입니다. 숏을 들고 기다리는 데 드는 비용은 음의 복리입니다. 확률적으로 현금이 항상 유리합니다.</p></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 선택지 비교 -->
-    <div class="card">
-      <div class="card-head"><h2>⚖️ 지금 선택지 비교 — 주식 없는 상황이라면</h2></div>
-      <div class="card-body">
-        <div class="grid3">
-          <div class="choice-card cc-red">
-            <div class="choice-head"><span class="icon">📉</span><div><div class="name">숏 / 인버스</div><span class="verdict v-red">강비추천</span></div></div>
-            <div class="pros-cons-title cons-title">단점·위험</div>
-            <div class="item-row"><span class="check-r">✗</span>타이밍 맞추기 불가능</div>
-            <div class="item-row"><span class="check-r">✗</span>인버스 ETF 시간 손실</div>
-            <div class="item-row"><span class="check-r">✗</span>심리 압박 → 강제 손절</div>
-            <div class="item-row"><span class="check-r">✗</span>방향 맞아도 수익 미실현</div>
-            <div class="item-row"><span class="check-r">✗</span>이미 역ATH = 너무 늦음</div>
-            <div class="summary-box">가장 위험한 선택. 방향이 맞아도 확률적으로 손해.</div>
-          </div>
-          <div class="choice-card cc-amber">
-            <div class="choice-head"><span class="icon">💰</span><div><div class="name">현금 100% 보유</div><span class="verdict v-amber">합리적</span></div></div>
-            <div class="pros-cons-title pros-title">장점</div>
-            <div class="item-row"><span class="check-g">✓</span>손해 없음 — 원금 100% 보전</div>
-            <div class="item-row"><span class="check-g">✓</span>폭락 시 대규모 진입 가능</div>
-            <div class="item-row"><span class="check-g">✓</span>시간 비용 없음</div>
-            <div class="pros-cons-title cons-title">단점</div>
-            <div class="item-row"><span class="check-r">✗</span>FOMO 심리 — 계속 오를 때 괴로움</div>
-            <div class="item-row"><span class="check-r">✗</span>심리적 한계로 고점에 결국 매수 위험</div>
-            <div class="summary-box">좋은 선택이지만 FOMO 관리가 핵심 과제.</div>
-          </div>
-          <div class="choice-card cc-green">
-            <div class="choice-head"><span class="icon">✅</span><div><div class="name">현금 90% + 소액 분할 10%</div><span class="verdict v-green">최선</span></div></div>
-            <div class="pros-cons-title pros-title">장점</div>
-            <div class="item-row"><span class="check-g">✓</span>오르면 소액이지만 이익 참여</div>
-            <div class="item-row"><span class="check-g">✓</span>폭락 와도 90%로 역습 기회</div>
-            <div class="item-row"><span class="check-g">✓</span>FOMO 심리 자연스럽게 관리</div>
-            <div class="item-row"><span class="check-g">✓</span>어떤 결과에도 살아남음</div>
-            <div class="pros-cons-title cons-title">단점</div>
-            <div class="item-row"><span class="check-r">✗</span>오를 때 수익이 적음 / 인내심 필요</div>
-            <div class="summary-box">오르면 소이익, 폭락 시 대기회. 어떤 시나리오에도 생존.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 구조 설계 -->
-    <div class="card green">
-      <div class="card-head"><h2>🏗️ "오르면 이익, 폭락도 기회" — 실전 구조 설계</h2></div>
-      <div class="card-body">
-        <div style="background:#fff;border:1px solid #bbf7d0;border-radius:10px;padding:14px">
-          <div style="font-weight:700;font-size:13px;color:#065f46;margin-bottom:12px">📐 기본 비중 설계 (예: 투자 가능 자금 1,000만원)</div>
-          <div class="grid3s">
-            <div class="alloc-box ab-blue"><div class="lbl">현금 보유</div><div class="pct">90%</div><div class="amt">900만원</div><div class="desc">폭락 시 투입 대기 자금</div></div>
-            <div class="alloc-box ab-green"><div class="lbl">KOSPI ETF 소액 분할</div><div class="pct">10%</div><div class="amt">100만원</div><div class="desc">FOMO 관리 + 상승 참여</div></div>
-            <div class="alloc-box ab-red"><div class="lbl">숏/인버스</div><div class="pct">0%</div><div class="amt">0원</div><div class="desc">절대 하지 않음</div></div>
-          </div>
-        </div>
-        <div class="grid2s">
-          <div class="scenario-box sb-blue">
-            <div class="sc-title blue-t">📈 시나리오 A: 추가 상승 (→ 10,000)</div>
-            <div class="sc-row"><span class="check-g">✓</span><span class="lbl">100만원 → 110만원</span><span class="sub">+10만원 소이익</span></div>
-            <div class="sc-row"><span class="check-g">✓</span><span class="lbl">900만원 현금 유지</span><span class="sub">원금 100% 보전</span></div>
-            <div class="sc-row"><span class="check-g">✓</span><span class="lbl">전체 수익률 +1%</span><span class="sub">손해 없음</span></div>
-            <div class="sc-row"><span class="check-g">✓</span><span class="lbl">FOMO 없음</span><span class="sub">소액 참여로 관리됨</span></div>
-          </div>
-          <div class="scenario-box sb-orange">
-            <div class="sc-title orange-t">📉 시나리오 B: 대폭락 (-40% → 5,400)</div>
-            <div class="sc-row"><span class="check-r">✗</span><span class="lbl">100만원 → 60만원</span><span class="sub">-40만원 손실</span></div>
-            <div class="sc-row"><span class="check-g">✓</span><span class="lbl">900만원 현금 → 기회</span><span class="sub">저점 대규모 투입</span></div>
-            <div class="sc-row"><span class="check-g">✓</span><span class="lbl">500~700만원 추가 매수</span><span class="sub">평균단가 대폭 낮춤</span></div>
-            <div class="sc-row"><span class="check-g">✓</span><span class="lbl">폭락이 기회가 됨</span><span class="sub">장기 복리의 시작점</span></div>
-          </div>
-        </div>
-        <div class="principle-box">
-          <div class="title">🎯 핵심 원칙</div>
-          <p>"너무 올랐다"는 확신을 <span class="hl-red">숏에 쓰지 말고</span>, 폭락 때 크게 살 준비금(현금)으로 활용하라.<br>폭락이 손실이 아니라 <span class="hl-yellow">기회가 되려면</span>, 현금이 충분히 남아 있어야 한다.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 분할매수 플랜 -->
-    <div class="card">
-      <div class="card-head"><h2>📋 분할매수 실전 플랜 — 언제 얼마나 살 것인가</h2></div>
-      <div class="card-body">
-        <div style="overflow-x:auto">
-          <table>
-            <thead><tr><th>상황</th><th>KOSPI 레벨</th><th>추가 매수 비중</th><th>설명</th></tr></thead>
-            <tbody>
-              <tr><td>현재 (ATH 경신)</td><td>9,000~9,500</td><td class="pct-orange">10% (소액)</td><td style="font-size:12px;color:#64748b">FOMO 관리용 최소 참여</td></tr>
-              <tr><td>횡보·소조정</td><td>8,000~9,000</td><td class="pct-yellow">+5% (누적 15%)</td><td style="font-size:12px;color:#64748b">조정 시 소폭 추가</td></tr>
-              <tr><td>1차 조정 -15%</td><td>약 7,600</td><td class="pct-amber">+10% (누적 25%)</td><td style="font-size:12px;color:#64748b">첫 번째 의미있는 조정</td></tr>
-              <tr><td>2차 조정 -25%</td><td>약 6,800</td><td class="pct-red">+15% (누적 40%)</td><td style="font-size:12px;color:#64748b">본격적인 하락 신호</td></tr>
-              <tr><td>대폭락 -40%</td><td>약 5,400</td><td class="pct-red">+30% (누적 70%)</td><td style="font-size:12px;color:#64748b">패닉 저점 — 역습 기회</td></tr>
-              <tr><td>극단 폭락 -55%</td><td>약 4,000</td><td class="pct-red2">+20% (누적 90%)</td><td style="font-size:12px;color:#64748b">IMF급 — 전재산 투입 구간</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="note-box">⚠️ 위 수치는 예시입니다. 개인 재정상황, 리스크 허용 범위에 맞게 조정하세요. 투자 권유가 아닌 구조적 사고 프레임입니다.</div>
-      </div>
-    </div>
-
-    <!-- 여유자금 규모별 비교 -->
-    <div class="card blue">
-      <div class="card-head"><h2>💰 여유자금 규모별 비교 — 1,000만원 vs 1억원</h2></div>
-      <div class="card-body">
-        <div style="background:#fff;border:1px solid #bfdbfe;border-radius:10px;padding:14px;margin-bottom:12px">
-          <div style="font-weight:700;font-size:13px;color:#1d4ed8;margin-bottom:10px">핵심 원칙: 비율은 같다, 선택지가 넓어질 뿐</div>
-          <div style="overflow-x:auto">
-            <table class="amt-table">
-              <thead><tr><th>항목</th><th style="text-align:center;color:#2563eb">여유자금 1,000만원</th><th style="text-align:center;color:#059669">여유자금 1억원</th></tr></thead>
-              <tbody>
-                <tr><td>초기 투입(10%)</td><td style="text-align:center" class="blue-val">100만원</td><td style="text-align:center" class="green-val">1,000만원</td></tr>
-                <tr><td>현금 보유(90%)</td><td style="text-align:center" class="blue-val">900만원</td><td style="text-align:center" class="green-val">9,000만원</td></tr>
-                <tr><td>분산 종목</td><td style="text-align:center;font-size:12px;color:#64748b">ETF 1~2종목</td><td style="text-align:center;font-size:12px;color:#64748b">ETF + 삼성·SK 개별주</td></tr>
-                <tr><td>단계별 추가 여력</td><td style="text-align:center;font-size:12px;color:#64748b">제한적</td><td style="text-align:center;font-size:12px;color:#64748b">풍부함</td></tr>
-                <tr><td>폭락 -40% 시 투입</td><td style="text-align:center" class="blue-val">300~500만원</td><td style="text-align:center" class="green-val">3,000~5,000만원</td></tr>
-                <tr><td>심리적 부담</td><td style="text-align:center;font-size:12px;color:#64748b">상대적으로 낮음</td><td style="text-align:center;font-size:12px;color:#64748b">금액이 커 부담 클 수 있음</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="plan-grid">
-          <div class="plan-box plan-blue">
-            <div class="plan-title">💼 1,000만원 기준 플랜</div>
-            <div class="plan-row"><span class="lbl">현금 보유</span><span style="color:#1d4ed8;font-weight:700">900만원 (90%)</span></div>
-            <div class="plan-row"><span class="lbl">KOSPI ETF 분할매수</span><span style="color:#059669;font-weight:700">100만원 (10%)</span></div>
-            <div class="plan-row"><span class="lbl">매월 추가</span><span style="color:#475569;font-weight:700">10~20만원씩</span></div>
-            <div class="plan-row"><span class="lbl">폭락 -40% 시</span><span style="color:#ea580c;font-weight:700">300~500만원 투입</span></div>
-            <div class="note-box" style="margin-top:10px">ETF 집중, 단순하게 유지. KODEX 200 또는 TIGER 200 1~2개면 충분.</div>
-          </div>
-          <div class="plan-box plan-green">
-            <div class="plan-title">💼 1억원 기준 플랜</div>
-            <div class="plan-row"><span class="lbl">현금 보유</span><span style="color:#1d4ed8;font-weight:700">9,000만원 (90%)</span></div>
-            <div class="plan-row"><span class="lbl">KOSPI ETF</span><span style="color:#059669;font-weight:700">500만원 (5%)</span></div>
-            <div class="plan-row"><span class="lbl">삼성전자 소액</span><span style="color:#059669;font-weight:700">300만원 (3%)</span></div>
-            <div class="plan-row"><span class="lbl">SK하이닉스 소액</span><span style="color:#059669;font-weight:700">200만원 (2%)</span></div>
-            <div class="plan-row"><span class="lbl">폭락 -40% 시</span><span style="color:#ea580c;font-weight:700">3,000~5,000만원 투입</span></div>
-            <div class="note-box" style="margin-top:10px">1억이면 개별주 소액 추가 분산 가능. 단, 초기 10% 한도는 동일하게 엄수.</div>
-          </div>
-        </div>
-        <div class="dark-box"><strong>결론:</strong> <span style="color:#e2e8f0">1,000만원이든 1억이든 초기 투입 비율 10%는 동일합니다.</span> <strong>현금 90% 보유 원칙은 변하지 않습니다.</strong> <span style="color:#e2e8f0">오히려 1억이라면 금액이 크기 때문에 더욱 철저히 비율 규율을 지켜야 심리 압박 없이 폭락 기회를 활용할 수 있습니다.</span></div>
-      </div>
-    </div>
-
-    <!-- 반도체 사이클 + 시스코 -->
-    <div class="card purple">
-      <div class="card-head"><h2>🔬 반도체 AI 중기 사이클 — 시스코 2000 vs 엔비디아 지금</h2></div>
-      <div class="card-body">
-        <div style="background:#fff5f5;border:1px solid #fca5a5;border-radius:10px;padding:14px;margin-bottom:14px">
-          <div style="font-weight:700;font-size:13px;color:#b91c1c;margin-bottom:12px">🌍 현재 KOSPI — 세계 주요 지수 1년 상승률 비교</div>
-          <div class="world-grid">
-            <div class="world-card wc-red"><div class="badge2">🥇 세계 1위</div><div class="val">약 +200%</div><div class="sub">KOSPI (한국)</div></div>
-            <div class="world-card wc-blue"><div class="badge2">적당한 상승</div><div class="val">+30~40%</div><div class="sub">나스닥 100</div></div>
-            <div class="world-card wc-green"><div class="badge2">정상 강세장</div><div class="val">+20~25%</div><div class="sub">S&amp;P 500</div></div>
-            <div class="world-card wc-gray"><div class="badge2">완만한 상승</div><div class="val">+10~20%</div><div class="sub">일본·유럽</div></div>
-          </div>
-          <div class="semi-note">⚠️ KOSPI가 세계 1위 상승률이라는 것은 "이미 가장 많이 올랐다"는 뜻이기도 합니다. 나스닥·S&P는 적당히 올랐는데 KOSPI만 극단적으로 튄 이유 → 삼성·SK하이닉스 반도체 쏠림. 쏠림은 오를 때 더 빠르게 오르고, 빠질 때도 더 빠르게 빠집니다.</div>
-        </div>
-        <div class="grid2" style="margin-bottom:14px">
-          <div style="background:#fff;border:1px solid #ddd6fe;border-radius:10px;padding:14px">
-            <div style="font-weight:700;font-size:13px;color:#6d28d9;margin-bottom:10px">📊 반도체 주식의 특성</div>
-            <div class="char-row"><div class="icon">⚡</div><div><div class="ctitle">경기민감주</div><div class="cdesc">경기 호황 시 급등, 불황 시 급락. 방어주와 반대 성격.</div></div></div>
-            <div class="char-row"><div class="icon">💸</div><div><div class="ctitle">금리 민감</div><div class="cdesc">금리 상승 시 PER 압축 → 주가 부담. 고금리 환경에서 고PER 종목은 불리.</div></div></div>
-            <div class="char-row"><div class="icon">🔄</div><div><div class="ctitle">사이클 반복</div><div class="cdesc">수요 폭발 → 과잉공급 → 가격 하락 → 구조조정 → 다시 수요 폭발.</div></div></div>
-            <div class="char-row"><div class="icon">⏰</div><div><div class="ctitle">중기 사이클</div><div class="cdesc">AI 반도체 수요는 실재하지만, 슈퍼사이클보다는 3~5년 중기 사이클에 가까움.</div></div></div>
-          </div>
-          <div style="background:#fff;border:1px solid #fed7aa;border-radius:10px;padding:14px">
-            <div style="font-weight:700;font-size:13px;color:#c2410c;margin-bottom:10px">💡 방향은 맞아도 타이밍을 못 맞추는 이유</div>
-            <div class="timing-row"><span class="step">①</span><span class="txt">반도체 사이클 정점이 언제인지 아무도 모릅니다</span></div>
-            <div class="timing-row"><span class="step">②</span><span class="txt">수요가 실재해도 주가는 수요보다 훨씬 먼저 움직입니다</span></div>
-            <div class="timing-row"><span class="step">③</span><span class="txt">공급 과잉 신호는 주가가 이미 빠진 후에 확인됩니다</span></div>
-            <div class="timing-row"><span class="step">④</span><span class="txt">금리 변화, 달러 환율, 미중 관계 등 외부 변수가 예측 불가합니다</span></div>
-            <div class="timing-row"><span class="step">⑤</span><span class="txt">AI 수요 둔화 신호가 나와도 주가는 먼저 -30~50% 빠진 후입니다</span></div>
-            <div class="timing-row"><span class="step">⑥</span><span class="txt"><strong>결론: 방향(하락할 것)은 맞아도, 타이밍(언제)은 영원히 모릅니다</strong></span></div>
-          </div>
-        </div>
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px">
-          <div style="font-weight:700;font-size:13px;color:#334155;margin-bottom:12px">🔀 시스코 2000 vs 엔비디아 지금 — 역사의 거울</div>
-          <div style="overflow-x:auto">
-            <table class="cisco-table">
-              <thead><tr><th>비교 항목</th><th style="text-align:center;color:#2563eb">시스코 (2000년)</th><th style="text-align:center;color:#059669">엔비디아 (2025년)</th></tr></thead>
-              <tbody>
-                <tr><td style="font-size:12px;color:#64748b">핵심 기술</td><td style="text-align:center;font-size:12px">인터넷 네트워크 장비</td><td style="text-align:center;font-size:12px">AI GPU 가속 칩</td></tr>
-                <tr><td style="font-size:12px;color:#64748b">기술의 실재성</td><td style="text-align:center;font-size:12px">✅ 진짜였음</td><td style="text-align:center;font-size:12px">✅ 진짜임</td></tr>
-                <tr><td style="font-size:12px;color:#64748b">당시/현재 역할</td><td style="text-align:center;font-size:12px">인터넷 인프라 독점</td><td style="text-align:center;font-size:12px">AI 학습 인프라 독점</td></tr>
-                <tr><td style="font-size:12px;color:#64748b">고점 PER</td><td style="text-align:center;font-size:12px">PER 150~200배</td><td style="text-align:center;font-size:12px">PER 40~60배+</td></tr>
-                <tr><td style="font-size:12px;color:#64748b">고점 이후 하락</td><td style="text-align:center;font-size:12px;color:#dc2626;font-weight:700">-88% (3년간)</td><td style="text-align:center;font-size:12px;color:#64748b">?</td></tr>
-                <tr><td style="font-size:12px;color:#64748b">이익 실현 시점</td><td style="text-align:center;font-size:12px;color:#dc2626;font-weight:700">고점 후 20년 이상</td><td style="text-align:center;font-size:12px;color:#64748b">?</td></tr>
-                <tr><td style="font-size:12px;color:#64748b">기술이 세상 바꿨나</td><td style="text-align:center;font-size:12px">✅ 인터넷 세상 바꿈</td><td style="text-align:center;font-size:12px">✅ AI 세상 바꿀 것</td></tr>
-                <tr><td style="font-size:12px;color:#64748b">주가가 그만큼 올랐나</td><td style="text-align:center;font-size:12px;color:#dc2626;font-weight:700">❌ -88% 후 20년 미회복</td><td style="text-align:center;font-size:12px;color:#64748b">?</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="cisco-grid">
-            <div class="cisco-box cisco-red"><div class="btitle">핵심 교훈</div><p>기술이 맞아도 주가가 틀릴 수 있습니다.<br>시스코는 인터넷 인프라를 지배했고, 인터넷은 실제로 세상을 바꿨습니다.<br>하지만 주가는 고점 대비 <strong style="color:#dc2626">-88%</strong> 하락 후 <strong style="color:#dc2626">20년이 지나도 고점 미회복.</strong></p></div>
-            <div class="cisco-box cisco-amber"><div class="btitle">KOSPI + 삼성·SK 적용</div><p>AI 반도체 수요는 실재합니다. 하지만 KOSPI 200% 상승은 그 수요를 이미 수년치 선반영했을 수 있습니다.<br>기술의 승리 ≠ 주가의 승리.<br><strong style="color:#92400e">중기 사이클</strong>로 보는 시각이 더 현실적입니다.</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Q&A -->
-    <div class="card">
-      <div class="card-head"><h2>💬 ATH 투자 핵심 Q&A</h2></div>
-      <div class="card-body">
-        <details style="margin-bottom:8px">
-          <summary class="qa-q"><span class="qnum">Q1</span><span class="qtext">KOSPI 연속 ATH 신기록인데 지금 숏(인버스)을 쳐도 되지 않나?</span><span class="arrow">▼</span></summary>
-          <div class="qa-a"><div class="qa-a-inner"><div class="albl">A</div><pre>이론적으로는 맞습니다. 하지만 "방향이 맞다"와 "지금 치면 돈이 된다"는 완전히 다른 문제입니다.
-
-① 숏을 쳤는데 시장이 2주 더 오릅니다 → 손실 발생
-② 손실이 커지면 심리적 압박이 극대화됩니다
-③ 결국 버티다 강제 손절합니다
-④ 손절 직후 폭락이 옵니다
-
-방향이 맞아도 타이밍 하나가 틀리면 전부 잃습니다.</pre></div></div>
-        </details>
-        <details style="margin-bottom:8px">
-          <summary class="qa-q"><span class="qnum">Q2</span><span class="qtext">인버스 ETF가 역사적 최저치(역ATH)인데 이건 매수 신호 아닌가?</span><span class="arrow">▼</span></summary>
-          <div class="qa-a"><div class="qa-a-inner"><div class="albl">A</div><pre>인버스 ETF가 낮다는 건 KOSPI가 높다는 뜻입니다. 매수 신호가 아니라 위험 신호입니다.
-
-인버스 ETF는 "일간 음의 복리" 구조입니다.
-- KOSPI가 오늘 +3%, 내일 -3% 하면 본지수는 -0.09%
-- 인버스는 오늘 -3%, 내일 +3% → -0.09% (동일하게 손실)
-- 즉 시장이 오르락내리락만 해도 인버스는 조금씩 녹습니다
-
-장기 보유할수록 시간이 적이 됩니다.</pre></div></div>
-        </details>
-        <details style="margin-bottom:8px">
-          <summary class="qa-q"><span class="qnum">Q3</span><span class="qtext">언젠가 올 폭락인데, 숏으로 미리 기다리면 되지 않나?</span><span class="arrow">▼</span></summary>
-          <div class="qa-a"><div class="qa-a-inner"><div class="albl">A</div><pre>"언젠가"가 문제입니다.
-
-1999년 나스닥 버블: "버블이다" 경고가 1997년부터 → 2000년까지 3년 더 올랐습니다
-2007년 미 부동산: 2004년 경고 → 2007년까지 3년 더 올랐습니다
-이번 KOSPI: 4월 2,284에서 9,385까지 +311% 폭등
-
-"버블이다"라고 일찍 숏 쳤다면 이미 3배 손실입니다.
-현금은 기다리는 데 비용이 없습니다. 숏은 기다리는 데 비용이 있습니다.</pre></div></div>
-        </details>
-        <details style="margin-bottom:8px">
-          <summary class="qa-q"><span class="qnum">Q4</span><span class="qtext">ATH에서 현금 100% 보유가 최선인가?</span><span class="arrow">▼</span></summary>
-          <div class="qa-a"><div class="qa-a-inner"><div class="albl">A</div><pre>합리적이지만 한 가지 위험이 있습니다: FOMO(기회 손실 불안).
-
-9,000→10,000→11,000으로 계속 오르면 "현금 들고 구경만 한다"는 심리가 쌓입니다.
-그 심리가 극에 달한 고점에서 결국 FOMO 매수를 하게 됩니다.
-
-가장 좋은 구조: 현금 90% + 소액 분할매수 10%
-소액 참여로 FOMO 심리를 관리하고, 폭락 시 진짜 기회에 90%를 투입합니다.</pre></div></div>
-        </details>
-        <details style="margin-bottom:8px">
-          <summary class="qa-q"><span class="qnum">Q5</span><span class="qtext">오르면 이익, 대폭락 와도 살아남는 구조가 가능한가?</span><span class="arrow">▼</span></summary>
-          <div class="qa-a"><div class="qa-a-inner"><div class="albl">A</div><pre>가능합니다. 핵심은 진입 비중을 작게 유지하는 것입니다.
-
-1,000만원 기준:
-- 100만원(10%)만 KOSPI ETF 분할매수
-- 나머지 900만원 현금 보유
-
-시나리오 A (10,000 상승): 100만원 → 110만원, 900만원 현금 보전 → 손해 없음
-시나리오 B (폭락 -40%): 100만원 → 60만원(-40만 손실), 900만원으로 저점 투입 기회
-
-1억원 기준:
-- 1,000만원(10%)만 ETF+삼성+SK 분할매수
-- 9,000만원 현금 보유
-- 폭락 -40% 시 3,000~5,000만원 투입 → 장기 복리 시작
-
-폭락이 기회가 되려면, 현금이 충분히 남아 있어야 합니다.</pre></div></div>
-        </details>
-        <details>
-          <summary class="qa-q"><span class="qnum">Q6</span><span class="qtext">KOSPI 9,052 ATH 경신 상황, 지금 나라면 어떻게 하겠는가?</span><span class="arrow">▼</span></summary>
-          <div class="qa-a"><div class="qa-a-inner"><div class="albl">A</div><pre>현재 주식이 없는 상황이라면:
-
-① 숏/인버스 → 절대 하지 않음 (타이밍 불가, 시간 손실, 심리 압박)
-② 지금 큰 금액 매수 → 하지 않음 (역사적 극단 과열)
-③ 전액 현금 → 기본으로 유지하되, FOMO 관리 필요
-
-내 선택:
-현금 90% + 코스피 ETF(KODEX 200 등) 10% 소액 분할매수
-
-매월 또는 10% 조정 때마다 2~3%씩 추가 매수.
-폭락(-30% 이상) 시 현금 50% 이상 투입.
-
-이유: "너무 올랐다"는 확신을 숏에 쓰지 말고,
-폭락 때 크게 살 준비금으로 현금에 담아두는 것이 확률적으로 유리합니다.</pre></div></div>
-        </details>
-      </div>
-    </div>
-
-    <!-- 최종 결론 -->
-    <div class="conclusion">
-      <div class="c-center">
-        <div class="icon">🎯</div>
-        <h2>최종 결론 — 나라면 이렇게 한다</h2>
-        <p>KOSPI 9,052 · 주식 없는 상황 기준</p>
-      </div>
-      <div class="conc-grid">
-        <div class="conc-no">
-          <div class="ctitle">❌ 하지 않을 것</div>
-          <li>• 숏/인버스 — 절대 하지 않음</li>
-          <li>• 지금 큰 금액 매수 — 하지 않음</li>
-          <li>• 전액 현금만 — FOMO 위험으로 지양</li>
-        </div>
-        <div class="conc-yes">
-          <div class="ctitle">✅ 실행할 것</div>
-          <li>• 현금 90% 보유 — 폭락 대기 자금</li>
-          <li>• KOSPI ETF 10% 소액 분할매수</li>
-          <li>• 10% 하락마다 2~3%씩 추가</li>
-          <li>• 폭락 -40% 이상 시 50% 이상 투입</li>
-        </div>
-      </div>
-      <div class="final-box">
-        <div class="main">확신을 숏에 쓰지 말고, 현금에 담아라</div>
-        <p>폭락이 <span class="down">손실</span>이 되려면 현금이 없어야 한다.<br>폭락이 <span class="up">기회</span>가 되려면 현금이 충분해야 한다.</p>
-      </div>
-    </div>
-
-    <div style="text-align:center;font-size:11px;color:#94a3b8;padding-top:8px">
-      ⚠️ 본 내용은 역사적 데이터 기반 확률적 분석이며 투자 권유가 아닙니다. · KOSPI 투자 분석 센터 2026.06
-    </div>
-
+<!-- ① 실시간 상태바 -->
+<div class="live-bar">
+  <div style="display:flex;align-items:center;gap:6px">
+    <span class="live-dot" id="liveDot"></span>
+    <span id="liveStatus">데이터 불러오는 중...</span>
+    <span class="live-price" id="livePrice"></span>
+    <span class="live-chg" id="liveChg"></span>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span class="live-time" id="liveTime"></span>
+    <button class="btn-refresh" onclick="loadData()">🔄 새로고침</button>
   </div>
 </div>
+
+<!-- ② 배너 -->
+<div class="banner">
+  <div class="banner-head">
+    <span style="font-size:28px">⚡</span>
+    <div style="flex:1">
+      <h1>ATH 연속 경신 — 지금 어떻게 할 것인가</h1>
+      <p>
+        <span>2026.06 기준 · KOSPI <span id="bPrice">로딩...</span> · 역사적 신고가 9,385 (06/19)</span>
+        <span class="badge-live" id="badgeLive" style="display:none"><span class="live-dot" style="width:6px;height:6px;margin:0"></span> LIVE</span>
+      </p>
+    </div>
+  </div>
+  <div class="banner-grid">
+    <div class="banner-card"><div class="lbl">현재 KOSPI</div><div class="val oc" id="bc1">—</div><div class="sub" id="bc1s">로딩 중</div></div>
+    <div class="banner-card"><div class="lbl">역사적 ATH</div><div class="val rc">9,385</div><div class="sub" id="bc2s">2026.06.19</div></div>
+    <div class="banner-card"><div class="lbl">4월 저점 대비</div><div class="val yc" id="bc3">—</div><div class="sub" id="bc3s">2,284 →</div></div>
+    <div class="banner-card"><div class="lbl">200주 이격도</div><div class="val ac" id="bc4">—</div><div class="sub" id="bc4s">MA200주: —</div></div>
+  </div>
+</div>
+
+<!-- ③ 팩트체크 -->
+<div class="card orange">
+  <div class="card-head"><h2>📊 현재 시장 팩트 체크</h2></div>
+  <div class="card-body">
+    <div class="fact-grid">
+      <div>
+        <div class="section-label" style="color:#ea580c">KOSPI 현황 <span class="sl-live" id="liveLabel"><span class="live-dot" style="width:6px;height:6px;margin:0"></span>실시간</span></div>
+        <div class="row"><span class="lbl">현재가</span><div class="rval"><div class="v tc-orange" id="f1">—</div><div class="s" id="f1s">—</div></div></div>
+        <div class="row"><span class="lbl">역사적 ATH</span><div class="rval"><div class="v tc-red">9,385</div><div class="s" id="f2s">2026.06.19</div></div></div>
+        <div class="row"><span class="lbl">4월 9일 저점</span><div class="rval"><div class="v">2,284</div><div class="s">트럼프 관세 충격 저점</div></div></div>
+        <div class="row"><span class="lbl">저점 대비 상승</span><div class="rval"><div class="v tc-red" id="f3">—</div><div class="s" id="f3s">2,284 →</div></div></div>
+        <div class="row"><span class="lbl">200주 이동평균</span><div class="rval"><div class="v" id="f4">—</div><div class="s" id="f4s">—</div></div></div>
+        <div class="row"><span class="lbl">200주 이격도</span><div class="rval"><div class="v tc-red" id="f5">—</div><div class="s">역사적 극단 과열</div></div></div>
+      </div>
+      <div>
+        <div class="section-label" style="color:#2563eb">배경 요인</div>
+        <div class="factor-item"><span style="font-size:16px">🤖</span><span>AI 반도체 수퍼사이클 — 삼성·SK하이닉스 쏠림 주도</span></div>
+        <div class="factor-item"><span style="font-size:16px">📉</span><span>트럼프 관세 충격 후 급반등 — 4월 저점이 너무 낮았음</span></div>
+        <div class="factor-item"><span style="font-size:16px">💰</span><span>빚투(신용융자) 급증 — 개인 레버리지 극대화</span></div>
+        <div class="factor-item"><span style="font-size:16px">📈</span><span>FOMO 매수 급증 — '더 오를 것 같다' 심리 확산</span></div>
+        <div class="factor-item"><span style="font-size:16px">🌐</span><span>나스닥은 적당히 오름 — KOSPI만 극단적 폭등</span></div>
+        <div class="factor-item"><span style="font-size:16px">⚠️</span><span>반도체 2~3종목 쏠림 — 지수 왜곡 위험</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ④ 숏 불리 6가지 -->
+<div class="card red">
+  <div class="card-head"><h2>📉 ATH에서 숏이 불리한 이유 — 6가지</h2></div>
+  <div class="card-body">
+    <div class="grid2">
+      <div class="why-card"><div class="top"><span class="num">①</span><span class="ttl">타이밍 불가능</span><span class="badge b-red">핵심</span></div><p>버블이 얼마나 더 갈지 아무도 모릅니다. 1999년 나스닥은 '버블' 경고 3년 후에 터졌습니다. 지금 숏 치면 9,000→10,000→11,000 구간을 손실 보며 버텨야 합니다.</p></div>
+      <div class="why-card"><div class="top"><span class="num">②</span><span class="ttl">인버스 ETF 시간 손실</span><span class="badge b-orange">비용</span></div><p>인버스 ETF는 일간 리밸런싱 구조입니다. 지수가 오르락내리락만 해도 인버스는 조금씩 녹습니다. 오래 보유할수록 손실이 쌓입니다.</p></div>
+      <div class="why-card"><div class="top"><span class="num">③</span><span class="ttl">심리적 압박 → 강제 손절</span><span class="badge b-purple">심리</span></div><p>숏 보유 중 시장이 3~5% 더 오르면 손실이 커집니다. 대부분 버티다 강제 손절. 손절 직후 폭락이 오는 패턴이 반복됩니다.</p></div>
+      <div class="why-card"><div class="top"><span class="num">④</span><span class="ttl">방향이 맞아도 수익이 없다</span><span class="badge b-blue">청산</span></div><p>폭락 시 패닉 후 빠른 반등이 옵니다. 저점을 잡아 청산하지 못하면 반등에 수익을 반납합니다.</p></div>
+      <div class="why-card"><div class="top"><span class="num">⑤</span><span class="ttl">ATH는 매수 심리 우위 증거</span><span class="badge b-yellow">추세</span></div><p>ATH 경신 자체가 현재 매수세 &gt; 매도세임을 의미합니다. 이 흐름에 역행하는 것은 세력의 방향과 싸우는 것입니다.</p></div>
+      <div class="why-card"><div class="top"><span class="num">⑥</span><span class="ttl">현금은 시간 비용이 없다</span><span class="badge b-green">확률</span></div><p>현금을 들고 기다리는 데 드는 비용은 0입니다. 숏을 들고 기다리는 데 드는 비용은 음의 복리입니다. 확률적으로 현금이 항상 유리합니다.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ 선택지 비교 -->
+<div class="card">
+  <div class="card-head"><h2>⚖️ 지금 선택지 비교</h2></div>
+  <div class="card-body">
+    <div class="grid3">
+      <div class="cc cc-red"><div class="cc-head"><span class="cc-icon">📉</span><div><div class="cc-name">숏 / 인버스</div><span class="verdict v-red">강비추천</span></div></div>
+        <div class="pt pt-r">단점·위험</div>
+        <div class="it"><span class="cr">✗</span>타이밍 맞추기 불가능</div><div class="it"><span class="cr">✗</span>인버스 ETF 시간 손실</div><div class="it"><span class="cr">✗</span>심리 압박 → 강제 손절</div><div class="it"><span class="cr">✗</span>방향 맞아도 수익 미실현</div>
+        <div class="sumbox">가장 위험한 선택. 방향이 맞아도 확률적으로 손해.</div></div>
+      <div class="cc cc-amber"><div class="cc-head"><span class="cc-icon">💰</span><div><div class="cc-name">현금 100% 보유</div><span class="verdict v-amber">합리적</span></div></div>
+        <div class="pt pt-g">장점</div>
+        <div class="it"><span class="cg">✓</span>손해 없음 — 원금 100% 보전</div><div class="it"><span class="cg">✓</span>폭락 시 대규모 진입 가능</div>
+        <div class="pt pt-r">단점</div>
+        <div class="it"><span class="cr">✗</span>FOMO 심리 — 계속 오를 때 괴로움</div>
+        <div class="sumbox">좋은 선택이지만 FOMO 관리가 핵심 과제.</div></div>
+      <div class="cc cc-green"><div class="cc-head"><span class="cc-icon">✅</span><div><div class="cc-name">현금 90% + 소액 분할 10%</div><span class="verdict v-green">최선</span></div></div>
+        <div class="pt pt-g">장점</div>
+        <div class="it"><span class="cg">✓</span>오르면 소액이지만 이익 참여</div><div class="it"><span class="cg">✓</span>폭락 와도 90%로 역습 기회</div><div class="it"><span class="cg">✓</span>FOMO 심리 자연스럽게 관리</div><div class="it"><span class="cg">✓</span>어떤 결과에도 살아남음</div>
+        <div class="sumbox">오르면 소이익, 폭락 시 대기회. 어떤 시나리오에도 생존.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑥ 구조 설계 -->
+<div class="card green">
+  <div class="card-head"><h2>🏗️ "오르면 이익, 폭락도 기회" — 실전 구조</h2></div>
+  <div class="card-body">
+    <div style="background:#fff;border:1px solid #bbf7d0;border-radius:10px;padding:14px">
+      <div style="font-weight:700;font-size:13px;color:#065f46;margin-bottom:12px">📐 기본 비중 (예: 투자 가능 자금 1,000만원)</div>
+      <div class="grid3s">
+        <div class="ab ab-blue"><div class="lbl">현금 보유</div><div class="pct">90%</div><div class="amt">900만원</div><div class="desc">폭락 시 투입 대기 자금</div></div>
+        <div class="ab ab-green"><div class="lbl">KOSPI ETF 분할</div><div class="pct">10%</div><div class="amt">100만원</div><div class="desc">FOMO 관리 + 상승 참여</div></div>
+        <div class="ab ab-red"><div class="lbl">숏/인버스</div><div class="pct">0%</div><div class="amt">0원</div><div class="desc">절대 하지 않음</div></div>
+      </div>
+    </div>
+    <div class="grid2s">
+      <div class="sc-box blue"><div class="sc-title blue-t">📈 시나리오 A: 추가 상승 (→ 10,000)</div>
+        <div class="sc-row"><span class="cg">✓</span><span class="slbl">100만원 → 110만원</span><span class="ssub">+10만원</span></div>
+        <div class="sc-row"><span class="cg">✓</span><span class="slbl">900만원 현금 유지</span><span class="ssub">원금 보전</span></div>
+        <div class="sc-row"><span class="cg">✓</span><span class="slbl">FOMO 심리 관리됨</span><span class="ssub">소액 참여</span></div></div>
+      <div class="sc-box orange"><div class="sc-title orange-t">📉 시나리오 B: 대폭락 (-40% → 5,400)</div>
+        <div class="sc-row"><span class="cr">✗</span><span class="slbl">100만원 → 60만원</span><span class="ssub">-40만원 손실</span></div>
+        <div class="sc-row"><span class="cg">✓</span><span class="slbl">900만원 현금 → 기회</span><span class="ssub">저점 대규모 투입</span></div>
+        <div class="sc-row"><span class="cg">✓</span><span class="slbl">500~700만원 추가 매수</span><span class="ssub">평균단가 낮춤</span></div></div>
+    </div>
+    <div class="principle"><div class="ptitle">🎯 핵심 원칙</div>
+      <p>"너무 올랐다"는 확신을 <span class="hl-red">숏에 쓰지 말고</span>, 폭락 때 크게 살 준비금(현금)으로 활용하라.<br>폭락이 <span class="hl-yellow">기회가 되려면</span>, 현금이 충분히 남아 있어야 한다.</p></div>
+  </div>
+</div>
+
+<!-- ⑦ 분할매수 플랜 -->
+<div class="card">
+  <div class="card-head"><h2>📋 분할매수 실전 플랜</h2></div>
+  <div class="card-body">
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>상황</th><th>KOSPI 레벨</th><th>추가 매수 비중</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>현재 (ATH 경신)</td><td>9,000~9,500</td><td style="color:#ea580c;font-weight:700">10% (소액)</td><td style="font-size:12px;color:#64748b">FOMO 관리용 최소 참여</td></tr>
+          <tr><td>횡보·소조정</td><td>8,000~9,000</td><td style="color:#ca8a04;font-weight:700">+5% (누적 15%)</td><td style="font-size:12px;color:#64748b">조정 시 소폭 추가</td></tr>
+          <tr><td>1차 조정 -15%</td><td>약 7,600</td><td style="color:#d97706;font-weight:700">+10% (누적 25%)</td><td style="font-size:12px;color:#64748b">첫 번째 의미있는 조정</td></tr>
+          <tr><td>2차 조정 -25%</td><td>약 6,800</td><td style="color:#dc2626;font-weight:700">+15% (누적 40%)</td><td style="font-size:12px;color:#64748b">본격적인 하락 신호</td></tr>
+          <tr><td>대폭락 -40%</td><td>약 5,400</td><td style="color:#dc2626;font-weight:700">+30% (누적 70%)</td><td style="font-size:12px;color:#64748b">패닉 저점 — 역습 기회</td></tr>
+          <tr><td>극단 폭락 -55%</td><td>약 4,000</td><td style="color:#b91c1c;font-weight:700">+20% (누적 90%)</td><td style="font-size:12px;color:#64748b">IMF급 — 전재산 투입 구간</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notebox">⚠️ 예시이며 투자 권유가 아닙니다. 개인 재정상황에 맞게 조정하세요.</div>
+  </div>
+</div>
+
+<!-- ⑧ 자금 규모 -->
+<div class="card blue">
+  <div class="card-head"><h2>💰 여유자금 규모별 비교 — 1,000만원 vs 1억원</h2></div>
+  <div class="card-body">
+    <div class="plan-grid">
+      <div class="plan-box plan-blue"><div class="plan-title">💼 1,000만원 기준</div>
+        <div class="plan-row"><span class="lbl">현금 보유</span><span style="color:#1d4ed8;font-weight:700">900만원 (90%)</span></div>
+        <div class="plan-row"><span class="lbl">KOSPI ETF</span><span style="color:#059669;font-weight:700">100만원 (10%)</span></div>
+        <div class="plan-row"><span class="lbl">폭락 -40% 시</span><span style="color:#ea580c;font-weight:700">300~500만원 투입</span></div>
+        <div class="notebox" style="margin-top:10px">ETF 1~2종목 집중. KODEX 200 또는 TIGER 200.</div></div>
+      <div class="plan-box plan-green"><div class="plan-title">💼 1억원 기준</div>
+        <div class="plan-row"><span class="lbl">현금 보유</span><span style="color:#1d4ed8;font-weight:700">9,000만원 (90%)</span></div>
+        <div class="plan-row"><span class="lbl">KOSPI ETF</span><span style="color:#059669;font-weight:700">500만원 (5%)</span></div>
+        <div class="plan-row"><span class="lbl">삼성전자 소액</span><span style="color:#059669;font-weight:700">300만원 (3%)</span></div>
+        <div class="plan-row"><span class="lbl">SK하이닉스 소액</span><span style="color:#059669;font-weight:700">200만원 (2%)</span></div>
+        <div class="plan-row"><span class="lbl">폭락 -40% 시</span><span style="color:#ea580c;font-weight:700">3,000~5,000만원 투입</span></div></div>
+    </div>
+    <div class="dark-box"><strong>결론:</strong> <span style="color:#e2e8f0">비율 10% 원칙은 동일. 금액이 클수록 비율 규율을 더 철저히 지켜야 합니다.</span></div>
+  </div>
+</div>
+
+<!-- ⑨ Q&A -->
+<div class="card">
+  <div class="card-head"><h2>💬 ATH 투자 핵심 Q&A</h2></div>
+  <div class="card-body">
+    <details><summary><span class="qnum">Q1</span><span class="qtext">지금 숏(인버스)을 쳐도 되지 않나?</span><span class="arrow">▼</span></summary>
+      <div class="qa-a"><div class="qa-inner"><div class="albl">A</div><pre>방향이 맞아도 타이밍 하나가 틀리면 전부 잃습니다.
+
+① 숏 쳤는데 2주 더 오름 → 손실
+② 심리적 압박 극대화
+③ 버티다 강제 손절
+④ 손절 직후 폭락
+
+현금은 기다리는 데 비용이 없습니다. 숏은 비용이 있습니다.</pre></div></div></details>
+    <details><summary><span class="qnum">Q2</span><span class="qtext">인버스 ETF가 역ATH인데 매수 신호 아닌가?</span><span class="arrow">▼</span></summary>
+      <div class="qa-a"><div class="qa-inner"><div class="albl">A</div><pre>매수 신호가 아니라 위험 신호입니다.
+인버스는 "일간 음의 복리" 구조:
+- KOSPI +3% 후 -3% → 본지수 -0.09%
+- 인버스도 동일하게 -0.09% 손실
+오르락내리락만 해도 인버스는 조금씩 녹습니다.</pre></div></div></details>
+    <details><summary><span class="qnum">Q3</span><span class="qtext">언젠가 올 폭락인데 숏으로 기다리면?</span><span class="arrow">▼</span></summary>
+      <div class="qa-a"><div class="qa-inner"><div class="albl">A</div><pre>1999년 나스닥: '버블' 경고가 1997년부터 → 3년 더 올랐습니다
+2007년 부동산: 2004년 경고 → 3년 더 올랐습니다
+이번 KOSPI: 4월 2,284 → 9,385 +311% 폭등
+
+현금은 기다리는 데 비용 0. 숏은 비용 있음.</pre></div></div></details>
+    <details><summary><span class="qnum">Q4</span><span class="qtext">현금 100%가 최선인가?</span><span class="arrow">▼</span></summary>
+      <div class="qa-a"><div class="qa-inner"><div class="albl">A</div><pre>합리적이지만 FOMO 위험이 있습니다.
+9,000→10,000→11,000 계속 오르면 결국 고점에서 FOMO 매수.
+
+최선: 현금 90% + 소액 분할 10%
+소액 참여로 FOMO 관리 + 폭락 시 90%로 역습.</pre></div></div></details>
+    <details><summary><span class="qnum">Q5</span><span class="qtext">나라면 KOSPI ATH 상황에서 어떻게 하겠는가?</span><span class="arrow">▼</span></summary>
+      <div class="qa-a"><div class="qa-inner"><div class="albl">A</div><pre>① 숏/인버스 → 절대 하지 않음
+② 큰 금액 매수 → 하지 않음 (역사적 극단 과열)
+③ 전액 현금 → FOMO 위험으로 지양
+
+내 선택:
+현금 90% + KODEX 200 ETF 10% 소액 분할매수
+매월 또는 10% 조정마다 2~3%씩 추가
+폭락 -30% 이상 시 현금 50% 이상 투입</pre></div></div></details>
+  </div>
+</div>
+
+<!-- ⑩ 결론 -->
+<div class="conclusion">
+  <div class="conc-center"><div class="icon">🎯</div><h2>최종 결론 — 나라면 이렇게 한다</h2><p>KOSPI <span id="conclusionPrice">실시간 로딩 중</span></p></div>
+  <div class="conc-grid">
+    <div class="conc-no"><div class="ctitle">❌ 하지 않을 것</div><li>• 숏/인버스 — 절대 하지 않음</li><li>• 지금 큰 금액 매수 — 하지 않음</li><li>• 전액 현금만 — FOMO 위험</li></div>
+    <div class="conc-yes"><div class="ctitle">✅ 실행할 것</div><li>• 현금 90% 보유 — 폭락 대기 자금</li><li>• KOSPI ETF 10% 소액 분할매수</li><li>• 10% 하락마다 2~3%씩 추가</li><li>• 폭락 -40% 이상 시 50% 이상 투입</li></div>
+  </div>
+  <div class="final-box">
+    <div class="main">확신을 숏에 쓰지 말고, 현금에 담아라</div>
+    <p>폭락이 <span class="down">손실</span>이 되려면 현금이 없어야 한다.<br>폭락이 <span class="up">기회</span>가 되려면 현금이 충분해야 한다.</p>
+  </div>
+</div>
+
+<div style="text-align:center;font-size:11px;color:#94a3b8;padding-top:8px">
+  ⚠️ 역사적 데이터 기반 분석이며 투자 권유가 아닙니다. · 데이터: Yahoo Finance via Replit API · 5분마다 자동 갱신
+</div>
+
+</div><!-- end space-y -->
+</div><!-- end wrap -->
+
+<script>
+const API = "https://stock-insights-pianopks1.replit.app/api/stocks/quotes";
+const ATH = 9385, APR_LOW = 2284;
+
+function fmt(v, dec=0) {
+  return Number(v).toLocaleString("ko-KR", { maximumFractionDigits: dec });
+}
+
+async function loadData() {
+  const dot = document.getElementById("liveDot");
+  const status = document.getElementById("liveStatus");
+  status.textContent = "데이터 불러오는 중...";
+
+  try {
+    const res = await fetch(API);
+    const json = await res.json();
+    const k = json.quotes && json.quotes["^KS11"];
+    if (!k || !k.price) throw new Error("no data");
+
+    const price = k.price;
+    const chg = k.changePct ?? 0;
+    const ma200w = k.ma200w ?? null;
+    const dev200w = k.dev200w ?? null;
+    const aprPct = (((price - APR_LOW) / APR_LOW) * 100).toFixed(0);
+    const athDiff = (((price - ATH) / ATH) * 100).toFixed(1);
+    const priceFmt = fmt(price);
+    const chgStr = (chg >= 0 ? "+" : "") + chg.toFixed(2) + "%";
+
+    // 상태바
+    dot.className = "live-dot";
+    status.textContent = "LIVE 실시간 데이터";
+    document.getElementById("livePrice").textContent = priceFmt;
+    const chgEl = document.getElementById("liveChg");
+    chgEl.textContent = chgStr;
+    chgEl.className = "live-chg " + (chg >= 0 ? "up" : "down");
+    document.getElementById("liveTime").textContent = "업데이트: " + new Date().toLocaleTimeString("ko-KR", {hour:"2-digit",minute:"2-digit",second:"2-digit"});
+
+    // 배너
+    document.getElementById("bPrice").textContent = priceFmt;
+    document.getElementById("badgeLive").style.display = "inline-flex";
+    document.getElementById("bc1").textContent = priceFmt;
+    document.getElementById("bc1s").textContent = "전일 대비 " + chgStr;
+    document.getElementById("bc2s").textContent = "현재 ATH 대비 " + athDiff + "%";
+    document.getElementById("bc3").textContent = "+" + aprPct + "%";
+    document.getElementById("bc3s").textContent = "2,284 → " + priceFmt;
+    if (dev200w != null) {
+      const devStr = (dev200w >= 0 ? "+" : "") + dev200w.toFixed(1) + "%";
+      document.getElementById("bc4").textContent = devStr;
+      document.getElementById("bc4s").textContent = "MA200주: " + (ma200w ? fmt(ma200w) : "—");
+    }
+
+    // 팩트
+    document.getElementById("f1").textContent = priceFmt;
+    document.getElementById("f1s").textContent = "전일 대비 " + chgStr;
+    document.getElementById("f2s").textContent = "현재 대비 ATH " + athDiff + "%";
+    document.getElementById("f3").textContent = "+" + aprPct + "%";
+    document.getElementById("f3s").textContent = "2,284 → " + priceFmt;
+    if (ma200w) {
+      document.getElementById("f4").textContent = fmt(ma200w);
+      document.getElementById("f4s").textContent = dev200w != null ? "현재가 대비 +" + dev200w.toFixed(1) + "% 위" : "";
+    }
+    if (dev200w != null) {
+      document.getElementById("f5").textContent = (dev200w >= 0 ? "+" : "") + dev200w.toFixed(1) + "%";
+    }
+
+    // 결론
+    document.getElementById("conclusionPrice").textContent = priceFmt + " · " + chgStr;
+
+  } catch(e) {
+    dot.className = "live-dot offline";
+    status.textContent = "연결 실패 — 폴백 데이터 표시";
+    document.getElementById("livePrice").textContent = "9,052";
+    document.getElementById("liveChg").textContent = "";
+    document.getElementById("bc1").textContent = "9,052";
+    document.getElementById("bc1s").textContent = "장마감 기준 (폴백)";
+    document.getElementById("bc3").textContent = "+296%";
+    document.getElementById("bc3s").textContent = "2,284 → 9,052";
+    document.getElementById("bc4").textContent = "+169%";
+    document.getElementById("f1").textContent = "9,052";
+    document.getElementById("f1s").textContent = "폴백 데이터";
+    document.getElementById("f3").textContent = "+296%";
+    document.getElementById("f4").textContent = "3,365";
+    document.getElementById("f5").textContent = "+169%";
+    document.getElementById("conclusionPrice").textContent = "9,052 (폴백)";
+  }
+}
+
+// 최초 로딩
+loadData();
+// 5분마다 자동 갱신
+setInterval(loadData, 5 * 60 * 1000);
+</script>
 </body>
-</html>
+ </html>
