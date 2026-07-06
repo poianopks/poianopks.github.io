@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 리본 인사이트 · 투자 대시보드 (시즌 1 종합)</title>
+<style>
+  * { box-sizing: border-box; }
+  :root {
+    --bg-page: #f7f8fa;
+    --bg-surface: #ffffff;
+    --bg-subtle: #f0f2f5;
+    --text-primary: #1a1d21;
+    --text-secondary: #4a5058;
+    --text-tertiary: #8a929c;
+    --text-on-brand: #ffffff;
+    --brand-primary: #4a6cf7;
+    --brand-secondary: #0f7fff;
+    --border-default: #e1e4ea;
+    --border-subtle: #eef0f3;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --info: #0f7fff;
+    --cat-blue: #dbeafe;
+    --cat-green: #d1fae5;
+    --cat-amber: #fef3c7;
+    --cat-red: #fee2e2;
+    --cat-purple: #ede9fe;
+    --cat-teal: #ccfbf1;
+    --cat-coral: #fed7cc;
+    --cat-pink: #fce7f3;
+    --cat-blue-text: #1e40af;
+    --cat-green-text: #065f46;
+    --cat-amber-text: #92400e;
+    --cat-purple-text: #5b21b6;
+    --cat-teal-text: #115e59;
+    --cat-coral-text: #9a3412;
+    --cat-pink-text: #9d174d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-page: #0f1114;
+      --bg-surface: #1a1d21;
+      --bg-subtle: #22262c;
+      --text-primary: #f0f2f5;
+      --text-secondary: #b8bec8;
+      --text-tertiary: #8a929c;
+      --border-default: #333940;
+      --border-subtle: #22262c;
+      --cat-blue: #1e3a8a;
+      --cat-green: #064e3b;
+      --cat-amber: #78350f;
+      --cat-purple: #4c1d95;
+      --cat-teal: #134e4a;
+      --cat-coral: #7c2d12;
+      --cat-pink: #831843;
+      --cat-blue-text: #bfdbfe;
+      --cat-green-text: #a7f3d0;
+      --cat-amber-text: #fde68a;
+      --cat-purple-text: #ddd6fe;
+      --cat-teal-text: #99f6e4;
+      --cat-coral-text: #fecaca;
+      --cat-pink-text: #fbcfe8;
+    }
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+    line-height: 1.5;
+  }
+  .app { max-width: 640px; margin: 0 auto; padding: 16px; }
+  .header {
+    text-align: center;
+    padding: 24px 16px;
+    background: linear-gradient(135deg, var(--cat-purple), var(--cat-blue));
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-subtle);
+  }
+  .title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .badge-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+  }
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    padding: 4px;
+    background: var(--bg-subtle);
+    border-radius: 8px;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    border-radius: 4px;
+    cursor: pointer;
+    min-height: 44px;
+    transition: all 0.2s;
+  }
+  .tab.active {
+    background: var(--brand-primary);
+    color: var(--text-on-brand);
+  }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+  }
+  .card-body {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+  .quote {
+    font-style: italic;
+    padding: 12px;
+    border-left: 3px solid var(--brand-secondary);
+    background: var(--bg-subtle);
+    border-radius: 4px;
+    margin: 8px 0;
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .mini-stat {
+    background: var(--bg-subtle);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .mini-stat-num {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--brand-primary);
+    display: block;
+  }
+  .mini-stat-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+  }
+  .episode {
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    background: var(--bg-surface);
+  }
+  .ep-header {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    cursor: pointer;
+    min-height: 44px;
+    gap: 12px;
+    transition: background 0.15s;
+  }
+  .ep-header:hover { background: var(--bg-subtle); }
+  .ep-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .ep-title {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .ep-arrow {
+    color: var(--text-tertiary);
+    transition: transform 0.2s;
+  }
+  .episode.open .ep-arrow { transform: rotate(90deg); }
+  .ep-body {
+    display: none;
+    padding: 12px 16px 16px 16px;
+    background: var(--bg-subtle);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .episode.open .ep-body { display: block; }
+  .c-blue { background: var(--cat-blue); color: var(--cat-blue-text); }
+  .c-green { background: var(--cat-green); color: var(--cat-green-text); }
+  .c-amber { background: var(--cat-amber); color: var(--cat-amber-text); }
+  .c-purple { background: var(--cat-purple); color: var(--cat-purple-text); }
+  .c-teal { background: var(--cat-teal); color: var(--cat-teal-text); }
+  .c-coral { background: var(--cat-coral); color: var(--cat-coral-text); }
+  .c-pink { background: var(--cat-pink); color: var(--cat-pink-text); }
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+  }
+  .checklist li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+    font-size: 13px;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 20px;
+    height: 20px;
+    background: var(--success);
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 20px;
+  }
+  .warn-list li::before {
+    content: "!";
+    background: var(--warning);
+  }
+  .info-box {
+    padding: 12px;
+    border-radius: 8px;
+    margin: 8px 0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .info-box.warn { background: rgba(245,158,11,0.1); border-left: 3px solid var(--warning); }
+  .info-box.info { background: rgba(15,127,255,0.1); border-left: 3px solid var(--info); }
+  .info-box.error { background: rgba(239,68,68,0.1); border-left: 3px solid var(--error); }
+  .signal {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .signal-box {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    border: 2px solid var(--border-default);
+    background: var(--bg-surface);
+    cursor: pointer;
+    min-height: 88px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .signal-box.on {
+    background: rgba(16,185,129,0.15);
+    border-color: var(--success);
+  }
+  .signal-icon { font-size: 24px; margin-bottom: 4px; }
+  .signal-label { font-size: 12px; font-weight: 600; }
+  .signal-status { font-size: 11px; margin-top: 4px; color: var(--text-tertiary); }
+  .signal-box.on .signal-status { color: var(--success); font-weight: 700; }
+  .verdict {
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+    margin: 12px 0;
+    background: var(--bg-subtle);
+    border: 2px dashed var(--border-default);
+  }
+  .verdict.go {
+    background: rgba(16,185,129,0.15);
+    border-color: var(--success);
+    color: var(--success);
+  }
+  .verdict.wait {
+    background: rgba(245,158,11,0.15);
+    border-color: var(--warning);
+    color: var(--warning);
+  }
+  .flow { display: flex; flex-direction: column; gap: 6px; margin: 12px 0; }
+  .flow-step {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .flow-arrow {
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: 14px;
+  }
+  .flow-title { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
+  .scen-card {
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid;
+    background: var(--bg-subtle);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .scen-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  .rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: center;
+    margin: 8px 0;
+  }
+  .star { font-size: 20px; color: var(--warning); }
+  .star.empty { color: var(--border-default); }
+  .pc-box {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .pc-box.pros {
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.3);
+  }
+  .pc-box.cons {
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.3);
+  }
+  .pc-title { font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+  .cta-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--brand-primary);
+    color: var(--text-on-brand);
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    min-height: 44px;
+  }
+  .cta-btn.secondary {
+    background: var(--bg-surface);
+    color: var(--brand-primary);
+    border: 1px solid var(--brand-primary);
+  }
+  .quiz-opt {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 6px 0;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    text-align: left;
+    font-size: 13px;
+    cursor: pointer;
+    min-height: 44px;
+    color: var(--text-primary);
+    transition: all 0.15s;
+  }
+  .quiz-opt:hover:not(:disabled) {
+    background: var(--bg-subtle);
+    border-color: var(--brand-primary);
+  }
+  .quiz-opt.correct {
+    background: rgba(16,185,129,0.15);
+    border-color: var(--success);
+    font-weight: 600;
+  }
+  .quiz-opt.wrong {
+    background: rgba(239,68,68,0.15);
+    border-color: var(--error);
+  }
+  .quiz-fb {
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+    display: none;
+  }
+  .quiz-fb.show { display: block; }
+  .footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    line-height: 1.6;
+  }
+  .footer a { color: var(--brand-secondary); text-decoration: none; }
+  /* 플로팅 상단 버튼 */
+  .float-actions {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    gap: 6px;
+    z-index: 999;
+  }
+  .float-btn {
+    padding: 8px 12px;
+    background: var(--brand-primary);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    min-height: 36px;
+  }
+  .float-btn.secondary {
+    background: var(--bg-surface);
+    color: var(--brand-primary);
+    border: 1px solid var(--brand-primary);
+  }
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    background: var(--text-primary);
+    color: var(--bg-page);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="float-actions">
+  <button class="float-btn" onclick="printPage()">🖨️ 인쇄/PDF</button>
+  <button class="float-btn secondary" onclick="downloadHtml()">💾 저장</button>
+</div>
+
+<div class="toast" id="toast">복사되었습니다</div>
+
+<div class="app">
+  <div class="header">
+    <h1 class="title">📊 리본 인사이트 · 투자 대시보드</h1>
+    <p class="subtitle">중급 시즌 1 (EP.02~EP.09) 종합 학습판<br>매크로 · 모멘텀 · 실전 로테이션 프레임워크</p>
+    <div class="badge-row">
+      <span class="badge">🎓 학습용</span>
+      <span class="badge">🧭 프레임워크</span>
+      <span class="badge">⚠️ 매매신호X</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="overview">🗺️ 지도</button>
+    <button class="tab" data-tab="episodes">📚 8편 요약</button>
+    <button class="tab" data-tab="dashboard">🎯 대시보드</button>
+    <button class="tab" data-tab="checklist">✅ 체크리스트</button>
+    <button class="tab" data-tab="quiz">🧠 퀴즈</button>
+    <button class="tab" data-tab="verdict">💬 총평</button>
+  </div>
+
+  <!-- 1. 지도 -->
+  <div class="panel active" id="tab-overview">
+    <div class="card">
+      <h3 class="card-title">🎯 시즌 1의 핵심 논리</h3>
+      <div class="quote">"거시는 방향을 가리키고, 모멘텀은 그 방향을 확인한다"</div>
+      <div class="card-body">시즌 1은 단순한 강의가 아니라 하나의 <b>실전 매매 프레임워크</b>입니다. 매크로 3대 엔진(금리·환율·유동성)으로 계절을 판단하고, 모멘텀·RS·거래량으로 진짜 신호를 확인한 뒤, 섹터 로테이션으로 실행합니다.</div>
+    </div>
+    <div class="card">
+      <h3 class="card-title">📈 지식 빌딩 블록</h3>
+      <div class="flow">
+        <div class="flow-step c-blue"><div class="flow-title">🎯 EP.02 금리</div><div>자산의 중력 · 수익률 곡선</div></div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step c-teal"><div class="flow-title">🌐 EP.03 환율</div><div>외국인 자금의 나침반</div></div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step c-purple"><div class="flow-title">💧 EP.04 유동성</div><div>연준 대차대조표 · QE/QT</div></div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step c-pink"><div class="flow-title">📊 EP.05 선행지표</div><div>ISM PMI · 수익률 곡선</div></div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step c-coral"><div class="flow-title">🏃 EP.06 모멘텀</div><div>추세 추종 · 붕괴 리스크</div></div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step c-amber"><div class="flow-title">💪 EP.07 상대강도 RS</div><div>강한 놈을 사라</div></div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step c-green"><div class="flow-title">📉 EP.08 거래량 · 수급</div><div>돈의 가속도</div></div>
+        <div class="flow-arrow">▼</div>
+        <div class="flow-step c-blue"><div class="flow-title">🎪 EP.09 섹터 로테이션</div><div>모든 걸 통합한 실전</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 class="card-title">🔑 반드시 기억할 5문장</h3>
+      <ul class="checklist">
+        <li>금리는 자산 가격의 중력이다</li>
+        <li>가격은 의견, 거래량은 사실이다</li>
+        <li>강한 놈이 계속 강하다 (모멘텀)</li>
+        <li>두 신호등이 모두 초록일 때만 실행</li>
+        <li>예측이 아니라 신호 확인으로 따라간다</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2. 8편 요약 -->
+  <div class="panel" id="tab-episodes">
+    <div class="info-box info">💡 각 편을 터치하면 상세 요약이 펼쳐집니다</div>
+
+    <div class="episode"><div class="ep-header"><div class="ep-num c-blue">02</div><div class="ep-title">🎯 금리 — 투자 세계의 중력</div><div class="ep-arrow">▶</div></div>
+    <div class="ep-body">
+      <div class="quote">"수익률 곡선의 모양이 다음 계절의 정밀 진단서다"</div>
+      <b>🧭 두 가지 금리</b><br>• 기준금리 (중앙은행): 한국 2.5%, 미국 3.5~3.75%<br>• 시장금리 (채권시장): 10년물 4.2%<br><br>
+      <b>📈 수익률 곡선 4모양</b><br>• 정상(우상향): 건강 · 위험자산 선호<br>• 평탄화: 성장 기대 둔화<br>• 역전(단기>장기): 🚨 침체 예고 (반년~1년 뒤)<br>• 스티프닝: 회복 or 위기대응<br><br>
+      <b>🏢 업종 영향 (금리↑ 시)</b><br>• 성장주 ❌ / 은행·보험 ✅ / 배당주 ❌<br><br>
+      <div class="info-box warn">⚠️ 자막 오타 다수 ("2연물", "0.4% 4%포인트")</div>
+    </div></div>
+
+    <div class="episode"><div class="ep-header"><div class="ep-num c-teal">03</div><div class="ep-title">🌐 환율 — 자금 흐름의 나침반</div><div class="ep-arrow">▶</div></div>
+    <div class="ep-body">
+      <div class="quote">"코스피 9,000 돌파인데 원화는 왜 약세?"</div>
+      <b>💪 환율 4대 힘</b><br>① 금리 차이 ② 경상수지 ③ 자본흐름 ④ 위험선호심리<br><br>
+      <b>🎢 캐리 트레이드 위험</b><br>• 낮은 이자 통화로 빌려 → 높은 이자 자산 투자<br>• 2024년 8월 엔 캐리 청산 → 글로벌 급락<br>• 일본 정책금리 1%대 (31년 만에 최고) → 잠재 위험<br><br>
+      <b>🏢 원화 약세 시</b><br>• ✅ 수혜: 삼성전자·현대차·조선<br>• ❌ 피해: 항공·여행·원자재 수입<br><br>
+      <b>🔮 시나리오</b><br>• 1,400원대 안정 → 코스피 건강한 상승<br>• 1,600원 위협 → 외국인 이탈<br>• 엔캐리 충격 → 글로벌 청산
+    </div></div>
+
+    <div class="episode"><div class="ep-header"><div class="ep-num c-purple">04</div><div class="ep-title">💧 유동성 — 시장의 밀물과 썰물</div><div class="ep-arrow">▶</div></div>
+    <div class="ep-body">
+      <div class="quote">"자산 가격은 유동성이라는 물결 위에 뜬 배다"</div>
+      <b>⚖️ QE vs QT</b><br>• QE: 채권 매입 → 돈 방출 → 자산↑<br>• QT: 채권 매도 → 돈 흡수 → 자산↓<br><br>
+      <b>📊 연준 대차대조표 (곡간)</b>
+      <div class="grid-2" style="margin-top:8px">
+        <div class="mini-stat"><span class="mini-stat-num">$4T</span><div class="mini-stat-label">코로나 이전</div></div>
+        <div class="mini-stat"><span class="mini-stat-num">$9T</span><div class="mini-stat-label">최고점</div></div>
+        <div class="mini-stat"><span class="mini-stat-num">$6.58T</span><div class="mini-stat-label">2025.12 QT종료</div></div>
+        <div class="mini-stat"><span class="mini-stat-num">-$2T</span><div class="mini-stat-label">축소 규모</div></div>
+      </div><br>
+      <b>🚨 함정</b><br>연준이 채권 매입해도 QE 부활 아닐 수 있음<br>→ 준비금 관리(RMP)와 QE를 구분하는 눈 필요
+    </div></div>
+
+    <div class="episode"><div class="ep-header"><div class="ep-num c-pink">05</div><div class="ep-title">📊 선행지표 — 미래를 미리 읽다</div><div class="ep-arrow">▶</div></div>
+    <div class="ep-body">
+      <div class="quote">"선행으로 가설, 동행으로 확인, 후행으로 채점"</div>
+      <b>🔍 핵심 선행지표 6종</b><br>1. ISM 제조업 PMI (50이 분수령)<br>2. ISM 서비스업 PMI (미국의 70%)<br>3. 주간 실업수당 + PMI 고용<br>4. 수익률 곡선 (장단기 금리차)<br>5. 컨퍼런스보드 LEI / OECD 지수<br>6. 한국 수출·반도체 수출액<br><br>
+      <b>💡 프로의 팁</b><br>• "신규주문 − 재고" 지표 활용<br>• 레벨보다 <b>방향과 속도</b>가 중요<br>• PMI 40→43→46이면 아직 50 아래여도 봄 준비<br><br>
+      <b>📌 사례</b><br>미국 PMI 고용 47 (한 달 전 51 → -4.6p)<br>= 2020년 5월 이후 최저 (여름 끝자락 신호)
+    </div></div>
+
+    <div class="episode"><div class="ep-header"><div class="ep-num c-coral">06</div><div class="ep-title">🏃 모멘텀 — 시장의 관성</div><div class="ep-arrow">▶</div></div>
+    <div class="ep-body">
+      <div class="quote">"손실은 짧게, 이익은 길게"</div>
+      <b>🧠 모멘텀의 2대 원인</b><br>① 정보 지연 (뉴스가 계단식으로 반영)<br>② 군중심리 (FOMO 눈덩이 효과)<br><br>
+      <b>📚 2가지 종류</b><br>• 시계열: 종목 vs 과거의 자기 자신<br>• 횡단면 (RS): 종목 vs 다른 종목들<br><br>
+      <b>💥 모멘텀 붕괴 (Crash)</b><br>평소엔 안정적 수익 → 시장 급변 시 그동안 번 걸 짧게 토해냄<br>→ 강한 종목일수록 크게 무너짐<br><br>
+      <b>🕳️ 심리 함정: 처분 효과</b><br>오른 종목은 빨리 팔고, 내린 종목은 오래 보유<br>→ 모멘텀 원칙과 정반대!<br><br>
+      <b>🎯 명언</b><br>"사냥꾼이 되어야지 도박꾼이 되면 안 됩니다"
+    </div></div>
+
+    <div class="episode"><div class="ep-header"><div class="ep-num c-amber">07</div><div class="ep-title">💪 상대강도(RS) — 주도주 찾기</div><div class="ep-arrow">▶</div></div>
+    <div class="ep-body">
+      <div class="quote">"강한 놈을 사라"</div>
+      <b>🧮 RS 정의</b><br>RS = 종목 주가 ÷ 시장 지수 → 시간축으로 그린 선<br>• 코스피 +1%, 종목 +3% = 시장보다 강함 ✅<br><br>
+      <b>🏆 주도주가 계속 강한 이유</b><br>① 돈의 관성 (큰손 분할매수)<br>② 내러티브 (강력한 스토리)<br>③ 실적 (이익 증가)<br><br>
+      <b>🔺 3단계 발굴법</b><br>1. 시장 전체 방향 확인<br>2. RS 최강 섹터 선택<br>3. 그 섹터의 신고가+거래량 종목<br><br>
+      <b>💡 핵심 질문</b><br>"오늘 1등"이 아니라 "지난주보다 순위 오른 게 누구냐"
+    </div></div>
+
+    <div class="episode"><div class="ep-header"><div class="ep-num c-green">08</div><div class="ep-title">📉 거래량 · 수급 — 돈의 가속도</div><div class="ep-arrow">▶</div></div>
+    <div class="ep-body">
+      <div class="quote">"가격은 의견이고, 거래량은 사실이다"</div>
+      <b>📊 거래량 4경우</b><br>• ↑ 가격 + ↑ 거래량 = ✅ 건강한 상승<br>• ↑ 가격 + ↓ 거래량 = ⚠️ 연료 부족<br>• ↓ 가격 + ↑ 거래량 = 🚨 대량 매도<br>• ↓ 가격 + ↓ 거래량 = 💤 바닥 다지기<br><br>
+      <b>👥 3주체 특성</b><br>• 외국인: 환율과 함께 움직임<br>• 기관: 급락 시 방파제 (연기금 등)<br>• 개인: 자금 분산 · 역발상 온도계<br><br>
+      <b>🛠 실전 도구</b><br>• 거래대금 (금액 기준)<br>• <b>20일 평균 대비 2~3배</b>면 사건 발생<br>• 회전율 (상장주식수 대비)<br>• OBV (누적 거래량 지표)<br><br>
+      <b>🎨 매집 vs 분산</b><br>"가격이 아니라 발자국을 보라"
+    </div></div>
+
+    <div class="episode"><div class="ep-header"><div class="ep-num c-blue">09</div><div class="ep-title">🎪 섹터 로테이션 — 모든 걸 통합</div><div class="ep-arrow">▶</div></div>
+    <div class="ep-body">
+      <div class="quote">"돈의 이사를 감지하는 기술"</div>
+      <b>🌸 경기 사계절 지도</b><br>• 봄: 반도체·경기민감 성장주<br>• 여름: 산업재·소재·금융<br>• 가을: 에너지·인플레 수혜주<br>• 겨울: 필수소비재·헬스케어·유틸리티<br><br>
+      <b>⚙️ 3대 엔진</b><br>① 금리 (성장주 vs 가치주)<br>② 환율·유동성 (외국인 유입)<br>③ 경기 선행지표<br><br>
+      <b>🚦 두 신호등 원칙</b><br>거시 신호 + 모멘텀 신호 <b>모두 초록일 때만 실행</b><br><br>
+      <b>🛠 RRG (상대 로테이션 그래프)</b><br>시계방향: 개선 → 주도 → 약화 → 부진<br>돈 버는 길목: "개선 → 주도" 문턱<br><br>
+      <b>⚠️ 3대 함정</b><br>① 뒷북 로테이션 ② 가짜 로테이션 ③ 계절 오판
+    </div></div>
+  </div>
+
+  <!-- 3. 대시보드 -->
+  <div class="panel" id="tab-dashboard">
+    <div class="info-box info">🎮 아래 신호등을 클릭해서 나만의 매매 신호를 판별해 보세요</div>
+    <div class="card">
+      <h3 class="card-title">🚦 두 신호등 체커</h3>
+      <div class="card-body" style="margin-bottom:10px"><b>거시 신호등</b></div>
+      <div class="signal">
+        <div class="signal-box" data-sig="macro">
+          <div class="signal-icon">🌍</div>
+          <div class="signal-label">거시 우호</div>
+          <div class="signal-status">클릭해서 켜기</div>
+        </div>
+      </div>
+      <div class="card-body" style="margin:6px 0; font-size:11px; color:var(--text-tertiary)">확인: 금리 방향 / 환율 안정 / 유동성 우호 / 선행지표 개선</div>
+      <div class="card-body" style="margin:12px 0 10px 0"><b>모멘텀 신호등</b></div>
+      <div class="signal">
+        <div class="signal-box" data-sig="momentum">
+          <div class="signal-icon">📈</div>
+          <div class="signal-label">모멘텀 확인</div>
+          <div class="signal-status">클릭해서 켜기</div>
+        </div>
+      </div>
+      <div class="card-body" style="margin:6px 0; font-size:11px; color:var(--text-tertiary)">확인: RS 상승 / 거래량 20일평균 2배↑ / 수급 유입</div>
+      <div id="verdict" class="verdict">⏸️ 두 신호등 상태를 확인 중...</div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">📊 상황별 시나리오 트리</h3>
+      <div class="scen-card" style="border-color:var(--success); margin-bottom:8px">
+        <div class="scen-title">✅ 두 신호등 초록</div>시장·모멘텀 모두 우호<br>→ <b>분할 매수 시작 · 최대 신뢰도</b><br>→ 손절선 미리 설정
+      </div>
+      <div class="scen-card" style="border-color:var(--warning); margin-bottom:8px">
+        <div class="scen-title">⚠️ 하나만 켜짐</div>거시 or 모멘텀 신호 불일치<br>→ <b>관찰 목록에 등록 · 대기</b><br>→ 포지션 크기 절반 이하
+      </div>
+      <div class="scen-card" style="border-color:var(--error)">
+        <div class="scen-title">🚨 둘 다 꺼짐</div>하락 또는 불확실 국면<br>→ <b>현금 비중 확대 · 방어 섹터</b><br>→ 매수 지양
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">🌡️ 4계절 섹터 지도</h3>
+      <div class="grid-2">
+        <div class="scen-card" style="border-color:var(--success)"><div class="scen-title">🌸 봄 (회복)</div>반도체 · 경기민감 성장주</div>
+        <div class="scen-card" style="border-color:var(--warning)"><div class="scen-title">☀️ 여름 (확장)</div>산업재 · 소재 · 금융</div>
+        <div class="scen-card" style="border-color:#dc2626"><div class="scen-title">🍁 가을 (정점)</div>에너지 · 인플레 수혜</div>
+        <div class="scen-card" style="border-color:var(--info)"><div class="scen-title">❄️ 겨울 (수축)</div>필수소비재 · 헬스케어 · 배당</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 체크리스트 -->
+  <div class="panel" id="tab-checklist">
+    <div class="card">
+      <h3 class="card-title">📅 월간 (30분 · 매달 1회)</h3>
+      <div class="card-body">거시 대시보드를 5줄로 요약하고 "지금의 계절"을 한 단어로 적기</div>
+      <ul class="checklist">
+        <li>미국·한국 기준금리 방향 (인상/동결/인하)</li>
+        <li>미국 10년물 - 2년물 스프레드 변화</li>
+        <li>ISM 제조업·서비스업 PMI (50 위/아래 + 방향)</li>
+        <li>원달러 환율 추세 + 한국 수출 증가율</li>
+        <li>연준 대차대조표 (커지나·줄어드나·멈췄나)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 class="card-title">📅 주간 (20분 · 매주 주말)</h3>
+      <div class="card-body">섹터 상대강도 순위표 갱신 + 수급 확인</div>
+      <ul class="checklist">
+        <li>주요 섹터 ETF의 1개월·3개월 수익률 대비 코스피</li>
+        <li>지난주보다 순위가 2계단↑ 오른 섹터 표시</li>
+        <li>상위 섹터의 거래대금·수급 주체 확인</li>
+        <li>외국인·기관의 20일 누적 순매수 방향</li>
+        <li>관심 종목: OBV vs 주가 괴리 여부</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 class="card-title">📅 매매 실행 전 필수 확인</h3>
+      <ul class="checklist">
+        <li>거시 신호등 + 모멘텀 신호등 모두 초록인가?</li>
+        <li>손절선(진입가 -5~10%) 미리 설정했나?</li>
+        <li>한 번에 전량 아닌 분할 매수 계획인가?</li>
+        <li>파는 이유와 사는 이유를 각각 적었나?</li>
+        <li>추격매수/FOMO가 아닌 신호 기반인가?</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 class="card-title">⚠️ 반드시 피할 3대 함정</h3>
+      <ul class="checklist warn-list">
+        <li><b>뒷북 로테이션</b>: 뉴스가 나오면 이미 중후반</li>
+        <li><b>가짜 로테이션</b>: 하루 급등을 추세로 오해</li>
+        <li><b>계절 오판</b>: 거시 해석 자체가 틀린 경우</li>
+      </ul>
+      <div class="info-box error">💡 방어 원칙: 손절 규칙은 계절 판단보다 위에 둔다</div>
+    </div>
+  </div>
+
+  <!-- 5. 퀴즈 -->
+  <div class="panel" id="tab-quiz">
+    <div class="info-box info">🧠 배운 내용을 5문제로 자가 진단해 보세요</div>
+    <div id="quiz-container"></div>
+    <div id="quiz-result" style="display:none" class="card">
+      <h3 class="card-title">🎯 최종 점수</h3>
+      <div class="verdict" id="quiz-final-score" style="font-size:28px;">0/5</div>
+      <button class="cta-btn secondary" onclick="restartQuiz()">🔄 다시 풀기</button>
+    </div>
+  </div>
+
+  <!-- 6. 총평 -->
+  <div class="panel" id="tab-verdict">
+    <div class="card">
+      <h3 class="card-title">⭐ 최종 평가</h3>
+      <div class="rating">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span>
+      </div>
+      <div class="verdict wait">4.0 / 5.0 — 학습용 강추, 매매용 비추</div>
+    </div>
+    <div class="card">
+      <h3 class="card-title">💭 종합 분석</h3>
+      <div class="card-body">
+        <p>리본 인사이트 채널은 <b>AI 자동화 SaaS 회사(리본랩스)의 실증용 채널</b>이지만, 놀랍게도 시즌 1의 콘텐츠는 정통 재무·거시경제 이론과 정확히 부합합니다. 국내 웬만한 유료 강의보다 짜임새가 좋고, 매 편마다 실행 가능한 체크리스트를 제공한다는 점이 강력한 장점입니다.</p>
+        <p style="margin-top:8px">특히 <b>"매크로 → 모멘텀 → 실행"</b>이라는 프레임워크는 레이 달리오의 All-Weather 사고방식과 유사한 통합적 시각을 훈련시켜 줍니다.</p>
+      </div>
+    </div>
+    <div class="pc-box pros">
+      <div class="pc-title">👍 강점</div>
+      • 개념 정확성 (정통 이론과 일치)<br>• 실행 가능한 체크리스트 문화<br>• 직관적 은유 (중력·나침반·밀물)<br>• 시즌제 커리큘럼 (지식이 쌓이는 구조)<br>• 매매 지시가 아닌 프레임워크 교육
+    </div>
+    <div class="pc-box cons">
+      <div class="pc-title">👎 약점</div>
+      • 자막·수치 표기 오류 다수<br>• RSI·MACD·이동평균 미포함<br>• RS 계산 세부 규격 부재<br>• 원자료 출처 링크 없음<br>• 트랙레코드 없음 (구독자 269명)
+    </div>
+    <div class="card">
+      <h3 class="card-title">🎯 이런 분에게 추천</h3>
+      <ul class="checklist">
+        <li>감(感)이 아니라 프레임워크로 배우고 싶은 분</li>
+        <li>매크로·모멘텀 단어 앞에서 막막한 분</li>
+        <li>짧고 밀도 있는 강의를 선호하는 분 (12~15분)</li>
+        <li>기술적 지표보다 시장 흐름을 이해하고 싶은 분</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 class="card-title">🚫 이런 분에겐 불충분</h3>
+      <ul class="checklist warn-list">
+        <li>매수·매도 신호를 원하는 분</li>
+        <li>차트 기술적 분석 위주로 배우고 싶은 분</li>
+        <li>검증된 트랙레코드 채널을 선호하는 분</li>
+        <li>즉시 수익을 원하는 분</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 class="card-title">💡 학습 후 추천 다음 단계</h3>
+      <div class="card-body">
+        1. <b>Investopedia</b>에서 RRG · RSI · MACD 심화 학습<br>
+        2. <b>KRX 정보데이터시스템</b>에서 실제 수급 데이터 확인<br>
+        3. <b>증권사 리서치 리포트</b>로 매크로 크로스체크<br>
+        4. <b>모의 투자</b>로 최소 6개월 프레임워크 검증<br>
+        5. <b>애널리스트 채널</b>(삼프로TV 등)로 균형 잡기
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    📺 출처: <a href="https://www.youtube.com/@daily10stock" target="_blank">리본 인사이트</a> · 중급 시즌 1<br>
+    ⚠️ 본 대시보드는 <b>학습용 요약</b>이며 투자 권유가 아닙니다<br>
+    모든 투자 판단은 원자료 재검증 후 본인 책임하에
+  </div>
+</div>
+
+<script>
+  // Tab 전환
+  document.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+      document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // 에피소드 아코디언
+  document.querySelectorAll('.ep-header').forEach(header => {
+    header.addEventListener('click', () => {
+      header.parentElement.classList.toggle('open');
+    });
+  });
+
+  // 신호등 토글
+  const signals = { macro: false, momentum: false };
+  document.querySelectorAll('.signal-box').forEach(box => {
+    box.addEventListener('click', () => {
+      const key = box.dataset.sig;
+      signals[key] = !signals[key];
+      box.classList.toggle('on', signals[key]);
+      box.querySelector('.signal-status').textContent = signals[key] ? '🟢 켜짐' : '클릭해서 켜기';
+      updateVerdict();
+    });
+  });
+  function updateVerdict() {
+    const v = document.getElementById('verdict');
+    const count = (signals.macro ? 1 : 0) + (signals.momentum ? 1 : 0);
+    if (count === 2) {
+      v.className = 'verdict go';
+      v.innerHTML = '✅ 실행! 분할 매수 시작 (손절선 필수)';
+    } else if (count === 1) {
+      v.className = 'verdict wait';
+      v.innerHTML = '⚠️ 관찰 목록에 등록 · 대기';
+    } else {
+      v.className = 'verdict';
+      v.innerHTML = '⏸️ 두 신호등 상태를 확인 중...';
+    }
+  }
+
+  // 퀴즈
+  const quizData = [
+    { q: '수익률 곡선이 "역전"되었다는 것은 무엇을 의미할까요?',
+      opts: ['경기가 활황이라는 강한 신호','단기 금리가 장기 금리보다 높아진 상태 → 침체 예고','중앙은행이 금리를 내리기 시작한 시점','주식 매수 최적 타이밍'],
+      correct: 1, fb: '✅ 정답! 단기 > 장기 금리 역전은 역사적으로 반년~1년 뒤 경기 침체를 예고해 왔습니다 (EP.02).' },
+    { q: '"거래량이 20일 평균의 2~3배" 라는 신호는 무엇을 뜻하나요?',
+      opts: ['무의미한 노이즈','반드시 매수 시점','무언가 사건이 발생 · 진짜 추세일 확률↑','반드시 매도 시점'],
+      correct: 2, fb: '✅ 정답! "거래대금이 20일 평균 대비 2배 이상 늘며 오르면 진짜일 확률이 높다"는 EP.08의 핵심 원칙입니다.' },
+    { q: '섹터 로테이션에서 "두 신호등"이 모두 초록일 때만 실행하라는 원칙에서, 두 신호등이란?',
+      opts: ['뉴스 신호 + 애널리스트 신호','거시 신호 + 모멘텀 신호','외국인 신호 + 기관 신호','가격 신호 + 거래량 신호'],
+      correct: 1, fb: '✅ 정답! 거시(금리·환율·선행지표)와 모멘텀(RS·거래량·수급) 둘 다 초록일 때만 실행 (EP.09).' },
+    { q: '"처분 효과"란 무엇일까요?',
+      opts: ['이익 종목은 오래 갖고, 손실 종목을 빨리 파는 심리','이익 종목을 빨리 팔고, 손실 종목을 오래 갖는 심리 (모멘텀의 적)','분할 매수를 하는 규칙','중앙은행의 자산 매각 정책'],
+      correct: 1, fb: '✅ 정답! 처분 효과는 모멘텀 원칙 "손실은 짧게, 이익은 길게"와 정반대의 심리 함정입니다 (EP.06).' },
+    { q: 'RS(상대강도) 계산의 기본 아이디어는?',
+      opts: ['종목 주가 × 시장 지수','종목 주가 + 시장 지수','종목 주가 ÷ 시장 지수','종목 주가 - 시장 지수'],
+      correct: 2, fb: '✅ 정답! RS = 종목주가 ÷ 시장지수 를 시간축으로 그린 선. 우상향이면 시장을 이기고 있음 (EP.07).' }
+  ];
+  let currentQuiz = 0, quizScore = 0;
+  function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    if (currentQuiz >= quizData.length) {
+      container.style.display = 'none';
+      document.getElementById('quiz-result').style.display = 'block';
+      const finalEl = document.getElementById('quiz-final-score');
+      finalEl.textContent = quizScore + ' / ' + quizData.length;
+      finalEl.className = quizScore === 5 ? 'verdict go' : quizScore >= 3 ? 'verdict wait' : 'verdict';
+      return;
+    }
+    const q = quizData[currentQuiz];
+    let html = '<div class="card">';
+    html += '<div class="card-body" style="color:var(--text-tertiary); font-size:11px; margin-bottom:6px;">Q' + (currentQuiz + 1) + ' / ' + quizData.length + '</div>';
+    html += '<h3 class="card-title" style="font-size:15px; line-height:1.4;">' + q.q + '</h3>';
+    q.opts.forEach((opt, i) => {
+      html += '<button class="quiz-opt" data-idx="' + i + '">' + (i + 1) + '. ' + opt + '</button>';
+    });
+    html += '<div class="quiz-fb" id="quiz-fb"></div>';
+    html += '<button class="cta-btn" id="quiz-next" style="display:none;">다음 문제 →</button>';
+    html += '</div>';
+    container.innerHTML = html;
+    container.style.display = 'block';
+    container.querySelectorAll('.quiz-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        const q = quizData[currentQuiz];
+        container.querySelectorAll('.quiz-opt').forEach((b, i) => {
+          b.disabled = true;
+          if (i === q.correct) b.classList.add('correct');
+          else if (i === idx) b.classList.add('wrong');
+        });
+        const fb = document.getElementById('quiz-fb');
+        fb.classList.add('show');
+        if (idx === q.correct) {
+          quizScore++;
+          fb.style.background = 'rgba(16,185,129,0.15)';
+          fb.style.color = 'var(--success)';
+        } else {
+          fb.style.background = 'rgba(239,68,68,0.15)';
+          fb.style.color = 'var(--error)';
+        }
+        fb.textContent = q.fb;
+        document.getElementById('quiz-next').style.display = 'block';
+      });
+    });
+    document.getElementById('quiz-next').addEventListener('click', () => {
+      currentQuiz++;
+      renderQuiz();
+    });
+  }
+  function restartQuiz() {
+    currentQuiz = 0;
+    quizScore = 0;
+    document.getElementById('quiz-result').style.display = 'none';
+    renderQuiz();
+  }
+  renderQuiz();
+
+  // 인쇄
+  function printPage() { window.print(); }
+
+  // HTML 파일로 저장
+  function downloadHtml() {
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'reborn_dashboard.html';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('💾 HTML 파일이 다운로드되었습니다');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+</script>
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
