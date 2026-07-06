@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📚 EP.05 선행지표 편 — 왕초보 완전정복</title>
+<style>
+  * { box-sizing: border-box; }
+  :root {
+    --bg-page: #f7f8fa;
+    --bg-surface: #ffffff;
+    --bg-subtle: #f0f2f5;
+    --text-primary: #1a1d21;
+    --text-secondary: #4a5058;
+    --text-tertiary: #8a929c;
+    --brand: #4a6cf7;
+    --brand-2: #0f7fff;
+    --border: #e1e4ea;
+    --border-sub: #eef0f3;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --info: #0f7fff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-page: #0f1114;
+      --bg-surface: #1a1d21;
+      --bg-subtle: #22262c;
+      --text-primary: #f0f2f5;
+      --text-secondary: #b8bec8;
+      --text-tertiary: #8a929c;
+      --border: #333940;
+      --border-sub: #22262c;
+    }
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  .app { max-width: 780px; margin: 0 auto; padding: 16px; }
+
+  /* 상단 액션 버튼 */
+  .float-actions {
+    position: sticky;
+    top: 8px;
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+    margin-bottom: 12px;
+    z-index: 99;
+  }
+  .float-btn {
+    padding: 8px 14px;
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    min-height: 36px;
+  }
+  .float-btn.secondary {
+    background: var(--bg-surface);
+    color: var(--brand);
+    border: 1px solid var(--brand);
+  }
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    background: var(--text-primary);
+    color: var(--bg-page);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+
+  /* 헤더 */
+  .header {
+    text-align: center;
+    padding: 28px 20px;
+    background: linear-gradient(135deg, #fce7f3, #dbeafe);
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
+  @media (prefers-color-scheme: dark) {
+    .header { background: linear-gradient(135deg, #831843, #1e3a8a); }
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+  }
+  .header .sub {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .header a {
+    color: var(--brand-2);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  /* 섹션 */
+  .section {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--brand);
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 16px 0 8px 0;
+  }
+  h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 12px 0 6px 0;
+    color: var(--brand);
+  }
+  p { margin: 8px 0; font-size: 14px; }
+
+  /* 인용문 */
+  .quote {
+    padding: 16px;
+    background: var(--bg-subtle);
+    border-left: 4px solid var(--brand-2);
+    border-radius: 8px;
+    margin: 12px 0;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .quote.big {
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+    padding: 20px;
+  }
+
+  /* 테이블 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 12px 0;
+  }
+  th {
+    background: var(--bg-subtle);
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: 700;
+    border-bottom: 2px solid var(--border);
+    font-size: 13px;
+  }
+  td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border-sub);
+    vertical-align: top;
+  }
+  td.center, th.center { text-align: center; }
+
+  /* 인포박스 */
+  .info-box {
+    padding: 14px;
+    border-radius: 10px;
+    margin: 12px 0;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .info-box.success {
+    background: rgba(16,185,129,0.1);
+    border-left: 4px solid var(--success);
+  }
+  .info-box.warn {
+    background: rgba(245,158,11,0.1);
+    border-left: 4px solid var(--warning);
+  }
+  .info-box.error {
+    background: rgba(239,68,68,0.1);
+    border-left: 4px solid var(--error);
+  }
+  .info-box.info {
+    background: rgba(15,127,255,0.1);
+    border-left: 4px solid var(--info);
+  }
+  .info-box .icon { font-size: 18px; margin-right: 6px; }
+
+  /* 별점 */
+  .rating {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin: 10px 0;
+  }
+  .star { font-size: 24px; color: var(--warning); }
+  .star.empty { color: var(--border); }
+
+  /* 카드 그리드 */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin: 12px 0;
+  }
+  .season-card {
+    padding: 14px;
+    border-radius: 10px;
+    border-left: 4px solid;
+    background: var(--bg-subtle);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .season-card .t { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+
+  /* 링크 */
+  a { color: var(--brand-2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  a.btn {
+    display: inline-block;
+    padding: 8px 14px;
+    background: var(--brand);
+    color: #fff !important;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+  a.btn:hover { text-decoration: none; opacity: 0.9; }
+
+  /* 체크리스트 */
+  ul.check {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+  }
+  ul.check li {
+    padding: 8px 0 8px 30px;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--border-sub);
+  }
+  ul.check li:last-child { border-bottom: none; }
+  ul.check li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 22px;
+    height: 22px;
+    background: var(--success);
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 22px;
+  }
+  ul.no-list li::before { background: var(--error); content: "✕"; }
+
+  /* 지표 카드 */
+  .indicator-card {
+    background: var(--bg-subtle);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 12px 0;
+    border: 1px solid var(--border-sub);
+  }
+  .indicator-card .num {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: var(--brand);
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 32px;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  .indicator-card h4 {
+    display: inline;
+    color: var(--text-primary);
+    margin: 0;
+  }
+  .indicator-card .site {
+    background: var(--bg-surface);
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin: 8px 0;
+    font-size: 12px;
+    border: 1px solid var(--border);
+  }
+
+  /* 코드 블록 */
+  .code-block {
+    background: var(--bg-subtle);
+    padding: 14px;
+    border-radius: 8px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    border: 1px solid var(--border);
+    margin: 10px 0;
+  }
+
+  /* 배지 */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    margin: 2px;
+  }
+  .badge.ok { background: rgba(16,185,129,0.15); color: var(--success); }
+  .badge.warn { background: rgba(245,158,11,0.15); color: var(--warning); }
+  .badge.err { background: rgba(239,68,68,0.15); color: var(--error); }
+
+  hr {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 24px 0;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    line-height: 1.7;
+  }
+
+  @media print {
+    .float-actions { display: none; }
+    .section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="float-actions">
+    <button class="float-btn secondary" onclick="printPage()">🖨️ 인쇄/PDF</button>
+    <button class="float-btn" onclick="downloadHtml()">💾 HTML 저장</button>
+  </div>
+
+  <div class="toast" id="toast">✓ 저장 완료</div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>📚 EP.05 선행지표 편</h1>
+    <div style="font-size:18px; font-weight:700; margin:6px 0;">왕초보 완전정복 가이드</div>
+    <div class="sub">
+      🎬 <a href="https://www.youtube.com/watch?v=JbllgCD25gc" target="_blank">★Intermediate Season 1 EP.05★ Reading Economic Cycles</a><br>
+      ⏱ 12분 45초 · 리본 인사이트
+    </div>
+  </div>
+
+  <!-- 한 줄 요약 -->
+  <div class="section">
+    <h2>🎯 이 영상 한 줄 요약</h2>
+    <div class="quote big">
+      "주가는 지금 경기가 아니라<br>
+      <b>6개월~1년 뒤 경기</b>를 반영해요.<br>
+      그래서 미래를 미리 보여주는<br>
+      <b>선행지표</b>를 보면<br>
+      남보다 한발 먼저 움직일 수 있어요."
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="section">
+    <h2>🌱 왕초보 레슨 (10분 이해 가이드)</h2>
+
+    <h3>📖 STEP 1: 지표는 3종류가 있어요</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>종류</th>
+          <th>시점</th>
+          <th>예시</th>
+          <th>비유</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>선행지표</b></td>
+          <td>미래 예고</td>
+          <td>ISM PMI, 실업수당 청구</td>
+          <td>⚡ 번개 (비 오기 전)</td>
+        </tr>
+        <tr>
+          <td><b>동행지표</b></td>
+          <td>현재 반영</td>
+          <td>산업생산, 소매판매</td>
+          <td>🌧️ 지금 오는 비</td>
+        </tr>
+        <tr>
+          <td><b>후행지표</b></td>
+          <td>결과 확인</td>
+          <td>실업률, 기업 실적</td>
+          <td>☔ 지나간 비의 흔적</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info-box info">
+      <span class="icon">💡</span><b>왕초보 팁</b>: 뉴스에 나오는 "실업률 발표"는 대부분 <b>후행지표</b>예요. 이걸 보고 투자하면 늦어요!
+    </div>
+
+    <h3>📖 STEP 2: 왜 선행지표를 봐야 할까요?</h3>
+    <div class="quote">"주가는 대략 6개월~1년 뒤의 경기를 미리 반영해서 움직인다" (영상 원문)</div>
+    <p>즉, 뉴스에서 "경기 좋아졌다!" 나올 때는 <b>이미 주가는 다 올라있음</b> 😅<br>
+    반대로 "경기 안 좋다" 나올 때는 <b>이미 주가는 바닥에서 오르고 있는 경우가 많음</b> 📈</p>
+
+    <h3>📖 STEP 3: 실전 사용법</h3>
+    <div class="quote"><b>선행지표로 가설 → 동행지표로 확인 → 후행지표로 채점</b></div>
+    <p>가설(예: "봄이 올 것 같다") → 실제 흐름 확인 → 나중에 맞았는지 체크</p>
+  </div>
+
+  <!-- 팩트체크 -->
+  <div class="section">
+    <h2>✅ 팩트체크 — 이 영상 믿어도 될까?</h2>
+    <p>실제 데이터와 하나하나 대조해 봤습니다:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>영상 주장</th>
+          <th>실제 확인 결과</th>
+          <th class="center">판정</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>주가는 경기보다 6개월~1년 앞선다</td>
+          <td>컨퍼런스보드 공식: LEI는 경기 전환점을 "약 7개월 앞서" 예측</td>
+          <td class="center"><span class="badge ok">✅ 정확</span></td>
+        </tr>
+        <tr>
+          <td>PMI 50이 분수령</td>
+          <td>ISM 공식: 50 이상 확장, 50 미만 수축이 표준 정의</td>
+          <td class="center"><span class="badge ok">✅ 정확</span></td>
+        </tr>
+        <tr>
+          <td>"신규주문 − 재고"가 고수의 기법</td>
+          <td>실무 애널리스트가 실제로 쓰는 지표 (Order-Inventory Gap)</td>
+          <td class="center"><span class="badge ok">✅ 정확</span></td>
+        </tr>
+        <tr>
+          <td>장단기 금리차 역전 후 반년~1년 뒤 침체</td>
+          <td>Fed의 Estrella & Mishkin 연구가 실증. 다만 최근 20개월 역전에도 침체 없어 정확도 논쟁 중</td>
+          <td class="center"><span class="badge warn">⚠️ 대체로 맞음</span></td>
+        </tr>
+        <tr>
+          <td>미국 6월 PMI 고용 47</td>
+          <td>2026년 6월 ISM 제조업 PMI 전체는 53.3. 고용 세부항목은 별도지만 47 수준까지 하락 보도 있음</td>
+          <td class="center"><span class="badge warn">⚠️ 세부확인</span></td>
+        </tr>
+        <tr>
+          <td>한국 수출·반도체 수출이 선행지표 역할</td>
+          <td>정통 실무 관점과 일치. 특히 반도체는 글로벌 IT 사이클 선행</td>
+          <td class="center"><span class="badge ok">✅ 정확</span></td>
+        </tr>
+        <tr>
+          <td>컨퍼런스보드 LEI, OECD 선행지수</td>
+          <td>실제 존재하는 국제 표준 지표</td>
+          <td class="center"><span class="badge ok">✅ 정확</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-box success">
+      <span class="icon">🎯</span><b>팩트체크 최종 결론</b><br>
+      ✅ 개념·프레임워크는 <b>정확하고 정통 이론과 일치</b>합니다.<br>
+      ⚠️ 다만 <b>최근 20개월 역전에도 침체가 안 온 사례</b>처럼 "역전 = 무조건 침체"라는 부분은 논쟁이 있어요. 100% 맞는 지표는 없다는 점을 기억하세요.
+    </div>
+  </div>
+
+  <!-- 제 생각 -->
+  <div class="section">
+    <h2>💭 제가 어떻게 생각하는지</h2>
+
+    <h3>👍 이 영상이 정말 유익한 이유</h3>
+    <ol style="line-height:1.8; font-size:14px;">
+      <li><b>"주가 = 미래 반영"이라는 개념 하나만 이해해도 투자 관점이 완전히 바뀝니다.</b><br>
+      대부분의 왕초보는 "지금 뉴스 좋으니까 산다"고 하는데, 실제로는 그 시점이 꼭지인 경우가 많죠.</li>
+      <li><b>PMI 50 기준선 같은 "간단한 규칙"을 알려줌</b><br>
+      숫자 하나만 봐도 확장/수축을 판단할 수 있는 심플한 프레임워크.</li>
+      <li><b>"레벨보다 방향과 속도"라는 조언은 진짜 프로급</b><br>
+      PMI가 40이든 47이든 상승 중이면 좋은 신호. 이걸 아는 사람이 의외로 적어요.</li>
+    </ol>
+
+    <h3>👎 이 영상의 한계</h3>
+    <ol style="line-height:1.8; font-size:14px;">
+      <li><b>왕초보에겐 여전히 어려울 수 있어요</b><br>
+      "차분·미분·가속도" 같은 표현이 나오는데, 수학 배경 없으면 부담.</li>
+      <li><b>선행지표 정확도가 100%가 아님을 강조 부족</b><br>
+      최근처럼 역전인데 침체 안 오는 시기가 있어요. "확률의 지도"라는 표현은 나오지만 왕초보는 놓치기 쉬움.</li>
+      <li><b>"고용지수 47" 같은 구체 수치는 스스로 확인해야 함</b><br>
+      출처 링크가 없어 왕초보가 검증하기 어려워요.</li>
+    </ol>
+
+    <h3>🎯 왕초보 관점 최종 평가</h3>
+    <div class="rating">
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star">★</span>
+      <span class="star empty">★</span>
+    </div>
+    <div class="info-box warn">
+      <b>★★★★☆ (4/5) — 시청 강추, 단 이 한 편만 보고 매매 결정은 금물</b>
+    </div>
+  </div>
+
+  <!-- 실전 확인법 -->
+  <div class="section">
+    <h2>🔍 선행지표 실제 확인 방법 (왕초보용 가이드)</h2>
+    <p>영상에서 소개한 5가지 지표를 <b>실제로 어디서 어떻게 확인</b>하는지 정리했어요.</p>
+
+    <div class="indicator-card">
+      <div><span class="num">1</span><h4>미국 ISM 제조업 PMI</h4> <span class="badge ok">매달 1일 발표</span></div>
+      <div class="site">📍 <a href="https://kr.investing.com/economic-calendar/ism-manufacturing-pmi-173" target="_blank">Investing.com 한국</a> 또는 <a href="https://www.ismworld.org" target="_blank">ISM 공식</a></div>
+      <div><b>보는 법:</b></div>
+      <ul style="font-size:13px; margin:4px 0 4px 20px;">
+        <li>매달 초 발표 → <b>50 넘으면 확장 · 미만이면 수축</b></li>
+        <li>예: 2026년 6월 PMI = <b>53.3</b> → 20개월 연속 확장 중</li>
+        <li>⭐ 세부 항목 중 <b>"고용"</b>과 <b>"신규주문"</b> 함께 보기</li>
+      </ul>
+      <a class="btn" href="https://kr.investing.com/economic-calendar/ism-manufacturing-pmi-173" target="_blank">🔗 확인하러 가기</a>
+    </div>
+
+    <div class="indicator-card">
+      <div><span class="num">2</span><h4>미국 장단기 금리차 (수익률 곡선)</h4> <span class="badge ok">실시간</span></div>
+      <div class="site">📍 <a href="https://fred.stlouisfed.org/series/T10Y2Y" target="_blank">FRED - T10Y2Y</a> (세계 최고 무료 경제 데이터)</div>
+      <div><b>보는 법:</b></div>
+      <ul style="font-size:13px; margin:4px 0 4px 20px;">
+        <li>페이지 열면 그래프 바로 뜸 (10년물 - 2년물 스프레드)</li>
+        <li><b>음수(-)면 역전 → 침체 경고</b></li>
+        <li><b>양수(+)면 정상</b></li>
+        <li>최근 수치: <b>약 +0.4~0.5%p 부근 (완만한 정상 곡선)</b></li>
+      </ul>
+      <div class="info-box info" style="margin:8px 0;">
+        <span class="icon">💡</span><b>왕초보 팁</b>: 이 사이트 즐겨찾기 필수! 매주 한 번만 확인해도 충분해요.
+      </div>
+      <a class="btn" href="https://fred.stlouisfed.org/series/T10Y2Y" target="_blank">🔗 FRED 바로가기</a>
+    </div>
+
+    <div class="indicator-card">
+      <div><span class="num">3</span><h4>컨퍼런스보드 경기선행지수 (LEI)</h4> <span class="badge ok">매달 발표</span></div>
+      <div class="site">📍 <a href="https://www.conference-board.org/topics/us-leading-indicators/" target="_blank">The Conference Board 공식</a></div>
+      <div><b>보는 법:</b></div>
+      <ul style="font-size:13px; margin:4px 0 4px 20px;">
+        <li>매달 발표 → <b>몇 달 연속 하락 vs 상승</b>을 봄</li>
+        <li>최근 발표: 2026년 5월 LEI = <b>99.3 (0.1% 상승)</b></li>
+        <li>⭐ <b>6개월 연속 방향</b>이 핵심 (한 달 튀는 건 노이즈)</li>
+      </ul>
+      <div style="font-size:12px; color:var(--text-secondary);">💡 <b>대안 (더 쉬움)</b>: <a href="https://kr.investing.com/economic-calendar/us-leading-index-1968" target="_blank">Investing.com 미국 선행지수</a> — 한국어로 표시됨</div>
+      <a class="btn" href="https://www.conference-board.org/topics/us-leading-indicators/" target="_blank">🔗 확인하러 가기</a>
+    </div>
+
+    <div class="indicator-card">
+      <div><span class="num">4</span><h4>한국 경기선행지수 순환변동치</h4> <span class="badge ok">통계청 · 매달</span></div>
+      <div class="site">📍 <a href="https://www.index.go.kr/unity/potal/main/EachDtlPageDetail.do?idx_cd=1057" target="_blank">지표누리 (e-나라지표)</a> · <a href="https://www.indexergo.com/series/?idxDetail=11601" target="_blank">INDEXerGO</a> (더 시각적)</div>
+      <div><b>보는 법:</b></div>
+      <ul style="font-size:13px; margin:4px 0 4px 20px;">
+        <li>최근 수치: <b>선행종합지수 순환변동치 104.80</b> (2026년 7월 확인)</li>
+        <li><b>100 이상 = 확장 국면 · 100 미만 = 수축 국면</b></li>
+        <li>매달 발표</li>
+      </ul>
+      <a class="btn" href="https://www.indexergo.com/series/?idxDetail=11601" target="_blank">🔗 INDEXerGO 바로가기</a>
+    </div>
+
+    <div class="indicator-card">
+      <div><span class="num">5</span><h4>한국 수출 증가율</h4> <span class="badge ok">매달 1일 · 초빠른 지표</span></div>
+      <div class="site">📍 <a href="https://www.motir.go.kr" target="_blank">산업통상자원부 수출입동향</a> (매달 1일)</div>
+      <div><b>보는 법:</b></div>
+      <ul style="font-size:13px; margin:4px 0 4px 20px;">
+        <li>매달 1일 아침에 산업부가 발표 → <b>당일 뉴스 헤드라인에 나옴</b></li>
+        <li>⭐ <b>반도체 수출 증가율</b>을 특히 주목 → 글로벌 IT 사이클 선행</li>
+        <li>2026년 6월 수출: <b>1,022억 달러 (사상 첫 1,000억 돌파)</b></li>
+      </ul>
+      <a class="btn" href="https://www.motir.go.kr" target="_blank">🔗 산업부 바로가기</a>
+    </div>
+  </div>
+
+  <!-- 대시보드 -->
+  <div class="section">
+    <h2>🛠️ 왕초보용 실전 대시보드 (매달 15분이면 끝)</h2>
+
+    <h3>📅 매달 5일경 (전월 지표 나온 뒤)</h3>
+    <div class="code-block">✅ 체크리스트 (모두 위 사이트에서 확인)
+
+1. 미국 ISM PMI ______ (50 위/아래? 방향은?)
+2. 미국 10-2년 스프레드 ______ %p (양수/음수?)
+3. 컨퍼런스보드 LEI ______ (전월 대비?)
+4. 한국 선행지수 순환변동치 ______ (100 위/아래?)
+5. 한국 수출 증가율 ______ % (전년 동월비)
+   └ 반도체 수출 ______ %
+
+📝 오늘의 계절 판단: ____________ (봄/여름/가을/겨울)</div>
+
+    <h3>🎯 지표 조합 해석 가이드 (왕초보용)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>상황</th>
+          <th class="center">PMI</th>
+          <th class="center">금리차</th>
+          <th class="center">LEI</th>
+          <th>판단</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🌸 <b>봄</b></td>
+          <td class="center">상승 중 (50 돌파)</td>
+          <td class="center">정상(+)</td>
+          <td class="center">상승</td>
+          <td>경기민감·성장주 유리</td>
+        </tr>
+        <tr>
+          <td>☀️ <b>여름</b></td>
+          <td class="center">55+ 유지</td>
+          <td class="center">정상</td>
+          <td class="center">상승</td>
+          <td>산업재·소재·금융 유리</td>
+        </tr>
+        <tr>
+          <td>🍁 <b>가을</b></td>
+          <td class="center">정점 후 하락</td>
+          <td class="center">평탄화</td>
+          <td class="center">하락 시작</td>
+          <td>에너지·인플레 수혜</td>
+        </tr>
+        <tr>
+          <td>❄️ <b>겨울</b></td>
+          <td class="center">50 아래</td>
+          <td class="center">역전(-)</td>
+          <td class="center">하락 지속</td>
+          <td>필수소비재·헬스케어</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 하지 말아야 할 것 -->
+  <div class="section">
+    <h2>🚫 왕초보가 절대 하지 말아야 할 것</h2>
+    <ul class="check no-list">
+      <li><b>지표 하나만 보고 결정하기</b> — 반드시 3~5개 지표를 함께 확인</li>
+      <li><b>한 달 튀는 숫자에 흔들리기</b> — 3개월 이상 방향이 중요</li>
+      <li><b>뉴스 헤드라인만 보고 매매</b> — 이미 반영된 정보일 확률 높음</li>
+      <li><b>"이번엔 다르다"고 생각하기</b> — 역사는 반복됨</li>
+      <li><b>손절 없이 확신하기</b> — 어떤 지표도 100%가 아님</li>
+    </ul>
+  </div>
+
+  <!-- 다음 액션 -->
+  <div class="section">
+    <h2>💡 다음 액션 추천</h2>
+    <p>이 영상을 제대로 활용하려면:</p>
+    <ol style="line-height:1.8; font-size:14px;">
+      <li><b>🔖 위 5개 사이트를 브라우저 즐겨찾기에 추가</b><br>
+      특히 <a href="https://fred.stlouisfed.org/series/T10Y2Y" target="_blank">FRED</a>는 지금 바로 열어보세요!</li>
+      <li><b>📊 매달 5일에 15분씩 대시보드 채우기</b> — 3개월만 해도 감이 옴</li>
+      <li><b>📝 예측이 아니라 관찰 일지</b><br>
+      "지금은 봄이라고 판단됨. 이유: PMI 상승, LEI 상승, 금리차 정상"<br>
+      → 3개월 뒤에 맞았는지 스스로 채점</li>
+    </ol>
+  </div>
+
+  <div class="footer">
+    📺 출처: <a href="https://www.youtube.com/@daily10stock" target="_blank">리본 인사이트 · EP.05</a><br>
+    ⚠️ 본 문서는 <b>학습용 요약</b>이며 투자 권유가 아닙니다<br>
+    모든 투자 판단은 원자료 재검증 후 본인 책임하에
+  </div>
+
+</div>
+
+<script>
+  function printPage() {
+    window.print();
+  }
+
+  function downloadHtml() {
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ep05_leading_indicators.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('💾 HTML 파일이 다운로드되었습니다');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+</script>
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
