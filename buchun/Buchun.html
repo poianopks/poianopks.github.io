@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>부천 피아노조율 | 부천피아노운반 | 국가공인 조율사</title>
+  <meta name="description" content="부천 피아노조율, 부천피아노운반, 피아노 조정·수리·이동 서비스. 국가공인 조율사가 부천 전지역 출장 상담을 도와드립니다." />
+  <meta name="keywords" content="부천 피아노조율, 부천피아노운반, 부천 피아노운반, 피아노조율, 피아노수리, 피아노조정, 피아노이동" />
+  <meta property="og:title" content="부천 피아노조율 | 부천피아노운반" />
+  <meta property="og:description" content="부천 전지역 피아노조율·운반·조정·수리 출장 서비스" />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0f4c5c" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f7f6f2;
+      --surface:#ffffff;
+      --primary:#0f4c5c;
+      --primary-dark:#0a3640;
+      --accent:#d9a441;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --max:1180px;
+      --radius:20px;
+      --shadow:0 12px 32px rgba(0,0,0,0.08);
+    }
+
+    *{box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0;
+      font-family:'Noto Sans KR',sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      line-height:1.7;
+    }
+
+    a{text-decoration:none;color:inherit;}
+    img{max-width:100%;display:block;}
+    .container{
+      width:min(calc(100% - 32px), var(--max));
+      margin:0 auto;
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:999;
+      background:rgba(255,255,255,0.92);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      min-height:76px;
+      gap:20px;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+      font-size:20px;
+      color:var(--primary);
+      white-space:nowrap;
+    }
+
+    .logo-mark{
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--primary),#1b6a80);
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-weight:800;
+      box-shadow:var(--shadow);
+      flex:0 0 auto;
+    }
+
+    .menu{
+      display:flex;
+      gap:24px;
+      align-items:center;
+      font-size:15px;
+      color:#374151;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .cta-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      padding:0 20px;
+      border-radius:999px;
+      font-weight:700;
+      transition:0.2s ease;
+    }
+
+    .cta-primary{
+      background:var(--primary);
+      color:#fff;
+    }
+
+    .cta-primary:hover{
+      background:var(--primary-dark);
+    }
+
+    .cta-outline{
+      border:1px solid var(--primary);
+      color:var(--primary);
+      background:#fff;
+    }
+
+    .hero{
+      padding:72px 0 56px;
+      background:
+        radial-gradient(circle at top right, rgba(217,164,65,0.12), transparent 28%),
+        linear-gradient(180deg, #fcfcfa 0%, #f7f6f2 100%);
+    }
+
+    .hero-wrap{
+      display:grid;
+      grid-template-columns:1.2fr 0.8fr;
+      gap:36px;
+      align-items:center;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#eef6f8;
+      color:var(--primary);
+      font-size:14px;
+      font-weight:700;
+      margin-bottom:18px;
+    }
+
+    h1{
+      margin:0 0 18px;
+      font-size:clamp(34px, 5vw, 56px);
+      line-height:1.18;
+      letter-spacing:-0.02em;
+    }
+
+    .hero p{
+      margin:0 0 28px;
+      color:var(--muted);
+      font-size:18px;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:28px;
+    }
+
+    .hero-points{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+    }
+
+    .hero-point{
+      background:rgba(255,255,255,0.8);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      box-shadow:0 6px 16px rgba(0,0,0,0.04);
+    }
+
+    .hero-point strong{
+      display:block;
+      font-size:20px;
+      color:var(--primary);
+      margin-bottom:4px;
+    }
+
+    .card-main{
+      background:var(--surface);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(15,76,92,0.08);
+    }
+
+    .mini-title{
+      font-size:14px;
+      font-weight:800;
+      color:var(--primary);
+      margin-bottom:12px;
+      letter-spacing:0.02em;
+    }
+
+    .contact-box{
+      display:grid;
+      gap:14px;
+    }
+
+    .contact-item{
+      padding:16px 18px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fafafa;
+    }
+
+    .contact-item span{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:4px;
+    }
+
+    .contact-item strong{
+      font-size:18px;
+    }
+
+    section{
+      padding:72px 0;
+    }
+
+    .section-head{
+      text-align:center;
+      margin-bottom:42px;
+    }
+
+    .section-head h2{
+      margin:0 0 10px;
+      font-size:clamp(28px, 4vw, 40px);
+      color:#111827;
+    }
+
+    .section-head p{
+      margin:0;
+      color:var(--muted);
+      font-size:17px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+    }
+
+    .service-card,
+    .info-card,
+    .review-card{
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:26px;
+      box-shadow:0 8px 24px rgba(0,0,0,0.04);
+    }
+
+    .icon{
+      width:54px;
+      height:54px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      background:#eef6f8;
+      color:var(--primary);
+      font-size:24px;
+      margin-bottom:16px;
+      font-weight:800;
+    }
+
+    .service-card h3,
+    .info-card h3,
+    .review-card h3{
+      margin:0 0 10px;
+      font-size:22px;
+    }
+
+    .service-card p,
+    .info-card p,
+    .review-card p{
+      margin:0;
+      color:var(--muted);
+      font-size:16px;
+    }
+
+    .highlight{
+      background:linear-gradient(135deg, var(--primary) 0%, #175d70 100%);
+      color:#fff;
+    }
+
+    .highlight p,
+    .highlight h3,
+    .highlight li{
+      color:#fff;
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+    }
+
+    .list{
+      margin:16px 0 0;
+      padding:0;
+      list-style:none;
+    }
+
+    .list li{
+      padding:10px 0;
+      border-bottom:1px dashed rgba(255,255,255,0.25);
+    }
+
+    .list.dark li{
+      border-bottom:1px dashed #d1d5db;
+    }
+
+    .cta-section{
+      padding:80px 0;
+    }
+
+    .cta-panel{
+      background:linear-gradient(135deg, #0f4c5c 0%, #133946 100%);
+      border-radius:32px;
+      padding:44px 30px;
+      color:#fff;
+      text-align:center;
+      box-shadow:var(--shadow);
+    }
+
+    .cta-panel h2{
+      margin:0 0 12px;
+      font-size:clamp(28px,4vw,42px);
+    }
+
+    .cta-panel p{
+      margin:0 0 24px;
+      color:rgba(255,255,255,0.88);
+      font-size:17px;
+    }
+
+    .footer{
+      padding:28px 0 42px;
+      color:var(--muted);
+      font-size:14px;
+      text-align:center;
+    }
+
+    .kakao-note{
+      margin-top:10px;
+      font-size:14px;
+      color:rgba(255,255,255,0.8);
+    }
+
+    @media (max-width: 980px){
+      .hero-wrap,
+      .grid-3,
+      .split{
+        grid-template-columns:1fr;
+      }
+
+      .hero-points{
+        grid-template-columns:1fr;
+      }
+
+      .menu{
+        display:none;
+      }
+
+      .nav{
+        justify-content:space-between;
+      }
+    }
+
+    @media (max-width: 640px){
+      .hero{
+        padding:48px 0 40px;
+      }
+
+      section{
+        padding:52px 0;
+      }
+
+      .card-main,
+      .service-card,
+      .info-card,
+      .review-card{
+        padding:22px;
+      }
+
+      h1{
+        font-size:34px;
+      }
+
+      .hero p{
+        font-size:16px;
+      }
+
+      .cta-btn{
+        width:100%;
+      }
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"LocalBusiness",
+    "name":"부천 피아노조율",
+    "description":"부천 지역 피아노조율, 피아노운반, 피아노조정, 점검 및 출장 서비스",
+    "areaServed":"부천",
+    "serviceType":["피아노조율","피아노운반","피아노조정","피아노점검"],
+    "telephone":"010-8756-8740",
+    "address":{
+      "@type":"PostalAddress",
+      "addressLocality":"부천시",
+      "addressRegion":"경기도",
+      "addressCountry":"KR"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="container nav">
+      <a href="#top" class="logo" aria-label="부천 피아노조율 홈페이지">
+        <span class="logo-mark">P</span>
+        <span>부천 피아노조율</span>
+      </a>
+
+      <nav class="menu" aria-label="주요 메뉴">
+        <a href="#service">서비스</a>
+        <a href="#strength">강점</a>
+        <a href="#area">출장지역</a>
+        <a href="#review">안내</a>
+        <a href="#contact">문의</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div>
+          <div class="badge">부천 피아노조율 · 부천피아노운반 전문</div>
+          <h1>
+            믿고 맡기는<br>
+            부천 피아노조율 · 피아노운반 서비스
+          </h1>
+          <p>
+            업라이트피아노, 중고피아노, 가정용 피아노, 학원 피아노까지
+            조율·조정·점검·운반을 꼼꼼하게 진행합니다.
+            고객이 원하는 음정과 터치감을 세심하게 맞춰드립니다.
+          </p>
+
+          <div class="hero-actions">
+            <a href="tel:01087568740" class="cta-btn cta-primary">전화 상담하기</a>
+            <a href="#contact" class="cta-btn cta-outline">출장 문의 남기기</a>
+          </div>
+
+          <div class="hero-points">
+            <div class="hero-point">
+              <strong>35년+</strong>
+              <span>피아노 조율·현장 경험</span>
+            </div>
+            <div class="hero-point">
+              <strong>부천 전지역</strong>
+              <span>조율·운반 출장 상담</span>
+            </div>
+            <div class="hero-point">
+              <strong>1:1 상담</strong>
+              <span>상태 확인 후 맞춤 안내</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-main">
+          <div class="mini-title">빠른 문의 안내</div>
+          <div class="contact-box">
+            <div class="contact-item">
+              <span>대표 서비스</span>
+              <strong>피아노조율 / 피아노운반 / 조정 / 점검</strong>
+            </div>
+            <div class="contact-item">
+              <span>출장 지역</span>
+              <strong>부천 전지역 · 인근 지역 협의</strong>
+            </div>
+            <div class="contact-item">
+              <span>상담 전화</span>
+              <strong>010-8756-8740</strong>
+            </div>
+            <div class="contact-item">
+              <span>카카오톡</span>
+              <strong>아이디 또는 오픈채팅 주소 입력</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="service">
+      <div class="container">
+        <div class="section-head">
+          <h2>주요 서비스</h2>
+          <p>조율부터 운반, 점검, 조정까지 한 번에 상담 가능합니다.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="service-card">
+            <div class="icon">♪</div>
+            <h3>피아노조율</h3>
+            <p>
+              오랫동안 조율하지 않은 피아노, 음이 내려간 피아노,
+              소리가 탁한 피아노를 상태에 맞게 점검하고 안정적으로 조율합니다.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <div class="icon">↔</div>
+            <h3>피아노운반</h3>
+            <p>
+              가정 이사, 학원 이전, 중고 피아노 이동 등
+              피아노 상태를 고려해 안전하게 운반 상담을 진행합니다.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <div class="icon">⚙</div>
+            <h3>조정·점검</h3>
+            <p>
+              건반 터치 불균형, 페달 상태, 잡음, 해머 반응,
+              내부 상태를 확인하고 필요한 조정 방향을 안내합니다.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="strength">
+      <div class="container split">
+        <article class="info-card highlight">
+          <h3>왜 이 홈페이지가 문의로 연결되게 만들었는가</h3>
+          <p>
+            지역 기반 서비스 홈페이지는 첫 화면에서
+            “부천 피아노조율”, “부천피아노운반”, “전화상담”이 바로 보여야
+            고객이 이탈하지 않고 문의하기 쉽습니다.
+          </p>
+          <ul class="list">
+            <li>지역 키워드 중심 제목 구성</li>
+            <li>서비스 내용 명확하게 배치</li>
+            <li>전화 버튼을 상단에 노출</li>
+            <li>모바일에서도 보기 쉬운 구조</li>
+          </ul>
+        </article>
+
+        <article class="info-card">
+          <h3>고객이 많이 찾는 경우</h3>
+          <p>
+            아래와 같은 상황에서 조율과 운반 문의가 자주 들어옵니다.
+          </p>
+          <ul class="list dark">
+            <li>오랫동안 조율하지 않은 피아노</li>
+            <li>이사 전후 피아노 이동이 필요한 경우</li>
+            <li>중고 피아노 구입 후 상태 점검이 필요한 경우</li>
+            <li>학원·교습소 피아노 정기 관리가 필요한 경우</li>
+            <li>건반 소리 이상, 페달 이상, 터치 불균형이 있는 경우</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="area">
+      <div class="container">
+        <div class="section-head">
+          <h2>출장 지역 안내</h2>
+          <p>부천 전지역 중심으로 상담하며 인근 지역은 협의 가능합니다.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="service-card">
+            <h3>부천 중동 · 상동</h3>
+            <p>아파트, 빌라, 학원, 교습소 등 다양한 현장 방문 상담 가능.</p>
+          </article>
+          <article class="service-card">
+            <h3>송내 · 역곡 · 원종</h3>
+            <p>피아노 이동과 조율 일정을 현장 상황에 맞게 조율합니다.</p>
+          </article>
+          <article class="service-card">
+            <h3>소사 · 심곡 · 옥길</h3>
+            <p>가정용 피아노부터 교습용 피아노까지 상태에 맞춰 안내합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="review">
+      <div class="container">
+        <div class="section-head">
+          <h2>홈페이지에 꼭 필요한 안내 문구</h2>
+          <p>아래 내용은 지역 서비스 홍보에 잘 맞는 문장들입니다.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="review-card">
+            <h3>정직한 상담</h3>
+            <p>
+              피아노 상태를 먼저 확인하고 꼭 필요한 작업 위주로 안내해드립니다.
+            </p>
+          </article>
+          <article class="review-card">
+            <h3>꼼꼼한 작업</h3>
+            <p>
+              단순 조율뿐 아니라 터치감, 음색, 페달, 내부 상태까지 함께 살핍니다.
+            </p>
+          </article>
+          <article class="review-card">
+            <h3>출장 중심 서비스</h3>
+            <p>
+              부천 지역 고객이 편하게 문의할 수 있도록 전화·문자 상담을 쉽게 구성했습니다.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="cta-section">
+      <div class="container">
+        <div class="cta-panel">
+          <h2>부천 피아노조율 · 피아노운반 문의</h2>
+          <p>
+            조율, 운반, 조정, 점검이 필요하시면 지금 바로 연락 주세요.
+            빠르게 상담 도와드리겠습니다.
+          </p>
+          <div class="hero-actions" style="justify-content:center;">
+            <a href="tel:01087568740" class="cta-btn cta-primary" style="background:#fff;color:#0f4c5c;">전화 걸기</a>
+            <a href="sms:01087568740" class="cta-btn cta-outline" style="border-color:#fff;color:#fff;background:transparent;">문자 보내기</a>
+          </div>
+          <div class="kakao-note">
+            상담전화: 010-8756-8740
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      상호명 입력 | 대표자명 입력 | 연락처 010-8756-8740 | 부천시<br>
+      © 2026 부천 피아노조율. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>
