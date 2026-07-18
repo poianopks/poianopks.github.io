@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Logic Pro X 왕초보 실습</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:#1a1a2e;color:#e0e0e0;min-height:100vh;padding:0}
+.header{background:linear-gradient(135deg,#16213e,#0f3460);padding:20px;text-align:center;border-bottom:2px solid #e94560}
+.header h1{font-size:1.4em;color:#fff;margin-bottom:5px}
+.header p{color:#a0a0c0;font-size:0.85em}
+.tabs{display:flex;overflow-x:auto;background:#16213e;border-bottom:1px solid #333;gap:0}
+.tab{padding:12px 16px;cursor:pointer;white-space:nowrap;font-size:0.8em;font-weight:600;color:#888;border-bottom:3px solid transparent;transition:all .2s}
+.tab.active{color:#e94560;border-bottom-color:#e94560;background:#1a1a2e}
+.tab:hover:not(.active){color:#ccc}
+.panel{display:none;padding:16px;max-width:800px;margin:0 auto}
+.panel.active{display:block}
+/* New Project Dialog */
+.dialog{background:#2a2a3e;border-radius:12px;overflow:hidden;border:1px solid #444;max-width:600px;margin:0 auto}
+.dialog-sidebar{background:#1e1e2e;padding:12px;min-width:150px;float:left;height:100%}
+.dialog-sidebar div{padding:8px 12px;border-radius:6px;cursor:pointer;font-size:0.82em;color:#aaa;margin-bottom:2px;display:flex;align-items:center;gap:6px;transition:all .2s}
+.dialog-sidebar div.active{background:#e94560;color:#fff}
+.dialog-sidebar div:hover:not(.active){background:#333}
+.dialog-main{padding:16px;overflow:hidden}
+.template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}
+.template-btn{background:#333;border:2px solid transparent;border-radius:8px;padding:12px 8px;cursor:pointer;text-align:center;transition:all .2s;color:#ccc;font-size:0.78em}
+.template-btn:hover,.template-btn.selected{border-color:#e94560;background:#3a1a2e;color:#fff}
+.template-btn .icon{font-size:1.6em;margin-bottom:4px}
+.empty-project{background:#2a4a6e;border:3px solid #5a9fd4;border-radius:10px;padding:16px;text-align:center;cursor:pointer;margin-bottom:12px;transition:all .2s}
+.empty-project:hover{background:#3a5a7e;border-color:#7ab4e4}
+.empty-project .plus{font-size:2em;color:#7ab4e4}
+.details{background:#222;border-radius:8px;padding:12px;margin-top:12px;font-size:0.8em}
+.details h3{color:#888;margin-bottom:8px;font-size:0.85em}
+.detail-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #333;align-items:center}
+.detail-row:last-child{border:none}
+.detail-label{color:#888}
+.detail-val{color:#7ab4e4;font-weight:600}
+.dialog-actions{padding:12px;text-align:right;background:#1e1e2e;display:flex;justify-content:flex-end;gap:8px}
+.btn{padding:8px 20px;border-radius:6px;border:none;cursor:pointer;font-weight:600;font-size:0.85em;transition:all .2s}
+.btn-primary{background:#e94560;color:#fff}.btn-primary:hover{background:#c73550}
+.btn-ghost{background:#444;color:#ccc}.btn-ghost:hover{background:#555}
+/* Library */
+.library-panel{background:#1e1e2e;border-radius:10px;overflow:hidden;border:1px solid #333}
+.lib-header{padding:12px;background:#2a2a3e;border-bottom:1px solid #333;display:flex;align-items:center;gap:10px}
+.lib-search{background:#111;border:1px solid #444;border-radius:6px;padding:6px 10px;color:#ccc;width:100%;font-size:0.85em}
+.lib-categories{float:left;width:160px;border-right:1px solid #333;padding:8px 0;max-height:340px;overflow-y:auto}
+.lib-cat{padding:7px 12px;cursor:pointer;font-size:0.82em;color:#aaa;display:flex;align-items:center;justify-content:space-between;transition:all .2s}
+.lib-cat:hover{background:#2a2a3e;color:#fff}
+.lib-cat.selected{background:#2a4a6e;color:#7ab4e4;font-weight:700}
+.lib-items{overflow:hidden;padding:8px;max-height:340px;overflow-y:auto}
+.lib-item{padding:8px 10px;cursor:pointer;font-size:0.82em;color:#bbb;border-radius:6px;margin:2px;transition:all .2s;display:flex;align-items:center;gap:6px}
+.lib-item:hover{background:#2a2a3e;color:#fff}
+.lib-item.selected{background:#e94560;color:#fff;font-weight:600}
+.lib-preview{padding:16px;text-align:center;border-top:1px solid #333;background:#111}
+.lib-preview img{width:80px;height:60px;object-fit:contain;filter:sepia(0.5) hue-rotate(180deg);margin-bottom:6px}
+.lib-preview .piano-img{font-size:3em}
+.lib-name{color:#7ab4e4;font-weight:700;font-size:0.9em}
+/* Piano Roll */
+.piano-roll{background:#1a1a1a;border-radius:10px;overflow:hidden;border:1px solid #333;user-select:none}
+.pr-toolbar{background:#2a2a3e;padding:8px 12px;display:flex;gap:8px;align-items:center;border-bottom:1px solid #333;flex-wrap:wrap}
+.pr-toolbar span{font-size:0.75em;color:#888}
+.pr-toolbar strong{color:#7ab4e4;font-size:0.82em}
+.pr-body{display:flex}
+.pr-keys{width:50px;background:#111;border-right:1px solid #333;flex-shrink:0}
+.pr-key-row{height:18px;border-bottom:1px solid #222;display:flex;align-items:center;justify-content:flex-end;padding-right:4px;font-size:0.6em;cursor:pointer;transition:all .1s}
+.pr-key-row.white{background:#1a1a1a;color:#555}
+.pr-key-row.black{background:#111;color:#333}
+.pr-key-row:hover{background:#2a4a6e!important;color:#7ab4e4!important}
+.pr-grid{flex:1;position:relative;overflow-x:auto}
+.pr-canvas{position:relative;width:640px;height:252px;background:#1a1a1a}
+.pr-hline{position:absolute;left:0;right:0;height:1px;background:#2a2a2a}
+.pr-hline.black-row{background:#111}
+.pr-vline{position:absolute;top:0;bottom:0;width:1px;background:#2a2a2a}
+.pr-vline.beat{background:#333}
+.pr-note{position:absolute;height:16px;background:#4cce64;border-radius:3px;cursor:pointer;transition:all .1s;border:1px solid #3aae52;box-shadow:0 0 6px #4cce6466}
+.pr-note:hover{background:#6dde84;transform:scaleY(1.1)}
+.pr-note.selected{background:#f0c040;border-color:#e0a020;box-shadow:0 0 8px #f0c04066}
+/* Musical Typing */
+.kbd-grid{display:grid;gap:3px}
+.kbd-row{display:flex;gap:3px}
+.kbd-key{background:#2a2a3e;border:1px solid #444;border-radius:5px;padding:8px 6px;min-width:40px;text-align:center;cursor:pointer;transition:all .1s;border-bottom:3px solid #222}
+.kbd-key:hover,.kbd-key.pressed{background:#3a5a7e;border-color:#7ab4e4;transform:translateY(1px);border-bottom-width:1px}
+.kbd-key.note{background:#1e3a5a;border-color:#5a9fd4}
+.kbd-key.note:hover,.kbd-key.note.pressed{background:#2a5a8a;border-color:#7ab4e4}
+.kbd-key .top{font-size:0.55em;color:#888}
+.kbd-key .bottom{font-size:0.72em;font-weight:700;color:#ccc}
+.kbd-key.note .bottom{color:#7ab4e4}
+/* Loops */
+.loop-list{max-height:280px;overflow-y:auto}
+.loop-item{display:flex;align-items:center;gap:8px;padding:8px 10px;cursor:pointer;border-bottom:1px solid #2a2a3e;transition:all .2s}
+.loop-item:hover{background:#2a2a3e}
+.loop-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.loop-dot.audio{background:#5a9fd4}
+.loop-dot.midi{background:#4cce64}
+.loop-name{font-size:0.82em;color:#ccc;flex:1}
+.loop-type{font-size:0.7em;padding:2px 6px;border-radius:3px;font-weight:600}
+.loop-type.audio{background:#1a3a5a;color:#5a9fd4}
+.loop-type.midi{background:#1a3a1a;color:#4cce64}
+.loop-bpm{font-size:0.72em;color:#666;min-width:40px;text-align:right}
+.loop-play{background:#e94560;border:none;border-radius:4px;color:#fff;padding:4px 8px;cursor:pointer;font-size:0.72em;font-weight:600;flex-shrink:0}
+.loop-play:hover{background:#c73550}
+/* Shortcuts */
+.shortcut-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.shortcut-item{background:#1e1e2e;border-radius:8px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;border:1px solid #2a2a3e;transition:all .2s}
+.shortcut-item:hover{background:#2a2a4e;border-color:#444}
+.shortcut-key{background:#333;border:1px solid #555;border-radius:4px;padding:3px 8px;font-size:0.75em;font-weight:700;color:#7ab4e4;font-family:monospace;border-bottom:3px solid #222}
+.shortcut-desc{font-size:0.78em;color:#aaa}
+/* Toast */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#e94560;color:#fff;padding:10px 20px;border-radius:8px;font-size:0.85em;font-weight:600;z-index:999;animation:fadeInOut 2s forwards}
+@keyframes fadeInOut{0%{opacity:0;transform:translateX(-50%) translateY(10px)}10%{opacity:1;transform:translateX(-50%) translateY(0)}80%{opacity:1}100%{opacity:0}}
+.step-card{background:#1e1e2e;border-radius:10px;padding:14px;margin-bottom:12px;border-left:4px solid #e94560}
+.step-num{background:#e94560;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85em;flex-shrink:0}
+.step-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.step-title{font-weight:700;color:#fff;font-size:0.95em}
+.step-body{color:#aaa;font-size:0.83em;line-height:1.7;padding-left:38px}
+.tip{background:#1a3a1a;border:1px solid #4cce6444;border-radius:6px;padding:8px 12px;font-size:0.78em;color:#4cce64;margin-top:6px}
+.warning{background:#3a1a1a;border:1px solid #e9456044;border-radius:6px;padding:8px 12px;font-size:0.78em;color:#e94560;margin-top:6px}
+.section{margin-bottom:24px}
+.section-title{font-size:1em;font-weight:700;color:#e94560;margin-bottom:10px;padding-bottom:4px;border-bottom:1px solid #333;display:flex;align-items:center;gap:6px}
+.clearfix::after{content:'';display:table;clear:both}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🍎 Logic Pro X 왕초보 실습</h1>
+  <p>설치부터 첫 멜로디까지 — 클릭하며 배워요!</p>
+</div>
+<div class="tabs">
+  <div class="tab active" onclick="showTab(0)">📁 새 프로젝트</div>
+  <div class="tab" onclick="showTab(1)">🎹 라이브러리</div>
+  <div class="tab" onclick="showTab(2)">🟩 피아노 롤</div>
+  <div class="tab" onclick="showTab(3)">⌨️ 키보드 입력</div>
+  <div class="tab" onclick="showTab(4)">🔄 루프</div>
+  <div class="tab" onclick="showTab(5)">⌨️ 단축키</div>
+</div>
+
+<!-- Tab 0: New Project -->
+<div class="panel active" id="tab0">
+  <div class="section-title">📁 새 프로젝트 만들기</div>
+  <p style="font-size:0.82em;color:#888;margin-bottom:12px">Logic Pro 시작 화면입니다. Empty Project를 눌러 빈 프로젝트를 만들어보세요!</p>
+  <div class="dialog">
+    <div class="dialog-sidebar" style="float:left;width:140px;padding:12px 8px">
+      <div class="active" onclick="toast('새 프로젝트 선택됨')">📄 New Project</div>
+      <div onclick="toast('최근 프로젝트 목록')">🕐 Recent</div>
+      <div onclick="toast('데모 프로젝트들')">🎵 Demo Projects</div>
+      <div onclick="toast('내 템플릿')">📁 My Templates</div>
+    </div>
+    <div class="dialog-main clearfix" style="overflow:hidden;padding:14px">
+      <div class="empty-project" onclick="selectTemplate('empty')">
+        <div class="plus">+</div>
+        <div style="font-weight:700;color:#7ab4e4;font-size:0.9em">Empty Project</div>
+        <div style="font-size:0.72em;color:#888;margin-top:4px">빈 프로젝트 (추천!)</div>
+      </div>
+      <div style="color:#666;font-size:0.75em;margin-bottom:8px">Factory Templates</div>
+      <div class="template-grid">
+        <div class="template-btn" onclick="selectTemplate('hiphop')" id="tmpl-hiphop">
+          <div class="icon">🎛️</div>Hip Hop
+        </div>
+        <div class="template-btn" onclick="selectTemplate('electronic')" id="tmpl-electronic">
+          <div class="icon">🌊</div>Electronic
+        </div>
+        <div class="template-btn" onclick="selectTemplate('songwriter')" id="tmpl-songwriter">
+          <div class="icon">🎸</div>Songwriter
+        </div>
+        <div class="template-btn" onclick="selectTemplate('orchestral')" id="tmpl-orchestral">
+          <div class="icon">🎻</div>Orchestral
+        </div>
+      </div>
+      <div class="details">
+        <h3>▼ Details</h3>
+        <div class="detail-row"><span class="detail-label">Tempo</span><span class="detail-val">120 BPM</span></div>
+        <div class="detail-row"><span class="detail-label">Key Signature</span><span class="detail-val">C Major</span></div>
+        <div class="detail-row"><span class="detail-label">Time Signature</span><span class="detail-val">4/4</span></div>
+        <div class="detail-row"><span class="detail-label">Output Device</span><span class="detail-val">Built-in Output</span></div>
+        <div class="detail-row"><span class="detail-label">Sample Rate</span><span class="detail-val">48 kHz</span></div>
+      </div>
+    </div>
+    <div class="dialog-actions" style="clear:both">
+      <button class="btn btn-ghost" onclick="toast('취소됨')">Cancel</button>
+      <button class="btn btn-primary" onclick="toast('✅ 프로젝트 생성! 이제 트랙을 추가하세요')">Choose</button>
+    </div>
+  </div>
+  <div class="step-card" style="margin-top:16px">
+    <div class="step-header"><div class="step-num">💡</div><div class="step-title">왕초보 설정 가이드</div></div>
+    <div class="step-body">
+      <strong>Empty Project</strong> 선택 → Details에서 <strong>Sample Rate = 48kHz</strong> 설정 → <strong>Choose</strong> 클릭<br>
+      Output Device는 이어폰/스피커 꽂은 걸 선택하면 소리가 나와요!
+      <div class="tip">💡 왕초보라면 무조건 <strong>Empty Project</strong>로 시작하세요. 나중에 템플릿 탐색해도 늦지 않아요!</div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 1: Library -->
+<div class="panel" id="tab1">
+  <div class="section-title">🎹 악기 소리 선택 (Library)</div>
+  <p style="font-size:0.82em;color:#888;margin-bottom:12px"><strong>Y</strong> 키를 누르면 나오는 Library 패널입니다. Piano → Steinway Grand Piano를 선택해보세요!</p>
+  <div class="library-panel clearfix">
+    <div style="padding:10px;text-align:center;background:#111;border-bottom:1px solid #333">
+      <div style="font-size:3em">🎹</div>
+      <div class="lib-name" id="lib-preview-name">Steinway Grand Piano</div>
+    </div>
+    <div class="lib-header">
+      <input class="lib-search" placeholder="🔍 Search Library" oninput="filterLib(this.value)"/>
+    </div>
+    <div style="display:flex;border-top:1px solid #333">
+      <div class="lib-categories" id="lib-cats">
+        <div class="lib-cat" onclick="selectCat('bass')">Bass ▶</div>
+        <div class="lib-cat" onclick="selectCat('drum')">Drum Kit ▶</div>
+        <div class="lib-cat" onclick="selectCat('guitar')">Guitar ▶</div>
+        <div class="lib-cat" onclick="selectCat('orchestral')">Orchestral ▶</div>
+        <div class="lib-cat selected" onclick="selectCat('piano')">Piano ▶</div>
+        <div class="lib-cat" onclick="selectCat('synth')">Synthesizer ▶</div>
+        <div class="lib-cat" onclick="selectCat('vintage')">Vintage B3 Organ ▶</div>
+        <div class="lib-cat" onclick="selectCat('world')">World ▶</div>
+      </div>
+      <div class="lib-items" id="lib-items">
+        <div class="lib-item" onclick="selectInstrument('Boesendorfer Grand Piano',60)">🎹 Boesendorfer Grand Piano</div>
+        <div class="lib-item" onclick="selectInstrument('Grand Piano and Pad',62)">🎹 Grand Piano and Pad</div>
+        <div class="lib-item" onclick="selectInstrument('Grand Piano and Strings',64)">🎹 Grand Piano and Strings</div>
+        <div class="lib-item" onclick="selectInstrument('Piano & Upright Bass',65)">🎹 Piano & Upright Bass</div>
+        <div class="lib-item selected" id="lib-steinway" onclick="selectInstrument('Steinway Grand Piano',67)">🎹 Steinway Grand Piano</div>
+        <div class="lib-item" onclick="selectInstrument('Yamaha Grand Piano',69)">🎹 Yamaha Grand Piano</div>
+        <div class="lib-item" onclick="selectInstrument('Experimental',71)">🎹 Experimental</div>
+      </div>
+    </div>
+  </div>
+  <div class="step-card" style="margin-top:12px">
+    <div class="step-header"><div class="step-num">💡</div><div class="step-title">Library 사용법</div></div>
+    <div class="step-body">
+      1. 트랙을 선택한 뒤 <strong>Y</strong> 키 누르기 → Library 패널 열림<br>
+      2. 왼쪽 카테고리에서 <strong>Piano</strong> 클릭<br>
+      3. 오른쪽에서 <strong>Steinway Grand Piano</strong> 클릭 → 즉시 악기 로딩!
+      <div class="tip">💡 악기를 클릭하면 바로 소리가 바뀌어요. Musical Typing(⌘K)로 바로 테스트해 보세요!</div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 2: Piano Roll -->
+<div class="panel" id="tab2">
+  <div class="section-title">🟩 피아노 롤 — 직접 노트 그리기</div>
+  <p style="font-size:0.82em;color:#888;margin-bottom:12px">빈 격자를 <strong>클릭</strong>해서 초록색 노트를 추가하세요! 노트를 클릭하면 소리가 나요.</p>
+  <div class="piano-roll">
+    <div class="pr-toolbar">
+      <span>⏱ 1/16 Grid</span>
+      <strong id="pr-note-count">노트: 0개</strong>
+      <span style="color:#4cce64">● 초록=일반 / </span>
+      <span style="color:#f0c040">● 노랑=선택</span>
+      <button onclick="clearPR()" style="background:#e94560;border:none;border-radius:4px;color:#fff;padding:3px 8px;cursor:pointer;font-size:0.72em;margin-left:auto">전체 삭제</button>
+    </div>
+    <div class="pr-body">
+      <div class="pr-keys" id="pr-keys"></div>
+      <div class="pr-grid">
+        <canvas id="pr-canvas" width="600" height="252" style="cursor:crosshair;display:block"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="step-card" style="margin-top:12px">
+    <div class="step-header"><div class="step-num">💡</div><div class="step-title">Piano Roll 조작법</div></div>
+    <div class="step-body">
+      • <strong>빈 곳 클릭</strong>: 노트 추가 + 소리<br>
+      • <strong>노트 클릭</strong>: 소리 재생 → 다시 클릭하면 삭제<br>
+      • 실제 Logic Pro: Region 더블클릭 → Piano Roll 열림<br>
+      • <strong>⌘ + Option + 휠</strong>: 가로 줌인/줌아웃
+      <div class="tip">💡 빠른 BPM(120)에서 1/16 그리드로 노트를 배치하면 신나는 리듬이 돼요!</div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 3: Musical Typing -->
+<div class="panel" id="tab3">
+  <div class="section-title">⌨️ Musical Typing — 컴퓨터 키보드로 연주</div>
+  <p style="font-size:0.82em;color:#888;margin-bottom:12px"><strong>⌘ + K</strong>로 열리는 Musical Typing 창입니다. 아래 키를 눌러 피아노처럼 연주해보세요!</p>
+  <div style="background:#1e1e2e;border-radius:10px;padding:16px;border:1px solid #333">
+    <div style="background:#111;border-radius:8px;padding:12px;margin-bottom:12px;border:2px solid #333">
+      <div style="color:#7ab4e4;font-size:0.82em;font-weight:700;margin-bottom:8px">Musical Typing — Track 1: Steinway Grand Piano</div>
+      <!-- Row 1: number row -->
+      <div class="kbd-row" style="margin-bottom:3px" id="kbd-row1"></div>
+      <!-- Row 2: QWERTY -->
+      <div class="kbd-row" style="margin-bottom:3px" id="kbd-row2"></div>
+      <!-- Row 3: ASDF -->
+      <div class="kbd-row" style="margin-bottom:3px" id="kbd-row3"></div>
+      <!-- Row 4: ZXCV -->
+      <div class="kbd-row" id="kbd-row4"></div>
+    </div>
+    <div style="text-align:center;color:#666;font-size:0.78em">🟦 파란 키 = 피아노 음 &nbsp;·&nbsp; Z/X = 옥타브 내림/올림 &nbsp;·&nbsp; A = C4(도)</div>
+    <div id="last-note" style="text-align:center;margin-top:8px;color:#4cce64;font-size:0.9em;font-weight:700;min-height:24px"></div>
+  </div>
+  <div style="margin-top:12px;background:#1e1e2e;border-radius:10px;padding:14px;border:1px solid #333">
+    <div style="color:#e94560;font-weight:700;font-size:0.88em;margin-bottom:10px">🎵 멜로디 자동 연주</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <button onclick="playMelody([60,62,64,65,67,65,64,62,60],'도레미파솔파미레도')" style="background:#1a3a5a;border:1px solid #5a9fd4;border-radius:6px;color:#7ab4e4;padding:8px 14px;cursor:pointer;font-size:0.82em;font-weight:600">도레미파솔</button>
+      <button onclick="playMelody([64,62,60,62,64,64,64],'미레도레미미미')" style="background:#1a3a1a;border:1px solid #4cce64;border-radius:6px;color:#4cce64;padding:8px 14px;cursor:pointer;font-size:0.82em;font-weight:600">메리 크리스마스</button>
+      <button onclick="playMelody([67,64,60,64,67,67,67],'산토끼')" style="background:#3a1a5a;border:1px solid #a07ad4;border-radius:6px;color:#a07ad4;padding:8px 14px;cursor:pointer;font-size:0.82em;font-weight:600">산토끼</button>
+      <button onclick="playChordProg()" style="background:#3a1a1a;border:1px solid #e94560;border-radius:6px;color:#e94560;padding:8px 14px;cursor:pointer;font-size:0.82em;font-weight:600">C-Am-F-G 코드</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 4: Loops -->
+<div class="panel" id="tab4">
+  <div class="section-title">🔄 Apple Loops 브라우저</div>
+  <p style="font-size:0.82em;color:#888;margin-bottom:12px"><strong>5</strong> 키를 누르면 열리는 Apple Loops 브라우저입니다. 루프를 눌러서 미리 들어보세요!</p>
+  <div style="background:#1e1e2e;border-radius:10px;overflow:hidden;border:1px solid #333">
+    <div style="background:#2a2a3e;padding:10px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #333">
+      <span style="font-size:0.82em;font-weight:700;color:#7ab4e4">Apple Loops</span>
+      <input style="background:#111;border:1px solid #444;border-radius:5px;padding:5px 8px;color:#ccc;flex:1;font-size:0.8em" placeholder="🔍 루프 검색..."/>
+    </div>
+    <div style="display:flex;gap:8px;padding:8px;border-bottom:1px solid #333;flex-wrap:wrap">
+      <button onclick="filterLoops('all')" style="background:#e94560;border:none;border-radius:4px;color:#fff;padding:4px 10px;font-size:0.75em;font-weight:600;cursor:pointer">전체</button>
+      <button onclick="filterLoops('audio')" style="background:#1a3a5a;border:1px solid #5a9fd4;border-radius:4px;color:#5a9fd4;padding:4px 10px;font-size:0.75em;font-weight:600;cursor:pointer">🔵 Audio</button>
+      <button onclick="filterLoops('midi')" style="background:#1a3a1a;border:1px solid #4cce64;border-radius:4px;color:#4cce64;padding:4px 10px;font-size:0.75em;font-weight:600;cursor:pointer">🟢 MIDI</button>
+    </div>
+    <div class="loop-list" id="loop-list"></div>
+  </div>
+  <div class="step-card" style="margin-top:12px">
+    <div class="step-header"><div class="step-num">💡</div><div class="step-title">Loop 사용법</div></div>
+    <div class="step-body">
+      • <strong>파란색 (Audio Loop)</strong>: 오디오 트랙에만 드롭 가능<br>
+      • <strong>초록색 (MIDI Loop)</strong>: 빈 공간에 드롭 → 자동으로 악기 트랙 생성<br>
+      • 루프를 Workspace에 드래그하면 자동으로 반복(Loop) 설정돼요
+      <div class="warning">⚠️ Audio Loop를 MIDI 트랙에 드롭하면 안 돼요! 반드시 타입에 맞는 트랙에 드롭하세요.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 5: Shortcuts -->
+<div class="panel" id="tab5">
+  <div class="section-title">⌨️ 필수 단축키 — 클릭하면 소리!</div>
+  <div class="shortcut-grid" id="shortcut-grid"></div>
+  <div class="step-card" style="margin-top:12px">
+    <div class="step-header"><div class="step-num">💡</div><div class="step-title">Windows 키보드 사용자</div></div>
+    <div class="step-body">
+      Mac ⌘ = Windows의 <strong>Win(⊞) 키</strong><br>
+      Mac ⌥ Option = <strong>Alt 키</strong><br>
+      Logic Pro는 Mac 전용이지만, 외장 키보드로 쓸 때 알아두면 편해요!
+    </div>
+  </div>
+</div>
+
+<script>
+var ac;
+function getAC(){if(!ac){try{ac=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(ac&&ac.state==='suspended')ac.resume();return ac;}
+function midiHz(p){return 440*Math.pow(2,(p-69)/12)}
+function playNote(midi,dur,type,vol){
+  var a=getAC();if(!a)return;var t=a.currentTime;
+  var o=a.createOscillator(),g=a.createGain();
+  o.type=type||'triangle';o.frequency.value=midiHz(midi);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol||0.3,t+0.01);
+  g.gain.exponentialRampToValueAtTime(0.001,t+(dur||0.6));
+  o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+(dur||0.6));
+}
+function playDrumSound(type){
+  var a=getAC();if(!a)return;var t=a.currentTime;
+  if(type==='kick'){var o=a.createOscillator(),g=a.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(0.01,t+0.4);g.gain.setValueAtTime(1,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.4);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+0.4);}
+  else{var buf=a.createBuffer(1,a.sampleRate*0.15,a.sampleRate),d=buf.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1;var s=a.createBufferSource(),g2=a.createGain(),f=a.createBiquadFilter();f.type='bandpass';f.frequency.value=type==='snare'?3000:8000;g2.gain.setValueAtTime(0.4,t);g2.gain.exponentialRampToValueAtTime(0.001,t+0.1);s.buffer=buf;s.connect(f);f.connect(g2);g2.connect(a.destination);s.start(t);}
+}
+function toast(msg){var d=document.createElement('div');d.className='toast';d.textContent=msg;document.body.appendChild(d);setTimeout(function(){d.remove()},2200)}
+function selectTemplate(t){document.querySelectorAll('.template-btn').forEach(function(b){b.classList.remove('selected')});var el=document.getElementById('tmpl-'+t);if(el)el.classList.add('selected');var names={'hiphop':'Hip Hop 템플릿 — 비트 작업에 최적!','electronic':'Electronic 템플릿 — 신스 기반 음악!','songwriter':'Songwriter — 기타+보컬 중심','orchestral':'Orchestral — 오케스트라 편성'};toast(names[t]||'Empty Project — 완전 빈 프로젝트!')}
+function showTab(n){document.querySelectorAll('.panel').forEach(function(p,i){p.classList.toggle('active',i===n)});document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',i===n)})}
+function selectCat(cat){document.querySelectorAll('.lib-cat').forEach(function(c){c.classList.remove('selected')});event.target.classList.add('selected');var items={'bass':['Aggressive 808 Bass','Fat Finger Bass','Muted Bass','Pick Bass'],'drum':['Acoustic Drum Kit','Electronic Drum Kit','Hip Hop Kit','Vintage Kit'],'guitar':['Clean Electric Guitar','Fingerstyle Guitar','Rock Power Guitar','Strat Blues'],'orchestral':['Full Orchestra','String Ensemble','Brass Section','Woodwind Ensemble'],'piano':['Boesendorfer Grand Piano','Grand Piano and Pad','Grand Piano and Strings','Piano & Upright Bass','Steinway Grand Piano','Yamaha Grand Piano','Experimental'],'synth':['Analog Brass','Digital Lead','Ambient Pad','Wobble Bass'],'vintage':['Gospel Organ','Jazz Organ','Rock Organ','Classic Clav'],'world':['Koto','Taiko Drums','Sitar','African Percussion']};var list=document.getElementById('lib-items');list.innerHTML='';(items[cat]||[]).forEach(function(name,i){var d=document.createElement('div');d.className='lib-item'+(name==='Steinway Grand Piano'?' selected':'');d.textContent='🎹 '+name;var midi=60+i*2;d.onclick=function(){selectInstrument(name,midi)};list.appendChild(d)});}
+function selectInstrument(name,midi){document.querySelectorAll('.lib-item').forEach(function(i){i.classList.remove('selected')});event.target.classList.add('selected');document.getElementById('lib-preview-name').textContent=name;playNote(midi,0.8,'triangle',0.4);toast('✅ '+name+' 선택됨 — 소리 들어보세요!')}
+function filterLib(v){document.querySelectorAll('.lib-item').forEach(function(i){i.style.display=i.textContent.toLowerCase().includes(v.toLowerCase())?'':'none'})}
+
+// Piano Roll
+var prNotes=[];
+var prCanvas=document.getElementById('pr-canvas');
+var prCtx=prCanvas.getContext('2d');
+var NUM_ROWS=14, ROW_H=18, GRID_COLS=32, COL_W=18, LEFT=50;
+function drawPR(){
+  prCtx.clearRect(0,0,600,252);
+  // grid lines
+  for(var r=0;r<NUM_ROWS;r++){
+    var y=r*ROW_H;
+    prCtx.fillStyle=r%2===0?'#1a1a1a':'#141414';
+    prCtx.fillRect(LEFT,y,600-LEFT,ROW_H);
+  }
+  for(var c=0;c<=GRID_COLS;c++){
+    var x=LEFT+c*COL_W;
+    prCtx.strokeStyle=c%4===0?'#333':'#222';
+    prCtx.lineWidth=c%4===0?1.5:0.5;
+    prCtx.beginPath();prCtx.moveTo(x,0);prCtx.lineTo(x,NUM_ROWS*ROW_H);prCtx.stroke();
+  }
+  // key labels
+  var notes=['C5','B4','A#4','A4','G#4','G4','F#4','F4','E4','D#4','D4','C#4','C4','B3'];
+  for(var r=0;r<NUM_ROWS;r++){
+    var y=r*ROW_H;
+    var isBlack=notes[r]&&notes[r].includes('#');
+    prCtx.fillStyle=isBlack?'#111':'#1e1e1e';
+    prCtx.fillRect(0,y,LEFT,ROW_H);
+    prCtx.strokeStyle='#333';prCtx.lineWidth=0.5;
+    prCtx.strokeRect(0,y,LEFT,ROW_H);
+    prCtx.fillStyle=isBlack?'#444':'#888';
+    prCtx.font='9px monospace';
+    prCtx.fillText(notes[r]||'',2,y+13);
+  }
+  // notes
+  prNotes.forEach(function(n){
+    prCtx.fillStyle=n.selected?'#f0c040':'#4cce64';
+    prCtx.shadowColor=n.selected?'#f0c04088':'#4cce6488';
+    prCtx.shadowBlur=6;
+    prCtx.fillRect(LEFT+n.col*COL_W+1,n.row*ROW_H+1,n.len*COL_W-2,ROW_H-2);
+    prCtx.shadowBlur=0;
+    prCtx.strokeStyle=n.selected?'#e0a020':'#3aae52';
+    prCtx.lineWidth=1;
+    prCtx.strokeRect(LEFT+n.col*COL_W+1,n.row*ROW_H+1,n.len*COL_W-2,ROW_H-2);
+  });
+  document.getElementById('pr-note-count').textContent='노트: '+prNotes.length+'개';
+}
+var midiForRow=[72,71,70,69,68,67,66,65,64,63,62,61,60,59];
+prCanvas.addEventListener('click',function(e){
+  var rect=prCanvas.getBoundingClientRect();
+  var x=(e.clientX-rect.left)*(600/rect.width)-LEFT;
+  var y=(e.clientY-rect.top)*(252/rect.height);
+  if(x<0)return;
+  var col=Math.floor(x/COL_W),row=Math.floor(y/ROW_H);
+  if(row<0||row>=NUM_ROWS||col<0||col>=GRID_COLS)return;
+  var found=prNotes.findIndex(function(n){return n.row===row&&col>=n.col&&col<n.col+n.len});
+  if(found>=0){playNote(midiForRow[row],0.5,'triangle',0.4);prNotes.splice(found,1);}
+  else{prNotes.push({row:row,col:col,len:2,selected:false});playNote(midiForRow[row],0.5,'triangle',0.4);}
+  drawPR();
+});
+function clearPR(){prNotes=[];drawPR();toast('피아노 롤 초기화!')}
+// Pre-populate with sample notes
+[[0,4],[1,8],[2,12],[3,6],[4,10],[0,16],[2,20],[1,24]].forEach(function(n){prNotes.push({row:n[0],col:n[1],len:2,selected:false})});
+drawPR();
+
+// Musical Typing keyboard
+var keyRows=[
+  [{k:'~',top:''},{k:'1',top:'Z↑'},{k:'2',top:''},{k:'3',top:'X↑'},{k:'4',top:''},{k:'5',top:''},{k:'6',top:'C↑'},{k:'7',top:''},{k:'8',top:'V↑'},{k:'9',top:''},{k:'0',top:'B↑'},{k:'-',top:''},{k:'=',top:'N↑'}],
+  [{k:'Tab',top:''},{k:'Q',top:'C♯5',midi:73,note:'C#5'},{k:'W',top:'D5',midi:74,note:'D5'},{k:'E',top:'D♯5',midi:75,note:'D#5'},{k:'R',top:'E5',midi:76,note:'E5'},{k:'T',top:'F5',midi:77,note:'F5'},{k:'Y',top:'F♯5',midi:78,note:'F#5'},{k:'U',top:'G5',midi:79,note:'G5'},{k:'I',top:'G♯5',midi:80,note:'G#5'},{k:'O',top:'A5',midi:81,note:'A5'},{k:'P',top:'A♯5',midi:82,note:'A#5'},{k:'[',top:'B5',midi:83,note:'B5'},{k:']',top:'C6',midi:84,note:'C6'}],
+  [{k:'Caps',top:''},{k:'A',top:'C4',midi:60,note:'C4(도)'},{k:'S',top:'D4',midi:62,note:'D4(레)'},{k:'D',top:'E4',midi:64,note:'E4(미)'},{k:'F',top:'F4',midi:65,note:'F4(파)'},{k:'G',top:'G4',midi:67,note:'G4(솔)'},{k:'H',top:'A4',midi:69,note:'A4(라)'},{k:'J',top:'B4',midi:71,note:'B4(시)'},{k:'K',top:'C5',midi:72,note:'C5(도)'},{k:'L',top:'D5',midi:74,note:'D5(레)'},{k:';',top:'E5',midi:76,note:'E5(미)'},{k:"'",top:'F5',midi:77,note:'F5(파)'}],
+  [{k:'Z',top:'8va↓'},{k:'X',top:'8va↑'},{k:'C',top:'C♯4',midi:61,note:'C#4'},{k:'V',top:'D♯4',midi:63,note:'D#4'},{k:'B',top:'F♯4',midi:66,note:'F#4'},{k:'N',top:'G♯4',midi:68,note:'G#4'},{k:'M',top:'A♯4',midi:70,note:'A#4'},{k:',',top:'C♯5',midi:73,note:'C#5'},{k:'.',top:'D♯5',midi:75,note:'D#5'},{k:'/',top:'F♯5',midi:78,note:'F#5'}]
+];
+var rowIds=['kbd-row1','kbd-row2','kbd-row3','kbd-row4'];
+keyRows.forEach(function(row,ri){
+  var container=document.getElementById(rowIds[ri]);
+  row.forEach(function(key){
+    var d=document.createElement('div');
+    d.className='kbd-key'+(key.midi?' note':'');
+    d.innerHTML='<div class="top">'+(key.top||'')+'</div><div class="bottom">'+key.k+'</div>';
+    if(key.midi){
+      d.onclick=function(){
+        playNote(key.midi,0.6,'triangle',0.4);
+        var el=document.getElementById('last-note');
+        if(el)el.textContent='▶ '+key.note;
+        d.classList.add('pressed');setTimeout(function(){d.classList.remove('pressed')},200);
+      };
+    } else if(key.k==='Z'||key.k==='X'){
+      d.onclick=function(){toast(key.k==='Z'?'옥타브 내림 (-1)':'옥타브 올림 (+1)')}
+    }
+    container.appendChild(d);
+  });
+});
+function playMelody(notes,name){
+  var delay=0;
+  notes.forEach(function(midi){
+    setTimeout(function(){playNote(midi,0.45,'triangle',0.4)},delay);
+    delay+=380;
+  });
+  toast('♪ '+name);
+}
+function playChordProg(){
+  var chords=[[60,64,67],[57,60,64],[65,69,72],[67,71,74]];
+  var names=['C장조','Am단조','F장조','G장조'];
+  var delay=0;
+  chords.forEach(function(chord,i){
+    setTimeout(function(){
+      chord.forEach(function(m){playNote(m,0.9,'triangle',0.22)});
+      toast('🎵 '+names[i]);
+    },delay);
+    delay+=900;
+  });
+}
+
+// Apple Loops data
+var loopData=[
+  {name:'Analog Drum Machine 01',type:'midi',bpm:120,midis:[60,60,64,67]},
+  {name:'Bright Acoustic Piano Chords',type:'midi',bpm:95,midis:[60,64,67,72]},
+  {name:'Classic Rock Guitar',type:'audio',bpm:110},
+  {name:'Dark Hip Hop Beat',type:'midi',bpm:85,midis:[60,63,67,70]},
+  {name:'Electric Piano Loop',type:'midi',bpm:100,midis:[62,65,69,72]},
+  {name:'Funk Bass Line',type:'audio',bpm:105},
+  {name:'Jazz Brushes',type:'audio',bpm:90},
+  {name:'Lo-Fi Hip Hop Beat',type:'midi',bpm:75,midis:[60,62,65,69]},
+  {name:'Reggae Rhythm Guitar',type:'audio',bpm:80},
+  {name:'String Pad Melody',type:'midi',bpm:120,midis:[64,67,71,74]},
+  {name:'Synth Lead Riff',type:'midi',bpm:128,midis:[67,65,64,62,60]},
+  {name:'Trap Hi-Hats',type:'audio',bpm:140},
+];
+var currentFilter='all';
+function filterLoops(f){currentFilter=f;renderLoops()}
+function renderLoops(){
+  var list=document.getElementById('loop-list');
+  list.innerHTML='';
+  loopData.forEach(function(loop){
+    if(currentFilter!=='all'&&loop.type!==currentFilter)return;
+    var d=document.createElement('div');d.className='loop-item';
+    d.innerHTML='<div class="loop-dot '+loop.type+'"></div>'+
+      '<div class="loop-name">'+loop.name+'</div>'+
+      '<div class="loop-type '+loop.type+'">'+(loop.type==='audio'?'Audio':'MIDI')+'</div>'+
+      '<div class="loop-bpm">'+loop.bpm+' BPM</div>'+
+      '<button class="loop-play">▶</button>';
+    d.querySelector('.loop-play').onclick=function(){
+      if(loop.midis){var delay=0;loop.midis.forEach(function(m){setTimeout(function(){playNote(m,0.5,'triangle',0.35)},delay);delay+=200});}
+      else{playDrumSound('hat');setTimeout(function(){playDrumSound('kick')},200);setTimeout(function(){playDrumSound('snare')},400);}
+      toast('▶ '+loop.name);
+    };
+    list.appendChild(d);
+  });
+}
+renderLoops();
+
+// Shortcuts
+var shortcuts=[
+  {key:'Space',desc:'재생 / 정지'},
+  {key:'Y',desc:'Library 열기'},
+  {key:'⌘K',desc:'Musical Typing'},
+  {key:'N',desc:'Score Editor'},
+  {key:'⌘Z',desc:'Undo 실행취소'},
+  {key:'⌘S',desc:'저장'},
+  {key:'+',desc:'새 트랙 추가'},
+  {key:'5',desc:'Apple Loops'},
+  {key:'⌘⌥ 휠',desc:'피아노 롤 줌'},
+  {key:'R',desc:'녹음 시작'},
+  {key:'⌘/',desc:'루프 반복 설정'},
+  {key:'Delete',desc:'선택 항목 삭제'},
+  {key:'⌘A',desc:'전체 선택'},
+  {key:'⌘D',desc:'복제'},
+  {key:'⌘X',desc:'잘라내기'},
+  {key:'M',desc:'선택 트랙 음소거'},
+  {key:'S',desc:'선택 트랙 솔로'},
+  {key:'⌘1~9',desc:'각종 편집 창'}
+];
+var sg=document.getElementById('shortcut-grid');
+shortcuts.forEach(function(s){
+  var d=document.createElement('div');d.className='shortcut-item';
+  d.innerHTML='<div class="shortcut-key">'+s.key+'</div><div class="shortcut-desc">'+s.desc+'</div>';
+  d.onclick=function(){playNote(72,0.08,'square',0.4);toast(s.key+' → '+s.desc)};
+  sg.appendChild(d);
+});
+</script>
+</body>
+        </html>
