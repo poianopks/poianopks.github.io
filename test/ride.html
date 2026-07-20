@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>악보 리듬 연습 🥁</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d0d1a;color:#e0e0ff;font-family:-apple-system,sans-serif;padding:10px;min-height:100vh}
+.tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}
+.tab{padding:6px 10px;background:#1a1a2e;border:1px solid #2a2a3e;border-radius:8px;cursor:pointer;font-size:0.73em;color:#888;transition:all .18s;user-select:none}
+.tab.active{background:#7c3aed;border-color:#7c3aed;color:#fff;font-weight:700}
+.panel{display:none}.panel.active{display:block}
+.sec-title{font-size:.9em;font-weight:700;color:#a78bfa;margin:10px 0 6px;border-left:3px solid #7c3aed;padding-left:7px}
+.info-card{background:#1e1e2e;border:1px solid #2a2a3e;border-radius:10px;padding:10px;margin-bottom:8px;font-size:.78em;line-height:1.7}
+.tip{background:#1a2a1a;border:1px solid #4cce6444;border-radius:7px;padding:7px 10px;font-size:.73em;color:#4cce64;margin-top:6px}
+.warn{background:#2a1a1a;border:1px solid #e9456044;border-radius:7px;padding:7px 10px;font-size:.73em;color:#e94560;margin-top:6px}
+/* Note length table */
+.nt{width:100%;border-collapse:collapse;font-size:.72em;margin-bottom:8px}
+.nt th{background:#1e1e2e;color:#a78bfa;padding:5px 7px;text-align:left;border:1px solid #2a2a3e}
+.nt td{padding:5px 7px;border:1px solid #1e1e2e;vertical-align:middle}
+.nt tr:nth-child(odd){background:#141428}
+.nt tr:nth-child(even){background:#1a1a2e}
+/* Pattern card */
+.pcard{background:#1e1e2e;border:1px solid #2a2a3e;border-radius:10px;padding:10px;margin-bottom:10px;cursor:pointer;transition:all .18s;user-select:none}
+.pcard:active,.pcard:hover{border-color:#7c3aed88;background:#1e1e35}
+.pcard-name{font-size:.8em;font-weight:700;color:#c4b5fd;margin-bottom:6px}
+.pcard-desc{font-size:.68em;color:#888;margin-bottom:7px}
+.slots{display:flex;gap:3px;flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
+.slot{flex:1;min-width:26px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;transition:all .12s}
+.slot-box{width:100%;height:28px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.7em;font-weight:700;border:1px solid transparent;transition:all .12s}
+.slot-box.on{background:#7c3aed;color:#fff;border-color:#a78bfa}
+.slot-box.on.beat1{background:#9333ea;border-color:#c4b5fd}
+.slot-box.off{background:#1a1a28;color:#333;border-color:#2a2a3e}
+.slot-num{font-size:.56em;color:#666;text-align:center}
+.slot:active .slot-box{transform:scale(.88);opacity:.7}
+.play-btn{display:inline-flex;align-items:center;gap:4px;background:#7c3aed;color:#fff;border:none;border-radius:7px;padding:5px 11px;font-size:.73em;font-weight:700;cursor:pointer;margin-top:6px;transition:all .18s}
+.play-btn:active{transform:scale(.93);opacity:.8}
+.bpm-row{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:.75em}
+.bpm-row input[type=range]{flex:1;accent-color:#7c3aed}
+.metro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:8px 0}
+.metro-cell{background:#1a1a2e;border:2px solid #2a2a3e;border-radius:8px;padding:10px 0;text-align:center;font-size:.85em;font-weight:700;transition:all .1s;cursor:pointer}
+.metro-cell.lit{background:#7c3aed;border-color:#a78bfa;color:#fff}
+.metro-start{width:100%;padding:10px;background:#7c3aed;color:#fff;border:none;border-radius:8px;font-size:.85em;font-weight:700;cursor:pointer;margin:6px 0}
+.metro-start:active{opacity:.75}
+.counting{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin:6px 0}
+.cnt-box{background:#1a1a2e;border:1px solid #2a2a3e;border-radius:4px;text-align:center;padding:4px 0;font-size:.6em;color:#888;transition:all .1s}
+.cnt-box.lit{background:#e9456088;border-color:#e94560;color:#fff;font-weight:700}
+.yt-card{display:flex;gap:10px;background:#1e1e2e;border-radius:10px;padding:11px;margin-bottom:8px;border:1px solid #2a2a3e;text-decoration:none;color:inherit}
+.yt-thumb{width:90px;height:52px;border-radius:6px;object-fit:cover;flex-shrink:0;border:1px solid #333}
+.yt-info{flex:1;min-width:0}
+.yt-num{font-size:.65em;color:#e94560;font-weight:700;margin-bottom:2px}
+.yt-title{font-size:.78em;font-weight:700;color:#fff;margin-bottom:3px}
+.yt-url{font-size:.63em;color:#888;font-family:monospace;word-break:break-all}
+.count-guide{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin:4px 0}
+.cg-box{background:#141428;border:1px solid #2a2a3e;border-radius:4px;text-align:center;padding:3px 0}
+.cg-top{font-size:.58em;color:#a78bfa;font-weight:700}
+.cg-bot{font-size:.53em;color:#666}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#7c3aed;color:#fff;padding:6px 14px;border-radius:20px;font-size:.75em;font-weight:700;z-index:999;pointer-events:none;animation:ft .4s ease}
+@keyframes ft{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+</style>
+</head>
+<body>
+<div style="font-size:.78em;color:#a78bfa;font-weight:700;margin-bottom:8px">🥁 악보 리듬 연습 — 왕초보 완전 정복</div>
+<div class="tabs">
+  <div class="tab active" onclick="show(0)">📖 개념</div>
+  <div class="tab" onclick="show(1)">♪ 8분음표</div>
+  <div class="tab" onclick="show(2)">♬ 16분음표</div>
+  <div class="tab" onclick="show(3)">🎮 메트로놈</div>
+  <div class="tab" onclick="show(4)">📺 영상</div>
+</div>
+
+<!-- ── Tab 0: 개념 ── -->
+<div class="panel active" id="p0">
+  <div class="sec-title">악보 읽기 = 리듬 + 음정</div>
+  <div class="info-card">
+    악보는 딱 두 가지만 읽으면 됩니다.<br>
+    ① <strong style="color:#a78bfa">리듬</strong> — 언제, 얼마나 길게 소리 내느냐 (이 레슨의 주제!)<br>
+    ② <strong style="color:#4cce64">음정</strong> — 어떤 높이의 음인가 (별도 학습)
+  </div>
+
+  <div class="sec-title">음표 길이 체계 — 꼬리 늘면 절반!</div>
+  <table class="nt">
+    <tr><th>음표</th><th>기호</th><th>박자</th><th>4/4마디 안 개수</th></tr>
+    <tr><td>온음표</td><td style="font-size:1.1em">𝅝</td><td>4박</td><td>1개</td></tr>
+    <tr><td>2분음표</td><td style="font-size:1.1em">𝅗𝅥</td><td>2박</td><td>2개</td></tr>
+    <tr><td>4분음표</td><td style="font-size:1.1em">♩</td><td>1박</td><td>4개</td></tr>
+    <tr><td style="color:#e9b45a">8분음표 ★</td><td style="font-size:1.1em;color:#e9b45a">♪</td><td>½박</td><td>8개</td></tr>
+    <tr><td style="color:#a78bfa">16분음표 ★</td><td style="font-size:1.1em;color:#a78bfa">♬</td><td>¼박</td><td>16개</td></tr>
+  </table>
+  <div class="tip">💡 꼬리(깃발)가 하나 늘어날 때마다 길이가 정확히 절반! 16분음표까지만 완벽하면 대부분의 곡 해석 가능!</div>
+
+  <div class="sec-title">카운팅 시스템</div>
+  <div class="info-card">
+    <strong style="color:#e9b45a">8분음표 카운팅</strong>: 한 박자 = "1 - 엔"<br>
+    <div style="display:flex;gap:6px;margin:6px 0;flex-wrap:wrap">
+      <span style="background:#e9b45a22;border:1px solid #e9b45a44;border-radius:5px;padding:2px 7px;font-size:.85em;font-weight:700;color:#e9b45a">1</span>
+      <span style="background:#1a1a28;border:1px solid #2a2a3e;border-radius:5px;padding:2px 7px;font-size:.85em;color:#888">엔</span>
+      <span style="background:#e9b45a22;border:1px solid #e9b45a44;border-radius:5px;padding:2px 7px;font-size:.85em;font-weight:700;color:#e9b45a">2</span>
+      <span style="background:#1a1a28;border:1px solid #2a2a3e;border-radius:5px;padding:2px 7px;font-size:.85em;color:#888">엔</span>
+      <span style="background:#e9b45a22;border:1px solid #e9b45a44;border-radius:5px;padding:2px 7px;font-size:.85em;font-weight:700;color:#e9b45a">3</span>
+      <span style="background:#1a1a28;border:1px solid #2a2a3e;border-radius:5px;padding:2px 7px;font-size:.85em;color:#888">엔</span>
+      <span style="background:#e9b45a22;border:1px solid #e9b45a44;border-radius:5px;padding:2px 7px;font-size:.85em;font-weight:700;color:#e9b45a">4</span>
+      <span style="background:#1a1a28;border:1px solid #2a2a3e;border-radius:5px;padding:2px 7px;font-size:.85em;color:#888">엔</span>
+    </div>
+    <strong style="color:#a78bfa">16분음표 카운팅</strong>: 한 박자 = "1 - 이 - 엔 - 아"<br>
+    <div style="display:flex;gap:4px;margin:6px 0;flex-wrap:wrap">
+      <span style="background:#7c3aed33;border:1px solid #a78bfa44;border-radius:5px;padding:2px 7px;font-size:.82em;font-weight:700;color:#a78bfa">1</span>
+      <span style="background:#1a1a28;border:1px solid #2a2a3e;border-radius:5px;padding:2px 6px;font-size:.82em;color:#888">이</span>
+      <span style="background:#7c3aed22;border:1px solid #a78bfa33;border-radius:5px;padding:2px 6px;font-size:.82em;color:#c4b5fd">엔</span>
+      <span style="background:#1a1a28;border:1px solid #2a2a3e;border-radius:5px;padding:2px 6px;font-size:.82em;color:#888">아</span>
+      <span style="color:#555;font-size:.8em;align-self:center">× 4박자</span>
+    </div>
+  </div>
+  <div class="warn">⚠️ 왕초보 필수: 손뼉 치며 학습! 눈으로만 보면 몸이 기억 못 해요. 발장단(4박) + 손뼉(리듬) + 입(카운팅) 3중 훈련이 정답!</div>
+</div>
+
+<!-- ── Tab 1: 8분음표 패턴 ── -->
+<div class="panel" id="p1">
+  <div class="sec-title">8분음표 — 한 박자를 둘로 나누기</div>
+  <div style="font-size:.72em;color:#888;margin-bottom:8px">박스를 터치하면 클릭 소리, ▶ 버튼은 전체 패턴 재생!</div>
+
+  <div id="e-patterns"></div>
+</div>
+
+<!-- ── Tab 2: 16분음표 패턴 ── -->
+<div class="panel" id="p2">
+  <div class="sec-title">16분음표 — 한 박자를 넷으로!</div>
+  <div style="font-size:.72em;color:#888;margin-bottom:8px">가장 어렵지만 이것만 되면 대부분의 곡 해석 가능!</div>
+
+  <div class="count-guide">
+    <div class="cg-box"><div class="cg-top">1</div><div class="cg-bot">①</div></div>
+    <div class="cg-box"><div class="cg-top">이</div><div class="cg-bot">②</div></div>
+    <div class="cg-box"><div class="cg-top">엔</div><div class="cg-bot">③</div></div>
+    <div class="cg-box"><div class="cg-top">아</div><div class="cg-bot">④</div></div>
+    <div class="cg-box"><div class="cg-top">2</div><div class="cg-bot">⑤</div></div>
+    <div class="cg-box"><div class="cg-top">이</div><div class="cg-bot">⑥</div></div>
+    <div class="cg-box"><div class="cg-top">엔</div><div class="cg-bot">⑦</div></div>
+    <div class="cg-box"><div class="cg-top">아</div><div class="cg-bot">⑧</div></div>
+  </div>
+  <div style="font-size:.6em;color:#555;margin-bottom:8px">↑ 한 마디 앞 2박자 구조 (3,4박도 동일)</div>
+
+  <div id="s-patterns"></div>
+</div>
+
+<!-- ── Tab 3: 메트로놈 ── -->
+<div class="panel" id="p3">
+  <div class="sec-title">🎯 메트로놈 + 리듬 연습</div>
+  <div class="bpm-row">
+    <span>BPM</span>
+    <input type="range" id="bpm-sl" min="40" max="160" value="80" oninput="document.getElementById('bpm-val').textContent=this.value">
+    <span id="bpm-val" style="font-weight:700;color:#a78bfa;min-width:28px">80</span>
+  </div>
+  <button class="metro-start" id="metro-btn" onclick="toggleMetro()">▶ 메트로놈 시작</button>
+  <div class="metro-grid" id="metro-grid">
+    <div class="metro-cell" id="mc0">1</div>
+    <div class="metro-cell" id="mc1">2</div>
+    <div class="metro-cell" id="mc2">3</div>
+    <div class="metro-cell" id="mc3">4</div>
+  </div>
+
+  <div class="sec-title" style="margin-top:10px">8분 카운팅 시각화</div>
+  <div class="counting" id="count-disp">
+    <div class="cnt-box" id="cb0">1</div><div class="cnt-box" id="cb1">엔</div>
+    <div class="cnt-box" id="cb2">2</div><div class="cnt-box" id="cb3">엔</div>
+    <div class="cnt-box" id="cb4">3</div><div class="cnt-box" id="cb5">엔</div>
+    <div class="cnt-box" id="cb6">4</div><div class="cnt-box" id="cb7">엔</div>
+  </div>
+
+  <div class="info-card" style="margin-top:8px">
+    <strong style="color:#a78bfa">연습 방법</strong><br>
+    1. BPM 60~70으로 시작<br>
+    2. 발로 박자 맞추고 (1,2,3,4)<br>
+    3. 손뼉으로 원하는 리듬 표현<br>
+    4. 익숙해지면 BPM 조금씩 올리기
+    <div class="tip" style="margin-top:6px">💡 한 패턴을 10번 이상 반복한 뒤 다음 패턴으로!</div>
+  </div>
+</div>
+
+<!-- ── Tab 4: 영상 ── -->
+<div class="panel" id="p4">
+  <div class="sec-title">📺 참고 유튜브 영상</div>
+  <a class="yt-card" href="https://youtu.be/nbNPESrvJJA?si=Z-U6YMfw1ex10Sz7" target="_blank" rel="noopener">
+    <img class="yt-thumb" src="https://img.youtube.com/vi/nbNPESrvJJA/mqdefault.jpg" alt="리듬 악보">
+    <div class="yt-info">
+      <div class="yt-num">▶ 난리블루스 — 리듬 악보 읽기</div>
+      <div class="yt-title">악보 읽기 — 20가지 리듬 패턴 완전 정복</div>
+      <div class="yt-url">youtu.be/nbNPESrvJJA</div>
+    </div>
+  </a>
+  <div class="tip">💡 영상과 함께 이 앱으로 리듬 연습하면 2배 빠르게 익힐 수 있어요!</div>
+</div>
+
+<script>
+var ac;
+function getAC(){if(!ac){try{ac=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(ac&&ac.state==='suspended')ac.resume();return ac;}
+
+function playClick(freq,vol,dur){
+  var a=getAC();if(!a)return;
+  var t=a.currentTime;
+  var o=a.createOscillator(),g=a.createGain();
+  o.frequency.value=freq||880;
+  g.gain.setValueAtTime(vol||0.4,t);
+  g.gain.exponentialRampToValueAtTime(0.001,t+(dur||0.06));
+  o.connect(g);g.connect(a.destination);
+  o.start(t);o.stop(t+(dur||0.06));
+}
+
+function playPattern(slots,bpm,type){
+  var a=getAC();if(!a)return;
+  var barDur=(60/bpm)*4;
+  var slotDur=barDur/slots.length;
+  slots.forEach(function(on,i){
+    if(on){
+      var t=a.currentTime+i*slotDur;
+      var o=a.createOscillator(),g=a.createGain();
+      var isBeat=(i%(slots.length/4)===0);
+      o.frequency.value=isBeat?1000:750;
+      o.type='triangle';
+      g.gain.setValueAtTime(isBeat?0.5:0.35,t);
+      g.gain.exponentialRampToValueAtTime(0.001,t+0.055);
+      o.connect(g);g.connect(a.destination);
+      o.start(t);o.stop(t+0.055);
+    }
+  });
+  toast('▶ 재생 중...');
+}
+
+function toast(msg){
+  var d=document.getElementById('_toast');
+  if(d)d.remove();
+  var el=document.createElement('div');
+  el.className='toast';el.id='_toast';el.textContent=msg;
+  document.body.appendChild(el);
+  setTimeout(function(){if(el.parentNode)el.remove();},1800);
+}
+
+function show(n){
+  document.querySelectorAll('.panel').forEach(function(p,i){p.classList.toggle('active',i===n)});
+  document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',i===n)});
+}
+
+/* ── Pattern data ── */
+var ePatterns=[
+  {name:'① 8분음표 연속',desc:'타티 타티 타티 타티',slots:[1,1,1,1,1,1,1,1],labels:['1','엔','2','엔','3','엔','4','엔'],sym:['♪','♪','♪','♪','♪','♪','♪','♪']},
+  {name:'② 4분음표 (8분그리드)',desc:'타 타 타 타',slots:[1,0,1,0,1,0,1,0],labels:['1','─','2','─','3','─','4','─'],sym:['♩','─','♩','─','♩','─','♩','─']},
+  {name:'③ 4분+8분×2',desc:'타 타티 타 타티',slots:[1,0,1,1,1,0,1,1],labels:['1','─','2','엔','3','─','4','엔'],sym:['♩','─','♪','♪','♩','─','♪','♪']},
+  {name:'④ 8분×2+4분',desc:'타티 타 타티 타',slots:[1,1,1,0,1,1,1,0],labels:['1','엔','2','─','3','엔','4','─'],sym:['♪','♪','♩','─','♪','♪','♩','─']},
+  {name:'⑤ 오프비트 (엔박만)',desc:'─티 ─티 ─티 ─티',slots:[0,1,0,1,0,1,0,1],labels:['─','엔','─','엔','─','엔','─','엔'],sym:['𝄾','♪','𝄾','♪','𝄾','♪','𝄾','♪']},
+  {name:'⑥ 점4분+8분 (싱코페이션)',desc:'타─ ─티 타─ ─티',slots:[1,0,0,1,1,0,0,1],labels:['1','─','─','엔','3','─','─','엔'],sym:['♩.','─','─','♪','♩.','─','─','♪']},
+  {name:'⑦ 당김음 패턴',desc:'타티 ─티 타 ─',slots:[1,1,0,1,1,0,1,0],labels:['1','엔','─','엔','3','─','4','─'],sym:['♪','♪','𝄾','♪','♪','𝄾','♩','─']},
+  {name:'⑧ 2분+4분 혼합',desc:'타─ 타 타',slots:[1,0,1,0,1,1,1,0],labels:['1','─','2','─','3','─','4','─'],sym:['𝅗𝅥','─','♩','─','♩','─','♩','─']},
+];
+
+var sPatterns=[
+  {name:'① 16분 연속',desc:'타카티카 × 4',slots:[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],labels:['1','이','엔','아','2','이','엔','아','3','이','엔','아','4','이','엔','아'],sym:['♬','♬','♬','♬','♬','♬','♬','♬','♬','♬','♬','♬','♬','♬','♬','♬']},
+  {name:'② 점8분+16분 (셔플)',desc:'타──아 × 4',slots:[1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1],labels:['1','─','─','아','2','─','─','아','3','─','─','아','4','─','─','아'],sym:['♪.','─','─','♬','♪.','─','─','♬','♪.','─','─','♬','♪.','─','─','♬']},
+  {name:'③ 8분+16분×2',desc:'타─티카 × 4',slots:[1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1],labels:['1','─','엔','아','2','─','엔','아','3','─','엔','아','4','─','엔','아'],sym:['♪','─','♬','♬','♪','─','♬','♬','♪','─','♬','♬','♪','─','♬','♬']},
+  {name:'④ 16분×2+8분',desc:'타카티─ × 4',slots:[1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0],labels:['1','이','엔','─','2','이','엔','─','3','이','엔','─','4','이','엔','─'],sym:['♬','♬','♪','─','♬','♬','♪','─','♬','♬','♪','─','♬','♬','♪','─']},
+  {name:'⑤ 1박&3박 강조',desc:'타─티─ × 4',slots:[1,0,1,0,0,0,1,0,1,0,1,0,0,0,1,0],labels:['1','─','엔','─','─','─','엔','─','3','─','엔','─','─','─','엔','─'],sym:['♬','─','♬','─','─','─','♬','─','♬','─','♬','─','─','─','♬','─']},
+  {name:'⑥ 3+3+2 라틴 패턴',desc:'라틴/살사 리듬 기초',slots:[1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0],labels:['1','─','─','아','─','─','엔','─','3','─','─','아','─','─','엔','─'],sym:['♬','─','─','♬','─','─','♬','─','♬','─','─','♬','─','─','♬','─']},
+];
+
+function buildSlot(on,sym,label,freq){
+  var div=document.createElement('div');
+  div.className='slot';
+  var box=document.createElement('div');
+  box.className='slot-box '+(on?'on':'off');
+  box.textContent=sym;
+  box.onclick=function(e){e.stopPropagation();if(on)playClick(freq||800,0.35,0.055);};
+  var num=document.createElement('div');
+  num.className='slot-num';num.textContent=label;
+  div.appendChild(box);div.appendChild(num);
+  return div;
+}
+
+function buildPatternCard(p,bpm){
+  var card=document.createElement('div');
+  card.className='pcard';
+  var name=document.createElement('div');name.className='pcard-name';name.textContent=p.name;
+  var desc=document.createElement('div');desc.className='pcard-desc';desc.textContent=p.desc;
+  var slots=document.createElement('div');slots.className='slots';
+  p.slots.forEach(function(on,i){
+    var isBeat=(i%(p.slots.length/4)===0);
+    slots.appendChild(buildSlot(on,p.sym[i],p.labels[i],isBeat?1000:750));
+  });
+  var btn=document.createElement('button');
+  btn.className='play-btn';btn.innerHTML='&#9654; 패턴 재생';
+  btn.onclick=function(e){e.stopPropagation();playPattern(p.slots,bpm||80);};
+  card.appendChild(name);card.appendChild(desc);card.appendChild(slots);card.appendChild(btn);
+  return card;
+}
+
+function renderPatterns(){
+  var bpm=80;
+  var ec=document.getElementById('e-patterns');
+  ePatterns.forEach(function(p){ec.appendChild(buildPatternCard(p,bpm));});
+  var sc=document.getElementById('s-patterns');
+  sPatterns.forEach(function(p){sc.appendChild(buildPatternCard(p,bpm));});
+}
+renderPatterns();
+
+/* ── Metronome ── */
+var metroTimer=null;
+var metroBeat=0;
+var metroEighth=0;
+function toggleMetro(){
+  if(metroTimer){
+    clearInterval(metroTimer);metroTimer=null;
+    document.getElementById('metro-btn').textContent='▶ 메트로놈 시작';
+    [0,1,2,3].forEach(function(i){document.getElementById('mc'+i).classList.remove('lit');});
+    [0,1,2,3,4,5,6,7].forEach(function(i){document.getElementById('cb'+i).classList.remove('lit');});
+  } else {
+    var bpm=parseInt(document.getElementById('bpm-sl').value)||80;
+    var eighthDur=60000/(bpm*2);
+    document.getElementById('metro-btn').textContent='⏹ 정지';
+    metroEighth=0;
+    metroTimer=setInterval(function(){
+      var beatIdx=Math.floor(metroEighth/2);
+      [0,1,2,3].forEach(function(i){document.getElementById('mc'+i).classList.toggle('lit',i===beatIdx);});
+      [0,1,2,3,4,5,6,7].forEach(function(i){document.getElementById('cb'+i).classList.toggle('lit',i===metroEighth);});
+      var isDownbeat=(metroEighth%2===0);
+      playClick(isDownbeat?1000:700,isDownbeat?0.5:0.3,0.05);
+      metroEighth=(metroEighth+1)%8;
+    },eighthDur);
+  }
+}
+</script>
+</body>
+</html>
