@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>악보 MIDI 입력 실습 — 너의 의미</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:#0f0f1a;color:#e0e0e0;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:18px;text-align:center;border-bottom:3px solid #4cce64}
+.hdr h1{font-size:1.3em;color:#fff;margin-bottom:4px}
+.hdr p{color:#888;font-size:0.8em}
+.tabs{display:flex;overflow-x:auto;background:#16213e;border-bottom:1px solid #333}
+.tab{padding:11px 14px;cursor:pointer;white-space:nowrap;font-size:0.78em;font-weight:600;color:#888;border-bottom:3px solid transparent;transition:all .2s}
+.tab.active{color:#4cce64;border-bottom-color:#4cce64;background:#0f0f1a}
+.panel{display:none;padding:14px;max-width:760px;margin:0 auto}
+.panel.active{display:block}
+.sec-title{font-size:0.95em;font-weight:700;color:#4cce64;margin-bottom:10px;padding-bottom:4px;border-bottom:1px solid #2a2a3e;display:flex;align-items:center;gap:6px}
+/* workspace diagram */
+.ws{background:#1a1a2e;border-radius:10px;overflow:hidden;border:1px solid #333;margin-bottom:14px}
+.ws-toolbar{background:#2a2a3e;padding:6px 10px;font-size:0.75em;color:#888;border-bottom:1px solid #333;display:flex;gap:10px;align-items:center}
+.ws-transport{background:#111;padding:6px 12px;display:flex;gap:14px;align-items:center;border-bottom:1px solid #333;font-size:0.75em;font-family:monospace}
+.bpm{color:#4cce64;font-weight:700;font-size:1em}
+.sig{color:#7ab4e4}
+.track-row{display:flex;align-items:center;border-bottom:1px solid #1e1e2e;transition:all .2s;cursor:pointer}
+.track-row:hover{background:#1e1e2e}
+.track-row.active{background:#1a2a3a}
+.track-hdr{width:160px;padding:8px 10px;flex-shrink:0;border-right:1px solid #1e1e2e;display:flex;align-items:center;gap:6px}
+.track-icon{width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.85em;flex-shrink:0}
+.track-name{font-size:0.78em;font-weight:600;color:#ccc}
+.track-msr{display:flex;gap:3px;margin-left:auto}
+.msr-btn{background:#333;border:none;border-radius:3px;color:#888;width:16px;height:16px;font-size:0.6em;cursor:pointer;font-weight:700}
+.track-workspace{flex:1;padding:4px 6px;position:relative;height:38px;overflow:hidden}
+.region{position:absolute;top:3px;bottom:3px;border-radius:4px;font-size:0.62em;color:#fff;padding:0 4px;display:flex;align-items:center;white-space:nowrap;overflow:hidden;cursor:pointer;transition:all .2s}
+.region:hover{filter:brightness(1.2)}
+/* Piano Roll */
+.pr{background:#111;border-radius:10px;overflow:hidden;border:1px solid #333;user-select:none;margin-bottom:14px}
+.pr-bar{background:#2a2a3e;padding:6px 10px;display:flex;gap:8px;align-items:center;font-size:0.75em;color:#888;border-bottom:1px solid #333;flex-wrap:wrap}
+.pr-bar strong{color:#4cce64}
+.pr-body{display:flex}
+.pr-keys{width:44px;background:#0d0d0d;border-right:1px solid #222;flex-shrink:0}
+.pk{height:18px;display:flex;align-items:center;justify-content:flex-end;padding-right:3px;font-size:0.58em;border-bottom:1px solid #1a1a1a;cursor:pointer;transition:background .1s}
+.pk.w{background:#181818;color:#555}
+.pk.b{background:#0d0d0d;color:#333}
+.pk:hover{background:#2a4a6e!important;color:#7ab4e4!important}
+/* Drum Sequencer */
+.seq-grid{display:grid;grid-template-columns:repeat(16,1fr);gap:2px;margin-bottom:2px}
+.seq-cell{height:28px;border-radius:3px;cursor:pointer;border:1px solid #2a2a2a;transition:all .1s;background:#1e1e2e}
+.seq-cell.on-kick{background:#e9456099!important;border-color:#e94560}
+.seq-cell.on-snare{background:#f0a02099!important;border-color:#f0a020}
+.seq-cell.on-hat{background:#4cce6499!important;border-color:#4cce64}
+.seq-cell.beat{background:#252535}
+.seq-cell:hover{filter:brightness(1.3)}
+.seq-row-label{font-size:0.72em;font-weight:700;margin-bottom:4px;padding:2px 4px;border-radius:3px;display:inline-block}
+/* Pitch Bend */
+.pb-canvas{border-radius:6px;cursor:crosshair;display:block;border:1px solid #333}
+/* YouTube Links */
+.yt-card{display:flex;gap:12px;background:#1e1e2e;border-radius:10px;padding:12px;margin-bottom:10px;border:1px solid #2a2a3e;text-decoration:none;color:inherit;transition:all .2s;cursor:pointer}
+.yt-card:hover{border-color:#e9456066;background:#2a1a1a;transform:translateY(-1px)}
+.yt-thumb{width:100px;height:56px;border-radius:6px;object-fit:cover;flex-shrink:0;background:#111;border:1px solid #333}
+.yt-info{flex:1;min-width:0}
+.yt-num{font-size:0.68em;color:#e94560;font-weight:700;margin-bottom:3px}
+.yt-title{font-size:0.82em;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.4}
+.yt-url{font-size:0.68em;color:#888;word-break:break-all;font-family:monospace}
+.yt-badge{display:inline-flex;align-items:center;gap:4px;background:#e9456022;border:1px solid #e9456044;border-radius:10px;padding:2px 8px;font-size:0.65em;color:#e94560;font-weight:700;margin-top:4px}
+/* Concept cards */
+.concept-card{background:#1e1e2e;border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid #2a2a3e;cursor:pointer;transition:all .2s}
+.concept-card:hover{border-color:#4cce6444}
+.concept-card.open{border-color:#4cce64}
+.concept-header{display:flex;align-items:center;gap:10px}
+.concept-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1em;flex-shrink:0}
+.concept-title{font-weight:700;font-size:0.9em;color:#fff;flex:1}
+.concept-body{padding:8px 0 0 38px;color:#aaa;font-size:0.8em;line-height:1.7;display:none}
+.concept-card.open .concept-body{display:block}
+.point{display:flex;gap:6px;margin-bottom:4px;align-items:flex-start}
+.point::before{content:'▸';color:#4cce64;flex-shrink:0}
+.tip{background:#1a3a1a;border:1px solid #4cce6444;border-radius:6px;padding:7px 10px;font-size:0.78em;color:#4cce64;margin-top:6px}
+.warn{background:#3a1a1a;border:1px solid #e9456044;border-radius:6px;padding:7px 10px;font-size:0.78em;color:#e94560;margin-top:6px}
+/* Steps */
+.step-card{background:#1e1e2e;border-radius:10px;padding:12px;margin-bottom:8px;border-left:4px solid #4cce64}
+.step-hdr{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.step-n{width:26px;height:26px;border-radius:50%;background:#4cce64;color:#000;display:flex;align-items:center;justify-content:center;font-size:0.8em;font-weight:700;flex-shrink:0}
+.step-title{font-weight:700;color:#fff;font-size:0.88em}
+.step-body{color:#aaa;font-size:0.8em;line-height:1.7;padding-left:36px}
+/* Drum mapping */
+.drum-map-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px}
+.drum-key{border-radius:8px;padding:10px 8px;text-align:center;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.drum-key:hover{filter:brightness(1.2);transform:scale(1.04)}
+.drum-key:active{transform:scale(0.97)}
+.drum-key .dk-name{font-size:0.75em;font-weight:700;color:#fff;margin-bottom:2px}
+.drum-key .dk-key{font-size:0.65em;color:rgba(255,255,255,.6);font-family:monospace}
+/* Sierra table */
+.compat-table{width:100%;border-collapse:collapse;font-size:0.78em;margin-bottom:14px}
+.compat-table th{background:#2a2a3e;color:#7ab4e4;padding:7px 10px;text-align:left;font-weight:600;border-bottom:1px solid #333}
+.compat-table td{padding:6px 10px;border-bottom:1px solid #1e1e2e;color:#bbb}
+.compat-table tr:hover td{background:#1e1e2e}
+.ok{color:#4cce64;font-weight:700}
+.no{color:#e94560;font-weight:700}
+.btn{padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-weight:600;font-size:0.8em;transition:all .2s}
+.btn-g{background:#4cce6422;border:1px solid #4cce64;color:#4cce64}
+.btn-g:hover{background:#4cce6444}
+.btn-r{background:#e9456022;border:1px solid #e94560;color:#e94560}
+.btn-r:hover{background:#e9456044}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#4cce64;color:#000;padding:9px 18px;border-radius:8px;font-size:0.82em;font-weight:700;z-index:999;animation:toastAnim 2.2s forwards;pointer-events:none}
+@keyframes toastAnim{0%{opacity:0;transform:translateX(-50%) translateY(8px)}10%{opacity:1;transform:translateX(-50%) translateY(0)}80%{opacity:1}100%{opacity:0}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <h1>🎸 악보 MIDI 입력 — 너의 의미</h1>
+  <p>산울림 원곡 악보 보며 4개 트랙 직접 입력 실습 (안식비트 영상 기반)</p>
+</div>
+<div class="tabs">
+  <div class="tab active" onclick="show(0)">🎯 핵심 개념</div>
+  <div class="tab" onclick="show(1)">🖥️ 워크스페이스</div>
+  <div class="tab" onclick="show(2)">🟩 피아노 롤</div>
+  <div class="tab" onclick="show(3)">🥁 드럼 패턴</div>
+  <div class="tab" onclick="show(4)">🍎 구형 호환</div>
+  <div class="tab" onclick="show(5)">📺 로직공부</div>
+</div>
+
+<!-- Tab 0: Concepts -->
+<div class="panel active" id="p0">
+  <div class="sec-title">🎯 핵심 개념 8가지</div>
+  <div id="concepts-list"></div>
+</div>
+
+<!-- Tab 1: Workspace -->
+<div class="panel" id="p1">
+  <div class="sec-title">🖥️ 너의 의미 — 4트랙 워크스페이스</div>
+  <p style="font-size:0.8em;color:#888;margin-bottom:10px">트랙을 탭하면 소리 재생! 녹색 Region을 탭하면 해당 파트 연주.</p>
+  <div class="ws">
+    <div class="ws-toolbar">
+      <span>Edit ▾</span><span>Functions ▾</span><span>View ▾</span>
+      <span style="margin-left:auto;color:#4cce64">Quick Help: ❓</span>
+    </div>
+    <div class="ws-transport">
+      <span style="color:#888">Bar</span><span class="bpm" id="pos-display">1 1</span>
+      <span style="color:#555">|</span>
+      <span class="bpm">80</span><span style="color:#666">BPM</span>
+      <span class="sig">4/4</span>
+      <span style="color:#a07ad4">G maj</span>
+      <button onclick="playAll()" style="margin-left:auto;background:#e94560;border:none;border-radius:4px;color:#fff;padding:4px 10px;cursor:pointer;font-size:0.8em;font-weight:700">▶ 전체 재생</button>
+    </div>
+    <div id="track-area"></div>
+  </div>
+  <div class="step-card">
+    <div class="step-hdr"><div class="step-n">💡</div><div class="step-title">트랙 만드는 순서</div></div>
+    <div class="step-body">
+      1. <strong>+</strong> 버튼 → Software Instrument → Create<br>
+      2. 트랙 이름 더블클릭 → "Keyboard" 입력<br>
+      3. <strong>Y</strong> 키 → Library → Piano → E-Piano<br>
+      4. 같은 방법으로 Electric Guitar, Bass Guitar, Drum set 추가
+      <div class="tip">💡 트랙 순서: Keyboard → Electric Guitar → Bass Guitar → Drum set (악보 총보 순서와 일치)</div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 2: Piano Roll -->
+<div class="panel" id="p2">
+  <div class="sec-title">🟩 피아노 롤 + Pitch Bend 실습</div>
+  <p style="font-size:0.8em;color:#888;margin-bottom:10px">격자 클릭 = 노트 추가, 노트 클릭 = 삭제+재생. Pitch Bend 곡선도 직접 그려보세요!</p>
+  <div style="margin-bottom:8px;display:flex;gap:6px;flex-wrap:wrap">
+    <button class="btn btn-g" onclick="setTrack('keyboard')">🎹 Keyboard</button>
+    <button class="btn btn-g" onclick="setTrack('guitar')">🎸 Guitar</button>
+    <button class="btn btn-g" onclick="setTrack('bass')">🎸 Bass</button>
+  </div>
+  <div class="pr">
+    <div class="pr-bar">
+      <span id="track-label" style="color:#4cce64;font-weight:700">🎹 Keyboard</span>
+      <span>Quantize: 1/16</span>
+      <strong id="note-count">노트: 0개</strong>
+      <button onclick="loadSample()" class="btn btn-g" style="margin-left:auto;padding:3px 8px;font-size:0.7em">샘플 불러오기</button>
+      <button onclick="clearNotes()" class="btn btn-r" style="padding:3px 8px;font-size:0.7em">초기화</button>
+    </div>
+    <div class="pr-body">
+      <div class="pr-keys" id="pr-keys"></div>
+      <div style="flex:1;overflow-x:auto">
+        <canvas id="pr-canvas" width="560" height="252" style="cursor:crosshair;display:block"></canvas>
+      </div>
+    </div>
+  </div>
+  <!-- Pitch Bend -->
+  <div class="sec-title" style="margin-top:4px">🎸 Pitch Bend 자동화 (Ch.1: Pitch Bend)</div>
+  <p style="font-size:0.8em;color:#888;margin-bottom:8px">캔버스를 클릭+드래그해서 슬라이드 곡선을 그려보세요! (값 63 = 슬라이드 정점)</p>
+  <canvas id="pb-canvas" class="pb-canvas" width="560" height="80" style="width:100%;background:#111;margin-bottom:6px"></canvas>
+  <div style="font-size:0.75em;color:#888;text-align:center">Position: <span id="pb-pos">—</span>&nbsp;&nbsp;Pitch Bend: <span id="pb-val" style="color:#a07ad4;font-weight:700">—</span></div>
+  <div class="tip" style="margin-top:8px">💡 스크린샷에서 확인: Position 2.3.1.6 / Pitch Bend: 63 → 기타 슬라이드 정점값</div>
+</div>
+
+<!-- Tab 3: Drum Pattern -->
+<div class="panel" id="p3">
+  <div class="sec-title">🥁 드럼 매핑 + 16스텝 패턴 시퀀서</div>
+  <p style="font-size:0.8em;color:#888;margin-bottom:10px">드럼 패드를 탭해서 소리 확인! 시퀀서 격자 탭으로 패턴 만들고 ▶ 재생!</p>
+  <div class="drum-map-grid" id="drum-pads"></div>
+  <div class="sec-title" style="margin-top:4px">🥁 16스텝 드럼 시퀀서</div>
+  <div id="sequencer"></div>
+  <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+    <button class="btn btn-g" onclick="playSeq()">▶ 재생 (80 BPM)</button>
+    <button onclick="loadBasicPattern()" class="btn btn-g">기본 패턴 불러오기</button>
+    <button onclick="clearSeq()" class="btn btn-r">초기화</button>
+  </div>
+  <div class="step-card" style="margin-top:12px">
+    <div class="step-hdr"><div class="step-n">💡</div><div class="step-title">드럼 입력 핵심</div></div>
+    <div class="step-body">
+      • <strong>Kick (C1)</strong>: 1박, 3박 위치에 배치<br>
+      • <strong>Snare (D1)</strong>: 2박, 4박 위치에 배치<br>
+      • <strong>Hi-Hat (F#1)</strong>: 8분음표마다 (스텝 1,3,5,7...)<br>
+      • 노트 길이 짧아도 소리는 정상 재생
+      <div class="tip">💡 2마디 완성 후 Cmd+R로 반복 → 곡 전체 커버!</div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 4: Sierra Compat -->
+<div class="panel" id="p4">
+  <div class="sec-title">🍎 macOS Sierra + Logic Pro X 구형 호환</div>
+  <table class="compat-table">
+    <tr><th>기능</th><th>Sierra + LP X 10.4</th><th>Sonoma + LP 12</th></tr>
+    <tr><td>MIDI 입력·편집</td><td class="ok">✅ 완전 지원</td><td class="ok">✅ 지원</td></tr>
+    <tr><td>Piano Roll</td><td class="ok">✅ 완전 지원</td><td class="ok">✅ 지원</td></tr>
+    <tr><td>Score Editor</td><td class="ok">✅ 완전 지원</td><td class="ok">✅ 지원</td></tr>
+    <tr><td>Pitch Bend 자동화</td><td class="ok">✅ 완전 지원</td><td class="ok">✅ 지원</td></tr>
+    <tr><td>Modulation CC1</td><td class="ok">✅ 완전 지원</td><td class="ok">✅ 지원</td></tr>
+    <tr><td>Sampler (Vintage Strat)</td><td class="ok">✅ EXS24 이름</td><td class="ok">✅ Sampler</td></tr>
+    <tr><td>Time Quantize</td><td class="ok">✅ 완전 지원</td><td class="ok">✅ 지원</td></tr>
+    <tr><td>Velocity 조절</td><td class="ok">✅ 완전 지원</td><td class="ok">✅ 지원</td></tr>
+    <tr><td>AI Stem Splitter</td><td class="no">❌ 없음</td><td class="ok">✅ 지원</td></tr>
+    <tr><td>Session Player</td><td class="no">❌ 없음</td><td class="ok">✅ 지원</td></tr>
+    <tr><td>Logic Pro 버전 상한</td><td style="color:#f0a020;font-weight:700">10.4.x</td><td class="ok">최신</td></tr>
+  </table>
+  <div class="step-card" style="border-left-color:#888">
+    <div class="step-hdr"><div class="step-n" style="background:#888;color:#fff">📌</div><div class="step-title">Sierra 사용자 설치 방법</div></div>
+    <div class="step-body">
+      1. Mac App Store → Logic Pro 다운로드 시도<br>
+      2. "이 버전은 사용 불가 — 이전 버전 다운로드?" 팝업 → 수락<br>
+      3. Sierra 호환 최고 버전(10.4.x) 자동 설치
+      <div class="warn">⚠️ 신규 구매자는 최신 버전만 제공. 이전에 구매한 이력이 있어야 구버전 설치 가능.</div>
+      <div class="tip">💡 Sierra Mac이 2018년 이후 모델이면 macOS Sonoma 무료 업그레이드 가능 → Logic Pro 12 사용 추천!</div>
+    </div>
+  </div>
+</div>
+
+<!-- Tab 5: YouTube 로직공부 -->
+<div class="panel" id="p5">
+  <div class="sec-title">📺 로직공부 — 추천 유튜브 영상</div>
+  <p style="font-size:0.8em;color:#888;margin-bottom:12px">아래 링크를 탭하면 유튜브 앱(또는 브라우저)에서 영상이 열립니다.</p>
+
+  <a class="yt-card" href="https://youtu.be/jB3-ySG8DtY?si=C6AwTehhM9NO6bWo" target="_blank" rel="noopener">
+    <img class="yt-thumb" src="https://img.youtube.com/vi/jB3-ySG8DtY/mqdefault.jpg" alt="강좌 1"/>
+    <div class="yt-info">
+      <div class="yt-num">▶ 로직 공부 영상 1</div>
+      <div class="yt-title">Logic Pro 강좌 #1</div>
+      <div class="yt-url">youtu.be/jB3-ySG8DtY</div>
+      <div class="yt-badge">📺 YouTube</div>
+    </div>
+  </a>
+
+  <a class="yt-card" href="https://youtu.be/s0vn6ijk3Zs?si=VZqcowCY3WMCkTZ_" target="_blank" rel="noopener">
+    <img class="yt-thumb" src="https://img.youtube.com/vi/s0vn6ijk3Zs/mqdefault.jpg" alt="강좌 2"/>
+    <div class="yt-info">
+      <div class="yt-num">▶ 로직 공부 영상 2</div>
+      <div class="yt-title">Logic Pro 강좌 #2</div>
+      <div class="yt-url">youtu.be/s0vn6ijk3Zs</div>
+      <div class="yt-badge">📺 YouTube</div>
+    </div>
+  </a>
+
+  <a class="yt-card" href="https://youtu.be/yqjAjsisvn0?si=5hgNVOs_rrEwbpMl" target="_blank" rel="noopener">
+    <img class="yt-thumb" src="https://img.youtube.com/vi/yqjAjsisvn0/mqdefault.jpg" alt="강좌 3"/>
+    <div class="yt-info">
+      <div class="yt-num">▶ 로직 공부 영상 3</div>
+      <div class="yt-title">Logic Pro 강좌 #3</div>
+      <div class="yt-url">youtu.be/yqjAjsisvn0</div>
+      <div class="yt-badge">📺 YouTube</div>
+    </div>
+  </a>
+
+  <a class="yt-card" href="https://youtu.be/1nn-qsaeiVQ?si=Ju2BXZgQOSDwaEtn" target="_blank" rel="noopener">
+    <img class="yt-thumb" src="https://img.youtube.com/vi/1nn-qsaeiVQ/mqdefault.jpg" alt="강좌 4"/>
+    <div class="yt-info">
+      <div class="yt-num">▶ 로직 공부 영상 4</div>
+      <div class="yt-title">Logic Pro 강좌 #4</div>
+      <div class="yt-url">youtu.be/1nn-qsaeiVQ</div>
+      <div class="yt-badge">📺 YouTube</div>
+    </div>
+  </a>
+
+  <a class="yt-card" href="https://youtu.be/3jaE3ZebO4Q?si=81FQErquH57v5ExG" target="_blank" rel="noopener">
+    <img class="yt-thumb" src="https://img.youtube.com/vi/3jaE3ZebO4Q/mqdefault.jpg" alt="강좌 5"/>
+    <div class="yt-info">
+      <div class="yt-num">▶ 로직 공부 영상 5</div>
+      <div class="yt-title">Logic Pro 강좌 #5</div>
+      <div class="yt-url">youtu.be/3jaE3ZebO4Q</div>
+      <div class="yt-badge">📺 YouTube</div>
+    </div>
+  </a>
+
+  <div class="tip" style="margin-top:6px">💡 Acode에서 열 때 링크를 길게 누르면 "외부 브라우저로 열기" 옵션이 나옵니다.</div>
+</div>
+
+<script>
+/* Audio */
+var ac;
+function getAC(){if(!ac){try{ac=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(ac&&ac.state==='suspended')ac.resume();return ac;}
+function hz(p){return 440*Math.pow(2,(p-69)/12)}
+function playN(midi,dur,type,vol){var a=getAC();if(!a)return;var t=a.currentTime;var o=a.createOscillator(),g=a.createGain();o.type=type||'triangle';o.frequency.value=hz(midi);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol||0.3,t+0.01);g.gain.exponentialRampToValueAtTime(0.001,t+(dur||0.6));o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+(dur||0.6));}
+function playKick(){var a=getAC();var t=a.currentTime;var o=a.createOscillator(),g=a.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(0.01,t+0.4);g.gain.setValueAtTime(1,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.4);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+0.4);}
+function playSnare(){var a=getAC();var t=a.currentTime;var buf=a.createBuffer(1,a.sampleRate*.15,a.sampleRate),d=buf.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1;var s=a.createBufferSource(),g=a.createGain(),f=a.createBiquadFilter();f.type='bandpass';f.frequency.value=3000;g.gain.setValueAtTime(.4,t);g.gain.exponentialRampToValueAtTime(.001,t+.14);s.buffer=buf;s.connect(f);f.connect(g);g.connect(a.destination);s.start(t);}
+function playHat(){var a=getAC();var t=a.currentTime;var buf=a.createBuffer(1,a.sampleRate*.04,a.sampleRate),d=buf.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);var s=a.createBufferSource(),g=a.createGain(),f=a.createBiquadFilter();f.type='highpass';f.frequency.value=8000;g.gain.setValueAtTime(.25,t);s.buffer=buf;s.connect(f);f.connect(g);g.connect(a.destination);s.start(t);}
+function playTom(){var a=getAC();var t=a.currentTime;var o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.setValueAtTime(200,t);o.frequency.exponentialRampToValueAtTime(80,t+.15);g.gain.setValueAtTime(.7,t);g.gain.exponentialRampToValueAtTime(.001,t+.2);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+.2);}
+
+function toast(msg){var d=document.createElement('div');d.className='toast';d.textContent=msg;document.body.appendChild(d);setTimeout(function(){d.remove()},2400)}
+function show(n){document.querySelectorAll('.panel').forEach(function(p,i){p.classList.toggle('active',i===n)});document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('active',i===n)})}
+
+/* Concepts */
+var concepts=[
+  {e:'🎯',t:'안식비트 방식',b:'완성된 악보 보고 MIDI로 옮기기 — MIDI 키보드 없이 마우스만으로 가능. 즉흥력 없어도 정확한 결과!',pts:['악보 PDF를 Logic Pro 옆에 띄우기','연필 도구로 클릭하며 노트 찍기','4개 악기 순서대로: Keyboard → Guitar → Bass → Drum','Pitch Bend·Modulation으로 디테일 표현']},
+  {e:'🎚️',t:'4개 트랙 구성',b:'Keyboard(E-Piano)·Electric Guitar(Vintage Strat)·Bass Guitar(Fingerstyle)·Drum set. 순서대로 입력.',pts:['Keyboard: 주 멜로디, E-Piano 음색','Electric Guitar: Sampler → Vintage Strat','Bass Guitar: Fingerstyle, 저음','Drum set: 리듬 (마지막 입력)']},
+  {e:'⏱️',t:'Time Quantize 1/16',b:'노트를 격자에 자동 맞춤. 클릭 위치가 약간 빗나가도 보정. Strength 100%.',pts:['1/16 Note = 가장 세밀한 단위','Strength 100 = 완전 격자 맞춤','노트 길이 자동 기억 기능','첫 음만 정확히 그리면 이후는 같은 길이 자동']},
+  {e:'🎸',t:'Pitch Bend — 슬라이드',b:'기타 슬라이드(글라이드) 표현. Automation/MIDI → Ch.1: Pitch Bend 곡선 그리기.',pts:['값 0→63→0 곡선 = 슬라이드 효과','Sampler Pitch Bend Up: 5 (5반음 범위)','Position 2.3.1.6 / Pitch Bend: 63 (영상)','피아노 롤 하단 자동화 창에서 편집']},
+  {e:'🤘',t:'Modulation — 팜뮤트',b:'CC1 Modulation 값 올리기 = 팜뮤트 ON. 기타 오른손 소리 짧게 치는 "덕덕" 효과.',pts:['피아노 롤 하단 → Modulation 선택','값 높이면 팜뮤트 효과 ON','Vintage Strat MOD Matrix에서 연결','록/펑크 특유의 리듬감 표현']},
+  {e:'🥁',t:'드럼 3요소 패턴',b:'Kick(C1)·Snare(D1)·Hi-Hat(F#1) 세 가지만 알면 기본 패턴 완성. 노트 길이 짧아도 OK.',pts:['Kick C1(36): 1박·3박 — 쿵','Snare D1(38): 2박·4박 — 딱','Hi-Hat F#1(42): 8분음표마다 — 치','2마디 완성 후 Cmd+R 반복']},
+  {e:'🎼',t:'Score Editor G Major',b:'N 키로 열리는 오선지 화면. G Major로 조성 변경 → 임시표(#) 줄어 악보가 깔끔.',pts:['N 키 → Score Editor 열기','조성 클릭 → G Major 선택','샵 1개 = 너의 의미 원조성','Piano Roll ↔ Score 자유 전환']},
+  {e:'🍎',t:'Sierra 구형 버전',b:'Sierra(10.12)에서 Logic Pro X 10.4.x까지 설치 가능. 이 영상 핵심 기능 전부 사용 가능.',pts:['Sierra + LP X 10.4: MIDI 완전 지원','Sampler → Sierra에서 EXS24 이름','Score·Pitch Bend·Quantize 동일','AI 기능만 불가 (Stem Splitter 등)']},
+];
+var openIdx=-1;
+function buildConcepts(){var el=document.getElementById('concepts-list');el.innerHTML='';concepts.forEach(function(c,i){var d=document.createElement('div');d.className='concept-card';d.innerHTML='<div class="concept-header"><div class="concept-num">'+c.e+'</div><div class="concept-title">'+c.t+'</div><span style="color:#555;font-size:0.9em">'+(openIdx===i?'▲':'▼')+'</span></div><div class="concept-body"><p style="margin-bottom:6px">'+c.b+'</p>'+c.pts.map(function(p){return'<div class="point">'+p+'</div>'}).join('')+'</div>';d.onclick=function(){openIdx=openIdx===i?-1:i;buildConcepts();if(openIdx===i)playN(60+i*3,.08,'square',.3)};if(openIdx===i)d.classList.add('open');el.appendChild(d)});}
+buildConcepts();
+
+/* Workspace */
+var tracks=[
+  {name:'Keyboard',icon:'🎹',color:'#e8a020',notes:[67,67,71,69,67,64,62,64],type:'piano'},
+  {name:'Electric Guitar',icon:'🎸',color:'#4cce64',notes:[55,55,59,57,55,52,50,52],type:'guitar'},
+  {name:'Bass Guitar',icon:'🎸',color:'#4cce64',notes:[43,43,43,45,43,40,38,40],type:'bass'},
+  {name:'Drum set',icon:'🥁',color:'#7ab4e4',notes:null,type:'drum'},
+];
+var activeTrack=1;
+function playTrack(i){
+  var t=tracks[i];
+  if(!t.notes){playKick();setTimeout(playSnare,300);setTimeout(playHat,150);setTimeout(playHat,450);return;}
+  var d=0;
+  t.notes.forEach(function(m){
+    setTimeout(function(){
+      if(t.type==='piano')playN(m,.45,'triangle',.3);
+      else if(t.type==='guitar'){var a=getAC();var tm=a.currentTime;var o=a.createOscillator(),g=a.createGain();o.type='sawtooth';o.frequency.value=hz(m);g.gain.setValueAtTime(0,tm);g.gain.linearRampToValueAtTime(.22,tm+.02);g.gain.exponentialRampToValueAtTime(.001,tm+.8);var f=a.createBiquadFilter();f.type='lowpass';f.frequency.value=2500;o.connect(f);f.connect(g);g.connect(a.destination);o.start(tm);o.stop(tm+.8);}
+      else playN(m,.5,'sine',.4);
+    },d);d+=280;
+  });
+  toast('▶ '+t.name+' 파트 재생');
+}
+function playAll(){var d=0;tracks.forEach(function(t,i){if(t.type==='drum'){setTimeout(function(){var dd=0;[0,150,300,450,600,750].forEach(function(x){setTimeout(playHat,x);});setTimeout(playKick,0);setTimeout(playSnare,300);},d);}else{t.notes.forEach(function(m){setTimeout(function(){if(t.type==='piano')playN(m,.4,'triangle',.2);else if(t.type==='guitar')playN(m,.5,'sawtooth',.15);else playN(m,.5,'sine',.2);},d+i*50);d+=280/tracks.length;});}});toast('▶ 전체 트랙 재생');}
+function buildWorkspace(){
+  var el=document.getElementById('track-area');el.innerHTML='';
+  tracks.forEach(function(tr,i){
+    var row=document.createElement('div');row.className='track-row'+(i===activeTrack?' active':'');
+    var regionW=i===0?180:i===1?340:i===2?260:120;
+    var regionL=i===0?0:i===1?0:i===2?0:0;
+    row.innerHTML='<div class="track-hdr"><div class="track-icon" style="background:'+tr.color+'33;color:'+tr.color+'">'+tr.icon+'</div><div class="track-name">'+tr.name+'</div><div class="track-msr"><button class="msr-btn">M</button><button class="msr-btn">S</button><button class="msr-btn" style="color:#e94560">R</button></div></div><div class="track-workspace"><div class="region" style="left:2px;width:'+regionW+'px;background:'+tr.color+'66;border:1px solid '+tr.color+'">'+tr.name+'</div></div>';
+    row.onclick=function(){activeTrack=i;buildWorkspace();playTrack(i);};
+    el.appendChild(row);
+  });
+}
+buildWorkspace();
+
+/* Piano Roll */
+var prNotes=[];var currentTrackType='keyboard';
+var ROWS=14,ROW_H=18,COLS=32,COL_W=17,PR_LEFT=44;
+var noteNames=['C5','B4','A#4','A4','G#4','G4','F#4','F4','E4','D#4','D4','C#4','C4','B3'];
+var midiForRow=[72,71,70,69,68,67,66,65,64,63,62,61,60,59];
+var blackRows=new Set([1,3,6,8,10,12]);
+var prc=document.getElementById('pr-canvas'),ctx=prc.getContext('2d');
+
+function drawPR(){
+  ctx.clearRect(0,0,560,ROWS*ROW_H);
+  for(var r=0;r<ROWS;r++){ctx.fillStyle=blackRows.has(r)?'#141414':'#1a1a1a';ctx.fillRect(PR_LEFT,r*ROW_H,560-PR_LEFT,ROW_H);}
+  for(var c=0;c<=COLS;c++){ctx.strokeStyle=c%4===0?'#333':'#222';ctx.lineWidth=c%4===0?1.2:.5;ctx.beginPath();ctx.moveTo(PR_LEFT+c*COL_W,0);ctx.lineTo(PR_LEFT+c*COL_W,ROWS*ROW_H);ctx.stroke();}
+  for(var r=0;r<ROWS;r++){var y=r*ROW_H;ctx.fillStyle=blackRows.has(r)?'#0d0d0d':'#1a1a1a';ctx.fillRect(0,y,PR_LEFT,ROW_H);ctx.strokeStyle='#2a2a2a';ctx.lineWidth=.5;ctx.strokeRect(0,y,PR_LEFT,ROW_H);ctx.fillStyle=blackRows.has(r)?'#444':'#777';ctx.font='8px monospace';ctx.fillText(noteNames[r]||'',1,y+13);}
+  prNotes.forEach(function(n){ctx.fillStyle=currentTrackType==='bass'?'#5a9fd4':currentTrackType==='guitar'?'#4cce64':'#e8a020';ctx.shadowColor=ctx.fillStyle;ctx.shadowBlur=5;ctx.fillRect(PR_LEFT+n.col*COL_W+1,n.row*ROW_H+1,n.len*COL_W-2,ROW_H-2);ctx.shadowBlur=0;ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=.8;ctx.strokeRect(PR_LEFT+n.col*COL_W+1,n.row*ROW_H+1,n.len*COL_W-2,ROW_H-2);});
+  document.getElementById('note-count').textContent='노트: '+prNotes.length+'개';
+}
+prc.addEventListener('click',function(e){
+  var r=prc.getBoundingClientRect();
+  var x=(e.clientX-r.left)*(560/r.width)-PR_LEFT,y=(e.clientY-r.top)*(ROWS*ROW_H/r.height);
+  if(x<0)return;var col=Math.floor(x/COL_W),row=Math.floor(y/ROW_H);
+  if(row<0||row>=ROWS||col<0||col>=COLS)return;
+  var idx=prNotes.findIndex(function(n){return n.row===row&&col>=n.col&&col<n.col+n.len});
+  if(idx>=0){var m=midiForRow[row];if(currentTrackType==='bass')playN(m,.5,'sine',.4);else if(currentTrackType==='guitar')playN(m,.5,'sawtooth',.25);else playN(m,.5,'triangle',.35);prNotes.splice(idx,1);}
+  else{prNotes.push({row:row,col:col,len:2});var m=midiForRow[row];if(currentTrackType==='bass')playN(m,.5,'sine',.4);else if(currentTrackType==='guitar')playN(m,.5,'sawtooth',.25);else playN(m,.5,'triangle',.35);}
+  drawPR();
+});
+function setTrack(t){currentTrackType=t;var labels={'keyboard':'🎹 Keyboard','guitar':'🎸 Electric Guitar','bass':'🎸 Bass Guitar'};document.getElementById('track-label').textContent=labels[t];prNotes=[];drawPR();}
+var sampleNotes={'keyboard':[[0,4],[2,8],[4,12],[3,6],[6,10],[2,16],[0,20],[4,24]],'guitar':[[6,2],[8,6],[10,10],[6,14],[8,18],[10,22]],'bass':[[12,0],[12,8],[11,12],[12,16],[13,20]]};
+function loadSample(){prNotes=(sampleNotes[currentTrackType]||[]).map(function(n){return{row:n[0],col:n[1],len:3}});drawPR();toast('샘플 노트 로딩됨!');}
+function clearNotes(){prNotes=[];drawPR();}
+drawPR();
+
+/* Pitch Bend Canvas */
+var pbc=document.getElementById('pb-canvas'),pbctx=pbc.getContext('2d');
+var pbPoints=[];var pbDragging=false;
+function drawPB(){
+  pbctx.clearRect(0,0,560,80);
+  pbctx.fillStyle='#111';pbctx.fillRect(0,0,560,80);
+  pbctx.strokeStyle='#222';pbctx.lineWidth=.5;
+  for(var i=0;i<=8;i++){pbctx.beginPath();pbctx.moveTo(i*70,0);pbctx.lineTo(i*70,80);pbctx.stroke();}
+  pbctx.strokeStyle='#2a2a2a';pbctx.beginPath();pbctx.moveTo(0,40);pbctx.lineTo(560,40);pbctx.stroke();
+  pbctx.fillStyle='#333';pbctx.font='9px monospace';pbctx.fillText('63',2,24);pbctx.fillText('0',2,44);
+  if(pbPoints.length>1){pbctx.strokeStyle='#a07ad4';pbctx.lineWidth=2;pbctx.beginPath();pbPoints.forEach(function(p,i){i===0?pbctx.moveTo(p.x,p.y):pbctx.lineTo(p.x,p.y)});pbctx.stroke();}
+  pbPoints.forEach(function(p){pbctx.fillStyle='#c084fc';pbctx.beginPath();pbctx.arc(p.x,p.y,3,0,Math.PI*2);pbctx.fill();});
+}
+function pbEvent(e){var r=pbc.getBoundingClientRect();var cx=(e.touches?e.touches[0].clientX:e.clientX),cy=(e.touches?e.touches[0].clientY:e.clientY);var x=(cx-r.left)*(560/r.width),y=Math.max(0,Math.min(79,(cy-r.top)*(80/r.height)));var val=Math.round((1-(y/80))*127);document.getElementById('pb-pos').textContent=Math.round(x/70+1)+'.'+Math.round((x%70)/17+1)+'.1.0';document.getElementById('pb-val').textContent=val;return{x:x,y:y};}
+pbc.addEventListener('mousedown',function(e){pbDragging=true;pbPoints=[];pbPoints.push(pbEvent(e));drawPB();});
+pbc.addEventListener('mousemove',function(e){if(!pbDragging)return;pbPoints.push(pbEvent(e));drawPB();});
+pbc.addEventListener('mouseup',function(){pbDragging=false;});
+pbc.addEventListener('touchstart',function(e){e.preventDefault();pbDragging=true;pbPoints=[];pbPoints.push(pbEvent(e));drawPB();},{passive:false});
+pbc.addEventListener('touchmove',function(e){e.preventDefault();if(!pbDragging)return;pbPoints.push(pbEvent(e));drawPB();},{passive:false});
+pbc.addEventListener('touchend',function(){pbDragging=false;});
+drawPB();
+
+/* Drum Pads */
+var drumData=[{n:'Kick',k:'C1',t:'kick',c:'#e94560'},{n:'Snare',k:'D1',t:'snare',c:'#f0a020'},{n:'Hi-Hat',k:'F#1',t:'hat',c:'#4cce64'},{n:'Rimshot',k:'C#1',t:'snare',c:'#e0a0f0'},{n:'Clap',k:'D#1',t:'snare',c:'#c084fc'},{n:'Low Tom',k:'A1',t:'tom',c:'#7ab4e4'},{n:'Mid Tom',k:'B1',t:'tom',c:'#5a9fd4'},{n:'Hi Tom',k:'C2',t:'tom',c:'#4a8fc4'},{n:'Open Hat',k:'A#1',t:'hat',c:'#80e890'}];
+var drums=document.getElementById('drum-pads');
+drumData.forEach(function(d){var el=document.createElement('div');el.className='drum-key';el.style.background=d.c+'22';el.style.border='1px solid '+d.c+'66';el.innerHTML='<div class="dk-name">'+d.n+'</div><div class="dk-key">'+d.k+'</div>';el.onclick=function(){if(d.t==='kick')playKick();else if(d.t==='snare')playSnare();else if(d.t==='hat')playHat();else playTom();toast('▶ '+d.n);};drums.appendChild(el);});
+
+/* Drum Sequencer */
+var seqRows=[{name:'Kick',t:'kick',c:'#e94560'},{name:'Snare',t:'snare',c:'#f0a020'},{name:'Hi-Hat',t:'hat',c:'#4cce64'}];
+var seqData=seqRows.map(function(){return Array(16).fill(false)});
+var seqEl=document.getElementById('sequencer'),seqTimer=null,seqStep=0;
+function buildSeq(){seqEl.innerHTML='';seqRows.forEach(function(row,ri){var label=document.createElement('div');label.className='seq-row-label';label.style.background=row.c+'33';label.style.color=row.c;label.textContent=row.name+' ('+['C1','D1','F#1'][ri]+')';seqEl.appendChild(label);var grid=document.createElement('div');grid.className='seq-grid';for(var s=0;s<16;s++){var cell=document.createElement('div');cell.className='seq-cell'+(s%4===0?' beat':'');if(seqData[ri][s])cell.classList.add('on-'+row.t.toLowerCase());var ri2=ri,s2=s;cell.onclick=(function(r,st){return function(){seqData[r][st]=!seqData[r][st];buildSeq();if(seqData[r][st]){if(r===0)playKick();else if(r===1)playSnare();else playHat();}}})(ri2,s2);grid.appendChild(cell);}seqEl.appendChild(grid);var spacer=document.createElement('div');spacer.style.height='8px';seqEl.appendChild(spacer);});}
+buildSeq();
+function playSeq(){if(seqTimer){clearInterval(seqTimer);seqTimer=null;toast('⏹ 정지');return;}var step=0;var interval=60000/80/4;seqTimer=setInterval(function(){seqRows.forEach(function(row,ri){if(seqData[ri][step]){if(ri===0)playKick();else if(ri===1)playSnare();else playHat();}});step=(step+1)%16;},interval);toast('▶ 80 BPM 재생');}
+function loadBasicPattern(){seqData[0]=Array(16).fill(false);seqData[1]=Array(16).fill(false);seqData[2]=Array(16).fill(false);[0,8].forEach(function(s){seqData[0][s]=true;});[4,12].forEach(function(s){seqData[1][s]=true;});[0,2,4,6,8,10,12,14].forEach(function(s){seqData[2][s]=true;});buildSeq();toast('기본 패턴 로딩!');}
+function clearSeq(){seqData=seqRows.map(function(){return Array(16).fill(false)});buildSeq();}
+</script>
+</body>
+                              </html>
