@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="박선생님을 위한 왕초보 10일 파이썬 맛보기 공부 레슨">
+  <title>박선생님 전용 10일 파이썬 유치원</title>
+  <style>
+    :root {
+      --navy: #173b67;
+      --blue: #2563eb;
+      --sky: #eaf3ff;
+      --cream: #fff8e6;
+      --yellow: #ffd65a;
+      --ink: #172033;
+      --muted: #5e6b7d;
+      --line: #dce4ef;
+      --paper: #ffffff;
+      --code: #101827;
+      --result: #f5f7fa;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #f3f7fc;
+      font-family: "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.75;
+      word-break: keep-all;
+    }
+
+    header {
+      color: white;
+      background: linear-gradient(135deg, #102f55, #2865a4);
+      padding: 54px 20px 44px;
+    }
+
+    .hero, main, .day-nav { max-width: 920px; margin: auto; }
+    .eyebrow { margin: 0 0 8px; color: #bfe0ff; font-weight: 800; }
+    h1 { margin: 0; font-size: clamp(2rem, 7vw, 3.6rem); line-height: 1.2; }
+    .hero p:last-child { max-width: 700px; margin: 20px 0 0; color: #e8f3ff; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 10px 14px;
+      overflow-x: auto;
+      background: rgba(255,255,255,.96);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 4px 16px rgba(23,59,103,.08);
+    }
+
+    .day-nav { display: flex; gap: 8px; }
+    .day-nav a {
+      flex: 0 0 auto;
+      color: var(--navy);
+      background: var(--sky);
+      padding: 8px 13px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: .9rem;
+    }
+    .day-nav a:hover, .day-nav a:focus { color: white; background: var(--blue); }
+
+    main { padding: 28px 16px 70px; }
+
+    .intro, .lesson, .finish {
+      margin: 0 0 24px;
+      padding: clamp(22px, 5vw, 38px);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 10px 30px rgba(30,60,100,.07);
+    }
+
+    .intro { border-left: 8px solid var(--yellow); }
+    .lesson { scroll-margin-top: 88px; }
+    .day-number { color: var(--blue); font-weight: 900; letter-spacing: .04em; }
+    h2 { margin: 4px 0 20px; color: var(--navy); font-size: clamp(1.55rem, 5vw, 2.25rem); line-height: 1.3; }
+    h3 { margin-top: 28px; color: var(--navy); }
+    p { margin: 12px 0; }
+
+    .concept {
+      margin: 18px 0;
+      padding: 16px 18px;
+      background: var(--sky);
+      border-left: 5px solid var(--blue);
+      border-radius: 10px;
+    }
+
+    .code-wrap { position: relative; margin: 16px 0; }
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #eaf2ff;
+      background: var(--code);
+      border-radius: 13px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 1rem;
+      line-height: 1.65;
+      word-break: normal;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      padding: 7px 10px;
+      color: white;
+      background: #31527b;
+      border: 1px solid #6381a5;
+      border-radius: 8px;
+      cursor: pointer;
+      font: inherit;
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .result {
+      margin: 12px 0 20px;
+      padding: 15px 18px;
+      background: var(--result);
+      border: 1px dashed #9ba9ba;
+      border-radius: 11px;
+    }
+    .result strong { display: block; color: var(--muted); font-size: .88rem; }
+    .result code { color: #111827; font-family: Consolas, monospace; white-space: pre-wrap; }
+
+    .remember {
+      margin-top: 26px;
+      padding: 18px;
+      background: var(--cream);
+      border: 2px solid var(--yellow);
+      border-radius: 13px;
+    }
+    .remember strong { color: #6e4b00; }
+
+    table { width: 100%; margin: 16px 0; border-collapse: collapse; }
+    th, td { padding: 12px; border: 1px solid var(--line); text-align: left; }
+    th { color: white; background: var(--navy); }
+    tr:nth-child(even) td { background: #f7f9fc; }
+    code.inline { padding: 2px 7px; color: #174a87; background: #e9f2ff; border-radius: 5px; }
+
+    .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0; }
+    .flow div { padding: 15px 8px; color: var(--navy); background: var(--sky); border-radius: 12px; text-align: center; font-weight: 800; }
+
+    footer { padding: 28px 16px 50px; color: var(--muted); text-align: center; }
+
+    @media (max-width: 650px) {
+      body { font-size: 17px; }
+      header { padding-top: 38px; }
+      .flow { grid-template-columns: 1fr 1fr; }
+      .table-scroll { overflow-x: auto; }
+      th, td { min-width: 120px; }
+    }
+
+    @media print {
+      nav, .copy-button { display: none; }
+      body { background: white; font-size: 12pt; }
+      .lesson, .intro, .finish { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero">
+      <p class="eyebrow">완전 왕초보 · 하루 한 걸음</p>
+      <h1>박선생님 전용<br>10일 파이썬 유치원</h1>
+      <p>외우는 수업이 아닙니다. “파이썬에는 이런 기능이 있구나!” 하고 전체 모습을 편안하게 구경하는 맛보기 공부입니다.</p>
+    </div>
+  </header>
+
+  <nav aria-label="날짜별 수업 바로가기">
+    <div class="day-nav">
+      <a href="#day1">1일 print</a><a href="#day2">2일 변수</a><a href="#day3">3일 타입</a>
+      <a href="#day4">4일 계산</a><a href="#day5">5일 input</a><a href="#day6">6일 if</a>
+      <a href="#day7">7일 len</a><a href="#day8">8일 리스트</a><a href="#day9">9일 for</a><a href="#day10">10일 함수</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="intro">
+      <h2>파이썬이 무엇인가요?</h2>
+      <p>파이썬은 컴퓨터에게 <strong>무엇을 어떻게 하라고 글로 명령하는 언어</strong>입니다.</p>
+      <div class="code-wrap"><pre><code>print("안녕하세요")</code></pre></div>
+      <p>컴퓨터에게 “안녕하세요를 화면에 보여줘”라고 부탁한 것입니다.</p>
+    </section>
+
+    <section class="lesson" id="day1">
+      <div class="day-number">DAY 01</div><h2>print() — 화면에 보여주기</h2>
+      <div class="concept"><strong>개념:</strong> <code class="inline">print()</code>는 글자, 숫자, 계산 결과를 화면에 보여주는 명령어입니다.</div>
+      <div class="code-wrap"><pre><code>print("안녕하세요")
+print(10)
+print(7 * 8)</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>안녕하세요
+10
+56</code></div>
+      <p>글자는 따옴표 안에 넣고, 숫자와 계산은 따옴표 밖에 씁니다. 글자와 계산을 함께 보여줄 때는 쉼표로 나눕니다.</p>
+      <div class="code-wrap"><pre><code>print("7 곱하기 8은", 7 * 8, "입니다")</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>7 곱하기 8은 56 입니다</code></div>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">print()</code> = “화면에 보여줘!”</div>
+    </section>
+
+    <section class="lesson" id="day2">
+      <div class="day-number">DAY 02</div><h2>변수 — 이름표가 붙은 상자</h2>
+      <div class="concept"><strong>개념:</strong> 변수는 글자나 숫자를 보관하는 이름표 상자입니다.</div>
+      <div class="code-wrap"><pre><code>이름 = "박근성"
+나이 = 67
+
+print(이름)
+print(나이)</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>박근성
+67</code></div>
+      <p><code class="inline">=</code>는 “오른쪽 값을 왼쪽 상자에 넣어라”라는 뜻입니다. 변수 이름은 한글로 지을 수도 있습니다.</p>
+      <div class="code-wrap"><pre><code>print(이름)    # 상자 안의 내용: 박근성
+print("이름")  # 글자를 그대로: 이름</code></pre></div>
+      <div class="remember"><strong>오늘의 기억:</strong> 변수 = 값을 보관하는 이름표 상자</div>
+    </section>
+
+    <section class="lesson" id="day3">
+      <div class="day-number">DAY 03</div><h2>숫자와 문자 — 내용물의 종류</h2>
+      <div class="concept"><strong>개념:</strong> 파이썬에서는 자료의 종류를 <strong>타입(type) 또는 자료형</strong>이라고 합니다.</div>
+      <div class="table-scroll"><table><thead><tr><th>종류</th><th>예</th><th>뜻</th></tr></thead><tbody>
+        <tr><td>정수</td><td><code>67</code></td><td>소수점 없는 숫자</td></tr>
+        <tr><td>실수</td><td><code>170.5</code></td><td>소수점 있는 숫자</td></tr>
+        <tr><td>문자열</td><td><code>"67"</code></td><td>따옴표 안의 글자</td></tr>
+      </tbody></table></div>
+      <div class="code-wrap"><pre><code>print(10 + 20)      # 숫자 계산
+print("10" + "20")  # 글자 이어 붙이기</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>30
+1020</code></div>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">67</code>은 숫자, <code class="inline">"67"</code>은 글자입니다.</div>
+    </section>
+
+    <section class="lesson" id="day4">
+      <div class="day-number">DAY 04</div><h2>계산 — 더하기·빼기·곱하기·나누기</h2>
+      <div class="table-scroll"><table><thead><tr><th>계산</th><th>기호</th><th>예</th><th>결과</th></tr></thead><tbody>
+        <tr><td>더하기</td><td>+</td><td><code>10 + 2</code></td><td>12</td></tr>
+        <tr><td>빼기</td><td>-</td><td><code>10 - 2</code></td><td>8</td></tr>
+        <tr><td>곱하기</td><td>*</td><td><code>10 * 2</code></td><td>20</td></tr>
+        <tr><td>일반 나누기</td><td>/</td><td><code>10 / 2</code></td><td>5.0</td></tr>
+        <tr><td>몫만 구하기</td><td>//</td><td><code>10 // 3</code></td><td>3</td></tr>
+        <tr><td>나머지</td><td>%</td><td><code>10 % 3</code></td><td>1</td></tr>
+      </tbody></table></div>
+      <div class="code-wrap"><pre><code>가격 = 5000
+개수 = 3
+합계 = 가격 * 개수
+
+print("합계는", 합계, "원입니다")</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>합계는 15000 원입니다</code></div>
+      <div class="remember"><strong>오늘의 기억:</strong> 일반 나누기는 <code class="inline">/</code> 하나, 몫만 구할 때는 <code class="inline">//</code> 두 개를 붙여 씁니다.</div>
+    </section>
+
+    <section class="lesson" id="day5">
+      <div class="day-number">DAY 05</div><h2>input() — 사람에게 물어보기</h2>
+      <div class="concept"><strong>개념:</strong> <code class="inline">input()</code>은 사용자에게 질문하고 입력한 대답을 받습니다.</div>
+      <div class="code-wrap"><pre><code>이름 = input("이름을 입력하세요: ")
+print("안녕하세요", 이름, "님")</code></pre></div>
+      <div class="result"><strong>박근성을 입력했을 때</strong><code>안녕하세요 박근성 님</code></div>
+      <p><code class="inline">input()</code>으로 받은 내용은 기본적으로 글자입니다. 계산하려면 <code class="inline">int()</code>로 정수로 바꿉니다.</p>
+      <div class="code-wrap"><pre><code>나이 = int(input("나이를 입력하세요: "))
+print("내년에는", 나이 + 1, "세입니다")</code></pre></div>
+      <div class="result"><strong>67을 입력했을 때</strong><code>내년에는 68 세입니다</code></div>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">input()</code> = “물어보고 대답을 받아줘!”</div>
+    </section>
+
+    <section class="lesson" id="day6">
+      <div class="day-number">DAY 06</div><h2>if — 만약에</h2>
+      <div class="concept"><strong>개념:</strong> 조건이 맞을 때와 맞지 않을 때, 컴퓨터가 서로 다른 일을 하도록 만드는 갈림길입니다.</div>
+      <div class="code-wrap"><pre><code>나이 = 67
+
+if 나이 &gt;= 65:
+    print("경로 우대 대상입니다")
+else:
+    print("아직 대상이 아닙니다")</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>경로 우대 대상입니다</code></div>
+      <div class="table-scroll"><table><thead><tr><th>기호</th><th>뜻</th></tr></thead><tbody>
+        <tr><td>&gt;</td><td>크다</td></tr><tr><td>&lt;</td><td>작다</td></tr>
+        <tr><td>&gt;=</td><td>크거나 같다(이상)</td></tr><tr><td>&lt;=</td><td>작거나 같다(이하)</td></tr>
+        <tr><td>==</td><td>서로 같다</td></tr><tr><td>!=</td><td>서로 다르다</td></tr>
+      </tbody></table></div>
+      <p><code class="inline">=</code>는 값을 상자에 넣기, <code class="inline">==</code>는 두 값이 같은지 비교하기입니다.</p>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">if</code> = “만약 조건이 맞으면 이 일을 해줘!”</div>
+    </section>
+
+    <section class="lesson" id="day7">
+      <div class="day-number">DAY 07</div><h2>len() — 개수 세기</h2>
+      <div class="concept"><strong>개념:</strong> <code class="inline">len()</code>은 글자의 길이나 리스트 안의 개수를 셉니다.</div>
+      <div class="code-wrap"><pre><code>이름 = "박근성"
+문장 = "피아노 조율"
+
+print(len(이름))
+print(len(문장))</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>3
+6</code></div>
+      <p><strong>피 + 아 + 노 + 띄어쓰기 + 조 + 율 = 6</strong>입니다. 띄어쓰기도 한 글자로 셉니다.</p>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">len()</code> = “몇 개인지 세어줘!”</div>
+    </section>
+
+    <section class="lesson" id="day8">
+      <div class="day-number">DAY 08</div><h2>리스트 — 여러 칸이 있는 큰 상자</h2>
+      <div class="concept"><strong>개념:</strong> 리스트는 여러 값을 순서대로 한꺼번에 보관합니다. 대괄호 <code class="inline">[ ]</code>를 사용합니다.</div>
+      <div class="code-wrap"><pre><code>악기들 = ["피아노", "바이올린", "기타"]
+
+print(악기들)
+print(악기들[0])
+print(악기들[1])</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>['피아노', '바이올린', '기타']
+피아노
+바이올린</code></div>
+      <p>파이썬은 첫 번째를 <strong>1번이 아니라 0번</strong>부터 셉니다.</p>
+      <div class="remember"><strong>오늘의 기억:</strong> 리스트 = 여러 값을 순서대로 담는 큰 상자</div>
+    </section>
+
+    <section class="lesson" id="day9">
+      <div class="day-number">DAY 09</div><h2>for — 똑같은 일 반복하기</h2>
+      <div class="concept"><strong>개념:</strong> <code class="inline">for</code>는 리스트의 값을 하나씩 꺼내며 같은 일을 반복합니다.</div>
+      <div class="code-wrap"><pre><code>악기들 = ["피아노", "바이올린", "기타"]
+
+for 악기 in 악기들:
+    print(악기, "연주를 해봅시다")</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>피아노 연주를 해봅시다
+바이올린 연주를 해봅시다
+기타 연주를 해봅시다</code></div>
+      <p><code class="inline">for</code> 아래에서 반복할 명령 앞에는 반드시 <strong>들여쓰기</strong>를 합니다.</p>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">for</code> = “하나씩 꺼내서 반복해!”</div>
+    </section>
+
+    <section class="lesson" id="day10">
+      <div class="day-number">DAY 10</div><h2>def — 나만의 함수 만들기</h2>
+      <div class="concept"><strong>개념:</strong> 함수는 여러 명령을 하나로 묶어서 필요할 때 부르는 나만의 명령어입니다.</div>
+      <div class="code-wrap"><pre><code>def 인사하기(이름):
+    print("안녕하세요", 이름, "님")
+
+인사하기("박근성")</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>안녕하세요 박근성 님</code></div>
+      <div class="code-wrap"><pre><code>def 곱하기(첫째수, 둘째수):
+    답 = 첫째수 * 둘째수
+    print("계산 결과는", 답, "입니다")
+
+곱하기(7, 8)</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>계산 결과는 56 입니다</code></div>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">def</code> = “새로운 명령어를 만들겠습니다!”</div>
+    </section>
+
+    <section class="finish">
+      <h2>10일 공부를 하나로 연결하면</h2>
+      <div class="flow"><div>① 자료를 받기</div><div>② 변수에 담기</div><div>③ 판단·계산하기</div><div>④ 결과 보여주기</div></div>
+      <div class="code-wrap"><pre><code>이름 = input("이름을 입력하세요: ")
+나이 = int(input("나이를 입력하세요: "))
+
+if 나이 &gt;= 65:
+    print(이름, "님은 경로 우대 대상입니다")
+else:
+    print(이름, "님은 아직 대상이 아닙니다")</code></pre></div>
+      <h3>한눈에 보는 최종 요약</h3>
+      <div class="table-scroll"><table><thead><tr><th>문법</th><th>아주 쉬운 뜻</th></tr></thead><tbody>
+        <tr><td><code>print()</code></td><td>화면에 보여줘</td></tr>
+        <tr><td>변수</td><td>값을 보관하는 이름표 상자</td></tr>
+        <tr><td>숫자·문자</td><td>상자 안 내용물의 종류</td></tr>
+        <tr><td><code>+ - * /</code></td><td>숫자를 계산해줘</td></tr>
+        <tr><td><code>input()</code></td><td>사람에게 물어봐</td></tr>
+        <tr><td><code>if</code></td><td>만약 조건이 맞으면 실행해</td></tr>
+        <tr><td><code>len()</code></td><td>몇 개인지 세어줘</td></tr>
+        <tr><td>리스트</td><td>여러 값을 한꺼번에 보관해</td></tr>
+        <tr><td><code>for</code></td><td>하나씩 꺼내 반복해</td></tr>
+        <tr><td><code>def</code></td><td>나만의 명령어를 만들어</td></tr>
+      </tbody></table></div>
+      <div class="remember"><strong>마지막 기억:</strong> 변수는 상자, if는 갈림길, 리스트는 여러 칸 상자, for는 반복, 함수는 나만의 명령어입니다. 지금은 외우지 않아도 됩니다!</div>
+    </section>
+  </main>
+
+  <footer>박선생님 전용 파이썬 유치원 · 천천히, 하루에 하나씩</footer>
+
+  <script>
+    document.querySelectorAll('.code-wrap').forEach(function (box) {
+      var button = document.createElement('button');
+      button.className = 'copy-button';
+      button.type = 'button';
+      button.textContent = '코드 복사';
+      button.addEventListener('click', function () {
+        var code = box.querySelector('code').innerText;
+        navigator.clipboard.writeText(code).then(function () {
+          button.textContent = '복사 완료!';
+          setTimeout(function () { button.textContent = '코드 복사'; }, 1500);
+        });
+      });
+      box.appendChild(button);
+    });
+  </script>
+</body>
+</html>
