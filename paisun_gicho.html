@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="박선생님을 위한 왕초보 10일 파이썬 맛보기 공부 레슨">
+  <title>박선생님 전용 10일 파이썬 유치원</title>
+  <style>
+    :root {
+      --navy: #173b67;
+      --blue: #2563eb;
+      --sky: #eaf3ff;
+      --cream: #fff8e6;
+      --yellow: #ffd65a;
+      --ink: #172033;
+      --muted: #5e6b7d;
+      --line: #dce4ef;
+      --paper: #ffffff;
+      --code: #101827;
+      --result: #f5f7fa;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #f3f7fc;
+      font-family: "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.75;
+      word-break: keep-all;
+    }
+
+    header {
+      color: white;
+      background: linear-gradient(135deg, #102f55, #2865a4);
+      padding: 54px 20px 44px;
+    }
+
+    .hero, main, .day-nav { max-width: 920px; margin: auto; }
+    .eyebrow { margin: 0 0 8px; color: #bfe0ff; font-weight: 800; }
+    h1 { margin: 0; font-size: clamp(2rem, 7vw, 3.6rem); line-height: 1.2; }
+    .hero p:last-child { max-width: 700px; margin: 20px 0 0; color: #e8f3ff; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 10px 14px;
+      overflow-x: auto;
+      background: rgba(255,255,255,.96);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 4px 16px rgba(23,59,103,.08);
+    }
+
+    .day-nav { display: flex; gap: 8px; }
+    .day-nav a {
+      flex: 0 0 auto;
+      color: var(--navy);
+      background: var(--sky);
+      padding: 8px 13px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: .9rem;
+    }
+    .day-nav a:hover, .day-nav a:focus { color: white; background: var(--blue); }
+
+    main { padding: 28px 16px 70px; }
+
+    .intro, .lesson, .finish {
+      margin: 0 0 24px;
+      padding: clamp(22px, 5vw, 38px);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 10px 30px rgba(30,60,100,.07);
+    }
+
+    .intro { border-left: 8px solid var(--yellow); }
+    .lesson { scroll-margin-top: 88px; }
+    .day-number { color: var(--blue); font-weight: 900; letter-spacing: .04em; }
+    h2 { margin: 4px 0 20px; color: var(--navy); font-size: clamp(1.55rem, 5vw, 2.25rem); line-height: 1.3; }
+    h3 { margin-top: 28px; color: var(--navy); }
+    p { margin: 12px 0; }
+
+    .concept {
+      margin: 18px 0;
+      padding: 16px 18px;
+      background: var(--sky);
+      border-left: 5px solid var(--blue);
+      border-radius: 10px;
+    }
+
+    .code-wrap { position: relative; margin: 16px 0; }
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      color: #eaf2ff;
+      background: var(--code);
+      border-radius: 13px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 1rem;
+      line-height: 1.65;
+      word-break: normal;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 9px;
+      right: 9px;
+      padding: 7px 10px;
+      color: white;
+      background: #31527b;
+      border: 1px solid #6381a5;
+      border-radius: 8px;
+      cursor: pointer;
+      font: inherit;
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .result {
+      margin: 12px 0 20px;
+      padding: 15px 18px;
+      background: var(--result);
+      border: 1px dashed #9ba9ba;
+      border-radius: 11px;
+    }
+    .result strong { display: block; color: var(--muted); font-size: .88rem; }
+    .result code { color: #111827; font-family: Consolas, monospace; white-space: pre-wrap; }
+
+    .remember {
+      margin-top: 26px;
+      padding: 18px;
+      background: var(--cream);
+      border: 2px solid var(--yellow);
+      border-radius: 13px;
+    }
+    .remember strong { color: #6e4b00; }
+
+    table { width: 100%; margin: 16px 0; border-collapse: collapse; }
+    th, td { padding: 12px; border: 1px solid var(--line); text-align: left; }
+    th { color: white; background: var(--navy); }
+    tr:nth-child(even) td { background: #f7f9fc; }
+    code.inline { padding: 2px 7px; color: #174a87; background: #e9f2ff; border-radius: 5px; }
+
+    .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0; }
+    .flow div { padding: 15px 8px; color: var(--navy); background: var(--sky); border-radius: 12px; text-align: center; font-weight: 800; }
+
+    footer { padding: 28px 16px 50px; color: var(--muted); text-align: center; }
+
+    @media (max-width: 650px) {
+      body { font-size: 17px; }
+      header { padding-top: 38px; }
+      .flow { grid-template-columns: 1fr 1fr; }
+      .table-scroll { overflow-x: auto; }
+      th, td { min-width: 120px; }
+    }
+
+    @media print {
+      nav, .copy-button { display: none; }
+      body { background: white; font-size: 12pt; }
+      .lesson, .intro, .finish { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero">
+      <p class="eyebrow">완전 왕초보 · 하루 한 걸음</p>
+      <h1>박선생님 전용<br>10일 파이썬 유치원</h1>
+      <p>외우는 수업이 아닙니다. “파이썬에는 이런 기능이 있구나!” 하고 전체 모습을 편안하게 구경하는 맛보기 공부입니다.</p>
+    </div>
+  </header>
+
+  <nav aria-label="날짜별 수업 바로가기">
+    <div class="day-nav">
+      <a href="#day1">1일 print</a><a href="#day2">2일 변수</a><a href="#day3">3일 타입</a>
+      <a href="#day4">4일 계산</a><a href="#day5">5일 input</a><a href="#day6">6일 if</a>
+      <a href="#day7">7일 len</a><a href="#day8">8일 리스트</a><a href="#day9">9일 for</a><a href="#day10">10일 함수</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="intro">
+      <h2>파이썬이 무엇인가요?</h2>
+      <p>파이썬은 컴퓨터에게 <strong>무엇을 어떻게 하라고 글로 명령하는 언어</strong>입니다.</p>
+      <div class="code-wrap"><pre><code>print("안녕하세요")</code></pre></div>
+      <p>컴퓨터에게 “안녕하세요를 화면에 보여줘”라고 부탁한 것입니다.</p>
+    </section>
+
+    <section class="lesson" id="day1">
+      <div class="day-number">DAY 01</div><h2>print() — 화면에 보여주기</h2>
+      <div class="concept"><strong>개념:</strong> <code class="inline">print()</code>는 글자, 숫자, 계산 결과를 화면에 보여주는 명령어입니다.</div>
+      <div class="code-wrap"><pre><code>print("안녕하세요")
+print(10)
+print(7 * 8)</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>안녕하세요
+10
+56</code></div>
+      <p>글자는 따옴표 안에 넣고, 숫자와 계산은 따옴표 밖에 씁니다. 글자와 계산을 함께 보여줄 때는 쉼표로 나눕니다.</p>
+      <div class="code-wrap"><pre><code>print("7 곱하기 8은", 7 * 8, "입니다")</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>7 곱하기 8은 56 입니다</code></div>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">print()</code> = “화면에 보여줘!”</div>
+    </section>
+
+    <section class="lesson" id="day2">
+      <div class="day-number">DAY 02</div><h2>변수 — 이름표가 붙은 상자</h2>
+      <div class="concept"><strong>개념:</strong> 변수는 글자나 숫자를 보관하는 이름표 상자입니다.</div>
+      <div class="code-wrap"><pre><code>이름 = "박근성"
+나이 = 67
+
+print(이름)
+print(나이)</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>박근성
+67</code></div>
+      <p><code class="inline">=</code>는 “오른쪽 값을 왼쪽 상자에 넣어라”라는 뜻입니다. 변수 이름은 한글로 지을 수도 있습니다.</p>
+      <div class="code-wrap"><pre><code>print(이름)    # 상자 안의 내용: 박근성
+print("이름")  # 글자를 그대로: 이름</code></pre></div>
+      <div class="remember"><strong>오늘의 기억:</strong> 변수 = 값을 보관하는 이름표 상자</div>
+    </section>
+
+    <section class="lesson" id="day3">
+      <div class="day-number">DAY 03</div><h2>숫자와 문자 — 내용물의 종류</h2>
+      <div class="concept"><strong>개념:</strong> 파이썬에서는 자료의 종류를 <strong>타입(type) 또는 자료형</strong>이라고 합니다.</div>
+      <div class="table-scroll"><table><thead><tr><th>종류</th><th>예</th><th>뜻</th></tr></thead><tbody>
+        <tr><td>정수</td><td><code>67</code></td><td>소수점 없는 숫자</td></tr>
+        <tr><td>실수</td><td><code>170.5</code></td><td>소수점 있는 숫자</td></tr>
+        <tr><td>문자열</td><td><code>"67"</code></td><td>따옴표 안의 글자</td></tr>
+      </tbody></table></div>
+      <div class="code-wrap"><pre><code>print(10 + 20)      # 숫자 계산
+print("10" + "20")  # 글자 이어 붙이기</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>30
+1020</code></div>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">67</code>은 숫자, <code class="inline">"67"</code>은 글자입니다.</div>
+    </section>
+
+    <section class="lesson" id="day4">
+      <div class="day-number">DAY 04</div><h2>계산 — 더하기·빼기·곱하기·나누기</h2>
+      <div class="table-scroll"><table><thead><tr><th>계산</th><th>기호</th><th>예</th><th>결과</th></tr></thead><tbody>
+        <tr><td>더하기</td><td>+</td><td><code>10 + 2</code></td><td>12</td></tr>
+        <tr><td>빼기</td><td>-</td><td><code>10 - 2</code></td><td>8</td></tr>
+        <tr><td>곱하기</td><td>*</td><td><code>10 * 2</code></td><td>20</td></tr>
+        <tr><td>일반 나누기</td><td>/</td><td><code>10 / 2</code></td><td>5.0</td></tr>
+        <tr><td>몫만 구하기</td><td>//</td><td><code>10 // 3</code></td><td>3</td></tr>
+        <tr><td>나머지</td><td>%</td><td><code>10 % 3</code></td><td>1</td></tr>
+      </tbody></table></div>
+      <div class="code-wrap"><pre><code>가격 = 5000
+개수 = 3
+합계 = 가격 * 개수
+
+print("합계는", 합계, "원입니다")</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>합계는 15000 원입니다</code></div>
+      <div class="remember"><strong>오늘의 기억:</strong> 일반 나누기는 <code class="inline">/</code> 하나, 몫만 구할 때는 <code class="inline">//</code> 두 개를 붙여 씁니다.</div>
+    </section>
+
+    <section class="lesson" id="day5">
+      <div class="day-number">DAY 05</div><h2>input() — 사람에게 물어보기</h2>
+      <div class="concept"><strong>개념:</strong> <code class="inline">input()</code>은 사용자에게 질문하고 입력한 대답을 받습니다.</div>
+      <div class="code-wrap"><pre><code>이름 = input("이름을 입력하세요: ")
+print("안녕하세요", 이름, "님")</code></pre></div>
+      <div class="result"><strong>박근성을 입력했을 때</strong><code>안녕하세요 박근성 님</code></div>
+      <p><code class="inline">input()</code>으로 받은 내용은 기본적으로 글자입니다. 계산하려면 <code class="inline">int()</code>로 정수로 바꿉니다.</p>
+      <div class="code-wrap"><pre><code>나이 = int(input("나이를 입력하세요: "))
+print("내년에는", 나이 + 1, "세입니다")</code></pre></div>
+      <div class="result"><strong>67을 입력했을 때</strong><code>내년에는 68 세입니다</code></div>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">input()</code> = “물어보고 대답을 받아줘!”</div>
+    </section>
+
+    <section class="lesson" id="day6">
+      <div class="day-number">DAY 06</div><h2>if — 만약에</h2>
+      <div class="concept"><strong>개념:</strong> 조건이 맞을 때와 맞지 않을 때, 컴퓨터가 서로 다른 일을 하도록 만드는 갈림길입니다.</div>
+      <div class="code-wrap"><pre><code>나이 = 67
+
+if 나이 &gt;= 65:
+    print("경로 우대 대상입니다")
+else:
+    print("아직 대상이 아닙니다")</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>경로 우대 대상입니다</code></div>
+      <div class="table-scroll"><table><thead><tr><th>기호</th><th>뜻</th></tr></thead><tbody>
+        <tr><td>&gt;</td><td>크다</td></tr><tr><td>&lt;</td><td>작다</td></tr>
+        <tr><td>&gt;=</td><td>크거나 같다(이상)</td></tr><tr><td>&lt;=</td><td>작거나 같다(이하)</td></tr>
+        <tr><td>==</td><td>서로 같다</td></tr><tr><td>!=</td><td>서로 다르다</td></tr>
+      </tbody></table></div>
+      <p><code class="inline">=</code>는 값을 상자에 넣기, <code class="inline">==</code>는 두 값이 같은지 비교하기입니다.</p>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">if</code> = “만약 조건이 맞으면 이 일을 해줘!”</div>
+    </section>
+
+    <section class="lesson" id="day7">
+      <div class="day-number">DAY 07</div><h2>len() — 개수 세기</h2>
+      <div class="concept"><strong>개념:</strong> <code class="inline">len()</code>은 글자의 길이나 리스트 안의 개수를 셉니다.</div>
+      <div class="code-wrap"><pre><code>이름 = "박근성"
+문장 = "피아노 조율"
+
+print(len(이름))
+print(len(문장))</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>3
+6</code></div>
+      <p><strong>피 + 아 + 노 + 띄어쓰기 + 조 + 율 = 6</strong>입니다. 띄어쓰기도 한 글자로 셉니다.</p>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">len()</code> = “몇 개인지 세어줘!”</div>
+    </section>
+
+    <section class="lesson" id="day8">
+      <div class="day-number">DAY 08</div><h2>리스트 — 여러 칸이 있는 큰 상자</h2>
+      <div class="concept"><strong>개념:</strong> 리스트는 여러 값을 순서대로 한꺼번에 보관합니다. 대괄호 <code class="inline">[ ]</code>를 사용합니다.</div>
+      <div class="code-wrap"><pre><code>악기들 = ["피아노", "바이올린", "기타"]
+
+print(악기들)
+print(악기들[0])
+print(악기들[1])</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>['피아노', '바이올린', '기타']
+피아노
+바이올린</code></div>
+      <p>파이썬은 첫 번째를 <strong>1번이 아니라 0번</strong>부터 셉니다.</p>
+      <div class="remember"><strong>오늘의 기억:</strong> 리스트 = 여러 값을 순서대로 담는 큰 상자</div>
+    </section>
+
+    <section class="lesson" id="day9">
+      <div class="day-number">DAY 09</div><h2>for — 똑같은 일 반복하기</h2>
+      <div class="concept"><strong>개념:</strong> <code class="inline">for</code>는 리스트의 값을 하나씩 꺼내며 같은 일을 반복합니다.</div>
+      <div class="code-wrap"><pre><code>악기들 = ["피아노", "바이올린", "기타"]
+
+for 악기 in 악기들:
+    print(악기, "연주를 해봅시다")</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>피아노 연주를 해봅시다
+바이올린 연주를 해봅시다
+기타 연주를 해봅시다</code></div>
+      <p><code class="inline">for</code> 아래에서 반복할 명령 앞에는 반드시 <strong>들여쓰기</strong>를 합니다.</p>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">for</code> = “하나씩 꺼내서 반복해!”</div>
+    </section>
+
+    <section class="lesson" id="day10">
+      <div class="day-number">DAY 10</div><h2>def — 나만의 함수 만들기</h2>
+      <div class="concept"><strong>개념:</strong> 함수는 여러 명령을 하나로 묶어서 필요할 때 부르는 나만의 명령어입니다.</div>
+      <div class="code-wrap"><pre><code>def 인사하기(이름):
+    print("안녕하세요", 이름, "님")
+
+인사하기("박근성")</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>안녕하세요 박근성 님</code></div>
+      <div class="code-wrap"><pre><code>def 곱하기(첫째수, 둘째수):
+    답 = 첫째수 * 둘째수
+    print("계산 결과는", 답, "입니다")
+
+곱하기(7, 8)</code></pre></div>
+      <div class="result"><strong>실행 결과</strong><code>계산 결과는 56 입니다</code></div>
+      <div class="remember"><strong>오늘의 기억:</strong> <code class="inline">def</code> = “새로운 명령어를 만들겠습니다!”</div>
+    </section>
+
+    <section class="finish">
+      <h2>10일 공부를 하나로 연결하면</h2>
+      <div class="flow"><div>① 자료를 받기</div><div>② 변수에 담기</div><div>③ 판단·계산하기</div><div>④ 결과 보여주기</div></div>
+      <div class="code-wrap"><pre><code>이름 = input("이름을 입력하세요: ")
+나이 = int(input("나이를 입력하세요: "))
+
+if 나이 &gt;= 65:
+    print(이름, "님은 경로 우대 대상입니다")
+else:
+    print(이름, "님은 아직 대상이 아닙니다")</code></pre></div>
+      <h3>한눈에 보는 최종 요약</h3>
+      <div class="table-scroll"><table><thead><tr><th>문법</th><th>아주 쉬운 뜻</th></tr></thead><tbody>
+        <tr><td><code>print()</code></td><td>화면에 보여줘</td></tr>
+        <tr><td>변수</td><td>값을 보관하는 이름표 상자</td></tr>
+        <tr><td>숫자·문자</td><td>상자 안 내용물의 종류</td></tr>
+        <tr><td><code>+ - * /</code></td><td>숫자를 계산해줘</td></tr>
+        <tr><td><code>input()</code></td><td>사람에게 물어봐</td></tr>
+        <tr><td><code>if</code></td><td>만약 조건이 맞으면 실행해</td></tr>
+        <tr><td><code>len()</code></td><td>몇 개인지 세어줘</td></tr>
+        <tr><td>리스트</td><td>여러 값을 한꺼번에 보관해</td></tr>
+        <tr><td><code>for</code></td><td>하나씩 꺼내 반복해</td></tr>
+        <tr><td><code>def</code></td><td>나만의 명령어를 만들어</td></tr>
+      </tbody></table></div>
+      <div class="remember"><strong>마지막 기억:</strong> 변수는 상자, if는 갈림길, 리스트는 여러 칸 상자, for는 반복, 함수는 나만의 명령어입니다. 지금은 외우지 않아도 됩니다!</div>
+    </section>
+  </main>
+
+  <footer>박선생님 전용 파이썬 유치원 · 천천히, 하루에 하나씩</footer>
+
+  <script>
+    document.querySelectorAll('.code-wrap').forEach(function (box) {
+      var button = document.createElement('button');
+      button.className = 'copy-button';
+      button.type = 'button';
+      button.textContent = '코드 복사';
+      button.addEventListener('click', function () {
+        var code = box.querySelector('code').innerText;
+        navigator.clipboard.writeText(code).then(function () {
+          button.textContent = '복사 완료!';
+          setTimeout(function () { button.textContent = '코드 복사'; }, 1500);
+        });
+      });
+      box.appendChild(button);
+    });
+  </script>
+</body>
+</html>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="음악·경제·주식·정보·music21·MIDI로 배우는 박선생님의 왕초보 파이썬 실용 탐험관">
+  <title>박선생님의 파이썬 실용 탐험관</title>
+  <style>
+    :root{--night:#081a2d;--navy:#103c68;--blue:#1677ff;--cyan:#37c6df;--paper:#fff;--bg:#edf4fb;--ink:#142033;--muted:#5c6b7b;--line:#d8e4ef;--yellow:#ffd45b;--green:#16a36a;--orange:#ff8a3d;--code:#0b1728;--shadow:0 16px 46px rgba(18,54,89,.11)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Malgun Gothic",sans-serif;font-size:18px;line-height:1.72;word-break:keep-all}button{font:inherit}.wrap{width:min(1120px,calc(100% - 32px));margin:auto}
+    header{min-height:640px;color:#fff;background:radial-gradient(circle at 85% 18%,rgba(55,198,223,.25),transparent 25%),linear-gradient(135deg,#071725 0%,#0c3154 58%,#126b8b 100%);position:relative;overflow:hidden}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center;padding:76px 0 68px}.eyebrow{display:inline-flex;gap:8px;align-items:center;color:#b9eff7;font-weight:800}.dot{width:9px;height:9px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 6px rgba(255,212,91,.13)}h1{font-size:clamp(2.5rem,6vw,5rem);line-height:1.08;margin:14px 0 24px;letter-spacing:-.045em}.lead{font-size:1.15rem;color:#dceefe;max-width:680px}.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}.btn{display:inline-flex;justify-content:center;align-items:center;min-height:50px;padding:11px 18px;border:0;border-radius:12px;text-decoration:none;font-weight:800;cursor:pointer}.btn-primary{background:var(--yellow);color:#342600}.btn-ghost{border:1px solid #7aa6c8;color:#fff;background:rgba(255,255,255,.06)}
+    .terminal{background:#07111e;border:1px solid #31506d;border-radius:20px;box-shadow:0 24px 65px rgba(0,0,0,.35);overflow:hidden;transform:rotate(1.5deg)}.terminal-top{padding:12px 15px;background:#112a42;color:#9ec5e1;font-size:.8rem}.lights{letter-spacing:5px;color:#ff6b6b}.terminal pre{margin:0;padding:25px;color:#d9f1ff;white-space:pre-wrap;font:1rem/1.8 Consolas,monospace}.term-blue{color:#6edcff}.term-yellow{color:#ffd76d}.term-green{color:#7de4ae}
+    nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);overflow-x:auto;backdrop-filter:blur(12px)}.nav-inner{display:flex;gap:7px;padding:10px 0}.nav-inner a{white-space:nowrap;text-decoration:none;color:var(--navy);font-size:.88rem;font-weight:800;padding:8px 12px;background:#edf5ff;border-radius:999px}.nav-inner a:hover{color:#fff;background:var(--blue)}
+    main{padding:34px 0 80px}.section{scroll-margin-top:88px;margin:26px 0;padding:clamp(24px,5vw,46px);background:var(--paper);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}.section-kicker{margin:0;color:var(--blue);font-size:.86rem;font-weight:900;letter-spacing:.08em}.section h2{font-size:clamp(1.7rem,4vw,2.75rem);line-height:1.25;color:var(--navy);margin:5px 0 12px}.section-intro{color:var(--muted);max-width:790px;margin-bottom:28px}
+    .map{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.map a{padding:18px;border:1px solid var(--line);border-radius:16px;text-decoration:none;color:var(--ink);background:#f9fbfd;transition:.2s}.map a:hover{transform:translateY(-3px);border-color:#9fc7ff;box-shadow:0 8px 24px rgba(20,80,140,.12)}.map b{display:block;color:var(--navy);font-size:1.04rem}.map span{color:var(--muted);font-size:.85rem}.icon{display:grid;place-items:center;width:42px;height:42px;margin-bottom:10px;border-radius:12px;background:#e5f1ff;font-size:1.35rem}
+    .story{padding:20px 22px;background:#fff8de;border-left:6px solid var(--yellow);border-radius:14px}.concept-grid,.example-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:22px 0}.card{padding:20px;border:1px solid var(--line);border-radius:16px;background:#fbfdff}.card h3{color:var(--navy);margin:0 0 8px}.card p{margin:5px 0;color:var(--muted)}
+    .codebox{position:relative;margin:16px 0;background:var(--code);border-radius:15px;overflow:hidden}.code-label{padding:8px 16px;color:#9db5ce;background:#14263b;font-size:.78rem;font-weight:800}.codebox pre{margin:0;padding:20px;color:#e8f2ff;overflow:auto;white-space:pre;font:1rem/1.7 Consolas,"Courier New",monospace}.kw{color:#74b9ff}.str{color:#ffc66d}.num{color:#8fe3b0}.comment{color:#7e97ae}.copy{position:absolute;right:9px;top:7px;border:1px solid #54718e;border-radius:8px;background:#294663;color:#fff;padding:5px 9px;font-size:.78rem;font-weight:800;cursor:pointer}.output{padding:15px 18px;border:1px dashed #9aaabd;border-radius:12px;background:#f3f6f9;font-family:Consolas,monospace;white-space:pre-wrap}.output:before{content:"실행 결과";display:block;color:var(--muted);font:800 .78rem/1.4 "Malgun Gothic",sans-serif;margin-bottom:5px}.meaning{margin:18px 0;padding:17px 20px;background:#eaf4ff;border-radius:13px}.meaning b{color:var(--blue)}
+    .compare{width:100%;border-collapse:collapse;margin:20px 0}.compare th,.compare td{padding:13px;border:1px solid var(--line);text-align:left}.compare th{background:var(--navy);color:#fff}.compare tr:nth-child(even) td{background:#f7f9fc}.scroll{overflow-x:auto}
+    .try{margin-top:25px;padding:22px;background:linear-gradient(135deg,#eef8ff,#f7fdff);border:2px solid #b9e4f2;border-radius:17px}.try h3{margin:0;color:var(--navy)}.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-top:14px}.field label{display:block;color:var(--muted);font-size:.8rem;font-weight:800}.field input{width:150px;min-height:46px;padding:9px 11px;border:1px solid #aebdcc;border-radius:10px;font:inherit}.try button{min-height:46px;border:0;border-radius:10px;padding:8px 15px;background:var(--blue);color:#fff;font-weight:800;cursor:pointer}.answer{margin-top:14px;padding:14px;background:#fff;border-radius:10px;font-weight:800;color:var(--navy)}
+    .steps{counter-reset:step;display:grid;gap:11px}.step{position:relative;padding:16px 18px 16px 62px;background:#f7fafe;border-radius:14px}.step:before{counter-increment:step;content:counter(step);position:absolute;left:16px;top:14px;width:32px;height:32px;display:grid;place-items:center;background:var(--blue);color:#fff;border-radius:50%;font-weight:900}.caution{padding:16px 18px;background:#fff2ec;border-left:5px solid var(--orange);border-radius:12px}.success{padding:18px;background:#eafaf3;border:1px solid #a8dfc7;border-radius:13px;color:#126642}.quiz-options{display:grid;gap:9px;margin-top:14px}.quiz-options button{text-align:left;background:#fff;color:var(--ink);border:1px solid var(--line)}.quiz-options button.correct{background:#e6f9f0;border-color:var(--green);color:#09633d}.quiz-options button.wrong{background:#fff0ed;border-color:#ef7f68;color:#842c1f}
+    .roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.road{padding:22px;border-radius:17px;color:#fff;background:linear-gradient(145deg,#143d68,#126f91)}.road:nth-child(2){background:linear-gradient(145deg,#5a2f85,#8851aa)}.road:nth-child(3){background:linear-gradient(145deg,#176647,#24956b)}.road small{color:#d8eefc}.road h3{margin:6px 0}.road ul{padding-left:20px;margin-bottom:0}
+    .final{color:#fff;background:linear-gradient(135deg,#09213b,#0e5474);text-align:center}.final h2{color:#fff}.final .section-intro{margin-left:auto;margin-right:auto;color:#d8edf8}.big-rule{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:25px 0}.big-rule div{padding:16px 8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:13px;font-weight:800}footer{text-align:center;color:var(--muted);padding:12px 16px 55px}
+    @media(max-width:820px){.hero{grid-template-columns:1fr;padding-top:52px}.terminal{transform:none}.map{grid-template-columns:repeat(2,1fr)}.roadmap{grid-template-columns:1fr}.big-rule{grid-template-columns:1fr 1fr}}
+    @media(max-width:560px){body{font-size:17px}.wrap{width:min(100% - 20px,1120px)}header{min-height:auto}.hero{gap:28px}.concept-grid,.example-grid{grid-template-columns:1fr}.map{grid-template-columns:1fr 1fr}.map a{padding:13px}.icon{width:36px;height:36px}.field,.field input{width:100%}.controls button{width:100%}.section{border-radius:18px}.codebox pre{font-size:.88rem}.big-rule{grid-template-columns:1fr 1fr}}
+    @media print{nav,.copy,.hero-actions,.try{display:none}body{background:#fff;font-size:12pt}.section{box-shadow:none;break-inside:avoid}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> 기초 다음에 만나는 진짜 쓰임</div>
+        <h1>파이썬<br>실용 탐험관</h1>
+        <p class="lead">숫자만 계산하는 언어가 아닙니다. 피아노 음을 다루고, 물가를 비교하고, 주식 수익률을 계산하고, 많은 정보를 정리하는 작은 도구입니다.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#map">탐험 시작하기</a><a class="btn btn-ghost" href="#roadmap">나에게 맞는 길 보기</a></div>
+      </div>
+      <div class="terminal" aria-label="파이썬 실행 예시">
+        <div class="terminal-top"><span class="lights">● ● ●</span> 박선생님의 첫 실용 프로그램</div>
+        <pre><span class="term-blue">관심분야</span> = [<span class="term-yellow">"음악"</span>, <span class="term-yellow">"경제"</span>, <span class="term-yellow">"주식"</span>]
+
+<span class="term-blue">for</span> 분야 <span class="term-blue">in</span> 관심분야:
+    <span class="term-green">print</span>(분야, <span class="term-yellow">"를 파이썬으로!"</span>)
+
+▶ 음악을 파이썬으로!
+▶ 경제를 파이썬으로!
+▶ 주식을 파이썬으로!</pre>
+      </div>
+    </div>
+  </header>
+  <nav><div class="wrap nav-inner"><a href="#map">전체 지도</a><a href="#bridge">기초 연결</a><a href="#life">생활</a><a href="#economy">경제</a><a href="#stock">주식</a><a href="#info">정보</a><a href="#music">음악</a><a href="#music21">music21</a><a href="#midi">MIDI</a><a href="#roadmap">공부 길</a></div></nav>
+
+  <main class="wrap">
+    <section class="section" id="map">
+      <p class="section-kicker">EXPLORATION MAP</p><h2>파이썬은 어디에 쓰이나요?</h2>
+      <p class="section-intro">하나의 파이썬 문법이 여러 분야에서 다른 일을 합니다. 아래 방을 차례대로 구경해 보세요.</p>
+      <div class="map">
+        <a href="#life"><span class="icon">🧮</span><b>생활 계산방</b><span>할인·전기료·가계비</span></a>
+        <a href="#economy"><span class="icon">🏦</span><b>경제 관찰방</b><span>물가·금리·실질가치</span></a>
+        <a href="#stock"><span class="icon">📈</span><b>주식 분석방</b><span>수익률·평균·판정</span></a>
+        <a href="#info"><span class="icon">🗂️</span><b>정보 정리방</b><span>목록·검색·파일</span></a>
+        <a href="#music"><span class="icon">🎹</span><b>실용음악방</b><span>음이름·코드·전조</span></a>
+        <a href="#music21"><span class="icon">🎼</span><b>music21방</b><span>악보를 자료처럼</span></a>
+        <a href="#midi"><span class="icon">🎛️</span><b>MIDI방</b><span>음높이·세기·길이</span></a>
+        <a href="#roadmap"><span class="icon">🧭</span><b>나의 공부 길</b><span>무엇부터 할까요?</span></a>
+      </div>
+    </section>
+
+    <section class="section" id="bridge">
+      <p class="section-kicker">CHAPTER 0 · 연결</p><h2>배운 기초가 실용 도구로 변합니다</h2>
+      <div class="story"><b>서사:</b> 어제까지 변수는 단순한 ‘이름표 상자’였습니다. 오늘부터 그 상자에는 주가, 피아노 음, 고객 이름, 뉴스 제목이 들어갑니다. 문법은 그대로인데 쓸모가 커집니다.</div>
+      <div class="concept-grid">
+        <div class="card"><h3>변수 → 기억</h3><p><code>현재주가 = 80000</code><br>필요한 값을 이름 붙여 보관합니다.</p></div>
+        <div class="card"><h3>if → 판단</h3><p>수익이면 “상승”, 손실이면 “하락”처럼 조건에 따라 판단합니다.</p></div>
+        <div class="card"><h3>리스트 → 자료 묶음</h3><p>여러 날짜의 주가나 여러 음을 한 상자에 담습니다.</p></div>
+        <div class="card"><h3>for → 반복 작업</h3><p>주가 100개, 음표 100개를 하나씩 자동 처리합니다.</p></div>
+      </div>
+      <div class="meaning"><b>핵심:</b> 파이썬의 힘은 어려운 문법보다 <strong>기억 → 계산 → 판단 → 반복</strong>을 빠르고 정확하게 시키는 데 있습니다.</div>
+    </section>
+
+    <section class="section" id="life">
+      <p class="section-kicker">CHAPTER 1 · 실용생활</p><h2>할인 가격 계산기</h2>
+      <p class="section-intro">가격표를 보고 머리로 계산하던 일을 변수와 계산 기호로 처리합니다.</p>
+      <div class="codebox"><div class="code-label">PYTHON</div><pre><code>원래가격 = 120000
+할인율 = 20
+할인금액 = 원래가격 * 할인율 / 100
+최종가격 = 원래가격 - 할인금액
+
+print("할인 후 가격은", 최종가격, "원")</code></pre></div>
+      <div class="output">할인 후 가격은 96000.0 원</div>
+      <div class="meaning"><b>무슨 일이 일어났나요?</b> 12만 원의 20%인 2만 4천 원을 구하고, 원래 가격에서 뺐습니다.</div>
+      <div class="try"><h3>직접 눌러보는 할인 계산기</h3><div class="controls"><div class="field"><label for="price">원래 가격</label><input id="price" type="number" value="120000"></div><div class="field"><label for="discount">할인율(%)</label><input id="discount" type="number" value="20"></div><button onclick="discountCalc()">계산하기</button></div><div class="answer" id="discountAnswer">버튼을 누르면 답이 나옵니다.</div></div>
+    </section>
+
+    <section class="section" id="economy">
+      <p class="section-kicker">CHAPTER 2 · 실용경제</p><h2>물가가 오르면 내 돈의 힘은?</h2>
+      <div class="story">은행에 돈이 그대로 있어도 물가가 더 빠르게 오르면 살 수 있는 물건의 양은 줄어듭니다. 파이썬은 이 관계를 숫자로 보여줍니다.</div>
+      <div class="codebox"><div class="code-label">PYTHON</div><pre><code>예금이자율 = 3.0
+물가상승률 = 4.0
+실질이자율 = 예금이자율 - 물가상승률
+
+if 실질이자율 &gt; 0:
+    print("돈의 구매력이 늘었습니다")
+else:
+    print("돈의 구매력이 줄었습니다")
+
+print("단순 실질이자율:", 실질이자율, "%")</code></pre></div>
+      <div class="output">돈의 구매력이 줄었습니다
+단순 실질이자율: -1.0 %</div>
+      <div class="caution"><b>왕초보 주의:</b> 위 계산은 개념을 배우기 위한 단순 계산입니다. 실제 세금, 복리, 정확한 실질수익률 공식은 더 고려해야 합니다.</div>
+    </section>
+
+    <section class="section" id="stock">
+      <p class="section-kicker">CHAPTER 3 · 실용주식</p><h2>수익률 계산과 아주 단순한 판정</h2>
+      <p class="section-intro">매수가와 현재가를 변수에 담으면 수익률을 자동으로 계산할 수 있습니다.</p>
+      <div class="codebox"><div class="code-label">PYTHON</div><pre><code>매수가 = 70000
+현재가 = 77000
+수익률 = (현재가 - 매수가) / 매수가 * 100
+
+print("수익률:", round(수익률, 2), "%")
+
+if 수익률 &gt; 0:
+    print("현재 수익 구간입니다")
+elif 수익률 == 0:
+    print("본전입니다")
+else:
+    print("현재 손실 구간입니다")</code></pre></div>
+      <div class="output">수익률: 10.0 %
+현재 수익 구간입니다</div>
+      <div class="try"><h3>내 숫자로 수익률 맛보기</h3><div class="controls"><div class="field"><label for="buy">매수가</label><input id="buy" type="number" value="70000"></div><div class="field"><label for="now">현재가</label><input id="now" type="number" value="77000"></div><button onclick="returnCalc()">수익률 계산</button></div><div class="answer" id="returnAnswer">버튼을 누르면 답이 나옵니다.</div></div>
+      <div class="caution"><b>중요:</b> 수익률이 양수라는 사실만으로 매수·보유 판단을 할 수는 없습니다. 실적, 현금흐름, 부채, 산업, 가격 수준과 위험을 함께 봐야 합니다.</div>
+      <h3>여러 날의 평균 주가</h3>
+      <div class="codebox"><div class="code-label">PYTHON</div><pre><code>주가들 = [70000, 71000, 69000, 73000, 77000]
+평균주가 = sum(주가들) / len(주가들)
+
+print("5일 평균:", 평균주가)</code></pre></div>
+      <div class="output">5일 평균: 72000.0</div>
+      <div class="meaning"><b>연결:</b> 리스트가 여러 주가를 담고, <code>sum()</code>이 합계를, <code>len()</code>이 개수를 구합니다.</div>
+    </section>
+
+    <section class="section" id="info">
+      <p class="section-kicker">CHAPTER 4 · 실용정보</p><h2>많은 정보에서 필요한 것 찾기</h2>
+      <p class="section-intro">‘라이브러리’는 두 뜻으로 만날 수 있습니다. 파일을 모아둔 자료실과, 파이썬 기능을 모아둔 도구상자입니다.</p>
+      <div class="scroll"><table class="compare"><tr><th>말</th><th>왕초보 뜻</th><th>예</th></tr><tr><td>자료 보관함</td><td>내 문서와 정보를 모아둔 곳</td><td>파일·폴더·문서</td></tr><tr><td>파이썬 라이브러리</td><td>남이 미리 만들어 둔 기능 묶음</td><td>music21, pandas</td></tr></table></div>
+      <div class="codebox"><div class="code-label">PYTHON · 검색 맛보기</div><pre><code>뉴스제목들 = [
+    "한국은행 금리 발표",
+    "반도체 수출 증가",
+    "피아노 연주회 개최"
+]
+
+for 제목 in 뉴스제목들:
+    if "반도체" in 제목:
+        print("찾았습니다:", 제목)</code></pre></div>
+      <div class="output">찾았습니다: 반도체 수출 증가</div>
+      <div class="meaning"><b><code>in</code>의 뜻:</b> “이 글자가 저 문장 안에 들어 있나요?”라고 묻습니다.</div>
+    </section>
+
+    <section class="section" id="music">
+      <p class="section-kicker">CHAPTER 5 · 실용음악</p><h2>코드도 리스트가 됩니다</h2>
+      <div class="story">피아노에서 C코드는 도·미·솔입니다. 파이썬에서는 이 세 음을 리스트에 담을 수 있습니다. 음악이 ‘느낌’인 동시에 ‘자료’가 되는 순간입니다.</div>
+      <div class="codebox"><div class="code-label">PYTHON</div><pre><code>C코드 = ["도", "미", "솔"]
+Am코드 = ["라", "도", "미"]
+
+for 음 in C코드:
+    print(음)
+
+print("C코드의 음 개수:", len(C코드))</code></pre></div>
+      <div class="output">도
+미
+솔
+C코드의 음 개수: 3</div>
+      <h3>코드 사전 만들기</h3>
+      <div class="codebox"><div class="code-label">PYTHON</div><pre><code>코드사전 = {
+    "C": ["도", "미", "솔"],
+    "Am": ["라", "도", "미"],
+    "G7": ["솔", "시", "레", "파"]
+}
+
+print("G7의 구성음:", 코드사전["G7"])</code></pre></div>
+      <div class="output">G7의 구성음: ['솔', '시', '레', '파']</div>
+      <div class="meaning"><b>새 문법 맛보기:</b> 중괄호 <code>{ }</code>로 만든 <strong>딕셔너리</strong>는 이름과 값을 짝지어 보관합니다. 실제 사전에서 단어를 찾는 것과 비슷합니다.</div>
+    </section>
+
+    <section class="section" id="music21">
+      <p class="section-kicker">CHAPTER 6 · MUSIC21</p><h2>악보를 파이썬이 읽게 하기</h2>
+      <p class="section-intro"><strong>music21</strong>은 음표, 코드, 조성, 악보를 파이썬에서 다루도록 도와주는 음악 전문 라이브러리입니다.</p>
+      <div class="steps"><div class="step"><b>파이썬</b>은 기본 언어입니다.</div><div class="step"><b>music21</b>은 음악 기능이 담긴 추가 도구상자입니다.</div><div class="step">도구상자를 불러와 음표와 코드를 만듭니다.</div></div>
+      <div class="codebox"><div class="code-label">PYTHON + MUSIC21</div><pre><code>from music21 import note, chord
+
+도 = note.Note("C4")
+C코드 = chord.Chord(["C4", "E4", "G4"])
+
+print(도.nameWithOctave)
+print(C코드.commonName)</code></pre></div>
+      <div class="output">C4
+major triad</div>
+      <div class="meaning"><b>C4의 뜻:</b> 가운데 도에 가까운 특정 높이의 도입니다. <b>major triad</b>는 장3화음이라는 뜻입니다.</div>
+      <div class="caution"><b>설치가 먼저:</b> 이 예제는 일반 파이썬만으로는 실행되지 않습니다. PC의 터미널에서 <code>pip install music21</code>로 music21을 먼저 설치해야 합니다.</div>
+    </section>
+
+    <section class="section" id="midi">
+      <p class="section-kicker">CHAPTER 7 · MIDI</p><h2>MIDI는 소리보다 ‘연주 명령’에 가깝습니다</h2>
+      <div class="scroll"><table class="compare"><tr><th>MIDI 정보</th><th>뜻</th><th>피아노에 비유</th></tr><tr><td>note</td><td>어떤 높이의 음인가</td><td>어느 건반인가</td></tr><tr><td>velocity</td><td>얼마나 강하게 눌렀나</td><td>셈여림</td></tr><tr><td>duration</td><td>얼마나 오래 유지하나</td><td>음의 길이</td></tr></table></div>
+      <div class="codebox"><div class="code-label">MIDI 개념 맛보기</div><pre><code>음표 = {
+    "note": 60,
+    "velocity": 80,
+    "duration": 1.0
+}
+
+print("MIDI 음번호:", 음표["note"])
+print("연주 세기:", 음표["velocity"])</code></pre></div>
+      <div class="output">MIDI 음번호: 60
+연주 세기: 80</div>
+      <div class="meaning"><b>핵심:</b> MIDI 60은 보통 가운데 도(C4)를 뜻합니다. 실제 소리는 사용하는 피아노·신시사이저 음원에 따라 달라집니다.</div>
+    </section>
+
+    <section class="section">
+      <p class="section-kicker">FUN TEST · 결과 맞히기</p><h2>컴퓨터보다 먼저 답을 예상해 보세요</h2>
+      <div class="codebox"><div class="code-label">무엇이 출력될까요?</div><pre><code>코드 = ["C", "Am", "F", "G"]
+print(len(코드))</code></pre></div>
+      <div class="try"><h3>정답 하나를 눌러보세요</h3><div class="quiz-options"><button onclick="quiz(this,false)">① C</button><button onclick="quiz(this,true)">② 4</button><button onclick="quiz(this,false)">③ 3</button></div><div class="answer" id="quizAnswer">힌트: len()은 개수를 셉니다.</div></div>
+    </section>
+
+    <section class="section" id="roadmap">
+      <p class="section-kicker">MY ROADMAP</p><h2>박선생님께 맞는 세 갈래 공부 길</h2>
+      <p class="section-intro">모든 것을 한꺼번에 배울 필요가 없습니다. 관심 분야 하나를 골라 기초 문법을 반복해서 사용하면 됩니다.</p>
+      <div class="roadmap">
+        <div class="road"><small>ROUTE 01</small><h3>주식·경제 길</h3><ul><li>수익률 계산기</li><li>이동평균 구하기</li><li>CSV 주가 읽기</li><li>그래프로 보기</li></ul></div>
+        <div class="road"><small>ROUTE 02</small><h3>피아노·작곡 길</h3><ul><li>코드 사전</li><li>코드 진행 분석</li><li>music21 악보</li><li>MIDI 만들기</li></ul></div>
+        <div class="road"><small>ROUTE 03</small><h3>생활·정보 길</h3><ul><li>가격 계산기</li><li>고객 목록 정리</li><li>파일 자동 분류</li><li>필요한 글 검색</li></ul></div>
+      </div>
+      <h3>가장 좋은 첫 미니 프로젝트</h3>
+      <div class="success"><strong>추천: “피아노 조율 견적 계산기”</strong><br>출장비, 조율비, 할인율을 변수로 넣고 총금액을 print()로 보여줍니다. 박선생님의 실제 일과 파이썬 기초가 바로 연결됩니다.</div>
+    </section>
+
+    <section class="section final">
+      <p class="section-kicker" style="color:#7ee7ef">THE BIG PICTURE</p><h2>파이썬의 전체 모습은 이것입니다</h2>
+      <p class="section-intro">음악이든 주식이든 경제든, 파이썬이 하는 일의 뼈대는 같습니다.</p>
+      <div class="big-rule"><div>① 자료 받기</div><div>② 이름 붙여 보관</div><div>③ 계산·판단·반복</div><div>④ 결과 보여주기</div></div>
+      <p><strong>문법을 외우는 것이 출발점은 아닙니다.</strong><br>“내가 반복하는 어떤 일을 컴퓨터에게 맡길까?”를 생각하는 것이 실용 파이썬의 시작입니다.</p>
+    </section>
+  </main>
+  <footer>박선생님의 파이썬 실용 탐험관 · 음악에서 주식까지, 한 줄씩 천천히</footer>
+  <script>
+    document.querySelectorAll('.codebox').forEach(function(box){
+      var button=document.createElement('button');button.className='copy';button.type='button';button.textContent='코드 복사';
+      button.addEventListener('click',function(){navigator.clipboard.writeText(box.querySelector('code').innerText).then(function(){button.textContent='복사 완료';setTimeout(function(){button.textContent='코드 복사'},1300)})});box.appendChild(button)
+    });
+    function won(n){return Math.round(n).toLocaleString('ko-KR')+'원'}
+    function discountCalc(){var p=Number(document.getElementById('price').value),d=Number(document.getElementById('discount').value);var a=document.getElementById('discountAnswer');if(p<0||d<0||d>100){a.textContent='가격은 0 이상, 할인율은 0~100으로 넣어주세요.';return}a.textContent='할인 금액 '+won(p*d/100)+' → 최종 가격 '+won(p*(1-d/100))}
+    function returnCalc(){var b=Number(document.getElementById('buy').value),n=Number(document.getElementById('now').value),a=document.getElementById('returnAnswer');if(b<=0){a.textContent='매수가는 0보다 커야 합니다.';return}var r=(n-b)/b*100;a.textContent='수익률 '+r.toFixed(2)+'% · '+(r>0?'수익 구간':r<0?'손실 구간':'본전')}
+    function quiz(button,correct){document.querySelectorAll('.quiz-options button').forEach(function(b){b.disabled=true});button.classList.add(correct?'correct':'wrong');document.getElementById('quizAnswer').textContent=correct?'정답입니다! 리스트 안에 코드가 4개 있습니다.':'다시 생각해 보세요. C, Am, F, G를 하나씩 세면 4개입니다.'}
+  </script>
+</body>
+</html>
