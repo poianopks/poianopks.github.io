@@ -28,6 +28,57 @@
       line-height: 1.65;
     }
     a { color: var(--accent2); }
+    /* 상단 메뉴 제목 바 + 모바일 링크 버튼 */
+    .site-top-menu {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(12, 18, 28, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 0.55rem 1rem;
+    }
+    .site-top-menu-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 0.75rem;
+    }
+    .site-top-menu .label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-right: 0.25rem;
+      white-space: nowrap;
+    }
+    .site-top-menu a.mtitle {
+      text-decoration: none;
+      color: #d7e6ff;
+      background: #1e3a5f;
+      border: 1px solid #355f96;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+    .site-top-menu a.mtitle:hover { border-color: var(--accent); color: #fff; }
+    .site-top-menu a.mobile-btn {
+      text-decoration: none;
+      margin-left: auto;
+      background: linear-gradient(135deg, #1f4a45, #163832);
+      color: #b8fff4;
+      border: 1px solid #2f7a70;
+      border-radius: 0.65rem;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .site-top-menu a.mobile-btn:hover { filter: brightness(1.1); color: #fff; }
+    @media (max-width: 720px) {
+      .site-top-menu a.mobile-btn { margin-left: 0; width: 100%; text-align: center; }
+    }
     header.hero {
       padding: 2.5rem 1.25rem 1.5rem;
       max-width: 1100px;
@@ -170,13 +221,31 @@
   </style>
 </head>
 <body>
+  <nav class="site-top-menu" aria-label="상단 메뉴 제목">
+    <div class="site-top-menu-inner">
+      <span class="label">상단 메뉴 제목</span>
+      <a class="mtitle" href="#map">1 전체지도</a>
+      <a class="mtitle" href="#top">2 상단메뉴</a>
+      <a class="mtitle" href="#left">3 좌측메뉴</a>
+      <a class="mtitle" href="#terms">4 용어</a>
+      <a class="mtitle" href="#flow">5 사용흐름</a>
+      <a class="mtitle" href="#practice">6 실습</a>
+      <a class="mtitle" href="#faq">7 FAQ</a>
+      <a class="mobile-btn" href="aside-ai-beginner-lesson-mobile.html">📱 모바일 버전 열기 (링크)</a>
+    </div>
+  </nav>
+
   <header class="hero">
-    <div class="badge">Windows · Aside AI · 왕초보 레슨</div>
+    <div class="badge">Windows · Aside AI · 왕초보 레슨 · PC판</div>
     <h1>Aside AI 화면 메뉴 이름 총정리</h1>
     <p class="lead">
       상단 메뉴 타이틀 · 좌측 메뉴 타이틀을 <strong>HTML + SVG 도표</strong>로 보여 주고,
       각 명칭의 <span class="tag">개념</span><span class="tag purpose">목적</span><span class="tag why">이유</span>와
       실제 사용법을 왕초보 기준으로 정리한 공부 사이트입니다.
+      폰으로 볼 때는 오른쪽(또는 위) <strong>모바일 버전 링크 버튼</strong>을 누르세요.
+    </p>
+    <p style="margin-top:0.9rem;">
+      <a class="mobile-btn" href="aside-ai-beginner-lesson-mobile.html" style="display:inline-block;text-decoration:none;background:linear-gradient(135deg,#1f4a45,#163832);color:#b8fff4;border:1px solid #2f7a70;border-radius:0.65rem;padding:0.55rem 1rem;font-weight:700;">→ 모바일 버전 사이트로 이동</a>
     </p>
   </header>
 

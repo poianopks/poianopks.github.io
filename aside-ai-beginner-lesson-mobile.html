@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f1419" />
+  <title>Aside AI 모바일 레슨 · 상단·좌측 메뉴 제목</title>
+  <meta name="description" content="Aside AI 왕초보 모바일 버전 — 상단 메뉴 제목, 좌측 메뉴 제목, 링크 버튼" />
+  <style>
+    :root {
+      --bg: #0b1018;
+      --card: #162033;
+      --line: #2e3f55;
+      --text: #eef3fb;
+      --muted: #9aadc4;
+      --blue: #5b9cff;
+      --mint: #3dd6c6;
+      --amber: #ffb020;
+      --safe-b: env(safe-area-inset-bottom, 0px);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding-bottom: calc(72px + var(--safe-b));
+    }
+    a { color: var(--mint); }
+    /* 상단 고정 메뉴 제목 */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(12, 18, 28, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 0.55rem 0.75rem 0.65rem;
+    }
+    .topbar .brand {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+    }
+    .topbar h1 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .top-menu-titles {
+      display: flex;
+      gap: 0.35rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 0.55rem 0 0.15rem;
+      scrollbar-width: none;
+    }
+    .top-menu-titles::-webkit-scrollbar { display: none; }
+    .top-menu-titles a, .chip {
+      flex: 0 0 auto;
+      text-decoration: none;
+      color: #d7e6ff;
+      background: #1e3a5f;
+      border: 1px solid #355f96;
+      border-radius: 999px;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.78rem;
+      white-space: nowrap;
+    }
+    .top-menu-titles a.pc {
+      background: #1f4a45;
+      border-color: #2f7a70;
+      color: #b8fff4;
+      font-weight: 600;
+    }
+    .hero {
+      padding: 1rem 0.9rem 0.5rem;
+    }
+    .hero p { margin: 0.4rem 0 0; color: var(--muted); font-size: 0.92rem; }
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      padding: 0.75rem 0.9rem 0;
+    }
+    .btn {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 0.75rem;
+      padding: 0.75rem 0.5rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: 1px solid transparent;
+    }
+    .btn.primary {
+      background: linear-gradient(135deg, #2a5a9e, #1e3a5f);
+      color: #fff;
+      border-color: #4a7ec8;
+    }
+    .btn.secondary {
+      background: #1f4a45;
+      color: #b8fff4;
+      border-color: #2f7a70;
+    }
+    section {
+      margin: 0.85rem 0.75rem;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 0.9rem;
+      padding: 0.9rem;
+    }
+    section h2 {
+      margin: 0 0 0.6rem;
+      font-size: 1.05rem;
+      border-left: 3px solid var(--blue);
+      padding-left: 0.5rem;
+    }
+    section h3 {
+      margin: 0.9rem 0 0.35rem;
+      font-size: 0.95rem;
+      color: #cfe0ff;
+    }
+    .svg-wrap {
+      overflow-x: auto;
+      background: #0c121b;
+      border-radius: 0.65rem;
+      border: 1px solid var(--line);
+      padding: 0.4rem;
+      margin: 0.5rem 0;
+    }
+    svg { display: block; width: 100%; height: auto; max-width: 520px; margin: 0 auto; }
+    .item {
+      background: #1a2740;
+      border-radius: 0.65rem;
+      padding: 0.7rem 0.75rem;
+      margin: 0.45rem 0;
+      border: 1px solid #2a4060;
+    }
+    .item .name { font-weight: 700; color: #fff; font-size: 0.95rem; }
+    .item .meta { font-size: 0.82rem; color: var(--muted); margin-top: 0.25rem; }
+    .tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      padding: 0.08rem 0.4rem;
+      border-radius: 0.3rem;
+      margin-right: 0.2rem;
+      background: #2a4060;
+      color: #c8dbff;
+    }
+    .tag.p { background: #1f4a45; color: #b8fff4; }
+    .tag.w { background: #4a3a1f; color: #ffe2a8; }
+    .bottom-nav {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 60;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      background: rgba(12, 18, 28, 0.96);
+      border-top: 1px solid var(--line);
+      padding: 0.35rem 0.25rem calc(0.35rem + var(--safe-b));
+    }
+    .bottom-nav a {
+      text-decoration: none;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.68rem;
+      padding: 0.35rem 0.15rem;
+    }
+    .bottom-nav a strong {
+      display: block;
+      font-size: 0.78rem;
+      color: #d7e6ff;
+      margin-bottom: 0.1rem;
+    }
+    .note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin: 0.4rem 0 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- 상단 메뉴 제목 (모바일 타이틀) -->
+  <header class="topbar">
+    <div class="brand">MOBILE · ASIDE AI 왕초보</div>
+    <h1>모바일 버전 · 상단·좌측 메뉴 제목 레슨</h1>
+    <nav class="top-menu-titles" aria-label="상단 메뉴 제목">
+      <a href="#top-titles">상단 메뉴 제목</a>
+      <a href="#left-titles">좌측 메뉴 제목</a>
+      <a href="#terms">용어</a>
+      <a href="#flow">사용 흐름</a>
+      <a class="pc" href="aside-ai-beginner-lesson.html">PC 전체판 열기</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <p>폰 화면용으로 메뉴 <strong>제목만 크게</strong> 정리했습니다. 상세 표·큰 SVG는 PC판을 누르세요.</p>
+  </div>
+
+  <div class="btn-row">
+    <a class="btn primary" href="#top-titles">상단 메뉴 보기</a>
+    <a class="btn secondary" href="aside-ai-beginner-lesson.html">PC 사이트 링크</a>
+  </div>
+
+  <section id="map">
+    <h2>모바일 한눈에 (SVG)</h2>
+    <div class="svg-wrap">
+      <svg viewBox="0 0 360 520" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic, sans-serif">
+        <rect width="360" height="520" rx="24" fill="#0c121b" stroke="#2e3f55"/>
+        <rect x="16" y="16" width="328" height="64" rx="12" fill="#1e3a5f"/>
+        <text x="30" y="42" fill="#9ec1ff" font-size="13" font-weight="700">상단 메뉴 제목 줄</text>
+        <text x="30" y="62" fill="#fff" font-size="12">탭 · 주소 · AI · 계정</text>
+        <rect x="16" y="92" width="72" height="300" rx="10" fill="#132033" stroke="#3a5575"/>
+        <text x="28" y="118" fill="#3dd6c6" font-size="11" font-weight="700">좌측</text>
+        <text x="24" y="142" fill="#e8eef7" font-size="10">홈</text>
+        <text x="24" y="162" fill="#e8eef7" font-size="10">채팅</text>
+        <text x="24" y="182" fill="#e8eef7" font-size="10">웹</text>
+        <text x="24" y="202" fill="#e8eef7" font-size="10">프로젝트</text>
+        <text x="24" y="222" fill="#e8eef7" font-size="10">루틴</text>
+        <text x="24" y="242" fill="#e8eef7" font-size="10">메모리</text>
+        <text x="24" y="262" fill="#e8eef7" font-size="10">설정</text>
+        <rect x="98" y="92" width="246" height="180" rx="10" fill="#101925" stroke="#3a5575"/>
+        <text x="112" y="120" fill="#9ec1ff" font-size="12" font-weight="700">가운데 · 웹 화면</text>
+        <text x="112" y="148" fill="#9aadc4" font-size="11">사이트 보고 AI가 조작</text>
+        <rect x="98" y="284" width="246" height="108" rx="10" fill="#1a2740" stroke="#3a5575"/>
+        <text x="112" y="316" fill="#ffb020" font-size="12" font-weight="700">채팅 · 시킬 일</text>
+        <text x="112" y="340" fill="#9aadc4" font-size="11">프롬프트 입력</text>
+        <rect x="16" y="408" width="328" height="88" rx="12" fill="#243044"/>
+        <text x="30" y="442" fill="#fff" font-size="12">하단 바로가기: 상단·좌측·PC·홈</text>
+        <text x="30" y="468" fill="#9aadc4" font-size="11">링크 버튼으로 버전 전환</text>
+      </svg>
+    </div>
+    <p class="note">한 줄: 위=도구 제목, 왼쪽=이동 제목, 가운데=웹, 아래/옆=AI 대화</p>
+  </section>
+
+  <section id="top-titles">
+    <h2>상단 메뉴 제목 (모바일 타이틀)</h2>
+    <p class="note">Windows Aside 창 <strong>맨 위</strong>에 있는 이름들</p>
+    <div class="item"><div class="name">1. 뒤로 / 앞으로</div><div class="meta"><span class="tag">개념</span>방문 기록 이동 · <span class="tag p">목적</span>이전 페이지 · <span class="tag w">이유</span>실수 복구</div></div>
+    <div class="item"><div class="name">2. 새로고침</div><div class="meta"><span class="tag">개념</span>다시 로드 · <span class="tag p">목적</span>최신 화면 · <span class="tag w">이유</span>깨짐 해결</div></div>
+    <div class="item"><div class="name">3. 주소창 (URL)</div><div class="meta"><span class="tag">개념</span>갈 곳 입력 · <span class="tag p">목적</span>사이트 이동 · <span class="tag w">이유</span>내비 핵심</div></div>
+    <div class="item"><div class="name">4. 탭 (Tabs)</div><div class="meta"><span class="tag">개념</span>여러 페이지 · <span class="tag p">목적</span>동시 작업 · <span class="tag w">이유</span>비교·복사</div></div>
+    <div class="item"><div class="name">5. 새 탭</div><div class="meta"><span class="tag">개념</span>빈 칸 추가 · <span class="tag p">목적</span>새 검색 · <span class="tag w">이유</span>기존 탭 유지</div></div>
+    <div class="item"><div class="name">6. Agent / AI / 채팅</div><div class="meta"><span class="tag">개념</span>AI 대화 · <span class="tag p">목적</span>일 시키기 · <span class="tag w">이유</span>Aside 핵심</div></div>
+    <div class="item"><div class="name">7. 세션 제목</div><div class="meta"><span class="tag">개념</span>이번 대화 묶음 · <span class="tag p">목적</span>주제 분리 · <span class="tag w">이유</span>맥락 보호</div></div>
+    <div class="item"><div class="name">8. 모델 (Model)</div><div class="meta"><span class="tag">개념</span>AI 두뇌 선택 · <span class="tag p">목적</span>속도/깊이 · <span class="tag w">이유</span>일 난이도</div></div>
+    <div class="item"><div class="name">9. 권한 (Permission)</div><div class="meta"><span class="tag">개념</span>허용 범위 · <span class="tag p">목적</span>위험 방지 · <span class="tag w">이유</span>발행·결제 보호</div></div>
+    <div class="item"><div class="name">10. 확장 프로그램</div><div class="meta"><span class="tag">개념</span>플러그인 · <span class="tag p">목적</span>번역 등 · <span class="tag w">이유</span>크롬 생태계</div></div>
+    <div class="item"><div class="name">11. 계정 / 프로필</div><div class="meta"><span class="tag">개념</span>내 신원 · <span class="tag p">목적</span>로그인 · <span class="tag w">이유</span>데이터 구분</div></div>
+    <div class="item"><div class="name">12. 창 제어</div><div class="meta"><span class="tag">개념</span>최소화 등 · <span class="tag p">목적</span>창 크기 · <span class="tag w">이유</span>Windows 표준</div></div>
+  </section>
+
+  <section id="left-titles">
+    <h2>좌측 메뉴 제목 (모바일 타이틀)</h2>
+    <p class="note">Aside 창 <strong>왼쪽 레일</strong> 이름들 (버전마다 한글/영문 섞일 수 있음)</p>
+    <div class="item"><div class="name">Home / 홈</div><div class="meta">시작 허브 · 오늘 할 일 고르기</div></div>
+    <div class="item"><div class="name">New Chat / 새 채팅</div><div class="meta">새 세션 · 주제 분리</div></div>
+    <div class="item"><div class="name">Chats / History</div><div class="meta">과거 대화 다시 열기</div></div>
+    <div class="item"><div class="name">Browser / 웹</div><div class="meta">실제 브라우징 · AI 조작 무대</div></div>
+    <div class="item"><div class="name">Projects / 프로젝트</div><div class="meta">업무 묶음 정리</div></div>
+    <div class="item"><div class="name">Routines / 루틴</div><div class="meta">예약·반복 자동 실행</div></div>
+    <div class="item"><div class="name">Memory / 메모리</div><div class="meta">장기 기억 (가게명·선호)</div></div>
+    <div class="item"><div class="name">Skills / 스킬</div><div class="meta">노션·깃허브 등 전문 지침</div></div>
+    <div class="item"><div class="name">Channels</div><div class="meta">슬랙·텔레그램 연결</div></div>
+    <div class="item"><div class="name">Artifacts / Files</div><div class="meta">결과 파일 보관</div></div>
+    <div class="item"><div class="name">Settings / 설정</div><div class="meta">모델·권한 기본값</div></div>
+    <div class="item"><div class="name">Help / Docs</div><div class="meta">도움말</div></div>
+  </section>
+
+  <section id="terms">
+    <h2>핵심 용어 (짧게)</h2>
+    <div class="item"><div class="name">Agent</div><div class="meta">일 시키는 AI 일꾼</div></div>
+    <div class="item"><div class="name">Session</div><div class="meta">한 주제 대화 묶음</div></div>
+    <div class="item"><div class="name">Prompt</div><div class="meta">내가 치는 지시</div></div>
+    <div class="item"><div class="name">Routine</div><div class="meta">시간 맞춰 자동 실행</div></div>
+    <div class="item"><div class="name">Skill</div><div class="meta">사이트별 사용 설명서</div></div>
+  </section>
+
+  <section id="flow">
+    <h2>모바일용 사용 흐름</h2>
+    <div class="svg-wrap">
+      <svg viewBox="0 0 360 90" xmlns="http://www.w3.org/2000/svg">
+        <rect width="360" height="90" rx="10" fill="#0c121b"/>
+        <text x="12" y="50" fill="#fff" font-size="12">실행 → 새채팅 → 지시 → 확인 → 저장</text>
+      </svg>
+    </div>
+    <ol style="margin:0.4rem 0 0; padding-left:1.2rem; font-size:0.9rem;">
+      <li>Aside 실행</li>
+      <li>새 채팅 (주제 하나)</li>
+      <li>한국어로 일 시키기</li>
+      <li>발행·결제는 승인 후</li>
+      <li>결과 URL/파일 저장</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>버전 링크 버튼</h2>
+    <div class="btn-row" style="padding:0;">
+      <a class="btn primary" href="aside-ai-beginner-lesson.html">PC 전체 레슨</a>
+      <a class="btn secondary" href="#top-titles">상단 제목으로</a>
+    </div>
+    <p class="note">PC판 URL: aside-ai-beginner-lesson.html · 이 모바일판: aside-ai-beginner-lesson-mobile.html</p>
+  </section>
+
+  <nav class="bottom-nav" aria-label="하단 메뉴 제목">
+    <a href="#top-titles"><strong>상단</strong>메뉴제목</a>
+    <a href="#left-titles"><strong>좌측</strong>메뉴제목</a>
+    <a href="aside-ai-beginner-lesson.html"><strong>PC판</strong>링크</a>
+    <a href="#map"><strong>맨위</strong>지도</a>
+  </nav>
+</body>
+</html>
