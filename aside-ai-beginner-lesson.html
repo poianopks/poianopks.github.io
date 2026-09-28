@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aside AI 왕초보 공부 레슨 — 메뉴·용어·사용법</title>
+  <meta name="description" content="Windows Aside AI 상단/좌측 메뉴 제목, 개념, 목적, 사용법을 SVG 도표로 설명하는 왕초보 레슨" />
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #1a2332;
+      --panel2: #243044;
+      --text: #e8eef7;
+      --muted: #9aadc4;
+      --accent: #5b9cff;
+      --accent2: #3dd6c6;
+      --warn: #ffb020;
+      --line: #2e3f55;
+      --card: #162033;
+      --ok: #4ade80;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Malgun Gothic", system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, #1a2a44 0%, var(--bg) 55%);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    a { color: var(--accent2); }
+    header.hero {
+      padding: 2.5rem 1.25rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    header.hero h1 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .badge {
+      display: inline-block;
+      background: #1e3a5f;
+      color: #b6d4ff;
+      border: 1px solid #355f96;
+      border-radius: 999px;
+      padding: 0.2rem 0.75rem;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .lead { color: var(--muted); max-width: 52rem; }
+    nav.toc {
+      max-width: 1100px;
+      margin: 0 auto 1.5rem;
+      padding: 0 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    nav.toc a {
+      text-decoration: none;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 0.4rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+    }
+    nav.toc a:hover { border-color: var(--accent); color: #fff; }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+      display: grid;
+      gap: 1.5rem;
+    }
+    section.card {
+      background: linear-gradient(180deg, var(--panel) 0%, var(--card) 100%);
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      padding: 1.25rem 1.25rem 1.5rem;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    }
+    section.card h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1.35rem;
+      border-left: 4px solid var(--accent);
+      padding-left: 0.65rem;
+    }
+    section.card h3 {
+      margin: 1.25rem 0 0.5rem;
+      color: #cfe0ff;
+      font-size: 1.05rem;
+    }
+    .muted { color: var(--muted); }
+    .grid2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .mini {
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
+      padding: 0.9rem 1rem;
+    }
+    .mini strong { color: #fff; }
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 0.35rem;
+      background: #2a4060;
+      color: #c8dbff;
+      margin-right: 0.25rem;
+    }
+    .tag.purpose { background: #1f4a45; color: #b8fff4; }
+    .tag.why { background: #4a3a1f; color: #ffe2a8; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      margin-top: 0.75rem;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 0.55rem 0.65rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #1c2b40; color: #d7e6ff; }
+    tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+    .svg-wrap {
+      overflow-x: auto;
+      background: #0c121b;
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
+      padding: 0.75rem;
+      margin: 0.75rem 0 0.25rem;
+    }
+    svg { display: block; max-width: 100%; height: auto; }
+    ol.steps { padding-left: 1.2rem; }
+    ol.steps li { margin: 0.35rem 0; }
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 1.25rem 3rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    code {
+      background: #0c121b;
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.3rem;
+      font-size: 0.88em;
+    }
+    .callout {
+      border-left: 4px solid var(--warn);
+      background: #2a2418;
+      padding: 0.75rem 1rem;
+      border-radius: 0 0.5rem 0.5rem 0;
+      margin: 0.75rem 0;
+      color: #ffe8c2;
+    }
+    .ok {
+      border-left-color: var(--ok);
+      background: #14241a;
+      color: #c8f7d4;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="badge">Windows · Aside AI · 왕초보 레슨</div>
+    <h1>Aside AI 화면 메뉴 이름 총정리</h1>
+    <p class="lead">
+      상단 메뉴 타이틀 · 좌측 메뉴 타이틀을 <strong>HTML + SVG 도표</strong>로 보여 주고,
+      각 명칭의 <span class="tag">개념</span><span class="tag purpose">목적</span><span class="tag why">이유</span>와
+      실제 사용법을 왕초보 기준으로 정리한 공부 사이트입니다.
+    </p>
+  </header>
+
+  <nav class="toc" aria-label="목차">
+    <a href="#map">1. 전체 지도</a>
+    <a href="#top">2. 상단 메뉴</a>
+    <a href="#left">3. 좌측 메뉴</a>
+    <a href="#terms">4. 용어 사전</a>
+    <a href="#flow">5. 하루 사용 흐름</a>
+    <a href="#practice">6. 실습</a>
+    <a href="#faq">7. FAQ</a>
+  </nav>
+
+  <main>
+    <section class="card" id="map">
+      <h2>1. Aside 창 한눈에 보기 (SVG)</h2>
+      <p class="muted">Windows에서 Aside를 켜면 대략 아래처럼 <strong>좌측 레일 + 상단 바 + 가운데 작업 영역</strong>으로 나뉩니다. 버전/언어에 따라 아이콘·문구가 조금 다를 수 있습니다.</p>
+      <div class="svg-wrap" role="img" aria-label="Aside 전체 레이아웃 도표">
+        <svg viewBox="0 0 980 420" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Malgun Gothic, sans-serif">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#1e3a5f"/><stop offset="100%" stop-color="#122033"/>
+            </linearGradient>
+            <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#5b9cff"/>
+            </marker>
+          </defs>
+          <rect x="8" y="8" width="964" height="404" rx="16" fill="#0b1018" stroke="#2e3f55" stroke-width="2"/>
+          <!-- top bar -->
+          <rect x="20" y="20" width="940" height="52" rx="10" fill="url(#g1)" stroke="#3a5575"/>
+          <text x="40" y="52" fill="#9ec1ff" font-size="15" font-weight="700">상단 바 (Top bar)</text>
+          <rect x="200" y="32" width="70" height="28" rx="6" fill="#2a4a78"/><text x="212" y="51" fill="#fff" font-size="12">Tabs</text>
+          <rect x="280" y="32" width="90" height="28" rx="6" fill="#2a4a78"/><text x="292" y="51" fill="#fff" font-size="12">Address</text>
+          <rect x="380" y="32" width="80" height="28" rx="6" fill="#2a4a78"/><text x="395" y="51" fill="#fff" font-size="12">Search</text>
+          <rect x="470" y="32" width="70" height="28" rx="6" fill="#2a4a78"/><text x="482" y="51" fill="#fff" font-size="12">Agent</text>
+          <rect x="550" y="32" width="70" height="28" rx="6" fill="#2a4a78"/><text x="560" y="51" fill="#fff" font-size="12">Share</text>
+          <rect x="630" y="32" width="80" height="28" rx="6" fill="#2a4a78"/><text x="642" y="51" fill="#fff" font-size="12">Account</text>
+          <!-- left rail -->
+          <rect x="20" y="84" width="150" height="310" rx="10" fill="#132033" stroke="#3a5575"/>
+          <text x="40" y="112" fill="#3dd6c6" font-size="14" font-weight="700">좌측 메뉴</text>
+          <text x="40" y="140" fill="#e8eef7" font-size="13">• Home / 홈</text>
+          <text x="40" y="165" fill="#e8eef7" font-size="13">• Chats / 채팅</text>
+          <text x="40" y="190" fill="#e8eef7" font-size="13">• Browser</text>
+          <text x="40" y="215" fill="#e8eef7" font-size="13">• Projects</text>
+          <text x="40" y="240" fill="#e8eef7" font-size="13">• Routines</text>
+          <text x="40" y="265" fill="#e8eef7" font-size="13">• Memory</text>
+          <text x="40" y="290" fill="#e8eef7" font-size="13">• Skills</text>
+          <text x="40" y="315" fill="#e8eef7" font-size="13">• Channels</text>
+          <text x="40" y="340" fill="#e8eef7" font-size="13">• Settings</text>
+          <text x="40" y="365" fill="#9aadc4" font-size="11">버전마다 이름 약간 다름</text>
+          <!-- main -->
+          <rect x="184" y="84" width="456" height="310" rx="10" fill="#101925" stroke="#3a5575"/>
+          <text x="204" y="116" fill="#9ec1ff" font-size="14" font-weight="700">가운데 · 브라우저 / 작업 화면</text>
+          <rect x="204" y="132" width="416" height="40" rx="8" fill="#1a2740" stroke="#355070"/>
+          <text x="220" y="157" fill="#9aadc4" font-size="13">웹페이지 · 문서 · 미리보기</text>
+          <rect x="204" y="186" width="416" height="180" rx="8" fill="#0e1622" stroke="#355070"/>
+          <text x="220" y="220" fill="#cfe0ff" font-size="13">AI가 클릭·입력·읽는 실제 화면</text>
+          <text x="220" y="248" fill="#9aadc4" font-size="12">• 탭으로 여러 사이트</text>
+          <text x="220" y="272" fill="#9aadc4" font-size="12">• snapshot으로 구조 파악</text>
+          <text x="220" y="296" fill="#9aadc4" font-size="12">• 발행/결제는 확인 후 진행</text>
+          <!-- chat -->
+          <rect x="654" y="84" width="306" height="310" rx="10" fill="#132033" stroke="#3a5575"/>
+          <text x="674" y="116" fill="#ffb020" font-size="14" font-weight="700">채팅 / 세션 패널</text>
+          <rect x="674" y="132" width="266" height="70" rx="8" fill="#1a2740"/>
+          <text x="688" y="162" fill="#e8eef7" font-size="12">내가 시킬 일 (프롬프트)</text>
+          <rect x="674" y="214" width="266" height="100" rx="8" fill="#1a2740"/>
+          <text x="688" y="244" fill="#e8eef7" font-size="12">AI 답변 · 진행 상황</text>
+          <text x="688" y="268" fill="#9aadc4" font-size="12">도구 사용 로그</text>
+          <rect x="674" y="328" width="266" height="46" rx="8" fill="#2a4a78"/>
+          <text x="700" y="356" fill="#fff" font-size="13">메시지 입력창</text>
+          <!-- labels -->
+          <line x1="490" y1="46" x2="490" y2="10" stroke="#5b9cff" marker-end="url(#arrow)"/>
+        </svg>
+      </div>
+      <div class="callout ok">
+        <strong>왕초보 한 줄:</strong> 왼쪽은 “어디로 갈지”, 위는 “지금 창 도구”, 가운데는 “실제 웹”, 오른쪽(또는 옆 패널)은 “AI와 대화”입니다.
+      </div>
+    </section>
+
+    <section class="card" id="top">
+      <h2>2. 상단 메뉴 타이틀 — 이름 · 개념 · 목적 · 이유</h2>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 960 160" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Malgun Gothic, sans-serif">
+          <rect width="960" height="160" rx="12" fill="#0c121b"/>
+          <text x="24" y="36" fill="#9ec1ff" font-size="16" font-weight="700">상단 바 흐름</text>
+          <!-- boxes -->
+          <g font-size="13" fill="#fff">
+            <rect x="24" y="56" width="100" height="70" rx="10" fill="#1e3a5f"/><text x="48" y="88">뒤로/앞</text><text x="40" y="108" fill="#9aadc4" font-size="11">탐색</text>
+            <rect x="140" y="56" width="110" height="70" rx="10" fill="#1e3a5f"/><text x="168" y="88">새로고침</text><text x="158" y="108" fill="#9aadc4" font-size="11">페이지 다시</text>
+            <rect x="266" y="56" width="150" height="70" rx="10" fill="#245a52"/><text x="292" y="88">주소창 URL</text><text x="286" y="108" fill="#b8fff4" font-size="11">어디로 갈지</text>
+            <rect x="432" y="56" width="120" height="70" rx="10" fill="#1e3a5f"/><text x="460" y="88">탭 줄</text><text x="448" y="108" fill="#9aadc4" font-size="11">여러 페이지</text>
+            <rect x="568" y="56" width="120" height="70" rx="10" fill="#4a3a1f"/><text x="592" y="88">AI/Agent</text><text x="580" y="108" fill="#ffe2a8" font-size="11">시킬 일</text>
+            <rect x="704" y="56" width="110" height="70" rx="10" fill="#1e3a5f"/><text x="728" y="88">확장</text><text x="718" y="108" fill="#9aadc4" font-size="11">chrome://</text>
+            <rect x="830" y="56" width="110" height="70" rx="10" fill="#1e3a5f"/><text x="848" y="88">계정/설정</text><text x="848" y="108" fill="#9aadc4" font-size="11">나·권한</text>
+          </g>
+        </svg>
+      </div>
+      <table>
+        <thead>
+          <tr><th>명칭(대표)</th><th>개념</th><th>목적</th><th>왜 있나</th><th>왕초보 사용법</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>뒤로 / 앞으로</strong></td>
+            <td>방문 기록 한 칸 이동</td>
+            <td>이전·다음 페이지로 복귀</td>
+            <td>실수로 나갔을 때 복구</td>
+            <td>웹 보다가 이전 글 보고 싶을 때</td>
+          </tr>
+          <tr>
+            <td><strong>새로고침</strong></td>
+            <td>현재 페이지 다시 로드</td>
+            <td>최신 화면 받기</td>
+            <td>로딩 깨짐·데이터 갱신</td>
+            <td>장바구니/블로그가 이상하면 한 번</td>
+          </tr>
+          <tr>
+            <td><strong>주소창 (Omnibox)</strong></td>
+            <td>URL 또는 검색어 입력</td>
+            <td>원하는 사이트로 이동</td>
+            <td>브라우저의 핵심 내비</td>
+            <td><code>naver.com</code>, <code>chrome://extensions</code></td>
+          </tr>
+          <tr>
+            <td><strong>탭 (Tabs)</strong></td>
+            <td>여러 페이지를 칸으로 유지</td>
+            <td>동시에 여러 일</td>
+            <td>닫지 않고 비교·복사</td>
+            <td>노션 탭 + 블로그 탭 같이</td>
+          </tr>
+          <tr>
+            <td><strong>새 탭</strong></td>
+            <td>빈 작업 공간 추가</td>
+            <td>새 검색/사이트</td>
+            <td>기존 탭 안 건드림</td>
+            <td><code>Ctrl+T</code> 습관</td>
+          </tr>
+          <tr>
+            <td><strong>Agent / AI 패널 / Chat</strong></td>
+            <td>Aside 에이전트와 대화</td>
+            <td>일을 시키고 결과 받기</td>
+            <td>Aside의 존재 이유</td>
+            <td>“노션에 정리해줘”처럼 한국어로</td>
+          </tr>
+          <tr>
+            <td><strong>세션 (Session) 제목</strong></td>
+            <td>이번 대화 작업 단위</td>
+            <td>일별로 대화 분리</td>
+            <td>섞이면 맥락이 망가짐</td>
+            <td>주제 바뀌면 새 세션 추천</td>
+          </tr>
+          <tr>
+            <td><strong>모델 (Model)</strong></td>
+            <td>어떤 AI 두뇌로 할지</td>
+            <td>속도/깊이 선택</td>
+            <td>쉬운 일·어려운 일 다름</td>
+            <td>빠른 일=fast, 긴 글=standard/deep</td>
+          </tr>
+          <tr>
+            <td><strong>권한 (Permission)</strong></td>
+            <td>AI가 해도 되는 행동 범위</td>
+            <td>실수·위험 방지</td>
+            <td>발행/결제/삭제 보호</td>
+            <td>중요 작업 전 guard/확인 모드</td>
+          </tr>
+          <tr>
+            <td><strong>확장 프로그램</strong></td>
+            <td>브라우저 플러그인</td>
+            <td>번역·차단 등 보조</td>
+            <td>크롬 생태계 활용</td>
+            <td><code>chrome://extensions</code></td>
+          </tr>
+          <tr>
+            <td><strong>계정 / 프로필</strong></td>
+            <td>내 Aside·브라우저 신원</td>
+            <td>로그인·동기화</td>
+            <td>내 데이터 구분</td>
+            <td>구글 메일로 GitHub/노션 연동 시 확인</td>
+          </tr>
+          <tr>
+            <td><strong>창 제어</strong> (최소화 등)</td>
+            <td>OS 창 버튼</td>
+            <td>Aside 창 크기 조절</td>
+            <td>Windows 표준</td>
+            <td>일반 앱과 동일</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card" id="left">
+      <h2>3. 좌측 메뉴 타이틀 — 이름 · 개념 · 목적 · 이유</h2>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 960 360" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Malgun Gothic, sans-serif">
+          <rect width="960" height="360" rx="12" fill="#0c121b"/>
+          <text x="24" y="36" fill="#3dd6c6" font-size="16" font-weight="700">좌측 레일 → 각 공간이 하는 일</text>
+          <g font-size="13">
+            <rect x="30" y="60" width="200" height="56" rx="10" fill="#1e3a5f"/><text x="50" y="94" fill="#fff">Home / 홈</text>
+            <text x="250" y="85" fill="#9aadc4">시작 허브 · 최근 작업 보기</text>
+            <text x="250" y="105" fill="#b8fff4">목적: 오늘 할 일 고르기</text>
+
+            <rect x="30" y="128" width="200" height="56" rx="10" fill="#1e3a5f"/><text x="50" y="162" fill="#fff">Chats / Sessions</text>
+            <text x="250" y="153" fill="#9aadc4">대화(세션) 목록</text>
+            <text x="250" y="173" fill="#b8fff4">목적: 예전 지시·결과 다시 열기</text>
+
+            <rect x="30" y="196" width="200" height="56" rx="10" fill="#245a52"/><text x="50" y="230" fill="#fff">Browser / 웹</text>
+            <text x="250" y="221" fill="#9aadc4">실제 브라우징 화면</text>
+            <text x="250" y="241" fill="#b8fff4">목적: 사이트 보고 AI가 조작</text>
+
+            <rect x="30" y="264" width="200" height="56" rx="10" fill="#4a3a1f"/><text x="50" y="298" fill="#fff">Projects · Routines</text>
+            <text x="250" y="289" fill="#9aadc4">업무 묶음 · 예약 자동 실행</text>
+            <text x="250" y="309" fill="#ffe2a8">목적: 반복 일을 시스템에 맡기기</text>
+          </g>
+        </svg>
+      </div>
+      <table>
+        <thead>
+          <tr><th>좌측 명칭</th><th>개념</th><th>목적</th><th>왜 쓰나</th><th>사용법 팁</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Home / 홈</strong></td>
+            <td>대시보드</td>
+            <td>최근 세션·바로가기</td>
+            <td>시작점 필요</td>
+            <td>앱 키면 먼저 홈에서 상황 파악</td>
+          </tr>
+          <tr>
+            <td><strong>New Chat / 새 채팅</strong></td>
+            <td>새 세션 생성</td>
+            <td>새 주제의 일 시작</td>
+            <td>맥락 오염 방지</td>
+            <td>피아노 업무 vs 공부 레슨 분리</td>
+          </tr>
+          <tr>
+            <td><strong>Chats / History</strong></td>
+            <td>과거 세션 목록</td>
+            <td>이어서 하기</td>
+            <td>같은 일 반복 시 시간 절약</td>
+            <td>제목으로 검색·스크롤</td>
+          </tr>
+          <tr>
+            <td><strong>Browser</strong></td>
+            <td>내장 크롬형 브라우저</td>
+            <td>웹 작업의 무대</td>
+            <td>AI가 “손”으로 쓸 화면</td>
+            <td>로그인·확장·탭은 여기</td>
+          </tr>
+          <tr>
+            <td><strong>Projects (프로젝트)</strong></td>
+            <td>업무/고객/사이트 묶음</td>
+            <td>관련 세션·루틴 정리</td>
+            <td>여러 일을 섞지 않음</td>
+            <td>예: 성실피아노, 공부</td>
+          </tr>
+          <tr>
+            <td><strong>Routines (루틴)</strong></td>
+            <td>예약·반복·이벤트 작업</td>
+            <td>매일/매주 자동 실행</td>
+            <td>사람이 잊어도 실행</td>
+            <td>순위 체크, 아침 리포트 등</td>
+          </tr>
+          <tr>
+            <td><strong>Memory (메모리)</strong></td>
+            <td>장기 기억 요약</td>
+            <td>다음 세션에 사실 유지</td>
+            <td>매번 설명 안 해도 됨</td>
+            <td>가게명·전화·선호 저장</td>
+          </tr>
+          <tr>
+            <td><strong>Skills (스킬)</strong></td>
+            <td>특정 사이트/도구 전문 지침</td>
+            <td>노션·지메일·깃허브 잘 다루기</td>
+            <td>범용 AI보다 절차가 정확</td>
+            <td>필요 시 스킬 문서 자동 로드</td>
+          </tr>
+          <tr>
+            <td><strong>Channels</strong></td>
+            <td>슬랙·텔레그램 등 연결</td>
+            <td>메신저에서 일 시키기</td>
+            <td>Aside 창 밖에서도 지시</td>
+            <td>연결 후 채팅으로 요청</td>
+          </tr>
+          <tr>
+            <td><strong>Artifacts / Files</strong></td>
+            <td>결과 파일 보관함</td>
+            <td>HTML·PDF·다운로드 모음</td>
+            <td>채팅이 사라져도 파일 남김</td>
+            <td>레슨 사이트·엑셀 여기</td>
+          </tr>
+          <tr>
+            <td><strong>Settings / 설정</strong></td>
+            <td>환경 설정</td>
+            <td>모델·메모리·권한 기본값</td>
+            <td>내 방식에 맞추기</td>
+            <td>처음엔 기본값 유지 추천</td>
+          </tr>
+          <tr>
+            <td><strong>Help / Docs</strong></td>
+            <td>도움말</td>
+            <td>공식 설명</td>
+            <td>막힐 때 기준 문서</td>
+            <td>에러 나면 버전과 함께 확인</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="muted">※ 실제 아이콘 라벨은 업데이트로 번역/이름이 바뀔 수 있습니다. 위 표는 <strong>역할 기준</strong> 개념 지도입니다.</p>
+    </section>
+
+    <section class="card" id="terms">
+      <h2>4. Aside 핵심 용어 사전</h2>
+      <div class="grid2">
+        <div class="mini"><strong>Agent (에이전트)</strong><br/>시킴을 받아 브라우저·파일을 다루는 AI 일꾼.</div>
+        <div class="mini"><strong>Session (세션)</strong><br/>한 줄기의 대화+작업 기록 묶음.</div>
+        <div class="mini"><strong>Prompt (프롬프트)</strong><br/>내가 치는 지시문. 구체할수록 결과 좋음.</div>
+        <div class="mini"><strong>Tool (도구)</strong><br/>웹검색, 클릭, 노션, 깃허브 등 AI가 쓰는 기능.</div>
+        <div class="mini"><strong>Snapshot</strong><br/>페이지 구조를 글자 트리로 읽어 클릭 대상을 찾음.</div>
+        <div class="mini"><strong>REPL</strong><br/>브라우저를 코드처럼 조작하는 실행 환경.</div>
+        <div class="mini"><strong>Permission / Guard</strong><br/>발행·결제·삭제 전 사람 확인.</div>
+        <div class="mini"><strong>Routine</strong><br/>시간/이벤트에 맞춰 자동 재실행.</div>
+        <div class="mini"><strong>Project</strong><br/>관련 일을 폴더처럼 묶는 단위.</div>
+        <div class="mini"><strong>Memory</strong><br/>세션을 넘어 남는 사실·선호.</div>
+        <div class="mini"><strong>Skill</strong><br/>사이트별 베스트 프랙티스 설명서.</div>
+        <div class="mini"><strong>Artifact</strong><br/>사용자에게 보이는 산출 파일.</div>
+        <div class="mini"><strong>Channel</strong><br/>외부 메신저 연결 통로.</div>
+        <div class="mini"><strong>Compaction</strong><br/>긴 대화 압축해 맥락 유지.</div>
+        <div class="mini"><strong>Lasso</strong><br/>화면 일부 지정해 지시하는 기능(지원 시).</div>
+        <div class="mini"><strong>Daemon</strong><br/>백그라운드에서 Aside를 돌리는 엔진.</div>
+      </div>
+    </section>
+
+    <section class="card" id="flow">
+      <h2>5. 왕초보 하루 사용 흐름 (SVG)</h2>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 960 200" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Malgun Gothic, sans-serif">
+          <rect width="960" height="200" rx="12" fill="#0c121b"/>
+          <defs>
+            <marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#3dd6c6"/>
+            </marker>
+          </defs>
+          <g font-size="13" fill="#fff">
+            <rect x="20" y="60" width="140" height="70" rx="12" fill="#1e3a5f"/><text x="48" y="100">1 실행</text>
+            <rect x="200" y="60" width="140" height="70" rx="12" fill="#1e3a5f"/><text x="220" y="100">2 새 채팅</text>
+            <rect x="380" y="60" width="140" height="70" rx="12" fill="#245a52"/><text x="400" y="100">3 일 시키기</text>
+            <rect x="560" y="60" width="140" height="70" rx="12" fill="#4a3a1f"/><text x="575" y="100">4 확인/승인</text>
+            <rect x="740" y="60" width="180" height="70" rx="12" fill="#1e3a5f"/><text x="770" y="100">5 결과 저장</text>
+          </g>
+          <line x1="160" y1="95" x2="198" y2="95" stroke="#3dd6c6" stroke-width="2" marker-end="url(#a2)"/>
+          <line x1="340" y1="95" x2="378" y2="95" stroke="#3dd6c6" stroke-width="2" marker-end="url(#a2)"/>
+          <line x1="520" y1="95" x2="558" y2="95" stroke="#3dd6c6" stroke-width="2" marker-end="url(#a2)"/>
+          <line x1="700" y1="95" x2="738" y2="95" stroke="#3dd6c6" stroke-width="2" marker-end="url(#a2)"/>
+          <text x="20" y="160" fill="#9aadc4" font-size="12">Aside 아이콘</text>
+          <text x="200" y="160" fill="#9aadc4" font-size="12">주제 분리</text>
+          <text x="380" y="160" fill="#9aadc4" font-size="12">한국어 OK</text>
+          <text x="560" y="160" fill="#9aadc4" font-size="12">발행·결제</text>
+          <text x="740" y="160" fill="#9aadc4" font-size="12">노션·깃허브·파일</text>
+        </svg>
+      </div>
+      <ol class="steps">
+        <li><strong>Aside 실행</strong> → 홈에서 상태 확인</li>
+        <li><strong>새 채팅</strong> → 오늘 주제 한 가지만</li>
+        <li><strong>지시</strong> → 목표 + 사이트 + 결과 형식 (예: “노션에 표로”)</li>
+        <li><strong>브라우저</strong> → 로그인 필요하면 본인이 한 번</li>
+        <li><strong>확인 요청</strong> → 발행/삭제/결제는 승인 후</li>
+        <li><strong>산출물</strong> → Artifacts / 노션 / 깃허브 Pages URL 저장</li>
+      </ol>
+    </section>
+
+    <section class="card" id="practice">
+      <h2>6. 10분 실습 과제</h2>
+      <ol class="steps">
+        <li>좌측에서 <strong>새 채팅</strong>을 만들고 제목을 <code>왕초보-메뉴연습</code>으로 생각하기</li>
+        <li>주소창에 <code>chrome://extensions</code> 입력해 상단·확장 개념 확인</li>
+        <li>AI에게: “지금 열린 탭 제목 3개만 알려줘”</li>
+        <li>노션 또는 메모에 <strong>상단 3개 + 좌측 3개</strong> 이름 적어 보기</li>
+        <li>이 레슨 사이트 URL을 즐겨찾기</li>
+      </ol>
+      <div class="callout">
+        <strong>안전 수칙:</strong> 비밀번호를 채팅에 붙여 넣지 마세요. 결제·블로그 전체공개 발행은 확인 창을 읽고 승인하세요.
+      </div>
+    </section>
+
+    <section class="card" id="faq">
+      <h2>7. FAQ</h2>
+      <h3>Q. 크롬이랑 뭐가 다르나요?</h3>
+      <p>브라우징은 비슷합니다. 차이는 <strong>옆에 AI 에이전트가 대신 클릭·정리·예약 작업</strong>을 할 수 있다는 점입니다.</p>
+      <h3>Q. 메뉴 이름이 영문/한글이 섞여 보여요</h3>
+      <p>정상입니다. 이 페이지 표의 <strong>역할</strong>로 이해하면 됩니다.</p>
+      <h3>Q. 확장을 꼭 깔아야 하나요?</h3>
+      <p>아니요. 번역 등 필요할 때만. Aside 핵심 기능과 겹치는 AI 확장은 최소로.</p>
+      <h3>Q. 세션을 자꾸 새로 만들어야 하나요?</h3>
+      <p>주제가 바뀌면 새로. 같은 일을 이으면 기존 세션.</p>
+    </section>
+
+    <section class="card">
+      <h2>부록 · 한 장 요약</h2>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 960 220" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Malgun Gothic, sans-serif">
+          <rect width="960" height="220" rx="12" fill="#0c121b"/>
+          <text x="30" y="40" fill="#fff" font-size="18" font-weight="700">Aside = 브라우저 + AI 일꾼 + 기억 + 예약</text>
+          <rect x="30" y="70" width="210" height="110" rx="12" fill="#1e3a5f"/>
+          <text x="55" y="120" fill="#fff" font-size="15">상단 = 지금 도구</text>
+          <rect x="260" y="70" width="210" height="110" rx="12" fill="#245a52"/>
+          <text x="285" y="120" fill="#fff" font-size="15">좌측 = 어디로</text>
+          <rect x="490" y="70" width="210" height="110" rx="12" fill="#4a3a1f"/>
+          <text x="520" y="120" fill="#fff" font-size="15">채팅 = 시킴</text>
+          <rect x="720" y="70" width="210" height="110" rx="12" fill="#3a2a55"/>
+          <text x="745" y="120" fill="#fff" font-size="15">결과 = 파일/웹</text>
+        </svg>
+      </div>
+      <p class="muted">제작: Aside AI 왕초보 레슨 · 성실피아노 학습용 · GitHub Pages 배포</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>이 문서는 Windows Aside AI UI 개념 학습용입니다. 제품 라벨은 앱 버전에 따라 달라질 수 있으며, 역할 중심으로 이해하세요.</p>
+  </footer>
+</body>
+</html>
