@@ -2,154 +2,359 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>왕초보 레슨 · 네이버 애드포스트 + 구글 애드센스</title>
-  <meta name="description" content="애드포스트와 애드센스가 무엇인지, 수익이 어떻게 나는지 왕초보용 기초 레슨" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
+  <title>왕초보 레슨 · 애드포스트 + 애드센스 (PC·모바일)</title>
+  <meta name="description" content="네이버 애드포스트와 구글 애드센스 왕초보 기초. SVG 도표, PC·모바일 반응형 레슨" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
   <style>
-    :root { --bg:#0f1419; --card:#1a2332; --line:#2e3f55; --t:#e8eef7; --m:#9aadc4; --a:#3dd6c6; --b:#5b9cff; --w:#ffb020; }
-    *{box-sizing:border-box} body{margin:0;font-family:"Malgun Gothic",system-ui,sans-serif;background:var(--bg);color:var(--t);line-height:1.7}
-    a{color:var(--a)} header,main,footer{max-width:900px;margin:0 auto;padding:1.25rem}
-    h1{font-size:1.6rem;margin:0 0 .5rem} h2{font-size:1.25rem;border-left:4px solid var(--b);padding-left:.6rem;margin:1.5rem 0 .6rem}
-    h3{color:#cfe0ff;font-size:1.05rem} .badge{display:inline-block;background:#1e3a5f;color:#b6d4ff;border-radius:999px;padding:.15rem .7rem;font-size:.85rem}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:.9rem;padding:1rem 1.1rem;margin:1rem 0}
-    .muted{color:var(--m)} table{width:100%;border-collapse:collapse;font-size:.92rem;margin:.5rem 0}
-    th,td{border:1px solid var(--line);padding:.5rem .55rem;text-align:left;vertical-align:top} th{background:#1c2b40}
-    .call{border-left:4px solid var(--w);background:#2a2418;padding:.7rem .9rem;border-radius:0 .5rem .5rem 0;color:#ffe8c2;margin:.8rem 0}
-    .ok{border-left-color:#4ade80;background:#14241a;color:#c8f7d4}
-    .svgw{background:#0c121b;border:1px solid var(--line);border-radius:.7rem;padding:.6rem;overflow-x:auto;margin:.6rem 0}
-    svg{display:block;max-width:100%;height:auto} ol,ul{padding-left:1.2rem} li{margin:.25rem 0}
-    .top{position:sticky;top:0;z-index:5;background:rgba(15,20,25,.95);border-bottom:1px solid var(--line);padding:.5rem 1rem;display:flex;flex-wrap:wrap;gap:.4rem}
-    .top a{text-decoration:none;background:#1e3a5f;color:#d7e6ff;border-radius:999px;padding:.3rem .65rem;font-size:.8rem}
+    :root{
+      --bg:#0b1220; --card:#172338; --line:#2a3d5c;
+      --t:#eef3fb; --m:#9eb0c9; --mint:#3dd6c6; --blue:#5b9cff; --amber:#ffb020; --ok:#4ade80;
+      --radius:1rem; --max:1100px; --safe-b:env(safe-area-inset-bottom,0px);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; color:var(--t); line-height:1.7;
+      font-family:"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+      background:
+        radial-gradient(900px 420px at 8% -10%, #1a3358 0%, transparent 55%),
+        radial-gradient(700px 360px at 100% 0%, #16352f 0%, transparent 50%),
+        var(--bg);
+      padding-bottom:calc(72px + var(--safe-b));
+    }
+    a{color:var(--mint)}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 1rem 2.5rem}
+    .topbar{
+      position:sticky; top:0; z-index:40;
+      backdrop-filter:blur(12px);
+      background:rgba(11,18,32,.88);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{max-width:var(--max); margin:0 auto; padding:.65rem 1rem .75rem; display:flex; flex-wrap:wrap; gap:.45rem; align-items:center}
+    .brand{font-size:.72rem; letter-spacing:.06em; color:var(--m); width:100%}
+    .chip{
+      text-decoration:none; white-space:nowrap; font-size:.8rem;
+      padding:.35rem .7rem; border-radius:999px;
+      background:#1e3a5f; border:1px solid #355f96; color:#d7e6ff;
+    }
+    .chip.pc{background:#1f4a45; border-color:#2f7a70; color:#b8fff4; font-weight:700}
+    .chip.mo{background:#4a3a1f; border-color:#7a5a20; color:#ffe2a8; font-weight:700}
+    .hero{padding:1.6rem 0 .4rem}
+    .badge{
+      display:inline-flex; align-items:center;
+      background:#1e3a5f; color:#b6d4ff; border:1px solid #355f96;
+      border-radius:999px; padding:.2rem .75rem; font-size:.82rem; margin-bottom:.7rem;
+    }
+    h1{margin:0 0 .55rem; font-size:clamp(1.45rem, 3.2vw, 2.15rem); letter-spacing:-.02em; line-height:1.25}
+    .lead{color:var(--m); max-width:46rem; margin:0}
+    .mode-switch{display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin:1rem 0 0}
+    .mode-btn{
+      display:block; text-align:center; text-decoration:none; font-weight:700;
+      border-radius:.85rem; padding:.85rem .6rem; border:1px solid transparent;
+    }
+    .mode-btn.pc{background:linear-gradient(135deg,#2a5a9e,#1e3a5f); color:#fff; border-color:#4a7ec8}
+    .mode-btn.mo{background:linear-gradient(135deg,#5a4a28,#3a3018); color:#ffe8c2; border-color:#8a6a30}
+    .mode-btn small{display:block; font-weight:500; opacity:.85; font-size:.78rem; margin-top:.2rem}
+    .card{
+      background:linear-gradient(180deg, var(--card), #141e30);
+      border:1px solid var(--line); border-radius:var(--radius);
+      padding:1.1rem 1.15rem 1.25rem; margin:1rem 0;
+      box-shadow:0 14px 40px rgba(0,0,0,.22);
+    }
+    h2{margin:0 0 .7rem; font-size:1.22rem; border-left:4px solid var(--blue); padding-left:.65rem}
+    h3{margin:1.05rem 0 .4rem; color:#cfe0ff; font-size:1.02rem}
+    .muted{color:var(--m)}
+    .grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:.75rem}
+    .mini{background:#1a2740; border:1px solid #2a4060; border-radius:.75rem; padding:.85rem .9rem}
+    .mini strong{display:block; margin-bottom:.25rem}
+    .call{border-left:4px solid var(--amber); background:#2a2418; color:#ffe8c2; padding:.75rem .9rem; border-radius:0 .55rem .55rem 0; margin:.75rem 0}
+    .ok{border-left-color:var(--ok); background:#14241a; color:#c8f7d4}
+    .svg-wrap{background:#0c121b; border:1px solid var(--line); border-radius:.8rem; padding:.65rem; overflow-x:auto; margin:.7rem 0 .3rem}
+    svg{display:block; width:100%; height:auto; min-width:280px}
+    table{width:100%; border-collapse:collapse; font-size:.9rem; margin:.55rem 0}
+    th,td{border:1px solid var(--line); padding:.5rem .55rem; text-align:left; vertical-align:top}
+    th{background:#1c2b40; color:#d7e6ff}
+    tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+    ol,ul{padding-left:1.15rem; margin:.4rem 0}
+    li{margin:.28rem 0}
+    .two-view{display:grid; gap:.75rem}
+    @media(min-width:860px){
+      .two-view{grid-template-columns:1fr 1fr}
+      body{padding-bottom:2rem}
+      .bottom-nav{display:none !important}
+    }
+    @media(max-width:859px){
+      h1{font-size:1.4rem}
+      .card{padding:.95rem}
+      table{font-size:.84rem}
+    }
+    .bottom-nav{
+      position:fixed; left:0; right:0; bottom:0; z-index:50;
+      display:grid; grid-template-columns:repeat(4,1fr);
+      background:rgba(12,18,28,.96); border-top:1px solid var(--line);
+      padding:.35rem .2rem calc(.35rem + var(--safe-b));
+    }
+    .bottom-nav a{text-decoration:none; color:var(--m); text-align:center; font-size:.68rem; padding:.3rem .1rem}
+    .bottom-nav a strong{display:block; color:#d7e6ff; font-size:.78rem; margin-bottom:.08rem}
+    footer{max-width:var(--max); margin:0 auto; padding:0 1rem 1.5rem; color:var(--m); font-size:.88rem}
+    code{background:#0c121b; padding:.08rem .35rem; border-radius:.3rem; font-size:.88em}
   </style>
 </head>
 <body>
-  <nav class="top" aria-label="목차">
-    <a href="#what">1.뭔가요</a>
-    <a href="#money">2.돈어떻게</a>
-    <a href="#people">3.사람들</a>
-    <a href="#vs">4.비교</a>
-    <a href="#me">5.내상황</a>
-    <a href="#do">6.할일</a>
-  </nav>
-  <header>
-    <span class="badge">왕초보 · 수익화 기초</span>
-    <h1>네이버 애드포스트 + 구글 애드센스<br/>완전 기초 레슨</h1>
-    <p class="muted">처음 들어도 이해할 수 있게, “광고 붙이고 클릭되면 돈이 조금 생기는 구조”를 설명합니다.</p>
-  </header>
-  <main>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">BEGINNER · ADPOST + ADSENSE · PC / MOBILE · SVG</div>
+      <a class="chip" href="#map">전체지도</a>
+      <a class="chip" href="#what">뭔가요</a>
+      <a class="chip" href="#flow">돈흐름</a>
+      <a class="chip" href="#people">사람들</a>
+      <a class="chip" href="#vs">비교</a>
+      <a class="chip" href="#me">내상황</a>
+      <a class="chip" href="#do">할일</a>
+      <a class="chip pc" href="#pc-view">PC 도표</a>
+      <a class="chip mo" href="#mo-view">모바일 도표</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header class="hero">
+      <div class="badge">왕초보 · HTML + SVG · 반응형 PC/모바일</div>
+      <h1>네이버 애드포스트 &amp; 구글 애드센스<br/>완전 기초 레슨</h1>
+      <p class="lead">처음 들어도 이해되도록, 광고로 아주 작은 수익이 생기는 구조를 그림(SVG)으로 설명합니다. PC·모바일 모두 볼 수 있습니다.</p>
+      <div class="mode-switch">
+        <a class="mode-btn pc" href="#pc-view">PC 버전 도표 보기<small>큰 화면 · 가로 레이아웃</small></a>
+        <a class="mode-btn mo" href="#mo-view">모바일 버전 도표 보기<small>세로 카드 · 하단 메뉴</small></a>
+      </div>
+    </header>
+
+    <section class="card" id="map">
+      <h2>0. PC / 모바일 화면 지도 (SVG)</h2>
+      <p class="muted">같은 레슨, 다른 배치. 폰에서는 모바일 도표 + 하단 메뉴가 편합니다.</p>
+      <div class="two-view">
+        <div id="pc-view">
+          <h3>PC 레이아웃</h3>
+          <div class="svg-wrap" role="img" aria-label="PC 레이아웃 SVG">
+            <svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+              <defs>
+                <linearGradient id="gpc" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1e3a5f"/><stop offset="100%" stop-color="#122033"/></linearGradient>
+              </defs>
+              <rect width="520" height="300" rx="16" fill="#0c121b" stroke="#2e3f55"/>
+              <rect x="14" y="14" width="492" height="42" rx="10" fill="url(#gpc)" stroke="#3a5575"/>
+              <text x="28" y="40" fill="#9ec1ff" font-size="13" font-weight="700">상단 메뉴 제목 · 목차 칩 · PC/모바일 링크</text>
+              <rect x="14" y="66" width="150" height="210" rx="12" fill="#132033" stroke="#3a5575"/>
+              <text x="28" y="92" fill="#3dd6c6" font-size="13" font-weight="700">목차</text>
+              <text x="28" y="118" fill="#e8eef7" font-size="12">• 뭔가요</text>
+              <text x="28" y="140" fill="#e8eef7" font-size="12">• 돈 흐름</text>
+              <text x="28" y="162" fill="#e8eef7" font-size="12">• 비교표</text>
+              <text x="28" y="184" fill="#e8eef7" font-size="12">• 내 상황</text>
+              <text x="28" y="206" fill="#ffe2a8" font-size="12">• PC 도표</text>
+              <text x="28" y="228" fill="#ffe2a8" font-size="12">• 모바일 도표</text>
+              <rect x="176" y="66" width="330" height="210" rx="12" fill="#101925" stroke="#3a5575"/>
+              <text x="192" y="96" fill="#9ec1ff" font-size="14" font-weight="700">본문 + 큰 SVG 도표</text>
+              <rect x="192" y="112" width="298" height="70" rx="8" fill="#1a2740"/>
+              <text x="208" y="154" fill="#cfe0ff" font-size="13">가로로 넓은 수익 파이프라인</text>
+              <rect x="192" y="196" width="140" height="58" rx="8" fill="#245a52"/>
+              <text x="214" y="230" fill="#b8fff4" font-size="12">애드포스트</text>
+              <rect x="350" y="196" width="140" height="58" rx="8" fill="#4a3a1f"/>
+              <text x="380" y="230" fill="#ffe2a8" font-size="12">애드센스</text>
+            </svg>
+          </div>
+        </div>
+        <div id="mo-view">
+          <h3>모바일 레이아웃</h3>
+          <div class="svg-wrap" role="img" aria-label="모바일 레이아웃 SVG">
+            <svg viewBox="0 0 280 420" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+              <rect width="280" height="420" rx="22" fill="#0c121b" stroke="#2e3f55"/>
+              <rect x="14" y="14" width="252" height="64" rx="12" fill="#1e3a5f"/>
+              <text x="26" y="40" fill="#9ec1ff" font-size="12" font-weight="700">상단 메뉴 제목</text>
+              <text x="26" y="60" fill="#fff" font-size="11">칩 스크롤 · PC/모바일 링크</text>
+              <rect x="14" y="90" width="252" height="100" rx="12" fill="#132033" stroke="#3a5575"/>
+              <text x="26" y="120" fill="#3dd6c6" font-size="12" font-weight="700">히어로</text>
+              <text x="26" y="142" fill="#e8eef7" font-size="11">왕초보 한 줄 설명</text>
+              <text x="26" y="164" fill="#9aadc4" font-size="11">PC 버튼 | 모바일 버튼</text>
+              <rect x="14" y="202" width="252" height="130" rx="12" fill="#101925" stroke="#3a5575"/>
+              <text x="26" y="232" fill="#9ec1ff" font-size="12" font-weight="700">세로 카드 본문</text>
+              <text x="26" y="256" fill="#cfe0ff" font-size="11">도표 → 표 → 할 일</text>
+              <text x="26" y="280" fill="#9aadc4" font-size="11">한 손 스크롤 최적화</text>
+              <rect x="14" y="348" width="252" height="54" rx="12" fill="#243044"/>
+              <text x="36" y="380" fill="#fff" font-size="12">하단: 지도|돈|비교|할일</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="card" id="what">
-      <h2>1. 이게 뭔가요? (한 줄)</h2>
-      <p><strong>애드포스트</strong> = 네이버가 내 <strong>블로그</strong>에 광고를 붙여 주고, 누가 보면/클릭하면 <strong>내 몫 수익</strong>을 주는 서비스.</p>
-      <p><strong>애드센스</strong> = 구글이 내 <strong>웹사이트</strong>(예: GitHub 페이지)에 광고를 붙여 주고, 마찬가지로 수익을 나누는 서비스.</p>
-      <div class="call ok">공통점: 내가 글을/사이트를 만들고 → 사람이 옴 → 광고가 보임/클릭됨 → 아주 작은 돈이 쌓임.</div>
-      <div class="svgw">
-        <svg viewBox="0 0 720 160" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
-          <rect width="720" height="160" rx="12" fill="#0c121b"/>
-          <rect x="20" y="40" width="120" height="70" rx="10" fill="#1e3a5f"/><text x="40" y="82" fill="#fff" font-size="14">1 글/사이트</text>
-          <rect x="170" y="40" width="120" height="70" rx="10" fill="#1e3a5f"/><text x="195" y="82" fill="#fff" font-size="14">2 방문</text>
-          <rect x="320" y="40" width="120" height="70" rx="10" fill="#245a52"/><text x="340" y="82" fill="#fff" font-size="14">3 광고노출</text>
-          <rect x="470" y="40" width="120" height="70" rx="10" fill="#4a3a1f"/><text x="490" y="82" fill="#fff" font-size="14">4 클릭/시청</text>
-          <rect x="600" y="40" width="100" height="70" rx="10" fill="#1e3a5f"/><text x="620" y="82" fill="#fff" font-size="14">5 수익</text>
+      <h2>1. 애드포스트 / 애드센스가 뭔가요?</h2>
+      <div class="grid2">
+        <div class="mini"><strong>네이버 애드포스트</strong>네이버가 내 <b>블로그</b>에 광고를 붙여 주고, 보임/클릭되면 내 몫 수익.</div>
+        <div class="mini"><strong>구글 애드센스</strong>구글이 내 <b>웹사이트</b>(GitHub 등)에 광고를 붙여 주고 수익을 나눔.</div>
+      </div>
+      <div class="call ok"><b>한 줄 암기:</b> 좋은 글/사이트 → 사람 옴 → 광고 보임 → 아주 조금 쌓임 → 계좌로 받음.</div>
+      <div class="svg-wrap" role="img" aria-label="수익 파이프라인">
+        <svg viewBox="0 0 900 170" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+          <rect width="900" height="170" rx="14" fill="#0c121b"/>
+          <defs>
+            <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#3dd6c6"/></marker>
+          </defs>
+          <g font-size="14" fill="#fff">
+            <rect x="20" y="45" width="140" height="70" rx="12" fill="#1e3a5f"/><text x="48" y="86">1 글/사이트</text>
+            <rect x="190" y="45" width="140" height="70" rx="12" fill="#1e3a5f"/><text x="230" y="86">2 방문</text>
+            <rect x="360" y="45" width="140" height="70" rx="12" fill="#245a52"/><text x="385" y="86">3 광고노출</text>
+            <rect x="530" y="45" width="140" height="70" rx="12" fill="#4a3a1f"/><text x="555" y="86">4 클릭/시청</text>
+            <rect x="700" y="45" width="160" height="70" rx="12" fill="#3a2a55"/><text x="745" y="86">5 수익</text>
+          </g>
+          <line x1="160" y1="80" x2="188" y2="80" stroke="#3dd6c6" stroke-width="2" marker-end="url(#ar)"/>
+          <line x1="330" y1="80" x2="358" y2="80" stroke="#3dd6c6" stroke-width="2" marker-end="url(#ar)"/>
+          <line x1="500" y1="80" x2="528" y2="80" stroke="#3dd6c6" stroke-width="2" marker-end="url(#ar)"/>
+          <line x1="670" y1="80" x2="698" y2="80" stroke="#3dd6c6" stroke-width="2" marker-end="url(#ar)"/>
+          <text x="20" y="150" fill="#9aadc4" font-size="12">모바일에서는 도표를 좌우로 살짝 스크롤해 보세요</text>
         </svg>
       </div>
     </section>
 
-    <section class="card" id="money">
-      <h2>2. 수익은 어떻게 생기나요?</h2>
-      <h3>용어 3개만</h3>
-      <ul>
-        <li><strong>노출(Impression)</strong>: 광고가 화면에 보임</li>
-        <li><strong>클릭(Click)</strong>: 누가 광고를 누름</li>
-        <li><strong>CPC</strong>: 클릭 1번에 광고주가 내는 돈 중 내 몫 (수십 원~수백 원 수준인 경우 많음)</li>
-      </ul>
-      <p>대략: <strong>방문자 수 × (그중 광고 클릭 비율) × 클릭당 금액</strong> = 수익</p>
-      <div class="call">왕초보 현실: 하루 방문 20명이면 수익은 <strong>0원~수백 원</strong>일 수도 있습니다. “복권”이 아니라 “작은 잔돈 모으기”에 가깝습니다.</div>
-      <h3>애드포스트 돈 받는 법</h3>
+    <section class="card" id="flow">
+      <h2>2. 돈은 어떻게 생기나요?</h2>
+      <div class="grid2">
+        <div class="mini"><strong>노출</strong>광고가 화면에 보임</div>
+        <div class="mini"><strong>클릭</strong>누가 광고를 누름</div>
+        <div class="mini"><strong>CPC</strong>클릭 1번 몫 (수십~수백 원 수준인 경우 많음)</div>
+        <div class="mini"><strong>공식 감각</strong>방문 × 클릭비율 × 클릭당금액 ≈ 수익</div>
+      </div>
+      <div class="svg-wrap" role="img" aria-label="수익 감각 도표">
+        <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+          <rect width="720" height="200" rx="14" fill="#0c121b"/>
+          <text x="24" y="36" fill="#9ec1ff" font-size="15" font-weight="700">왕초보 수익 감각 (예시, 보장 아님)</text>
+          <rect x="24" y="55" width="200" height="110" rx="12" fill="#1e3a5f"/>
+          <text x="48" y="100" fill="#fff" font-size="14">방문 20명/일</text>
+          <text x="55" y="128" fill="#9aadc4" font-size="12">초보 블로그</text>
+          <rect x="250" y="55" width="200" height="110" rx="12" fill="#245a52"/>
+          <text x="275" y="100" fill="#fff" font-size="14">클릭 0~2번</text>
+          <text x="270" y="128" fill="#b8fff4" font-size="12">CTR 낮을 수 있음</text>
+          <rect x="476" y="55" width="220" height="110" rx="12" fill="#4a3a1f"/>
+          <text x="505" y="100" fill="#fff" font-size="14">수익 0~수백 원</text>
+          <text x="500" y="128" fill="#ffe2a8" font-size="12">잔돈 모으기 감각</text>
+        </svg>
+      </div>
+      <div class="call">현실: 하루 방문이 적으면 수익도 거의 0. “복권”이 아니라 “작은 잔돈 통장”.</div>
+      <h3>애드포스트 돈 받는 순서</h3>
       <ol>
-        <li>블로그 승인(검수 통과)</li>
-        <li>글에 자동으로 광고 붙음</li>
-        <li>수익이 쌓임 (예: 5만 원 이상 등 조건)</li>
-        <li>등록한 <strong>본인 명의 계좌</strong>로 지급</li>
+        <li>블로그 검수 통과</li>
+        <li>글에 광고 자동 부착</li>
+        <li>수익 쌓임 (예: 5만 원 조건 등)</li>
+        <li>본인 명의 계좌 지급</li>
       </ol>
-      <h3>애드센스 돈 받는 법</h3>
+      <h3>애드센스 돈 받는 순서</h3>
       <ol>
-        <li>사이트 소유 확인 + 심사 통과</li>
+        <li>사이트 소유 확인 + 심사</li>
         <li>페이지에 광고 코드</li>
-        <li>수익 임계치(보통 일정 금액) 넘으면 송금</li>
-        <li>세금·주소 정보 필요</li>
+        <li>임계 금액 넘으면 송금</li>
+        <li>주소·세금 정보 필요</li>
       </ol>
     </section>
 
     <section class="card" id="people">
       <h2>3. 수익 내는 사람들은 어떻게 하나요?</h2>
-      <p>성공하는 분들은 보통 아래를 합니다.</p>
-      <ol>
-        <li><strong>검색되는 글</strong>을 꾸준히 씀 (예: “부천 피아노조율 비용”, “애드포스트 신청”)</li>
-        <li>하루 방문자를 늘림 (목표 감각: 애드포스트는 일 100명 전후가 유리하다는 이야기가 많음)</li>
-        <li>짧은 글 복붙보다 <strong>도움 되는 긴 글</strong></li>
-        <li>한 주제(피아노/조율/지역)로 전문성</li>
-        <li>자기 광고 클릭 금지 (적발 시 정지)</li>
-      </ol>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 860 210" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+          <rect width="860" height="210" rx="14" fill="#0c121b"/>
+          <text x="24" y="34" fill="#fff" font-size="15" font-weight="700">성공 루프 (반복)</text>
+          <rect x="30" y="55" width="170" height="90" rx="12" fill="#1e3a5f"/><text x="55" y="108" fill="#fff" font-size="14">검색되는 글</text>
+          <rect x="240" y="55" width="170" height="90" rx="12" fill="#1e3a5f"/><text x="275" y="108" fill="#fff" font-size="14">방문 증가</text>
+          <rect x="450" y="55" width="170" height="90" rx="12" fill="#245a52"/><text x="480" y="108" fill="#fff" font-size="14">광고 노출</text>
+          <rect x="660" y="55" width="170" height="90" rx="12" fill="#4a3a1f"/><text x="700" y="108" fill="#fff" font-size="14">수익 적립</text>
+          <text x="30" y="180" fill="#9aadc4" font-size="12">자기 광고 클릭 금지 · 도배 글 금지 · 꾸준함이 핵심</text>
+        </svg>
+      </div>
       <table>
-        <thead><tr><th>유형</th><th>하는 일</th><th>수익 감각(대략)</th></tr></thead>
+        <thead><tr><th>유형</th><th>하는 일</th><th>수익 감각(대략·보장X)</th></tr></thead>
         <tbody>
-          <tr><td>초보 블로거</td><td>글 30~100개, 방문 적음</td><td>월 0~수만 원</td></tr>
-          <tr><td>꾸준한 블로거</td><td>검색 유입 안정</td><td>월 수~수십만 원 가능(케이스마다 다름)</td></tr>
-          <tr><td>대형/인플루언서</td><td>방문 매우 많음</td><td>월 백만 단위도 가능</td></tr>
-          <tr><td>사이트+애드센스</td><td>정보 사이트 트래픽</td><td>방문·국가·주제에 따라 천차만별</td></tr>
+          <tr><td>초보</td><td>글 적고 방문 적음</td><td>월 0~수만 원</td></tr>
+          <tr><td>꾸준</td><td>검색 유입 안정</td><td>월 수~수십만 가능 케이스</td></tr>
+          <tr><td>대형</td><td>방문 매우 많음</td><td>월 백만 단위도 가능</td></tr>
         </tbody>
       </table>
     </section>
 
     <section class="card" id="vs">
-      <h2>4. 애드포스트 vs 애드센스 (왕초보 비교)</h2>
+      <h2>4. 애드포스트 vs 애드센스</h2>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+          <rect width="800" height="220" rx="14" fill="#0c121b"/>
+          <rect x="30" y="30" width="340" height="160" rx="16" fill="#1f4a45" stroke="#2f7a70"/>
+          <text x="120" y="70" fill="#b8fff4" font-size="18" font-weight="700">애드포스트</text>
+          <text x="70" y="110" fill="#e8eef7" font-size="14">장소: 네이버 블로그</text>
+          <text x="70" y="140" fill="#e8eef7" font-size="14">내 경우: 검수 요청 완료</text>
+          <text x="70" y="170" fill="#9aadc4" font-size="13">GitHub 사이트에는 안 붙음</text>
+          <rect x="430" y="30" width="340" height="160" rx="16" fill="#1e3a5f" stroke="#355f96"/>
+          <text x="530" y="70" fill="#9ec1ff" font-size="18" font-weight="700">애드센스</text>
+          <text x="470" y="110" fill="#e8eef7" font-size="14">장소: 내 웹사이트</text>
+          <text x="470" y="140" fill="#e8eef7" font-size="14">내 경우: GitHub 검토 중</text>
+          <text x="470" y="170" fill="#9aadc4" font-size="13">페이지가 아니라 도메인 심사</text>
+        </svg>
+      </div>
       <table>
-        <thead><tr><th></th><th>네이버 애드포스트</th><th>구글 애드센스</th></tr></thead>
+        <thead><tr><th></th><th>애드포스트</th><th>애드센스</th></tr></thead>
         <tbody>
-          <tr><td>어디에?</td><td>네이버 블로그 등</td><td>내 웹사이트(GitHub 등)</td></tr>
-          <tr><td>누가 붙이나</td><td>네이버 광고</td><td>구글 광고</td></tr>
-          <tr><td>승인 난이도</td><td>비교적 낮다는 평</td><td>더 깐깐한 편</td></tr>
-          <tr><td>GitHub 사이트</td><td>직접 수익 X (블로그만)</td><td>O (사이트 심사)</td></tr>
-          <tr><td>내 경우</td><td>블로그 등록·검수 요청 완료</td><td>GitHub 소유확인·검토 요청 완료</td></tr>
+          <tr><td>어디에</td><td>블로그</td><td>웹사이트</td></tr>
+          <tr><td>승인</td><td>비교적 낮다는 평</td><td>더 깐깐</td></tr>
+          <tr><td>GitHub</td><td>직접 수익 X</td><td>O</td></tr>
+          <tr><td>한 줄</td><td>블로그 돈</td><td>홈페이지 돈</td></tr>
         </tbody>
       </table>
-      <p class="muted">정리: <strong>블로그 돈 = 애드포스트</strong>, <strong>내 홈페이지 돈 = 애드센스</strong>.</p>
     </section>
 
     <section class="card" id="me">
-      <h2>5. 지금 내 상황 (성실피아노 / pianopks)</h2>
+      <h2>5. 지금 내 상황 (성실피아노)</h2>
       <ul>
-        <li>애드포스트: 가입 완료, 블로그 미디어 등록, 선호주제 <strong>음악</strong>, 검수 대기(약 5영업일)</li>
-        <li>애드센스: 계정 생성, <code>poianopks.github.io</code> ads.txt·검토 요청, 대표 페이지에 스크립트 삽입</li>
-        <li>GitHub 사이트에는 애드포스트 광고가 안 붙음 → 블로그로 수익</li>
+        <li><b>애드포스트</b>: 가입 완료 · 블로그 등록 · 주제 음악 · 검수 대기(약 5영업일)</li>
+        <li><b>애드센스</b>: 계정 있음 · <code>poianopks.github.io</code> 소유확인·검토 · 이 레슨 페이지 코드 포함</li>
+        <li>이 페이지 URL이 곧 학습 사이트입니다.</li>
       </ul>
-      <div class="call">검수/심사는 “접수 완료”이지 “이미 돈 벌림”이 아닙니다. 통과 메일을 기다려야 합니다.</div>
+      <div class="call">접수 완료 ≠ 이미 돈 벌림. 통과 메일/상태를 기다립니다.</div>
     </section>
 
     <section class="card" id="do">
-      <h2>6. 왕초보가 앞으로 할 일 (쉬운 순서)</h2>
-      <ol>
-        <li>블로그에 <strong>검색되는 글</strong> 주 2~3개 (조율·운반·지역명)</li>
-        <li>자기 광고 클릭 금지</li>
-        <li>애드포스트 검수 메일 확인</li>
-        <li>애드센스 승인되면 주소/세금 정보 입력</li>
-        <li>방문자 통계 가끔 보기 (하루 몇 명인지)</li>
-      </ol>
-      <h3>금지</h3>
-      <ul>
-        <li>친구에게 “광고 눌러줘” 부탁</li>
-        <li>도배·복사 글만 올리기</li>
-        <li>가짜 클릭 프로그램</li>
-      </ul>
+      <h2>6. 왕초보 할 일 · 금지</h2>
+      <div class="grid2">
+        <div class="mini"><strong>할 일</strong>
+          <ol>
+            <li>검색되는 글 주 2~3개</li>
+            <li>자기 광고 클릭 금지</li>
+            <li>검수/심사 메일 확인</li>
+            <li>방문 통계 가끔 보기</li>
+          </ol>
+        </div>
+        <div class="mini"><strong>금지</strong>
+          <ul>
+            <li>“광고 눌러줘” 부탁</li>
+            <li>도배·복사 글만</li>
+            <li>가짜 클릭 프로그램</li>
+          </ul>
+        </div>
+      </div>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+          <rect width="720" height="120" rx="14" fill="#0c121b"/>
+          <text x="30" y="55" fill="#fff" font-size="18" font-weight="700">암기 한 문장</text>
+          <text x="30" y="88" fill="#3dd6c6" font-size="16">좋은 글 → 사람 옴 → 광고 보임 → 조금 쌓임 → 계좌</text>
+        </svg>
+      </div>
     </section>
+  </div>
 
-    <section class="card">
-      <h2>부록 · 한 문장 암기</h2>
-      <p><strong>“좋은 글 → 사람 옴 → 광고 보임 → 아주 조금 쌓임 → 계좌로 받음.”</strong></p>
-      <p class="muted">제작: Aside AI 왕초보 레슨 · GitHub Pages</p>
-    </section>
-  </main>
-  <footer class="muted">이 페이지는 학습용입니다. 실제 수익·승인 결과는 네이버/구글 정책과 트래픽에 따릅니다.</footer>
+  <nav class="bottom-nav" aria-label="모바일 하단 메뉴">
+    <a href="#map"><strong>지도</strong>PC/모바일</a>
+    <a href="#flow"><strong>돈</strong>흐름</a>
+    <a href="#vs"><strong>비교</strong>표</a>
+    <a href="#do"><strong>할일</strong>체크</a>
+  </nav>
+
+  <footer>
+    학습용 · 수익·승인은 네이버/구글 정책과 트래픽에 따름 ·
+    <a href="https://poianopks.github.io/ad-beginner-lesson.html">이 사이트 URL</a>
+  </footer>
 </body>
 </html>
