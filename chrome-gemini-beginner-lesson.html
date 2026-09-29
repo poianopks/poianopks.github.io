@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
+  <title>왕초보 레슨 · 구글 크롬 + 제미니 AI (PC·모바일)</title>
+  <meta name="description" content="구글 크롬 상단·우측 메뉴 용어와 Gemini에게 물어보기 완전 기초. Aside처럼 화면 보며 AI와 대화하는 법" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+  <style>
+    :root{
+      --bg:#0b1220; --card:#172338; --line:#2a3d5c;
+      --t:#eef3fb; --m:#9eb0c9; --mint:#3dd6c6; --blue:#5b9cff; --amber:#ffb020; --ok:#4ade80; --gem:#8ab4f8;
+      --radius:1rem; --max:1100px; --safe-b:env(safe-area-inset-bottom,0px);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; color:var(--t); line-height:1.7;
+      font-family:"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+      background:
+        radial-gradient(900px 420px at 8% -10%, #1a3358 0%, transparent 55%),
+        radial-gradient(700px 360px at 100% 0%, #1a2840 0%, transparent 50%),
+        var(--bg);
+      padding-bottom:calc(72px + var(--safe-b));
+    }
+    a{color:var(--mint)}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 1rem 2.5rem}
+    .topbar{
+      position:sticky; top:0; z-index:40;
+      backdrop-filter:blur(12px);
+      background:rgba(11,18,32,.88);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{max-width:var(--max); margin:0 auto; padding:.65rem 1rem .75rem; display:flex; flex-wrap:wrap; gap:.45rem; align-items:center}
+    .brand{font-size:.72rem; letter-spacing:.06em; color:var(--m); width:100%}
+    .chip{
+      text-decoration:none; white-space:nowrap; font-size:.8rem;
+      padding:.35rem .7rem; border-radius:999px;
+      background:#1e3a5f; border:1px solid #355f96; color:#d7e6ff;
+    }
+    .chip.pc{background:#1f4a45; border-color:#2f7a70; color:#b8fff4; font-weight:700}
+    .chip.mo{background:#4a3a1f; border-color:#7a5a20; color:#ffe2a8; font-weight:700}
+    .hero{padding:1.6rem 0 .4rem}
+    .badge{
+      display:inline-flex; align-items:center;
+      background:#1e3a5f; color:#b6d4ff; border:1px solid #355f96;
+      border-radius:999px; padding:.2rem .75rem; font-size:.82rem; margin-bottom:.7rem;
+    }
+    h1{margin:0 0 .55rem; font-size:clamp(1.45rem, 3.2vw, 2.15rem); letter-spacing:-.02em; line-height:1.25}
+    .lead{color:var(--m); max-width:48rem; margin:0}
+    .mode-switch{display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin:1rem 0 0}
+    .mode-btn{
+      display:block; text-align:center; text-decoration:none; font-weight:700;
+      border-radius:.85rem; padding:.85rem .6rem; border:1px solid transparent;
+    }
+    .mode-btn.pc{background:linear-gradient(135deg,#2a5a9e,#1e3a5f); color:#fff; border-color:#4a7ec8}
+    .mode-btn.mo{background:linear-gradient(135deg,#5a4a28,#3a3018); color:#ffe8c2; border-color:#8a6a30}
+    .mode-btn small{display:block; font-weight:500; opacity:.85; font-size:.78rem; margin-top:.2rem}
+    .card{
+      background:linear-gradient(180deg, var(--card), #141e30);
+      border:1px solid var(--line); border-radius:var(--radius);
+      padding:1.1rem 1.15rem 1.25rem; margin:1rem 0;
+      box-shadow:0 14px 40px rgba(0,0,0,.22);
+    }
+    h2{margin:0 0 .7rem; font-size:1.22rem; border-left:4px solid var(--gem); padding-left:.65rem}
+    h3{margin:1.05rem 0 .4rem; color:#cfe0ff; font-size:1.02rem}
+    .muted{color:var(--m)}
+    .grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:.75rem}
+    .mini{background:#1a2740; border:1px solid #2a4060; border-radius:.75rem; padding:.85rem .9rem}
+    .mini strong{display:block; margin-bottom:.25rem}
+    .call{border-left:4px solid var(--amber); background:#2a2418; color:#ffe8c2; padding:.75rem .9rem; border-radius:0 .55rem .55rem 0; margin:.75rem 0}
+    .ok{border-left-color:var(--ok); background:#14241a; color:#c8f7d4}
+    .svg-wrap{background:#0c121b; border:1px solid var(--line); border-radius:.8rem; padding:.65rem; overflow-x:auto; margin:.7rem 0 .3rem}
+    svg{display:block; width:100%; height:auto; min-width:280px}
+    table{width:100%; border-collapse:collapse; font-size:.9rem; margin:.55rem 0}
+    th,td{border:1px solid var(--line); padding:.5rem .55rem; text-align:left; vertical-align:top}
+    th{background:#1c2b40; color:#d7e6ff}
+    tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+    ol,ul{padding-left:1.15rem; margin:.4rem 0}
+    li{margin:.28rem 0}
+    .two-view{display:grid; gap:.75rem}
+    @media(min-width:860px){
+      .two-view{grid-template-columns:1fr 1fr}
+      body{padding-bottom:2rem}
+      .bottom-nav{display:none !important}
+    }
+    @media(max-width:859px){
+      h1{font-size:1.4rem}
+      .card{padding:.95rem}
+      table{font-size:.84rem}
+    }
+    .bottom-nav{
+      position:fixed; left:0; right:0; bottom:0; z-index:50;
+      display:grid; grid-template-columns:repeat(4,1fr);
+      background:rgba(12,18,28,.96); border-top:1px solid var(--line);
+      padding:.35rem .2rem calc(.35rem + var(--safe-b));
+    }
+    .bottom-nav a{text-decoration:none; color:var(--m); text-align:center; font-size:.68rem; padding:.3rem .1rem}
+    .bottom-nav a strong{display:block; color:#d7e6ff; font-size:.78rem; margin-bottom:.08rem}
+    footer{max-width:var(--max); margin:0 auto; padding:0 1rem 1.5rem; color:var(--m); font-size:.88rem}
+    code{background:#0c121b; padding:.08rem .35rem; border-radius:.3rem; font-size:.88em}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">BEGINNER · CHROME + GEMINI · PC / MOBILE · SVG</div>
+      <a class="chip" href="#map">화면지도</a>
+      <a class="chip" href="#what">뭔가요</a>
+      <a class="chip" href="#top">상단용어</a>
+      <a class="chip" href="#right">우측용어</a>
+      <a class="chip" href="#use">써보기</a>
+      <a class="chip" href="#ext">확장</a>
+      <a class="chip" href="#vs">Aside비교</a>
+      <a class="chip" href="#do">할일</a>
+      <a class="chip pc" href="#pc-view">PC 도표</a>
+      <a class="chip mo" href="#mo-view">모바일 도표</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header class="hero">
+      <div class="badge">왕초보 · 구글 크롬 + Gemini · 반응형</div>
+      <h1>구글 크롬 &amp; 제미니 AI<br/>완전 기초 레슨</h1>
+      <p class="lead">
+        Aside에서 왼쪽 사이트를 보며 오른쪽에서 AI와 대화하듯,
+        <b>구글 크롬</b>에서도 웹페이지를 보며 상단·우측의 <b>Gemini에게 물어보기</b>로 질문할 수 있습니다.
+        상단/우측 메뉴 제목(타이틀) 용어를 쉬운 말로 풀었습니다.
+      </p>
+      <div class="mode-switch">
+        <a class="mode-btn pc" href="#pc-view">PC 버전 도표 보기<small>가로 레이아웃 · 툴바 설명</small></a>
+        <a class="mode-btn mo" href="#mo-view">모바일 버전 도표 보기<small>세로 카드 · 하단 메뉴</small></a>
+      </div>
+    </header>
+
+    <section class="card" id="map">
+      <h2>0. PC / 모바일 화면 지도 (SVG)</h2>
+      <p class="muted">실제 크롬 화면(주소창 · 별 · 확장 · Gemini 버튼)을 도표로 옮긴 것입니다.</p>
+      <div class="two-view">
+        <div id="pc-view">
+          <h3>PC 크롬 레이아웃</h3>
+          <div class="svg-wrap" role="img" aria-label="PC 크롬 레이아웃">
+            <svg viewBox="0 0 560 320" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+              <rect width="560" height="320" rx="16" fill="#0c121b" stroke="#2e3f55"/>
+              <rect x="12" y="12" width="536" height="36" rx="8" fill="#1a2740"/>
+              <text x="24" y="35" fill="#9ec1ff" font-size="12">탭 제목 · 새 탭 · 창 닫기</text>
+              <rect x="12" y="56" width="536" height="44" rx="10" fill="#132033" stroke="#3a5575"/>
+              <text x="24" y="74" fill="#9aadc4" font-size="11">← → ↻</text>
+              <rect x="90" y="64" width="280" height="28" rx="14" fill="#243044"/>
+              <text x="104" y="83" fill="#e8eef7" font-size="11">주소창 (URL / 검색)</text>
+              <text x="385" y="83" fill="#ffe2a8" font-size="11">★</text>
+              <text x="410" y="83" fill="#8ab4f8" font-size="11">확장</text>
+              <rect x="450" y="62" width="88" height="32" rx="16" fill="#2a3f5f" stroke="#8ab4f8"/>
+              <text x="458" y="82" fill="#cfe0ff" font-size="10">Gemini</text>
+              <rect x="12" y="112" width="340" height="190" rx="12" fill="#101925" stroke="#3a5575"/>
+              <text x="28" y="140" fill="#3dd6c6" font-size="13" font-weight="700">웹 페이지 본문</text>
+              <text x="28" y="168" fill="#e8eef7" font-size="12">Google 로고 · 검색</text>
+              <text x="28" y="192" fill="#9aadc4" font-size="12">Gmail · 이미지 · 앱 격자</text>
+              <text x="28" y="216" fill="#9aadc4" font-size="12">AI 모드 버튼</text>
+              <rect x="364" y="112" width="184" height="190" rx="12" fill="#1a2840" stroke="#8ab4f8"/>
+              <text x="380" y="140" fill="#8ab4f8" font-size="13" font-weight="700">Gemini 패널</text>
+              <text x="380" y="168" fill="#e8eef7" font-size="11">이 페이지 요약</text>
+              <text x="380" y="190" fill="#e8eef7" font-size="11">질문 입력</text>
+              <text x="380" y="212" fill="#e8eef7" font-size="11">답변 보기</text>
+              <text x="380" y="250" fill="#9aadc4" font-size="10">= Aside 우측 대화</text>
+            </svg>
+          </div>
+        </div>
+        <div id="mo-view">
+          <h3>모바일·세로 감각</h3>
+          <div class="svg-wrap" role="img" aria-label="모바일 감각 도표">
+            <svg viewBox="0 0 280 420" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+              <rect width="280" height="420" rx="22" fill="#0c121b" stroke="#2e3f55"/>
+              <rect x="14" y="14" width="252" height="50" rx="12" fill="#1e3a5f"/>
+              <text x="26" y="36" fill="#9ec1ff" font-size="12" font-weight="700">주소창 + 메뉴</text>
+              <text x="26" y="52" fill="#cfe0ff" font-size="11">Gemini / ⋮ 더보기</text>
+              <rect x="14" y="76" width="252" height="200" rx="12" fill="#101925" stroke="#3a5575"/>
+              <text x="26" y="106" fill="#3dd6c6" font-size="12" font-weight="700">웹 페이지</text>
+              <text x="26" y="130" fill="#e8eef7" font-size="11">스크롤하며 읽기</text>
+              <text x="26" y="154" fill="#9aadc4" font-size="11">궁금하면 Gemini 호출</text>
+              <rect x="14" y="290" width="252" height="110" rx="12" fill="#1a2840" stroke="#8ab4f8"/>
+              <text x="26" y="320" fill="#8ab4f8" font-size="12" font-weight="700">Gemini 시트</text>
+              <text x="26" y="344" fill="#e8eef7" font-size="11">질문 · 요약 · 설명</text>
+              <text x="26" y="368" fill="#9aadc4" font-size="11">폰에서는 아래로 펼침</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="what">
+      <h2>1. 크롬 + 제미니가 뭔가요?</h2>
+      <div class="grid2">
+        <div class="mini"><strong>구글 크롬</strong>인터넷 보는 프로그램(브라우저). 주소 입력, 탭, 북마크, 확장 프로그램.</div>
+        <div class="mini"><strong>Gemini (제미니)</strong>구글 AI. 크롬에 <b>고정 버튼</b>으로 붙어, 지금 보는 페이지를 보면서 질문 가능.</div>
+      </div>
+      <div class="call ok"><b>Aside와 닮은 점:</b> 왼쪽(또는 가운데)=사이트 화면 · 오른쪽(또는 옆 패널)=AI 대화. 크롬의 「Gemini에게 물어보기」가 그 역할입니다.</div>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 900 150" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+          <rect width="900" height="150" rx="14" fill="#0c121b"/>
+          <rect x="20" y="35" width="200" height="80" rx="12" fill="#1e3a5f"/><text x="55" y="82" fill="#fff" font-size="14">1 페이지 열기</text>
+          <rect x="250" y="35" width="200" height="80" rx="12" fill="#1e3a5f"/><text x="275" y="82" fill="#fff" font-size="14">2 Gemini 버튼</text>
+          <rect x="480" y="35" width="200" height="80" rx="12" fill="#245a52"/><text x="515" y="82" fill="#fff" font-size="14">3 질문 입력</text>
+          <rect x="710" y="35" width="170" height="80" rx="12" fill="#3a2a55"/><text x="745" y="82" fill="#fff" font-size="14">4 답변</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="card" id="top">
+      <h2>2. 상단 제목·타이틀 용어 (쉬운 풀이)</h2>
+      <table>
+        <thead><tr><th>보이는 이름</th><th>쉬운 뜻</th><th>언제 쓰나</th></tr></thead>
+        <tbody>
+          <tr><td>탭 / 탭 제목</td><td>지금 연 페이지 이름 칸</td><td>여러 사이트 동시 열 때</td></tr>
+          <tr><td>주소창 (옴니박스)</td><td>주소 치거나 검색하는 긴 칸</td><td>사이트 이동·검색</td></tr>
+          <tr><td>뒤로 / 앞으로 / 새로고침</td><td>이전·다음·다시 불러오기</td><td>페이지 이동 실수 복구</td></tr>
+          <tr><td>별(북마크)</td><td>즐겨찾기 저장</td><td>자주 가는 레슨 URL 저장</td></tr>
+          <tr><td>Gemini에게 물어보기</td><td>구글 AI 바로 열기</td><td>이 페이지 요약·질문</td></tr>
+          <tr><td>확장 프로그램 아이콘</td><td>크롬에 붙인 작은 도구</td><td>번역, 광고차단 등</td></tr>
+          <tr><td>프로필 사진</td><td>구글 계정</td><td>로그인·동기화</td></tr>
+          <tr><td>창 최소화 / 최대화 / 닫기</td><td>창 크기·종료</td><td>작업표시줄 정리</td></tr>
+        </tbody>
+      </table>
+      <div class="call">스크린샷 기준: 주소창 오른쪽 끝 근처에 <b>별</b>, <b>확장</b>, 그리고 둥근 <b>Gemini에게 물어보기</b> 버튼이 보입니다.</div>
+    </section>
+
+    <section class="card" id="right">
+      <h2>3. 우측(또는 옆) 제미니 패널 용어</h2>
+      <table>
+        <thead><tr><th>용어</th><th>쉬운 뜻</th></tr></thead>
+        <tbody>
+          <tr><td>Gemini 사이드 패널</td><td>페이지 옆에 붙는 AI 대화창</td></tr>
+          <tr><td>이 탭/페이지 기준 질문</td><td>지금 보고 있는 글 내용을 바탕으로 물어봄</td></tr>
+          <tr><td>프롬프트 / 질문 입력란</td><td>할 말을 적는 칸</td></tr>
+          <tr><td>요약해 줘</td><td>긴 글을 짧게</td></tr>
+          <tr><td>쉽게 설명해 줘</td><td>왕초보 말로 다시</td></tr>
+          <tr><td>할 일 목록으로</td><td>단계를 체크리스트로</td></tr>
+          <tr><td>닫기 / 축소</td><td>패널 치우기 (페이지만 크게)</td></tr>
+        </tbody>
+      </table>
+      <h3>구글 검색 화면 안 용어</h3>
+      <ul>
+        <li><b>Gmail</b> — 구글 메일</li>
+        <li><b>이미지</b> — 그림 검색</li>
+        <li><b>앱 격자(점 9개)</b> — 드라이브·유튜브 등 구글 앱 모음</li>
+        <li><b>AI 모드</b> — 검색창 근처 AI 검색 전환</li>
+      </ul>
+    </section>
+
+    <section class="card" id="use">
+      <h2>4. 왕초보 써보기 (3분)</h2>
+      <ol>
+        <li>크롬을 켠다 → <code>google.com</code> 또는 레슨 사이트 연다.</li>
+        <li>상단 <b>Gemini에게 물어보기</b>를 누른다.</li>
+        <li>예: 「이 페이지를 왕초보에게 5줄로 요약해 줘」</li>
+        <li>예: 「상단 메뉴 용어를 표로 정리해 줘」</li>
+        <li>답 보고 → 또 물어보기 → 필요하면 복사해 메모.</li>
+      </ol>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 720 130" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+          <rect width="720" height="130" rx="14" fill="#0c121b"/>
+          <text x="24" y="40" fill="#fff" font-size="16" font-weight="700">추천 첫 질문 3개</text>
+          <text x="24" y="70" fill="#8ab4f8" font-size="13">1) 이 페이지 핵심만 알려줘  2) 내가 할 일 3가지  3) 어려운 단어 쉽게</text>
+          <text x="24" y="100" fill="#9aadc4" font-size="12">개인정보·비밀번호는 묻지 마세요</text>
+        </svg>
+      </div>
+      <div class="call">유용한 점: 페이지를 오가며 설명·번역·요약·체크리스트를 <b>같은 창</b>에서 끝낼 수 있음. 탭을 수십 개 열 필요가 줄어듦.</div>
+    </section>
+
+    <section class="card" id="ext">
+      <h2>5. 확장 프로그램이란? (크롬 + AI 연관)</h2>
+      <p>확장 프로그램 = 크롬에 붙이는 <b>작은 추가 기능</b>. 주소창 오른쪽 퍼즐/아이콘 자리에 나타납니다.</p>
+      <table>
+        <thead><tr><th>종류 예</th><th>하는 일</th><th>주의</th></tr></thead>
+        <tbody>
+          <tr><td>번역</td><td>외국어 페이지 한글로</td><td>신뢰 가능한 출처만</td></tr>
+          <tr><td>광고 차단</td><td>광고 줄이기</td><td>사이트 수익 페이지는 예외 가능</td></tr>
+          <tr><td>비밀번호 관리</td><td>로그인 도움</td><td>공식 스토어 권장</td></tr>
+          <tr><td>AI 도우미 확장</td><td>요약·작성 보조</td><td>Gemini 내장과 역할이 겹칠 수 있음</td></tr>
+        </tbody>
+      </table>
+      <div class="call ok"><b>관계:</b> Gemini는 구글이 크롬에 넣어 둔 AI 통로. 확장은 제3자 도구. 둘 다 “브라우저 위 도우미”지만 설치·권한·로그인 방식이 다릅니다.</div>
+      <ol>
+        <li>크롬 웹 스토어에서 검색</li>
+        <li>「Chrome에 추가」</li>
+        <li>권한 확인 후 사용</li>
+        <li>불필요하면 제거 (chrome://extensions)</li>
+      </ol>
+    </section>
+
+    <section class="card" id="vs">
+      <h2>6. Aside AI 레슨 화면 vs 크롬+제미니</h2>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+          <rect width="800" height="200" rx="14" fill="#0c121b"/>
+          <rect x="30" y="30" width="340" height="140" rx="16" fill="#1f4a45" stroke="#2f7a70"/>
+          <text x="130" y="70" fill="#b8fff4" font-size="16" font-weight="700">Aside AI</text>
+          <text x="60" y="105" fill="#e8eef7" font-size="13">사이트 보며 작업 대행</text>
+          <text x="60" y="130" fill="#e8eef7" font-size="13">GitHub 배포·블로그도 가능</text>
+          <text x="60" y="155" fill="#9aadc4" font-size="12">대화 + 브라우저 자동화</text>
+          <rect x="430" y="30" width="340" height="140" rx="16" fill="#1e3a5f" stroke="#8ab4f8"/>
+          <text x="510" y="70" fill="#8ab4f8" font-size="16" font-weight="700">Chrome + Gemini</text>
+          <text x="460" y="105" fill="#e8eef7" font-size="13">페이지 옆에서 설명·요약</text>
+          <text x="460" y="130" fill="#e8eef7" font-size="13">구글 계정·검색과 한몸</text>
+          <text x="460" y="155" fill="#9aadc4" font-size="12">학습·질문 중심</text>
+        </svg>
+      </div>
+      <p class="muted">둘 다 “화면 보면서 AI”입니다. 공부·요약은 Gemini, 사이트 만들기·배포·발행 대행은 Aside가 강합니다.</p>
+    </section>
+
+    <section class="card" id="do">
+      <h2>7. 할 일 · 금지</h2>
+      <div class="grid2">
+        <div class="mini"><strong>할 일</strong>
+          <ol>
+            <li>이 레슨 URL 북마크</li>
+            <li>Gemini로 한 페이지 요약 연습</li>
+            <li>확장 2개 이하로 시작</li>
+            <li>Aside 레슨과 번갈아 복습</li>
+          </ol>
+        </div>
+        <div class="mini"><strong>금지·주의</strong>
+          <ul>
+            <li>비밀번호·카드번호를 AI에 붙여넣기</li>
+            <li>출처 불명 확장 마구 설치</li>
+            <li>AI 답을 사실 확인 없이 그대로 공표</li>
+          </ul>
+        </div>
+      </div>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 720 100" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif">
+          <rect width="720" height="100" rx="14" fill="#0c121b"/>
+          <text x="24" y="40" fill="#fff" font-size="16" font-weight="700">암기 한 문장</text>
+          <text x="24" y="72" fill="#8ab4f8" font-size="15">페이지 보기 → Gemini 버튼 → 쉬운 질문 → 요약·할 일</text>
+        </svg>
+      </div>
+      <p>관련 레슨:
+        <a href="https://poianopks.github.io/aside-ai-beginner-lesson.html">Aside AI</a> ·
+        <a href="https://poianopks.github.io/ad-beginner-lesson.html">애드포스트/애드센스</a>
+      </p>
+    </section>
+  </div>
+
+  <nav class="bottom-nav" aria-label="모바일 하단">
+    <a href="#map"><strong>지도</strong>화면</a>
+    <a href="#top"><strong>상단</strong>용어</a>
+    <a href="#right"><strong>우측</strong>Gemini</a>
+    <a href="#do"><strong>할일</strong>체크</a>
+  </nav>
+
+  <footer>
+    학습용 · Chrome/Gemini UI는 구글 업데이트로 이름이 조금 달라질 수 있음 ·
+    <a href="https://poianopks.github.io/chrome-gemini-beginner-lesson.html">이 사이트 URL</a>
+  </footer>
+</body>
+</html>
