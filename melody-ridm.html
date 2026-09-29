@@ -574,7 +574,7 @@ function renderSheet(){
       let dur=note.duration;
       if(note.dots)dur+="d";
       const sn=new StaveNote({keys:[note.pitch],duration:dur,clef:"treble"});
-      if(note.accidental)sn.addModifier(new Accidental(note.accidental),0);
+      if(note.accidental){try{if(typeof sn.addAccidental==='function')sn.addAccidental(0,new Accidental(note.accidental));else sn.addModifier(0,new Accidental(note.accidental));}catch(_ae){}}
       const active=(idx===activeNoteIdx);
       sn.setStyle({fillStyle:active?"#7c3aed":"#1e293b",strokeStyle:active?"#7c3aed":"#1e293b"});
       return sn;
@@ -583,9 +583,8 @@ function renderSheet(){
     voice.setStrict(false);
     voice.addTickables(sns);
     new Formatter().joinVoices([voice]).format([voice],w-120);
-    const beams=Beam.generateBeams(sns,{groups:[new Fraction(2,8)],stem_direction:1});
     voice.draw(ctx,stave);
-    beams.forEach(b=>b.setContext(ctx).draw());
+    try{const beams=Beam.generateBeams(sns);beams.forEach(b=>b.setContext(ctx).draw());}catch(_be){}
   }catch(e){c.innerHTML='<p style="color:#dc2626;font-size:.82rem;padding:.5rem">악보 오류: '+e.message+'</p>';}
 }
 
