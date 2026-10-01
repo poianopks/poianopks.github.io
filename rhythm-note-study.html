@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>리듬 음표 학습실</title>
+<style>
+  :root{--ink:#172033;--muted:#65708a;--paper:#fffdf8;--line:#dce3ef;--brand:#5046e5;--brand-dark:#3429b8;--accent:#f05e41;--success:#087c62}
+  *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(145deg,#eef2ff,#fff7ed 55%,#ecfdf5);line-height:1.5}
+  button,input,select{font:inherit} button{cursor:pointer} button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #fbbf24;outline-offset:3px}
+  .shell{width:min(100% - 2rem,960px);margin:auto;padding:2rem 0 3rem}.hero{text-align:center;padding:1rem 0 1.5rem}.eyebrow{font-weight:800;color:var(--brand);letter-spacing:.08em;font-size:.78rem}.hero h1{font-size:clamp(2rem,6vw,3.4rem);margin:.25rem 0 .5rem;letter-spacing:-.05em}.hero p{color:var(--muted);max-width:650px;margin:auto}
+  .grid{display:grid;grid-template-columns:1.3fr .7fr;gap:1rem}.card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:1.25rem;box-shadow:0 12px 35px rgba(64,58,130,.09);padding:clamp(1rem,3vw,1.5rem)}
+  h2{font-size:1.1rem;margin:0 0 .75rem} .legend{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem}.legend-item{border:1px solid var(--line);border-radius:.8rem;padding:.65rem;text-align:center;background:#fff}.legend-item svg{height:36px;width:54px;display:block;margin:auto}.legend-item b{display:block;font-size:.82rem}.legend-item span{font-size:.72rem;color:var(--muted)}
+  .controls{display:grid;gap:1rem}.field label{display:flex;justify-content:space-between;gap:.5rem;font-size:.85rem;font-weight:700;margin-bottom:.35rem}.field output{color:var(--brand)}select,input[type=range]{width:100%;min-height:2.65rem;border:1px solid var(--line);border-radius:.65rem;padding:.35rem;background:#fff}
+  .buttons{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}.primary,.secondary{border:0;border-radius:.8rem;min-height:3rem;font-weight:800}.primary{color:#fff;background:var(--brand);box-shadow:0 5px 0 var(--brand-dark)}.primary:active{transform:translateY(3px);box-shadow:0 2px 0 var(--brand-dark)}.secondary{color:var(--ink);background:#eef2ff;border:1px solid #cbd5e1}.status{min-height:2.2rem;margin:1rem 0 0;padding:.55rem .7rem;border-radius:.65rem;background:#eefaf6;color:#075e4c;font-weight:650;font-size:.86rem}.status[role=alert]{background:#fff1f2;color:#be123c}
+  .practice{margin-top:1rem}.score-head{display:flex;justify-content:space-between;align-items:center;gap:1rem}.badge{white-space:nowrap;background:#ede9fe;color:#4c1d95;border-radius:999px;padding:.3rem .65rem;font-weight:750;font-size:.76rem}.staff{margin:1rem 0;background:var(--paper);border:1px solid #eadfca;border-radius:1rem;overflow:auto;padding:.4rem;min-height:188px}.score{display:block;width:100%;min-width:560px;height:175px}.beat-guide{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem}.beat{border-left:4px solid var(--brand);background:#f5f3ff;border-radius:.55rem;padding:.5rem .6rem;font-size:.78rem}.beat b{display:block;color:var(--brand)}.beat small{color:var(--muted)}
+  .explain{margin-top:1rem}.rules{padding-left:1.2rem;margin:.4rem 0;color:#46526a;font-size:.88rem}.rules li+li{margin-top:.35rem}.tip{border-left:4px solid var(--accent);background:#fff7ed;padding:.65rem .8rem;border-radius:.35rem;font-size:.84rem}
+  footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:1.25rem}@media(max-width:720px){.grid{grid-template-columns:1fr}.legend{grid-template-columns:repeat(2,1fr)}.shell{width:min(100% - 1rem,960px);padding-top:1rem}}@media(max-width:390px){.buttons{grid-template-columns:1fr}.legend{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="hero">
+    <div class="eyebrow">RHYTHM NOTE STUDY</div>
+    <h1>리듬 음표 학습실</h1>
+    <p>1분음표부터 32분음표까지, 눈으로 읽고 박을 세고 직접 들어보며 리듬을 익히세요.</p>
+  </header>
+
+  <section class="grid" aria-label="학습 도구">
+    <article class="card">
+      <h2>음표 길이 한눈에 보기</h2>
+      <div class="legend" id="legend" aria-label="음표 길이 목록"></div>
+    </article>
+    <aside class="card controls" aria-label="연습 설정">
+      <div class="field"><label for="pattern">연습 패턴</label><select id="pattern"></select></div>
+      <div class="field"><label for="tempo">속도 <output id="tempoValue" for="tempo">72 BPM</output></label><input id="tempo" type="range" min="40" max="144" value="72" step="1"></div>
+      <div class="buttons"><button class="primary" id="play" type="button">▶ 리듬 재생</button><button class="secondary" id="stop" type="button">■ 정지</button></div>
+      <div class="status" id="status" role="status" aria-live="polite">패턴과 속도를 고른 뒤 재생을 누르세요.</div>
+    </aside>
+  </section>
+
+  <section class="card practice" aria-labelledby="practiceTitle">
+    <div class="score-head"><div><h2 id="practiceTitle">연습 악보</h2><p id="patternDescription" style="margin:0;color:var(--muted);font-size:.86rem"></p></div><span class="badge">4/4 박자</span></div>
+    <div class="staff" aria-label="선택한 리듬의 악보"><svg class="score" id="score" viewBox="0 0 900 175" role="img" aria-label="리듬 악보"></svg></div>
+    <div class="beat-guide" id="beatGuide" aria-label="박자 세기 안내"></div>
+  </section>
+
+  <section class="card explain" aria-labelledby="guideTitle">
+    <h2 id="guideTitle">박자 세기 가이드</h2>
+    <ul class="rules">
+      <li><b>1분음표</b>는 4박 전체, <b>2분음표</b>는 2박, <b>4분음표</b>는 1박입니다.</li>
+      <li><b>8분음표</b>는 <b>1 &amp; 2 &amp;</b>, <b>16분음표</b>는 <b>1 e &amp; a</b>로 균등하게 셉니다.</li>
+      <li><b>32분음표</b>는 한 박을 여덟 조각으로 나누어 천천히 정확한 간격부터 익히세요.</li>
+    </ul>
+    <p class="tip">재생 중 보라색으로 강조되는 음표를 보며 손뼉을 치거나 “타”라고 말해 보세요. 정지 버튼은 예약된 소리도 즉시 멈춥니다.</p>
+  </section>
+  <footer>외부 라이브러리 없이 브라우저의 Web Audio API와 SVG로 동작합니다.</footer>
+</main>
+<script>
+(() => {
+  "use strict";
+  const durations = [
+    { id:"whole", name:"1분음표", beats:4, symbol:"whole", count:"1 — 2 — 3 — 4" },
+    { id:"half", name:"2분음표", beats:2, symbol:"half", count:"1 — 2" },
+    { id:"quarter", name:"4분음표", beats:1, symbol:"quarter", count:"1" },
+    { id:"eighth", name:"8분음표", beats:.5, symbol:"eighth", count:"1 &" },
+    { id:"sixteenth", name:"16분음표", beats:.25, symbol:"sixteenth", count:"1 e & a" },
+    { id:"thirtysecond", name:"32분음표", beats:.125, symbol:"thirtysecond", count:"1 ti ta te & ti ta te" }
+  ];
+  const patterns = [
+    { name:"기초: 1분음표", description:"한 마디를 길게 유지하며 4박을 세어 보세요.", notes:["whole"] },
+    { name:"기초: 2분음표 2개", description:"각 음표가 정확히 2박씩 이어집니다.", notes:["half","half"] },
+    { name:"기초: 4분음표 4개", description:"1, 2, 3, 4를 고르게 세어 보세요.", notes:["quarter","quarter","quarter","quarter"] },
+    { name:"초급: 8분음표 8개", description:"각 박의 '1 &'를 또렷하게 나눕니다.", notes:Array(8).fill("eighth") },
+    { name:"중급: 16분음표 16개", description:"각 박을 '1 e & a'로 정확히 나눕니다.", notes:Array(16).fill("sixteenth") },
+    { name:"고급: 32분음표 32개", description:"한 박의 8개 소리를 느린 속도에서 균등하게 맞추세요.", notes:Array(32).fill("thirtysecond") },
+    { name:"혼합: 모든 음표 길이", description:"4분 → 8분×2 → 16분×4 → 32분×8 = 4박.", notes:["quarter","eighth","eighth",...Array(4).fill("sixteenth"),...Array(8).fill("thirtysecond")] }
+  ];
+  const byId = Object.fromEntries(durations.map(d => [d.id,d]));
+  const $ = id => document.getElementById(id);
+  const patternSelect=$("pattern"), tempo=$("tempo"), tempoValue=$("tempoValue"), status=$("status"), score=$("score"), beatGuide=$("beatGuide");
+  let context, activeNodes=[], timers=[], playing=false;
+
+  const noteSvg = (kind, x, y=90, active=false) => {
+    const fill=active ? "#f05e41" : "#172033", stroke=active ? "#f05e41" : "#172033";
+    const head = kind==="whole" || kind==="half"
+      ? `<ellipse cx="${x}" cy="${y}" rx="13" ry="8" fill="#fffdf8" stroke="${stroke}" stroke-width="3"/>`
+      : `<ellipse cx="${x}" cy="${y}" rx="13" ry="8" fill="${fill}" transform="rotate(-18 ${x} ${y})"/>`;
+    if(kind==="whole") return `<g>${head}</g>`;
+    const flags=kind==="eighth"?1:kind==="sixteenth"?2:kind==="thirtysecond"?3:0;
+    return `<g>${head}<path d="M${x+11} ${y}V${y-58}" stroke="${stroke}" stroke-width="3" fill="none"/>${Array.from({length:flags},(_,i)=>`<path d="M${x+11} ${y-58+i*10}q20 8 25 24" stroke="${stroke}" stroke-width="3" fill="none"/>`).join("")}</g>`;
+  };
+  const renderSymbol = (kind, label) => `<svg viewBox="0 0 70 45" aria-hidden="true">${noteSvg(kind,28,29)}<text x="55" y="38" font-size="12" fill="#65708a">${label}</text></svg>`;
+  $("legend").innerHTML=durations.map(d => `<div class="legend-item">${renderSymbol(d.symbol,"")}<b>${d.name}</b><span>${d.beats}박</span></div>`).join("");
+  patternSelect.innerHTML=patterns.map((p,i)=>`<option value="${i}">${p.name}</option>`).join("");
+
+  function currentPattern(){ return patterns[Number(patternSelect.value)]; }
+  function setStatus(message, error=false){ status.textContent=message; status.setAttribute("role",error?"alert":"status"); }
+  function renderScore(activeIndex=-1) {
+    const pattern=currentPattern(), items=pattern.notes.map(id=>byId[id]);
+    $("patternDescription").textContent=pattern.description;
+    const start=88, usable=760, total=items.reduce((sum,item)=>sum+item.beats,0);
+    let cursor=start;
+    const lines=[52,68,84,100,116].map(y=>`<line x1="30" y1="${y}" x2="870" y2="${y}" stroke="#98a2b3" stroke-width="1"/>`).join("");
+    const barLines=[0,1,2,3,4].map(beat=>`<line x1="${start+usable*beat/4}" y1="45" x2="${start+usable*beat/4}" y2="123" stroke="#334155" stroke-width="${beat===0||beat===4?3:1.5}"/>`).join("");
+    const notes=items.map((item,index)=>{const width=usable*item.beats/total; const x=cursor+width/2; cursor+=width; return `<g data-note="${index}">${noteSvg(item.symbol,x,90,index===activeIndex)}<text x="${x}" y="154" text-anchor="middle" fill="#65708a" font-size="12">${item.name.replace("음표","")}</text></g>`;}).join("");
+    score.innerHTML=`<title>${pattern.name} 리듬 악보</title>${lines}${barLines}<text x="42" y="40" font-size="20" font-weight="800">4/4</text>${notes}`;
+    const beatLabels=["1박","2박","3박","4박"];
+    beatGuide.innerHTML=beatLabels.map((label,i)=>`<div class="beat"><b>${label}</b><small>${guideForBeat(items,i+1)}</small></div>`).join("");
+  }
+  function guideForBeat(items, beat) {
+    let elapsed=0, inBeat=[];
+    items.forEach(item=>{const start=elapsed, end=elapsed+item.beats; if(end>beat-1 && start<beat) inBeat.push(item); elapsed=end;});
+    const smallest=Math.min(...inBeat.map(item=>item.beats));
+    return smallest<=.125 ? "8등분으로 균등하게" : smallest<=.25 ? "1 e & a" : smallest<=.5 ? "1 &" : "길이 유지";
+  }
+  function stop() {
+    timers.forEach(clearTimeout); timers=[];
+    activeNodes.forEach(node=>{try{node.stop()}catch(_){}}); activeNodes=[];
+    playing=false; renderScore(); setStatus("정지했습니다. 새 패턴을 선택하거나 다시 재생할 수 있습니다.");
+  }
+  function ensureAudio() {
+    const AudioContext=window.AudioContext||window.webkitAudioContext;
+    if(!AudioContext) throw new Error("이 브라우저는 Web Audio API를 지원하지 않습니다.");
+    context ||=new AudioContext();
+    return context.resume().then(()=>context);
+  }
+  function soundAt(when, duration, frequency) {
+    const osc=context.createOscillator(), gain=context.createGain();
+    osc.type="triangle"; osc.frequency.value=frequency;
+    gain.gain.setValueAtTime(.0001,when); gain.gain.exponentialRampToValueAtTime(.16,when+.008); gain.gain.exponentialRampToValueAtTime(.0001,when+Math.min(duration*.55,.12));
+    osc.connect(gain).connect(context.destination); osc.start(when); osc.stop(when+Math.min(duration*.62,.16)); activeNodes.push(osc);
+  }
+  async function play() {
+    stop();
+    try {
+      await ensureAudio();
+      const items=currentPattern().notes.map(id=>byId[id]), secondsPerBeat=60/Number(tempo.value), start=context.currentTime+.06;
+      let elapsed=0; playing=true; setStatus(`재생 중: ${tempo.value} BPM. 강조되는 음표와 함께 박을 세어 보세요.`);
+      items.forEach((item,index)=>{const when=start+elapsed*secondsPerBeat; soundAt(when,item.beats*secondsPerBeat,index%4===0?880:660); timers.push(setTimeout(()=>{if(playing)renderScore(index);},Math.max(0,(when-context.currentTime)*1000))); elapsed+=item.beats;});
+      timers.push(setTimeout(()=>{if(playing){playing=false;renderScore();setStatus("재생이 끝났습니다. 정확한 박을 느꼈다면 속도를 올려 보세요.");}},elapsed*secondsPerBeat*1000+100));
+    } catch(error) { playing=false; renderScore(); setStatus(`소리를 재생할 수 없습니다: ${error.message}`,true); }
+  }
+  tempo.addEventListener("input",()=>tempoValue.textContent=`${tempo.value} BPM`);
+  patternSelect.addEventListener("change",()=>{stop();renderScore();});
+  $("play").addEventListener("click",play); $("stop").addEventListener("click",stop);
+  renderScore();
+})();
+</script>
+</body>
+</html>
