@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>성실피아노 간단 메모</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--line:#334155;--t:#f1f5f9;--m:#94a3b8;--acc:#38bdf8;--danger:#f87171;}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--bg);color:var(--t);min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:1rem 1rem 2.5rem}
+h1{font-size:1.35rem;margin:0 0 .35rem}
+.sub{color:var(--m);font-size:.9rem;margin-bottom:1rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:.9rem;padding:.9rem;margin-bottom:.75rem}
+label{display:block;font-size:.82rem;color:var(--m);margin:.35rem 0 .15rem}
+input,textarea{width:100%;border:1px solid var(--line);background:#0b1220;color:var(--t);border-radius:.55rem;padding:.55rem .65rem;font:inherit}
+textarea{min-height:110px;resize:vertical}
+.row{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.65rem}
+button{border:1px solid var(--line);background:#243044;color:#e2e8f0;border-radius:.55rem;padding:.45rem .75rem;font:inherit;cursor:pointer}
+button.primary{background:#0ea5e9;border-color:#38bdf8;color:#04101a;font-weight:700}
+button.danger{background:#7f1d1d;border-color:#f87171}
+button:disabled{opacity:.45;cursor:not-allowed}
+.item{border:1px solid var(--line);border-radius:.7rem;padding:.7rem .8rem;margin-bottom:.5rem;background:#152033}
+.item h3{margin:0 0 .25rem;font-size:1rem}
+.item p{margin:0;color:var(--m);white-space:pre-wrap;font-size:.9rem}
+.meta{font-size:.75rem;color:#64748b;margin-top:.35rem}
+.empty{color:var(--m);text-align:center;padding:1.2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>성실피아노 간단 메모</h1>
+  <p class="sub">추가 · 수정 · 삭제 · 브라우저에 저장 (localStorage) · 테스트용 GitHub 배포</p>
+  <div class="card">
+    <label for="title">제목</label>
+    <input id="title" placeholder="메모 제목"/>
+    <label for="content">내용</label>
+    <textarea id="content" placeholder="내용을 입력하세요"></textarea>
+    <div class="row">
+      <button type="button" class="primary" id="saveBtn">저장</button>
+      <button type="button" id="newBtn">새로 작성</button>
+      <button type="button" class="danger" id="delBtn" disabled>삭제</button>
+    </div>
+  </div>
+  <div id="list"></div>
+</div>
+<script>
+const KEY='seongsil-simple-memo-v1';
+let notes=load();
+let currentId=null;
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
+function saveAll(){ localStorage.setItem(KEY, JSON.stringify(notes)); render(); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function render(){
+  const list=document.getElementById('list');
+  if(!notes.length){ list.innerHTML='<div class="empty">저장된 메모가 없습니다.</div>'; return; }
+  notes.sort((a,b)=> (b.updatedAt||'').localeCompare(a.updatedAt||''));
+  list.innerHTML=notes.map(n=>`<div class="item" data-id="${n.id}">
+    <h3>${escapeHtml(n.title||'(제목 없음)')}</h3>
+    <p>${escapeHtml((n.content||'').slice(0,120))}${(n.content||'').length>120?'…':''}</p>
+    <div class="meta">수정 ${n.updatedAt||''}</div>
+  </div>`).join('');
+  list.querySelectorAll('.item').forEach(el=>{
+    el.onclick=()=>select(el.getAttribute('data-id'));
+  });
+  document.getElementById('delBtn').disabled=!currentId;
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function select(id){
+  currentId=id;
+  const n=notes.find(x=>x.id===id);
+  if(!n) return;
+  document.getElementById('title').value=n.title||'';
+  document.getElementById('content').value=n.content||'';
+  document.getElementById('delBtn').disabled=false;
+}
+function clearForm(){
+  currentId=null;
+  document.getElementById('title').value='';
+  document.getElementById('content').value='';
+  document.getElementById('delBtn').disabled=true;
+}
+document.getElementById('newBtn').onclick=clearForm;
+document.getElementById('saveBtn').onclick=()=>{
+  const title=document.getElementById('title').value.trim();
+  const content=document.getElementById('content').value;
+  const now=new Date().toLocaleString('ko-KR');
+  if(currentId){
+    const n=notes.find(x=>x.id===currentId);
+    if(n){ n.title=title; n.content=content; n.updatedAt=now; }
+  }else{
+    notes.push({id:uid(), title, content, createdAt:now, updatedAt:now});
+  }
+  saveAll();
+  clearForm();
+};
+document.getElementById('delBtn').onclick=()=>{
+  if(!currentId) return;
+  if(!confirm('이 메모를 삭제할까요?')) return;
+  notes=notes.filter(x=>x.id!==currentId);
+  saveAll();
+  clearForm();
+};
+render();
+</script>
+</body>
+</html>
