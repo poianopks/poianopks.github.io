@@ -562,7 +562,7 @@ function renderSheet(){
       let dur=note.duration;
       if(note.dots)dur+="d";
       const sn=new StaveNote({keys:[note.pitch],duration:dur,clef:"treble"});
-      if(note.accidental)sn.addModifier(new Accidental(note.accidental),0);
+      if(note.accidental)sn.addModifier(0,new Accidental(note.accidental));
       const active=(idx===activeNoteIdx);
       sn.setStyle({fillStyle:active?"#7c3aed":"#1e293b",strokeStyle:active?"#7c3aed":"#1e293b"});
       return sn;

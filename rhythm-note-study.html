@@ -3,148 +3,85 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>리듬 음표 학습실</title>
+<title>리듬 시독 훈련</title>
 <style>
-  :root{--ink:#172033;--muted:#65708a;--paper:#fffdf8;--line:#dce3ef;--brand:#5046e5;--brand-dark:#3429b8;--accent:#f05e41;--success:#087c62}
-  *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(145deg,#eef2ff,#fff7ed 55%,#ecfdf5);line-height:1.5}
-  button,input,select{font:inherit} button{cursor:pointer} button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #fbbf24;outline-offset:3px}
-  .shell{width:min(100% - 2rem,960px);margin:auto;padding:2rem 0 3rem}.hero{text-align:center;padding:1rem 0 1.5rem}.eyebrow{font-weight:800;color:var(--brand);letter-spacing:.08em;font-size:.78rem}.hero h1{font-size:clamp(2rem,6vw,3.4rem);margin:.25rem 0 .5rem;letter-spacing:-.05em}.hero p{color:var(--muted);max-width:650px;margin:auto}
-  .grid{display:grid;grid-template-columns:1.3fr .7fr;gap:1rem}.card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:1.25rem;box-shadow:0 12px 35px rgba(64,58,130,.09);padding:clamp(1rem,3vw,1.5rem)}
-  h2{font-size:1.1rem;margin:0 0 .75rem} .legend{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem}.legend-item{border:1px solid var(--line);border-radius:.8rem;padding:.65rem;text-align:center;background:#fff}.legend-item svg{height:36px;width:54px;display:block;margin:auto}.legend-item b{display:block;font-size:.82rem}.legend-item span{font-size:.72rem;color:var(--muted)}
-  .controls{display:grid;gap:1rem}.field label{display:flex;justify-content:space-between;gap:.5rem;font-size:.85rem;font-weight:700;margin-bottom:.35rem}.field output{color:var(--brand)}select,input[type=range]{width:100%;min-height:2.65rem;border:1px solid var(--line);border-radius:.65rem;padding:.35rem;background:#fff}
-  .buttons{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}.primary,.secondary{border:0;border-radius:.8rem;min-height:3rem;font-weight:800}.primary{color:#fff;background:var(--brand);box-shadow:0 5px 0 var(--brand-dark)}.primary:active{transform:translateY(3px);box-shadow:0 2px 0 var(--brand-dark)}.secondary{color:var(--ink);background:#eef2ff;border:1px solid #cbd5e1}.status{min-height:2.2rem;margin:1rem 0 0;padding:.55rem .7rem;border-radius:.65rem;background:#eefaf6;color:#075e4c;font-weight:650;font-size:.86rem}.status[role=alert]{background:#fff1f2;color:#be123c}
-  .practice{margin-top:1rem}.score-head{display:flex;justify-content:space-between;align-items:center;gap:1rem}.badge{white-space:nowrap;background:#ede9fe;color:#4c1d95;border-radius:999px;padding:.3rem .65rem;font-weight:750;font-size:.76rem}.staff{margin:1rem 0;background:var(--paper);border:1px solid #eadfca;border-radius:1rem;overflow:auto;padding:.4rem;min-height:188px}.score{display:block;width:100%;min-width:560px;height:175px}.beat-guide{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem}.beat{border-left:4px solid var(--brand);background:#f5f3ff;border-radius:.55rem;padding:.5rem .6rem;font-size:.78rem}.beat b{display:block;color:var(--brand)}.beat small{color:var(--muted)}
-  .explain{margin-top:1rem}.rules{padding-left:1.2rem;margin:.4rem 0;color:#46526a;font-size:.88rem}.rules li+li{margin-top:.35rem}.tip{border-left:4px solid var(--accent);background:#fff7ed;padding:.65rem .8rem;border-radius:.35rem;font-size:.84rem}
-  footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:1.25rem}@media(max-width:720px){.grid{grid-template-columns:1fr}.legend{grid-template-columns:repeat(2,1fr)}.shell{width:min(100% - 1rem,960px);padding-top:1rem}}@media(max-width:390px){.buttons{grid-template-columns:1fr}.legend{grid-template-columns:1fr 1fr}}
+  :root{--ink:#182235;--muted:#64748b;--line:#dbe4f0;--panel:#fff;--brand:#2563eb;--brand-dark:#1d4ed8;--accent:#e11d48;--soft:#eff6ff}
+  *{box-sizing:border-box}body{margin:0;background:#f8fafc;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #fbbf24;outline-offset:3px}
+  #home{min-height:100vh;padding:2rem 1rem;background:linear-gradient(135deg,#0f172a,#172554 55%,#1e3a8a);color:#fff}.home-inner,.trainer-inner{width:min(100%,760px);margin:auto}.hero{text-align:center;margin:1rem 0 2rem}.hero-mark{width:68px;height:68px;margin:auto auto 1rem;display:grid;place-items:center;border-radius:50%;background:#ffffff18;font-size:2rem}.hero h1{margin:0;font-size:clamp(2rem,7vw,3rem);letter-spacing:-.06em}.hero p{max-width:460px;margin:.75rem auto;color:#bfdbfe}.stats{display:flex;justify-content:center;gap:.65rem;flex-wrap:wrap}.stat{padding:.55rem .9rem;background:#ffffff13;border-radius:.7rem;text-align:center}.stat b{display:block}.stat small{color:#bfdbfe}
+  .section-label{margin:1.5rem 0 .7rem;font-size:.77rem;font-weight:800;letter-spacing:.08em;color:#bfdbfe}.stage-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}.stage-card{width:100%;min-height:158px;padding:1rem;border:2px solid #ffffff30;border-radius:1rem;background:#ffffff0f;color:#fff;text-align:left;transition:.16s}.stage-card:hover{transform:translateY(-3px);background:#ffffff19}.stage-num{display:grid;place-items:center;width:32px;height:32px;border-radius:.55rem;background:#60a5fa;color:#102052;font-weight:900}.stage-card h2{margin:.6rem 0 .2rem;font-size:.96rem}.stage-card p{margin:0;color:#dbeafe;font-size:.73rem}.stage-card span{display:inline-block;margin-top:.65rem;padding:.15rem .45rem;border-radius:99px;background:#ffffff18;color:#bfdbfe;font-size:.67rem;font-weight:800}
+  #trainer{display:none;min-height:100vh}.topbar{position:sticky;z-index:2;top:0;background:#fff;border-bottom:1px solid var(--line)}.topbar-in{height:3.6rem;display:flex;align-items:center;justify-content:space-between;padding:0 1rem}.link-btn{border:0;background:transparent;color:var(--muted);font-weight:750}.level-badge{padding:.3rem .65rem;background:var(--soft);color:var(--brand-dark);border-radius:99px;font-size:.75rem;font-weight:850}.level-banner{background:linear-gradient(110deg,#1d4ed8,#4f46e5);color:#fff;padding:.75rem 1rem;text-align:center}.level-banner b{display:block}.level-banner small{color:#dbeafe}.trainer-inner{padding:1.25rem 1rem 2.5rem}.progress-text{display:flex;justify-content:space-between;margin-bottom:.35rem;color:var(--muted);font-size:.76rem;font-weight:700}.progress{height:7px;overflow:hidden;background:#e2e8f0;border-radius:99px;margin-bottom:1rem}.progress>i{display:block;height:100%;background:var(--brand);border-radius:99px;transition:width .25s}
+  .card{padding:1.15rem;background:var(--panel);border:1px solid var(--line);border-radius:1.15rem;box-shadow:0 4px 14px #0f172a0d}.exercise-head{display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem}.exercise-head h2{margin:0;font-size:1.06rem}.exercise-head p{margin:.25rem 0 0;color:var(--muted);font-size:.8rem}.tempo{white-space:nowrap;color:var(--muted);font-size:.73rem;font-weight:800}.staff-wrap{margin:1rem 0;padding:.4rem;background:#fffdf8;border:1px solid #eadfca;border-radius:.85rem;overflow-x:auto}.staff{display:block;width:100%;min-width:590px;height:182px}.count-guide{display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;margin-bottom:1rem}.beat{padding:.45rem .55rem;background:#f8fafc;border-left:4px solid #60a5fa;border-radius:.45rem;font-size:.71rem}.beat b{display:block;color:var(--brand-dark)}.beat small{color:var(--muted)}
+  .controls{display:flex;gap:.65rem}.play,.stop{min-height:3rem;border-radius:.8rem;font-weight:850}.play{flex:1;border:0;background:var(--brand);color:#fff;box-shadow:0 3px 0 var(--brand-dark)}.play:active{transform:translateY(2px);box-shadow:0 1px 0 var(--brand-dark)}.stop{padding:0 .95rem;border:1px solid var(--line);background:#fff;color:#475569}.status{min-height:1.35rem;margin:.75rem 0 0;font-size:.8rem;font-weight:700;color:#087c62}.status.error{color:#be123c}
+  .answer{margin-top:1rem}.answer h3{margin:0 0 .45rem;font-size:.9rem}.answers{display:grid;grid-template-columns:repeat(3,1fr);gap:.45rem}.answer-btn{padding:.65rem;border:1px solid var(--line);background:#fff;border-radius:.65rem;color:#334155;font-size:.76rem;font-weight:750}.answer-btn:hover{background:#f8fafc}.answer-btn.correct{background:#ecfdf5;border-color:#34d399;color:#047857}.answer-btn.wrong{background:#fff1f2;border-color:#fb7185;color:#be123c}.feedback{min-height:1.35rem;margin:.6rem 0 0;font-size:.8rem;font-weight:750}.nav{display:flex;justify-content:space-between;gap:.65rem;margin-top:1rem}.nav button{padding:.65rem .9rem;border-radius:.7rem;border:1px solid var(--line);background:#fff;color:#475569;font-weight:800}.nav .next{background:var(--brand);border-color:var(--brand);color:#fff}.nav button:disabled{opacity:.4;cursor:not-allowed}.legend{margin-top:1rem;color:var(--muted);font-size:.75rem}.legend b{color:var(--ink)}.complete{display:none;margin-top:1rem;text-align:center;background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}.complete h2{margin:.1rem 0}.complete button{margin-top:.5rem;border:0;border-radius:.6rem;padding:.55rem .8rem;background:var(--brand);color:#fff;font-weight:800}
+  @media(max-width:510px){.stage-grid{grid-template-columns:repeat(2,1fr)}.stage-card{min-height:140px}.answers{grid-template-columns:1fr}.count-guide{grid-template-columns:repeat(2,1fr)}.controls{flex-wrap:wrap}.stop{flex:1}}@media(max-width:360px){.stage-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<main class="shell">
-  <header class="hero">
-    <div class="eyebrow">RHYTHM NOTE STUDY</div>
-    <h1>리듬 음표 학습실</h1>
-    <p>1분음표부터 32분음표까지, 눈으로 읽고 박을 세고 직접 들어보며 리듬을 익히세요.</p>
-  </header>
-
-  <section class="grid" aria-label="학습 도구">
+<section id="home">
+  <div class="home-inner">
+    <header class="hero"><div class="hero-mark">♫</div><h1>리듬 시독 훈련</h1><p>음표와 쉼표를 보고 박을 세며 듣는 단계별 리듬 연습입니다.</p><div class="stats"><div class="stat"><b>18개</b><small>리듬 연습</small></div><div class="stat"><b>6단계</b><small>난이도</small></div><div class="stat"><b>음표+쉼표</b><small>1분~32분</small></div></div></header>
+    <div class="section-label">단계별 리듬 읽기</div><div class="stage-grid" id="stageGrid"></div>
+  </div>
+</section>
+<section id="trainer">
+  <header class="topbar"><div class="topbar-in"><button class="link-btn" id="homeBtn">← 홈</button><b>리듬 시독 훈련</b><span class="level-badge" id="levelBadge"></span></div></header>
+  <div class="level-banner"><b id="levelName"></b><small id="levelDescription"></small></div>
+  <main class="trainer-inner">
+    <div class="progress-text"><span id="progressLabel"></span><span id="completeLabel"></span></div><div class="progress"><i id="progressBar"></i></div>
     <article class="card">
-      <h2>음표 길이 한눈에 보기</h2>
-      <div class="legend" id="legend" aria-label="음표 길이 목록"></div>
+      <div class="exercise-head"><div><h2 id="exerciseTitle"></h2><p id="exerciseDescription"></p></div><span class="tempo" id="tempo"></span></div>
+      <div class="staff-wrap"><svg class="staff" id="staff" viewBox="0 0 920 182" role="img" aria-label="리듬 악보"></svg></div>
+      <div class="count-guide" id="countGuide"></div>
+      <div class="controls"><button class="play" id="playBtn">▶ 들어보기</button><button class="stop" id="stopBtn">■ 정지</button></div><p class="status" id="status" role="status" aria-live="polite"></p>
+      <section class="answer" aria-labelledby="answerTitle"><h3 id="answerTitle"></h3><div class="answers" id="answers"></div><p class="feedback" id="feedback" aria-live="polite"></p></section>
+      <div class="nav"><button id="previousBtn">← 이전</button><button class="next" id="nextBtn">다음 연습 →</button></div>
     </article>
-    <aside class="card controls" aria-label="연습 설정">
-      <div class="field"><label for="pattern">연습 패턴</label><select id="pattern"></select></div>
-      <div class="field"><label for="tempo">속도 <output id="tempoValue" for="tempo">72 BPM</output></label><input id="tempo" type="range" min="40" max="144" value="72" step="1"></div>
-      <div class="buttons"><button class="primary" id="play" type="button">▶ 리듬 재생</button><button class="secondary" id="stop" type="button">■ 정지</button></div>
-      <div class="status" id="status" role="status" aria-live="polite">패턴과 속도를 고른 뒤 재생을 누르세요.</div>
-    </aside>
-  </section>
-
-  <section class="card practice" aria-labelledby="practiceTitle">
-    <div class="score-head"><div><h2 id="practiceTitle">연습 악보</h2><p id="patternDescription" style="margin:0;color:var(--muted);font-size:.86rem"></p></div><span class="badge">4/4 박자</span></div>
-    <div class="staff" aria-label="선택한 리듬의 악보"><svg class="score" id="score" viewBox="0 0 900 175" role="img" aria-label="리듬 악보"></svg></div>
-    <div class="beat-guide" id="beatGuide" aria-label="박자 세기 안내"></div>
-  </section>
-
-  <section class="card explain" aria-labelledby="guideTitle">
-    <h2 id="guideTitle">박자 세기 가이드</h2>
-    <ul class="rules">
-      <li><b>1분음표</b>는 4박 전체, <b>2분음표</b>는 2박, <b>4분음표</b>는 1박입니다.</li>
-      <li><b>8분음표</b>는 <b>1 &amp; 2 &amp;</b>, <b>16분음표</b>는 <b>1 e &amp; a</b>로 균등하게 셉니다.</li>
-      <li><b>32분음표</b>는 한 박을 여덟 조각으로 나누어 천천히 정확한 간격부터 익히세요.</li>
-    </ul>
-    <p class="tip">재생 중 보라색으로 강조되는 음표를 보며 손뼉을 치거나 “타”라고 말해 보세요. 정지 버튼은 예약된 소리도 즉시 멈춥니다.</p>
-  </section>
-  <footer>외부 라이브러리 없이 브라우저의 Web Audio API와 SVG로 동작합니다.</footer>
-</main>
+    <p class="legend"><b>표기 안내:</b> 채운 머리는 음표, `쉼` 표기가 붙은 기호는 쉼표입니다. 재생 중 현재 기호가 분홍색으로 강조됩니다.</p>
+    <article class="card complete" id="completeCard"><h2>단계 완료! 🎉</h2><p id="completeMessage"></p><button id="nextLevelBtn">다음 단계로</button></article>
+  </main>
+</section>
 <script>
 (() => {
   "use strict";
-  const durations = [
-    { id:"whole", name:"1분음표", beats:4, symbol:"whole", count:"1 — 2 — 3 — 4" },
-    { id:"half", name:"2분음표", beats:2, symbol:"half", count:"1 — 2" },
-    { id:"quarter", name:"4분음표", beats:1, symbol:"quarter", count:"1" },
-    { id:"eighth", name:"8분음표", beats:.5, symbol:"eighth", count:"1 &" },
-    { id:"sixteenth", name:"16분음표", beats:.25, symbol:"sixteenth", count:"1 e & a" },
-    { id:"thirtysecond", name:"32분음표", beats:.125, symbol:"thirtysecond", count:"1 ti ta te & ti ta te" }
+  const D={w:{name:"1분",beats:4},h:{name:"2분",beats:2},q:{name:"4분",beats:1},e:{name:"8분",beats:.5},s:{name:"16분",beats:.25},t:{name:"32분",beats:.125}};
+  const n=(kind)=>({kind,rest:false}), r=(kind)=>({kind,rest:true});
+  const stages=[
+    {name:"1단계 · 박의 길이",description:"1분·2분음표와 쉼표의 긴 박을 느껴보세요.",exercises:[
+      {title:"한 마디 유지",desc:"1분음표가 4박 전체를 채웁니다.",bpm:60,notes:[n("w")],question:"1분음표는 몇 박일까요?",answer:"4박",choices:["2박","4박","8박"]},
+      {title:"소리와 정적",desc:"2분음표와 2분쉼표가 각각 2박입니다.",bpm:60,notes:[n("h"),r("h")],question:"2분쉼표는 몇 박일까요?",answer:"2박",choices:["1박","2박","4박"]},
+      {title:"4박의 빈자리",desc:"1분쉼표 동안 1부터 4까지 세어 보세요.",bpm:56,notes:[r("w")],question:"1분쉼표가 끝날 때까지 세는 수는?",answer:"1-2-3-4",choices:["1-2","1-2-3-4","1-&"]}]},
+    {name:"2단계 · 4분 리듬",description:"한 박짜리 음표와 쉼표를 정확히 구분합니다.",exercises:[
+      {title:"걷는 박",desc:"4분음표 네 개를 일정하게 읽습니다.",bpm:68,notes:[n("q"),n("q"),n("q"),n("q")],question:"4분음표 한 개의 길이는?",answer:"1박",choices:["0.5박","1박","2박"]},
+      {title:"한 박 쉬기",desc:"4분쉼표에서도 박은 계속 흘러갑니다.",bpm:68,notes:[n("q"),r("q"),n("q"),r("q")],question:"두 번째 박에 해야 할 일은?",answer:"쉰다",choices:["친다","쉰다","두 번 친다"]},
+      {title:"쉼표 먼저",desc:"첫 박을 조용히 세고 다음 소리를 준비합니다.",bpm:70,notes:[r("q"),n("q"),n("q"),n("q")],question:"첫 소리는 몇 번째 박에 나오나요?",answer:"2박",choices:["1박","2박","4박"]}]},
+    {name:"3단계 · 8분 리듬",description:"한 박을 둘로 나누어 ‘1 &’를 말합니다.",exercises:[
+      {title:"8분음표 흐름",desc:"8분음표 여덟 개로 한 마디를 채웁니다.",bpm:72,notes:[n("e"),n("e"),n("e"),n("e"),n("e"),n("e"),n("e"),n("e")],question:"8분음표 두 개의 길이는?",answer:"1박",choices:["0.5박","1박","2박"]},
+      {title:"&에서 쉬기",desc:"각 두 번째 8분 위치에서 조용히 멈춥니다.",bpm:70,notes:[n("e"),r("e"),n("e"),r("e"),n("e"),r("e"),n("e"),r("e")],question:"8분음표를 세는 방법은?",answer:"1 &",choices:["1","1 &","1 e & a"]},
+      {title:"빈칸 뒤 출발",desc:"8분쉼표 후에 들어오는 소리를 놓치지 마세요.",bpm:74,notes:[r("e"),n("e"),n("q"),r("q"),n("e"),n("e")],question:"첫 8분쉼표 뒤 소리는?",answer:"&",choices:["1","&","2"]}]},
+    {name:"4단계 · 16분 리듬",description:"한 박을 네 조각으로 나누어 읽습니다.",exercises:[
+      {title:"16분음표 한 박",desc:"‘1 e & a’를 균등하게 말해 보세요.",bpm:64,notes:[...Array(4).fill(0).map(()=>n("s")),n("q"),r("q"),n("q")],question:"16분음표 네 개의 길이는?",answer:"1박",choices:["0.5박","1박","2박"]},
+      {title:"16분 쉼표 교대",desc:"소리와 쉼표가 빠르게 바뀌어도 박은 유지됩니다.",bpm:62,notes:[n("s"),r("s"),n("s"),r("s"),n("s"),r("s"),n("s"),r("s"),n("q"),n("q")],question:"16분음표를 세는 방법은?",answer:"1 e & a",choices:["1 &","1 e & a","1 ti ta te"]},
+      {title:"긴 쉼 뒤 16분",desc:"2분쉼표 뒤의 짧은 소리에 집중하세요.",bpm:64,notes:[r("h"),n("s"),n("s"),n("s"),n("s"),r("q")],question:"2분쉼표의 길이는?",answer:"2박",choices:["1박","2박","4박"]}]},
+    {name:"5단계 · 32분 리듬",description:"한 박을 여덟 조각으로 고르게 나눕니다.",exercises:[
+      {title:"32분음표 한 박",desc:"8개의 짧은 음표를 같은 간격으로 연주합니다.",bpm:52,notes:[...Array(8).fill(0).map(()=>n("t")),n("q"),r("q"),n("q")],question:"32분음표 여덟 개의 길이는?",answer:"1박",choices:["0.5박","1박","2박"]},
+      {title:"32분 쉼표 섞기",desc:"짧은 쉼표도 음표와 같은 시간 자리를 차지합니다.",bpm:50,notes:[n("t"),r("t"),n("t"),r("t"),n("t"),r("t"),n("t"),r("t"),n("e"),r("e"),n("q"),r("q")],question:"32분음표는 한 박을 몇 조각으로 나누나요?",answer:"8조각",choices:["2조각","4조각","8조각"]},
+      {title:"쉼 뒤의 질주",desc:"8분쉼표 뒤에 32분 리듬이 이어집니다.",bpm:52,notes:[r("e"),...Array(8).fill(0).map(()=>n("t")),n("h"),n("e")],question:"첫 기호는 무엇인가요?",answer:"8분쉼표",choices:["8분음표","8분쉼표","16분쉼표"]}]},
+    {name:"6단계 · 종합 리듬",description:"모든 길이의 음표와 쉼표를 한 흐름으로 읽습니다.",exercises:[
+      {title:"모든 길이의 조합",desc:"4분·8분·16분·32분 리듬을 차례로 읽습니다.",bpm:60,notes:[n("q"),r("e"),n("e"),n("s"),r("s"),n("s"),r("s"),...Array(8).fill(0).map((_,i)=>i%2?n("t"):r("t"))],question:"마지막 8개 기호의 길이는?",answer:"32분",choices:["8분","16분","32분"]},
+      {title:"긴 쉼, 짧은 소리",desc:"2분쉼표 뒤에 16분과 32분 리듬을 연결합니다.",bpm:58,notes:[r("h"),n("s"),r("s"),n("s"),r("s"),n("t"),r("t"),n("t"),r("t"),n("t"),r("t"),n("t"),r("t")],question:"첫 쉼표의 길이는?",answer:"2박",choices:["1박","2박","4박"]},
+      {title:"마무리 종합",desc:"1분음표와 1분쉼표를 포함한 두 마디 읽기입니다.",bpm:54,notes:[n("w"),r("w")],bars:2,question:"각 마디의 길이는?",answer:"4박",choices:["2박","3박","4박"]}]}
   ];
-  const patterns = [
-    { name:"기초: 1분음표", description:"한 마디를 길게 유지하며 4박을 세어 보세요.", notes:["whole"] },
-    { name:"기초: 2분음표 2개", description:"각 음표가 정확히 2박씩 이어집니다.", notes:["half","half"] },
-    { name:"기초: 4분음표 4개", description:"1, 2, 3, 4를 고르게 세어 보세요.", notes:["quarter","quarter","quarter","quarter"] },
-    { name:"초급: 8분음표 8개", description:"각 박의 '1 &'를 또렷하게 나눕니다.", notes:Array(8).fill("eighth") },
-    { name:"중급: 16분음표 16개", description:"각 박을 '1 e & a'로 정확히 나눕니다.", notes:Array(16).fill("sixteenth") },
-    { name:"고급: 32분음표 32개", description:"한 박의 8개 소리를 느린 속도에서 균등하게 맞추세요.", notes:Array(32).fill("thirtysecond") },
-    { name:"혼합: 모든 음표 길이", description:"4분 → 8분×2 → 16분×4 → 32분×8 = 4박.", notes:["quarter","eighth","eighth",...Array(4).fill("sixteenth"),...Array(8).fill("thirtysecond")] }
-  ];
-  const byId = Object.fromEntries(durations.map(d => [d.id,d]));
-  const $ = id => document.getElementById(id);
-  const patternSelect=$("pattern"), tempo=$("tempo"), tempoValue=$("tempoValue"), status=$("status"), score=$("score"), beatGuide=$("beatGuide");
-  let context, activeNodes=[], timers=[], playing=false;
-
-  const noteSvg = (kind, x, y=90, active=false) => {
-    const fill=active ? "#f05e41" : "#172033", stroke=active ? "#f05e41" : "#172033";
-    const head = kind==="whole" || kind==="half"
-      ? `<ellipse cx="${x}" cy="${y}" rx="13" ry="8" fill="#fffdf8" stroke="${stroke}" stroke-width="3"/>`
-      : `<ellipse cx="${x}" cy="${y}" rx="13" ry="8" fill="${fill}" transform="rotate(-18 ${x} ${y})"/>`;
-    if(kind==="whole") return `<g>${head}</g>`;
-    const flags=kind==="eighth"?1:kind==="sixteenth"?2:kind==="thirtysecond"?3:0;
-    return `<g>${head}<path d="M${x+11} ${y}V${y-58}" stroke="${stroke}" stroke-width="3" fill="none"/>${Array.from({length:flags},(_,i)=>`<path d="M${x+11} ${y-58+i*10}q20 8 25 24" stroke="${stroke}" stroke-width="3" fill="none"/>`).join("")}</g>`;
-  };
-  const renderSymbol = (kind, label) => `<svg viewBox="0 0 70 45" aria-hidden="true">${noteSvg(kind,28,29)}<text x="55" y="38" font-size="12" fill="#65708a">${label}</text></svg>`;
-  $("legend").innerHTML=durations.map(d => `<div class="legend-item">${renderSymbol(d.symbol,"")}<b>${d.name}</b><span>${d.beats}박</span></div>`).join("");
-  patternSelect.innerHTML=patterns.map((p,i)=>`<option value="${i}">${p.name}</option>`).join("");
-
-  function currentPattern(){ return patterns[Number(patternSelect.value)]; }
-  function setStatus(message, error=false){ status.textContent=message; status.setAttribute("role",error?"alert":"status"); }
-  function renderScore(activeIndex=-1) {
-    const pattern=currentPattern(), items=pattern.notes.map(id=>byId[id]);
-    $("patternDescription").textContent=pattern.description;
-    const start=88, usable=760, total=items.reduce((sum,item)=>sum+item.beats,0);
-    let cursor=start;
-    const lines=[52,68,84,100,116].map(y=>`<line x1="30" y1="${y}" x2="870" y2="${y}" stroke="#98a2b3" stroke-width="1"/>`).join("");
-    const barLines=[0,1,2,3,4].map(beat=>`<line x1="${start+usable*beat/4}" y1="45" x2="${start+usable*beat/4}" y2="123" stroke="#334155" stroke-width="${beat===0||beat===4?3:1.5}"/>`).join("");
-    const notes=items.map((item,index)=>{const width=usable*item.beats/total; const x=cursor+width/2; cursor+=width; return `<g data-note="${index}">${noteSvg(item.symbol,x,90,index===activeIndex)}<text x="${x}" y="154" text-anchor="middle" fill="#65708a" font-size="12">${item.name.replace("음표","")}</text></g>`;}).join("");
-    score.innerHTML=`<title>${pattern.name} 리듬 악보</title>${lines}${barLines}<text x="42" y="40" font-size="20" font-weight="800">4/4</text>${notes}`;
-    const beatLabels=["1박","2박","3박","4박"];
-    beatGuide.innerHTML=beatLabels.map((label,i)=>`<div class="beat"><b>${label}</b><small>${guideForBeat(items,i+1)}</small></div>`).join("");
-  }
-  function guideForBeat(items, beat) {
-    let elapsed=0, inBeat=[];
-    items.forEach(item=>{const start=elapsed, end=elapsed+item.beats; if(end>beat-1 && start<beat) inBeat.push(item); elapsed=end;});
-    const smallest=Math.min(...inBeat.map(item=>item.beats));
-    return smallest<=.125 ? "8등분으로 균등하게" : smallest<=.25 ? "1 e & a" : smallest<=.5 ? "1 &" : "길이 유지";
-  }
-  function stop() {
-    timers.forEach(clearTimeout); timers=[];
-    activeNodes.forEach(node=>{try{node.stop()}catch(_){}}); activeNodes=[];
-    playing=false; renderScore(); setStatus("정지했습니다. 새 패턴을 선택하거나 다시 재생할 수 있습니다.");
-  }
-  function ensureAudio() {
-    const AudioContext=window.AudioContext||window.webkitAudioContext;
-    if(!AudioContext) throw new Error("이 브라우저는 Web Audio API를 지원하지 않습니다.");
-    context ||=new AudioContext();
-    return context.resume().then(()=>context);
-  }
-  function soundAt(when, duration, frequency) {
-    const osc=context.createOscillator(), gain=context.createGain();
-    osc.type="triangle"; osc.frequency.value=frequency;
-    gain.gain.setValueAtTime(.0001,when); gain.gain.exponentialRampToValueAtTime(.16,when+.008); gain.gain.exponentialRampToValueAtTime(.0001,when+Math.min(duration*.55,.12));
-    osc.connect(gain).connect(context.destination); osc.start(when); osc.stop(when+Math.min(duration*.62,.16)); activeNodes.push(osc);
-  }
-  async function play() {
-    stop();
-    try {
-      await ensureAudio();
-      const items=currentPattern().notes.map(id=>byId[id]), secondsPerBeat=60/Number(tempo.value), start=context.currentTime+.06;
-      let elapsed=0; playing=true; setStatus(`재생 중: ${tempo.value} BPM. 강조되는 음표와 함께 박을 세어 보세요.`);
-      items.forEach((item,index)=>{const when=start+elapsed*secondsPerBeat; soundAt(when,item.beats*secondsPerBeat,index%4===0?880:660); timers.push(setTimeout(()=>{if(playing)renderScore(index);},Math.max(0,(when-context.currentTime)*1000))); elapsed+=item.beats;});
-      timers.push(setTimeout(()=>{if(playing){playing=false;renderScore();setStatus("재생이 끝났습니다. 정확한 박을 느꼈다면 속도를 올려 보세요.");}},elapsed*secondsPerBeat*1000+100));
-    } catch(error) { playing=false; renderScore(); setStatus(`소리를 재생할 수 없습니다: ${error.message}`,true); }
-  }
-  tempo.addEventListener("input",()=>tempoValue.textContent=`${tempo.value} BPM`);
-  patternSelect.addEventListener("change",()=>{stop();renderScore();});
-  $("play").addEventListener("click",play); $("stop").addEventListener("click",stop);
-  renderScore();
+  const $=id=>document.getElementById(id);let stageIndex=0,exerciseIndex=0,completed=new Set(),playing=false,ctx,nodes=[],timers=[];
+  function symbol(item,x,y,active){const c=active?"#e11d48":"#182235",kind=item.kind;if(item.rest){const paths={w:`<rect x="${x-16}" y="${y-29}" width="32" height="8" fill="${c}"/>`,h:`<rect x="${x-16}" y="${y-20}" width="32" height="8" fill="${c}"/>`,q:`<path d="M${x} ${y-40}l10 12-12 12 10 12-12 12" fill="none" stroke="${c}" stroke-width="4"/>`,e:`<path d="M${x-4} ${y-42}q16 13 0 29q13 9 0 25" fill="none" stroke="${c}" stroke-width="4"/>`,s:`<path d="M${x-8} ${y-44}q18 9 2 21q18 9 1 22q14 7 1 18" fill="none" stroke="${c}" stroke-width="3.5"/>`,t:`<path d="M${x-10} ${y-45}q20 8 3 18q18 8 2 18q16 8 1 18q12 7 0 15" fill="none" stroke="${c}" stroke-width="3"/>`};return `<g>${paths[kind]}<text x="${x}" y="${y+45}" text-anchor="middle" fill="#64748b" font-size="11">${D[kind].name}쉼</text></g>`}const head=kind==="w"||kind==="h"?`<ellipse cx="${x}" cy="${y}" rx="12" ry="7" fill="#fffdf8" stroke="${c}" stroke-width="3"/>`:`<ellipse cx="${x}" cy="${y}" rx="12" ry="7" fill="${c}" transform="rotate(-18 ${x} ${y})"/>`;if(kind==="w")return `<g>${head}<text x="${x}" y="${y+45}" text-anchor="middle" fill="#64748b" font-size="11">${D[kind].name}</text></g>`;const flags=kind==="e"?1:kind==="s"?2:kind==="t"?3:0;return `<g>${head}<path d="M${x+10} ${y}V${y-54}" stroke="${c}" stroke-width="3"/>${Array.from({length:flags},(_,i)=>`<path d="M${x+10} ${y-54+i*9}q15 7 20 19" fill="none" stroke="${c}" stroke-width="3"/>`).join("")}<text x="${x}" y="${y+45}" text-anchor="middle" fill="#64748b" font-size="11">${D[kind].name}</text></g>`}
+  function current(){return stages[stageIndex].exercises[exerciseIndex]}function totalBeats(items){return items.reduce((a,item)=>a+D[item.kind].beats,0)}
+  function render(active=-1){const s=stages[stageIndex],ex=current(),beats=totalBeats(ex.notes),bars=ex.bars||1,perBar=beats/bars;if(!Number.isInteger(perBar)||perBar!==4){$("status").textContent="리듬 데이터 오류: 각 마디는 4박이어야 합니다.";$("status").className="status error";return} $("levelBadge").textContent=`${stageIndex+1}단계`;$("levelName").textContent=s.name;$("levelDescription").textContent=s.description;$("exerciseTitle").textContent=ex.title;$("exerciseDescription").textContent=ex.desc;$("tempo").textContent=`BPM ${ex.bpm}`;$("progressLabel").textContent=`문제 ${exerciseIndex+1} / ${s.exercises.length}`;$("completeLabel").textContent=`완료 ${completed.size} / ${s.exercises.length}`;$("progressBar").style.width=`${(exerciseIndex+1)/s.exercises.length*100}%`;
+    const width=800,start=85;let beat=0;const lines=[48,64,80,96,112].map(y=>`<line x1="30" y1="${y}" x2="885" y2="${y}" stroke="#94a3b8"/>`).join("");const barsSvg=Array.from({length:bars+1},(_,i)=>`<line x1="${start+width*i/bars}" y1="42" x2="${start+width*i/bars}" y2="120" stroke="#334155" stroke-width="${i===0||i===bars?3:1.5}"/>`).join("");const notes=ex.notes.map((item,i)=>{const duration=D[item.kind].beats,x=start+(beat+duration/2)*width/beats;beat+=duration;return `<g data-index="${i}">${symbol(item,x,80,i===active)}</g>`}).join("");$("staff").innerHTML=`<title>${ex.title}</title>${lines}${barsSvg}<text x="38" y="38" font-size="18" font-weight="800">4/4</text>${notes}`;const guide=[];for(let b=0;b<beats;b+=1){let p=0,content=[];for(const item of ex.notes){const startBeat=p,endBeat=p+D[item.kind].beats;if(endBeat>b&&startBeat<b+1)content.push(item.rest?`${D[item.kind].name}쉼`:`${D[item.kind].name}음`);p=endBeat}guide.push(`<div class="beat"><b>${b%4+1}박</b><small>${content.join(" · ")}</small></div>`)}$("countGuide").innerHTML=guide.slice(0,4).join("");
+    $("answerTitle").textContent=ex.question;const opts=[...ex.choices].sort((a,b)=>a.localeCompare(b,"ko"));$("answers").innerHTML=opts.map(x=>`<button class="answer-btn" data-answer="${x}">${x}</button>`).join("");document.querySelectorAll(".answer-btn").forEach(btn=>btn.addEventListener("click",()=>answer(btn,ex.answer)));$("feedback").textContent="";$("previousBtn").disabled=exerciseIndex===0;$("nextBtn").textContent=exerciseIndex===s.exercises.length-1?"단계 확인 →":"다음 연습 →";$("completeCard").style.display=completed.size===s.exercises.length?"block":"none";$("completeMessage").textContent=stageIndex<stages.length-1?"다음 단계에서 더 짧고 다양한 쉼표를 연습해 보세요.":"모든 리듬 단계를 완료했습니다!"}
+  function answer(button,correct){document.querySelectorAll(".answer-btn").forEach(x=>x.disabled=true);if(button.dataset.answer===correct){button.classList.add("correct");completed.add(exerciseIndex);$("feedback").textContent="정답입니다! 박을 소리 내어 다시 세어 보세요.";if(completed.size===stages[stageIndex].exercises.length)$("completeCard").style.display="block"}else{button.classList.add("wrong");document.querySelector(`[data-answer="${correct}"]`).classList.add("correct");$("feedback").textContent=`정답은 ${correct}입니다. 악보를 다시 보고 박을 세어 보세요.`}}
+  function stop(){timers.forEach(clearTimeout);timers=[];nodes.forEach(x=>{try{x.stop()}catch(_){}});nodes=[];playing=false;render();$("playBtn").textContent="▶ 들어보기";$("status").textContent="정지했습니다."; $("status").className="status"}
+  async function play(){stop();try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw Error("이 브라우저는 오디오 재생을 지원하지 않습니다.");ctx||=new AC();await ctx.resume();const ex=current(),spb=60/ex.bpm,start=ctx.currentTime+.06;let elapsed=0;playing=true;$("playBtn").textContent="■ 재생 중";$("status").textContent="재생 중: 소리는 높게, 쉼표는 낮은 클릭으로 표시됩니다.";ex.notes.forEach((item,i)=>{const when=start+elapsed*spb;const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=item.rest?"sine":"triangle";osc.frequency.value=item.rest?220: i%4===0?880:660;gain.gain.setValueAtTime(.0001,when);gain.gain.exponentialRampToValueAtTime(item.rest ? .045 : .13,when+.005);gain.gain.exponentialRampToValueAtTime(.0001,when+Math.min(D[item.kind].beats*spb*.7,.16));osc.connect(gain).connect(ctx.destination);osc.start(when);osc.stop(when+Math.min(D[item.kind].beats*spb*.75,.2));nodes.push(osc);timers.push(setTimeout(()=>playing&&render(i),Math.max(0,(when-ctx.currentTime)*1000)));elapsed+=D[item.kind].beats});timers.push(setTimeout(()=>{if(playing){playing=false;render();$("playBtn").textContent="▶ 들어보기";$("status").textContent="재생이 끝났습니다. 다음 연습으로 넘어가 보세요."}},elapsed*spb*1000+120))}catch(error){$("status").textContent=`오디오 오류: ${error.message}`;$("status").className="status error"}}
+  function showTrainer(index){stop();stageIndex=index;exerciseIndex=0;completed=new Set();$("home").style.display="none";$("trainer").style.display="block";render()}function next(){stop();if(exerciseIndex<stages[stageIndex].exercises.length-1){exerciseIndex++;render()}else if(stageIndex<stages.length-1)showTrainer(stageIndex+1)}function previous(){if(exerciseIndex>0){stop();exerciseIndex--;render()}}
+  $("stageGrid").innerHTML=stages.map((s,i)=>`<button class="stage-card" data-stage="${i}"><div class="stage-num">${i+1}</div><h2>${s.name}</h2><p>${s.description}</p><span>연습 ${s.exercises.length}개</span></button>`).join("");document.querySelectorAll("[data-stage]").forEach(btn=>btn.addEventListener("click",()=>showTrainer(Number(btn.dataset.stage))));$("homeBtn").addEventListener("click",()=>{stop();$("trainer").style.display="none";$("home").style.display="block"});$("playBtn").addEventListener("click",play);$("stopBtn").addEventListener("click",stop);$("nextBtn").addEventListener("click",next);$("previousBtn").addEventListener("click",previous);$("nextLevelBtn").addEventListener("click",()=>stageIndex<stages.length-1&&showTrainer(stageIndex+1));
 })();
 </script>
 </body>
