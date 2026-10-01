@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>성실피아노 메모 (Copilot)</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #3b82f6;
+      --danger: #ef4444;
+      --border: #e5e7eb;
+      --shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .wrap {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 20px 14px 40px;
+    }
+
+    .title {
+      margin: 8px 0 18px;
+      font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .row { display: flex; gap: 8px; }
+
+    textarea {
+      width: 100%;
+      min-height: 96px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 1rem;
+      outline: none;
+      background: #fff;
+      color: var(--text);
+    }
+
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .04s ease, opacity .2s ease;
+      white-space: nowrap;
+    }
+
+    button:active { transform: translateY(1px); }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-secondary { background: #e5e7eb; color: #111827; }
+    .btn-ghost { background: #f3f4f6; color: #374151; }
+
+    .muted {
+      color: var(--muted);
+      font-size: .9rem;
+      margin-top: 8px;
+    }
+
+    .memo-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .memo-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      background: #fff;
+    }
+
+    .memo-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .memo-content {
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 0 0 10px;
+      font-size: .98rem;
+    }
+
+    .memo-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 16px;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    @media (max-width: 640px) {
+      .wrap { padding: 14px 10px 28px; }
+      .card { padding: 12px; border-radius: 12px; }
+      .row { flex-direction: column; }
+      button { width: 100%; }
+      .memo-top { flex-direction: column; align-items: flex-start; }
+      .memo-actions button { width: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="title">성실피아노 메모 (Copilot)</h1>
+
+    <section class="card" aria-label="메모 작성">
+      <div class="row">
+        <textarea id="memoInput" placeholder="메모를 입력하세요..."></textarea>
+      </div>
+      <div class="row" style="margin-top: 8px;">
+        <button id="saveBtn" class="btn-primary" type="button">메모 추가</button>
+        <button id="cancelEditBtn" class="btn-secondary" type="button" style="display:none;">수정 취소</button>
+      </div>
+      <p class="muted">메모는 이 브라우저에 자동 저장됩니다(localStorage).</p>
+    </section>
+
+    <section class="card" aria-label="메모 목록">
+      <div id="memoList" class="memo-list"></div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = 'copilot_memo_items_v1';
+      const memoInput = document.getElementById('memoInput');
+      const saveBtn = document.getElementById('saveBtn');
+      const cancelEditBtn = document.getElementById('cancelEditBtn');
+      const memoList = document.getElementById('memoList');
+
+      let memos = loadMemos();
+      let editingId = null;
+
+      render();
+
+      saveBtn.addEventListener('click', onSave);
+      cancelEditBtn.addEventListener('click', cancelEdit);
+
+      function loadMemos() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          const parsed = raw ? JSON.parse(raw) : [];
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (_) {
+          return [];
+        }
+      }
+
+      function persist() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(memos));
+      }
+
+      function onSave() {
+        const text = memoInput.value.trim();
+        if (!text) {
+          alert('메모 내용을 입력해 주세요.');
+          memoInput.focus();
+          return;
+        }
+
+        const now = new Date().toISOString();
+
+        if (editingId) {
+          const idx = memos.findIndex(m => m.id === editingId);
+          if (idx !== -1) {
+            memos[idx].text = text;
+            memos[idx].updatedAt = now;
+          }
+        } else {
+          memos.unshift({
+            id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
+            text,
+            createdAt: now,
+            updatedAt: now
+          });
+        }
+
+        persist();
+        cancelEdit(false);
+        render();
+      }
+
+      function startEdit(id) {
+        const memo = memos.find(m => m.id === id);
+        if (!memo) return;
+
+        editingId = id;
+        memoInput.value = memo.text;
+        saveBtn.textContent = '메모 수정';
+        cancelEditBtn.style.display = 'inline-block';
+        memoInput.focus();
+      }
+
+      function cancelEdit(keepText = true) {
+        editingId = null;
+        saveBtn.textContent = '메모 추가';
+        cancelEditBtn.style.display = 'none';
+        if (!keepText) memoInput.value = '';
+      }
+
+      function removeMemo(id) {
+        const ok = confirm('이 메모를 삭제할까요?');
+        if (!ok) return;
+
+        memos = memos.filter(m => m.id !== id);
+        persist();
+
+        if (editingId === id) {
+          cancelEdit(false);
+        }
+
+        render();
+      }
+
+      function fmt(iso) {
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return '';
+        return d.toLocaleString('ko-KR', {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit'
+        });
+      }
+
+      function render() {
+        if (!memos.length) {
+          memoList.innerHTML = '<div class="empty">저장된 메모가 없습니다.</div>';
+          return;
+        }
+
+        memoList.innerHTML = '';
+
+        memos.forEach(memo => {
+          const item = document.createElement('article');
+          item.className = 'memo-item';
+
+          const top = document.createElement('div');
+          top.className = 'memo-top';
+          top.innerHTML = '<span>작성: ' + fmt(memo.createdAt) + '</span><span>수정: ' + fmt(memo.updatedAt) + '</span>';
+
+          const content = document.createElement('p');
+          content.className = 'memo-content';
+          content.textContent = memo.text;
+
+          const actions = document.createElement('div');
+          actions.className = 'memo-actions';
+
+          const editBtn = document.createElement('button');
+          editBtn.type = 'button';
+          editBtn.className = 'btn-ghost';
+          editBtn.textContent = '수정';
+          editBtn.addEventListener('click', () => startEdit(memo.id));
+
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.className = 'btn-danger';
+          delBtn.textContent = '삭제';
+          delBtn.addEventListener('click', () => removeMemo(memo.id));
+
+          actions.append(editBtn, delBtn);
+          item.append(top, content, actions);
+          memoList.appendChild(item);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
