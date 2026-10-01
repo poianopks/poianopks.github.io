@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>리듬 공부 · 1분~32분 음표·쉼표 훈련</title>
+<meta name="description" content="1분음표부터 32분음표·쉼표를 섞은 리듬 악보 연습. VexFlow 악보 + Tone.js 재생"/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<script>
+var vexLoaded=false;
+function onVexLoaded(){vexLoaded=true;if(window._vexReadyCb)window._vexReadyCb();}
+(function(){
+  var urls=[
+    "https://cdn.jsdelivr.net/npm/vexflow@3.0.9/releases/vexflow-min.js",
+    "https://unpkg.com/vexflow@3.0.9/releases/vexflow-min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/vexflow/3.0.9/vexflow-min.js"
+  ];
+  var i=0;
+  function tryLoad(){
+    if(i>=urls.length)return;
+    var s=document.createElement("script");
+    s.src=urls[i++];
+    s.onload=function(){ if(window.Vex&&window.Vex.Flow) onVexLoaded(); else tryLoad(); };
+    s.onerror=function(){ tryLoad(); };
+    document.head.appendChild(s);
+  }
+  tryLoad();
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--line:#334155;--t:#f1f5f9;--m:#94a3b8;--acc:#38bdf8;--ok:#4ade80;--warn:#fbbf24;}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:radial-gradient(800px 400px at 10% -10%,#1e3a5f,transparent),var(--bg);color:var(--t);line-height:1.6;min-height:100vh}
+a{color:var(--acc)}
+.wrap{max-width:920px;margin:0 auto;padding:1rem 1rem 3rem}
+header{padding:1.2rem 0 .5rem}
+.badge{display:inline-block;background:#1e3a5f;border:1px solid #355f96;color:#b6d4ff;border-radius:999px;padding:.15rem .7rem;font-size:.8rem;margin-bottom:.5rem}
+h1{margin:0 0 .4rem;font-size:clamp(1.35rem,3vw,1.9rem)}
+.lead{color:var(--m);margin:0 0 1rem}
+.stats{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1rem}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:.55rem .8rem;min-width:5.5rem}
+.stat strong{display:block;font-size:1.05rem;color:var(--acc)}
+.stat span{font-size:.75rem;color:var(--m)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.65rem}
+.stage-btn{text-align:left;border:1px solid var(--line);background:linear-gradient(180deg,#1e293b,#152033);color:var(--t);border-radius:.9rem;padding:.85rem .9rem;cursor:pointer;font:inherit}
+.stage-btn:hover{border-color:var(--acc);transform:translateY(-1px)}
+.stage-btn .n{display:inline-flex;width:1.6rem;height:1.6rem;align-items:center;justify-content:center;border-radius:999px;background:#0ea5e9;color:#04101a;font-weight:800;font-size:.85rem;margin-right:.35rem}
+.stage-btn small{display:block;color:var(--m);margin-top:.25rem;font-size:.78rem}
+#home.active,#trainer.active{display:block}
+#home,#trainer{display:none}
+.bar{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin-bottom:.75rem}
+.btn{border:1px solid var(--line);background:#243044;color:#e2e8f0;border-radius:.65rem;padding:.45rem .75rem;cursor:pointer;font:inherit;font-size:.88rem}
+.btn.primary{background:linear-gradient(135deg,#0ea5e9,#0369a1);border-color:#38bdf8;font-weight:700}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--line);border-radius:1rem;padding:1rem;margin:.7rem 0}
+#sheetContainer{background:#f8fafc;border-radius:.75rem;min-height:200px;overflow-x:auto;color:#0f172a}
+.tip{color:var(--m);font-size:.88rem}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.chip{background:#0f172a;border:1px solid var(--line);border-radius:999px;padding:.2rem .55rem;font-size:.75rem;color:#cbd5e1}
+.progress{height:.35rem;background:#0f172a;border-radius:99px;overflow:hidden;margin:.5rem 0}
+.progress>i{display:block;height:100%;background:var(--ok);width:0%}
+footer{color:var(--m);font-size:.82rem;margin-top:1.5rem}
+.note-row{min-height:1.4rem;font-size:.9rem;color:var(--warn)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="badge">RHYTHM · 1분~32분 · 음표+쉼표 · VexFlow</div>
+    <h1>리듬 공부 훈련</h1>
+    <p class="lead">멜로디 시창과 같은 방식으로, <b>리듬만</b> 집중 연습합니다. 온음표(1분)부터 32분음표·쉼표를 섞어 악보로 보고 소리로 확인하세요.</p>
+    <div class="stats">
+      <div class="stat"><strong>8</strong><span>단계</span></div>
+      <div class="stat"><strong>1~32</strong><span>분음표</span></div>
+      <div class="stat"><strong>쉼표</strong><span>혼합</span></div>
+      <div class="stat"><strong>악보</strong><span>VexFlow</span></div>
+    </div>
+  </header>
+
+  <section id="home" class="active"></section>
+
+  <section id="trainer">
+    <div class="bar">
+      <button class="btn" type="button" onclick="showHome()">← 단계 목록</button>
+      <button class="btn" type="button" id="prevExBtn" onclick="goPrevEx()">이전 문제</button>
+      <button class="btn" type="button" onclick="goNextEx()">다음 문제</button>
+      <button class="btn primary" type="button" id="playBtn" onclick="togglePlay()">들어보기</button>
+      <span class="tip" id="exLabel"></span>
+    </div>
+    <div class="progress"><i id="progBar"></i></div>
+    <div class="card">
+      <div id="banner" style="font-weight:700;margin-bottom:.4rem"></div>
+      <div class="note-row" id="activeNoteRow"></div>
+      <div id="sheetContainer"></div>
+      <div class="legend" id="legend"></div>
+      <p class="tip" id="tip" style="margin-top:.7rem"></p>
+    </div>
+  </section>
+
+  <footer>
+    관련: <a href="https://poianopks.github.io/melody-ridm.html">멜로디 시창 훈련</a> ·
+    이 페이지: <a href="https://poianopks.github.io/rhythm-ridm.html">rhythm-ridm.html</a>
+  </footer>
+</div>
+
+<script>
+// duration: VexFlow tokens. rest:true → 쉼표
+// beats relative to quarter=1 for Tone scheduling helpers
+function N(duration, opts){
+  opts=opts||{};
+  return {duration:duration, rest:!!opts.rest, dots:opts.dots||0, pitch:opts.pitch||"G/4"};
+}
+function bar(items, num, den){ return {timeSignature:{num:num||4, den:den||4}, items:items}; }
+
+var stages=[
+  {
+    id:1, title:"1단계 · 온음·2분·4분", color:"#38bdf8",
+    desc:"온음표·2분음표·4분음표 + 같은 쉼표",
+    bpm:72,
+    exercises:[
+      bar([N("w"), N("wr",{rest:true})],4,4),
+      bar([N("h"), N("h"), N("hr",{rest:true}), N("h")],4,4),
+      bar([N("q"),N("q"),N("q"),N("q")],4,4),
+      bar([N("q"),N("qr",{rest:true}),N("q"),N("q")],4,4),
+      bar([N("h"),N("q"),N("q")],4,4),
+      bar([N("w")],4,4)
+    ]
+  },
+  {
+    id:2, title:"2단계 · 8분 리듬", color:"#34d399",
+    desc:"8분음표·8분쉼표 기본 패턴",
+    bpm:80,
+    exercises:[
+      bar([N("8"),N("8"),N("8"),N("8"),N("8"),N("8"),N("8"),N("8")],4,4),
+      bar([N("q"),N("8"),N("8"),N("q"),N("8"),N("8")],4,4),
+      bar([N("8"),N("8r",{rest:true}),N("8"),N("8"),N("q"),N("q")],4,4),
+      bar([N("8"),N("8"),N("qr",{rest:true}),N("8"),N("8"),N("q")],4,4),
+      bar([N("q"),N("q"),N("8"),N("8"),N("8"),N("8")],4,4),
+      bar([N("8r",{rest:true}),N("8"),N("8"),N("8"),N("h")],4,4)
+    ]
+  },
+  {
+    id:3, title:"3단계 · 점음표", color:"#a78bfa",
+    desc:"점4분·점8분 + 이음 리듬 감각",
+    bpm:76,
+    exercises:[
+      bar([N("qd",{dots:1}),N("8"),N("qd",{dots:1}),N("8")],4,4),
+      bar([N("hd",{dots:1}),N("q")],4,4),
+      bar([N("8d",{dots:1}),N("16"),N("8d",{dots:1}),N("16"),N("q"),N("q")],4,4),
+      bar([N("qd",{dots:1}),N("8"),N("q"),N("qr",{rest:true})],4,4),
+      bar([N("q"),N("8d",{dots:1}),N("16"),N("8"),N("8"),N("q")],4,4),
+      bar([N("hd",{dots:1}),N("8"),N("8")],4,4)
+    ]
+  },
+  {
+    id:4, title:"4단계 · 16분 집중", color:"#fbbf24",
+    desc:"16분음표·16분쉼표 묶음",
+    bpm:72,
+    exercises:[
+      bar([N("16"),N("16"),N("16"),N("16"),N("q"),N("16"),N("16"),N("16"),N("16"),N("q")],4,4),
+      bar([N("8"),N("16"),N("16"),N("8"),N("16"),N("16"),N("q"),N("q")],4,4),
+      bar([N("16"),N("16r",{rest:true}),N("16"),N("16"),N("8"),N("8"),N("q"),N("q")],4,4),
+      bar([N("q"),N("16"),N("16"),N("16"),N("16"),N("8"),N("8"),N("q")],4,4),
+      bar([N("16"),N("16"),N("8"),N("16"),N("16"),N("8"),N("h")],4,4),
+      bar([N("8r",{rest:true}),N("16"),N("16"),N("16"),N("16"),N("q"),N("q"),N("q")],4,4)
+    ]
+  },
+  {
+    id:5, title:"5단계 · 쉼표 미로", color:"#fb7185",
+    desc:"여러 길이 쉼표를 끼운 읽기",
+    bpm:78,
+    exercises:[
+      bar([N("q"),N("qr",{rest:true}),N("8"),N("8"),N("hr",{rest:true})],4,4),
+      bar([N("8"),N("8"),N("8r",{rest:true}),N("8"),N("q"),N("qr",{rest:true}),N("q")],4,4),
+      bar([N("wr",{rest:true})],4,4),
+      bar([N("h"),N("qr",{rest:true}),N("8"),N("8")],4,4),
+      bar([N("16"),N("16"),N("16r",{rest:true}),N("16"),N("q"),N("8r",{rest:true}),N("8"),N("q")],4,4),
+      bar([N("qd",{dots:1}),N("8r",{rest:true}),N("q"),N("q")],4,4)
+    ]
+  },
+  {
+    id:6, title:"6단계 · 셋잇단 감각(근사)", color:"#2dd4bf",
+    desc:"8분 묶음으로 셋잇단에 가까운 분할 연습",
+    bpm:84,
+    exercises:[
+      bar([N("8"),N("8"),N("8"),N("q"),N("8"),N("8"),N("8"),N("q")],4,4),
+      bar([N("q"),N("8"),N("8"),N("8"),N("8"),N("8"),N("8"),N("q")],4,4),
+      bar([N("8"),N("8r",{rest:true}),N("8"),N("8"),N("8"),N("8"),N("h")],4,4),
+      bar([N("16"),N("16"),N("16"),N("16"),N("16"),N("16"),N("16"),N("16"),N("q"),N("q")],4,4),
+      bar([N("8"),N("8"),N("q"),N("8"),N("8"),N("q")],4,4),
+      bar([N("q"),N("q"),N("8"),N("8"),N("8r",{rest:true}),N("8")],4,4)
+    ]
+  },
+  {
+    id:7, title:"7단계 · 32분 도전", color:"#e879f9",
+    desc:"32분음표·쉼표 포함 빠른 분할",
+    bpm:66,
+    exercises:[
+      bar([N("16"),N("32"),N("32"),N("16"),N("32"),N("32"),N("q"),N("q"),N("q")],4,4),
+      bar([N("8"),N("32"),N("32"),N("32"),N("32"),N("8"),N("32"),N("32"),N("32"),N("32"),N("q"),N("q")],4,4),
+      bar([N("32"),N("32"),N("32"),N("32"),N("16"),N("16"),N("8"),N("h")],4,4),
+      bar([N("16"),N("32r",{rest:true}),N("32"),N("16"),N("16"),N("q"),N("8"),N("8"),N("q")],4,4),
+      bar([N("q"),N("32"),N("32"),N("32"),N("32"),N("32"),N("32"),N("32"),N("32"),N("q"),N("q")],4,4),
+      bar([N("8d",{dots:1}),N("32"),N("32"),N("16"),N("q"),N("8"),N("8"),N("q")],4,4)
+    ]
+  },
+  {
+    id:8, title:"8단계 · 혼합 마스터", color:"#f97316",
+    desc:"1분~32분·점·쉼표 종합",
+    bpm:70,
+    exercises:[
+      bar([N("h"),N("8"),N("16"),N("16"),N("8"),N("8"),N("q")],4,4),
+      bar([N("qd",{dots:1}),N("8"),N("16"),N("16"),N("16"),N("16"),N("qr",{rest:true}),N("q")],4,4),
+      bar([N("w")],4,4),
+      bar([N("8"),N("8"),N("32"),N("32"),N("32"),N("32"),N("q"),N("8r",{rest:true}),N("8"),N("q")],4,4),
+      bar([N("q"),N("8d",{dots:1}),N("16"),N("16"),N("32"),N("32"),N("16"),N("h")],4,4),
+      bar([N("16"),N("16"),N("8"),N("qr",{rest:true}),N("32"),N("32"),N("16"),N("8"),N("q"),N("q")],4,4)
+    ]
+  }
+];
+
+var DUR_BEAT={w:4,wd:6,h:2,hd:3,q:1,qd:1.5,8:0.5,"8d":0.75,16:0.25,"16d":0.375,32:0.125,"32d":0.1875,
+  wr:4,hr:2,qr:1,"8r":0.5,"16r":0.25,"32r":0.125};
+var DUR_KR={w:"온음표",h:"2분음표",q:"4분음표","8":"8분음표","16":"16분음표","32":"32분음표",
+  wr:"온쉼표",hr:"2분쉼표",qr:"4분쉼표","8r":"8분쉼표","16r":"16분쉼표","32r":"32분쉼표",
+  qd:"점4분",hd:"점2분","8d":"점8분","16d":"점16분"};
+
+var currentStageIdx=0, currentExIdx=0, isPlaying=false, playId=0, activeIdx=null, renderRetries=0;
+
+function showHome(){
+  stopAudio();
+  document.getElementById("home").classList.add("active");
+  document.getElementById("trainer").classList.remove("active");
+  buildHome();
+}
+function showTrainer(si){
+  currentStageIdx=si; currentExIdx=0; activeIdx=null;
+  document.getElementById("home").classList.remove("active");
+  document.getElementById("trainer").classList.add("active");
+  refreshAll();
+}
+function buildHome(){
+  var el=document.getElementById("home");
+  el.innerHTML='<h2 style="margin:0 0 .6rem;font-size:1.1rem">단계 선택</h2><div class="grid" id="stageGrid"></div>';
+  var g=document.getElementById("stageGrid");
+  stages.forEach(function(st,i){
+    var b=document.createElement("button");
+    b.className="stage-btn"; b.type="button";
+    b.innerHTML='<span class="n">'+(i+1)+'</span><b>'+st.title.replace(/^\d+단계 · /,"")+'</b><small>'+st.desc+' · BPM '+st.bpm+' · 문제 '+st.exercises.length+'개</small>';
+    b.onclick=function(){showTrainer(i);};
+    g.appendChild(b);
+  });
+}
+function goPrevEx(){ if(currentExIdx>0){ currentExIdx--; refreshAll(); } }
+function goNextEx(){
+  var max=stages[currentStageIdx].exercises.length-1;
+  if(currentExIdx<max){ currentExIdx++; refreshAll(); }
+}
+function stopAudio(){
+  isPlaying=false; playId++; activeIdx=null;
+  try{ if(window.Tone) Tone.Transport.stop(); }catch(e){}
+  updatePlayBtn(); updateActive(); renderSheet();
+}
+async function togglePlay(){
+  if(isPlaying){ stopAudio(); return; }
+  if(window.Tone){ await Tone.start(); }
+  isPlaying=true; updatePlayBtn();
+  var my=++playId;
+  var st=stages[currentStageIdx];
+  var ex=st.exercises[currentExIdx];
+  var bpm=st.bpm;
+  var synth=null;
+  try{ synth=new Tone.MembraneSynth().toDestination(); }catch(e){ synth=null; }
+  var t=0;
+  var beatSec=60/bpm;
+  for(var i=0;i<ex.items.length;i++){
+    if(my!==playId) break;
+    var it=ex.items[i];
+    var key=it.duration+(it.rest?"r":"");
+    if(it.dots && key.indexOf("d")<0 && !it.rest) key=it.duration+"d";
+    var beats=DUR_BEAT[it.duration]||DUR_BEAT[key]||1;
+    if(it.dots && !it.rest){ var base=DUR_BEAT[it.duration]||1; beats=base*1.5; }
+    if(it.rest){ /* silence */ }
+    activeIdx=i; updateActive(); renderSheet();
+    if(!it.rest && synth){
+      try{ synth.triggerAttackRelease("C2", Math.max(0.05, beats*beatSec*0.85)); }catch(e){}
+    }
+    await wait(beats*beatSec*1000);
+  }
+  if(my===playId) stopAudio();
+}
+function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+function updatePlayBtn(){
+  var b=document.getElementById("playBtn");
+  b.textContent=isPlaying?"정지":"들어보기";
+}
+function updateActive(){
+  var row=document.getElementById("activeNoteRow");
+  var ex=stages[currentStageIdx].exercises[currentExIdx];
+  if(activeIdx==null||!ex.items[activeIdx]){ row.textContent=""; return; }
+  var it=ex.items[activeIdx];
+  var lab=DUR_KR[it.duration+(it.rest?"r":"")]||DUR_KR[it.duration]||it.duration;
+  if(it.dots) lab="점 "+lab;
+  row.textContent=(it.rest?"⏸ ":"▶ ")+lab;
+}
+function vexDur(it){
+  var d=String(it.duration);
+  if(it.rest){
+    if(d==="w") return "wr";
+    if(d==="h") return "hr";
+    if(d==="q") return "qr";
+    if(d==="8") return "8r";
+    if(d==="16") return "16r";
+    if(d==="32") return "32r";
+    return d.indexOf("r")>=0?d:d+"r";
+  }
+  if(it.dots){ if(d.slice(-1)!=="d") d=d+"d"; }
+  return d;
+}
+function renderSheet(){
+  var c=document.getElementById("sheetContainer");
+  if(!c) return;
+  if(!window.Vex||!window.Vex.Flow){
+    c.innerHTML='<p style="padding:1rem;color:#64748b">악보 로딩 중…</p>';
+    if(renderRetries<30){ renderRetries++; window._vexReadyCb=function(){renderRetries=0;renderSheet();}; setTimeout(function(){if(!vexLoaded)renderSheet();},500); }
+    else c.innerHTML='<p style="padding:1rem;color:#dc2626">VexFlow 로드 실패. 새로고침 해주세요.</p>';
+    return;
+  }
+  renderRetries=0; window._vexReadyCb=null;
+  c.innerHTML="";
+  try{
+    var VF=Vex.Flow;
+    var Renderer=VF.Renderer, Stave=VF.Stave, StaveNote=VF.StaveNote, Voice=VF.Voice, Formatter=VF.Formatter, Beam=VF.Beam, Dot=VF.Dot;
+    var st=stages[currentStageIdx];
+    var ex=st.exercises[currentExIdx];
+    var w=Math.min(c.offsetWidth||640, 860);
+    var renderer=new Renderer(c, Renderer.Backends.SVG);
+    renderer.resize(w, 210);
+    var ctx=renderer.getContext();
+    var stave=new Stave(10, 35, w-20);
+    stave.addClef("treble");
+    stave.addTimeSignature(ex.timeSignature.num+"/"+ex.timeSignature.den);
+    stave.setContext(ctx).draw();
+    var sns=ex.items.map(function(it,idx){
+      var dur=vexDur(it);
+      var keys=it.rest?["b/4"]:[it.pitch||"G/4"];
+      var sn=new StaveNote({keys:keys, duration:dur, clef:"treble"});
+      if(it.dots && typeof Dot!=="undefined" && Dot.buildAndAttach){
+        try{ Dot.buildAndAttach([sn], {all:true}); }catch(e){
+          try{ sn.addDotToAll(); }catch(e2){}
+        }
+      } else if(it.dots){
+        try{ sn.addDotToAll(); }catch(e3){}
+      }
+      var active=idx===activeIdx;
+      try{ sn.setStyle({fillStyle:active?"#7c3aed":"#1e293b", strokeStyle:active?"#7c3aed":"#1e293b"}); }catch(e){}
+      return sn;
+    });
+    var voice=new Voice({num_beats:ex.timeSignature.num, beat_value:ex.timeSignature.den});
+    if(voice.setStrict) voice.setStrict(false);
+    voice.addTickables(sns);
+    new Formatter().joinVoices([voice]).format([voice], Math.max(80,w-120));
+    voice.draw(ctx, stave);
+    try{
+      var beamable=sns.filter(function(n,i){ return !ex.items[i].rest; });
+      var beams=Beam.generateBeams(beamable);
+      beams.forEach(function(b){ b.setContext(ctx).draw(); });
+    }catch(be){}
+  }catch(e){
+    c.innerHTML='<p style="padding:1rem;color:#dc2626">악보 오류: '+e.message+'</p>';
+  }
+}
+function refreshAll(){
+  stopAudio();
+  var st=stages[currentStageIdx];
+  var ex=st.exercises[currentExIdx];
+  document.getElementById("banner").textContent=st.title+" · 문제 "+(currentExIdx+1)+"/"+st.exercises.length+" · BPM "+st.bpm;
+  document.getElementById("exLabel").textContent=st.desc;
+  document.getElementById("tip").textContent="팁: 손뼉·발·메트로놈처럼 ‘들어보기’ 박에 맞춰 세어 보세요. 쉼표도 길이만큼 쉬기!";
+  document.getElementById("legend").innerHTML=["온(1분)","2분","4분","8분","16분","32분","점음표","쉼표"].map(function(t){return '<span class="chip">'+t+'</span>';}).join("");
+  var pct=((currentExIdx)/(st.exercises.length-1||1))*100;
+  document.getElementById("progBar").style.width=pct+"%";
+  document.getElementById("prevExBtn").disabled=currentExIdx===0;
+  setTimeout(renderSheet, 40);
+}
+window.addEventListener("resize", function(){ if(document.getElementById("trainer").classList.contains("active")) renderSheet(); });
+buildHome();
+showHome();
+</script>
+</body>
+</html>
