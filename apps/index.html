@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>웹 앱 모음 · 정적 공개판</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--line:#e5e7eb;--ink:#111827;--m:#6b7280;--a:#1d4ed8}
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+.w{max-width:900px;margin:0 auto;padding:1.25rem 1rem 2.5rem}
+h1{font-size:1.45rem;margin:0 0 .4rem}.sub{color:var(--m);margin:0 0 1rem;font-size:.95rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:.75rem}
+a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:.85rem;text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+a.card:hover{border-color:#93c5fd}
+.t{font-weight:700;margin:0 0 .25rem}.d{color:var(--m);font-size:.88rem;margin:0}.tag{display:inline-block;font-size:.72rem;background:#eff6ff;color:#1e40af;padding:.12rem .4rem;border-radius:.3rem;margin-bottom:.35rem}
+.note{background:#fffbeb;border:1px solid #fde68a;border-radius:.6rem;padding:.75rem;font-size:.9rem;color:#92400e;margin:1rem 0}
+</style>
+</head>
+<body>
+<div class="w">
+  <h1>웹 앱 모음 · 정적 공개판</h1>
+  <p class="sub">브라우저만으로 열리는 공개 페이지입니다. 실시간 서버·유료 API가 필요한 기능은 안내·데모 형태로 구성했습니다.</p>
+  <div class="note">메모 등 완전 정적 앱은 바로 사용 가능합니다. 시세·뉴스가 필요한 화면은 <strong>샘플 데이터·설명 UI</strong>로 동작하며, 나중에 API 키를 연결하면 확장할 수 있습니다.</div>
+  <div class="grid" id="g"></div>
+</div>
+<script>
+const apps=[
+{f:'seongsil-memo.html',k:'피아노 업무',t:'성실피아노 메모',d:'한글 메모 추가·수정·삭제 · 브라우저 저장'},
+{f:'erp-realtime-static.html',k:'경제·데이터',t:'ERP 실시간 분석 (정적판)',d:'대시보드 UI · 샘플 지표'},
+{f:'insight-navigator-static.html',k:'분석',t:'인사이트 내비게이터 (정적판)',d:'주제 카드·메모형 인사이트'},
+{f:'stock-insights-static.html',k:'주식',t:'주식 인사이트 (정적판)',d:'관심종목 노트 · 샘플 시세 표'},
+{f:'startup-bootcamp-static.html',k:'자기계발',t:'스타트업 부트캠프 (정적판)',d:'주차별 학습 체크리스트'},
+{f:'new-project-maker-static.html',k:'도구',t:'새 프로젝트 메이커 (정적판)',d:'아이디어 입력·체크리스트 생성'},
+{f:'login-method-static.html',k:'기능',t:'로그인 방법 안내 (정적판)',d:'로그인 방식 비교 설명'},
+{f:'real-time-news-static.html',k:'뉴스',t:'뉴스 보드 (정적판)',d:'카테고리별 샘플 헤드라인'},
+{f:'momentum-reversion-static.html',k:'주식',t:'모멘텀·되돌림 (정적판)',d:'개념 설명 · 체크 메모'},
+{f:'mindfulness-meaning-static.html',k:'마음관리',t:'마음챙김·의미 (정적판)',d:'호흡·감사 일기'},
+{f:'stock-sense-static.html',k:'주식',t:'주식 센스 (정적판)',d:'시그널 메모 카드'},
+{f:'economic-insight-hub-static.html',k:'경제',t:'경제 인사이트 허브 (정적판)',d:'경제 주제 허브 카드'},
+{f:'daily-goal-reminder-static.html',k:'자기계발',t:'일일 목표 리마인더 (정적판)',d:'오늘 목표 · 로컬 저장'},
+{f:'economic-forecast-hub-static.html',k:'경제',t:'경제 전망 허브 (정적판)',d:'전망 메모 보드'},
+{f:'stock-market-rise-static.html',k:'주식',t:'상승장 노트 (정적판)',d:'상승 테마 메모'},
+{f:'new-project-insight-static.html',k:'임시',t:'프로젝트 인사이트 (정적판)',d:'간단 인사이트 메모'},
+{f:'new-project-now-2-static.html',k:'임시',t:'프로젝트 Now 2 (정적판)',d:'진행 상태 보드'},
+{f:'new-project-status-static.html',k:'임시',t:'프로젝트 상태 (정적판)',d:'상태 칸반 미니'},
+{f:'new-project-now-1-static.html',k:'임시',t:'프로젝트 Now 1 (정적판)',d:'오늘 할 일'},
+{f:'new-project-now-static.html',k:'임시',t:'프로젝트 Now (정적판)',d:'빠른 메모'},
+{f:'new-project-static.html',k:'임시',t:'새 프로젝트 (정적판)',d:'빈 프로젝트 노트'}
+];
+document.getElementById('g').innerHTML=apps.map(a=>`<a class="card" href="./${a.f}"><span class="tag">${a.k}</span><p class="t">${a.t}</p><p class="d">${a.d}</p></a>`).join('');
+</script>
+</body>
+</html>
