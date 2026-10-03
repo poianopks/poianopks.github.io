@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Replit 백업 교실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* 레이아웃: 한 줄 읽기 폭의 수업 노트. 단계는 진짜 순서라 번호를 붙임 */
+:root{
+  --bg:#f6f7f4; --paper:#ffffff; --ink:#1d2320; --mute:#5b6660;
+  --line:#dde2dc; --accent:#2f6b4f; --accent-soft:#e3efe8; --warn:#9a4a12; --warn-soft:#fbeee2;
+  --display:"Black Han Sans","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141917; --paper:#1c2320; --ink:#e7ece8; --mute:#9aa7a0; --line:#2e3833;
+  --accent:#7cc39e; --accent-soft:#213229; --warn:#f0a874; --warn-soft:#3a2a1e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --paper:#1c2320; --ink:#e7ece8; --mute:#9aa7a0; --line:#2e3833;
+  --accent:#7cc39e; --accent-soft:#213229; --warn:#f0a874; --warn-soft:#3a2a1e; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.7;margin:0}
+.wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:32px 64px;display:flex;flex-direction:column;gap:28px}
+h1,h2{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;letter-spacing:.01em}
+h1{font-size:2.1rem;line-height:1.25}
+h2{font-size:1.4rem}
+h3{font-size:1.05rem;margin:0}
+p{margin:0}
+.lead{color:var(--mute)}
+.tag{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+section{display:flex;flex-direction:column;gap:14px}
+.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.box{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.box b{color:var(--accent)}
+ol.steps{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:2rem 1fr;gap:10px;align-items:start}
+ol.steps li::before{content:counter(s);font-family:var(--mono);width:2rem;height:2rem;border-radius:50%;
+  background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem}
+ol.steps li>div{min-width:0;padding-top:3px}
+kbd,code{font-family:var(--mono);font-size:.88em;background:var(--accent-soft);color:var(--ink);padding:1px 6px;border-radius:4px}
+.warn{background:var(--warn-soft);border-left:4px solid var(--warn);padding:14px 16px;border-radius:0 8px 8px 0;display:flex;flex-direction:column;gap:6px}
+.warn h3{color:var(--warn)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--mute);font-size:.8rem;letter-spacing:.04em}
+tr:last-child td{border-bottom:0}
+.pri{font-family:var(--mono);font-size:.75rem;color:var(--accent);white-space:nowrap}
+ul.check{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+ul.check label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+ul.check input{margin-top:6px;accent-color:var(--accent);width:18px;height:18px;flex:none}
+input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.kinds{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.kind{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.khead{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.cnt{font-family:var(--mono);font-size:.75rem;color:var(--accent);background:var(--accent-soft);padding:1px 8px;border-radius:99px}
+dl{margin:0;display:flex;flex-direction:column;gap:2px}
+dt{font-weight:600;font-size:.95rem}
+dd{margin:0 0 8px;color:var(--mute);font-size:.88rem;line-height:1.55}
+dd:last-child{margin-bottom:0}
+.foot{font-size:.85rem;color:var(--mute);border-top:1px solid var(--line);padding-top:16px}
+.foot a{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:10px">
+    <span class="tag">왕초보 레슨 · Replit</span>
+    <h1>내 Replit 앱, 안전하게 백업하고 옮기는 법</h1>
+    <p class="lead">Replit은 쓸수록 요금이 나와요. 앱을 지우거나 요금제를 바꾸기 전에, 내 코드를 내 컴퓨터와 GitHub에 남겨두는 방법을 배웁니다. 오늘은 배우기만 하고, 실제 이동은 준비가 되면 하세요.</p>
+  </header>
+
+  <section>
+    <h2>먼저 두 가지 차이부터</h2>
+    <div class="compare">
+      <div class="box"><span class="tag">방법 A</span><h3>백업 = ZIP 다운로드</h3><p>앱 전체를 압축 파일 하나로 <b>내 PC에 복사</b>해 두는 것. 사진을 USB에 옮겨 두는 것과 같아요. 가장 쉽고 무료.</p></div>
+      <div class="box"><span class="tag">방법 B</span><h3>이동 = GitHub 연결</h3><p>코드를 <b>GitHub 저장소에 올려</b> 인터넷에 보관하는 것. 피아노 조율 기록을 장부에 날짜별로 남기듯, 바뀐 내역이 다 기록돼요.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="tag">방법 A · 5분</span>
+    <h2>ZIP으로 백업하기</h2>
+    <ol class="steps">
+      <li><div><a href="https://replit.com" target="_blank" rel="noopener">replit.com</a>에 로그인하고 백업할 앱을 엽니다.</div></li>
+      <li><div>왼쪽 <b>파일 목록(Files)</b> 맨 위에 있는 <kbd>⋮</kbd> 점 3개 메뉴를 누릅니다.</div></li>
+      <li><div><kbd>Download as zip</kbd>을 누르면 압축 파일이 다운로드 폴더에 저장됩니다.</div></li>
+      <li><div>파일 이름을 <code>앱이름_2026-10-03.zip</code>처럼 날짜를 붙여 바꾸고, <code>문서\Replit백업</code> 폴더에 모아 둡니다.</div></li>
+      <li><div>다운로드가 실패하면(앱이 너무 큼) 아래 Shell 창에 <code>zip -r project.zip . -x "node_modules/*" ".cache/*"</code>를 붙여넣고 실행한 뒤, 생긴 <code>project.zip</code>을 파일 목록에서 내려받습니다.</div></li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="tag">방법 B · 15분</span>
+    <h2>GitHub로 옮기기</h2>
+    <ol class="steps">
+      <li><div>Replit 계정 설정의 <b>연결된 서비스(Connected services)</b>에서 GitHub 계정을 연결합니다. 한 번만 하면 돼요.</div></li>
+      <li><div>앱을 열고 도구 목록에서 <kbd>Git</kbd> 도구를 엽니다.</div></li>
+      <li><div>새 저장소를 만들거나 기존 저장소를 연결합니다. 이름은 영어로, 예: <code>seongsil-memo-app</code>.</div></li>
+      <li><div>바뀐 파일을 확인하고 메시지(예: <code>첫 백업</code>)를 적은 뒤 <b>Commit</b> → <b>Push</b>를 누릅니다.</div></li>
+      <li><div>github.com에서 내 저장소에 파일이 올라왔는지 눈으로 확인합니다. 원하면 <b>auto-sync</b>를 켜서 자동으로 맞춰지게 할 수 있어요.</div></li>
+    </ol>
+  </section>
+
+  <div class="warn">
+    <h3>꼭 알아둘 것 3가지</h3>
+    <p><b>1. API 키(Secrets)는 따라오지 않아요.</b> 주식 API 키 같은 비밀값은 백업 파일에도 GitHub에도 안 들어갑니다. 메모장에 따로 적어 안전한 곳에 보관하세요.</p>
+    <p><b>2. API 키를 코드에 직접 쓰지 마세요.</b> GitHub 저장소가 공개(public)면 누구나 보고 그 키로 요금을 쓸 수 있어요.</p>
+    <p><b>3. 데이터베이스는 따로예요.</b> 앱에 저장된 회원·메모 데이터는 ZIP이나 GitHub로 옮겨지지 않습니다. 데이터가 중요한 앱은 따로 내보내야 해요.</p>
+  </div>
+
+  <section id="apps">
+    <span class="tag">내 앱 31개 · 7종류</span>
+    <h2>Replit 앱 종류</h2>
+    <p class="lead">앱 안의 설명 파일이 비어 있어서, 앱 이름을 기준으로 종류를 나누고 하는 일을 짐작해 적었어요. 실제 기능과 다를 수 있으니 열어보고 고쳐 쓰세요.</p>
+    <div class="kinds">
+      <div class="kind"><div class="khead"><h3>피아노 업무</h3><span class="cnt">1개</span></div>
+        <dl><dt>성실피아노 메모 앱</dt><dd>조율 일정·고객 메모를 적어 두는 업무용 메모장. 가장 최근(10/1)에 만든 앱</dd></dl></div>
+      <div class="kind"><div class="khead"><h3>주식·투자</h3><span class="cnt">8개</span></div>
+        <dl>
+          <dt>Stock Insights</dt><dd>종목 정보를 모아 보여주는 주식 분석 화면</dd>
+          <dt>Stock Sense</dt><dd>주가 흐름을 읽어 판단을 돕는 분석 앱</dd>
+          <dt>Stock Recommender</dt><dd>조건에 맞는 종목을 골라 추천</dd>
+          <dt>Stock Finder</dt><dd>종목 검색·필터(스크리너)</dd>
+          <dt>Stock Market Rise</dt><dd>오르는 종목·상승장 흐름 확인</dd>
+          <dt>Stock Api Saver</dt><dd>주식 API 호출을 줄여 요금을 아끼는 저장 도구</dd>
+          <dt>Momentum Reversion</dt><dd>모멘텀·평균회귀 매매 전략 실험</dd>
+          <dt>Real Time News</dt><dd>실시간 시장 뉴스 모아보기</dd>
+        </dl></div>
+      <div class="kind"><div class="khead"><h3>경제·데이터 분석</h3><span class="cnt">5개</span></div>
+        <dl>
+          <dt>Economic Forecast Hub</dt><dd>경제 지표와 전망을 한곳에</dd>
+          <dt>Economic Insight Hub</dt><dd>경제 뉴스·지표 요약 대시보드</dd>
+          <dt>Erp Realtime Analysis</dt><dd>업무 데이터(ERP) 실시간 분석 화면</dd>
+          <dt>Insight Navigator</dt><dd>데이터·인사이트 탐색 도구</dd>
+          <dt>Retlip Web Comparison</dt><dd>웹사이트·서비스 비교</dd>
+        </dl></div>
+      <div class="kind"><div class="khead"><h3>자기계발·마음관리</h3><span class="cnt">3개</span></div>
+        <dl>
+          <dt>Mindfulness Meaning</dt><dd>마음챙김·명상 글과 의미 정리</dd>
+          <dt>Daily Goal Reminder</dt><dd>하루 목표를 적고 알림 받기</dd>
+          <dt>Startup Bootcamp</dt><dd>창업 준비 공부 과정</dd>
+        </dl></div>
+      <div class="kind"><div class="khead"><h3>AI·기능 도구</h3><span class="cnt">3개</span></div>
+        <dl>
+          <dt>AI Chatbot</dt><dd>AI와 대화하는 챗봇 (AI 사용 요금이 나올 수 있음)</dd>
+          <dt>Login Method</dt><dd>로그인 기능 연습·테스트</dd>
+          <dt>Version Checker</dt><dd>프로그램 버전 확인 도구</dd>
+        </dl></div>
+      <div class="kind"><div class="khead"><h3>코딩 공부·게임</h3><span class="cnt">4개</span></div>
+        <dl>
+          <dt>Replit Game Lessons</dt><dd>게임 만들며 배우는 Replit 수업</dd>
+          <dt>School Game Maker</dt><dd>학습용 게임 만들기</dd>
+          <dt>Python Playtime</dt><dd>파이썬 연습장</dd>
+          <dt>HTML, CSS, JS (Static) (1)</dt><dd>홈페이지 기본 연습 템플릿</dd>
+        </dl></div>
+      <div class="kind"><div class="khead"><h3>이름 미정·임시</h3><span class="cnt">7개</span></div>
+        <dl>
+          <dt>New Project · New Project Now (무번호·1·2)</dt><dd>이름을 안 바꾼 시작 단계 앱</dd>
+          <dt>New Project Maker · Insight · Status</dt><dd>만들다 멈춘 실험 앱. 열어보고 필요 없으면 정리</dd>
+        </dl></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>내 Replit 앱 31개, 어떤 순서로 백업할까</h2>
+    <p class="lead">2026-10-03에 확인한 목록입니다. 최근에 쓴 앱과 이름이 분명한 앱부터 하세요. "New Project…" 같은 앱은 열어보고 필요 없으면 백업을 건너뛰어도 됩니다.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>우선</th><th>앱 이름</th><th>마지막 수정</th></tr></thead>
+      <tbody>
+        <tr><td class="pri">1순위</td><td>성실피아노 메모 앱</td><td>2026-10-01</td></tr>
+        <tr><td class="pri">1순위</td><td>Stock Insights</td><td>2026-08-28</td></tr>
+        <tr><td class="pri">2순위</td><td>Mindfulness Meaning · Momentum Reversion · Daily Goal Reminder · Real Time News · Startup Bootcamp</td><td>2026-07~08</td></tr>
+        <tr><td class="pri">2순위</td><td>Stock Api Saver · Stock Sense · Stock Recommender · Stock Market Rise · Stock Finder</td><td>2026-05~06</td></tr>
+        <tr><td class="pri">3순위</td><td>Erp Realtime Analysis · Economic Forecast Hub · Economic Insight Hub · Insight Navigator · Login Method · AI Chatbot · Version Checker · Retlip Web Comparison</td><td>2026-05~06</td></tr>
+        <tr><td class="pri">3순위</td><td>Replit Game Lessons · School Game Maker · Python Playtime · HTML, CSS, JS (Static) (1)</td><td>2026-05</td></tr>
+        <tr><td class="pri">확인 후</td><td>New Project · New Project Now (1·2·무번호) · New Project Maker · New Project Insight · New Project Status</td><td>2026-05~08</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>오늘의 체크리스트</h2>
+    <ul class="check">
+      <li><label for="c1"><input type="checkbox" id="c1">문서 폴더에 <code>Replit백업</code> 폴더 만들기</label></li>
+      <li><label for="c2"><input type="checkbox" id="c2">1순위 앱 2개 ZIP 다운로드</label></li>
+      <li><label for="c3"><input type="checkbox" id="c3">각 앱의 API 키를 메모장에 따로 적어 두기</label></li>
+      <li><label for="c4"><input type="checkbox" id="c4">Replit에 GitHub 계정 연결해 보기</label></li>
+      <li><label for="c5"><input type="checkbox" id="c5">성실피아노 메모 앱 하나만 GitHub로 올려 연습하기</label></li>
+    </ul>
+  </section>
+
+  <p class="foot">ZIP 다운로드와 Git 연결은 Replit AI(Agent)를 쓰지 않는 기본 기능이라, 백업 자체로 AI 사용 요금이 늘지는 않아요. 참고: <a href="https://docs.replit.com/help/projects-and-files" target="_blank" rel="noopener">Replit 문서 – 프로젝트와 파일</a> · <a href="https://docs.replit.com/teams/identity-and-access-management/manually-copy-projects" target="_blank" rel="noopener">Replit 문서 – 프로젝트 복사</a></p>
+</div>
+</body>
+</html>

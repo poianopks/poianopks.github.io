@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Aside · Replit → GitHub 백업 교실 (왕초보)</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<style>
+:root{--bg:#0b1220;--card:#152033;--line:#2a3a55;--t:#e8eef8;--m:#93a4c3;--a:#38bdf8;--ok:#4ade80;--warn:#fbbf24}
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:linear-gradient(180deg,#0b1220,#111827);color:var(--t);line-height:1.55}
+.wrap{max-width:900px;margin:0 auto;padding:1.25rem 1rem 3rem}
+h1{font-size:1.55rem;margin:0 0 .4rem}h2{font-size:1.15rem;margin:1.6rem 0 .6rem;color:#7dd3fc}
+h3{font-size:1rem;margin:1rem 0 .4rem}.sub{color:var(--m);margin:0 0 1rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:.9rem;padding:1rem;margin:.75rem 0}
+.badge{display:inline-block;background:#0ea5e9;color:#041018;font-weight:700;font-size:.75rem;padding:.2rem .5rem;border-radius:.4rem;margin-right:.35rem}
+ol,ul{padding-left:1.2rem}li{margin:.35rem 0}a{color:var(--a)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{border:1px solid var(--line);padding:.45rem .5rem;text-align:left;vertical-align:top}
+th{background:#1e293b}code{background:#0f172a;padding:.1rem .35rem;border-radius:.3rem;font-size:.85rem}
+.note{border-left:3px solid var(--warn);padding-left:.75rem;color:#fde68a;font-size:.92rem}
+.ok{color:var(--ok)}.step{counter-reset:s} .step li{list-style:none;position:relative;padding-left:.2rem}
+.foot{color:var(--m);font-size:.85rem;margin-top:2rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p><span class="badge">Aside 제작</span> <span class="badge">왕초보 레슨</span></p>
+  <h1>Replit 앱 → GitHub 이동 · 백업 · 발행 교실</h1>
+  <p class="sub">성실피아노 / park(Replit) / poianopks.github.io · Aside가 Replit을 직접 탐색하고 Claude 레슨과 합쳐 만든 페이지입니다.<br/>
+  짝 페이지(Claude 원본 계열): <a href="./claude_replit_bak.html">claude_replit_bak.html</a></p>
+
+  <div class="card note">
+    <strong>왜 필요한가?</strong> Replit 공개 주소(<code>*.replit.app</code>)는 앱을 끄면 안 열릴 수 있습니다.
+    GitHub Pages(<code>poianopks.github.io</code>)는 파일이 남아 있으면 주소가 안정적입니다. 애드센스도 GitHub 도메인이 유리했습니다.
+  </div>
+
+  <h2>1. 한 줄 비교</h2>
+  <div class="card">
+    <table>
+      <tr><th>항목</th><th>Replit</th><th>GitHub Pages</th></tr>
+      <tr><td>주소</td><td>이름.replit.app</td><td>poianopks.github.io/파일.html</td></tr>
+      <tr><td>서버</td><td>Replit 클라우드 (중지 시 404 가능)</td><td>GitHub (파일만 있으면 유지)</td></tr>
+      <tr><td>만들기</td><td>Agent 채팅으로 앱 생성</td><td>HTML 올리면 웹으로 공개</td></tr>
+      <tr><td>백업</td><td>프로젝트 안에 코드</td><td>저장소에 파일 복사 = 백업</td></tr>
+    </table>
+  </div>
+
+  <h2>2. 왕초보: GitHub로 옮기는 방법 (5단계)</h2>
+  <div class="card">
+    <ol class="step">
+      <li><strong>1)</strong> Replit에서 만들거나 열어 둔 앱의 <code>.html</code> / 코드를 복사하거나 다운로드합니다.</li>
+      <li><strong>2)</strong> 브라우저에서 <a href="https://github.com/poianopks/poianopks.github.io" target="_blank" rel="noopener">poianopks.github.io 저장소</a>를 엽니다.</li>
+      <li><strong>3)</strong> <strong>Add file → Upload files</strong> (또는 새 파일 만들기).</li>
+      <li><strong>4)</strong> 파일 이름 예: <code>my-app.html</code> → <strong>Commit changes</strong>.</li>
+      <li><strong>5)</strong> 1~2분 뒤 주소: <code>https://poianopks.github.io/my-app.html</code></li>
+    </ol>
+    <p class="ok">Aside는 GitHub에 직접 올릴 수 있습니다. Claude는 GitHub App 쓰기 권한이 없으면 403으로 발행이 막힐 수 있습니다(이번 Claude 작업이 그 경우).</p>
+  </div>
+
+  <h2>3. 백업이란?</h2>
+  <div class="card">
+    <ul>
+      <li>Replit만 있으면 → 계정·요금·중지 시 위험</li>
+      <li>GitHub에 같은 HTML을 두면 → <strong>복사본(백업)</strong> + <strong>공개 사이트</strong></li>
+      <li>PC 폴더 <code>Claude</code> / <code>Aside\\Claude</code>에도 파일을 두면 3중 안전</li>
+    </ul>
+  </div>
+
+  <h2>4. 내 Replit 앱 목록 (Aside가 홈에서 확인)</h2>
+  <div class="card">
+    <p class="sub">작업 영역: <strong>park / pianopks1</strong> · 홈 사이드바 기준. 설명은 이름·과거 작업 기록으로 추정(앱 내부 replit.md가 비어 있는 경우 많음).</p>
+    <table>
+      <tr><th>앱 이름</th><th>추정 종류</th><th>한 줄 내용</th></tr>
+      <tr><td>성실피아노 메모 앱</td><td>피아노 업무</td><td>한글 메모 CRUD · localStorage · 게시됨(그저께)</td></tr>
+      <tr><td>Erp Realtime Analysis</td><td>경제·데이터</td><td>실시간 분석형 · 게시됨 이력</td></tr>
+      <tr><td>Insight Navigator</td><td>분석</td><td>인사이트 탐색 · 비공개 · 약 5개월 전</td></tr>
+      <tr><td>Stock Insights</td><td>주식</td><td>주식 인사이트 · 게시됨</td></tr>
+      <tr><td>Startup Bootcamp</td><td>자기계발</td><td>스타트업 부트캠프형 프로젝트</td></tr>
+      <tr><td>New Project Maker</td><td>도구</td><td>새 프로젝트 생성 도우미</td></tr>
+      <tr><td>Login Method</td><td>기능 도구</td><td>로그인 방식 실험</td></tr>
+      <tr><td>Real Time News</td><td>뉴스</td><td>실시간 뉴스</td></tr>
+      <tr><td>Momentum Reversion</td><td>주식</td><td>모멘텀·되돌림 전략</td></tr>
+      <tr><td>Mindfulness Meaning</td><td>마음관리</td><td>마음챙김·의미</td></tr>
+      <tr><td>Stock Sense</td><td>주식</td><td>주식 감각·시그널</td></tr>
+      <tr><td>Economic Insight Hub</td><td>경제</td><td>경제 인사이트 허브</td></tr>
+      <tr><td>Daily Goal Reminder</td><td>자기계발</td><td>일일 목표 알림</td></tr>
+      <tr><td>Economic Forecast Hub</td><td>경제</td><td>경제 전망 허브</td></tr>
+      <tr><td>Stock Market Rise</td><td>주식</td><td>상승 시장 관련</td></tr>
+      <tr><td>New Project Insight</td><td>임시</td><td>새 프로젝트 인사이트</td></tr>
+      <tr><td>New Project Now (2)</td><td>임시</td><td>새 프로젝트 Now 변형</td></tr>
+      <tr><td>New Project Status</td><td>임시</td><td>상태 확인용</td></tr>
+      <tr><td>New Project Now (1)</td><td>임시</td><td>Now 변형</td></tr>
+      <tr><td>New Project Now</td><td>임시</td><td>Now 기본</td></tr>
+      <tr><td>New Project</td><td>임시</td><td>기본 새 프로젝트</td></tr>
+    </table>
+    <p class="sub">Claude 레슨은 약 31개·7종류로 분류. Aside 목록은 홈에서 바로 보인 핵심 앱 위주이며, 「더 불러오기」로 더 있을 수 있습니다.</p>
+  </div>
+
+  <h2>5. Claude vs Aside (이번 작업)</h2>
+  <div class="card">
+    <table>
+      <tr><th></th><th>Claude</th><th>Aside</th></tr>
+      <tr><td>Replit 탐색</td><td>도구로 읽기·레슨 HTML 작성</td><td>브라우저로 로그인·목록 확인</td></tr>
+      <tr><td>GitHub 발행</td><td>App 미설치 시 403 실패</td><td>계정 로그인으로 업로드 가능</td></tr>
+      <tr><td>이번 파일</td><td><code>claude_replit_bak.html</code></td><td><code>Aside_replit_bak.html</code> (이 페이지)</td></tr>
+    </table>
+  </div>
+
+  <h2>6. 이미 있는 GitHub 공개 예시</h2>
+  <div class="card">
+    <ul>
+      <li><a href="https://poianopks.github.io/simple-memo.html">simple-memo.html</a></li>
+      <li><a href="https://poianopks.github.io/copilot-memo.html">copilot-memo.html</a></li>
+      <li><a href="https://poianopks.github.io/melody-ridm.html">melody-ridm.html</a></li>
+      <li><a href="https://poianopks.github.io/rhythm-ridm.html">rhythm-ridm.html</a></li>
+    </ul>
+  </div>
+
+  <p class="foot">Aside 자동 생성 · Replit park 계정 탐색 + Claude Replit 백업 교실 내용 반영 · 민감 비밀번호 없음</p>
+</div>
+</body>
+</html>
