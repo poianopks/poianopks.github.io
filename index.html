@@ -37,6 +37,11 @@
   .main-title { font-size: 1.7rem; font-weight: 900; text-align: center; padding: 22px 0 8px 0; letter-spacing: 2px; color: #222; background: #fff; }
   .nav { display: flex; overflow-x: auto; white-space: nowrap; font-size: 1rem; font-weight: 700; padding: 0 10px; background: #fff; }
   .nav button { background: none; border: none; outline: none; padding: 16px 12px 12px 12px; color: #b21d1d; font-size: 1rem; font-weight: 700; cursor: pointer; border-bottom: 3px solid transparent; transition: border 0.2s, color 0.2s; }
+  .nav a.nav-link { display: inline-block; text-decoration: none; padding: 16px 12px 12px 12px; color: #1f6fd6; font-size: 1rem; font-weight: 700; border-bottom: 3px solid transparent; }
+  .study-box { margin: 14px 0 0; padding: 14px 16px; border-radius: 14px; background: #f3f0ff; border: 1px solid #ddd5ff; }
+  .study-box h3 { margin: 0 0 8px; font-size: 1.1rem; }
+  .study-box a { display: block; text-decoration: none; color: #222; background: #fff; border: 1px solid #e3ddff; border-radius: 10px; padding: 10px 12px; margin-top: 8px; font-weight: 700; }
+  .study-box a small { display: block; color: #666; font-weight: 400; margin-top: 2px; }
   .nav button.active { color: #222; border-bottom: 3px solid #222; background: #ffe066; }
   .main-visual { width: 100vw; min-height: 300px; height: auto; background: url('https://pplx-res.cloudinary.com/image/upload/v1750468233/user_uploads/16013413/f20c2156-8e9f-4698-8e2d-9774dbf4e92d/Screenshot_20250621_100039_Gallery.jpg') no-repeat center center; background-size: cover; display: flex; flex-direction: column; justify-content: flex-end; position: relative; padding: 0; margin: 0; border: none; }
   .content-section { display: none; padding: 20px 12px 60px 12px; max-width: 500px; margin: 0 auto; background: #fff; min-height: 70vh; transition: background 0.3s; box-sizing: border-box; }
@@ -78,6 +83,7 @@
       <button onclick="showSection(2)">피아노 조율</button>
       <button onclick="showSection(3)">피아노 운반/조율</button>
       <button onclick="showSection(4)">피아노 방음장치</button>
+      <a class="nav-link" href="claude/">🎹 무료 음악공부</a>
     </nav>
   </header>
   <div class="main-visual" id="mainVisual"></div>
@@ -102,6 +108,11 @@
       <strong>경기:</strong> 일산(고양), 분당, 성남, 수원, 용인, 안양, 부천, 김포, 광명, 파주, 시흥, 군포, 의왕, 하남, 오산, 의정부, 구리, 남양주 등 경기 전지역<br>
       <strong>인천:</strong> 인천 전지역(부평, 계양, 남동, 연수, 서구, 미추홀 등)<br>
       <strong>경인지역 피아노조율, 피아노운반 출장 서비스</strong>를 제공합니다.
+    </div>
+    <div class="study-box">
+      <h3>🎹 무료 피아노 음악공부방 (왕초보·초등)</h3>
+      <a href="claude/music-genre-piano.html">🎼 장르음악 피아노 교실<small>클래식·재즈·트로트·힙합 등 12장르를 그림·양손 악보·건반으로 듣고 따라 치기</small></a>
+      <a href="claude/left-hand-rhythm.html">🎹 왼손반주 리듬 교실<small>장르별 왼손반주(쿵·짝·띵)를 낮은음자리표 악보와 화음으로 배우기</small></a>
     </div>
   </section>
   <section class="content-section" id="profileSection">
