@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Claude 공부방</title>
+<meta name="description" content="Claude가 만든 왕초보 음악 공부 페이지 모음"/>
+<style>
+:root{--bg:#fffaf2;--card:#fff;--ink:#22202a;--sub:#6b6676;--line:#e8e1d4;--accent:#ff6b4a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#17151c;--card:#221f29;--ink:#f1edf7;--sub:#aaa3b8;--line:#38334a}}
+:root[data-theme="dark"]{--bg:#17151c;--card:#221f29;--ink:#f1edf7;--sub:#aaa3b8;--line:#38334a}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Noto Sans KR","Malgun Gothic",sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:32px 16px}
+h1{margin:0 0 6px;font-weight:900}
+p{color:var(--sub)}
+a.item{display:flex;gap:14px;align-items:center;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:12px}
+a.item span{font-size:2.2rem}
+a.item b{display:block;font-size:1.1rem}
+a.item small{color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎹 Claude 공부방</h1>
+  <p>왕초보·초등 수준으로 쉽게 배우는 음악 공부 페이지 모음이에요.</p>
+  <a class="item" href="music-genre-piano.html">
+    <span>🎼</span>
+    <div><b>장르음악 피아노 교실</b><small>클래식·재즈·샹송·칸초네·트로트·포크·블루스·록·디스코·컨트리·팝·힙합 — 그림, 도표, 리듬 악보, 건반 따라치기, 퀴즈</small></div>
+  </a>
+  <p style="margin-top:28px"><a href="../" style="color:var(--accent)">← 성실피아노 홈</a></p>
+</div>
+</body>
+</html>
