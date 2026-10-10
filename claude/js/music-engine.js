@@ -6,6 +6,7 @@ var DUR=ME.DUR={w:4,dh:3,h:2,dq:1.5,q:1,e:0.5};
 var LET={C:0,D:1,E:2,F:3,G:4,A:5,B:6};
 var SEMI={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
 var SOL=ME.SOL={C:"도",D:"레",E:"미",F:"파",G:"솔",A:"라",B:"시"};
+var SHARP=[["C",""],["C","#"],["D",""],["D","#"],["E",""],["F",""],["F","#"],["G",""],["G","#"],["A",""],["A","#"],["B",""]];
 var FLAT=[["C",""],["D","b"],["D",""],["E","b"],["E",""],["F",""],["G","b"],["G",""],["A","b"],["A",""],["B","b"],["B",""]];
 
 function mk(letter,acc,oct){
@@ -15,7 +16,7 @@ function mk(letter,acc,oct){
     sol:SOL[letter]+(acc==="b"?"♭":acc==="#"?"♯":"")};
 }
 ME.noteFromName=function(n){var m=/^([A-G])(b|#)?(\d)$/.exec(n);return mk(m[1],m[2]||"",+m[3]);};
-ME.noteFromMidi=function(m){var f=FLAT[m%12];return mk(f[0],f[1],Math.floor(m/12)-1);};
+ME.noteFromMidi=function(m,sharp){var f=(sharp?SHARP:FLAT)[m%12];return mk(f[0],f[1],Math.floor(m/12)-1);};
 
 /* 오른손 멜로디: ["E4:q","r:q",...] 마디 배열 */
 ME.parseMelody=function(bars){
@@ -39,10 +40,11 @@ ME.chord=function(name){
   var third=q==="m"?3:4,root=40+((pc-4+12)%12);       // 근음: E2~Eb3
   var tones=q==="7"?[0,third,10]:[0,third,7];
   var voicing=tones.map(function(t){var p=(pc+t)%12;return 47+((p-11+12)%12);}).sort(function(a,b){return a-b;}); // B2~Bb3 안에 모은 자리바꿈 화음
+  var sharp=!m[2]&&q!=="m"&&"DEAB".indexOf(m[1])>=0; // 라장조·미장조 계열 화음은 ♯로 적어요 (E7 = 미·솔♯·시·레)
   var deg={"1":0,"3":third,"5":7,"6":9,"b7":10,"8":12,"5L":root-5<36?7:-5};
-  var full=tones.map(function(t){return ME.noteFromMidi(voicing.filter(function(v){return v%12===(pc+t)%12;})[0]).sol;});
-  return {name:name,label:name.replace("b","♭"),root:root,q:q,voicing:voicing,deg:deg,tonesSol:full,
-    kor:q==="m"?"단화음(슬픈 느낌)":q==="7"?"7화음(블루스·재즈 느낌)":"장화음(밝은 느낌)"};
+  var full=tones.map(function(t){return ME.noteFromMidi(voicing.filter(function(v){return v%12===(pc+t)%12;})[0],sharp).sol;});
+  return {name:name,label:name.replace("b","♭"),root:root,q:q,sharp:sharp,voicing:voicing,deg:deg,tonesSol:full,
+    kor:q==="m"?"단3화음(어둡게 들려요)":q==="7"?"딸림7화음(블루스·재즈에 많아요)":"장3화음(밝게 들려요)"};
 };
 
 /* 반주 패턴 한 마디 해석: "1:q T:e T:e r:q" */
@@ -66,7 +68,7 @@ ME.buildLH=function(prog,pats,sig){
       if(t.kind==="rest"){it.rest=true;it.notes=[];}
       else{
         var ms=t.deg==="T"?ch.voicing.slice():t.deg.split("+").map(function(d){return ch.root+ch.deg[d];});
-        it.notes=ms.map(ME.noteFromMidi);
+        it.notes=ms.map(function(x){return ME.noteFromMidi(x,ch.sharp);});
       }
       items.push(it);
     });
@@ -98,13 +100,13 @@ function drawItem(it,x,top,bot,pair,prefix,label,labY,X){
   var up=pair?((ext(pair[0])+ext(pair[1]))/2<mid):ext(it)<mid;
   var dx=ns.map(function(){return 0;});
   for(var k=1;k<ns.length;k++)if(ns[k].step-ns[k-1].step===1&&dx[k-1]===0){if(up)dx[k]=11.5;else dx[k-1]=-11.5;}
-  var accN=0;
+  var accN=0,minDx=Math.min.apply(0,dx.concat([0]));
   ns.forEach(function(n,k){
     var nx=x+dx[k],y=yOf(n.step),l;
     for(l=bot-2;l>=n.step;l-=2)s+='<line class="st" x1="'+(nx-10)+'" x2="'+(nx+10)+'" y1="'+yOf(l)+'" y2="'+yOf(l)+'"/>';
     for(l=bot+10;l<=n.step;l+=2)s+='<line class="st" x1="'+(nx-10)+'" x2="'+(nx+10)+'" y1="'+yOf(l)+'" y2="'+yOf(l)+'"/>';
     s+='<ellipse class="hd'+(open?" open":"")+'" cx="'+nx+'" cy="'+y+'" rx="6.2" ry="4.4" transform="rotate(-20 '+nx+' '+y+')"/>';
-    if(n.acc){s+='<text class="acc" x="'+(x-15-accN*9+(dx[k]<0?dx[k]:0))+'" y="'+(y+5)+'">'+(n.acc==="b"?"♭":"♯")+'</text>';accN++;}
+    if(n.acc){s+='<text class="acc" x="'+(x-15-accN*9+minDx)+'" y="'+(y+5)+'">'+(n.acc==="b"?"♭":"♯")+'</text>';accN++;}
     if(it.d==="dq"||it.d==="dh")s+='<circle class="hd" cx="'+(x+11+(dx[k]>0?dx[k]:0))+'" cy="'+((n.step-bot)%2===0?y-3:y)+'" r="2"/>';
   });
   if(it.d!=="w"){
@@ -118,7 +120,7 @@ function drawItem(it,x,top,bot,pair,prefix,label,labY,X){
       var x2=X(pair[1])+(up?5.6:-5.6);
       s+='<rect class="hd" x="'+sx+'" y="'+(up?ty:ty-5)+'" width="'+(x2-sx)+'" height="5"/>';
     }else if(!pair&&it.d==="e"){
-      s+=up?'<path class="hd" d="M'+sx+' '+ty+' q2 9 9 13 q-3 -5 -9 -7z"/>':'<path class="hd" d="M'+sx+' '+ty+' q2 -9 9 -13 q-3 5 -9 7z"/>';
+      s+=up?'<path class="hd" d="M'+sx+' '+ty+' c1 5 10 8 8 17 c0 -6 -4 -9 -8 -11z"/>':'<path class="hd" d="M'+sx+' '+ty+' c1 -5 10 -8 8 -17 c0 6 -4 9 -8 11z"/>';
     }
   }
   if(label!=null)s+='<text class="lab" x="'+x+'" y="'+labY+'">'+label+'</text>';
