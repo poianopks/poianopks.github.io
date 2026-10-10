@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>왼손반주 리듬 교실</title>
+<meta name="description" content="왕초보 초등 수준 피아노 왼손반주 리듬 공부 앱. 클래식·재즈·샹송·칸초네·트로트·포크·블루스·록·디스코·컨트리·팝·힙합 12장르의 왼손반주를 낮은음자리표 오선 악보, 리듬 칸 도표, 건반으로 듣고 따라 치며 배워요."/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/genre.css">
+<style>
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 12px 5px 6px;font:inherit;font-weight:800;cursor:pointer}
+.chip span.ic{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--gc) 18%,transparent);color:var(--gc)}
+.chip span.ic svg{width:70%}
+.chip.sel{border-color:var(--gc);background:color-mix(in srgb,var(--gc) 12%,var(--card))}
+.chip small{color:#f5a623;font-size:.7rem}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:760px){.three{grid-template-columns:1fr}}
+.kindcard h4{margin:0 0 2px;display:flex;align-items:center;gap:8px}
+.kindcard .big{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:12px;color:#fff;font-weight:900;font-size:1.05rem}
+.kindcard p{margin:4px 0 6px;color:var(--sub);font-size:.92rem}
+.mini .score{margin-top:6px}
+.chordgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.ccard{cursor:pointer}
+.ccard h4{margin:0;font-size:1.3rem;font-weight:900;color:var(--accent2)}
+.ccard small{color:var(--sub);font-weight:700}
+.ccard .kb svg{min-width:0}
+.ccard .kb .w.root{fill:#6a4bc4}
+.ccard .kb .b.root{fill:#6a4bc4}
+.ccard .kb .w.tone{fill:var(--accent)}
+.ccard .kb .b.tone{fill:var(--accent)}
+.ccard .tones{font-weight:800;margin-top:4px}
+.hand svg{width:100%;max-width:320px;height:auto;display:block;margin:0 auto}
+.progsel{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.progsel button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:6px 10px;font:inherit;font-weight:800;font-size:.85rem;cursor:pointer}
+.progsel button.sel{border-color:var(--accent2);background:color-mix(in srgb,var(--accent2) 14%,var(--card))}
+table.rgt{width:100%;border-collapse:collapse;min-width:640px}
+table.rgt td,table.rgt th{border-bottom:1px solid var(--line);padding:8px 6px;vertical-align:middle;text-align:left}
+table.rgt th{font-size:.82rem;color:var(--sub)}
+table.rgt td .rg{min-width:220px;max-width:300px}
+table.rgt .pb{border:none;background:var(--accent2);color:#fff;border-radius:50%;width:34px;height:34px;font-size:.9rem;cursor:pointer}
+table.rgt .gname{white-space:nowrap;font-weight:900}
+table.rgt .pname{font-size:.82rem;font-weight:800;display:block;margin-bottom:2px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="topbar">
+    <span class="logo">🎹 왼손반주</span>
+    <nav>
+      <a href="#what">왼손이란?</a>
+      <a href="#clef">낮은음자리표</a>
+      <a href="#chords">화음 사전</a>
+      <a href="#lesson">장르 레슨</a>
+      <a href="#table">리듬 도표</a>
+      <a href="#quiz">퀴즈</a>
+    </nav>
+    <button class="themebtn" id="themeBtn" aria-label="밝기 전환">🌓</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>쿵! 짝! 따라 치는<br><em>왼손반주 리듬 교실</em></h1>
+      <p>피아노는 <b>오른손이 노래(멜로디)</b>, <b>왼손이 반주(밑받침)</b>를 맡아요.</p>
+      <p>장르마다 왼손 반주 리듬이 달라서, 같은 화음도 <b>왈츠·트로트·재즈·록·힙합</b>처럼 완전히 다른 느낌이 돼요. <b>12가지 장르의 왼손 반주</b>를 낮은음자리표 악보, 리듬 칸 도표, 건반으로 배워 봐요.</p>
+      <p style="margin-top:12px"><a class="btn" href="#lesson" style="text-decoration:none;display:inline-block">장르 레슨 바로 가기 ↓</a> <a class="btn alt" href="music-genre-piano.html" style="text-decoration:none;display:inline-block">양손 장르 교실</a></p>
+    </div>
+    <svg viewBox="0 0 400 260" aria-hidden="true">
+      <rect x="10" y="20" width="380" height="220" rx="28" fill="#6a4bc4" opacity=".1"/>
+      <g transform="translate(30,120)">
+        <rect width="340" height="100" rx="8" fill="#fff" stroke="#cfc7b8"/>
+        <rect x="0" y="62" width="170" height="38" fill="#6a4bc4" opacity=".25"/>
+        <rect x="170" y="62" width="170" height="38" fill="#ff6b4a" opacity=".22"/>
+        <g stroke="#cfc7b8"><line x1="24.3" y1="0" x2="24.3" y2="100"/><line x1="48.6" y1="0" x2="48.6" y2="100"/><line x1="72.9" y1="0" x2="72.9" y2="100"/><line x1="97.1" y1="0" x2="97.1" y2="100"/><line x1="121.4" y1="0" x2="121.4" y2="100"/><line x1="145.7" y1="0" x2="145.7" y2="100"/><line x1="170" y1="0" x2="170" y2="100" stroke="#999" stroke-width="2"/><line x1="194.3" y1="0" x2="194.3" y2="100"/><line x1="218.6" y1="0" x2="218.6" y2="100"/><line x1="242.9" y1="0" x2="242.9" y2="100"/><line x1="267.1" y1="0" x2="267.1" y2="100"/><line x1="291.4" y1="0" x2="291.4" y2="100"/><line x1="315.7" y1="0" x2="315.7" y2="100"/></g>
+        <g fill="#26232c"><rect x="17" width="14" height="60" rx="2"/><rect x="41" width="14" height="60" rx="2"/><rect x="90" width="14" height="60" rx="2"/><rect x="114" width="14" height="60" rx="2"/><rect x="138" width="14" height="60" rx="2"/><rect x="187" width="14" height="60" rx="2"/><rect x="211" width="14" height="60" rx="2"/><rect x="260" width="14" height="60" rx="2"/><rect x="284" width="14" height="60" rx="2"/><rect x="308" width="14" height="60" rx="2"/></g>
+        <text x="85" y="88" text-anchor="middle" font-size="14" font-weight="900" fill="#4a2fa8">왼손 = 반주 🎹</text>
+        <text x="255" y="88" text-anchor="middle" font-size="14" font-weight="900" fill="#c2401f">오른손 = 멜로디 🎵</text>
+      </g>
+      <g font-weight="900" font-size="22">
+        <rect x="40" y="40" width="58" height="40" rx="10" fill="#6a4bc4"/><text x="69" y="68" fill="#fff" text-anchor="middle">쿵</text>
+        <rect x="108" y="40" width="58" height="40" rx="10" fill="#ff6b4a"/><text x="137" y="68" fill="#fff" text-anchor="middle">짝</text>
+        <rect x="176" y="40" width="58" height="40" rx="10" fill="#6a4bc4"/><text x="205" y="68" fill="#fff" text-anchor="middle">쿵</text>
+        <rect x="244" y="40" width="58" height="40" rx="10" fill="#ff6b4a"/><text x="273" y="68" fill="#fff" text-anchor="middle">짝</text>
+      </g>
+      <text x="320" y="68" font-size="26">🎶</text>
+    </svg>
+  </div>
+
+  <section id="what">
+    <h2><span class="num">1</span>왼손 반주는 3가지 소리로 만들어요</h2>
+    <p class="lead">모든 장르의 왼손 반주는 <b>쿵 · 짝 · 띵</b> 세 가지 재료를 어떤 리듬으로 섞느냐에 따라 달라져요. 누르면 소리가 나요.</p>
+    <div class="three" id="kinds"></div>
+    <div class="card hand" style="margin-top:12px">
+      <b>✋ 왼손 손가락 번호</b>
+      <p style="margin:4px 0 8px;color:var(--sub);font-size:.92rem">왼손은 <b>새끼손가락이 5번</b>, <b>엄지가 1번</b>이에요. 도미솔 화음은 보통 <b>5-3-1</b> 손가락으로 잡아요. 낮은 근음(쿵)은 새끼손가락(5)으로!</p>
+      <svg viewBox="0 0 320 200" role="img" aria-label="왼손 손가락 번호: 새끼 5, 약지 4, 중지 3, 검지 2, 엄지 1">
+        <path d="M70 190 Q60 130 70 110 L230 110 Q262 130 250 190Z" fill="#ffd9b8" stroke="#d9a27a" stroke-width="2"/>
+        <g fill="#ffd9b8" stroke="#d9a27a" stroke-width="2">
+          <rect x="66" y="58" width="32" height="70" rx="16"/>
+          <rect x="104" y="30" width="34" height="96" rx="17"/>
+          <rect x="144" y="18" width="34" height="108" rx="17"/>
+          <rect x="184" y="32" width="34" height="96" rx="17"/>
+          <rect x="226" y="96" width="34" height="70" rx="17" transform="rotate(35 243 131)"/>
+        </g>
+        <g font-weight="900" font-size="18" text-anchor="middle" fill="#6a4bc4">
+          <text x="82" y="84">5</text><text x="121" y="58">4</text><text x="161" y="46">3</text><text x="201" y="60">2</text><text x="262" y="120">1</text>
+        </g>
+        <g font-size="11" font-weight="800" text-anchor="middle" fill="#7a5a40">
+          <text x="82" y="146">새끼</text><text x="121" y="146">약지</text><text x="161" y="146">중지</text><text x="201" y="146">검지</text><text x="268" y="160">엄지</text>
+        </g>
+        <text x="160" y="186" text-anchor="middle" font-size="13" font-weight="900" fill="#7a5a40">왼손 (손등 쪽에서 본 모습)</text>
+      </svg>
+    </div>
+  </section>
+
+  <section id="clef">
+    <h2><span class="num">2</span>낮은음자리표(𝄢) 읽기</h2>
+    <p class="lead">왼손 악보는 <b>낮은음자리표</b>로 써요. 𝄢의 두 점 사이 줄이 <b>낮은 '파'</b>예요. 줄 위 음은 <b>"솔·시·레·파·라"</b>, 칸 안 음은 <b>"라·도·미·솔"</b>로 외워요.</p>
+    <div class="card">
+      <div class="score" id="clefScore"></div>
+      <div class="ctrls"><button class="btn" id="clefPlay" style="background:#6a4bc4">▶ 낮은 솔부터 차례로 듣기</button></div>
+      <p style="margin:0;color:var(--sub);font-size:.92rem">💡 오선 맨 위 줄 위로 덧줄 하나 = <b>가온 도</b>(피아노 한가운데 도). 높은음자리표의 맨 아래 덧줄 '도'와 같은 건반이에요!</p>
+    </div>
+  </section>
+
+  <section id="chords">
+    <h2><span class="num">3</span>화음 사전 (왼손으로 잡는 화음)</h2>
+    <p class="lead">화음은 <b>3개의 음을 한꺼번에</b> 누른 소리예요. 보라색 = 쿵(근음), 주황색 = 짝(화음) 건반. 카드를 누르면 '쿵-짝' 소리가 나요.</p>
+    <div class="chordgrid" id="chordGrid"></div>
+  </section>
+
+  <section id="lesson">
+    <h2><span class="num">4</span>장르별 왼손 반주 레슨</h2>
+    <p class="lead">장르를 고르면 왼손 반주 리듬을 악보·도표·건반으로 배워요. ★ = 완료한 공부 단계</p>
+    <div class="chips" id="chips"></div>
+    <div class="card" id="lessonCard" style="margin-top:12px"></div>
+  </section>
+
+  <section id="table">
+    <h2><span class="num">5</span>장르별 왼손 리듬 한눈에 보기</h2>
+    <p class="lead">한 마디(4박)를 8칸으로 나눈 <b>리듬 칸 도표</b>예요. ▶를 누르면 C 화음으로 그 리듬을 들려줘요. 쿵(보라)과 짝(주황)이 어디에 있는지 비교해 봐요!</p>
+    <div class="card table-wrap"><table class="rgt" id="rgTable"><thead><tr><th>장르</th><th>1단계 쉬움</th><th></th><th>2단계 장르 느낌</th><th></th></tr></thead><tbody></tbody></table></div>
+    <div class="legend" style="margin-top:8px"><span><i style="background:#6a4bc4"></i>쿵 = 낮은 근음</span><span><i style="background:#ff6b4a"></i>짝 = 화음</span><span><i style="background:#3d7cf0"></i>띵 = 화음 음 하나(숫자=몇 번째 음)</span><span>점선 = 쉼표</span></div>
+  </section>
+
+  <section id="quiz">
+    <h2><span class="num">6</span>왼손 반주 듣고 장르 맞히기</h2>
+    <p class="lead">멜로디 없이 <b>왼손 반주만</b> 들려줘요. 어떤 장르의 반주일까요?</p>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+        <span class="qtext" id="qText">시작 버튼을 눌러요</span>
+        <span id="qScore" style="font-weight:800;color:var(--sub)">점수 0 / 0</span>
+      </div>
+      <div class="ctrls">
+        <button class="btn" id="qStart">퀴즈 시작</button>
+        <button class="btn blue" id="qReplay" style="display:none">🔊 다시 듣기</button>
+        <button class="btn alt" id="qNext" style="display:none">다음 문제 →</button>
+      </div>
+      <div class="qopts" id="qOpts"></div>
+      <div class="msg" id="qMsg"></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>소리는 브라우저에서 직접 만들어요(Web Audio). 휴대폰은 무음 모드를 꺼 주세요. · 컴퓨터 키보드 <b>Z X C V B N M ,</b> = 왼손 도레미파솔라시도 (낮은 도 = C3)</p>
+    <p><a href="./">← claude 방으로</a> · <a href="music-genre-piano.html">장르음악 피아노 교실 (양손)</a> · <a href="../">성실피아노 홈</a></p>
+  </footer>
+</div>
+<script src="js/music-engine.js"></script>
+<script src="js/genre-data.js"></script>
+<script src="js/lh-app.js"></script>
+</body>
+</html>
