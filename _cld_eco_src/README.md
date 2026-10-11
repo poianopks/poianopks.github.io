@@ -1,9 +1,9 @@
 # KOSPI 투자 분석 센터 (정적 사이트판)
 
-Replit 앱 **Stock Insights**(`stock-insights-pianopks1.replit.app`)를 **서버·유료 API 없이** GitHub Pages에서 돌아가도록 옮긴 버전입니다.
+**서버·유료 API 없이** GitHub Pages에서 돌아가는 정적 사이트입니다. 처음에는 Replit 앱을 옮겨 왔지만, 이제 모든 코드와 데이터가 이 저장소에 있어 **Replit 없이 독립적으로 동작**합니다.
 
 - 사이트 주소: https://poianopks.github.io/cld_eco/
-- 화면(18개 탭)은 원본 React 코드를 그대로 사용합니다.
+- 화면은 19개 메뉴이며, 메뉴마다 단독 주소(`/cld_eco/<메뉴>/`)가 있습니다.
 - 데이터는 **GitHub Actions가 1시간마다** 원본 서버 코드(`server/routes`)를 실행해 공개 시세(Yahoo Finance 등)를 받아 `api/**.json` 파일로 저장한 뒤 사이트(`cld_eco/` 폴더)를 다시 만듭니다.
 - 그래서 **실시간이 아니라 최대 약 1시간 늦은 데이터**입니다. 화면의 "업데이트 시각"을 확인하세요.
 
