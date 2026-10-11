@@ -12,6 +12,7 @@ import type { AddressInfo } from "node:net";
 import stocksRouter from "../server/routes/stocks";
 import turnaroundRouter, { CANDIDATES, WATCHLIST_STOCKS } from "../server/routes/turnaround";
 import { staticKey } from "../web/src/lib/staticApi";
+import { collectNews } from "../server/news";
 
 const OUT = path.resolve(import.meta.dirname, "../web/public/api");
 const PREV_BASE = process.env.PREV_BASE ?? "https://poianopks.github.io/cld_eco/";
@@ -110,6 +111,27 @@ async function main() {
   for (const c of CANDIDATES) for (const p of PERIODS) chartJobs.push({ route: `turnaround/chart/${c.code}`, query: `period=${p}` });
   for (const c of WATCHLIST_STOCKS) for (const p of PERIODS) chartJobs.push({ route: `turnaround/watchlist/chart/${c.code}`, query: `period=${p}` });
   await runAll(chartJobs);
+
+  // 4) 경제·주식 뉴스 (무료 공개 RSS)
+  {
+    const dest = fileFor({ route: "news/feed" });
+    fs.mkdirSync(path.dirname(dest), { recursive: true });
+    try {
+      const feed = await collectNews();
+      if (feed.items.length === 0) throw new Error("뉴스 0건");
+      fs.writeFileSync(dest, JSON.stringify(feed));
+      ok.push(`news/feed (${feed.items.length}건)`);
+      for (const s of feed.sources) if (!s.ok) console.log("  ⚠️ 뉴스 출처 실패:", s.name);
+    } catch (e) {
+      try {
+        const prev = await getJson(`${PREV_BASE}api/${staticKey("news/feed", "")}`, 20_000);
+        fs.writeFileSync(dest, JSON.stringify(prev));
+        reused.push(`news/feed (${(e as Error).message})`);
+      } catch {
+        failed.push(`news/feed (${(e as Error).message})`);
+      }
+    }
+  }
 
   fs.writeFileSync(
     path.join(OUT, "_status.json"),

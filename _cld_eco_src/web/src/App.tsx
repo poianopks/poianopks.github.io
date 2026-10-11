@@ -19,6 +19,7 @@ import { TelescopeInvest } from "@/pages/TelescopeInvest";
 import { EconomicCycle } from "@/pages/EconomicCycle";
 import { AliveAth } from "@/pages/AliveAth";
 import { Turnaround } from "@/pages/Turnaround";
+import { NewsCenter } from "@/pages/NewsCenter";
 import { useStockData } from "@/hooks/useStockData";
 import { useGlobalMarket } from "@/hooks/useGlobalMarket";
 import { useAliveAth } from "@/hooks/useAliveAth";
@@ -44,7 +45,7 @@ const TABS = [
   { value: "econocycle", label: "🕐 경기순환 사이클", short: "경기사이클" },
   { value: "aliveath",   label: "🏔️ 살아있는 ATH",   short: "살아있는ATH" },
   { value: "turnaround", label: "📈 턴어라운드",        short: "턴어라운드" },
-  { value: "quantx",     label: "📰 QUANT-X 뉴스센터", short: "뉴스", href: "https://real-time-news.replit.app/" },
+  { value: "news",       label: "📰 경제·주식 뉴스",   short: "뉴스" },
 ];
 
 function fmt(v: number | null | undefined, decimals = 2): string {
@@ -213,7 +214,15 @@ function MainApp() {
                   <span className="text-[10px] opacity-70">↗</span>
                 </a>
               ) : (
-                <button key={tab.value} onClick={() => setActiveTab(tab.value)}
+                <a key={tab.value}
+                  href={`#${tab.value}`}
+                  onClick={(e) => {
+                    // 보통 클릭은 이 화면에서 탭 전환, Ctrl·휠 클릭 등은 새 탭으로 열기
+                    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                    e.preventDefault();
+                    setActiveTab(tab.value);
+                  }}
+                  title={`${tab.label} — 길게 누르거나 오른쪽 클릭하면 새 탭으로 열 수 있어요`}
                   data-testid={`tab-${tab.value}`}
                   className={`px-4 md:px-5 py-2.5 text-xs md:text-sm font-medium whitespace-nowrap border-b-2 transition-all duration-150 ${
                     activeTab === tab.value
@@ -222,7 +231,7 @@ function MainApp() {
                   }`}>
                   <span className="hidden md:inline">{tab.label}</span>
                   <span className="md:hidden">{tab.short}</span>
-                </button>
+                </a>
               )
             ))}
           </div>
@@ -254,6 +263,7 @@ function MainApp() {
             {activeTab === "econocycle" && <EconomicCycle />}
             {activeTab === "aliveath"   && <AliveAth />}
             {activeTab === "turnaround" && <Turnaround />}
+            {activeTab === "news"       && <NewsCenter />}
           </motion.div>
         </AnimatePresence>
       </main>
