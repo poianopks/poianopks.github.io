@@ -35,7 +35,7 @@ for (const t of TABS) {
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, "index.html"), page(`${t.title} | ${SITE_NAME}`, t.desc, `${ORIGIN}${BASE}${t.value}/`));
 }
-// 이름이 바뀐 예전 주소는 새 주소로 바로 이동
+// 별칭 주소는 실제 메뉴 주소로 바로 이동
 for (const [from, to] of Object.entries(RENAMED)) {
   const url = `${ORIGIN}${BASE}${to}/`;
   fs.mkdirSync(path.join(DIST, from), { recursive: true });

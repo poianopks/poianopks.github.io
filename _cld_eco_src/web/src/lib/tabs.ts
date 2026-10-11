@@ -8,8 +8,8 @@ export interface TabDef {
   desc: string;
 }
 
-/** 이름이 바뀐 예전 메뉴 주소 → 새 메뉴 */
-export const RENAMED: Record<string, string> = { reborinsight: "insight" };
+/** 다른 주소 → 실제 메뉴 주소 (예: /insight/ → /reborinsight/) */
+export const RENAMED: Record<string, string> = { insight: "reborinsight" };
 
 export const SITE_NAME = "KOSPI 투자 분석 센터";
 
@@ -26,7 +26,7 @@ export const TABS: TabDef[] = [
   { value: "mindset", label: "🌱 마인드", short: "마인드", title: "투자 마인드 — 흔들리지 않는 투자자의 마음가짐", desc: "조급함 대신 원칙, 몰빵 대신 분할, 공포 대신 계획 — 투자자의 마음가짐을 정리합니다." },
   { value: "ath", label: "⚡ ATH 생존전략", short: "ATH", title: "ATH 생존전략 — 사상 최고가 구간에서 살아남는 법", desc: "코스피가 사상 최고가를 경신할 때 숏·몰빵·전액 현금 대신 현금 90%+소액 분할매수로 대응하는 구조를 설명합니다." },
   { value: "semisignal", label: "🔮 천기누설", short: "천기누설", title: "천기누설 — 반도체 사이클 경보 (DRAM·삼성·하이닉스)", desc: "DRAM 현물·고정가 데드크로스, 삼성전자·SK하이닉스 이격도와 상대강도로 반도체 사이클 고점 신호를 추적합니다." },
-  { value: "insight", label: "💡 인사이트 통찰", short: "인사이트", title: "인사이트 통찰 — 금리·채권·달러·금·원유와 주식의 관계 12가지", desc: "금리와 주식, 채권과 주식, 달러와 금, 원유와 주식, 경기민감주와 사이클, 코스톨라니의 달걀, 평균회귀와 모멘텀, 주식의 비대칭, 안 망할 회사 고르기와 투자 격언까지 한 번에 정리합니다." },
+  { value: "reborinsight", label: "💡 인사이트 통찰", short: "인사이트", title: "인사이트 통찰 — 금리·채권·달러·금·원유와 주식의 관계 12가지", desc: "금리와 주식, 채권과 주식, 달러와 금, 원유와 주식, 경기민감주와 사이클, 코스톨라니의 달걀, 평균회귀와 모멘텀, 주식의 비대칭, 안 망할 회사 고르기와 투자 격언까지 한 번에 정리합니다." },
   { value: "trading", label: "📊 매매동향", short: "매매동향", title: "투자자 매매동향 바로가기", desc: "외국인·기관·개인 투자자별 매매동향을 확인할 수 있는 공식 데이터 바로가기와 읽는 법을 안내합니다." },
   { value: "telescope", label: "🔭 투자 망원경", short: "투자망원경", title: "투자 망원경 — 아침 5분 시장 날씨 점검", desc: "코스피·미국 지수·환율·금리차·달러로 오늘의 시장 날씨를 자동 진단하고, 대세 상승장이 꺾이는 신호를 점검합니다." },
   { value: "econocycle", label: "🕐 경기순환 사이클", short: "경기사이클", title: "경기순환 사이클 — 지금은 경기의 어느 계절인가", desc: "경기 선행지표로 현재 경기 사이클 위치를 진단하고 계절별 유리한 자산을 살펴봅니다." },
