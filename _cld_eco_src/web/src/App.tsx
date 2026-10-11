@@ -24,29 +24,10 @@ import { useStockData } from "@/hooks/useStockData";
 import { useGlobalMarket } from "@/hooks/useGlobalMarket";
 import { useAliveAth } from "@/hooks/useAliveAth";
 
+import { TABS, tabUrl, SITE_NAME } from "@/lib/tabs";
+
 const queryClient = new QueryClient();
 
-const TABS = [
-  { value: "dashboard",  label: "📊 현재 상황", short: "현재" },
-  { value: "factcheck",  label: "🔍 팩트체크",  short: "팩트" },
-  { value: "history",    label: "📜 역사 분석", short: "역사" },
-  { value: "strategy",   label: "⚖️ 전략 비교", short: "전략" },
-  { value: "scenarios",  label: "🔮 시나리오",  short: "시나리오" },
-  { value: "portfolio",  label: "💼 자산 배분",  short: "배분" },
-  { value: "decision",   label: "🧭 실전 판단",  short: "판단" },
-  { value: "wisdom",     label: "🌟 현명투자",    short: "현명" },
-  { value: "quotes",     label: "💎 명언 검증",  short: "명언" },
-  { value: "mindset",    label: "🌱 마인드",      short: "마인드" },
-  { value: "ath",        label: "⚡ ATH 생존전략", short: "ATH" },
-  { value: "semisignal", label: "🔮 천기누설", short: "천기누설" },
-  { value: "reborinsight", label: "📊 리본인사이트", short: "리본인사이트" },
-  { value: "trading",    label: "📊 매매동향", short: "매매동향" },
-  { value: "telescope",  label: "🔭 망원경투자", short: "망원경" },
-  { value: "econocycle", label: "🕐 경기순환 사이클", short: "경기사이클" },
-  { value: "aliveath",   label: "🏔️ 살아있는 ATH",   short: "살아있는ATH" },
-  { value: "turnaround", label: "📈 턴어라운드",        short: "턴어라운드" },
-  { value: "news",       label: "📰 경제·주식 뉴스",   short: "뉴스" },
-];
 
 function fmt(v: number | null | undefined, decimals = 2): string {
   if (v == null) return "—";
@@ -152,11 +133,94 @@ function Ticker() {
   );
 }
 
+type StockDataT = ReturnType<typeof useStockData>;
+
+function TabContent({ tab, stockData }: { tab: string; stockData: StockDataT }) {
+  return (
+    <>
+      {tab === "dashboard"    && <Dashboard stockData={stockData} />}
+      {tab === "factcheck"    && <FactCheck />}
+      {tab === "history"      && <History />}
+      {tab === "strategy"     && <Strategy />}
+      {tab === "scenarios"    && <Scenarios />}
+      {tab === "portfolio"    && <Portfolio />}
+      {tab === "decision"     && <InvestDecision />}
+      {tab === "wisdom"       && <WisdomInvest />}
+      {tab === "quotes"       && <Quotes />}
+      {tab === "mindset"      && <MindSet />}
+      {tab === "ath"          && <AthStrategy kospi={stockData.kospi} />}
+      {tab === "semisignal"   && <SemiconductorSignal />}
+      {tab === "reborinsight" && <ReborInsight />}
+      {tab === "trading"      && <SamsungTrading />}
+      {tab === "telescope"    && <TelescopeInvest />}
+      {tab === "econocycle"   && <EconomicCycle />}
+      {tab === "aliveath"     && <AliveAth />}
+      {tab === "turnaround"   && <Turnaround />}
+      {tab === "news"         && <NewsCenter />}
+    </>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="border-t border-border/30 py-5 text-center text-xs text-muted-foreground bg-white/40 backdrop-blur-sm">
+      <p className="mb-1">
+        ⚠️ 본 분석은 역사적 데이터 기반 확률적 추론이며, 실제 미래는 다를 수 있습니다. 투자 권유가 아닌 정보 제공 목적입니다.
+      </p>
+      <p>
+        데이터: Yahoo Finance 등 공개 시세·공개 뉴스 RSS · 약 1시간마다 자동 수집 (실시간 아님)
+      </p>
+    </footer>
+  );
+}
+
+/** 지금 주소가 메뉴 단독 페이지(/cld_eco/turnaround/ 등)이면 그 메뉴 이름 */
+function standaloneTab(): string | null {
+  const base = import.meta.env.BASE_URL;
+  const p = window.location.pathname;
+  if (!p.startsWith(base)) return null;
+  const rest = p.slice(base.length).replace(/\/(index\.html)?$/, "");
+  return TABS.some(t => t.value === rest) ? rest : null;
+}
+
+/** 메뉴 하나만 보여 주는 단독 페이지 */
+function StandalonePage({ tab }: { tab: string }) {
+  const stockData = useStockData();
+  const def = TABS.find(t => t.value === tab)!;
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="sticky top-0 z-50 w-full border-b border-border/30 bg-background/98 backdrop-blur supports-[backdrop-filter]:bg-background/90">
+        <div className="container max-w-screen-xl mx-auto px-4 flex h-14 items-center justify-between gap-3">
+          <a href={tabUrl(tab)} className="font-black text-base md:text-lg tracking-tight truncate">{def.label}</a>
+          <a href={import.meta.env.BASE_URL} className="shrink-0 text-xs font-bold text-primary border border-primary/30 rounded-full px-3 py-1 hover:bg-primary/5">
+            📚 {SITE_NAME} 전체 메뉴
+          </a>
+        </div>
+        <Ticker />
+      </header>
+      <main className="container max-w-screen-xl mx-auto px-4 py-8 pb-12">
+        <TabContent tab={tab} stockData={stockData} />
+      </main>
+      <nav className="container max-w-screen-xl mx-auto px-4 pb-10">
+        <div className="text-sm font-black mb-2">🧭 다른 메뉴도 둘러보기</div>
+        <div className="flex flex-wrap gap-2">
+          {TABS.filter(t => t.value !== tab).map(t => (
+            <a key={t.value} href={tabUrl(t.value)} className="px-3 py-1.5 rounded-full text-xs font-bold bg-white border border-border hover:border-primary/40">
+              {t.label}
+            </a>
+          ))}
+        </div>
+      </nav>
+      <SiteFooter />
+    </div>
+  );
+}
+
 function MainApp() {
-  // 탭마다 주소(#factcheck 등)를 가져서 바로 열거나 공유할 수 있게 함
+  // 예전 주소(#factcheck 등)도 그대로 열리게 함
   const tabFromHash = () => {
     const h = window.location.hash.slice(1);
-    return TABS.some(t => t.value === h && !t.href) ? h : "dashboard";
+    return TABS.some(t => t.value === h) ? h : "dashboard";
   };
   const [activeTab, setActiveTabState] = useState(tabFromHash);
   const setActiveTab = (v: string) => {
@@ -179,7 +243,7 @@ function MainApp() {
         <div className="container max-w-screen-xl mx-auto px-4 flex h-14 items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="w-2 h-2 rounded-full bg-destructive animate-pulse shrink-0" />
-            <span className="font-black text-base md:text-lg tracking-tight">KOSPI 투자 분석 센터</span>
+            <span className="font-black text-base md:text-lg tracking-tight">{SITE_NAME}</span>
             <span className="hidden md:inline text-xs text-muted-foreground border border-border/40 px-2 py-0.5 rounded-full">
               ATH 9,385 · 2026.06
             </span>
@@ -202,37 +266,24 @@ function MainApp() {
         <div className="border-t border-border/20 overflow-x-auto scrollbar-none">
           <div className="container max-w-screen-xl mx-auto flex min-w-max">
             {TABS.map((tab) => (
-              tab.href ? (
-                <a key={tab.value}
-                  href={tab.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-testid={`tab-${tab.value}`}
-                  className="px-4 md:px-5 py-2.5 text-xs md:text-sm font-medium whitespace-nowrap border-b-2 border-transparent text-blue-500 hover:text-blue-600 hover:border-blue-400 transition-all duration-150 flex items-center gap-1">
-                  <span className="hidden md:inline">{tab.label}</span>
-                  <span className="md:hidden">{tab.short}</span>
-                  <span className="text-[10px] opacity-70">↗</span>
-                </a>
-              ) : (
-                <a key={tab.value}
-                  href={`#${tab.value}`}
-                  onClick={(e) => {
-                    // 보통 클릭은 이 화면에서 탭 전환, Ctrl·휠 클릭 등은 새 탭으로 열기
-                    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-                    e.preventDefault();
-                    setActiveTab(tab.value);
-                  }}
-                  title={`${tab.label} — 길게 누르거나 오른쪽 클릭하면 새 탭으로 열 수 있어요`}
-                  data-testid={`tab-${tab.value}`}
-                  className={`px-4 md:px-5 py-2.5 text-xs md:text-sm font-medium whitespace-nowrap border-b-2 transition-all duration-150 ${
-                    activeTab === tab.value
-                      ? "border-primary text-foreground"
-                      : "border-transparent text-muted-foreground hover:text-foreground/80 hover:border-border/40"
-                  }`}>
-                  <span className="hidden md:inline">{tab.label}</span>
-                  <span className="md:hidden">{tab.short}</span>
-                </a>
-              )
+              <a key={tab.value}
+                href={tabUrl(tab.value)}
+                onClick={(e) => {
+                  // 보통 클릭은 이 화면에서 탭 전환, 오른쪽 클릭·길게 누르기·Ctrl·휠 클릭은 메뉴 단독 페이지를 새 탭으로
+                  if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                  e.preventDefault();
+                  setActiveTab(tab.value);
+                }}
+                title={`${tab.label} — 길게 누르거나 오른쪽 클릭하면 이 메뉴만 따로 새 탭으로 열 수 있어요`}
+                data-testid={`tab-${tab.value}`}
+                className={`px-4 md:px-5 py-2.5 text-xs md:text-sm font-medium whitespace-nowrap border-b-2 transition-all duration-150 ${
+                  activeTab === tab.value
+                    ? "border-primary text-foreground"
+                    : "border-transparent text-muted-foreground hover:text-foreground/80 hover:border-border/40"
+                }`}>
+                <span className="hidden md:inline">{tab.label}</span>
+                <span className="md:hidden">{tab.short}</span>
+              </a>
             ))}
           </div>
         </div>
@@ -245,45 +296,21 @@ function MainApp() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.15 }}>
-            {activeTab === "dashboard"  && <Dashboard stockData={stockData} />}
-            {activeTab === "factcheck"  && <FactCheck />}
-            {activeTab === "history"    && <History />}
-            {activeTab === "strategy"   && <Strategy />}
-            {activeTab === "scenarios"  && <Scenarios />}
-            {activeTab === "portfolio"  && <Portfolio />}
-            {activeTab === "decision"   && <InvestDecision />}
-            {activeTab === "wisdom"     && <WisdomInvest />}
-            {activeTab === "quotes"     && <Quotes />}
-            {activeTab === "mindset"    && <MindSet />}
-            {activeTab === "ath"        && <AthStrategy kospi={stockData.kospi} />}
-            {activeTab === "semisignal" && <SemiconductorSignal />}
-            {activeTab === "reborinsight" && <ReborInsight />}
-            {activeTab === "trading"    && <SamsungTrading />}
-            {activeTab === "telescope"  && <TelescopeInvest />}
-            {activeTab === "econocycle" && <EconomicCycle />}
-            {activeTab === "aliveath"   && <AliveAth />}
-            {activeTab === "turnaround" && <Turnaround />}
-            {activeTab === "news"       && <NewsCenter />}
+            <TabContent tab={activeTab} stockData={stockData} />
           </motion.div>
         </AnimatePresence>
       </main>
 
-      <footer className="border-t border-border/30 py-5 text-center text-xs text-muted-foreground bg-white/40 backdrop-blur-sm">
-        <p className="mb-1">
-          ⚠️ 본 분석은 역사적 데이터 기반 확률적 추론이며, 실제 미래는 다를 수 있습니다. 투자 권유가 아닌 정보 제공 목적입니다.
-        </p>
-        <p>
-          데이터: Yahoo Finance 공개 시세 (^KS11, ^GSPC, ^NDX, 005930.KS, 000660.KS 등) · GitHub Actions가 약 1시간마다 자동 수집하는 정적 사이트 (실시간 아님) · 원본: Replit Stock Insights
-        </p>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
 
 export default function App() {
+  const solo = standaloneTab();
   return (
     <QueryClientProvider client={queryClient}>
-      <MainApp />
+      {solo ? <StandalonePage tab={solo} /> : <MainApp />}
     </QueryClientProvider>
   );
 }

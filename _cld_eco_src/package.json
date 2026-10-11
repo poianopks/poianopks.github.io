@@ -7,7 +7,7 @@
   "scripts": {
     "data": "tsx scripts/build-data.ts",
     "dev": "vite --config web/vite.config.ts",
-    "build": "vite build --config web/vite.config.ts",
+    "build": "vite build --config web/vite.config.ts && tsx scripts/make-pages.ts",
     "preview": "vite preview --config web/vite.config.ts"
   },
   "dependencies": {
