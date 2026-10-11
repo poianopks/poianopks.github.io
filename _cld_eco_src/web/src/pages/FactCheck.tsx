@@ -1024,44 +1024,6 @@ export function FactCheck() {
         )}
       </div>
 
-      {/* Mobile App Banner */}
-      <Card className="border-2 border-primary/30 bg-gradient-to-br from-[hsl(217,91%,50%)]/5 to-[hsl(222,40%,14%)]/5">
-        <CardContent className="pt-5 pb-5">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="flex items-center gap-3 flex-1">
-              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-2xl shrink-0">
-                📱
-              </div>
-              <div>
-                <p className="font-bold text-foreground">KOSPI 투자 분석 — 모바일 앱</p>
-                <p className="text-sm text-muted-foreground mt-0.5">
-                  현황·ADR 11종·야간레이더를 스마트폰에 최적화된 UI로 확인하세요.
-                  실시간 데이터 자동 갱신 (현황 5분, 야간 1분).
-                </p>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {["KOSPI 이격도", "야간선물", "ADR 11종 분석", "원/달러 환율"].map(tag => (
-                    <span key={tag} className="text-[10px] bg-primary/10 text-primary rounded-full px-2 py-0.5 font-medium">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <a
-              href="/kospi-mobile/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="shrink-0 inline-flex items-center gap-2 bg-primary text-primary-foreground rounded-xl px-5 py-2.5 text-sm font-bold hover:opacity-90 active:scale-[0.97] transition-all"
-            >
-              앱 열기
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                <polyline points="15 3 21 3 21 9"/>
-                <line x1="10" y1="14" x2="21" y2="3"/>
-              </svg>
-            </a>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* ── 코스톨라니 달걀이론 ─────────────────────────────────────────────── */}
       <div className="border-t border-slate-200 pt-6" />
 
