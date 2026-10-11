@@ -150,7 +150,7 @@ function TabContent({ tab, stockData }: { tab: string; stockData: StockDataT }) 
       {tab === "mindset"      && <MindSet />}
       {tab === "ath"          && <AthStrategy kospi={stockData.kospi} />}
       {tab === "semisignal"   && <SemiconductorSignal />}
-      {tab === "insight" && <Insight />}
+      {tab === "reborinsight" && <Insight />}
       {tab === "trading"      && <SamsungTrading />}
       {tab === "telescope"    && <TelescopeInvest />}
       {tab === "econocycle"   && <EconomicCycle />}
