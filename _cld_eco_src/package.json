@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "KOSPI 투자 분석 센터 — Replit Stock Insights를 서버 없는 정적 사이트로 옮긴 버전",
+  "description": "KOSPI 투자 분석 센터 — 서버·유료 API 없이 GitHub Pages에서 도는 정적 사이트",
   "scripts": {
     "data": "tsx scripts/build-data.ts",
     "dev": "vite --config web/vite.config.ts",

@@ -143,3 +143,6 @@
   -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 2px 16px 0 rgba(99, 130, 200, 0.08), 0 1px 3px rgba(0,0,0,0.06);
 }
+
+/* 원본 이미지가 없는 그림 자리는 숨김 */
+img:not([src]), div:has(> img:not([src])) { display: none; }
