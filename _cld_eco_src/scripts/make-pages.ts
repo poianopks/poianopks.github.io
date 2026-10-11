@@ -5,7 +5,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { TABS, SITE_NAME } from "../web/src/lib/tabs";
+import { TABS, SITE_NAME, RENAMED } from "../web/src/lib/tabs";
 
 const DIST = path.resolve(import.meta.dirname, "../dist");
 const BASE = process.env.BASE_PATH ?? "/cld_eco/";
@@ -34,5 +34,14 @@ for (const t of TABS) {
   const dir = path.join(DIST, t.value);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, "index.html"), page(`${t.title} | ${SITE_NAME}`, t.desc, `${ORIGIN}${BASE}${t.value}/`));
+}
+// 이름이 바뀐 예전 주소는 새 주소로 바로 이동
+for (const [from, to] of Object.entries(RENAMED)) {
+  const url = `${ORIGIN}${BASE}${to}/`;
+  fs.mkdirSync(path.join(DIST, from), { recursive: true });
+  fs.writeFileSync(
+    path.join(DIST, from, "index.html"),
+    `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="robots" content="noindex"><link rel="canonical" href="${url}"><meta http-equiv="refresh" content="0; url=${url}"><title>이동 중…</title></head><body><a href="${url}">새 주소로 이동</a></body></html>\n`,
+  );
 }
 console.log(`✅ 메뉴별 단독 페이지 ${TABS.length}개 생성`);

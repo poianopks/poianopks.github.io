@@ -14,7 +14,7 @@ import { MindSet } from "@/pages/MindSet";
 import { AthStrategy } from "@/pages/AthStrategy";
 import { SamsungTrading } from "@/pages/SamsungTrading";
 import { SemiconductorSignal } from "@/pages/SemiconductorSignal";
-import { ReborInsight } from "@/pages/ReborInsight";
+import { Insight } from "@/pages/Insight";
 import { TelescopeInvest } from "@/pages/TelescopeInvest";
 import { EconomicCycle } from "@/pages/EconomicCycle";
 import { AliveAth } from "@/pages/AliveAth";
@@ -24,7 +24,7 @@ import { useStockData } from "@/hooks/useStockData";
 import { useGlobalMarket } from "@/hooks/useGlobalMarket";
 import { useAliveAth } from "@/hooks/useAliveAth";
 
-import { TABS, tabUrl, SITE_NAME } from "@/lib/tabs";
+import { TABS, tabUrl, SITE_NAME, RENAMED } from "@/lib/tabs";
 
 const queryClient = new QueryClient();
 
@@ -150,7 +150,7 @@ function TabContent({ tab, stockData }: { tab: string; stockData: StockDataT }) 
       {tab === "mindset"      && <MindSet />}
       {tab === "ath"          && <AthStrategy kospi={stockData.kospi} />}
       {tab === "semisignal"   && <SemiconductorSignal />}
-      {tab === "reborinsight" && <ReborInsight />}
+      {tab === "insight" && <Insight />}
       {tab === "trading"      && <SamsungTrading />}
       {tab === "telescope"    && <TelescopeInvest />}
       {tab === "econocycle"   && <EconomicCycle />}
@@ -219,7 +219,8 @@ function StandalonePage({ tab }: { tab: string }) {
 function MainApp() {
   // 예전 주소(#factcheck 등)도 그대로 열리게 함
   const tabFromHash = () => {
-    const h = window.location.hash.slice(1);
+    const raw = window.location.hash.slice(1);
+    const h = RENAMED[raw] ?? raw;
     return TABS.some(t => t.value === h) ? h : "dashboard";
   };
   const [activeTab, setActiveTabState] = useState(tabFromHash);
