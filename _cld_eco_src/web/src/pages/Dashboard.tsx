@@ -470,7 +470,7 @@ export function Dashboard({ stockData }: Props) {
         <span className={`w-1.5 h-1.5 rounded-full ${isLive ? "bg-emerald-400 animate-pulse" : "bg-amber-400"}`} />
         <span>
           {isLive
-            ? <>Yahoo Finance 최근 시세 · 확인: <strong className="text-foreground">{updatedAt}</strong> · 1분마다 자동 갱신</>
+            ? <>Yahoo Finance 최근 시세 · 확인: <strong className="text-foreground">{updatedAt}</strong> · 약 1시간마다 자동 갱신 (실시간 아님)</>
             : <>시세 연결 확인 중{error ? ` · ${error}` : ""}</>}
         </span>
       </div>
