@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { Dashboard } from "@/pages/Dashboard";
@@ -152,7 +152,21 @@ function Ticker() {
 }
 
 function MainApp() {
-  const [activeTab, setActiveTab] = useState("dashboard");
+  // 탭마다 주소(#factcheck 등)를 가져서 바로 열거나 공유할 수 있게 함
+  const tabFromHash = () => {
+    const h = window.location.hash.slice(1);
+    return TABS.some(t => t.value === h && !t.href) ? h : "dashboard";
+  };
+  const [activeTab, setActiveTabState] = useState(tabFromHash);
+  const setActiveTab = (v: string) => {
+    setActiveTabState(v);
+    history.replaceState(null, "", v === "dashboard" ? window.location.pathname : `#${v}`);
+  };
+  useEffect(() => {
+    const onHash = () => setActiveTabState(tabFromHash());
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
   const stockData = useStockData();
 
   const kospiDev200d = stockData.kospi?.dev200d;
