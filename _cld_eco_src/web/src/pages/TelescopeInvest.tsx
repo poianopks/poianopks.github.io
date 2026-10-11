@@ -1,283 +1,194 @@
+import { useEffect, useState } from "react";
+import { useStockData, type Quote } from "@/hooks/useStockData";
+import { useGlobalMarket } from "@/hooks/useGlobalMarket";
+import { useMacroMonitor } from "@/hooks/useMacroMonitor";
+import { tabUrl } from "@/lib/tabs";
+
+/* ─────────────────────────────────────────────────────────────
+   🔭 투자 망원경 — 아침 5분 시장 날씨 점검
+   이 사이트가 1시간마다 모으는 공개 데이터(Yahoo Finance·공개 RSS)로
+   오늘의 시장 날씨를 자동 진단합니다. 매매 신호가 아닌 참고용입니다.
+   ───────────────────────────────────────────────────────────── */
+
+type Level = "good" | "watch" | "warn" | "na";
+
+interface Check {
+  icon: string;
+  title: string;
+  value: string;
+  level: Level;
+  why: string;
+}
+
+const LEVEL = {
+  good:  { label: "양호", dot: "🟢", cls: "border-emerald-300 bg-emerald-50", text: "text-emerald-700" },
+  watch: { label: "주의", dot: "🟡", cls: "border-amber-300 bg-amber-50",   text: "text-amber-700" },
+  warn:  { label: "경고", dot: "🔴", cls: "border-red-300 bg-red-50",       text: "text-red-700" },
+  na:    { label: "확인 중", dot: "⚪", cls: "border-slate-200 bg-slate-50", text: "text-slate-500" },
+} as const;
+
+const pct = (v: number | null | undefined, d = 2) => (v == null ? "—" : `${v >= 0 ? "+" : ""}${v.toFixed(d)}%`);
+const num = (v: number | null | undefined, d = 0) => (v == null ? "—" : v.toLocaleString("ko-KR", { maximumFractionDigits: d }));
+
+function trendCheck(name: string, q: Quote | undefined, icon: string): Check {
+  const dev = q?.dev200d ?? null;
+  if (dev == null) return { icon, title: `${name} 200일선`, value: "—", level: "na", why: "데이터 확인 중" };
+  if (dev < 0) return { icon, title: `${name} 200일선`, value: `아래 ${pct(dev, 1)}`, level: "warn", why: "200일 이동평균 아래 = 장기 상승 추세가 약해진 상태" };
+  if (dev >= 25) return { icon, title: `${name} 200일선`, value: `위 ${pct(dev, 1)}`, level: "watch", why: "추세는 살아 있지만 평균에서 너무 멀어 과열 부담" };
+  return { icon, title: `${name} 200일선`, value: `위 ${pct(dev, 1)}`, level: "good", why: "200일선 위의 건강한 상승 추세" };
+}
+
+interface NewsItem { title: string; link: string; source: string; publishedAt: string | null; category: string }
+
 export function TelescopeInvest() {
-  const apps = [
-    {
-      name: "🔭 망원경 투자자 (Telescope)",
-      url: "https://stock-sense.replit.app/telescope/",
-      badge: "핵심 추천",
-      badgeColor: "bg-blue-500",
-      desc: "실시간 KOSPI·NASDAQ·S&P500 시세 + FRED 매크로 지표(PMI·CPI·금리·수익률 곡선) + AI 뉴스 24개 동시 수집. '시장의 폭풍을 먼저 보고 행동을 정하는' 망원경 컨셉.",
-      strengths: ["FRED 실시간 매크로(5개 지표 한 화면)", "AI 뉴스 24건 자동 분류(세계/한국/주식)", "공포·탐욕 지수 실시간", "30초 자동 갱신"],
-      usage: "매일 아침 1회 + 시장 급변 시 즉시 확인. PMI·수익률 곡선·공포탐욕 3가지만 보면 오늘의 시장 온도 파악 완료.",
-    },
-    {
-      name: "🧭 마켓 나침반 (Market Compass)",
-      url: "https://stock-sense.replit.app/market-compass/",
-      badge: "글로벌 한눈",
-      badgeColor: "bg-emerald-500",
-      desc: "다우·KOSPI·NASDAQ·S&P·원달러 5개 지수 실시간 + KOSPI 1년 차트 + 한국/미국 주요 종목 스파크라인. 글로벌 시장 전체를 한 화면에.",
-      strengths: ["5개 주요 지수 동시 비교", "주요 종목 스파크라인 트렌드", "매크로 지표·투자 철학·분석 도구 서브탭", "용어 사전 46개+"],
-      usage: "장 시작 전 글로벌 야간 흐름 확인. '어디가 오르고 어디가 빠졌나' 5초 파악.",
-    },
-    {
-      name: "🔬 스마트 렌즈 (Stock Lens)",
-      url: "https://stock-sense.replit.app/stock-lens/",
-      badge: "반도체 전문",
-      badgeColor: "bg-purple-500",
-      desc: "HBM 반도체 사이클 실시간 추적 (SK하이닉스 HBM 점유율 62%, 영업이익률 50.7%). 경기 사이클 위치(호황기·고점·후퇴·불황기) + 3원칙 체크리스트.",
-      strengths: ["HBM 점유율·이익률 실시간", "FRED 기반 경기 사이클 위치 게이지", "3가지 원칙 체크(호향·비용·경쟁)", "10년 결정적 순간 타임라인"],
-      usage: "SK하이닉스·삼성전자 매수/매도 타이밍 점검. 사이클 게이지가 '호황기' 이면 보유, '고점' 근접 시 분할 매도 검토.",
-    },
-    {
-      name: "📈 투자 나침반 (Invest Master)",
-      url: "https://stock-sense.replit.app/invest-master/",
-      badge: "이론 + 실전",
-      badgeColor: "bg-amber-500",
-      desc: "SK하이닉스·삼성전자·마이크론·NVIDIA 4종 실시간 주가 + '슈퍼사이클은 없다'·'감산→공급부족 공식'·'P×Q×E 공식' 등 핵심 이론 학습.",
-      strengths: ["4종 반도체 주가 실시간 비교", "PxQxE·비트그로스 계산기", "사이클 분석·시그널 트래커", "2018 데자뷰 경고 알림"],
-      usage: "반도체 주식 공부용. 이론(P×Q×E 공식)을 배우고 실전 시그널 트래커로 매매 타이밍 체크.",
-    },
+  const { kospi, sp500, ndx, sk, data: q } = useStockData();
+  const { data: gm } = useGlobalMarket();
+  const { data: macro } = useMacroMonitor();
+  const [news, setNews] = useState<NewsItem[]>([]);
+
+  useEffect(() => {
+    fetch("/api/news/feed").then(r => (r.ok ? r.json() : null)).then(d => d && setNews(d.items ?? [])).catch(() => {});
+  }, []);
+
+  const spread = macro?.rates.spreadNow ?? null;
+  const fx1m = macro?.fx.usdkrwChange1mo ?? null;
+  const dxy1m = macro?.liquidity.dxyChange1mo ?? null;
+  const ewy = gm.kospiProxy[0];
+  const skDev = sk?.dev200d ?? null;
+
+  const checks: Check[] = [
+    trendCheck("KOSPI", kospi, "🇰🇷"),
+    trendCheck("S&P 500", sp500, "🇺🇸"),
+    trendCheck("나스닥 100", ndx, "💻"),
+    spread == null
+      ? { icon: "📈", title: "장단기 금리차 (미국 10년−3개월)", value: "—", level: "na", why: "데이터 확인 중" }
+      : spread < 0
+        ? { icon: "📈", title: "장단기 금리차 (미국 10년−3개월)", value: `${spread.toFixed(2)}%p 역전`, level: "warn", why: "금리 역전은 역사적으로 경기 침체에 앞서 나타난 대표 신호" }
+        : { icon: "📈", title: "장단기 금리차 (미국 10년−3개월)", value: `+${spread.toFixed(2)}%p 정상`, level: spread < 0.3 ? "watch" : "good", why: spread < 0.3 ? "정상이지만 폭이 좁아 방향을 지켜볼 구간" : "정상 곡선 = 침체 선행 신호 없음" },
+    fx1m == null
+      ? { icon: "💱", title: "원/달러 환율 1개월 변화", value: "—", level: "na", why: "데이터 확인 중" }
+      : { icon: "💱", title: "원/달러 환율 1개월 변화", value: `${num(macro?.fx.usdkrwNow, 1)}원 (${pct(fx1m, 1)})`, level: fx1m >= 3 ? "warn" : fx1m >= 1.5 ? "watch" : "good",
+          why: fx1m >= 1.5 ? "원화 약세가 빠르면 외국인 자금이 빠져나갈 수 있음" : "환율이 안정적 = 외국인 수급 부담 적음" },
+    dxy1m == null
+      ? { icon: "💵", title: "달러 인덱스 1개월 변화", value: "—", level: "na", why: "데이터 확인 중" }
+      : { icon: "💵", title: "달러 인덱스 1개월 변화", value: `${num(macro?.liquidity.dxyNow, 1)} (${pct(dxy1m, 1)})`, level: dxy1m >= 3 ? "warn" : dxy1m >= 1.5 ? "watch" : "good",
+          why: dxy1m >= 1.5 ? "강달러는 세계 유동성을 줄여 신흥국 증시에 부담" : "달러가 안정적 = 유동성 환경 무난" },
+    !ewy
+      ? { icon: "🌙", title: "코스피 야간 방향 (EWY)", value: "—", level: "na", why: "데이터 확인 중" }
+      : { icon: "🌙", title: "코스피 야간 방향 (EWY)", value: `${pct(ewy.changePct)}`, level: ewy.changePct <= -2 ? "warn" : ewy.changePct <= -0.7 ? "watch" : "good",
+          why: "미국에 상장된 한국 ETF 움직임 = 다음 날 코스피 분위기 힌트" },
+    skDev == null
+      ? { icon: "🔬", title: "반도체 과열 (SK하이닉스 200일 이격)", value: "—", level: "na", why: "데이터 확인 중" }
+      : { icon: "🔬", title: "반도체 과열 (SK하이닉스 200일 이격)", value: pct(skDev, 1), level: skDev >= 80 ? "warn" : skDev >= 40 ? "watch" : "good",
+          why: skDev >= 40 ? "주도주가 평균에서 크게 벌어지면 조정 폭도 커지기 쉬움" : "주도주 과열 부담 크지 않음" },
   ];
 
-  const analysisDate = "2026년 7월 8일";
+  const warn = checks.filter(c => c.level === "warn").length;
+  const watch = checks.filter(c => c.level === "watch").length;
+  const known = checks.filter(c => c.level !== "na").length;
+  const weather =
+    known === 0 ? { icon: "⏳", label: "데이터 확인 중", desc: "잠시 뒤 다시 확인해 주세요.", cls: "from-slate-700 to-slate-500" }
+    : warn >= 3 ? { icon: "⛈️", label: "폭풍 주의", desc: "경고 신호가 여러 개 겹쳤습니다. 신규 매수는 천천히, 현금 비중과 손절 기준부터 점검하세요.", cls: "from-red-800 to-slate-800" }
+    : warn >= 1 || watch >= 3 ? { icon: "🌥️", label: "구름 많음", desc: "일부 신호가 흔들립니다. 계획한 분할매수 범위 안에서만 움직이세요.", cls: "from-amber-600 to-slate-700" }
+    : { icon: "☀️", label: "맑음", desc: "큰 경고 신호는 없습니다. 그래도 몰빵·추격매수는 금물, 원칙대로 꾸준히.", cls: "from-sky-600 to-emerald-600" };
 
-  const signals = [
-    { icon: "📊", label: "KOSPI", value: "7,562 (−1.22%)", detail: "ATH 9,385 대비 −19.4% 조정", color: "text-red-600" },
-    { icon: "🇺🇸", label: "NASDAQ", value: "25,819 (−1.16%)", detail: "고점 대비 약 −5~7% 조정 수준", color: "text-red-600" },
-    { icon: "😰", label: "공포·탐욕", value: "43 — 공포", detail: "역사적으로 '공포' 구간 = 매수 기회 구간", color: "text-amber-600" },
-    { icon: "🏭", label: "ISM PMI", value: "60 (강한 확장)", detail: "50 초과 = 경기 확장. 강세장은 PMI 60대에서 무너지지 않음", color: "text-emerald-600" },
-    { icon: "📈", label: "수익률 곡선(10Y-2Y)", value: "+0.36%p (정상)", detail: "양수 = 역전 없음 = 침체 신호 없음", color: "text-emerald-600" },
-    { icon: "💰", label: "연방기금리", value: "3.63%", detail: "고금리 지속 중이나 인상 사이클은 종료", color: "text-amber-600" },
-    { icon: "🔥", label: "CPI(YoY)", value: "4.3%", detail: "아직 목표(2%) 상회 → Fed 인하 속도 제약", color: "text-amber-600" },
-    { icon: "🤖", label: "NVIDIA", value: "$197 (+0.71%)", detail: "AI 반도체 대장주 상승 → AI 투자 사이클 유효", color: "text-emerald-600" },
+  const updated = q.updatedAt ? new Date(q.updatedAt).toLocaleString("ko-KR", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
+
+  const routine = [
+    { step: "1분", icon: "☀️", title: "오늘의 날씨 보기", desc: "이 화면 맨 위 날씨와 경고 개수만 확인합니다.", link: null as string | null },
+    { step: "1분", icon: "📊", title: "코스피 과열 온도", desc: "200일·200주 이격도와 위험도 게이지를 봅니다.", link: "dashboard" },
+    { step: "1분", icon: "🌙", title: "밤사이 미국·환율", desc: "미국 선물, 한국 ADR, EWY, 원/달러를 확인합니다.", link: "factcheck" },
+    { step: "1분", icon: "📰", title: "뉴스 키워드", desc: "'지금 많이 나오는 키워드'로 시장의 관심사를 봅니다.", link: "news" },
+    { step: "1분", icon: "📝", title: "내 계획과 비교", desc: "미리 정한 분할매수 가격·손절 기준과 비교하고, 감정 매매는 하지 않습니다.", link: "decision" },
   ];
-
-  const historicalParallels = [
-    {
-      year: "1987 블랙먼데이",
-      similarity: "높음",
-      simColor: "text-amber-600",
-      context: "강세장 중반 급락 (−22% 단일일). 경기는 탄탄, PMI 정상. → 이후 3년간 bull market 지속",
-      lesson: "경제 펀더멘털이 살아있는 조정은 결국 회복됨",
-    },
-    {
-      year: "1998 LTCM 위기",
-      similarity: "높음",
-      simColor: "text-amber-600",
-      context: "러시아 디폴트→글로벌 패닉→NASDAQ 30% 급락. PMI 정상, 수익률 곡선 양수. → 이후 2년간 폭등",
-      lesson: "공포 지수 40대 이하 = 역사적 매수 구간",
-    },
-    {
-      year: "2018 Q4",
-      similarity: "중간",
-      simColor: "text-blue-600",
-      context: "미중 무역전쟁 + Fed 금리 인상 → S&P −20%. PMI 55, 수익률 곡선 아직 양수. → 2019년 강한 반등",
-      lesson: "무역 분쟁/금리 공포 조정은 펀더멘털 붕괴 아님",
-    },
-    {
-      year: "2000 IT 버블 붕괴",
-      similarity: "낮음",
-      simColor: "text-emerald-600",
-      context: "PMI 하락 전환, 수익률 곡선 역전, P/E 100배+. 구조적 버블 붕괴 시작",
-      lesson: "현재와 다름: 수익률 곡선 정상, PMI 60, AI 기업 실제 이익 창출 중",
-    },
-    {
-      year: "2022 하락장",
-      similarity: "낮음",
-      simColor: "text-emerald-600",
-      context: "수익률 곡선 역전(−0.9%p), CPI 9%, Fed 75bp 인상 연속. 대세 하락 조건 완비",
-      lesson: "현재 수익률 곡선 +0.36%p — 2022년과 근본 다름",
-    },
-  ];
-
-  const verdictPoints = [
-    { verdict: "✅ 강세 유지 근거", color: "border-emerald-400 bg-emerald-50", items: [
-      "PMI 60 — 역사상 강세장은 PMI 60대에서 꺾인 적 거의 없음",
-      "수익률 곡선 +0.36%p — 침체 선행 신호(역전) 없음",
-      "NVIDIA +0.71% — AI 반도체 투자 사이클 아직 살아있음",
-      "공포탐욕 43 — Sir John Templeton: '강세장은 비관 속에서 자란다'",
-      "SK하이닉스 HBM 점유율 62% — 실적 기반 견고",
-    ]},
-    { verdict: "⚠️ 주의 신호", color: "border-amber-400 bg-amber-50", items: [
-      "KOSPI ATH 9,385 대비 −19.4% — 기술적 조정 깊어짐",
-      "15일 연속 하락 우세 — 단기 추세 붕괴 경계 필요",
-      "CPI 4.3% — Fed 조기 인하 어려움 → 유동성 제약",
-      "삼성전자 −2.53%, 마이크론 −4.71% — 메모리 조정 압박",
-      "소비자심리 44.8 — 실물경기 약화 우려",
-    ]},
-  ];
-
-  const conclusion = {
-    title: "AI 종합 판단 — 2026.7.8 기준",
-    verdict: "대세 상승장은 현재도 유효 (확률 약 70%)",
-    subVerdict: "다만 KOSPI 기준 '중기 조정 국면' 진행 중",
-    reasoning: [
-      "대세 하락장(Bear Market)의 3대 조건: ① 수익률 곡선 역전 ② PMI 45 미만으로 추락 ③ 신용 스프레드 급등 — 현재 3개 모두 미충족",
-      "15일 연속 하락은 '단기 추세 약화'이지 '대세 전환 확인'이 아님. 대세 전환은 보통 6개월 이상 선행지표 악화 후 발생",
-      "AI 반도체(NVIDIA +0.71%)가 버티는 한, AI 관련 설비투자(CAPEX) 사이클은 살아있음 — 이것이 현재 강세장의 핵심 엔진",
-      "Benjamin Graham: '시장은 단기적으로 투표기계, 장기적으로 저울.' 공포 43 구간은 저울이 가격을 낮게 측정하는 시점",
-    ],
-    scenario: [
-      { prob: "70%", label: "조정 후 재상승", desc: "KOSPI 7,000~7,500 박스권 소화 → 연말 8,000~8,500 회복 시도. 미 PMI 유지·AI 투자 지속이 전제조건" },
-      { prob: "20%", label: "추가 조정 심화", desc: "KOSPI 6,500~7,000 추가 하락. CPI 재상승 or 트럼프 관세 확대 시 발동. 대세 하락장은 아님" },
-      { prob: "10%", label: "대세 하락장 전환", desc: "수익률 곡선 역전 + PMI 45 하락 + 글로벌 신용위기 동시 발생 시. 현재 조건 미충족" },
-    ],
-    action: "지금 해야 할 것: ① 공포에 팔지 말 것 ② 분할 매수 기회로 활용 ③ NVIDIA·SK하이닉스 등 AI 반도체 핵심주 비중 유지 ④ 매달 망원경 앱으로 PMI·수익률 곡선 모니터링",
-    quote: "\"강세장은 비관 속에서 태어나, 회의 속에서 자라며, 낙관 속에서 성숙하다가, 행복감 속에서 죽는다.\" — Sir John Templeton\n\n지금 시장의 온도: 비관과 회의 사이 = 역사적으로 강세장의 중간 구간",
-  };
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-3">
-          <span className="text-3xl">🔭</span>
-          <div>
-            <h1 className="text-2xl font-black text-slate-900">망원경투자</h1>
-            <p className="text-slate-500 text-sm">stock-sense.replit.app — 4개 앱 완전 분석 + 2026.7.8 시장 판단</p>
-          </div>
-        </div>
-      </div>
-
-      <a
-        href="https://stock-sense.replit.app/telescope/"
-        target="_blank"
-        rel="noreferrer"
-        className="flex items-center justify-between gap-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-5 shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-all group"
-      >
+      {/* 헤더 */}
+      <div className="flex items-center gap-3">
+        <span className="text-3xl">🔭</span>
         <div>
-          <div className="text-lg font-black mb-0.5">🔭 망원경 투자자 — 바로 열기</div>
-          <div className="text-blue-100 text-sm">실시간 KOSPI·NASDAQ·FRED 매크로·AI뉴스 한 화면 · 30초 자동갱신</div>
-          <div className="text-blue-200 text-xs mt-1">stock-sense.replit.app/telescope/</div>
+          <h1 className="text-2xl font-black text-slate-900">투자 망원경</h1>
+          <p className="text-slate-500 text-sm">아침 5분, 시장의 날씨를 먼저 보고 오늘의 행동을 정하는 곳</p>
         </div>
-        <span className="text-4xl group-hover:translate-x-1 transition-transform">↗</span>
-      </a>
+      </div>
 
-      <div>
-        <h2 className="text-lg font-black text-slate-800 mb-3">📋 4개 앱 완전 분석 & 평가</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {apps.map((app) => (
-            <div key={app.name} className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col gap-2">
-              <div className="flex items-start justify-between gap-2">
-                <div className="font-black text-slate-800 text-sm leading-tight">{app.name}</div>
-                <span className={`shrink-0 text-white text-[10px] font-bold px-2 py-0.5 rounded-full ${app.badgeColor}`}>{app.badge}</span>
-              </div>
-              <p className="text-slate-600 text-xs leading-relaxed">{app.desc}</p>
-              <div>
-                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1">핵심 기능</div>
-                <ul className="space-y-0.5">
-                  {app.strengths.map((s, i) => (
-                    <li key={i} className="text-xs text-slate-600">✓ {s}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-auto pt-2 border-t border-slate-100">
-                <div className="text-[10px] font-bold text-blue-600 uppercase mb-0.5">유익하게 사용하는 법</div>
-                <p className="text-xs text-slate-600">{app.usage}</p>
-              </div>
-              <a
-                href={app.url}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-block text-center bg-slate-800 text-white text-xs font-bold rounded-lg py-1.5 hover:bg-slate-700 transition-colors"
-              >
-                열기 ↗
-              </a>
+      {/* 오늘의 시장 날씨 */}
+      <div className={`rounded-2xl p-6 text-white shadow-lg bg-gradient-to-br ${weather.cls}`}>
+        <div className="flex items-start gap-4">
+          <div className="text-6xl leading-none">{weather.icon}</div>
+          <div className="flex-1">
+            <div className="text-xs font-bold opacity-80">오늘의 시장 날씨 · 데이터 기준 {updated}</div>
+            <div className="text-3xl font-black mt-1">{weather.label}</div>
+            <p className="text-sm opacity-90 mt-1 leading-relaxed">{weather.desc}</p>
+            <div className="flex flex-wrap gap-2 mt-3 text-xs font-bold">
+              <span className="px-2.5 py-1 rounded-full bg-white/20">🔴 경고 {warn}</span>
+              <span className="px-2.5 py-1 rounded-full bg-white/20">🟡 주의 {watch}</span>
+              <span className="px-2.5 py-1 rounded-full bg-white/20">🟢 양호 {checks.filter(c => c.level === "good").length}</span>
             </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="border-t-4 border-blue-500 pt-6">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="bg-blue-500 text-white text-xs font-black px-2.5 py-1 rounded-full">{analysisDate} 오늘의 답</span>
-          <span className="text-slate-400 text-xs">AI 분석 기준 · 투자 권유 아님</span>
-        </div>
-        <h2 className="text-xl font-black text-slate-900 mt-2 leading-tight">
-          지금 대세 상승장이 꺾인 건가요?<br />
-          <span className="text-blue-600">나스닥·코스피 15일 연속 하락 — 진짜 하락장의 시작?</span>
-        </h2>
-      </div>
-
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        {signals.map((s, i) => (
-          <div key={i} className="bg-white border border-slate-200 rounded-xl p-3 flex flex-col gap-1">
-            <div className="text-lg">{s.icon}</div>
-            <div className="text-[10px] text-slate-400 font-bold uppercase">{s.label}</div>
-            <div className={`font-black text-sm ${s.color}`}>{s.value}</div>
-            <div className="text-[10px] text-slate-500 leading-snug">{s.detail}</div>
           </div>
-        ))}
+        </div>
       </div>
 
+      {/* 8가지 망원경 점검 */}
       <div>
-        <h3 className="font-black text-slate-800 mb-3">📚 역사는 뭐라고 하는가 — 과거 유사 사례 비교</h3>
-        <div className="space-y-2">
-          {historicalParallels.map((h, i) => (
-            <div key={i} className="bg-white border border-slate-200 rounded-xl p-3">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="font-black text-slate-800 text-sm">{h.year}</span>
-                <span className={`text-xs font-bold ${h.simColor}`}>현재 유사도: {h.similarity}</span>
-              </div>
-              <p className="text-xs text-slate-600 mb-1">{h.context}</p>
-              <p className="text-xs text-blue-700 font-bold">💡 교훈: {h.lesson}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {verdictPoints.map((vp, i) => (
-          <div key={i} className={`border-l-4 rounded-xl p-4 ${vp.color}`}>
-            <div className="font-black text-slate-800 mb-2">{vp.verdict}</div>
-            <ul className="space-y-1">
-              {vp.items.map((item, j) => (
-                <li key={j} className="text-xs text-slate-700">{item}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-
-      <div className="bg-gradient-to-br from-slate-900 to-blue-950 rounded-2xl p-6 text-white shadow-xl">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="bg-blue-500 text-white text-xs font-black px-2.5 py-1 rounded-full">{analysisDate} 최종 판단</span>
-        </div>
-        <h3 className="text-xl font-black mb-1">{conclusion.verdict}</h3>
-        <p className="text-blue-300 text-sm mb-4">{conclusion.subVerdict}</p>
-
-        <div className="space-y-2 mb-4">
-          {conclusion.reasoning.map((r, i) => (
-            <div key={i} className="flex gap-2 text-sm text-slate-300">
-              <span className="text-blue-400 shrink-0 font-bold">{i + 1}.</span>
-              <span>{r}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="border-t border-white/10 pt-4 mb-4">
-          <div className="font-bold text-blue-300 text-xs uppercase mb-2">시나리오별 확률</div>
-          <div className="space-y-2">
-            {conclusion.scenario.map((sc, i) => (
-              <div key={i} className="flex gap-3 items-start">
-                <span className={`shrink-0 font-black text-sm px-2 py-0.5 rounded ${i === 0 ? "bg-emerald-500/30 text-emerald-300" : i === 1 ? "bg-amber-500/30 text-amber-300" : "bg-red-500/30 text-red-300"}`}>{sc.prob}</span>
-                <div>
-                  <span className="font-bold text-white text-sm">{sc.label}</span>
-                  <p className="text-slate-400 text-xs">{sc.desc}</p>
+        <h2 className="text-lg font-black text-slate-800 mb-1">🔍 망원경으로 보는 8가지 점검</h2>
+        <p className="text-xs text-slate-500 mb-3">1시간마다 모으는 공개 데이터로 자동 판정합니다. 하나의 신호보다 여러 신호가 같은 방향인지가 중요해요.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {checks.map((c) => {
+            const L = LEVEL[c.level];
+            return (
+              <div key={c.title} className={`rounded-xl border-2 p-4 ${L.cls}`}>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="font-black text-sm text-slate-800">{c.icon} {c.title}</div>
+                  <span className={`text-xs font-black ${L.text}`}>{L.dot} {L.label}</span>
                 </div>
+                <div className={`text-xl font-black mt-1 ${L.text}`}>{c.value}</div>
+                <p className="text-xs text-slate-600 mt-1 leading-relaxed">{c.why}</p>
               </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-blue-500/20 border border-blue-500/30 rounded-xl p-3 mb-4">
-          <div className="font-bold text-blue-300 text-xs mb-1">🎯 지금 해야 할 행동</div>
-          <p className="text-white text-sm">{conclusion.action}</p>
-        </div>
-
-        <div className="border-t border-white/10 pt-4">
-          <div className="font-bold text-amber-300 text-xs mb-2">📜 역사의 격언</div>
-          <p className="text-slate-300 text-sm italic whitespace-pre-line">{conclusion.quote}</p>
+            );
+          })}
         </div>
       </div>
+
+      {/* 아침 5분 루틴 */}
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+        <h2 className="text-lg font-black text-slate-800 mb-3">⏱️ 아침 5분 루틴</h2>
+        <div className="space-y-2">
+          {routine.map((r, i) => (
+            <div key={r.title} className="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <span className="shrink-0 w-7 h-7 rounded-full bg-blue-600 text-white text-xs font-black flex items-center justify-center">{i + 1}</span>
+              <div className="flex-1">
+                <div className="font-bold text-sm">{r.icon} {r.title} <span className="text-[10px] text-slate-400 font-normal">({r.step})</span></div>
+                <div className="text-xs text-slate-600">{r.desc}</div>
+              </div>
+              {r.link && (
+                <a href={tabUrl(r.link)} className="shrink-0 text-xs font-bold text-blue-600 border border-blue-200 rounded-lg px-2.5 py-1 hover:bg-blue-50">열기 →</a>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 오늘의 헤드라인 */}
+      {news.length > 0 && (
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-black text-slate-800">📰 지금의 헤드라인</h2>
+            <a href={tabUrl("news")} className="text-xs font-bold text-blue-600">뉴스 더 보기 →</a>
+          </div>
+          <ul className="space-y-2">
+            {news.slice(0, 6).map((n) => (
+              <li key={n.link}>
+                <a href={n.link} target="_blank" rel="noopener noreferrer" className="block text-sm hover:text-blue-700">
+                  <span className="font-bold">{n.title}</span>
+                  <span className="text-[11px] text-slate-400 ml-2">{n.source}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* 대세상승 꺾이는 힌트 섹션 */}
       <div className="border-t-4 border-red-500 pt-6">
@@ -403,7 +314,7 @@ export function TelescopeInvest() {
       </div>
 
       <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-800">
-        ⚠️ 본 분석은 2026년 7월 8일 기준 공개 데이터(FRED·Yahoo Finance·ISM)와 역사적 패턴을 기반으로 한 AI 확률적 추론입니다. 미래를 보장하지 않으며, 투자 권유가 아닌 정보 제공 목적입니다. 최종 투자 결정은 본인의 판단과 책임 하에 하시기 바랍니다.
+        ⚠️ 투자 망원경의 날씨와 점검 결과는 공개 데이터(Yahoo Finance 등)로 자동 계산한 참고 정보이며, 매수·매도 신호나 투자 권유가 아닙니다. 데이터는 약 1시간마다 갱신되어 실시간과 다를 수 있습니다. 최종 투자 결정은 본인의 판단과 책임 하에 하시기 바랍니다.
       </div>
     </div>
   );
