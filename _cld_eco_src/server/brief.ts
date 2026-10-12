@@ -10,13 +10,18 @@
  */
 
 const UA = "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Mobile Safari/537.36";
+const YAHOO_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36";
 
 type Bar = { date: string; close: number };
 
 /** Yahoo 일봉. 날짜는 거래소 현지 날짜(YYYY-MM-DD) */
 async function yahooDaily(symbol: string, fromUnix: number): Promise<{ bars: Bar[]; last: number | null; lastTime: string | null }> {
   const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?period1=${fromUnix}&period2=${Math.floor(Date.now() / 1000) + 86400}&interval=1d`;
-  const r = await fetch(url, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(20000) });
+  let r = await fetch(url, { headers: { "User-Agent": YAHOO_UA, Accept: "application/json" }, signal: AbortSignal.timeout(20000) });
+  if (r.status === 429) {
+    await new Promise((ok) => setTimeout(ok, 3000));
+    r = await fetch(url, { headers: { "User-Agent": YAHOO_UA, Accept: "application/json" }, signal: AbortSignal.timeout(20000) });
+  }
   if (!r.ok) throw new Error(`${symbol} HTTP ${r.status}`);
   const res = (await r.json())?.chart?.result?.[0];
   if (!res) throw new Error(`${symbol} 데이터 없음`);
@@ -150,22 +155,17 @@ export async function collectBrief(prev?: any) {
   };
   const monthAgo = Math.floor(Date.now() / 1000) - 45 * 86400;
 
-  const [kospiY, ewy, krw, sox, ndx, spx, dji, nq, mu, nvda, tnx, oil, ks200] = await Promise.all([
-    safe("KOSPI", yahooDaily("^KS11", 946684800)),
-    safe("EWY", yahooDaily("EWY", monthAgo)),
-    safe("USD/KRW", yahooDaily("KRW=X", monthAgo)),
-    safe("SOX", yahooDaily("^SOX", monthAgo)),
-    safe("NDX", yahooDaily("^NDX", monthAgo)),
-    safe("S&P500", yahooDaily("^GSPC", monthAgo)),
-    safe("DOW", yahooDaily("^DJI", monthAgo)),
-    safe("NQ=F", yahooDaily("NQ=F", monthAgo)),
-    safe("MU", yahooDaily("MU", monthAgo)),
-    safe("NVDA", yahooDaily("NVDA", monthAgo)),
-    safe("TNX", yahooDaily("^TNX", monthAgo)),
-    safe("OIL", yahooDaily("CL=F", monthAgo)),
-    safe("KS200", yahooDaily("^KS200", monthAgo)),
-  ]);
-  if (!kospiY || kospiY.bars.length < 300) throw new Error("KOSPI 일봉을 받지 못했습니다");
+  const symbols: [string, string, number][] = [
+    ["KOSPI", "^KS11", 946684800], ["EWY", "EWY", monthAgo], ["USD/KRW", "KRW=X", monthAgo], ["SOX", "^SOX", monthAgo],
+    ["NDX", "^NDX", monthAgo], ["S&P500", "^GSPC", monthAgo], ["DOW", "^DJI", monthAgo], ["NQ=F", "NQ=F", monthAgo],
+    ["MU", "MU", monthAgo], ["NVDA", "NVDA", monthAgo], ["TNX", "^TNX", monthAgo], ["OIL", "CL=F", monthAgo], ["KS200", "^KS200", monthAgo],
+  ];
+  const got: (Awaited<ReturnType<typeof yahooDaily>> | null)[] = [];
+  for (let i = 0; i < symbols.length; i += 3) {
+    got.push(...(await Promise.all(symbols.slice(i, i + 3).map(([name, sym, from]) => safe(name, yahooDaily(sym, from))))));
+  }
+  const [kospiY, ewy, krw, sox, ndx, spx, dji, nq, mu, nvda, tnx, oil, ks200] = got;
+  if (!kospiY || kospiY.bars.length < 300) throw new Error(`KOSPI 일봉을 받지 못했습니다 (${errors.join(", ")})`);
 
   const flows = await safe("수급(네이버)", collectFlows());
 
