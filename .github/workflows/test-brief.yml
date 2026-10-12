@@ -1,0 +1,13 @@
+name: 브리핑 수집 시험 (임시)
+on:
+  push:
+    branches: [ccr-fa0a0572-a9a9in]
+    paths: [_tools/test-brief.ts, _cld_eco_src/server/brief.ts]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: cd _cld_eco_src && npm ci --silent && cd .. && npx --prefix _cld_eco_src tsx _tools/test-brief.ts

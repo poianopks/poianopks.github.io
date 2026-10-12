@@ -13,6 +13,7 @@ import stocksRouter from "../server/routes/stocks";
 import turnaroundRouter, { CANDIDATES, WATCHLIST_STOCKS } from "../server/routes/turnaround";
 import { staticKey } from "../web/src/lib/staticApi";
 import { collectNews } from "../server/news";
+import { collectBrief } from "../server/brief";
 
 const OUT = path.resolve(import.meta.dirname, "../web/public/api");
 const PREV_BASE = process.env.PREV_BASE ?? "https://poianopks.github.io/cld_eco/";
@@ -130,6 +131,23 @@ async function main() {
       } catch {
         failed.push(`news/feed (${(e as Error).message})`);
       }
+    }
+  }
+
+  // 5) 팩트체크 탭 맨 위: 코스피 개장 브리핑 (수급 기록은 이전 파일에서 이어 붙임)
+  {
+    const dest = fileFor({ route: "brief/kospi" });
+    fs.mkdirSync(path.dirname(dest), { recursive: true });
+    const prev = await getJson(`${PREV_BASE}api/${staticKey("brief/kospi", "")}`, 20_000).catch(() => null);
+    try {
+      const brief = await collectBrief(prev);
+      fs.writeFileSync(dest, JSON.stringify(brief));
+      ok.push(`brief/kospi${brief.errors.length ? ` (일부 실패: ${brief.errors.join(", ")})` : ""}`);
+    } catch (e) {
+      if (prev) {
+        fs.writeFileSync(dest, JSON.stringify(prev));
+        reused.push(`brief/kospi (${(e as Error).message})`);
+      } else failed.push(`brief/kospi (${(e as Error).message})`);
     }
   }
 
