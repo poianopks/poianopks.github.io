@@ -8,6 +8,7 @@ import {
 } from "recharts";
 import { useGlobalMarket, type MarketItem } from "@/hooks/useGlobalMarket";
 import { useGlobalMarketHistory } from "@/hooks/useGlobalMarketHistory";
+import { OpeningBrief } from "@/components/OpeningBrief";
 import { useAdrHistory } from "@/hooks/useAdrHistory";
 
 // ── EWY 히스토리 훅 ─────────────────────────────────────────────────────────
@@ -805,13 +806,16 @@ export function FactCheck() {
   return (
     <div className="space-y-8">
 
+      {/* ── 오늘의 코스피 개장 브리핑 ── */}
+      <OpeningBrief />
+
       {/* ── 실시간 시장 레이더 ── */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-black text-slate-800">📡 실시간 글로벌 시장 레이더</h2>
+            <h2 className="text-xl font-black text-slate-800">📡 글로벌 시장 레이더</h2>
             <p className="text-xs text-slate-500 mt-0.5">
-              미국 야간선물 · 한국 ADR — Yahoo Finance 실시간 (1분 자동 갱신)
+              미국 지수선물 · 한국 ADR — Yahoo Finance (장중 30분·주요 시각 자동 수집, 실시간 아님)
             </p>
           </div>
           <button
