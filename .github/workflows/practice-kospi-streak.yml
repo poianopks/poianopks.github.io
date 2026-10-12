@@ -1,0 +1,29 @@
+name: 연습장 - KOSPI 연속 하락 계산
+
+# 연습용. main(사이트)에는 반응하지 않고, 작업 브랜치에 push할 때만 실행됩니다.
+on:
+  push:
+    branches: [ccr-a3195313-ux8oj3]
+    paths:
+      - "practice/kospi_streak/streak.py"
+      - ".github/workflows/practice-kospi-streak.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python practice/kospi_streak/streak.py
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add practice/kospi_streak/result.md
+          git commit -m "연습장: KOSPI 연속 하락 결과" || exit 0
+          git push
