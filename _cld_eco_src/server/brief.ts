@@ -169,6 +169,23 @@ export async function collectBrief(prev?: any) {
 
   const flows = await safe("수급(네이버)", collectFlows());
 
+  // Yahoo 일봉은 최근 하루가 늦게 들어오는 일이 있어, 최근 10거래일은 네이버 일별 종가로 맞춤
+  const naverDaily = async (code: string) => {
+    const rows = await naver(`index/${code}/price?pageSize=10&page=1`);
+    return (Array.isArray(rows) ? rows : [])
+      .map((r: any) => ({ date: String(r.localTradedAt).slice(0, 10), close: num(r.closePrice) }))
+      .filter((r: any) => /^\d{4}-\d{2}-\d{2}$/.test(r.date) && r.close) as Bar[];
+  };
+  const mergeBars = (bars: Bar[], extra: Bar[]) => {
+    const map = new Map(bars.map((b) => [b.date, b.close]));
+    for (const e of extra) map.set(e.date, e.close);
+    return [...map.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([date, close]) => ({ date, close }));
+  };
+  const nk = await safe("코스피 일별(네이버)", naverDaily("KOSPI"));
+  if (nk?.length) kospiY.bars = mergeBars(kospiY.bars, nk);
+  const nk200 = await safe("코스피200 일별(네이버)", naverDaily("KPI200"));
+  if (ks200 && nk200?.length) ks200.bars = mergeBars(ks200.bars, nk200);
+
   // 코스피 일봉: 네이버 수급 날짜가 Yahoo 마지막 날보다 최신이면 Yahoo가 아직 갱신 전 → 그대로 사용
   const bars = kospiY.bars;
   const n = bars.length;
