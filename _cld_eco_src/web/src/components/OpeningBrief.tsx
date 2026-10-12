@@ -267,8 +267,8 @@ export function OpeningBrief() {
             <tbody>
               {data.stats.records.map((r) => (
                 <tr key={r.years} className="border-b border-border/40 align-top">
-                  <td className="py-1.5 font-bold whitespace-nowrap">최근 {r.years}년</td>
-                  <td className="py-1.5">{r.maxDown.days}일 <span className="text-muted-foreground">({r.maxDown.from}~{md(r.maxDown.to)}, {sign(r.maxDown.cumPct)}%)</span></td>
+                  <td className="py-1.5 pr-3 font-bold whitespace-nowrap">최근 {r.years}년</td>
+                  <td className="py-1.5 pr-3">{r.maxDown.days}일 <span className="text-muted-foreground">({r.maxDown.from}~{md(r.maxDown.to)}, {sign(r.maxDown.cumPct)}%)</span></td>
                   <td className="py-1.5">{r.fivePlus.length === 0 ? <b>없음</b> : r.fivePlus.map((f) => <div key={f.from}>{f.from} · {f.days}일 ({sign(f.cumPct)}%)</div>)}</td>
                 </tr>
               ))}
