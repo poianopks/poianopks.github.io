@@ -36,6 +36,15 @@ for sym, name in SYMBOLS:
         lines.append(f"| {name} ({sym}) | {p:,.2f} | {prev:,.2f} | {(p / prev - 1) * 100:+.2f}% | {t:%m-%d %H:%M} |")
     except Exception as e:  # noqa: BLE001
         lines.append(f"| {name} ({sym}) | 오류 | | | {e} |")
+# EWY·환율로 코스피 추정 (EWY는 달러 표시 → 원화 환산 후, 직전 한국장 종가 이후 변화만 반영)
+try:
+    ewy_p, ewy_prev, _ = last_two("EWY")
+    fx_p, fx_prev, _ = last_two("KRW=X")
+    ks_p, _, _ = last_two("^KS11")
+    ewy_krw = (ewy_p / ewy_prev) * (fx_p / fx_prev) - 1
+    lines += ["", f"- EWY 원화환산 등락: {ewy_krw*100:+.2f}% → 코스피 단순 추정 {ks_p*(1+ewy_krw):,.0f} (기준 {ks_p:,.2f})"]
+except Exception as e:  # noqa: BLE001
+    lines.append(f"- 추정 오류: {e}")
 text = "\n".join(lines)
 print(text)
 open("practice/kospi_streak/overnight.md", "w", encoding="utf-8").write(text + "\n")
