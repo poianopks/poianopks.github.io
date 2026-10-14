@@ -9,6 +9,7 @@ on:
       - "practice/kospi_streak/verify_naver.py"
       - "practice/kospi_streak/overnight.py"
       - "practice/kospi_streak/trend.py"
+      - "practice/reservoir/backtest.py"
       - ".github/workflows/practice-kospi-streak.yml"
 
 permissions:
@@ -26,11 +27,12 @@ jobs:
       - run: python practice/kospi_streak/verify_naver.py
       - run: python practice/kospi_streak/overnight.py
       - run: python practice/kospi_streak/trend.py
+      - run: python practice/reservoir/backtest.py
       - name: 결과 커밋
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
-          git add practice/kospi_streak/result.md practice/kospi_streak/verify_naver.md practice/kospi_streak/overnight.md practice/kospi_streak/trend.md
+          git add practice/kospi_streak/result.md practice/kospi_streak/verify_naver.md practice/kospi_streak/overnight.md practice/kospi_streak/trend.md practice/reservoir/result.md
           git commit -m "연습장: KOSPI 연속 하락 결과" || exit 0
           git pull --rebase -q || true
           git push
