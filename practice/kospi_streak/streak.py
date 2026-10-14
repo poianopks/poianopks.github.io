@@ -9,7 +9,7 @@ from datetime import date, datetime, timedelta, timezone
 from urllib.request import Request, urlopen
 
 START = int(datetime(2023, 6, 1, tzinfo=timezone.utc).timestamp())
-MIN_LEN = 4
+MIN_LEN = 5
 
 
 def fetch():
@@ -51,7 +51,8 @@ def main():
     rows = fetch()
     last = rows[-1][0]
     print(f"데이터: {rows[0][0]} ~ {last} ({len(rows)}거래일), 마지막 종가 {rows[-1][1]}")
-    print("최근 10거래일:", [(str(d), c) for d, c in rows[-10:]])
+    for dd, cc in rows[-9:]:
+        print(dd, cc)
     all_s = streaks(rows)
     lines = [f"# KOSPI 연속 하락 (기준일 {last})", ""]
     for years in (1, 2, 3):
@@ -59,7 +60,7 @@ def main():
         s = [x for x in all_s if x["end"] > since]
         lines.append(f"## 최근 {years}년 ({since} 이후)")
         lines.append(f"- {MIN_LEN}일 이상 연속 하락: {len(s)}회 / 5일 이상: {sum(x['days'] >= 5 for x in s)}회"
-                     f" / 최장: {max((x['days'] for x in s), default=0)}일")
+                     f" / 6일 이상: {sum(x['days'] >= 6 for x in s)}회 / 최장: {max((x['days'] for x in s), default=0)}일")
         for x in s:
             lines.append(f"  - {x['start']} ~ {x['end']}: {x['days']}일, {x['from']} → {x['to']} ({x['pct']}%)")
         lines.append("")
