@@ -128,6 +128,28 @@ async function fetchPbr(symbol: string): Promise<number | null> {
   return null;
 }
 
+// 국내 종목은 네이버 증권(최근 확정 BPS 기준 PBR)을 먼저 씁니다. Yahoo는 국내 종목 PBR을 자주 비워 둡니다.
+export async function fetchNaverPbr(code: string): Promise<{ pbr: number; bps: number | null } | null> {
+  try {
+    const res = await fetch(`https://m.stock.naver.com/api/stock/${code}/integration`, {
+      headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36", Referer: "https://m.stock.naver.com/" },
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) return null;
+    const json: any = await res.json();
+    const infos: any[] = json?.totalInfos ?? [];
+    const num = (c: string) => {
+      const v = infos.find((i) => i?.code === c)?.value;
+      const n = parseFloat(String(v ?? "").replace(/[^\d.-]/g, ""));
+      return Number.isFinite(n) && n > 0 ? n : null;
+    };
+    const pbr = num("pbr");
+    return pbr == null ? null : { pbr: Math.round(pbr * 100) / 100, bps: num("bps") };
+  } catch {
+    return null;
+  }
+}
+
 const PBR_THRESHOLDS: Record<string, {
   label: string;
   histAvg: number;
@@ -157,6 +179,11 @@ function getPbrVerdict(symbol: string, pbr: number): { grade: string; label: str
   return               { grade: "extreme", label: "극단 과열", color: "text-red-700",     bg: "bg-red-50",     border: "border-red-400",     reason: `역사적 고점 구간 — 평균 ${t.histAvg}배 대비 ${Math.round((pbr/t.histAvg-1)*100)}% 과열` };
 }
 
+function naverNote(n: { bps: number | null } | null) {
+  if (!n) return "";
+  return n.bps ? `네이버 증권 PBR (최근 확정 BPS ${n.bps.toLocaleString("ko-KR")}원 기준)` : "네이버 증권 PBR";
+}
+
 // Static estimated PBR values (2026.07 기준 추정) — used when Yahoo Finance fetch fails
 // These are calculated from current price / known book value progression
 const PBR_ESTIMATES: Record<string, number> = {
@@ -180,9 +207,10 @@ router.get("/stocks/pbr", async (req, res) => {
 
   // Broad indexes do not expose a reliable priceToBook field, so use
   // their investable SPY/QQQ ETF proxies while keeping the index labels in the UI.
+  const [samNaver, skNaver] = await Promise.all([fetchNaverPbr("005930"), fetchNaverPbr("000660")]);
   const [samPbr, skPbr, kodexPbr, spyPbr, qqqPbr, tsmPbr, muPbr, nvdaPbr] = await Promise.all([
-    fetchPbr("005930.KS"),
-    fetchPbr("000660.KS"),
+    samNaver?.pbr ?? fetchPbr("005930.KS"),
+    skNaver?.pbr ?? fetchPbr("000660.KS"),
     fetchPbr("069500.KS"),
     fetchPbr("SPY"),
     fetchPbr("QQQ"),
@@ -227,7 +255,7 @@ router.get("/stocks/pbr", async (req, res) => {
       name: "삼성전자",
       pbr: samFinal,
       isEstimate: isSamEstimate,
-      note: isSamEstimate ? "추정값 (2026.07 현재 주가 기준 추정 · 참고용)" : "",
+      note: isSamEstimate ? "추정값 (2026.07 현재 주가 기준 추정 · 참고용)" : naverNote(samNaver),
       thresholds: PBR_THRESHOLDS["005930.KS"],
       verdict: getPbrVerdict("005930.KS", samFinal),
     },
@@ -238,7 +266,7 @@ router.get("/stocks/pbr", async (req, res) => {
       isEstimate: isSkEstimate,
       note: isSkEstimate
         ? "추정값 (2026.07 현재 주가 기준 추정 · 참고용) · 반도체 사이클 민감"
-        : "반도체 사이클에 따라 PBR 변동 폭 매우 큼",
+        : [naverNote(skNaver), "반도체 사이클에 따라 PBR 변동 폭 매우 큼"].filter(Boolean).join(" · "),
       thresholds: PBR_THRESHOLDS["000660.KS"],
       verdict: getPbrVerdict("000660.KS", skFinal),
     },
