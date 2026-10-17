@@ -1,0 +1,55 @@
+name: PBR 연습 계산 (읽기 전용)
+
+# 삼성전자·SK하이닉스 참고형 PBR을 계산해 Actions 요약 화면과 첨부파일로만 남깁니다.
+# contents: read 권한이라 저장소(사이트)에는 아무것도 쓰지 않습니다.
+on:
+  push:
+    branches: [claude/github-actions-practice-8rdg3u]
+    paths:
+      - ".github/scripts/pbr_ref.py"
+      - ".github/workflows/pbr-practice.yml"
+      - "_cld_eco_src/server/routes/stocks.ts"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pbr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 참고형 PBR 계산
+        run: python .github/scripts/pbr_ref.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: _cld_eco_src/package-lock.json
+
+      - name: 사이트 PBR 화면 데이터 미리보기 (저장 안 함)
+        working-directory: _cld_eco_src
+        run: |
+          npm ci
+          cat > _check-pbr.mts <<'EOF'
+          const { default: express } = await import("express");
+          const { default: router } = await import(process.cwd() + "/server/routes/stocks.ts");
+          const app = express(); app.use("/api", router);
+          const s = app.listen(0); const port = (s.address() as any).port;
+          const j: any = await (await fetch(`http://127.0.0.1:${port}/api/stocks/pbr`)).json();
+          for (const i of j.items) console.log(`${i.name}: ${i.pbr}배 · ${i.isEstimate ? "추정" : "실제"} · ${i.verdict?.label} | ${i.note}`);
+          s.close(); process.exit(0);
+          EOF
+          npx tsx _check-pbr.mts | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pbr-ref
+          path: out/
