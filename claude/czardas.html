@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>차르다시 피아노 교실</title>
+<meta name="description" content="몬티 「차르다시」(1904)를 왕초보도 따라 칠 수 있게 원곡 악보 그대로(라단조·라장조 조표, 계이름) 피아노 오른손 멜로디와 쉬운 왼손 반주로 나눈 단계별 레슨. 악보·소리·건반 따라치기."/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/genre.css">
+<style>
+.score .ksig{fill:var(--staff);font-size:20px}
+.score .beam{fill:var(--staff)}
+.score .n.on ~ .beam{fill:var(--staff)}
+.score .tie{fill:none;stroke:var(--staff);stroke-width:1.4}
+.part{margin-top:22px}
+.parth{margin:0 0 4px;font-size:1.25rem;font-weight:900}
+details.step{margin-top:10px;padding:0}
+details.step summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;font-weight:900}
+details.step summary::-webkit-details-marker{display:none}
+details.step summary::after{content:"▾";margin-left:auto;color:var(--sub);transition:transform .2s}
+details.step[open] summary::after{transform:rotate(180deg)}
+details.step .snum{display:inline-grid;place-items:center;min-width:32px;height:32px;border-radius:10px;background:var(--accent);color:#fff;font-size:1rem}
+details.step .stitle{font-size:1.05rem}
+details.step .sstar{color:#f5a623;font-size:.95rem;letter-spacing:1px}
+details.step .sbody{padding:0 16px 16px}
+.tip{margin:8px 0;font-size:.95rem}
+.beatline{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.beatdot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--line);font-weight:900;font-size:.85rem;color:var(--sub)}
+.beatdot.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.ctrls.opts{gap:14px}
+.ctrls.opts select{font:inherit;font-weight:700;border:1.5px solid var(--line);border-radius:8px;padding:4px 6px;background:var(--card);color:var(--ink)}
+.btn.live{outline:3px solid var(--accent2);outline-offset:2px}
+.keybox{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.keybox{grid-template-columns:1fr}}
+.keybox h4{margin:0 0 4px}
+.keybox .say{font-weight:900;margin:6px 0 0}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.story{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="topbar">
+    <span class="logo">🎻 차르다시</span>
+    <nav>
+      <a href="#story">곡 이야기</a>
+      <a href="#key">조표·계이름</a>
+      <a href="#map">곡 지도</a>
+      <a href="#lessons">단계 레슨</a>
+      <a href="#howto">연습 방법</a>
+    </nav>
+    <button class="themebtn" id="themeBtn" aria-label="밝기 전환">🌓</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>바이올린 명곡을 피아노로<br><em>차르다시 피아노 교실</em></h1>
+      <p>몬티의 <b>「차르다시」</b>를 <b>원곡 악보의 음·박자·조표 그대로</b> 피아노로 옮겼어요.</p>
+      <p><b>오른손 = 바이올린 멜로디</b>, <b>왼손 = 원곡 피아노 반주의 베이스음(한 음씩 쉽게)</b>. 짧은 조각 <b>11단계</b>로 나눠서 듣고 → 보고 → 따라 쳐요.</p>
+      <p style="margin-top:12px"><a class="btn" href="#lessons" style="text-decoration:none;display:inline-block">1단계부터 시작 ↓</a> <a class="btn alt" href="index.html" style="text-decoration:none;display:inline-block">공부방 목록</a></p>
+    </div>
+    <svg viewBox="0 0 400 260" aria-hidden="true">
+      <rect x="10" y="20" width="380" height="220" rx="28" fill="#ff6b4a" opacity=".1"/>
+      <g transform="translate(70,40) rotate(-28 70 90)">
+        <path d="M70 10 C40 10 30 40 45 60 C25 70 20 110 40 130 C25 150 35 185 70 185 C105 185 115 150 100 130 C120 110 115 70 95 60 C110 40 100 10 70 10Z" fill="#b5651d"/>
+        <path d="M70 18 C48 18 40 42 52 60 C36 70 32 106 50 128 C38 148 46 176 70 176 C94 176 102 148 90 128 C108 106 104 70 88 60 C100 42 92 18 70 18Z" fill="#d98b3a"/>
+        <rect x="66" y="-60" width="8" height="200" rx="3" fill="#3b2a1a"/>
+        <circle cx="70" cy="-66" r="9" fill="#3b2a1a"/>
+        <path d="M58 95 q-6 10 0 20 M82 95 q6 10 0 20" stroke="#3b2a1a" stroke-width="3" fill="none"/>
+      </g>
+      <g transform="translate(200,150)">
+        <rect width="170" height="70" rx="6" fill="#fff" stroke="#cfc7b8"/>
+        <g fill="#26232c"><rect x="17" width="11" height="42" rx="2"/><rect x="41" width="11" height="42" rx="2"/><rect x="89" width="11" height="42" rx="2"/><rect x="113" width="11" height="42" rx="2"/><rect x="137" width="11" height="42" rx="2"/></g>
+        <g stroke="#cfc7b8"><line x1="24" y1="0" x2="24" y2="70"/><line x1="48" y1="0" x2="48" y2="70"/><line x1="72" y1="0" x2="72" y2="70"/><line x1="96" y1="0" x2="96" y2="70"/><line x1="120" y1="0" x2="120" y2="70"/><line x1="144" y1="0" x2="144" y2="70"/></g>
+      </g>
+      <text x="240" y="80" font-size="34">🎶</text>
+      <text x="300" y="120" font-size="26">♭</text>
+      <text x="330" y="96" font-size="26">♯</text>
+    </svg>
+  </div>
+
+  <section id="story">
+    <h2><span class="num">1</span>「차르다시」는 어떤 곡일까요?</h2>
+    <div class="story">
+      <div class="card">
+        <b>🎻 1904년, 이탈리아의 몬티가 만든 곡</b>
+        <p style="margin:6px 0 0;color:var(--sub);font-size:.95rem">비토리오 몬티(1868~1922)가 <b>바이올린과 피아노</b>를 위해 쓴 곡이에요. <b>차르다시(Csárdás)</b>는 헝가리 집시들의 춤곡으로, <b>아주 느리게 노래하다가 → 갑자기 아주 빠르게 춤추는</b> 것이 특징이에요.</p>
+      </div>
+      <div class="card">
+        <b>🎹 바이올린 곡을 피아노로 치려면?</b>
+        <p style="margin:6px 0 0;color:var(--sub);font-size:.95rem">바이올린이 부르는 <b>멜로디는 오른손</b>으로, 원곡 피아노 반주에서 가장 낮은 <b>베이스음은 왼손</b>으로 쳐요. 음이름·박자·<b>조표는 원곡과 똑같아요</b>. 처음엔 오른손만 → 왼손만 → 양손 순서로!</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="key">
+    <h2><span class="num">2</span>조표와 계이름 먼저 익히기</h2>
+    <p class="lead">조표는 오선 맨 앞에 붙은 <b>♭·♯</b>예요. 조표에 있는 음은 <b>곡 내내 반음 바꿔서</b> 쳐요. 차르다시는 두 가지 조표를 써요. 계이름은 <b>고정도법</b>(C = 도)으로 적었어요.</p>
+    <div class="keybox">
+      <div class="card">
+        <h4>🌙 라단조 (D minor) — ♭ 1개</h4>
+        <p style="margin:0;color:var(--sub);font-size:.92rem"><b>시</b> 자리에 ♭ → 모든 <b>시는 시♭</b>(검은 건반). 노래 속에 <b>도♯</b>도 자주 나와요(임시표).</p>
+        <div class="score" id="scale-minor"></div>
+        <p class="say">레 · 미 · 파 · 솔 · 라 · 시♭ · 도♯ · 레</p>
+        <div class="ctrls"><button class="btn" id="scaleplay-minor">▶ 라단조 음계 듣기</button></div>
+      </div>
+      <div class="card">
+        <h4>🌅 라장조 (D major) — ♯ 2개</h4>
+        <p style="margin:0;color:var(--sub);font-size:.92rem"><b>파</b>와 <b>도</b> 자리에 ♯ → <b>파♯ · 도♯</b>(검은 건반). 곡 가운데 밝은 부분과 마지막 부분이에요.</p>
+        <div class="score" id="scale-major"></div>
+        <p class="say">레 · 미 · 파♯ · 솔 · 라 · 시 · 도♯ · 레</p>
+        <div class="ctrls"><button class="btn" id="scaleplay-major">▶ 라장조 음계 듣기</button></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px;font-size:.93rem">
+      <b>🔤 악보 속 표시 읽기</b>
+      <ul style="margin:6px 0 0;padding-left:18px">
+        <li><b>♯ 올림표</b> = 반음 위(오른쪽 검은 건반) · <b>♭ 내림표</b> = 반음 아래 · <b>♮ 제자리표</b> = 조표를 잠깐 취소하고 하얀 건반</li>
+        <li>음표 앞에 붙은 임시표는 <b>그 마디 끝까지만</b> 효과가 있어요.</li>
+        <li><b>붙임줄(⌒)</b>: 같은 음 두 개를 이어서 <b>한 번만 치고 길게</b> 눌러요. 계이름 줄에 <b>~</b>로 표시했어요.</li>
+        <li><b>점음표</b>: 점은 원래 길이의 <b>반만큼 더</b> 길게. 점4분음표 = 1박 반.</li>
+        <li><b>16분음표</b>(빔 2줄) = 반의반 박. 4개가 모여야 1박이에요.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="map">
+    <h2><span class="num">3</span>곡 지도 — 4부분으로 나눠 배워요</h2>
+    <div class="card table-wrap">
+      <table class="cmp">
+        <thead><tr><th>부분</th><th>빠르기</th><th>박자 · 조</th><th>느낌</th><th>레슨 단계</th></tr></thead>
+        <tbody>
+          <tr><td>🌙 라르고</td><td>아주 느리게 ♩=66</td><td>4/4 · 라단조 ♭1</td><td>슬프게 노래해요</td><td>1 ~ 3단계</td></tr>
+          <tr><td>💃 알레그로 비보</td><td>아주 빠르게 ♩=144</td><td>2/4 · 라단조 ♭1</td><td>톡톡 튀는 집시 춤</td><td>4 ~ 7단계</td></tr>
+          <tr><td>🌅 몰토 메노</td><td>훨씬 느리게 ♩=70</td><td>2/4 · 라장조 ♯2</td><td>밝고 우아하게</td><td>8 ~ 9단계</td></tr>
+          <tr><td>🎉 피날레</td><td>더 빠르게 ♩=152~160</td><td>2/4 · 라장조 ♯2</td><td>신나게 마무리</td><td>10 ~ 11단계</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin:8px 0 0;color:var(--sub);font-size:.88rem">※ 원곡의 반복·변주가 많은 가운데 부분(빠른 셋잇단음 장식 등)은 중급 이상이라 이 레슨에서는 대표 주제만 골랐어요.</p>
+  </section>
+
+  <section id="lessons">
+    <h2><span class="num">4</span>단계별 레슨 (11단계)</h2>
+    <p class="lead">단계를 누르면 펼쳐져요. <b>▶ 듣기 → 🎹 따라치기</b> 순서로! 처음엔 🐢 <b>아주 느리게</b>로 시작하세요. ★★ = 오른손·왼손 따라치기 완료</p>
+    <div id="lessonList"></div>
+  </section>
+
+  <section id="howto">
+    <h2><span class="num">5</span>왕초보 연습 순서</h2>
+    <div class="card">
+      <ol class="steps">
+        <li><b>듣기</b><p>▶ <b>양손 같이</b>를 두세 번 들으며 멜로디를 흥얼거려요.</p></li>
+        <li><b>오른손만</b><p>🎹 <b>오른손 따라치기</b>로 파란 건반을 한 음씩. 틀려도 괜찮아요!</p></li>
+        <li><b>왼손만</b><p>🎹 <b>왼손 따라치기</b>. 왼손은 음이 적어서 금방 익숙해져요.</p></li>
+        <li><b>소리와 같이</b><p>🐢 <b>아주 느리게 + 메트로놈 + 반복</b>을 켜고 오른손을 같이 쳐요.</p></li>
+        <li><b>양손으로</b><p>왼손 긴 음을 누른 채로 오른손 멜로디를 쳐요. 익숙해지면 🚶 연습 → 🏃 원곡 빠르기!</p></li>
+      </ol>
+      <p style="margin:8px 0 0;color:var(--sub);font-size:.92rem">💡 빠른 부분(4~7단계)은 <b>네 음씩 한 덩어리</b>로 끊어서 연습하면 훨씬 쉬워요. 손가락은 편한 대로 하되, 같은 곳은 늘 같은 손가락으로!</p>
+    </div>
+  </section>
+
+  <section id="sources">
+    <h2><span class="num">6</span>악보 출처와 저작권</h2>
+    <div class="card" style="font-size:.93rem">
+      <ul style="margin:0;padding-left:18px">
+        <li><b>저작권</b>: 몬티는 1922년에 세상을 떠났고 곡은 1904년에 발표되어, 작품은 <b>공개 저작물(퍼블릭 도메인)</b>이에요.</li>
+        <li><b>음·박자</b>: <a href="https://www.flutetunes.com/tunes.php?id=391" target="_blank" rel="noopener">flutetunes.com 「Csárdás」(플루트·피아노판)</a>의 무료 공개 MIDI에서 음높이·박자·조표를 읽어 와 다시 그렸어요. 꾸밈음(작은 음표)과 트릴은 왕초보용으로 뺐어요.</li>
+        <li><b>음높이</b>: 오른손 멜로디는 이 공개판과 같은 높이예요. 바이올린 원곡과 음이름·조표는 같지만, 판에 따라 한 옥타브 높거나 낮게 적힌 곳이 있을 수 있어요.</li>
+        <li><b>왼손</b>: 같은 판의 피아노 반주에서 <b>가장 낮은 베이스음</b>만 골라 한 음씩 쉽게 만들었어요(옥타브로 겹친 음은 한 음으로).</li>
+        <li>원곡 악보 전체: <a href="https://imslp.org/wiki/Cs%C3%A1rd%C3%A1s_(Monti,_Vittorio)" target="_blank" rel="noopener">IMSLP — Csárdás (Monti)</a></li>
+      </ul>
+      <p style="margin:10px 0 0;color:var(--sub)">틀린 음을 발견하시면 알려 주세요. 확인해서 고칠게요.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>소리는 브라우저에서 직접 만들어요(Web Audio). 휴대폰은 무음 모드를 꺼 주세요. · 건반은 손가락이나 마우스로 눌러요.</p>
+  </footer>
+</div>
+<script src="js/music-engine.js"></script>
+<script src="js/czardas-data.js"></script>
+<script src="js/czardas.js"></script>
+</body>
+</html>
