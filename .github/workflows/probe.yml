@@ -1,0 +1,16 @@
+name: 차르다시 악보 받기 (임시)
+on:
+  push:
+    branches: [ccr-fa0a0572-a9a9in]
+    paths: [_tools/fetch_czardas.py]
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 _tools/fetch_czardas.py
+      - run: |
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _tools/czardas && git commit -m "임시: 차르다시 원본 자료" && git push origin HEAD:ccr-fa0a0572-a9a9in
