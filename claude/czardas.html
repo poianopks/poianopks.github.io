@@ -9,6 +9,20 @@
 <link rel="stylesheet" href="css/genre.css">
 <style>
 .score .ksig{fill:var(--staff);font-size:20px}
+.score .sec{fill:var(--accent);font-size:13px;font-weight:900}
+.score .tup{fill:var(--staff);font-size:11px;font-weight:800;text-anchor:middle;font-style:italic}
+.score .phband{fill:var(--accent2);opacity:.16}
+.score .phball{fill:var(--accent);opacity:.9}
+.score .n.pl .hd{fill:color-mix(in srgb,var(--good) 70%,var(--staff))}
+.score .n.pl .hd.open{fill:var(--card);stroke:color-mix(in srgb,var(--good) 70%,var(--staff))}
+.score .n.on .hd{fill:var(--accent);stroke:var(--accent);stroke-width:2.5}
+.score .n.on .lab{font-size:15px}
+.fullscore{max-height:72vh;overflow-y:auto;scroll-behavior:smooth;position:relative;cursor:pointer}
+.fullbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.fullbar .now{font-weight:900;color:var(--accent2);font-size:.95rem}
+.jumps{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.jumps button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 10px;font:inherit;font-weight:800;font-size:.82rem;cursor:pointer}
+
 .score .beam{fill:var(--staff)}
 .score .n.on ~ .beam{fill:var(--staff)}
 .score .tie{fill:none;stroke:var(--staff);stroke-width:1.4}
@@ -46,6 +60,7 @@ details.step .sbody{padding:0 16px 16px}
       <a href="#story">곡 이야기</a>
       <a href="#key">조표·계이름</a>
       <a href="#map">곡 지도</a>
+      <a href="#full">전곡 듣기</a>
       <a href="#lessons">단계 레슨</a>
       <a href="#howto">연습 방법</a>
     </nav>
@@ -58,7 +73,7 @@ details.step .sbody{padding:0 16px 16px}
     <div>
       <h1>바이올린 명곡을 피아노로<br><em>차르다시 피아노 교실</em></h1>
       <p>몬티의 <b>「차르다시」</b>를 <b>원곡 악보의 음·박자·조표 그대로</b> 피아노로 옮겼어요.</p>
-      <p><b>오른손 = 바이올린 멜로디</b>, <b>왼손 = 원곡 피아노 반주의 베이스음(한 음씩 쉽게)</b>. 짧은 조각 <b>11단계</b>로 나눠서 듣고 → 보고 → 따라 쳐요.</p>
+      <p><b>오른손 = 바이올린 멜로디</b>, <b>왼손 = 원곡 피아노 반주의 베이스음(한 음씩 쉽게)</b>. 짧은 조각 <b>11단계</b>로 나눠서 듣고 → 보고 → 따라 치고, <b>전곡(174마디)</b>도 움직이는 악보로 들어요.</p>
       <p style="margin-top:12px"><a class="btn" href="#lessons" style="text-decoration:none;display:inline-block">1단계부터 시작 ↓</a> <a class="btn alt" href="index.html" style="text-decoration:none;display:inline-block">공부방 목록</a></p>
     </div>
     <svg viewBox="0 0 400 260" aria-hidden="true">
@@ -142,14 +157,39 @@ details.step .sbody{padding:0 16px 16px}
     <p style="margin:8px 0 0;color:var(--sub);font-size:.88rem">※ 원곡의 반복·변주가 많은 가운데 부분(빠른 셋잇단음 장식 등)은 중급 이상이라 이 레슨에서는 대표 주제만 골랐어요.</p>
   </section>
 
+  <section id="full">
+    <h2><span class="num">4</span>전곡 듣기 — 움직이는 악보</h2>
+    <p class="lead">처음부터 끝까지 <b>174마디 전곡</b>을 들으며 악보를 따라가요. <b>공과 파란 줄이 지금 치는 곳</b>을 짚어 주고, 치는 음표는 <b>주황색</b>, 지나간 음표는 <b>초록색</b>으로 바뀌어요. 악보는 저절로 넘어가요. <b>마디를 누르면 그 마디부터</b> 들려줘요.</p>
+    <div class="card">
+      <div class="ctrls">
+        <button class="btn" data-full="B" id="fullBoth" style="background:#6a4bc4">▶ 전곡 양손 듣기</button>
+        <button class="btn" data-full="R">▶ 멜로디(오른손)만</button>
+        <button class="btn alt" data-full="L">▶ 왼손만</button>
+        <button class="btn alt" data-full="stop">⏹ 멈춤</button>
+      </div>
+      <div class="ctrls opts">
+        <label class="chk">빠르기 <select id="fullSpeed"><option value="1">🏃 원곡 빠르기</option><option value="0.8">🚶 조금 느리게 (80%)</option><option value="0.6" selected>🐢 느리게 (60%)</option><option value="0.45">🐌 아주 느리게 (45%)</option></select></label>
+        <label class="chk"><input type="checkbox" id="fullMetro"> 메트로놈</label>
+        <span class="now" id="fullNow"></span>
+      </div>
+      <div class="jumps">
+        <span style="font-weight:800;color:var(--sub);font-size:.85rem;align-self:center">바로 가기:</span>
+        <button data-jump="1">전주</button><button data-jump="5">🌙 라르고</button><button data-jump="14">라르고 변주</button><button data-jump="30">💃 알레그로</button><button data-jump="94">🌅 라장조</button><button data-jump="126">💃 다시 빠르게</button><button data-jump="140">🎉 피날레</button>
+      </div>
+      <div class="score fullscore" id="fullScore"><p style="padding:20px;color:var(--sub)">악보를 그리는 중…</p></div>
+      <div class="kb" id="fullKb"></div>
+      <p style="margin:8px 0 0;color:var(--sub);font-size:.88rem">※ 원곡의 반복 기호(:‖) 부분은 들리는 순서대로 <b>펼쳐서</b> 적었어요. 빠르기는 원곡 MIDI의 빠르기 변화(느려짐·빨라짐)를 그대로 따라요. 작은 꾸밈음과 긴 장식(턴)은 왕초보용으로 줄였어요.</p>
+    </div>
+  </section>
+
   <section id="lessons">
-    <h2><span class="num">4</span>단계별 레슨 (11단계)</h2>
+    <h2><span class="num">5</span>단계별 레슨 (11단계)</h2>
     <p class="lead">단계를 누르면 펼쳐져요. <b>▶ 듣기 → 🎹 따라치기</b> 순서로! 처음엔 🐢 <b>아주 느리게</b>로 시작하세요. ★★ = 오른손·왼손 따라치기 완료</p>
     <div id="lessonList"></div>
   </section>
 
   <section id="howto">
-    <h2><span class="num">5</span>왕초보 연습 순서</h2>
+    <h2><span class="num">6</span>왕초보 연습 순서</h2>
     <div class="card">
       <ol class="steps">
         <li><b>듣기</b><p>▶ <b>양손 같이</b>를 두세 번 들으며 멜로디를 흥얼거려요.</p></li>
@@ -163,7 +203,7 @@ details.step .sbody{padding:0 16px 16px}
   </section>
 
   <section id="sources">
-    <h2><span class="num">6</span>악보 출처와 저작권</h2>
+    <h2><span class="num">7</span>악보 출처와 저작권</h2>
     <div class="card" style="font-size:.93rem">
       <ul style="margin:0;padding-left:18px">
         <li><b>저작권</b>: 몬티는 1922년에 세상을 떠났고 곡은 1904년에 발표되어, 작품은 <b>공개 저작물(퍼블릭 도메인)</b>이에요.</li>
@@ -182,6 +222,7 @@ details.step .sbody{padding:0 16px 16px}
 </div>
 <script src="js/music-engine.js"></script>
 <script src="js/czardas-data.js"></script>
+<script src="js/czardas-full.js"></script>
 <script src="js/czardas.js"></script>
 </body>
 </html>
