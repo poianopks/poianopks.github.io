@@ -130,12 +130,8 @@ function stepCard(st){
     render($("score"+st.id),{staves:[{clef:"treble",items:st.R,prefix:"R"+st.id+"-",labels:true},{clef:"bass",items:st.L,prefix:"L"+st.id+"-",labels:true}],bars:stepBars(st,st.bpm),startBar:st.pdf||1});
     if(!drawn){
       drawn=true;window.addEventListener("resize",debounce(function(){if(d.open)st.draw();},200));
-      var all=[];st.R.concat(st.L).forEach(function(it){it.notes.forEach(function(n){all.push(n.midi);});});
-      var lo=Math.min.apply(0,all),hi=Math.max.apply(0,all);
-      while(lo%12!==0&&lo%12!==5)lo--;
-      while(hi%12!==4&&hi%12!==11)hi++;
-      var kb=ME.keyboard(lo,hi,{kw:30,kh:130});
-      $("kb"+st.id).innerHTML='<svg viewBox="0 0 '+kb.w+' '+kb.h+'" style="min-width:'+Math.min(900,kb.w)+'px">'+kb.svg+'</svg>';
+      st.kbAll=function(){var all=[];st.R.concat(st.L).forEach(function(it){it.notes.forEach(function(n){all.push(n.midi);});});return all;};
+      SE.drawKb($("kb"+st.id),st.kbAll(),{minKw:28});
       $("kb"+st.id).addEventListener("pointerdown",function(e){var k=e.target.closest("[data-m]");if(!k)return;e.preventDefault();pressKey(st,+k.dataset.m);});
     }
   };
@@ -150,6 +146,7 @@ function stepCard(st){
     if(a==="FR"||a==="FL"){startFollow(st,a==="FR"?"R":"L");return;}
     if(SE.cur()&&SE.cur().btn===b){stopAll();return;}
     endFollow();
+    if($("kb"+st.id)._hand){SE.drawKb($("kb"+st.id),st.kbAll(),{minKw:28});$("kb"+st.id)._hand=null;}
     var sp=d.querySelector('[data-o="speed"]').value,bpm=sp==="slow"?Math.round(st.bpm*.75):sp==="orig"?st.orig:st.bpm;
     var parts=[];
     if(a!=="L")parts.push({items:st.RA,vel:.5},{items:st.R,prefix:"R"+st.id+"-",audio:false,light:true});
@@ -173,9 +170,11 @@ function startFollow(st,hand){
   var items=hand==="R"?st.R:st.L,prefix=(hand==="R"?"R":"L")+st.id+"-";
   var steps=items.filter(function(it){return !it.rest&&!it.cont;}).map(function(it){return {it:it,prefix:prefix,midis:it.notes.map(function(n){return n.midi;})};});
   followStep=st;
+  var kbEl=$("kb"+st.id),hm=[];steps.forEach(function(x){hm=hm.concat(x.midis);});
+  SE.drawKb(kbEl,hm,{minKw:28});kbEl._hand=hand;
   document.querySelectorAll('#score'+st.id+' .n.pl').forEach(function(e){e.classList.remove("pl");});
   follow=new ME.Follow(steps,{kbRoot:$("kb"+st.id),
-    onShow:function(s,i,n){msg(st,"다음 → "+s.it.notes.map(function(x){return x.sol;}).join("·")+"  ("+(i+1)+" / "+n+")");},
+    onShow:function(s,i,n){msg(st,"다음 → "+s.it.notes.map(function(x){return x.sol;}).join("·")+"  ("+(i+1)+" / "+n+")");setTimeout(function(){SE.revealKeys(kbEl,s.midis);},30);},
     onWrong:function(){var sc=$("score"+st.id);sc.classList.remove("shake");void sc.offsetWidth;sc.classList.add("shake");msg(st,"앗! 다른 건반이에요. 파란 건반을 눌러 봐요.","bad");},
     onDone:function(){
       follow=null;followStep=null;ME.confetti();store("cz-done-"+st.id+"-"+hand,"1");$("star"+st.id).textContent=stars(st.id);
