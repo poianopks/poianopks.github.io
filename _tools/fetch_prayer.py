@@ -1,32 +1,15 @@
-import urllib.request, urllib.parse, re, os, json
+import urllib.request, urllib.parse, json, os
 os.makedirs("_tools/prayer", exist_ok=True)
-UA={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36"}
+UA={"User-Agent":"poianopks-lesson-bot/1.0 (https://poianopks.github.io; educational)"}
+def get(u):
+    return urllib.request.urlopen(urllib.request.Request(u,headers=UA),timeout=60).read()
 log=[]
-def get(u,binary=False):
-    r=urllib.request.urlopen(urllib.request.Request(u,headers=UA),timeout=30);b=r.read()
-    return b if binary else b.decode("utf-8","replace")
-def save(name,data):
-    open("_tools/prayer/"+name,"wb").write(data if isinstance(data,bytes) else data.encode()); log.append(f"saved {name} {len(data)}")
-def tryget(name,u,binary=False):
-    try: d=get(u,binary); save(name,d); return d
-    except Exception as e: log.append(f"fail {u} {e}"); return None
-# Mutopia
-h=tryget("mutopia_search.html","https://www.mutopiaproject.org/cgibin/make-table.cgi?searchingfor=badarzewska")
-if h:
-    for l in sorted(set(re.findall(r'href="([^"]+)"',h))):
-        if re.search(r'\.(mid|ly|pdf|zip)$',l,re.I) or 'piece-info' in l: log.append("mutopia link: "+l)
-    for l in sorted(set(re.findall(r'href="([^"]+\.(?:mid|ly))"',h,re.I))):
-        u=l if l.startswith("http") else urllib.parse.urljoin("https://www.mutopiaproject.org/cgibin/",l)
-        tryget(os.path.basename(u),u,True)
-# Wikimedia Commons search for midi/ogg/pdf
-for q in ["Badarzewska Maiden's Prayer","Modlitwa dziewicy","Bądarzewska"]:
-    u="https://commons.wikimedia.org/w/api.php?action=query&list=search&srnamespace=6&format=json&srlimit=30&srsearch="+urllib.parse.quote(q)
+titles=["File:A Maiden's Prayer.mid","File:La prière d'une vierge, Op.4 (IA imslp-prire-dune-vierge-op4-bdarzewska-baranowska-tekla).pdf","File:The maiden's prayer = La prière d'une vierge - op. 4 (IA b1001004x).pdf"]
+for i,t in enumerate(titles):
+    u="https://commons.wikimedia.org/w/api.php?action=query&prop=imageinfo&iiprop=url|extmetadata|size&format=json&titles="+urllib.parse.quote(t)
     try:
-        d=json.loads(get(u)); log.append(f"commons {q}: "+json.dumps([x['title'] for x in d['query']['search']],ensure_ascii=False))
-    except Exception as e: log.append(f"commons fail {e}")
-# IMSLP page
-tryget("imslp.html","https://imslp.org/wiki/Modlitwa_dziewicy_(B%C4%85darzewska-Baranowska,_Tekla)")
-# flutetunes / 8notes / others quick
-for name,u in [("piano_midi_search.html","https://www.google.com/search?q=maiden%27s+prayer+midi")]:
-    pass
+        d=json.loads(get(u)); pg=list(d["query"]["pages"].values())[0]; ii=pg["imageinfo"][0]
+        md=ii.get("extmetadata",{}); log.append(f"{t}\n  url={ii['url']} size={ii.get('size')}\n  license={md.get('LicenseShortName',{}).get('value')} artist={md.get('Artist',{}).get('value','')[:200]}\n  desc={md.get('ImageDescription',{}).get('value','')[:400]}")
+        data=get(ii["url"]); ext=os.path.splitext(ii["url"])[1]; open(f"_tools/prayer/src{i}{ext}","wb").write(data); log.append(f"  saved src{i}{ext} {len(data)}")
+    except Exception as e: log.append(f"fail {t} {e}")
 open("_tools/prayer/log.txt","w").write("\n".join(log)); print("\n".join(log))
