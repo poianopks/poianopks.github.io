@@ -49,6 +49,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://poianopks.github.io/claude/prayer.html</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://poianopks.github.io/cld_eco/</loc>
     <lastmod>2026-10-11</lastmod>
     <changefreq>hourly</changefreq>

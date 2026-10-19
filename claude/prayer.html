@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>소녀의 기도 피아노 교실</title>
+<meta name="description" content="바다르체프스카 「소녀의 기도」(1856, 공개 저작물)를 원곡 악보(내림마장조 ♭3) 그대로, 왕초보용 쉬운 악보와 함께 느린 템포로 배우는 피아노 레슨. 움직이는 악보로 전곡 듣기, 작곡가 이야기, 따라치기."/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/genre.css">
+<style>
+.score .ksig{fill:var(--staff);font-size:20px}
+.score .ott{fill:var(--staff);font-size:12px;font-weight:900;font-style:italic}
+.score .ottl{stroke:var(--staff);stroke-width:1.2;stroke-dasharray:5 4}
+.score .orn{fill:var(--staff);font-size:13px;font-weight:900;font-style:italic;text-anchor:middle}
+.bio{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.bio{grid-template-columns:1fr}}
+.bio .card p{margin:6px 0 0;color:var(--sub);font-size:.95rem}
+.score .sec{fill:var(--accent);font-size:13px;font-weight:900}
+.score .tup{fill:var(--staff);font-size:11px;font-weight:800;text-anchor:middle;font-style:italic}
+.score .phband{fill:var(--accent2);opacity:.16}
+.score .phball{fill:var(--accent);opacity:.9}
+.score .n.pl .hd{fill:color-mix(in srgb,var(--good) 70%,var(--staff))}
+.score .n.pl .hd.open{fill:var(--card);stroke:color-mix(in srgb,var(--good) 70%,var(--staff))}
+.score .n.on .hd{fill:var(--accent);stroke:var(--accent);stroke-width:2.5}
+.score .n.on .lab{font-size:15px}
+.fullscore{max-height:72vh;overflow-y:auto;scroll-behavior:smooth;position:relative;cursor:pointer}
+.fullbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.fullbar .now{font-weight:900;color:var(--accent2);font-size:.95rem}
+.jumps{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.jumps button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 10px;font:inherit;font-weight:800;font-size:.82rem;cursor:pointer}
+
+.score .beam{fill:var(--staff)}
+.score .n.on ~ .beam{fill:var(--staff)}
+.score .tie{fill:none;stroke:var(--staff);stroke-width:1.4}
+.part{margin-top:22px}
+.parth{margin:0 0 4px;font-size:1.25rem;font-weight:900}
+details.step{margin-top:10px;padding:0}
+details.step summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;font-weight:900}
+details.step summary::-webkit-details-marker{display:none}
+details.step summary::after{content:"▾";margin-left:auto;color:var(--sub);transition:transform .2s}
+details.step[open] summary::after{transform:rotate(180deg)}
+details.step .snum{display:inline-grid;place-items:center;min-width:32px;height:32px;border-radius:10px;background:var(--accent);color:#fff;font-size:1rem}
+details.step .stitle{font-size:1.05rem}
+details.step .sstar{color:#f5a623;font-size:.95rem;letter-spacing:1px}
+details.step .sbody{padding:0 16px 16px}
+.tip{margin:8px 0;font-size:.95rem}
+.beatline{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.beatdot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--line);font-weight:900;font-size:.85rem;color:var(--sub)}
+.beatdot.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.ctrls.opts{gap:14px}
+.ctrls.opts select{font:inherit;font-weight:700;border:1.5px solid var(--line);border-radius:8px;padding:4px 6px;background:var(--card);color:var(--ink)}
+.btn.live{outline:3px solid var(--accent2);outline-offset:2px}
+.keybox{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.keybox{grid-template-columns:1fr}}
+.keybox h4{margin:0 0 4px}
+.keybox .say{font-weight:900;margin:6px 0 0}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.story{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="topbar">
+    <span class="logo">🙏 소녀의 기도</span>
+    <nav>
+      <a href="#story">작곡가·곡 이야기</a>
+      <a href="#key">조표·기호</a>
+      <a href="#map">곡 지도</a>
+      <a href="#full">전곡 듣기</a>
+      <a href="#lessons">단계 레슨</a>
+      <a href="#howto">연습 방법</a>
+    </nav>
+    <button class="themebtn" id="themeBtn" aria-label="밝기 전환">🌓</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>천천히, 한 음씩<br><em>소녀의 기도 피아노 교실</em></h1>
+      <p>바다르체프스카의 <b>「소녀의 기도」</b>를 <b>원곡 악보 그대로</b>(내림마장조 ♭3, 4/4박자) 배워요.</p>
+      <p>처음엔 <b>🌱 쉬운 악보</b>(한 손에 한 음씩)와 <b>🐢 느린 빠르기</b>로 시작하고, 익숙해지면 <b>🎼 원곡 그대로</b>로 바꿔요. 소리에 맞춰 <b>악보가 움직이고</b>, 전곡도 들을 수 있어요.</p>
+      <p style="margin-top:12px"><a class="btn" href="#lessons" style="text-decoration:none;display:inline-block">레슨 시작 ↓</a> <a class="btn alt" href="#full" style="text-decoration:none;display:inline-block">전곡 듣기</a> <a class="btn alt" href="index.html" style="text-decoration:none;display:inline-block">공부방 목록</a></p>
+    </div>
+    <svg viewBox="0 0 400 260" aria-hidden="true">
+      <rect x="10" y="20" width="380" height="220" rx="28" fill="#6a4bc4" opacity=".1"/>
+      <circle cx="120" cy="96" r="34" fill="#ffd9b8"/>
+      <path d="M78 92 Q86 50 120 52 Q156 50 162 94 Q150 70 120 70 Q92 70 78 92Z" fill="#6b4a2f"/>
+      <path d="M70 230 Q74 150 120 140 Q166 150 170 230Z" fill="#ff8fa3"/>
+      <path d="M108 160 L120 186 L132 160 Q120 150 108 160Z" fill="#ffd9b8"/>
+      <circle cx="108" cy="98" r="3" fill="#3b2a1a"/><circle cx="132" cy="98" r="3" fill="#3b2a1a"/>
+      <path d="M112 112 Q120 118 128 112" stroke="#3b2a1a" stroke-width="2" fill="none"/>
+      <g transform="translate(200,140)">
+        <rect width="170" height="70" rx="6" fill="#fff" stroke="#cfc7b8"/>
+        <g fill="#26232c"><rect x="17" width="11" height="42" rx="2"/><rect x="41" width="11" height="42" rx="2"/><rect x="89" width="11" height="42" rx="2"/><rect x="113" width="11" height="42" rx="2"/><rect x="137" width="11" height="42" rx="2"/></g>
+        <g stroke="#cfc7b8"><line x1="24" y1="0" x2="24" y2="70"/><line x1="48" y1="0" x2="48" y2="70"/><line x1="72" y1="0" x2="72" y2="70"/><line x1="96" y1="0" x2="96" y2="70"/><line x1="120" y1="0" x2="120" y2="70"/><line x1="144" y1="0" x2="144" y2="70"/></g>
+      </g>
+      <text x="250" y="80" font-size="34">🎶</text>
+      <text x="320" y="110" font-size="28" fill="#6a4bc4">♭♭♭</text>
+    </svg>
+  </div>
+
+  <section id="story">
+    <h2><span class="num">1</span>작곡가와 곡 이야기</h2>
+    <div class="bio">
+      <div class="card">
+        <b>👩 테클라 바다르체프스카 (Tekla Bądarzewska-Baranowska)</b>
+        <p>19세기 <b>폴란드</b>의 여성 작곡가예요. 태어난 해는 자료마다 <b>1829년 또는 1834년</b>으로 다르고, <b>1861년 바르샤바</b>에서 젊은 나이에 세상을 떠났어요.</p>
+        <p>결혼해 다섯 아이를 키우며, 집에서 즐겨 치는 짧은 <b>피아노 소품(살롱 음악)</b>을 30곡 남짓 썼어요. 바르샤바의 포완즈키 묘지에 잠들어 있어요.</p>
+      </div>
+      <div class="card">
+        <b>🚀 어떻게 유명해졌을까?</b>
+        <p><b>1856년 바르샤바</b>에서 처음 출판된 「소녀의 기도」(Op.4)는, 몇 년 뒤 <b>파리의 음악 잡지 부록</b>으로 실리면서 유럽 전체에 퍼졌어요.</p>
+        <p>집집마다 피아노를 들여놓던 시절, <b>아마추어도 칠 수 있는데 화려하게 들리는</b> 곡이라 수많은 출판사가 앞다퉈 악보를 찍었고, 미국·러시아·일본·한국까지 전해졌어요. 체호프의 희곡 「세 자매」에도 이 곡이 등장해요.</p>
+      </div>
+      <div class="card">
+        <b>💗 지금도 사랑받는 이유</b>
+        <p><b>① 외우기 쉬운 선율</b> — 같은 모양이 되풀이돼서 한 번 들으면 기억나요.</p>
+        <p><b>② 쉬운데 멋지게 들려요</b> — 아르페지오·트릴·옥타브가 반짝이지만, 손 모양이 단순해서 피아노 중급 입문곡으로 딱이에요.</p>
+        <p><b>③ 귀에 익은 소리</b> — 대만에서는 <b>쓰레기 수거차가 이 곡을 틀고 다니는 것</b>으로 유명할 만큼 생활 속 음악이 됐어요.</p>
+      </div>
+      <div class="card">
+        <b>🎼 저작권은 괜찮을까?</b>
+        <p>작곡가가 1861년에 세상을 떠나 <b>저작권이 오래전에 끝난 공개 저작물(퍼블릭 도메인)</b>이에요. 공부하거나 사이트에 올려 나눠도 괜찮아요.</p>
+        <p>이 페이지의 악보는 <b>공개 MIDI(퍼블릭 도메인)</b>와 <b>1800년대 원본 악보 스캔</b>(위키미디어 커먼즈)을 바탕으로 다시 그렸어요.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="key">
+    <h2><span class="num">2</span>조표와 악보 기호 익히기</h2>
+    <p class="lead">「소녀의 기도」는 <b>내림마장조(E♭ major)</b>예요. 오선 앞의 <b>♭ 3개</b> 때문에 <b>시·미·라는 곡 내내 반음 내려서(시♭·미♭·라♭)</b> 쳐요. 계이름은 고정도법(C = 도)으로 적었어요.</p>
+    <div class="card">
+      <div class="score" id="scale-eb"></div>
+      <p class="say" style="font-weight:900;margin:6px 0 0">미♭ · 파 · 솔 · 라♭ · 시♭ · 도 · 레 · 미♭</p>
+      <div class="ctrls"><button class="btn" id="scaleplay">▶ 내림마장조 음계 듣기</button></div>
+    </div>
+    <div class="card" style="margin-top:12px;font-size:.93rem">
+      <b>🔤 이 곡에 나오는 기호</b>
+      <ul style="margin:6px 0 0;padding-left:18px">
+        <li><b>C</b> = 4/4박자(한 마디 4박) · <b>Andante</b> = 걷는 빠르기</li>
+        <li><b>셋잇단음표(3)</b>: 한 박에 음 3개를 고르게. "하–나–둘"이 아니라 "셋–잇–단"처럼!</li>
+        <li><b>옥타브</b>: 같은 이름의 음 두 개(예: 낮은 미♭ + 높은 미♭)를 엄지와 새끼손가락으로 같이 눌러요.</li>
+        <li><b>8va</b>: 점선 아래 음표를 <b>한 옥타브 높게</b> 쳐요. 높은 음을 덧줄 없이 읽기 쉽게 쓰는 방법이에요.</li>
+        <li><b>tr(트릴)</b>: 그 음과 바로 위 음을 빠르게 번갈아 쳐요. 왕초보는 그 음 하나만 쳐도 괜찮아요.</li>
+        <li><b>Ped.</b>: 오른발 페달. 원곡은 마디마다 페달을 밟아 소리를 이어요(이 페이지의 '원곡' 소리에 반영).</li>
+        <li><b>♮ 제자리표</b>: 조표를 잠깐 취소. 변주 1·3에서 <b>라♮</b>(하얀 건반 라)가 나와요.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="map">
+    <h2><span class="num">3</span>곡 지도 — 주제와 4개의 변주</h2>
+    <div class="card table-wrap">
+      <table class="cmp">
+        <thead><tr><th>부분</th><th>마디</th><th>특징</th><th>레슨</th></tr></thead>
+        <tbody>
+          <tr><td>🎬 전주</td><td>1~4</td><td>힘차게, 옥타브로 한 음씩 내려옴 · 늘임표</td><td>1단계</td></tr>
+          <tr><td>🙏 주제</td><td>5~12</td><td>가장 유명한 '소녀의 기도' 선율 · 셋잇단 아르페지오 · 8va</td><td>2 ~ 5단계</td></tr>
+          <tr><td>✨ 변주 1</td><td>13~28</td><td>32분음표 아르페지오가 반짝 (반복)</td><td>전곡 듣기</td></tr>
+          <tr><td>🎻 변주 2</td><td>29~36</td><td>멜로디가 낮은 목소리로 (marcato)</td><td>6 ~ 7단계</td></tr>
+          <tr><td>🌀 변주 3</td><td>37~52</td><td>트릴과 빠른 장식 (반복)</td><td>전곡 듣기</td></tr>
+          <tr><td>💎 변주 4</td><td>53~60</td><td>셋잇단 화음을 통통 · 점점 세게 → 점점 느리게</td><td>8 ~ 9단계</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="full">
+    <h2><span class="num">4</span>전곡 듣기 — 움직이는 악보</h2>
+    <p class="lead"><b>60마디 전곡</b>을 들으며 악보를 따라가요. <b>공과 파란 줄</b>이 지금 치는 곳을 짚고, 치는 음표는 <b>주황</b>, 지나간 음표는 <b>초록</b>으로 바뀌어요. 악보는 저절로 넘어가고, <b>마디를 누르면 거기서부터</b> 들려줘요.</p>
+    <div class="card">
+      <div class="ctrls">
+        <button class="btn" data-full="B" id="fullBoth" style="background:#6a4bc4">▶ 전곡 양손 듣기</button>
+        <button class="btn" data-full="R">▶ 오른손만</button>
+        <button class="btn alt" data-full="L">▶ 왼손만</button>
+        <button class="btn alt" data-full="stop">⏹ 멈춤</button>
+      </div>
+      <div class="ctrls opts">
+        <label class="chk">빠르기 <select id="fullSpeed"><option value="1">🏃 원곡 빠르기</option><option value="0.8">🚶 조금 느리게 (80%)</option><option value="0.65" selected>🐢 느리게 (65%)</option><option value="0.5">🐌 아주 느리게 (50%)</option></select></label>
+        <label class="chk"><input type="checkbox" id="fullMetro"> 메트로놈</label>
+        <span class="now" id="fullNow"></span>
+      </div>
+      <div class="jumps">
+        <span style="font-weight:800;color:var(--sub);font-size:.85rem;align-self:center">바로 가기:</span>
+        <button data-jump="1">🎬 전주</button><button data-jump="5">🙏 주제</button><button data-jump="13">✨ 변주 1</button><button data-jump="29">🎻 변주 2</button><button data-jump="37">🌀 변주 3</button><button data-jump="53">💎 변주 4</button>
+      </div>
+      <div class="score fullscore" id="fullScore"><p style="padding:20px;color:var(--sub)">악보를 그리는 중…</p></div>
+      <div class="kb" id="fullKb"></div>
+      <p style="margin:8px 0 0;color:var(--sub);font-size:.88rem">※ 소리는 원곡 연주 그대로(꾸밈음·트릴·페달 울림·자연스러운 빠르기 변화)예요. 악보의 반복(:‖)은 들리는 순서대로 펼쳐 적었고, 트릴·꾸밈음은 실제 치는 빠른 음표로 풀어 적은 곳이 있어요.</p>
+    </div>
+  </section>
+
+  <section id="lessons">
+    <h2><span class="num">5</span>단계별 레슨 (9단계)</h2>
+    <p class="lead">단계를 누르면 펼쳐져요. <b>🌱 쉬운 악보 + 🐢 아주 느리게</b>로 시작 → 익숙해지면 <b>🎼 원곡 그대로</b>. ★★ = 오른손·왼손 따라치기 완료</p>
+    <div id="lessonList"></div>
+  </section>
+
+  <section id="howto">
+    <h2><span class="num">6</span>왕초보 연습 순서</h2>
+    <div class="card">
+      <ol class="steps">
+        <li><b>듣기</b><p>전곡 듣기에서 <b>주제(5~12마디)</b>를 여러 번 들으며 선율을 흥얼거려요.</p></li>
+        <li><b>쉬운 악보로 오른손</b><p>🌱 쉬운 악보 + 🎹 오른손 따라치기. 8va 음은 한 옥타브 위 건반이에요(파란 건반을 보세요).</p></li>
+        <li><b>쉬운 악보로 왼손</b><p>낮은 음(쿵) 하나와 짝 음을 따라 쳐요.</p></li>
+        <li><b>소리와 같이</b><p>🐢 아주 느리게 + 메트로놈 + 반복을 켜고 한 손씩 같이 쳐요.</p></li>
+        <li><b>원곡으로</b><p>🎼 원곡 그대로로 바꿔 옥타브·화음까지! 처음엔 오른손 옥타브만 연습해도 충분해요.</p></li>
+      </ol>
+      <p style="margin:8px 0 0;color:var(--sub);font-size:.92rem">💡 셋잇단음표는 "셋–잇–단, 셋–잇–단"으로 말하면서 치면 고르게 쳐져요. 옥타브는 손목을 둥글게, 엄지(1)와 새끼(5)로!</p>
+    </div>
+  </section>
+
+  <section id="sources">
+    <h2><span class="num">7</span>악보 출처와 참고</h2>
+    <div class="card" style="font-size:.93rem">
+      <ul style="margin:0;padding-left:18px">
+        <li><b>소리·음·박자</b>: <a href="https://commons.wikimedia.org/wiki/File:A_Maiden%27s_Prayer.mid" target="_blank" rel="noopener">위키미디어 커먼즈 「A Maiden's Prayer.mid」</a> (Michael Bednarek 제작, <b>Public domain</b>)에서 음높이·박자·페달을 읽어 왔어요. 사람 연주처럼 미세하게 밀린 박자는 악보용으로 바로잡았어요.</li>
+        <li><b>원본 악보 대조</b>: <a href="https://commons.wikimedia.org/wiki/File:La_pri%C3%A8re_d%27une_vierge,_Op.4_(IA_imslp-prire-dune-vierge-op4-bdarzewska-baranowska-tekla).pdf" target="_blank" rel="noopener">La prière d'une vierge, Op.4 (1800년대 판 스캔, Public domain)</a> — 조표·박자·구성을 맞췄고, 전주 4마디는 이 악보에서 직접 옮겼어요.</li>
+        <li><b>쉬운 악보</b>: 원곡에서 오른손은 옥타브의 아랫음(화음은 맨 윗음), 왼손은 베이스 한 음만 남긴 연습용이에요. 음높이·박자는 원곡과 같아요.</li>
+        <li>작곡가 정보: <a href="https://en.wikipedia.org/wiki/Tekla_B%C4%85darzewska-Baranowska" target="_blank" rel="noopener">Wikipedia — Tekla Bądarzewska-Baranowska</a> (출생 연도는 자료마다 달라요)</li>
+      </ul>
+      <p style="margin:10px 0 0;color:var(--sub)">틀린 음을 발견하시면 알려 주세요. 확인해서 고칠게요.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>소리는 브라우저에서 직접 만들어요(Web Audio). 휴대폰은 무음 모드를 꺼 주세요. · 건반은 손가락이나 마우스로 눌러요.</p>
+  </footer>
+</div>
+<script src="js/music-engine.js"></script>
+<script src="js/score-engine.js"></script>
+<script src="js/prayer-full.js"></script>
+<script src="js/prayer.js"></script>
+</body>
+</html>
