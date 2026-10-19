@@ -142,11 +142,8 @@ function card(st){
     SE.render($("score"+st.id),{staves:[{clef:"treble",items:v.R,prefix:"R"+st.id+"-",labels:true,ott:true,autoClef:"row"},{clef:"bass",items:v.L,prefix:"L"+st.id+"-",labels:true,autoClef:"item"}],bars:stepBars(st,st.bpm),startBar:st.from});
     if(!drawn){
       drawn=true;window.addEventListener("resize",debounce(function(){if(d.open)st.draw();},200));
-      var all=[];["orig","easy"].forEach(function(k){st[k].R.concat(st[k].L).forEach(function(it){it.notes.forEach(function(n){all.push(n.midi);});});});
-      var lo=Math.min.apply(0,all),hi=Math.max.apply(0,all);
-      while(lo%12!==0&&lo%12!==5)lo--;while(hi%12!==4&&hi%12!==11)hi++;
-      var kb=ME.keyboard(lo,hi,{kw:26,kh:120});
-      $("kb"+st.id).innerHTML='<svg viewBox="0 0 '+kb.w+' '+kb.h+'" style="min-width:'+Math.min(980,kb.w)+'px">'+kb.svg+'</svg>';
+      st.kbAll=function(){var all=[];["orig","easy"].forEach(function(k){st[k].R.concat(st[k].L).forEach(function(it){it.notes.forEach(function(n){all.push(n.midi);});});});return all;};
+      SE.drawKb($("kb"+st.id),st.kbAll());
       $("kb"+st.id).addEventListener("pointerdown",function(e){var k=e.target.closest("[data-m]");if(!k)return;e.preventDefault();press(st,+k.dataset.m);});
     }
   };
@@ -159,6 +156,7 @@ function card(st){
     if(a==="FR"||a==="FL"){startFollow(st,a==="FR"?"R":"L");return;}
     if(SE.cur()&&SE.cur().btn===b){SE.stopAll();return;}
     endFollow();
+    if($("kb"+st.id)._hand){SE.drawKb($("kb"+st.id),st.kbAll());$("kb"+st.id)._hand=null;}
     var sp=d.querySelector('[data-o="speed"]').value,bpm=sp==="slow"?Math.round(st.bpm*.7):sp==="orig"?st.origBpm:st.bpm;
     var m=mode(st),v=st[m],parts=[];
     var aud=function(h){return m==="orig"?rawItems(h,st.from-1,st.to):SE.audioItems(v[h]);};
@@ -181,15 +179,17 @@ function startFollow(st,hand){
   var v=st[mode(st)],items=v[hand],prefix=hand+st.id+"-";
   var steps=items.filter(function(it){return !it.rest&&!it.cont&&!it.hidden;}).map(function(it){return {it:it,prefix:prefix,midis:it.notes.map(function(n){return n.midi;})};});
   followStep=st;
+  var kbEl=$("kb"+st.id),hm=[];steps.forEach(function(x){hm=hm.concat(x.midis);});
+  SE.drawKb(kbEl,hm);kbEl._hand=hand;
   document.querySelectorAll('#score'+st.id+' .n.pl').forEach(function(e){e.classList.remove("pl");});
   follow=new ME.Follow(steps,{kbRoot:$("kb"+st.id),
-    onShow:function(s,i,n){msg(st,"다음 → "+s.it.notes.map(function(x){return x.sol;}).join("·")+(s.midis.length>1?" (같이 누르기)":"")+"  ("+(i+1)+" / "+n+")");},
+    onShow:function(s,i,n){msg(st,"다음 → "+s.it.notes.map(function(x){return x.sol;}).join("·")+(s.midis.length>1?" (같이 누르기)":"")+"  ("+(i+1)+" / "+n+")");setTimeout(function(){SE.revealKeys(kbEl,s.midis);},30);},
     onPartial:function(s,left){msg(st,"좋아요! 나머지 파란 건반도 같이 눌러요 ("+left.length+"개 남음)");},
     onWrong:function(){var sc=$("score"+st.id);sc.classList.remove("shake");void sc.offsetWidth;sc.classList.add("shake");msg(st,"앗! 다른 건반이에요. 파란 건반을 눌러 봐요.","bad");},
     onDone:function(){follow=null;followStep=null;ME.confetti();store("pr-done-"+st.id+"-"+hand,"1");$("star"+st.id).textContent=stars(st.id);
       msg(st,"🎉 참 잘했어요! "+(hand==="R"?"오른손 멜로디":"왼손 반주")+"를 끝까지 쳤어요. 이제 ▶ 소리와 같이 쳐 봐요!","good");}});
   document.querySelectorAll('[data-i^="'+prefix+'"].done').forEach(function(e){e.classList.remove("done");});
-  $("kb"+st.id).scrollIntoView({behavior:"smooth",block:"center"});
+  kbEl.scrollIntoView({behavior:"smooth",block:"center"});
 }
 var first=$("step2");if(first){first.open=true;STEPS[1].draw();}
 })();

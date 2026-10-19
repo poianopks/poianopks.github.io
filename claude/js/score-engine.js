@@ -384,5 +384,29 @@ function barFromClick(el,e){
   return hit;
 }
 
-window.SE={parseBars:parseBars,audioItems:audioItems,render:render,play:play,stopAll:stopAll,barFromClick:barFromClick,KEYS:KEYS,cur:function(){return P;}};
+
+/* ---------- 건반: 필요한 음역만 그리기 + 파란 건반이 화면 안에 보이게 스크롤 ---------- */
+function drawKb(el,midis,o){
+  o=o||{};
+  var lo=Math.min.apply(0,midis),hi=Math.max.apply(0,midis);
+  lo-=2;hi+=2;
+  while(lo%12!==0&&lo%12!==5)lo--;
+  while(hi%12!==4&&hi%12!==11)hi++;
+  var whites=0;for(var m=lo;m<=hi;m++)if([1,3,6,8,10].indexOf(m%12)<0)whites++;
+  var avail=el.clientWidth||600,kw=Math.max(o.minKw||26,Math.min(44,Math.floor(avail/whites)));
+  var kb=ME.keyboard(lo,hi,{kw:kw,kh:o.kh||Math.round(kw*4.3)});
+  el.innerHTML='<svg viewBox="0 0 '+kb.w+' '+kb.h+'" style="min-width:0;width:'+kb.w+'px;max-width:none">'+kb.svg+'</svg>';
+  el._range=[lo,hi];
+  return [lo,hi];
+}
+function revealKeys(el,midis){
+  if(!el||!midis||!midis.length)return;
+  var ks=midis.map(function(m){return el.querySelector('[data-m="'+m+'"]');}).filter(Boolean);
+  if(!ks.length)return;
+  var er=el.getBoundingClientRect(),l=1e9,r=-1e9;
+  ks.forEach(function(k){var b=k.getBoundingClientRect();l=Math.min(l,b.left);r=Math.max(r,b.right);});
+  if(l<er.left+8||r>er.right-8){el.scrollTo({left:Math.max(0,el.scrollLeft+(l+r)/2-(er.left+er.right)/2),behavior:"smooth"});}
+}
+
+window.SE={parseBars:parseBars,audioItems:audioItems,render:render,play:play,stopAll:stopAll,barFromClick:barFromClick,KEYS:KEYS,drawKb:drawKb,revealKeys:revealKeys,cur:function(){return P;}};
 })();
