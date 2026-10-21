@@ -4,7 +4,7 @@ import re
 from html import unescape
 from urllib.request import Request, urlopen
 
-URL = "https://doc.samsungmobile.com/SM-S938N/KOO/doc.html"
+URL = "https://doc.samsungmobile.com/SM-S938N/032282250213/kor.html"
 raw = urlopen(Request(URL, headers={"User-Agent": "Mozilla/5.0"}), timeout=30).read()
 html = raw.decode("utf-8", "replace")
 out = [f"# {URL}", f"- 바이트: {len(raw)}", ""]
@@ -17,6 +17,6 @@ out += ["", "## 제목들"] + [f"{'  '*(int(l)-1)}- {re.sub('<[^>]+>', '', unesc
 text = re.sub(r"<script.*?</script>|<style.*?</style>", " ", html, flags=re.S)
 text = re.sub(r"<[^>]+>", "\n", text)
 text = "\n".join(l.strip() for l in unescape(text).splitlines() if l.strip())
-out += ["", "## 본문 (앞부분)", text[:60000]]
+out += ["", "## 본문 (앞부분)", text[:400000]]
 open("practice/manual/result.md", "w", encoding="utf-8").write("\n".join(out) + "\n")
 print("\n".join(out)[:3000])
