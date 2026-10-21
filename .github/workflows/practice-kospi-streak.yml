@@ -14,6 +14,7 @@ on:
       - "practice/semi95/compare.py"
       - "practice/semi95/vs_dotcom.py"
       - "practice/semi95/rates.py"
+      - "practice/closing/auction.py"
       - ".github/workflows/practice-kospi-streak.yml"
 
 permissions:
@@ -36,11 +37,12 @@ jobs:
       - run: python practice/semi95/compare.py
       - run: python practice/semi95/vs_dotcom.py
       - run: python practice/semi95/rates.py
+      - run: python practice/closing/auction.py
       - name: 결과 커밋
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
-          git add practice/kospi_streak/result.md practice/kospi_streak/verify_naver.md practice/kospi_streak/overnight.md practice/kospi_streak/trend.md practice/reservoir/result.md practice/pbr/result.md practice/semi95/result.md practice/semi95/vs_dotcom.md practice/semi95/rates.md
+          git add practice/kospi_streak/result.md practice/kospi_streak/verify_naver.md practice/kospi_streak/overnight.md practice/kospi_streak/trend.md practice/reservoir/result.md practice/pbr/result.md practice/semi95/result.md practice/semi95/vs_dotcom.md practice/semi95/rates.md practice/closing/result.md
           git commit -m "연습장: KOSPI 연속 하락 결과" || exit 0
           git pull --rebase -q || true
           git push
