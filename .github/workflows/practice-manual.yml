@@ -1,0 +1,30 @@
+name: 연습장 - 설명서 가져오기
+
+# 연습용. 작업 브랜치에 push할 때만 실행됩니다 (사이트 main과 무관).
+on:
+  push:
+    branches: [ccr-a3195313-ux8oj3]
+    paths:
+      - "practice/manual/fetch.py"
+      - ".github/workflows/practice-manual.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python practice/manual/fetch.py
+      - name: 결과 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add practice/manual/result.md
+          git commit -m "연습장: 설명서 결과" || exit 0
+          git pull --rebase -q || true
+          git push
