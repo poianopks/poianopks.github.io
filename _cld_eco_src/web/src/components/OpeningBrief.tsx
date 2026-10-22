@@ -29,7 +29,7 @@ interface Brief {
     since: string; days: number;
   };
   us: Record<string, any>;
-  gap: { ewyDate: string; ewyChgPct: number; usdkrwChgPct: number; kospiInWindowPct: number; residualPct: number; estOpen: number } | null;
+  gap: { ewyDate: string; ewyChgPct: number; usdkrwChgPct: number; refDays: number; residualPct: number; estOpen: number } | null;
   flowsToday: FlowDay | null;
   flowHistory: FlowDay[];
   signals: { label: string; value: string; score: -1 | 0 | 1; note: string }[];
@@ -194,8 +194,8 @@ export function OpeningBrief() {
                 <span className={`font-black ${tone(data.gap.residualPct)}`}>{sign(data.gap.residualPct)}%</span>
               </div>
               <div className="text-[10px] text-slate-600 leading-relaxed mt-1">
-                EWY {sign(data.gap.ewyChgPct)}% · 원/달러 {sign(data.gap.usdkrwChgPct)}% 중 코스피가 이미 반영한 {sign(data.gap.kospiInWindowPct)}%를 뺀 나머지.
-                실제 시초가는 장 전 동시호가·뉴스에 따라 달라집니다.
+                EWY {sign(data.gap.ewyChgPct)}% · 원/달러 {sign(data.gap.usdkrwChgPct)}%. "EWY×환율÷코스피" 비율이 최근 {data.gap.refDays}거래일 보통 수준(중앙값)에서 벗어난 만큼을 코스피 종가에 적용했어요.
+                1년 시험 평균 오차 약 1.6%p · 방향 적중 약 75%. 코스피200 야간선물이 더 직접적인 신호이니 함께 보세요. 실제 시초가는 장 전 동시호가·뉴스에 따라 달라집니다.
               </div>
             </div>
           ) : (
