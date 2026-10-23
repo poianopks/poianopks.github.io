@@ -74,7 +74,7 @@ function Ticker() {
     { label: "SK하이닉스 이격",value: fmtDev(sk?.dev200d), sub: sk ? `${fmt(sk.price, 0)}원` : "데이터 확인 중", danger: (sk?.dev200d ?? 0) >= 25, alert: false },
     { label: "200주 MA",       value: fmt(kospi?.ma200w, 0), sub: kospi ? "장기 기준선" : "데이터 확인 중", danger: false, alert: false },
     { label: "역사적 ATH",     value: "9,385", sub: "2026.06.19 기록", danger: true, alert: false },
-    ...(ewy  ? [{ label: "🌙 코스피야간(EWY)", value: `$${ewy.price}`,                               sub: fmtPct(ewy.changePct),  danger: ewy.changePct  <= -2, alert: ewy.changePct  <= -3 }] : []),
+    ...(ewy  ? [{ label: "🌙 EWY (야간 대용·ETF)", value: `$${ewy.price}`,                               sub: fmtPct(ewy.changePct),  danger: ewy.changePct  <= -2, alert: ewy.changePct  <= -3 }] : []),
     ...(skhy ? [{ label: "SK하이닉스(SKHY)",   value: `$${skhy.price}`,                              sub: fmtPct(skhy.changePct), danger: skhy.changePct <= -2, alert: skhy.changePct <= -3 }] : []),
     ...(krw  ? [{ label: "💱 원/달러",         value: `${krw.price.toLocaleString("ko-KR")}원`,      sub: fmtPct(krw.changePct),  danger: krw.changePct  >= 1,  alert: krw.changePct  >= 2  }] : []),
   ];
