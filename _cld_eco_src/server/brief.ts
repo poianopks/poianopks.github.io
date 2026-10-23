@@ -39,6 +39,17 @@ async function yahooDaily(symbol: string, fromUnix: number): Promise<{ bars: Bar
   return { bars, last: res.meta?.regularMarketPrice ?? null, lastTime: mt ? new Date(mt * 1000).toISOString() : null };
 }
 
+/** 지금 가격과 직전 거래일 종가(정산가). 일봉 종가가 빈 날(null)이 있어도 직전 종가가 정확함 */
+async function yahooLive(symbol: string): Promise<{ price: number; prev: number; time: string | null } | null> {
+  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=1d&interval=1m`;
+  const r = await fetch(url, { headers: { "User-Agent": YAHOO_UA, Accept: "application/json" }, signal: AbortSignal.timeout(20000) });
+  if (!r.ok) throw new Error(`${symbol} HTTP ${r.status}`);
+  const m = (await r.json())?.chart?.result?.[0]?.meta;
+  const price = m?.regularMarketPrice, prev = m?.chartPreviousClose ?? m?.previousClose;
+  if (!isFinite(price) || !isFinite(prev) || !prev) return null;
+  return { price, prev, time: m.regularMarketTime ? new Date(m.regularMarketTime * 1000).toISOString() : null };
+}
+
 const pct = (a: number, b: number) => (a / b - 1) * 100;
 const round = (v: number, d = 2) => Math.round(v * 10 ** d) / 10 ** d;
 
@@ -169,6 +180,7 @@ export async function collectBrief(prev?: any) {
   if (!kospiY || kospiY.bars.length < 300) throw new Error(`KOSPI 일봉을 받지 못했습니다 (${errors.join(", ")})`);
 
   const flows = await safe("수급(네이버)", collectFlows());
+  const nqLive = await safe("NQ=F 현재", yahooLive("NQ=F"));
 
   // Yahoo 일봉은 최근 하루가 늦게 들어오는 일이 있어, 최근 10거래일은 네이버 일별 종가로 맞춤
   const naverDaily = async (code: string) => {
@@ -228,7 +240,8 @@ export async function collectBrief(prev?: any) {
   const us = {
     ndx: move(ndx), spx: move(spx), dji: move(dji), sox: move(sox), mu: move(mu), nvda: move(nvda), oil: move(oil),
     tnx: tnx && tnx.bars.length >= 2 ? { date: tnx.bars[tnx.bars.length - 1].date, close: round(tnx.bars[tnx.bars.length - 1].close, 3), chgBp: round((tnx.bars[tnx.bars.length - 1].close - tnx.bars[tnx.bars.length - 2].close) * 100, 1) } : null,
-    nqNow: nq && nq.last && nq.bars.length >= 2 ? { price: round(nq.last), chgPct: round(pct(nq.last, nq.bars[nq.bars.length - 2].close)), time: nq.lastTime } : null,
+    // 일봉 기준으로 비교하면 Yahoo가 전날 종가를 비워 둘 때 이틀 전과 비교하게 되므로, 직전 정산가와 비교
+    nqNow: nqLive ? { price: round(nqLive.price), chgPct: round(pct(nqLive.price, nqLive.prev)), time: nqLive.time ?? nq?.lastTime ?? null } : null,
   };
 
   // 추정 갭: "EWY×환율÷코스피" 비율이 최근 20거래일 보통 수준(중앙값)에서 벗어난 만큼을 코스피 종가에 적용
