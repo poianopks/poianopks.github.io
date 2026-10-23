@@ -422,7 +422,7 @@ function EwyChartPanel({ onClose }: { onClose: () => void }) {
             <p>• <strong>EWY &lt; MA20</strong> → 단기 하락 추세. 코스피 약세 압력 확인 필요</p>
             <p>• <strong>MA20이 MA60 상향 돌파(골든크로스)</strong> → 중기 상승 전환 신호</p>
             <p>• <strong>MA20이 MA60 하향 돌파(데드크로스)</strong> → 중기 하락 전환 신호</p>
-            <p className="text-slate-400">※ EWY는 KOSPI와 상관관계 0.9+ · CME 코스피200 선물 무료 미제공으로 대용 활용</p>
+            <p className="text-slate-400">※ EWY는 코스피 방향을 가늠하는 대용 지표예요 (실제 코스피200 야간선물 아님)</p>
           </div>
         </div>
       )}
@@ -800,7 +800,8 @@ export function FactCheck() {
       row.krw = p.value ?? undefined;
       map.set(p.date, row);
     });
-    return Array.from(map.values()).sort((a, b) => a.date.localeCompare(b.date));
+    // "9/22"처럼 줄인 날짜로 정렬하면 10/1이 9/22보다 앞에 오므로, 원래 날짜(키)로 정렬
+    return Array.from(map.entries()).sort(([a], [b]) => a.localeCompare(b)).map(([, row]) => row);
   })();
 
   return (
@@ -854,8 +855,8 @@ export function FactCheck() {
               {/* EWY */}
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-bold text-slate-600 uppercase tracking-wide">🌙 코스피 야간 방향 신호</span>
-                  <span className="text-[10px] text-slate-400">— CME 직접 미제공 → EWY 프록시</span>
+                  <span className="text-xs font-bold text-slate-600 uppercase tracking-wide">🌙 EWY (코스피 야간 대용·ETF)</span>
+                  <span className="text-[10px] text-slate-400">— 실제 코스피200 야간선물 아님</span>
                 </div>
                 {market.kospiProxy.map(item => (
                   <MarketCard
@@ -876,7 +877,7 @@ export function FactCheck() {
                   {showEwyPanel ? "▲ EWY 상세 차트 닫기" : "▼ EWY 일봉·주봉 상세 차트 보기"}
                 </button>
                 <p className="text-[10px] text-slate-400 mt-1.5 leading-relaxed">
-                  EWY(iShares MSCI Korea ETF)는 NYSE에서 미국 장중 실시간 거래되며 KOSPI와 상관관계 0.9+. CME 코스피200 선물 무료 API 미제공으로 인한 실용적 대안.
+                  EWY(iShares MSCI Korea ETF)는 NYSE에서 거래되는 한국 주식 ETF로, 밤사이 코스피 방향을 가늠하는 대용 지표예요. 실제 코스피200 야간선물이 아니며 구성 종목·환율 차이로 코스피와 다르게 움직일 수 있어요.
                 </p>
               </div>
               {/* KRW/USD */}
