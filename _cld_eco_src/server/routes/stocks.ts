@@ -1510,7 +1510,7 @@ router.get("/stocks/global-market", async (_req, res): Promise<void> => {
 
   // 코스피 야간 방향 프록시
   const KOSPI_PROXY = [
-    { symbol: "EWY",   name: "코스피 야간 방향",  note: "iShares MSCI Korea ETF · NYSE · 상승=코스피 호재", emoji: "🌙" },
+    { symbol: "EWY",   name: "EWY (코스피 야간 대용)",  note: "iShares MSCI Korea ETF · NYSE · 상승=코스피 호재", emoji: "🌙" },
   ];
 
   // 원달러 환율
