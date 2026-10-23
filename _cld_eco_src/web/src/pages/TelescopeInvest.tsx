@@ -74,8 +74,8 @@ export function TelescopeInvest() {
       : { icon: "💵", title: "달러 인덱스 1개월 변화", value: `${num(macro?.liquidity.dxyNow, 1)} (${pct(dxy1m, 1)})`, level: dxy1m >= 3 ? "warn" : dxy1m >= 1.5 ? "watch" : "good",
           why: dxy1m >= 1.5 ? "강달러는 세계 유동성을 줄여 신흥국 증시에 부담" : "달러가 안정적 = 유동성 환경 무난" },
     !ewy
-      ? { icon: "🌙", title: "코스피 야간 방향 (EWY)", value: "—", level: "na", why: "데이터 확인 중" }
-      : { icon: "🌙", title: "코스피 야간 방향 (EWY)", value: `${pct(ewy.changePct)}`, level: ewy.changePct <= -2 ? "warn" : ewy.changePct <= -0.7 ? "watch" : "good",
+      ? { icon: "🌙", title: "EWY (코스피 야간 대용)", value: "—", level: "na", why: "데이터 확인 중" }
+      : { icon: "🌙", title: "EWY (코스피 야간 대용)", value: `${pct(ewy.changePct)}`, level: ewy.changePct <= -2 ? "warn" : ewy.changePct <= -0.7 ? "watch" : "good",
           why: "미국에 상장된 한국 ETF 움직임 = 다음 날 코스피 분위기 힌트" },
     skDev == null
       ? { icon: "🔬", title: "반도체 과열 (SK하이닉스 200일 이격)", value: "—", level: "na", why: "데이터 확인 중" }
