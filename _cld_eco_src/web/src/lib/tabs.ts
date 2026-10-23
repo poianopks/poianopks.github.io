@@ -15,7 +15,7 @@ export const SITE_NAME = "KOSPI 투자 분석 센터";
 
 export const TABS: TabDef[] = [
   { value: "dashboard", label: "📊 현재 상황", short: "현재", title: "KOSPI 현재 상황 — 200일·200주 이격도와 PBR", desc: "KOSPI·S&P 500·나스닥 100의 200일·200주 이동평균 이격도, 과열 위험도, PBR 밸류에이션, 갭 캔들 통계를 한 화면에서 봅니다." },
-  { value: "factcheck", label: "🔍 팩트체크", short: "팩트", title: "시장 팩트체크 — 미국 선물·한국 ADR·환율", desc: "미국 지수 선물, 해외 상장 한국 종목(ADR), 코스피 야간 방향(EWY), 원/달러 환율로 다음 날 한국 증시 분위기를 점검합니다." },
+  { value: "factcheck", label: "🔍 팩트체크", short: "팩트", title: "시장 팩트체크 — 미국 선물·한국 ADR·환율", desc: "미국 지수 선물, 해외 상장 한국 종목(ADR), 코스피 야간 대용 지표(EWY), 원/달러 환율로 다음 날 한국 증시 분위기를 점검합니다." },
   { value: "history", label: "📜 역사 분석", short: "역사", title: "역사 분석 — 극단 이격도 이후 KOSPI는 어떻게 됐나", desc: "닷컴버블·금융위기·코로나 버블 등 과거 과열 구간과 대만·일본·나스닥 폭락 사례로 평균회귀 확률을 살펴봅니다." },
   { value: "strategy", label: "⚖️ 전략 비교", short: "전략", title: "전략 비교 — 일시매수 vs 적립식(DCA) vs 200일선 대기", desc: "S&P 500 17년 데이터로 일시매수·DCA·MA200 대기매수의 수익률을 비교하고 이동평균선의 올바른 활용법을 정리합니다." },
   { value: "scenarios", label: "🔮 시나리오", short: "시나리오", title: "KOSPI 미래 3가지 시나리오", desc: "평균회귀·기간 조정·새 패러다임 세 가지 시나리오의 확률, 목표 범위, 대응 전략을 정리합니다." },
