@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aside 텔레그램 봇 여러 개</title>
+<meta name="description" content="Aside 텔레그램 원격을 컴퓨터 2~3대에서 충돌 없이 쓰는 법. 실패 이유와 성공 이유를 왕초보 눈높이로 정리했어요.">
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--fg:#1d2330;--muted:#5d6676;--line:#e3e6eb;--accent:#2f6fde;--ok:#1f8a4c;--okbg:#e6f6ec;--warn:#b26a00;--warnbg:#fff4e0;--bad:#c0392b;--badbg:#fdecea}
+@media (prefers-color-scheme:dark){:root{--bg:#14171c;--card:#1d2128;--fg:#e6e9ee;--muted:#9aa3b2;--line:#2c323b;--accent:#6ea0ff;--ok:#4cc77f;--okbg:#15301f;--warn:#ffb648;--warnbg:#3a2c12;--bad:#ff7a6b;--badbg:#3a1916}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 "Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif}
+main{max-width:860px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:28px;line-height:1.3;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 24px}
+h2{font-size:21px;margin:36px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--line)}
+h3{font-size:17px;margin:20px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0}
+.ok{background:var(--okbg);border-left:5px solid var(--ok);border-radius:8px;padding:12px 16px;margin:10px 0}
+.warn{background:var(--warnbg);border-left:5px solid var(--warn);border-radius:8px;padding:12px 16px;margin:10px 0}
+.bad{background:var(--badbg);border-left:5px solid var(--bad);border-radius:8px;padding:12px 16px;margin:10px 0}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);font-size:15px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:color-mix(in srgb,var(--accent) 9%,var(--card))}
+ol li,ul li{margin:6px 0}
+code{background:color-mix(in srgb,var(--accent) 10%,var(--card));padding:1px 6px;border-radius:5px;font-size:14px}
+.toc a{color:var(--accent);text-decoration:none}
+.diagram{font-family:Consolas,monospace;font-size:14px;white-space:pre;overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+footer{margin-top:44px;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<main>
+<h1>Aside 텔레그램 봇 2~3개 쓰기</h1>
+<p class="sub">컴퓨터 여러 대에서 Aside 텔레그램 원격을 충돌 없이 쓰는 법 · 실제로 해 보며 배운 실패와 성공 · 왕초보 레슨</p>
+
+<div class="card toc"><b>📚 목차</b>
+<ol>
+<li><a href="#l1">레슨 1. 먼저 알아 둘 말</a></li>
+<li><a href="#l2">레슨 2. 무슨 일이 있었나 (실제 이야기)</a></li>
+<li><a href="#l3">레슨 3. 임시 실패, 왜 실패했을까?</a></li>
+<li><a href="#l4">레슨 4. 완전 성공, 왜 성공했을까?</a></li>
+<li><a href="#l5">레슨 5. 이렇게 하면 실패해요</a></li>
+<li><a href="#l6">레슨 6. 이렇게 하면 성공해요</a></li>
+<li><a href="#l7">레슨 7. 봇 2개 · 3개 만드는 절차 (따라 하기)</a></li>
+<li><a href="#l8">레슨 8. 봇 여러 개 충돌 없이 쓰는 규칙</a></li>
+<li><a href="#l9">레슨 9. 비밀 키(토큰) 안전 수칙</a></li>
+</ol></div>
+
+<h2 id="l1">📌 레슨 1. 먼저 알아 둘 말</h2>
+<div class="tbl"><table>
+<tr><th>말</th><th>쉬운 뜻</th></tr>
+<tr><td><b>Aside</b></td><td>AI가 들어 있는 인터넷 브라우저. 컴퓨터에 설치해서 써요.</td></tr>
+<tr><td><b>텔레그램 봇</b></td><td>텔레그램 안의 "자동 응답 친구". 봇에게 메시지를 보내면 내 컴퓨터의 Aside가 대신 일해 줘요.</td></tr>
+<tr><td><b>BotFather</b></td><td>텔레그램 봇을 만들어 주는 "봇 공장" 공식 계정이에요.</td></tr>
+<tr><td><b>토큰(Token)</b></td><td>봇의 <b>비밀 열쇠</b>예요. 이 열쇠가 있으면 누구나 봇을 조종할 수 있어요.</td></tr>
+<tr><td><b>사생활 모드(Privacy Mode)</b></td><td>봇이 모든 메시지를 볼지 정하는 스위치. Aside에 연결하려면 <b>꺼야(Disable)</b> 해요.</td></tr>
+<tr><td><b>Pairing(짝 맺기)</b></td><td>"이 텔레그램 계정만 내 봇을 써도 돼"라고 승인하는 단계예요.</td></tr>
+<tr><td><b>Claude 세션</b></td><td>Claude와 나누는 대화 한 개. 세션마다 할 수 있는 일과 허락이 따로따로예요.</td></tr>
+</table></div>
+
+<h2 id="l2">📌 레슨 2. 무슨 일이 있었나 (실제 이야기)</h2>
+<div class="diagram">처음 (문제 상황)
+  스마트폰 텔레그램 ──▶ 봇 1개 (@Aside_rc_bot) ──┬──▶ 삼성 노트북 Aside
+                                                  └──▶ 윈10 PC Aside
+  ➜ 두 컴퓨터가 봇 하나를 서로 차지하려고 싸움 🥊
+
+마지막 (해결)
+  스마트폰 텔레그램 ──▶ 봇 A (@Aside_rc_bot)    ──▶ 삼성 노트북 Aside ✅
+                    └─▶ 봇 B (@Aside_win10_bot) ──▶ 윈10 PC Aside ✅
+  ➜ 봇 1개 = 컴퓨터 1대, 이제 안 싸움 🤝</div>
+<p>집 윈10 PC와 삼성 갤럭시북 노트북 <b>두 대의 Aside가 같은 텔레그램 봇 하나</b>에 연결돼 있었어요. 그래서 메시지가 엉뚱한 컴퓨터로 가거나 대답이 오지 않았어요. 윈10용 새 봇을 만들어 나누는 과정에서 몇 번 막혔다가, 결국 <b>성공</b>했어요.</p>
+
+<h2 id="l3">📌 레슨 3. 임시 실패, 왜 실패했을까?</h2>
+<div class="bad"><b>① 봇 하나를 컴퓨터 두 대가 같이 썼어요</b><br>텔레그램 봇은 <b>전화번호 하나</b>와 같아요. 두 컴퓨터가 같은 번호로 동시에 전화를 받으려 하면, 텔레그램은 한쪽만 연결하거나 둘을 번갈아 끊어 버려요.</div>
+<div class="bad"><b>② 사생활 모드를 엉뚱한 봇에 껐어요</b><br>BotFather에서 <code>/setprivacy</code>를 보낸 뒤 <b>새 봇(@Aside_win10_bot)</b>이 아니라 <b>예전 봇(@Aside_rc_bot)</b>을 골랐어요. 그래서 Aside가 계속 "Privacy Mode를 꺼야 연결된다"고 경고했어요.</div>
+<div class="bad"><b>③ 새 토큰을 예전 봇 칸에 넣었어요</b><br>새 봇은 <b>새 항목으로 추가</b>해야 하는데, 예전 봇(Aside_rc_bot) 설정 칸의 토큰만 바꿨어요. 경고 때문에 저장도 안 됐어요.</div>
+<div class="bad"><b>④ AI끼리 말을 전달하면 "허락"이 전달되지 않았어요</b><br>저(윈도우10 에고라이트 세션)는 화면 조작 기능이 없어서, 화면을 다룰 수 있는 다른 Claude 세션에게 일을 전달했어요. 그런데 <b>텔레그램 봇 변경은 "계정 설정 변경"</b>이라서, 그 세션의 안전장치가 "<b>사용자 본인이 직접 말해야 한다</b>"며 멈췄어요. 다른 AI가 대신 전한 "해도 돼"는 허락으로 인정되지 않아요. 그래서 시간이 걸렸어요.</div>
+<div class="bad"><b>⑤ 허락 창은 PC 화면에만 떠요</b><br>Claude가 새 프로그램(Aside)을 쓰려면 PC 화면의 Claude 앱에서 <b>[이 세션 동안 허용]</b>을 눌러야 해요. 스마트폰에는 그 창이 뜨지 않아서, 밖에 있는 동안에는 <b>자동으로 거부</b>됐어요.</div>
+<div class="warn"><b>⑥ (참고) 삼성 노트북의 "Insufficient credits" 오류</b><br>연결 문제가 아니라 <b>Aside 자체 구독의 사용량(크레딧)이 다 떨어졌다</b>는 뜻이에요. 윈10은 GitHub Copilot 구독으로 바꿔 둬서 문제가 없었어요.</div>
+
+<h2 id="l4">📌 레슨 4. 완전 성공, 왜 성공했을까?</h2>
+<div class="ok"><b>① 본인이 그 세션에 직접 "진행해"라고 말했어요</b><br>화면을 다룰 수 있는 Claude 세션에 <b>사용자가 직접</b> 허락하자 안전장치가 풀렸어요.</div>
+<div class="ok"><b>② AI끼리 의논하게 했어요 (Claude ↔ Aside)</b><br>Claude가 Aside 대화창에 상황을 <b>영어로</b> 설명하고 "답은 <b>한국어로</b> 해 줘"라고 부탁했어요. 영어로 물으면 AI가 기술 용어를 더 정확하게 알아듣는 경우가 많아요.</div>
+<div class="ok"><b>③ Aside의 "자동 방식"을 골랐어요</b><br>수동 방식(사람이 토큰을 복사해 붙여 넣기) 대신 <b>"Ask Aside to set it up(Aside에 맡기기)"</b>을 골랐어요. Aside가 로그인된 텔레그램 웹에서 BotFather와 직접 대화해서, 사생활 모드 끄기와 토큰 입력을 <b>정확한 봇에</b> 해 줬어요.</div>
+<div class="ok"><b>④ 봇 1개 = 컴퓨터 1대로 나눴어요</b><br>윈10에서는 예전 봇을 빼고 새 봇만 연결했어요. 삼성 노트북은 예전 봇을 그대로 써요.</div>
+<div class="ok"><b>⑤ 확인까지 했어요</b><br>새 봇에게 물어보니 PowerShell로 직접 확인해서 <code>DESKTOP-0QU6PRB / Windows 10</code>이라고 정확하게 답했어요. 봇이 진짜 그 컴퓨터에 연결됐다는 증거예요.</div>
+
+<h2 id="l5">📌 레슨 5. 이렇게 하면 실패해요 ❌</h2>
+<ul>
+<li>❌ 봇 하나를 컴퓨터 여러 대에 연결하기</li>
+<li>❌ <code>/setprivacy</code> 다음에 봇 이름을 확인하지 않고 아무 버튼이나 누르기</li>
+<li>❌ 새 봇 토큰을 <b>예전 봇 칸</b>에 덮어쓰기</li>
+<li>❌ AI에게 "다른 AI가 허락했으니 해"라고 시키기 (안전장치가 막아요)</li>
+<li>❌ 밖에서 스마트폰으로 <b>처음 쓰는 프로그램</b>을 허락하려고 하기 (허락 창은 PC에만 떠요)</li>
+<li>❌ 토큰을 채팅이나 메모에 그대로 붙여 넣기</li>
+</ul>
+
+<h2 id="l6">📌 레슨 6. 이렇게 하면 성공해요 ✅</h2>
+<ul>
+<li>✅ <b>봇 1개 = 컴퓨터 1대</b> (컴퓨터가 3대면 봇도 3개)</li>
+<li>✅ BotFather 답장에 <b>내가 고른 봇 이름</b>이 나오는지 꼭 확인하기</li>
+<li>✅ 새 봇은 Aside에서 <b>Channels → Telegram "+"</b>로 <b>새 항목</b> 추가하기</li>
+<li>✅ 어려우면 <b>Aside 자동 방식(Ask Aside to set it up)</b> 쓰기</li>
+<li>✅ 계정 설정을 바꾸는 일은 <b>그 일을 하는 AI 세션에 내가 직접</b> 허락하기</li>
+<li>✅ 밖에 나가기 전에 PC 앞에서 쓸 프로그램을 <b>미리 모두 허용</b>해 두기</li>
+<li>✅ AI끼리 의논시킬 때는 "<b>영어로 묻고, 한국어로 답해 줘</b>"</li>
+</ul>
+
+<h2 id="l7">📌 레슨 7. 봇 2개 · 3개 만드는 절차 (따라 하기)</h2>
+<h3>🅰️ 자동 방식 (추천, 가장 쉬움)</h3>
+<ol>
+<li>새 봇을 연결할 컴퓨터에서 <b>Aside</b>를 열어요.</li>
+<li>Aside 안에서 <b>텔레그램 웹(web.telegram.org)</b>에 로그인해 둬요.</li>
+<li>Aside <b>설정 → Channels → Telegram "+"</b>를 눌러요.</li>
+<li><b>"Ask Aside to set it up"</b>을 골라요.</li>
+<li>Aside가 묻는 질문에 답해요. 예: 봇 이름 <code>Aside_노트북2_bot</code></li>
+<li>Aside가 BotFather에서 봇 만들기, 사생활 모드 끄기, 연결까지 해 줘요.</li>
+<li><b>Pairing</b> 탭에 내 텔레그램 계정의 요청이 오면 <b>내 계정이 맞는지 확인하고 Approve</b>를 눌러요.</li>
+<li>텔레그램에서 새 봇에게 "<b>이 컴퓨터 이름이 뭐야?</b>"라고 보내서 확인해요.</li>
+</ol>
+<h3>🅱️ 수동 방식 (직접 하기)</h3>
+<ol>
+<li>텔레그램에서 <b>@BotFather</b>를 찾아 <code>/newbot</code>을 보내요.</li>
+<li>봇 표시 이름을 정해요. 예: <code>노트북2_Aside</code></li>
+<li>봇 사용자 이름을 정해요. 꼭 <code>bot</code>으로 끝나야 해요. 예: <code>Aside_note2_bot</code></li>
+<li>BotFather가 주는 <b>토큰</b>을 복사해요. <b>절대 남에게 보여 주지 마세요.</b></li>
+<li><code>/setprivacy</code>를 보내고 <b>방금 만든 봇</b>을 골라요. 답장에 봇 이름이 맞는지 확인해요.</li>
+<li><b>Disable</b>을 보내고 "Success! … DISABLED"가 나오는지 확인해요.</li>
+<li>그 컴퓨터 Aside의 <b>설정 → Channels → Telegram "+"</b>에 토큰을 붙여 넣고 연결해요.</li>
+<li><b>Pairing</b>에서 내 계정을 승인해요.</li>
+<li>텔레그램에서 새 봇에게 인사해서 확인해요.</li>
+</ol>
+<div class="warn">💡 <b>컴퓨터가 3대면</b> 위 절차를 3번째 컴퓨터에서 한 번 더 하면 돼요. 봇 이름에 컴퓨터 이름을 넣으면 헷갈리지 않아요. 예: <code>Aside_home_bot</code>, <code>Aside_note_bot</code>, <code>Aside_office_bot</code></div>
+
+<h2 id="l8">📌 레슨 8. 봇 여러 개 충돌 없이 쓰는 규칙</h2>
+<div class="tbl"><table>
+<tr><th>규칙</th><th>이유</th></tr>
+<tr><td>1. 봇 1개는 컴퓨터 1대에만 연결</td><td>같은 봇을 두 곳에서 받으면 서로 싸워요.</td></tr>
+<tr><td>2. 봇 이름에 컴퓨터 이름 넣기</td><td>텔레그램 방 목록에서 어떤 컴퓨터인지 바로 알 수 있어요.</td></tr>
+<tr><td>3. 컴퓨터를 바꾸면 예전 컴퓨터에서 봇 끄기</td><td>Aside Channels에서 스위치를 끄거나 항목을 빼요.</td></tr>
+<tr><td>4. 각 컴퓨터는 켜 두고 Aside도 실행해 두기</td><td>컴퓨터나 Aside가 꺼져 있으면 봇이 대답하지 못해요.</td></tr>
+<tr><td>5. 각 컴퓨터 Aside의 사용량(크레딧) 확인</td><td>크레딧이 떨어지면 "Insufficient credits" 오류가 나요. 다른 구독(Copilot 등)을 연결하면 해결돼요.</td></tr>
+<tr><td>6. 처음 연결하면 "컴퓨터 이름" 물어보기</td><td>봇이 진짜 그 컴퓨터에 연결됐는지 확인하는 가장 쉬운 방법이에요.</td></tr>
+</table></div>
+<div class="diagram">예시: 컴퓨터 3대
+  텔레그램 방 "집_Aside"     ─▶ @Aside_home_bot   ─▶ 집 PC
+  텔레그램 방 "노트북_Aside" ─▶ @Aside_note_bot   ─▶ 노트북
+  텔레그램 방 "사무실_Aside" ─▶ @Aside_office_bot ─▶ 사무실 PC</div>
+
+<h2 id="l9">📌 레슨 9. 비밀 키(토큰) 안전 수칙 🔐</h2>
+<ul>
+<li>토큰은 <b>Aside 설정 칸에만</b> 넣어요. 채팅, 메모, 블로그에 붙여 넣지 마세요.</li>
+<li>실수로 보여 줬다면 BotFather에서 <code>/revoke</code> → 그 봇을 골라 <b>새 토큰</b>을 받고, Aside에 새 토큰으로 바꿔 넣어요.</li>
+<li>Pairing은 <b>내 텔레그램 계정만</b> 승인해요. 모르는 계정은 Approve하지 마세요.</li>
+</ul>
+
+<footer>2026-10-25 · 집 윈도우10 PC와 삼성 갤럭시북 노트북에서 실제로 해 본 내용을 정리했어요. Aside 화면과 메뉴 이름은 업데이트로 바뀔 수 있어요.</footer>
+</main>
+</body>
+</html>
