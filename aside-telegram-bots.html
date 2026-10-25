@@ -71,6 +71,13 @@ footer{margin-top:44px;color:var(--muted);font-size:14px}
                     └─▶ 봇 B (@Aside_win10_bot) ──▶ 윈10 PC Aside ✅
   ➜ 봇 1개 = 컴퓨터 1대, 이제 안 싸움 🤝</div>
 <p>집 윈10 PC와 삼성 갤럭시북 노트북 <b>두 대의 Aside가 같은 텔레그램 봇 하나</b>에 연결돼 있었어요. 그래서 메시지가 엉뚱한 컴퓨터로 가거나 대답이 오지 않았어요. 윈10용 새 봇을 만들어 나누는 과정에서 몇 번 막혔다가, 결국 <b>성공</b>했어요.</p>
+<div class="tbl"><table>
+<tr><th>시간 (10월 25일)</th><th>일어난 일</th></tr>
+<tr><td>08:27</td><td>삼성 봇: "Insufficient credits" 일시 오류 ❌</td></tr>
+<tr><td>09:27</td><td>삼성 봇 (Aside원격_텔레그램): "Galaxy Book Pro 360"이라고 정상 답변 ✅</td></tr>
+<tr><td>09:42</td><td>윈10 봇 (윈도우10_Aside): "DESKTOP-0QU6PRB"라고 정상 답변 ✅</td></tr>
+<tr><td>결과</td><td><b>텔레그램 봇 2개 모두 성공</b> 🎉</td></tr>
+</table></div>
 
 <h2 id="l3">📌 레슨 3. 임시 실패, 왜 실패했을까?</h2>
 <div class="bad"><b>① 봇 하나를 컴퓨터 두 대가 같이 썼어요</b><br>텔레그램 봇은 <b>전화번호 하나</b>와 같아요. 두 컴퓨터가 같은 번호로 동시에 전화를 받으려 하면, 텔레그램은 한쪽만 연결하거나 둘을 번갈아 끊어 버려요.</div>
@@ -78,7 +85,7 @@ footer{margin-top:44px;color:var(--muted);font-size:14px}
 <div class="bad"><b>③ 새 토큰을 예전 봇 칸에 넣었어요</b><br>새 봇은 <b>새 항목으로 추가</b>해야 하는데, 예전 봇(Aside_rc_bot) 설정 칸의 토큰만 바꿨어요. 경고 때문에 저장도 안 됐어요.</div>
 <div class="bad"><b>④ AI끼리 말을 전달하면 "허락"이 전달되지 않았어요</b><br>저(윈도우10 에고라이트 세션)는 화면 조작 기능이 없어서, 화면을 다룰 수 있는 다른 Claude 세션에게 일을 전달했어요. 그런데 <b>텔레그램 봇 변경은 "계정 설정 변경"</b>이라서, 그 세션의 안전장치가 "<b>사용자 본인이 직접 말해야 한다</b>"며 멈췄어요. 다른 AI가 대신 전한 "해도 돼"는 허락으로 인정되지 않아요. 그래서 시간이 걸렸어요.</div>
 <div class="bad"><b>⑤ 허락 창은 PC 화면에만 떠요</b><br>Claude가 새 프로그램(Aside)을 쓰려면 PC 화면의 Claude 앱에서 <b>[이 세션 동안 허용]</b>을 눌러야 해요. 스마트폰에는 그 창이 뜨지 않아서, 밖에 있는 동안에는 <b>자동으로 거부</b>됐어요.</div>
-<div class="warn"><b>⑥ (참고) 삼성 노트북의 "Insufficient credits" 오류</b><br>연결 문제가 아니라 <b>Aside 자체 구독의 사용량(크레딧)이 다 떨어졌다</b>는 뜻이에요. 윈10은 GitHub Copilot 구독으로 바꿔 둬서 문제가 없었어요.</div>
+<div class="warn"><b>⑥ (참고) 삼성 노트북의 "Insufficient credits" 오류는 잠깐 났다가 해결됐어요</b><br>08:27에 삼성 봇이 "Insufficient credits"(사용량 부족)라고 답했어요. 연결 문제가 아니라 <b>Aside 사용량(크레딧)</b> 때문에 생긴 <b>일시적인 오류</b>였어요. 09:27에는 삼성 봇도 정상으로 답했어요. 지금은 <b>두 봇 모두 잘 작동해요.</b></div>
 
 <h2 id="l4">📌 레슨 4. 완전 성공, 왜 성공했을까?</h2>
 <div class="ok"><b>① 본인이 그 세션에 직접 "진행해"라고 말했어요</b><br>화면을 다룰 수 있는 Claude 세션에 <b>사용자가 직접</b> 허락하자 안전장치가 풀렸어요.</div>
