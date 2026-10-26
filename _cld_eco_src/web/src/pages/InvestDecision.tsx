@@ -1,4 +1,24 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
+import type { useStockData } from "@/hooks/useStockData";
+
+type StockDataT = ReturnType<typeof useStockData>;
+
+// 실시간 시세(GitHub Actions가 1시간마다 갱신)에서 계산기·현재 위치에 쓰는 값
+interface LiveValues { kospi: number; ma200: number; ma200w: number; samDev: number; skDev: number; dev200d: number; dev200w: number }
+
+function liveFrom(stockData?: StockDataT): LiveValues | null {
+  const k = stockData?.kospi;
+  if (!k || !(k.price > 0) || !k.ma200d || !k.ma200w) return null;
+  return {
+    kospi: Math.round(k.price),
+    ma200: Math.round(k.ma200d),
+    ma200w: Math.round(k.ma200w),
+    samDev: Number((stockData?.sam?.dev200d ?? 0).toFixed(2)),
+    skDev: Number((stockData?.sk?.dev200d ?? 0).toFixed(2)),
+    dev200d: k.dev200d ?? ((k.price - k.ma200d) / k.ma200d) * 100,
+    dev200w: k.dev200w ?? ((k.price - k.ma200w) / k.ma200w) * 100,
+  };
+}
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -12,7 +32,9 @@ const choices = [
   { id: 1, label: "지금 전액 몰빵 매수", icon: "💸",
     genspark: "🔴 비추천", balanced: "🔴 비추천", verdict: "비추천",
     color: "bg-red-50 border-destructive/30",
-    reason: "200일선 이격 +67%, 200주선 이격 +162% 구간에서 전액 매수는 역사적으로 손익비가 최악. 평균회귀 확률 70~80%.",
+    reason: (l: LiveValues | null) => l
+      ? `지금은 200일선 이격 ${fmtPct(l.dev200d)}, 200주선 이격 ${fmtPct(l.dev200w)}. 어느 구간이든 한 번에 전액 매수하면 판단이 틀렸을 때 회복할 수단이 없습니다. (작성 당시 6~7월 고점에는 200일 +67%, 200주 +162%였고 이후 큰 폭으로 조정됐습니다.)`
+      : "200일선 이격 +67%, 200주선 이격 +162% 구간(6~7월 고점 당시)에서 전액 매수는 역사적으로 손익비가 최악. 평균회귀 확률 70~80%.",
     risk: "최대 -50% 이상 손실 가능" },
   { id: 2, label: "지금 전액 인버스(숏)", icon: "📉",
     genspark: "🔴 강하게 비추천", balanced: "🔴 강하게 비추천", verdict: "강비추",
@@ -32,7 +54,9 @@ const choices = [
   { id: 5, label: "코스피 2,000 대기 후 전량 매수", icon: "⏳",
     genspark: "🔴 비현실적", balanced: "🔴 비현실적", verdict: "비추천",
     color: "bg-red-50 border-destructive/30",
-    reason: "현재 8,161에서 -75% 하락. 전쟁·IMF 수준. 기다리다 영영 매수 못할 가능성.",
+    reason: (l: LiveValues | null) => l
+      ? `현재 ${fmt(l.kospi)}에서 ${fmtPct((2000 - l.kospi) / l.kospi * 100)} 하락해야 하는 수준. 전쟁·IMF 수준. 기다리다 영영 매수 못할 가능성.`
+      : "코스피 2,000은 고점(약 9,385) 대비 -79% 수준. 전쟁·IMF 수준. 기다리다 영영 매수 못할 가능성.",
     risk: "영구적 기회 손실" },
   { id: 6, label: "코스피 10,000 돌파 후 추격 매수", icon: "🚀",
     genspark: "🔴 비추천", balanced: "🔴 비추천", verdict: "비추천",
@@ -72,12 +96,30 @@ const actionRules = [
 
 // ─── 단계별 분할매수 ─────────────────────────────────────────────────────────
 const defaultStages = [
-  { range: "8,100~8,300", label: "현재 구간 (지금)", pct: 15, action: "소액 참여 (한국 ETF)", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-300" },
-  { range: "7,300~7,400",  label: "1차 조정",        pct: 20, action: "1차 분할매수",         color: "text-blue-600",  bg: "bg-blue-50",  border: "border-blue-300"  },
-  { range: "6,500~6,600",  label: "2차 조정 (-20%)", pct: 25, action: "2차 분할매수",         color: "text-blue-700",  bg: "bg-blue-50",  border: "border-blue-400"  },
-  { range: "5,700~5,800",  label: "3차 조정 (-29%)", pct: 25, action: "3차 분할매수",         color: "text-indigo-700",bg: "bg-indigo-50",border: "border-indigo-400"},
-  { range: "4,900 전후",   label: "최후 예비 (-40%)", pct: 15, action: "마지막 예비자금",      color: "text-emerald-700",bg:"bg-emerald-50",border:"border-emerald-400"},
+// top: 이 단계 구간의 위쪽 끝. 현재 위치는 실시간 코스피로 자동 표시합니다.
+const defaultStages = [
+  { range: "8,100~8,300", top: Infinity, label: "고점권 (계획 시작)", pct: 15, action: "소액 참여 (한국 ETF)", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-300" },
+  { range: "7,300~7,400",  top: 7400, label: "1차 조정",        pct: 20, action: "1차 분할매수",         color: "text-blue-600",  bg: "bg-blue-50",  border: "border-blue-300"  },
+  { range: "6,500~6,600",  top: 6600, label: "2차 조정 (-20%)", pct: 25, action: "2차 분할매수",         color: "text-blue-700",  bg: "bg-blue-50",  border: "border-blue-400"  },
+  { range: "5,700~5,800",  top: 5800, label: "3차 조정 (-29%)", pct: 25, action: "3차 분할매수",         color: "text-indigo-700",bg: "bg-indigo-50",border: "border-indigo-400"},
+  { range: "4,900 전후",   top: 5000, label: "최후 예비 (-40%)", pct: 15, action: "마지막 예비자금",      color: "text-emerald-700",bg:"bg-emerald-50",border:"border-emerald-400"},
 ];
+
+/** 코스피 값이 들어 있는 가장 깊은 단계 (예: 5,550 → 3차 조정 단계) */
+function currentStageIndex(kospi: number) {
+  let idx = 0;
+  defaultStages.forEach((s, i) => { if (kospi <= s.top) idx = i; });
+  return idx;
+}
+
+/** 행동 규칙 표의 현재 줄 — 8,000 위 / 7,300 / 6,500 / 5,800 중 가장 가까운 단계 */
+function currentRuleIndex(kospi: number | null) {
+  if (kospi == null) return -1;
+  if (kospi > 7650) return 0;
+  if (kospi > 6900) return 1;
+  if (kospi > 6150) return 2;
+  return 3;
+}
 
 // ─── 1억 운용 예시 ───────────────────────────────────────────────────────────
 const allocationPlan = [
@@ -102,13 +144,21 @@ function getVerdict(gap: number) {
 }
 
 // ─── 인터랙티브 계산기 ───────────────────────────────────────────────────────
-function Calculator() {
+function Calculator({ live }: { live: LiveValues | null }) {
   const [total,  setTotal]  = useState(10000);
-  const [kospi,  setKospi]  = useState(8161);
-  const [ma200,  setMa200]  = useState(4888);
-  const [ma200w, setMa200w] = useState(3109);
-  const [samDev, setSamDev] = useState(119.05);
-  const [skDev,  setSkDev]  = useState(155.9);
+  const [kospi,  setKospi]  = useState(live?.kospi  ?? 5550);
+  const [ma200,  setMa200]  = useState(live?.ma200  ?? 6450);
+  const [ma200w, setMa200w] = useState(live?.ma200w ?? 3564);
+  const [samDev, setSamDev] = useState(live?.samDev ?? -8.21);
+  const [skDev,  setSkDev]  = useState(live?.skDev  ?? -13.37);
+
+  // 사용자가 직접 숫자를 바꾸기 전까지는 실시간 시세를 따라갑니다.
+  const edited = useRef(false);
+  useEffect(() => {
+    if (!live || edited.current) return;
+    setKospi(live.kospi); setMa200(live.ma200); setMa200w(live.ma200w);
+    setSamDev(live.samDev); setSkDev(live.skDev);
+  }, [live?.kospi, live?.ma200, live?.ma200w, live?.samDev, live?.skDev]);
 
   const dev200d = ma200  ? ((kospi - ma200)  / ma200  * 100) : 0;
   const dev200w = ma200w ? ((kospi - ma200w) / ma200w * 100) : 0;
@@ -159,7 +209,7 @@ function Calculator() {
           <div key={label} className="space-y-1">
             <label className="text-xs text-muted-foreground font-medium block">{label}</label>
             <input type="number" value={value} min={min} max={max} step={step}
-              onChange={e => set(Number(e.target.value))}
+              onChange={e => { if (label !== "총 투자액 (만원)") edited.current = true; set(Number(e.target.value)); }}
               className="w-full px-3 py-2 text-sm font-bold rounded-lg border border-border bg-white/90 focus:outline-none focus:ring-2 focus:ring-primary/30" />
           </div>
         ))}
@@ -246,7 +296,7 @@ function Calculator() {
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className={`font-black text-sm ${s.color}`}>코스피 {s.range}</span>
                   <span className="text-xs text-muted-foreground">({s.label})</span>
-                  {i === 0 && <Badge variant="outline" className="text-xs border-amber-400 text-amber-700 animate-pulse">← 현재</Badge>}
+                  {i === currentStageIndex(kospi) && <Badge variant="outline" className="text-xs border-amber-400 text-amber-700 animate-pulse">← 현재 ({fmt(kospi)})</Badge>}
                 </div>
                 <div className="text-xs text-muted-foreground">{s.action}</div>
               </div>
@@ -264,8 +314,11 @@ function Calculator() {
 }
 
 // ─── 메인 컴포넌트 ───────────────────────────────────────────────────────────
-export function InvestDecision() {
+export function InvestDecision({ stockData }: { stockData?: StockDataT }) {
   const [activeChoice, setActiveChoice] = useState<number | null>(null);
+  const live = liveFrom(stockData);
+  const ruleIdx = currentRuleIndex(live?.kospi ?? null);
+  const liveVerdict = live ? getVerdict(live.dev200d) : null;
 
   return (
     <div className="space-y-8">
@@ -290,6 +343,17 @@ export function InvestDecision() {
             지금 코스피는 <span className="text-destructive">강세장이지만 쏠림·고이격 과열</span> 상태. 전액 매수도, 전액 숏도, 전액 현금도 아닌 —{" "}
             <span className="text-blue-700">소액 참여 + 현금 대기 + 하락 구간별 분할매수</span>
           </p>
+          <p className="text-xs text-muted-foreground mt-1">※ 위 결론은 6~7월 고점(코스피 8,000대, 200일 이격 +60% 이상) 때 작성한 분석입니다.</p>
+          {live && liveVerdict && (
+            <div className={`mt-3 p-3 rounded-xl border-2 ${liveVerdict.bg}`}>
+              <div className="text-xs font-bold text-muted-foreground mb-1">📡 지금 자동 판정 (GitHub Actions 1시간마다 갱신)</div>
+              <div className="text-sm font-bold">
+                코스피 {fmt(live.kospi)} · 200일 이격 {fmtPct(live.dev200d)} · 200주 이격 {fmtPct(live.dev200w)} →{" "}
+                <span className={liveVerdict.color}>{liveVerdict.text}</span>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">{liveVerdict.explain}</p>
+            </div>
+          )}
           <div className="mt-3 flex gap-2 flex-wrap">
             <span className="px-2 py-1 bg-destructive/10 border border-destructive/20 rounded-lg text-xs text-destructive font-bold">⚡ 일치: 몰빵 비추</span>
             <span className="px-2 py-1 bg-destructive/10 border border-destructive/20 rounded-lg text-xs text-destructive font-bold">⚡ 일치: 인버스 비추</span>
@@ -308,7 +372,7 @@ export function InvestDecision() {
           <CardDescription>수치를 직접 바꾸면 판정·차트·분할금액이 즉시 재계산됩니다</CardDescription>
         </CardHeader>
         <CardContent className="pt-5">
-          <Calculator />
+          <Calculator live={live} />
         </CardContent>
       </Card>
 
@@ -321,10 +385,11 @@ export function InvestDecision() {
         <CardContent>
           <div className="space-y-2">
             {actionRules.map((rule, i) => (
-              <div key={i} className={`p-3 rounded-xl border ${rule.color}`}>
+              <div key={i} className={`p-3 rounded-xl border ${rule.color} ${i === ruleIdx ? "ring-2 ring-primary/50" : ""}`}>
                 <div className="flex items-start gap-3">
                   <div className="shrink-0">
                     <div className="font-black text-sm">{rule.level}</div>
+                    {i === ruleIdx && live && <Badge variant="outline" className="text-xs mt-1 animate-pulse">← 현재 ({fmt(live.kospi)})</Badge>}
                     <div className="text-xs text-muted-foreground">{rule.situation}</div>
                   </div>
                   <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
@@ -395,7 +460,7 @@ export function InvestDecision() {
               </div>
               {activeChoice === c.id && (
                 <div className="px-4 pb-4 border-t border-current/10 pt-3 space-y-1.5">
-                  <p className="text-sm text-foreground/80 leading-relaxed">{c.reason}</p>
+                  <p className="text-sm text-foreground/80 leading-relaxed">{typeof c.reason === "function" ? c.reason(live) : c.reason}</p>
                   <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-white/60 border border-border/40 rounded-lg text-xs text-muted-foreground">
                     ⚠️ 리스크: {c.risk}
                   </div>

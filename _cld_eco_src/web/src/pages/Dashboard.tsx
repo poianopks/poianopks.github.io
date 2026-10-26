@@ -171,12 +171,19 @@ const deviationHistory = [
   { year: "2025말", kospi: 5500, ma200: 2700 },
 ];
 
+// min: 이 구간의 하한(이상). 현재 위치는 실시간 200일 이격도로 자동 판정합니다.
 const deviationGuide = [
-  { range: "+20% 이상",   color: "bg-destructive",  textColor: "text-destructive",  action: "🔴 신규 매수 자제, 일부 익절 고려", current: true },
-  { range: "+5% ~ +20%", color: "bg-amber-500",    textColor: "text-amber-400",    action: "🟡 정기적립(DCA) 유지", current: false },
-  { range: "-5% ~ +5%",  color: "bg-blue-500",     textColor: "text-blue-400",     action: "🔵 분할 매수 시작 (좋은 구간)", current: false },
-  { range: "-15% 이하",  color: "bg-emerald-500",  textColor: "text-emerald-400",  action: "🟢 적극 매수 기회 (핵심 구간)", current: false },
+  { range: "+20% 이상",    min: 20,        color: "bg-destructive",  textColor: "text-destructive",  action: "🔴 신규 매수 자제, 일부 익절 고려" },
+  { range: "+5% ~ +20%",  min: 5,         color: "bg-amber-500",    textColor: "text-amber-400",    action: "🟡 정기적립(DCA) 유지" },
+  { range: "-5% ~ +5%",   min: -5,        color: "bg-blue-500",     textColor: "text-blue-400",     action: "🔵 분할 매수 시작 (좋은 구간)" },
+  { range: "-15% ~ -5%",  min: -15,       color: "bg-sky-500",      textColor: "text-sky-500",      action: "🔷 조정 진행 — 계획한 분할매수를 천천히 이어가기" },
+  { range: "-15% 이하",   min: -Infinity, color: "bg-emerald-500",  textColor: "text-emerald-400",  action: "🟢 적극 매수 기회 (핵심 구간)" },
 ];
+
+function guideIndexFor(dev: number | null | undefined) {
+  if (dev == null || Number.isNaN(dev)) return -1;
+  return deviationGuide.findIndex((g) => dev >= g.min);
+}
 
 const analogies = [
   { icon: "🪢", title: "고무줄",        desc: "너무 늘리면 반드시 튕겨 돌아옵니다. 늘어날수록 복원력이 기하급수적으로 강해집니다.", color: "border-destructive/40" },
@@ -742,7 +749,7 @@ export function Dashboard({ stockData }: Props) {
           <CardDescription>Mebane Faber 연구 기반 | 200일 이동평균선 활용 실전 기준</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          {deviationGuide.map((guide) => (
+          {deviationGuide.map((guide, gi) => ({ ...guide, current: gi === guideIndexFor(dev200d) })).map((guide) => (
             <div key={guide.range}
               className={`flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 p-3 rounded-lg border ${
                 guide.current
@@ -755,7 +762,7 @@ export function Dashboard({ stockData }: Props) {
               </div>
               <span className="text-sm text-foreground/80">{guide.action}</span>
               {guide.current && (
-                <Badge variant="destructive" className="shrink-0 text-xs ml-auto animate-pulse">← 현재 위치</Badge>
+                <Badge variant="destructive" className="shrink-0 text-xs ml-auto animate-pulse">← 현재 위치 ({fmtDev(dev200d)})</Badge>
               )}
             </div>
           ))}

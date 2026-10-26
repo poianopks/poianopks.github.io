@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import type { useStockData } from "@/hooks/useStockData";
+
+type StockDataT = ReturnType<typeof useStockData>;
 
 import scenariosChartA from "@assets/Screenshot_20260607_132419_Samsung_Browser_1780809644573.jpg";
 import scenariosChartB from "@assets/Screenshot_20260607_132403_Samsung_Browser_1780809644577.jpg";
@@ -22,7 +25,7 @@ const scenarios = [
       { label: "MA200 수렴 목표", value: "3,081 (±20%)" },
       { label: "최대 낙폭", value: "-40% ~ -45%", danger: true },
     ],
-    basis: "역사적 유사 사례 5회 중 5회(100%) 큰 폭락. 과거 평균 낙폭 -42.9%. 현재 이격도(+67%)는 과거 최대 수준.",
+    basis: "역사적 유사 사례 5회 중 5회(100%) 큰 폭락. 과거 평균 낙폭 -42.9%. 작성 당시(6월 고점) 이격도 +67%는 과거 최대 수준이었음.",
     historical: "1999년 닷컴버블(-41%), 2007년 금융위기(-53%), 2021년 코로나버블(-32%)",
     warning: "이 시나리오에서 지금 코스피 신규 매수는 최대 -45% 손실 가능성이 있습니다.",
   },
@@ -71,16 +74,55 @@ const scenarios = [
 
 const pieData = scenarios.map((s) => ({ name: `${s.id}: ${s.name.split(" ")[0]}`, value: s.prob, color: s.color }));
 
-export function Scenarios() {
+// 시나리오 기준 고점(2026.06.19 ATH)과 각 시나리오의 1년 범위 — 지금 코스피가 어느 쪽에 가까운지 자동 표시
+const ATH_2026 = 9385;
+const scenarioRanges = [
+  { id: "A", name: "평균회귀", low: 5500, high: 6500 },
+  { id: "B", name: "기간 조정", low: 7500, high: 9000 },
+  { id: "C", name: "추가 상승", low: 10000, high: 12000 },
+];
+
+function nearestScenario(kospi: number) {
+  const inside = scenarioRanges.find((r) => kospi >= r.low && kospi <= r.high);
+  if (inside) return { ...inside, inside: true };
+  const dist = (r: typeof scenarioRanges[number]) => (kospi < r.low ? r.low - kospi : kospi - r.high);
+  return { ...scenarioRanges.reduce((a, b) => (dist(b) < dist(a) ? b : a)), inside: false };
+}
+
+export function Scenarios({ stockData }: { stockData?: StockDataT }) {
   const [active, setActive] = useState<string>("A");
   const selected = scenarios.find((s) => s.id === active)!;
+  const kospi = stockData?.kospi;
+  const now = kospi && kospi.price > 0 ? kospi.price : null;
+  const near = now ? nearestScenario(now) : null;
 
   return (
     <div className="space-y-8">
       <div className="border-l-4 border-purple-500 pl-6 py-2">
         <h2 className="text-2xl md:text-3xl font-black tracking-tight">KOSPI 미래 3가지 시나리오</h2>
-        <p className="text-muted-foreground mt-1">2026.06 ~ 2029.06 | 역사적 데이터 + 현재 구조 변수 기반</p>
+        <p className="text-muted-foreground mt-1">2026.06 ~ 2029.06 | 역사적 데이터 + 현재 구조 변수 기반 (확률·근거는 2026년 6월 고점 당시 작성)</p>
       </div>
+
+      {now && near && (
+        <Card className="border-2 border-purple-300">
+          <CardContent className="pt-5 pb-5 space-y-2">
+            <div className="text-xs font-bold text-purple-700">📡 지금 코스피는 어느 시나리오에 가까울까? (GitHub Actions 1시간마다 자동 갱신)</div>
+            <div className="text-lg font-black">
+              코스피 {Math.round(now).toLocaleString("ko-KR")} · 고점({ATH_2026.toLocaleString("ko-KR")}) 대비{" "}
+              {(((now - ATH_2026) / ATH_2026) * 100).toFixed(1)}%
+              {kospi?.dev200d != null && <> · 200일 이격 {kospi.dev200d >= 0 ? "+" : ""}{kospi.dev200d.toFixed(2)}%</>}
+            </div>
+            <p className="text-sm">
+              {near.inside
+                ? <>현재 값이 <strong>시나리오 {near.id}({near.name})</strong>의 1년 범위 {near.low.toLocaleString("ko-KR")}~{near.high.toLocaleString("ko-KR")} <strong>안</strong>에 있습니다.</>
+                : <>현재 값은 <strong>시나리오 {near.id}({near.name})</strong> 범위 {near.low.toLocaleString("ko-KR")}~{near.high.toLocaleString("ko-KR")}에 가장 가깝습니다.</>}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              ※ 아래 확률(47/33/20%)과 근거 문장은 6월 고점(200일 이격 +67%) 기준이라 지금 상황과 다를 수 있어요. 숫자는 실시간, 해석은 참고용입니다.
+            </p>
+          </CardContent>
+        </Card>
+      )}
 
       {/* 시나리오 확률 파이 + 선택 탭 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
