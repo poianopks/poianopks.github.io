@@ -95,7 +95,6 @@ const actionRules = [
 ];
 
 // ─── 단계별 분할매수 ─────────────────────────────────────────────────────────
-const defaultStages = [
 // top: 이 단계 구간의 위쪽 끝. 현재 위치는 실시간 코스피로 자동 표시합니다.
 const defaultStages = [
   { range: "8,100~8,300", top: Infinity, label: "고점권 (계획 시작)", pct: 15, action: "소액 참여 (한국 ETF)", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-300" },
