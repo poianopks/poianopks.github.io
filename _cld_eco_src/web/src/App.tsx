@@ -142,9 +142,9 @@ function TabContent({ tab, stockData }: { tab: string; stockData: StockDataT }) 
       {tab === "factcheck"    && <FactCheck />}
       {tab === "history"      && <History />}
       {tab === "strategy"     && <Strategy />}
-      {tab === "scenarios"    && <Scenarios />}
+      {tab === "scenarios"    && <Scenarios stockData={stockData} />}
       {tab === "portfolio"    && <Portfolio />}
-      {tab === "decision"     && <InvestDecision />}
+      {tab === "decision"     && <InvestDecision stockData={stockData} />}
       {tab === "wisdom"       && <WisdomInvest />}
       {tab === "quotes"       && <Quotes />}
       {tab === "mindset"      && <MindSet />}
