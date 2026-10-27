@@ -23,8 +23,9 @@ def last_two(sym):
     closes = [(t, c) for t, c in zip(res["timestamp"], res["indicators"]["quote"][0]["close"]) if c is not None]
     price = meta.get("regularMarketPrice") or closes[-1][1]
     t = meta.get("regularMarketTime") or closes[-1][0]
-    # 마지막 봉 직전 종가를 전일 종가로 사용
-    prev = closes[-2][1] if len(closes) >= 2 else meta.get("chartPreviousClose")
+    # 현재가가 마지막 봉과 같은 날이면 그 전 봉, 아니면 마지막 봉을 전일 종가로 사용
+    same_day = datetime.fromtimestamp(closes[-1][0], timezone.utc).date() == datetime.fromtimestamp(t, timezone.utc).date()
+    prev = closes[-2][1] if (same_day and len(closes) >= 2) else closes[-1][1]
     return price, prev, datetime.fromtimestamp(t, timezone.utc)
 
 
