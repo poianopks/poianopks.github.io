@@ -122,6 +122,11 @@ export function DramSpotContractChart() {
               ${(data.latest.spot - data.latest.contract).toFixed(2)}
             </span>
           </div>
+          {data.series.some(d => d.estimated) && (
+            <div className="mt-2 inline-block text-[11px] font-bold text-amber-800 bg-amber-100 border border-amber-300 rounded-lg px-2 py-1">
+              ⚠️ DRAM 가격은 분기별 수동 입력값 · {data.series.find(d => d.estimated)?.date} 이후는 업계 추정치 · 마지막 데이터 {data.latest.date}
+            </div>
+          )}
         </div>
         <div className="text-right text-xs text-slate-500">
           <div className="font-bold text-slate-700">데드크로스 이력</div>
