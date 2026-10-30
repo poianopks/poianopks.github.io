@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, ReferenceLine, Area, AreaChart, Legend,
@@ -93,9 +93,20 @@ const CustomTooltipRatio = ({ active, payload, label }: any) => {
   );
 };
 
+interface DramLatest { latest: { date: string; spot: number; contract: number; estimated?: boolean }; currentStatus: string; }
+
+function useDramLatest() {
+  const [dram, setDram] = useState<DramLatest | null>(null);
+  useEffect(() => {
+    fetch("/api/stocks/dram-history").then(r => r.json()).then(setDram).catch(() => {});
+  }, []);
+  return dram;
+}
+
 export function SemiconductorSignal() {
   const { data, loading } = useSemiHistory();
   const { sam, sk } = useStockData();
+  const dram = useDramLatest();
 
   const { normalized, ratioSeries, divergenceWeeks, firstBase } = useMemo(() => {
     if (!data?.series?.length) return { normalized: [], ratioSeries: [], divergenceWeeks: 0, firstBase: null };
@@ -128,7 +139,7 @@ export function SemiconductorSignal() {
   const samPrice = sam?.price ?? null;
   const skPrice  = sk?.price ?? null;
 
-  const signal1_dram = false; // 수동 확인 필요: DRAM Spot < Contract (DRAMeXchange)
+  const signal1_dram = dram?.currentStatus === "danger"; // DRAM Spot < Contract (분기 수동 입력값 기준)
   const signal2_diverge = divergenceWeeks >= 12; // 하이닉스 신고가 & 삼성 3개월+ 정체
   const signal2_caution = divergenceWeeks >= 6 && divergenceWeeks < 12; // 주의 단계
   const devExtreme = (samDev ?? 0) > 80; // 보조: 200일 이격 과열
@@ -138,6 +149,17 @@ export function SemiconductorSignal() {
     : signal2_diverge || (signal1_dram && devExtreme) ? "danger"
     : signal2_caution || devExtreme ? "caution"
     : "safe";
+
+  // 자산 이동 로드맵에서 지금 위치: 매도(위험·매도 신호) / 매수(크게 눌림 + DRAM 정상) / 관망(그 외)
+  const minDev = Math.min(samDev ?? Infinity, skDev ?? Infinity);
+  const stage: "buy" | "watch" | "sell" =
+    signalLevel === "sell" || signalLevel === "danger" ? "sell"
+    : minDev <= -20 && !signal1_dram ? "buy"
+    : "watch";
+  const stageLabel = { buy: "🟢 매수 신호", watch: "🟡 관망 신호", sell: "🔴 매도 신호" }[stage];
+  const dramText = dram
+    ? `${dram.latest.date}${dram.latest.estimated ? " 추정" : ""} ${signal1_dram ? "데드크로스 (Spot < Contract)" : "골든크로스 (Spot ≥ Contract)"}`
+    : "불러오는 중";
 
   const ratioMin = ratioSeries.length ? Math.min(...ratioSeries.map(r => r.ratio)) * 0.98 : 0;
   const ratioMax = ratioSeries.length ? Math.max(...ratioSeries.map(r => r.ratio)) * 1.02 : 1;
@@ -179,9 +201,9 @@ export function SemiconductorSignal() {
             },
             {
               label: "신호①: DRAM 데드크로스",
-              value: "수동 확인 필요",
-              sub: "DRAMeXchange → Spot vs Contract",
-              danger: false,
+              value: dram ? (signal1_dram ? "발생" : "미발생") : "—",
+              sub: dram ? `${dram.latest.date}${dram.latest.estimated ? " 추정" : ""} · 분기 수동 입력` : "DRAMeXchange → Spot vs Contract",
+              danger: signal1_dram,
             },
           ].map(({ label, value, sub, danger }) => (
             <div key={label} className="bg-white/10 rounded-xl p-3">
@@ -204,7 +226,7 @@ export function SemiconductorSignal() {
         </div>
         <p className="text-xs text-slate-500 mb-4">
           현물(Spot)이 고정(Contract) 아래로 하락하는 순간 = 반도체 사이클 하강 선행신호.
-          역대 2번 모두 삼성·하이닉스 주가 고점과 정확히 일치. <strong className="text-green-600">현재: 골든크로스 (Spot &gt; Contract)</strong>
+          역대 2번 모두 삼성·하이닉스 주가 고점과 정확히 일치. <strong className={signal1_dram ? "text-red-600" : "text-green-600"}>현재: {dramText}</strong>
         </p>
         <DramSpotContractChart />
       </div>
@@ -466,11 +488,15 @@ export function SemiconductorSignal() {
             </p>
           </div>
           <div className="bg-blue-900/40 border border-blue-700 rounded-xl p-3">
-            <div className="font-bold text-blue-300 text-xs mb-2">💡 2026년 현재 내 판단</div>
+            <div className="font-bold text-blue-300 text-xs mb-2">💡 지금 데이터로 본 판단 (자동 갱신)</div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              SK하이닉스 이격도 <strong className="text-yellow-300">+140% (역대급 과열)</strong>.
-              DRAM 3차 데드크로스 진행 중. 핵심 신호 두 개 동시 발동.
-              <strong className="text-red-300"> 부분 매도 시점으로 판단.</strong>
+              SK하이닉스 200일선 이격도 <strong className="text-yellow-300">{skDev != null ? fmtPct(skDev) : "—"}</strong>
+              {skDev != null && (skDev > 120 ? " (역대급 과열)" : skDev > 80 ? " (과열)" : skDev < -20 ? " (크게 눌림)" : " (과열 아님)")},
+              삼성전자 <strong className="text-yellow-300">{samDev != null ? fmtPct(samDev) : "—"}</strong>.
+              DRAM {dramText}. 핵심 신호 {signalCount}개 발동.
+              <strong className={stage === "sell" ? "text-red-300" : stage === "buy" ? "text-emerald-300" : "text-yellow-300"}>
+                {stage === "sell" ? " 부분 매도 검토 구간." : stage === "buy" ? " 분할 매수 검토 구간." : " 비중 유지·감시 구간."}
+              </strong>
             </p>
           </div>
           <div className="bg-amber-900/40 border border-amber-700 rounded-xl p-3">
@@ -488,8 +514,8 @@ export function SemiconductorSignal() {
           메모리 가격 신호는 <strong className="text-white">반도체 사이클 판단의 가장 유효한 선행 지표</strong>이지만,
           단독으로 전량 매도 판단을 내리기엔 HBM 시대 변수가 크다.
           아래 보조 지표 3~4가지와 함께 모두 같은 방향을 가리킬 때 확신을 높이는 전략이 최적이다.
-          현재(2026.06) 기준 신호 강도는 역대급이지만,
-          <strong className="text-yellow-300"> NVIDIA 분기 실적 발표 전까지는 비중 축소에 머무르는 것이 현명하다.</strong>
+          지금 데이터 기준 위치는 <strong className="text-white">{stageLabel}</strong> 구간이며,
+          <strong className="text-yellow-300"> 신호가 바뀌면 이 결론도 자동으로 바뀐다. NVIDIA 실적·빅테크 CapEx도 함께 확인하자.</strong>
         </div>
       </div>
 
@@ -583,10 +609,11 @@ export function SemiconductorSignal() {
         <h2 className="font-black text-base mb-1 flex items-center gap-2">
           <span>🗺️</span> 반도체 꺾일 때 자산 이동 로드맵 (AI 종합)
         </h2>
-        <p className="text-xs text-slate-500 mb-4">신호 단계별 대응 전략 — 현재는 🔴 매도 신호 구간</p>
+        <p className="text-xs text-slate-500 mb-4">신호 단계별 대응 전략 — 지금 데이터 기준 {stageLabel} 구간 (자동 판정)</p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
-            <div className="font-black text-emerald-700 text-sm mb-3">🟢 매수 신호</div>
+          <div className={`bg-emerald-50 border border-emerald-200 rounded-xl p-4${stage === "buy" ? " ring-2 ring-emerald-400" : ""}`}>
+            <div className="font-black text-emerald-700 text-sm mb-1">🟢 매수 신호</div>
+            {stage === "buy" && <div className="text-[10px] bg-emerald-200 text-emerald-800 font-bold px-2 py-0.5 rounded-full inline-block mb-2">← 현재 여기</div>}
             <ul className="text-xs space-y-1.5 text-slate-700">
               <li>✅ 현물가 &gt; 고정가 (골든크로스)</li>
               <li>✅ 이격도 MA40 -20% 이하</li>
@@ -597,8 +624,9 @@ export function SemiconductorSignal() {
               → 반도체 집중 매수
             </div>
           </div>
-          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-            <div className="font-black text-yellow-700 text-sm mb-3">🟡 관망 신호</div>
+          <div className={`bg-yellow-50 border border-yellow-200 rounded-xl p-4${stage === "watch" ? " ring-2 ring-yellow-400" : ""}`}>
+            <div className="font-black text-yellow-700 text-sm mb-1">🟡 관망 신호</div>
+            {stage === "watch" && <div className="text-[10px] bg-yellow-200 text-yellow-800 font-bold px-2 py-0.5 rounded-full inline-block mb-2">← 현재 여기</div>}
             <ul className="text-xs space-y-1.5 text-slate-700">
               <li>⚠️ 이격도 30~80%</li>
               <li>⚠️ 현물가 고정가 근접</li>
@@ -609,9 +637,9 @@ export function SemiconductorSignal() {
               → 비중 유지, 감시 강화
             </div>
           </div>
-          <div className="bg-red-50 border border-red-200 rounded-xl p-4 ring-2 ring-red-400">
+          <div className={`bg-red-50 border border-red-200 rounded-xl p-4${stage === "sell" ? " ring-2 ring-red-400" : ""}`}>
             <div className="font-black text-red-700 text-sm mb-1">🔴 매도 신호</div>
-            <div className="text-[10px] bg-red-200 text-red-800 font-bold px-2 py-0.5 rounded-full inline-block mb-2">← 현재 여기</div>
+            {stage === "sell" && <div className="text-[10px] bg-red-200 text-red-800 font-bold px-2 py-0.5 rounded-full inline-block mb-2">← 현재 여기</div>}
             <ul className="text-xs space-y-1.5 text-slate-700">
               <li>❌ 데드크로스 발동</li>
               <li>❌ 이격도 80%+ 과열</li>
