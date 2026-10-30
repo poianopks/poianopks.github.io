@@ -159,10 +159,10 @@ export function SemiconductorSignal() {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="text-2xl">🔮</span>
-              <h1 className="text-xl font-black tracking-tight">천기누설 — 반도체 사이클 경보</h1>
+              <h1 className="text-xl font-black tracking-tight">반도체 메모리분석 — 사이클 경보</h1>
             </div>
             <p className="text-slate-300 text-sm max-w-xl">
-              박세익 대표의 핵심 2대 신호: <strong className="text-yellow-300">① DRAM Spot↓Contract 데드크로스</strong> + <strong className="text-orange-300">② 하이닉스 신고가 & 삼성 3개월 정체</strong>를 실시간 추적합니다.
+              핵심 2대 신호: <strong className="text-yellow-300">① DRAM Spot↓Contract 데드크로스</strong> + <strong className="text-orange-300">② 하이닉스 신고가 & 삼성 3개월 정체</strong>를 실시간 추적합니다.
             </p>
           </div>
           <SignalBadge level={signalLevel} />
@@ -199,7 +199,7 @@ export function SemiconductorSignal() {
       {/* ── DRAM Spot vs Contract 데드크로스 차트 ─────────────────────── */}
       <div className="bg-white rounded-2xl border border-amber-200 p-5 shadow-sm">
         <div className="flex items-center gap-2 mb-1">
-          <span className="px-2 py-0.5 bg-amber-500 text-white text-xs font-black rounded-full">신호 #1 — 천기누설 핵심</span>
+          <span className="px-2 py-0.5 bg-amber-500 text-white text-xs font-black rounded-full">신호 #1 — 메모리 가격 핵심</span>
           <h2 className="font-black text-base">DRAM Spot vs Contract 가격 데드크로스 모니터링</h2>
         </div>
         <p className="text-xs text-slate-500 mb-4">
@@ -211,14 +211,14 @@ export function SemiconductorSignal() {
 
       {/* ── 3가지 신호 체크리스트 ──────────────────────────────────────── */}
       <div className="bg-white rounded-2xl border border-border/30 p-5 shadow-sm">
-        <h2 className="font-black text-base mb-1">📋 박세익 "천기누설" 핵심 2가지 매도 신호</h2>
+        <h2 className="font-black text-base mb-1">📋 반도체 메모리 핵심 2가지 매도 신호</h2>
         <p className="text-xs text-slate-500 mb-4">
           두 신호 중 하나라도 발생 시 즉시 부분 매도 검토 — 두 신호 동시 발생 시 전량 매도 고려
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="p-4 rounded-xl border-l-4 border-amber-400 bg-amber-50">
             <div className="flex items-center gap-2 mb-2">
-              <span className="px-2 py-0.5 bg-amber-400 text-white text-xs font-black rounded-full">신호 #1 — 천기누설</span>
+              <span className="px-2 py-0.5 bg-amber-400 text-white text-xs font-black rounded-full">신호 #1 — 메모리 가격</span>
             </div>
             <div className="font-bold text-sm mb-1">DRAM Spot vs Contract 데드크로스</div>
             <div className="text-xs text-slate-600 leading-relaxed">
@@ -256,7 +256,7 @@ export function SemiconductorSignal() {
         </div>
 
         <div className="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700">
-          <strong className="text-slate-900">추가 경고 보조 지표 (박세익 대표 언급):</strong>{" "}
+          <strong className="text-slate-900">추가 경고 보조 지표:</strong>{" "}
           중국 CXMT 등 공급 과잉 조짐 (레드오션화) · RSI 과매수 구간 진입 · 주가 이격 지수 130 이상
         </div>
 
@@ -299,7 +299,7 @@ export function SemiconductorSignal() {
         <h2 className="font-black text-base mb-1">📈 삼성전자 vs SK하이닉스 정규화 비교 차트</h2>
         <p className="text-xs text-slate-500 mb-4">
           2년 전 가격을 100으로 놓고 비교. <strong className="text-blue-600">파란선(삼성)</strong>이 먼저 꺾이고{" "}
-          <strong className="text-red-600">빨간선(하이닉스)</strong>가 뒤따라 꺾이면 박세익 시그널.
+          <strong className="text-red-600">빨간선(하이닉스)</strong>가 뒤따라 꺾이면 사이클 고점 시그널.
         </p>
         {normalized.length > 0 ? (
           <ResponsiveContainer width="100%" height={260}>
@@ -325,7 +325,7 @@ export function SemiconductorSignal() {
       <div className="bg-white rounded-2xl border border-border/30 p-5 shadow-sm">
         <h2 className="font-black text-base mb-1">⚡ 삼성/하이닉스 비율 — 핵심 다이버전스 차트</h2>
         <p className="text-xs text-slate-500 mb-4">
-          비율이 <strong className="text-red-600">하락</strong>하면 하이닉스가 삼성을 앞서가는 것 = 박세익 1단계 신호.
+          비율이 <strong className="text-red-600">하락</strong>하면 하이닉스가 삼성을 앞서가는 것 = 1단계 경고 신호.
           3개월 이상 하락 지속 시 반도체 사이클 후반부 진입 경고.
         </p>
         {ratioSeries.length > 0 ? (
@@ -359,10 +359,10 @@ export function SemiconductorSignal() {
         </div>
       </div>
 
-      {/* ── 천기누설 원리 교육 섹션 ──────────────────────────────────── */}
+      {/* ── 메모리 사이클 원리 교육 섹션 ──────────────────────────────────── */}
       <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 text-white">
         <h2 className="font-black text-base mb-1 flex items-center gap-2">
-          <span>🎓</span> 천기누설 원리 완전 정리 (박세익 2026.6.22 강연)
+          <span>🎓</span> 반도체 메모리 사이클 원리 완전 정리
         </h2>
         <p className="text-slate-400 text-xs mb-5">공급 부족(Shortage)일 때 가격이 오른다 — 가장 단순하면서 가장 강력한 원칙</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -427,7 +427,7 @@ export function SemiconductorSignal() {
       {/* ── 🤖 AI 소신 분석 — 신뢰도 확률 바 ──────────────────────────── */}
       <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 text-white">
         <h2 className="font-black text-base mb-4 flex items-center gap-2">
-          <span>🤖</span> AI 소신 분석 — 천기누설 신뢰도와 내 의견
+          <span>🤖</span> AI 소신 분석 — 메모리 가격 신호 신뢰도와 내 의견
         </h2>
 
         <div className="space-y-3 mb-5">
@@ -450,7 +450,7 @@ export function SemiconductorSignal() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
           <div className="bg-emerald-900/40 border border-emerald-700 rounded-xl p-3">
-            <div className="font-bold text-emerald-300 text-xs mb-2">✅ 천기누설이 강력한 이유</div>
+            <div className="font-bold text-emerald-300 text-xs mb-2">✅ 메모리 가격 신호가 강력한 이유</div>
             <p className="text-xs text-slate-300 leading-relaxed">
               N=2지만 2018·2021 두 번 모두 완벽히 맞았다. 현물가는 수요·공급 심리를
               <strong className="text-white"> 3~6개월 선행</strong> 반영하는 가장 빠른 시장 온도계.
@@ -469,7 +469,7 @@ export function SemiconductorSignal() {
             <div className="font-bold text-blue-300 text-xs mb-2">💡 2026년 현재 내 판단</div>
             <p className="text-xs text-slate-300 leading-relaxed">
               SK하이닉스 이격도 <strong className="text-yellow-300">+140% (역대급 과열)</strong>.
-              DRAM 3차 데드크로스 진행 중. 박세익 신호 두 개 동시 발동.
+              DRAM 3차 데드크로스 진행 중. 핵심 신호 두 개 동시 발동.
               <strong className="text-red-300"> 부분 매도 시점으로 판단.</strong>
             </p>
           </div>
@@ -485,7 +485,7 @@ export function SemiconductorSignal() {
 
         <div className="p-3 bg-slate-700/50 rounded-xl text-xs text-slate-300 leading-relaxed">
           <span className="text-yellow-300 font-bold">📌 AI 최종 결론: </span>
-          천기누설은 <strong className="text-white">반도체 사이클 판단의 가장 유효한 선행 지표</strong>이지만,
+          메모리 가격 신호는 <strong className="text-white">반도체 사이클 판단의 가장 유효한 선행 지표</strong>이지만,
           단독으로 전량 매도 판단을 내리기엔 HBM 시대 변수가 크다.
           아래 보조 지표 3~4가지와 함께 모두 같은 방향을 가리킬 때 확신을 높이는 전략이 최적이다.
           현재(2026.06) 기준 신호 강도는 역대급이지만,
@@ -496,7 +496,7 @@ export function SemiconductorSignal() {
       {/* ── 🔭 함께 봐야 할 보조 지표 6가지 ─────────────────────────── */}
       <div className="bg-white rounded-2xl border border-border/30 p-5 shadow-sm">
         <h2 className="font-black text-base mb-1 flex items-center gap-2">
-          <span>🔭</span> 천기누설과 함께 봐야 할 보조 지표 6가지
+          <span>🔭</span> 메모리 가격 신호와 함께 봐야 할 보조 지표 6가지
         </h2>
         <p className="text-xs text-slate-500 mb-4">
           아래 6가지 중 <strong>3가지 이상이 같은 방향</strong>을 가리키면 신뢰도가 급상승합니다
@@ -581,7 +581,7 @@ export function SemiconductorSignal() {
       {/* ── 🗺️ 자산 이동 로드맵 ──────────────────────────────────────── */}
       <div className="bg-white rounded-2xl border border-border/30 p-5 shadow-sm">
         <h2 className="font-black text-base mb-1 flex items-center gap-2">
-          <span>🗺️</span> 반도체 꺾일 때 자산 이동 로드맵 (박세익 + AI 종합)
+          <span>🗺️</span> 반도체 꺾일 때 자산 이동 로드맵 (AI 종합)
         </h2>
         <p className="text-xs text-slate-500 mb-4">신호 단계별 대응 전략 — 현재는 🔴 매도 신호 구간</p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -624,7 +624,7 @@ export function SemiconductorSignal() {
           </div>
         </div>
         <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800">
-          <strong>💡 섹터 로테이션 (박세익 전략):</strong>{" "}
+          <strong>💡 섹터 로테이션:</strong>{" "}
           반도체 자금은 → <strong>조선 · 방산 · 전력인프라 · 코스닥 중소형</strong>으로 이동하는 경향.
           약달러 전환 시 외국인 귀환 → 코스닥 대형주 수혜.
         </div>
@@ -633,7 +633,7 @@ export function SemiconductorSignal() {
       {/* ── 팩트 검증 & 비판적 검토 ──────────────────────────────────── */}
       <div className="bg-white rounded-2xl border border-border/30 p-5 shadow-sm">
         <h2 className="font-black text-base mb-4 flex items-center gap-2">
-          <span>🧠</span> 박세익 강연 — 팩트 검증 & 비판적 검토
+          <span>🧠</span> 반도체 사이클 주장 — 팩트 검증 & 비판적 검토
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div className="space-y-3">
