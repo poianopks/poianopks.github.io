@@ -357,7 +357,7 @@ export function DramSpotContractChart() {
 
       {/* ── DRAMeXchange 가이드 ──────────────────────────────────── */}
       <div className="bg-slate-800 text-white rounded-2xl p-5 shadow-sm">
-        <h3 className="font-black text-sm mb-3">🔍 DRAMeXchange 직접 확인법 (박세익 추천)</h3>
+        <h3 className="font-black text-sm mb-3">🔍 DRAMeXchange 직접 확인법</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
           <div className="space-y-2">
             <div className="font-bold text-slate-300">Spot 가격 확인 (매주)</div>
