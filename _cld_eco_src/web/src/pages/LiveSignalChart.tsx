@@ -391,7 +391,7 @@ export function LiveSignalChart() {
             <div className="flex items-start gap-2"><span>⭐</span><span><strong>골든크로스:</strong> 주가가 MA40 위로 복귀 → 상승 추세 복귀 신호</span></div>
             <div className="flex items-start gap-2"><span>⚡</span><span><strong>다이버전스:</strong> 하이닉스 강세 & 삼성 정체 3개월+ → 고점 근접 경고</span></div>
             <div className="mt-2 p-2 bg-amber-50 border border-amber-200 rounded-lg text-amber-700">
-              <strong>⚠️ 박세익 핵심:</strong> 이 신호들은 DRAM Spot/Contract 데드크로스의 <em>주가 선행 반응</em>을 추적합니다
+              <strong>⚠️ 핵심:</strong> 이 신호들은 DRAM Spot/Contract 데드크로스의 <em>주가 선행 반응</em>을 추적합니다
             </div>
           </div>
         </div>
