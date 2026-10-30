@@ -1048,7 +1048,6 @@ router.get("/stocks/dram-history", async (req, res) => {
       qMap.set(q, c); // last close of quarter
     });
     samStock = annotated
-      .filter(d => !d.estimated)
       .map(d => ({ date: d.date, close: qMap.get(d.date) ?? 0 }))
       .filter(d => d.close > 0);
   } catch {
