@@ -19,7 +19,7 @@ def load(sym):
     df = yf.download(sym, period="2y", interval="1d", auto_adjust=True, progress=False)
     if isinstance(df.columns, pd.MultiIndex):
         df.columns = df.columns.get_level_values(0)
-    df = df[["Open", "Close"]].dropna()
+    df = df[["Open", "Low", "Close"]].dropna()
     df.index = pd.to_datetime(df.index).tz_localize(None).normalize()
     return df
 
@@ -46,6 +46,7 @@ for d in nq.index[1:]:
             continue
         pc = df.loc[prev[-1], "Close"]
         row[f"{name}_시초"] = (df.loc[k, "Open"] / pc - 1) * 100
+        row[f"{name}_저가"] = (df.loc[k, "Low"] / pc - 1) * 100
         row[f"{name}_종가"] = (df.loc[k, "Close"] / pc - 1) * 100
     rows.append(row)
 
@@ -68,8 +69,8 @@ summary = {}
 for pname, start in periods.items():
     s = data[data["미국일"] > start]
     lines += [f"## {pname} ({len(s)}거래일)", "",
-              "| 조건 | 횟수 | 미국평균 | 코스피 종가 | 배율 | 삼성 종가 | 배율 | 하이닉스 종가 | 배율 | 코스피 -3%↓ | 코스피 -5%↓ |",
-              "|---|---|---|---|---|---|---|---|---|---|---|"]
+              "| 조건 | 횟수 | 미국평균 | 코스피 종가 | 배율 | 삼성 종가 | 배율 | 하이닉스 종가 | 배율 | 코스피 -3%↓ | 코스피 -5%↓ | 장중 -5%↓ | 음봉 |",
+              "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for bname, f in buckets.items():
         x = s[f(s)]
         if x.empty:
@@ -81,7 +82,9 @@ for pname, start in periods.items():
             c = x[f"{name}_종가"].mean()
             cells += [f"{c:.2f}%", f"{c / ua:.2f}배"]
         cells += [f"{(x['코스피_종가'] <= -3).mean() * 100:.0f}%",
-                  f"{(x['코스피_종가'] <= -5).mean() * 100:.0f}%"]
+                  f"{(x['코스피_종가'] <= -5).mean() * 100:.0f}%",
+                  f"{(x['코스피_저가'] <= -5).mean() * 100:.0f}%",
+                  f"{(x['코스피_종가'] < x['코스피_시초']).mean() * 100:.0f}%"]
         lines.append("| " + " | ".join(cells) + " |")
         summary[f"{pname}/{bname}"] = {
             "n": len(x), "us_avg": round(ua, 2),
@@ -99,11 +102,13 @@ for pname, start in periods.items():
 
 big = data[data["SOX"] <= -5].sort_values("미국일", ascending=False)
 lines += ["## 반도체(SOX) -5% 이상 급락한 날 전체", "",
-          "| 미국일 | 나스닥 | SOX | 코스피 시초 | 코스피 종가 | 삼성 종가 | 하이닉스 종가 |",
-          "|---|---|---|---|---|---|---|"]
+          "| 미국일 | 나스닥 | SOX | 코스피 시초 | 코스피 장중최저 | 코스피 종가 | 봉 | 삼성 종가 | 하이닉스 종가 |",
+          "|---|---|---|---|---|---|---|---|---|"]
 for _, r in big.iterrows():
+    candle = "음봉" if r["코스피_종가"] < r["코스피_시초"] else "양봉"
     lines.append(f"| {r['미국일'].date()} | {r['나스닥']:.2f}% | {r['SOX']:.2f}% | "
-                 f"{r.get('코스피_시초', float('nan')):.2f}% | {r.get('코스피_종가', float('nan')):.2f}% | "
+                 f"{r.get('코스피_시초', float('nan')):.2f}% | {r.get('코스피_저가', float('nan')):.2f}% | "
+                 f"{r.get('코스피_종가', float('nan')):.2f}% | {candle} | "
                  f"{r.get('삼성전자_종가', float('nan')):.2f}% | {r.get('SK하이닉스_종가', float('nan')):.2f}% |")
 
 latest_us = pd.DataFrame({"나스닥": nq, "SOX": sox}).dropna().iloc[-1]
