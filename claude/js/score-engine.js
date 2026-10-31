@@ -408,5 +408,10 @@ function revealKeys(el,midis){
   if(l<er.left+8||r>er.right-8){el.scrollTo({left:Math.max(0,el.scrollLeft+(l+r)/2-(er.left+er.right)/2),behavior:"smooth"});}
 }
 
-window.SE={parseBars:parseBars,audioItems:audioItems,render:render,play:play,stopAll:stopAll,barFromClick:barFromClick,KEYS:KEYS,drawKb:drawKb,revealKeys:revealKeys,cur:function(){return P;}};
+/* 악보 그리기가 실패해도 페이지 전체가 멈추지 않게: 그 칸에만 안내를 남겨요 */
+function safeRender(el,o){
+  try{render(el,o);}
+  catch(e){el.innerHTML='<p style="padding:16px;color:#c0392b">악보를 그리지 못했어요. 화면을 새로고침해 주세요. ('+String(e&&e.message||e).replace(/</g,"&lt;")+')</p>';if(window.console)console.error(e);}
+}
+window.SE={parseBars:parseBars,audioItems:audioItems,render:safeRender,play:play,stopAll:stopAll,barFromClick:barFromClick,KEYS:KEYS,drawKb:drawKb,revealKeys:revealKeys,cur:function(){return P;}};
 })();
