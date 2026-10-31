@@ -1,0 +1,35 @@
+name: 나스닥→코스피 하락 비율 (읽기 전용)
+
+# 나스닥·미국 반도체 하락 다음 날 코스피·삼성전자·SK하이닉스 반응을 계산해
+# Actions 요약 화면과 첨부파일로만 남깁니다. contents: read 권한이라 사이트에는 쓰지 않습니다.
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/scripts/nq_kospi.py"
+      - ".github/workflows/nq-kospi.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nq-kospi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 계산
+        run: |
+          pip install -q yfinance pandas
+          python .github/scripts/nq_kospi.py
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nq-kospi
+          path: out/
