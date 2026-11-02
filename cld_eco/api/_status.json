@@ -1,8 +1,6 @@
 {
-  "builtAt": "2026-11-02T17:25:34.202Z",
-  "ok": 138,
-  "reused": [
-    "brief/kospi (KOSPI 일봉을 받지 못했습니다 (KOSPI: fetch failed, EWY: fetch failed))"
-  ],
+  "builtAt": "2026-11-02T23:55:11.267Z",
+  "ok": 139,
+  "reused": [],
   "failed": []
 }
