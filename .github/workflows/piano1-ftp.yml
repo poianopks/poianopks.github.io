@@ -1,0 +1,61 @@
+# piano1.co.kr(나호스팅) 배달부: GitHub Actions가 FTP로 홈페이지 파일을 올려요.
+# 접속 정보는 저장소 Settings → Secrets and variables → Actions 에 넣어요(코드에는 없음).
+#   FTP_SERVER   나호스팅이 알려 준 FTP 주소
+#   FTP_USERNAME FTP 아이디
+#   FTP_PASSWORD FTP 비밀번호
+#   FTP_DIR      홈페이지 폴더 (예: /www 또는 /public_html). 'list'로 먼저 확인해요
+name: piano1.co.kr 배달부 (FTP)
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "list = 서버 폴더 목록만 보기 / upload = _piano1/site 올리기"
+        type: choice
+        options: [list, upload]
+        default: list
+  push:
+    branches: [main]
+    paths: ["_piano1/site/**"]
+
+concurrency: piano1-ftp
+
+jobs:
+  ftp:
+    runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+      FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+      LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      FTP_DIR: ${{ secrets.FTP_DIR }}
+      MODE: ${{ github.event_name == 'push' && 'upload' || inputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 접속 정보가 있는지 확인
+        run: |
+          miss=""
+          [ -n "$FTP_SERVER" ] || miss="$miss FTP_SERVER"
+          [ -n "$FTP_USERNAME" ] || miss="$miss FTP_USERNAME"
+          [ -n "$LFTP_PASSWORD" ] || miss="$miss FTP_PASSWORD"
+          if [ "$MODE" = upload ] && [ -z "$FTP_DIR" ]; then miss="$miss FTP_DIR"; fi
+          if [ -n "$miss" ]; then echo "::error::GitHub Secrets에 다음이 없어요:$miss"; exit 1; fi
+
+      - name: lftp 설치
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: 서버 폴더 목록 보기 (list, 아무것도 바꾸지 않음)
+        if: env.MODE == 'list'
+        run: |
+          lftp -c "set ftp:ssl-allow yes; set net:max-retries 2; set net:timeout 20;
+            open --env-password -u \"$FTP_USERNAME\" \"$FTP_SERVER\";
+            echo '== 로그인 직후 위치'; pwd; cls -1 --sort=name -F;
+            echo '== FTP_DIR'; cd \"${FTP_DIR:-.}\" && cls -1 --sort=name -F"
+
+      - name: _piano1/site 올리기 (upload, 서버 파일은 지우지 않음)
+        if: env.MODE == 'upload'
+        run: |
+          [ -d _piano1/site ] || { echo "::error::_piano1/site 폴더가 없어요"; exit 1; }
+          lftp -c "set ftp:ssl-allow yes; set net:max-retries 2; set net:timeout 20;
+            open --env-password -u \"$FTP_USERNAME\" \"$FTP_SERVER\";
+            mirror -R --verbose --no-perms --only-newer _piano1/site \"$FTP_DIR\""
