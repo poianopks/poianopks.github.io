@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>10월 가을의 노래 피아노 교실</title>
+<meta name="description" content="차이콥스키 「사계」 중 10월 「가을의 노래」(1876, 공개 저작물)를 원곡 악보(라단조 ♭1) 그대로, 왕초보용 쉬운 악보와 느린 템포로 배우는 피아노 레슨. 움직이는 악보로 전곡 듣기, 작곡가 이야기, 따라치기, 그리고 「10월의 어느 멋진 날에」 노래 이야기."/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/genre.css?v=20261106">
+<style>
+.score .ksig{fill:var(--staff);font-size:20px}
+.score .ott{fill:var(--staff);font-size:12px;font-weight:900;font-style:italic}
+.score .ottl{stroke:var(--staff);stroke-width:1.2;stroke-dasharray:5 4}
+.score .orn{fill:var(--staff);font-size:13px;font-weight:900;font-style:italic;text-anchor:middle}
+.bio{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.bio{grid-template-columns:1fr}}
+.bio .card p{margin:6px 0 0;color:var(--sub);font-size:.95rem}
+.score .sec{fill:var(--accent);font-size:13px;font-weight:900}
+.score .tup{fill:var(--staff);font-size:11px;font-weight:800;text-anchor:middle;font-style:italic}
+.score .phband{fill:var(--accent2);opacity:.16}
+.score .phball{fill:var(--accent);opacity:.9}
+.score .n.pl .hd{fill:color-mix(in srgb,var(--good) 70%,var(--staff))}
+.score .n.pl .hd.open{fill:var(--card);stroke:color-mix(in srgb,var(--good) 70%,var(--staff))}
+.score .n.on .hd{fill:var(--accent);stroke:var(--accent);stroke-width:2.5}
+.score .n.on .lab{font-size:15px}
+.fullscore{max-height:72vh;overflow-y:auto;scroll-behavior:smooth;position:relative;cursor:pointer}
+.fullbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.fullbar .now{font-weight:900;color:var(--accent2);font-size:.95rem}
+.jumps{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.jumps button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 10px;font:inherit;font-weight:800;font-size:.82rem;cursor:pointer}
+
+.score .beam{fill:var(--staff)}
+.score .n.on ~ .beam{fill:var(--staff)}
+.score .tie{fill:none;stroke:var(--staff);stroke-width:1.4}
+.part{margin-top:22px}
+.parth{margin:0 0 4px;font-size:1.25rem;font-weight:900}
+details.step{margin-top:10px;padding:0}
+details.step summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;font-weight:900}
+details.step summary::-webkit-details-marker{display:none}
+details.step summary::after{content:"▾";margin-left:auto;color:var(--sub);transition:transform .2s}
+details.step[open] summary::after{transform:rotate(180deg)}
+details.step .snum{display:inline-grid;place-items:center;min-width:32px;height:32px;border-radius:10px;background:var(--accent);color:#fff;font-size:1rem}
+details.step .stitle{font-size:1.05rem}
+details.step .sstar{color:#f5a623;font-size:.95rem;letter-spacing:1px}
+details.step .sbody{padding:0 16px 16px}
+.tip{margin:8px 0;font-size:.95rem}
+.beatline{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.beatdot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--line);font-weight:900;font-size:.85rem;color:var(--sub)}
+.beatdot.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.ctrls.opts{gap:14px}
+.ctrls.opts select{font:inherit;font-weight:700;border:1.5px solid var(--line);border-radius:8px;padding:4px 6px;background:var(--card);color:var(--ink)}
+.btn.live{outline:3px solid var(--accent2);outline-offset:2px}
+.keybox{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.keybox{grid-template-columns:1fr}}
+.keybox h4{margin:0 0 4px}
+.keybox .say{font-weight:900;margin:6px 0 0}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.story{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="topbar">
+    <span class="logo">🍂 10월 가을의 노래</span>
+    <nav>
+      <a href="#story">작곡가·곡 이야기</a>
+      <a href="#song">10월의 어느 멋진 날에</a>
+      <a href="#key">조표·기호</a>
+      <a href="#map">곡 지도</a>
+      <a href="#full">전곡 듣기</a>
+      <a href="#lessons">단계 레슨</a>
+    </nav>
+    <button class="themebtn" id="themeBtn" aria-label="밝기 전환">🌓</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>쓸쓸하고 아름답게<br><em>10월 가을의 노래 피아노 교실</em></h1>
+      <p>차이콥스키 「사계」의 <b>10월 「가을의 노래」</b>를 <b>원곡 악보 그대로</b>(라단조 ♭1, 4/4박자) 배워요.</p>
+      <p>처음엔 <b>🌱 쉬운 악보</b>(멜로디와 베이스만)와 <b>🐢 느린 빠르기</b>로 시작하고, 익숙해지면 <b>🎼 원곡 그대로</b>로 바꿔요. 소리에 맞춰 <b>악보가 움직이고</b>, 56마디 전곡도 들을 수 있어요.</p>
+      <p style="margin-top:12px"><a class="btn" href="#lessons" style="text-decoration:none;display:inline-block">레슨 시작 ↓</a> <a class="btn alt" href="#full" style="text-decoration:none;display:inline-block">전곡 듣기</a> <a class="btn alt" href="index.html" style="text-decoration:none;display:inline-block">공부방 목록</a></p>
+    </div>
+    <svg viewBox="0 0 400 260" aria-hidden="true">
+      <rect x="10" y="20" width="380" height="220" rx="28" fill="#c8641e" opacity=".12"/>
+      <g fill="#c8641e"><path d="M70 70 q20 -30 40 0 q-20 30 -40 0z" opacity=".8"/><path d="M300 50 q22 -26 42 4 q-24 26 -42 -4z" opacity=".65"/><path d="M150 40 q16 -24 34 0 q-18 24 -34 0z" fill="#e0a030" opacity=".8"/><path d="M330 150 q18 -26 36 0 q-18 26 -36 0z" fill="#a8401a" opacity=".7"/></g>
+      <g transform="translate(110,120)">
+        <rect width="190" height="80" rx="6" fill="#fff" stroke="#cfc7b8"/>
+        <g fill="#26232c"><rect x="19" width="12" height="48" rx="2"/><rect x="46" width="12" height="48" rx="2"/><rect x="100" width="12" height="48" rx="2"/><rect x="127" width="12" height="48" rx="2"/><rect x="154" width="12" height="48" rx="2"/></g>
+        <g stroke="#cfc7b8"><line x1="27" y1="0" x2="27" y2="80"/><line x1="54" y1="0" x2="54" y2="80"/><line x1="81" y1="0" x2="81" y2="80"/><line x1="108" y1="0" x2="108" y2="80"/><line x1="135" y1="0" x2="135" y2="80"/><line x1="162" y1="0" x2="162" y2="80"/></g>
+      </g>
+      <text x="40" y="200" font-size="30">🎶</text>
+      <text x="320" y="230" font-size="30" fill="#c8641e">♭</text>
+    </svg>
+  </div>
+
+  <section id="story">
+    <h2><span class="num">1</span>작곡가와 곡 이야기</h2>
+    <div class="bio">
+      <div class="card">
+        <b>🎩 표트르 일리치 차이콥스키 (1840~1893)</b>
+        <p><b>러시아</b>의 작곡가예요. 법률 공무원으로 일하다가 음악이 좋아 늦게 음악원에 들어갔어요.</p>
+        <p>발레 <b>「백조의 호수」</b>, <b>「호두까기 인형」</b>, <b>피아노 협주곡 1번</b>처럼 지금도 가장 많이 연주되는 곡들을 남겼어요. 슬프고도 아름다운 선율로 유명해요.</p>
+      </div>
+      <div class="card">
+        <b>📅 「사계」는 어떻게 태어났을까?</b>
+        <p>1875년 말, 상트페테르부르크의 음악 잡지 <b>「누벨리스트」</b>가 1년 동안 <b>매달 한 곡씩</b> 그 달에 어울리는 피아노 소품을 실어 달라고 부탁했어요.</p>
+        <p>그렇게 1876년에 1월부터 12월까지 <b>12곡</b>이 잡지에 실렸고, 곡마다 러시아 시인의 <b>짧은 시 구절</b>이 함께 붙었어요. 집에서 피아노를 즐기는 사람들을 위한 곡이라 한 곡이 짧고 아름다워요.</p>
+      </div>
+      <div class="card">
+        <b>🍂 10월 「가을의 노래」</b>
+        <p>열두 곡 중 <b>가장 쓸쓸한 곡</b>이에요. 빠르기말은 <b>Andante doloroso e molto cantabile</b> — "걷는 빠르기로, 슬프게, 아주 노래하듯".</p>
+        <p>잡지에는 시인 <b>알렉세이 톨스토이</b>의 시에서 "가을, 낙엽이 바람에 흩날리는 쓸쓸한 정원"을 노래한 구절이 붙었어요. 오른손과 왼손이 <b>두 사람이 대화하듯</b> 멜로디를 주고받는 것이 특징이에요.</p>
+      </div>
+      <div class="card">
+        <b>🎼 저작권은 괜찮을까?</b>
+        <p>차이콥스키는 1893년에 세상을 떠나 <b>저작권이 끝난 공개 저작물(퍼블릭 도메인)</b>이에요. 공부하거나 사이트에 올려 나눠도 괜찮아요.</p>
+        <p>이 페이지의 악보는 <b>1909년 미국 Schirmer 출판사판</b>(공개 저작물)을 보고 한 마디씩 옮겨 다시 그렸어요.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="song">
+    <h2><span class="num">2</span>함께 알아 두기 — 「10월의 어느 멋진 날에」</h2>
+    <p class="lead">가을이면 많이 듣는 노래 <b>「10월의 어느 멋진 날에」</b>는 차이콥스키의 「10월」과 <b>다른 곡</b>이에요. 둘을 비교해 봐요.</p>
+    <div class="card table-wrap">
+      <table class="cmp">
+        <thead><tr><th></th><th>차이콥스키 「10월: 가을의 노래」</th><th>「10월의 어느 멋진 날에」</th></tr></thead>
+        <tbody>
+          <tr><td>원곡</td><td>피아노 독주곡 (1876)</td><td>시크릿 가든 「Serenade to Spring(봄의 세레나데)」 — 가사 없는 연주곡 (1995년 무렵 1집)</td></tr>
+          <tr><td>작곡</td><td>차이콥스키 (러시아)</td><td>롤프 뢰블란 (노르웨이, 시크릿 가든)</td></tr>
+          <tr><td>원래 계절</td><td>가을 (10월)</td><td><b>봄</b> — 원곡 제목이 '봄의 세레나데'예요</td></tr>
+          <tr><td>한국에서</td><td>클래식 피아노곡으로 연주</td><td>한경혜 작사의 한국어 가사를 붙여 <b>가을 노래</b>가 되었고, 바리톤 <b>김동규</b>가 불러 널리 알려졌어요</td></tr>
+          <tr><td>저작권</td><td>✅ 끝남 → 악보·연주 레슨 가능</td><td>⚠️ 작곡가·작사가 모두 보호 중 → 이 페이지에 악보·가사를 싣지 않아요</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top:12px;font-size:.93rem">
+      <b>💡 왜 봄 노래가 가을 노래가 됐을까?</b>
+      <p style="margin:6px 0 0">멜로디는 같지만, 한국어 가사가 <b>가을의 풍경과 마음</b>을 노래하면서 전혀 다른 느낌의 곡이 되었어요. 원곡은 노래가 아니라 바이올린이 이끄는 연주곡이라, 가사는 한국에서 새로 만들어졌어요.</p>
+      <p style="margin:6px 0 0">이 노래를 피아노로 치고 싶다면 <b>정식으로 판매하는 악보</b>(쉬운 편곡도 많아요)를 구입해 연습하세요. 저작권이 보호 중인 곡이라 이 사이트에서는 이야기만 소개해요.</p>
+    </div>
+  </section>
+
+  <section id="key">
+    <h2><span class="num">3</span>조표와 악보 기호 익히기</h2>
+    <p class="lead">「10월」은 <b>라단조(D minor)</b>예요. 오선 앞의 <b>♭ 1개</b> 때문에 <b>시는 곡 내내 반음 내려서(시♭)</b> 쳐요. 멜로디에 자주 나오는 <b>도♯</b>은 라단조의 '이끔음'이에요. 계이름은 고정도법(C = 도)으로 적었어요.</p>
+    <div class="card">
+      <div class="score" id="scale-dm"></div>
+      <p class="say" style="font-weight:900;margin:6px 0 0">레 · 미 · 파 · 솔 · 라 · 시♭ · 도♯ · 레 (화성 단음계)</p>
+      <div class="ctrls"><button class="btn" id="scaleplay">▶ 라단조 음계 듣기</button></div>
+    </div>
+    <div class="card" style="margin-top:12px;font-size:.93rem">
+      <b>🔤 이 곡에 나오는 기호</b>
+      <ul style="margin:6px 0 0;padding-left:18px">
+        <li><b>C</b> = 4/4박자(한 마디 4박) · <b>Andante doloroso</b> = 걷는 빠르기로 슬프게</li>
+        <li><b>셋잇단음표(3)</b>: 한 박에 음 3개를 고르게. '긴 음(2칸)+짧은 음(1칸)'도 셋잇단이에요 → "따–안 따".</li>
+        <li><b>붙임줄(⌒, 같은 음)</b>: 이어진 음은 다시 치지 않고 계속 눌러요. 다른 음을 잇는 줄은 '이음줄'(부드럽게).</li>
+        <li><b>♮ 제자리표</b>: 조표를 잠깐 취소. <b>시♮</b>(하얀 건반 시)가 자주 나와요.</li>
+        <li><b>marcato</b>: 한 음 한 음 또렷하게 · <b>dim.</b>: 점점 여리게 · <b>rit.</b>: 점점 느리게 · <b>morendo</b>: 사라지듯</li>
+        <li><b>Ped.</b>: 오른발 페달로 소리를 이어요. 화음이 바뀔 때마다 다시 밟아요.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="map">
+    <h2><span class="num">4</span>곡 지도 — A · B · A + 끝맺음</h2>
+    <div class="card table-wrap">
+      <table class="cmp">
+        <thead><tr><th>부분</th><th>마디</th><th>특징</th><th>레슨</th></tr></thead>
+        <tbody>
+          <tr><td>🍂 A 첫 주제</td><td>1~8</td><td>오른손이 쓸쓸한 멜로디를 노래 · 셋잇단 오르막</td><td>1 ~ 4단계</td></tr>
+          <tr><td>🎻 A 대답</td><td>9~16</td><td>왼손(테너)이 같은 주제를 노래, 오른손이 대답</td><td>5 ~ 6단계</td></tr>
+          <tr><td>🌤 B 가운데</td><td>17~29</td><td>조금 밝게 · 높은 음으로 올라가는 노래(mf)</td><td>7 ~ 8단계</td></tr>
+          <tr><td>🔁 돌아가는 길</td><td>30~33</td><td>왼손이 혼자 천천히 내려와요 (rit.)</td><td>전곡 듣기</td></tr>
+          <tr><td>🍂 A 다시</td><td>34~49</td><td>처음 16마디가 그대로 다시</td><td>1 ~ 6단계와 같아요</td></tr>
+          <tr><td>🌙 끝맺음</td><td>50~56</td><td>아주 여리게(pp) · 낮은 음으로 사라지듯</td><td>9단계</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="full">
+    <h2><span class="num">5</span>전곡 듣기 — 움직이는 악보</h2>
+    <p class="lead"><b>56마디 전곡</b>을 들으며 악보를 따라가요. <b>공과 파란 줄</b>이 지금 치는 곳을 짚고, 치는 음표는 <b>주황</b>, 지나간 음표는 <b>초록</b>으로 바뀌어요. 악보는 저절로 넘어가고, <b>마디를 누르면 거기서부터</b> 들려줘요.</p>
+    <div class="card">
+      <div class="ctrls">
+        <button class="btn" data-full="B" id="fullBoth" style="background:#c8641e">▶ 전곡 양손 듣기</button>
+        <button class="btn" data-full="R">▶ 오른손만</button>
+        <button class="btn alt" data-full="L">▶ 왼손만</button>
+        <button class="btn alt" data-full="stop">⏹ 멈춤</button>
+      </div>
+      <div class="ctrls opts">
+        <label class="chk">빠르기 <select id="fullSpeed"><option value="1">🏃 원곡 빠르기</option><option value="0.8" selected>🚶 조금 느리게 (80%)</option><option value="0.65">🐢 느리게 (65%)</option><option value="0.5">🐌 아주 느리게 (50%)</option></select></label>
+        <label class="chk"><input type="checkbox" id="fullMetro"> 메트로놈</label>
+        <span class="now" id="fullNow"></span>
+      </div>
+      <div class="jumps">
+        <span style="font-weight:800;color:var(--sub);font-size:.85rem;align-self:center">바로 가기:</span>
+        <button data-jump="1">🍂 첫 주제</button><button data-jump="9">🎻 왼손 노래</button><button data-jump="17">🌤 가운데</button><button data-jump="30">🔁 돌아가는 길</button><button data-jump="34">🍂 주제 다시</button><button data-jump="50">🌙 끝맺음</button>
+      </div>
+      <div class="score fullscore" id="fullScore"><p style="padding:20px;color:var(--sub)">악보를 그리는 중…</p></div>
+      <div class="kb" id="fullKb"></div>
+      <p style="margin:8px 0 0;color:var(--sub);font-size:.88rem">※ 1909년 Schirmer판 악보를 보고 옮겼어요. 여러 성부가 겹치는 곳은 한 줄에 모아 그렸고, 가운데 부분과 끝맺음의 안쪽 화음 일부는 간단히 줄였어요. 꾸밈음(작은 음표)은 빼고 적었어요.</p>
+    </div>
+  </section>
+
+  <section id="lessons">
+    <h2><span class="num">6</span>단계별 레슨 (9단계)</h2>
+    <p class="lead">단계를 누르면 펼쳐져요. <b>🌱 쉬운 악보 + 🐢 아주 느리게</b>로 시작 → 익숙해지면 <b>🎼 원곡 그대로</b>. ★★ = 오른손·왼손 따라치기 완료</p>
+    <div id="lessonList"></div>
+  </section>
+
+  <section id="howto">
+    <h2><span class="num">7</span>왕초보 연습 순서</h2>
+    <div class="card">
+      <ol class="steps">
+        <li><b>듣기</b><p>전곡 듣기에서 <b>첫 주제(1~8마디)</b>를 여러 번 들으며 멜로디를 흥얼거려요.</p></li>
+        <li><b>쉬운 악보로 오른손</b><p>🌱 쉬운 악보 + 🎹 오른손 따라치기. 검은 건반(시♭·도♯·솔♯)을 파란 건반으로 확인해요.</p></li>
+        <li><b>쉬운 악보로 왼손</b><p>낮은 음 하나씩 따라 쳐요. 5·6단계는 왼손이 멜로디예요!</p></li>
+        <li><b>소리와 같이</b><p>🐢 아주 느리게 + 메트로놈 + 반복을 켜고 한 손씩 같이 쳐요.</p></li>
+        <li><b>원곡으로</b><p>🎼 원곡 그대로로 바꿔 안쪽 화음까지! 멜로디는 크게, 화음은 작게 치는 게 비결이에요.</p></li>
+      </ol>
+      <p style="margin:8px 0 0;color:var(--sub);font-size:.92rem">💡 셋잇단음표는 "셋–잇–단"으로 말하면서 치면 고르게 쳐져요. 이 곡은 빨리 치는 곡이 아니라 <b>노래하듯 천천히</b> 치는 곡이에요.</p>
+    </div>
+  </section>
+
+  <section id="sources">
+    <h2><span class="num">8</span>악보 출처와 참고</h2>
+    <div class="card" style="font-size:.93rem">
+      <ul style="margin:0;padding-left:18px">
+        <li><b>악보</b>: <a href="https://imslp.org/wiki/The_Seasons,_Op.37a_(Tchaikovsky,_Pyotr)" target="_blank" rel="noopener">IMSLP — The Seasons, Op.37a</a> 중 1909년 G. Schirmer판(Louis Oesterle 편집, #27034, 공개 저작물)을 보고 한 마디씩 옮겼어요. 4손 연탄판(#82846)으로 음을 대조했어요.</li>
+        <li><b>쉬운 악보</b>: 원곡에서 멜로디 성부만 남긴 연습용이에요(오른손은 맨 윗음, 왼손은 베이스 또는 왼손 멜로디). 음높이·박자는 원곡과 같아요.</li>
+        <li>작곡가 정보: <a href="https://en.wikipedia.org/wiki/The_Seasons_(Tchaikovsky)" target="_blank" rel="noopener">Wikipedia — The Seasons (Tchaikovsky)</a></li>
+        <li>「10월의 어느 멋진 날에」 정보: 원곡은 시크릿 가든 「Serenade to Spring」(작곡 Rolf Løvland), 한국어 가사 한경혜, 노래 김동규. 원곡 발매 연도는 자료마다 1994년·1995년으로 달라요.</li>
+      </ul>
+      <p style="margin:10px 0 0;color:var(--sub)">틀린 음을 발견하시면 알려 주세요. 확인해서 고칠게요.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>소리는 브라우저에서 직접 만들어요(Web Audio). 휴대폰은 무음 모드를 꺼 주세요. · 건반은 손가락이나 마우스로 눌러요.</p>
+  </footer>
+</div>
+<script src="js/music-engine.js?v=20261106"></script>
+<script src="js/score-engine.js?v=20261106"></script>
+<script src="js/october-full.js?v=20261106"></script>
+<script src="js/october.js?v=20261106"></script>
+</body>
+</html>
