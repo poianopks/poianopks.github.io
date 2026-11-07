@@ -44,6 +44,16 @@ jobs:
       - name: lftp 설치
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
+      - name: 서버 연결 점검 (주소·포트만 확인, 로그인 안 함)
+        if: env.MODE == 'list'
+        run: |
+          echo "== 주소 찾기"; getent hosts "$FTP_SERVER" | awk '{print "IP 찾음 (" NF " 항목)"}' || echo "주소를 찾지 못했어요"
+          for p in 21 22; do
+            if timeout 12 bash -c "exec 3<>/dev/tcp/$FTP_SERVER/$p" 2>/dev/null; then echo "포트 $p: 열려 있음"; else echo "포트 $p: 응답 없음(막힘)"; fi
+          done
+          echo "== FTP 첫 인사(배너)"; timeout 12 bash -c "exec 3<>/dev/tcp/$FTP_SERVER/21; head -c 200 <&3" 2>/dev/null | tr -d '\r' || echo "배너 없음"
+          echo "== 이 GitHub 컴퓨터의 나라"; curl -s --max-time 10 https://ipinfo.io/country || true
+
       - name: 서버 폴더 목록 보기 (list, 아무것도 바꾸지 않음)
         if: env.MODE == 'list'
         run: |
