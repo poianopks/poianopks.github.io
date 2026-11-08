@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>클로드 코드로 돈 벌기 — 왕초보 완전 가이드</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nanum Gothic','Apple SD Gothic Neo',sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.7;padding:0}
+.wrap{max-width:800px;margin:0 auto;padding:24px 16px 100px}
+h1{font-size:2rem;font-weight:900;color:#38bdf8;margin-bottom:8px}
+h2{font-size:1.2rem;font-weight:800;color:#f0f9ff;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+h3{font-size:1rem;font-weight:700;color:#bae6fd;margin:16px 0 6px}
+p{color:#cbd5e1;margin-bottom:10px;font-size:.95rem}
+strong{color:#f1f5f9}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 14px;border-radius:99px;font-size:.75rem;font-weight:700;background:#0c4a6e;color:#38bdf8;margin-bottom:16px}
+/* 섹션 */
+.section{border-radius:16px;border:1px solid #334155;margin-bottom:20px;overflow:hidden}
+.sec-head{background:#1e293b;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
+.sec-head:hover{background:#263548}
+.sec-title{font-size:1.05rem;font-weight:800;color:#f0f9ff;display:flex;align-items:center;gap:10px}
+.sec-body{padding:20px;border-top:1px solid #334155}
+/* 카드 */
+.card{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:18px;margin:10px 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+/* stat */
+.stat{background:#0f172a;border:1px solid #1e3a5f;border-radius:12px;padding:14px;text-align:center}
+.stat .num{font-size:1.7rem;font-weight:900;color:#34d399}
+.stat .lbl{font-size:.75rem;color:#64748b;margin-top:2px}
+/* timeline */
+.tl-item{display:flex;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #1e293b}
+.tl-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.tl-badge{min-width:72px;height:26px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0}
+.g1{background:#14532d;color:#4ade80}.g2{background:#1e3a5f;color:#38bdf8}
+.g3{background:#4a1942;color:#e879f9}.g4{background:#7c2d12;color:#fb923c}
+.g5{background:#0c2a4a;color:#38bdf8}
+/* tip / warn */
+.tip{background:#0c2a4a;border:1px solid #0369a1;border-radius:12px;padding:14px;color:#bae6fd;font-size:.88rem;margin:10px 0}
+.warn{background:#431407;border:1px solid #7c2d12;border-radius:12px;padding:14px;color:#fed7aa;font-size:.88rem;margin:10px 0}
+.info{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:14px;font-size:.88rem;margin:10px 0}
+/* 코드블록 */
+.cw{background:#0d1117;border:1px solid #334155;border-radius:12px;overflow:hidden;margin:12px 0}
+.ch{background:#161b22;padding:8px 16px;display:flex;justify-content:space-between;align-items:center}
+.ch span{font-size:.73rem;color:#8b949e;font-family:monospace}
+.ch button{background:#21262d;border:1px solid #30363d;color:#8b949e;padding:4px 12px;border-radius:6px;font-size:.73rem;cursor:pointer;transition:.15s}
+.ch button:hover{color:#fff;background:#30363d}
+pre{padding:14px 16px;overflow-x:auto;font-family:'Consolas','Courier New',monospace;font-size:.82rem;color:#7ee787;white-space:pre-wrap;word-break:break-word}
+/* steps */
+.step{display:flex;gap:14px;margin-bottom:14px;background:#162032;border-radius:12px;padding:14px}
+.step-num{min-width:30px;height:30px;border-radius:50%;background:#0369a1;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.85rem;flex-shrink:0}
+/* term */
+.term{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:12px;margin-bottom:8px}
+.term h4{color:#38bdf8;font-size:.85rem;margin-bottom:4px;font-weight:700}
+.term p{font-size:.82rem;color:#94a3b8;margin:0}
+/* quote */
+.quote{border-left:4px solid #38bdf8;padding:16px 20px;background:#0c2a4a;border-radius:0 12px 12px 0;margin:24px 0}
+.quote p{color:#bae6fd;font-size:1.05rem;font-style:italic;font-weight:700;margin:0}
+/* misc */
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mono{background:#0f172a;border-radius:10px;padding:14px;font-family:monospace;font-size:.82rem;color:#34d399;margin:8px 0}
+.tag{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.72rem;font-weight:700;margin-right:4px}
+@media(max-width:600px){h1{font-size:1.5rem}.stat .num{font-size:1.3rem}.row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- 헤더 -->
+<div class="badge">📈 실화 케이스 스터디 — 2026.07</div>
+<h1>클로드 코드로 돈 벌기 🤖</h1>
+<p>AI에게 <strong>"72시간 안에 100만 원 벌어와!"</strong> 했더니<br>실제로 <strong style="color:#34d399;font-size:1.05em">2,873만 8천 원</strong>을 벌어온 실화 — 왕초보 완전 가이드</p>
+
+<div style="background:#1e293b;border:1px solid #334155;border-radius:14px;padding:14px;margin:16px 0;display:flex;align-items:center;gap:14px">
+  <div style="width:44px;height:44px;border-radius:10px;background:#450a0a;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">📺</div>
+  <div>
+    <p style="font-weight:800;font-size:.9rem;margin:0">AI에게 100만 원 벌어오라 했더니 2,873만 원을 벌어왔습니다</p>
+    <p style="font-size:.78rem;color:#64748b;margin:0">윤자동 YouTube · youtu.be/bU4sEsqB9Kc</p>
+  </div>
+</div>
+
+<!-- 핵심 수치 -->
+<div class="grid2" style="margin:16px 0 24px">
+  <div class="stat"><div class="num">2,873만</div><div class="lbl">💰 총 수익 (7일 미만)</div></div>
+  <div class="stat"><div class="num">16시간</div><div class="lbl">⏱ 시즌1 100만원 달성</div></div>
+  <div class="stat"><div class="num">4h 33m</div><div class="lbl">⚡ 시즌2 1,000만원</div></div>
+  <div class="stat"><div class="num">0줄</div><div class="lbl">✍️ 유튜버가 직접 쓴 코드</div></div>
+</div>
+
+<!-- 1. 전체 스토리 타임라인 -->
+<div class="section">
+  <div class="sec-head" onclick="tog(this)">
+    <span class="sec-title">📖 전체 스토리 타임라인 (영상 요약)</span>
+    <span style="color:#64748b;font-size:1.2rem">▲</span>
+  </div>
+  <div class="sec-body">
+    <div class="tl-item"><div class="tl-badge g1">금요일</div><div><strong>미션 시작 — 가족여행 취소 + Fable 모드</strong><br><span style="color:#94a3b8;font-size:.85rem">AI에게 "72시간 안에 100만원 벌어와" 명령. 처음엔 Claude Opus, 이후 Fable 모드로 전환.</span></div></div>
+    <div class="tl-item"><div class="tl-badge g1">시즌 1</div><div><strong>첫 전자책 탄생 (8만 9천원)</strong><br><span style="color:#94a3b8;font-size:.85rem">"만들 줄 아는데 왜 못 벌까" — AI가 원고·이미지·상세페이지 전부 독자 제작. GPT로 썸네일 직접 생성.</span></div></div>
+    <div class="tl-item"><div class="tl-badge g1">+16시간</div><div><strong>100만원 완판 🎉</strong><br><span style="color:#94a3b8;font-size:.85rem">10권 완판. AI가 SNS(Threads)에 홍보 글·댓글·이미지 자동 게시. 판매마다 +1,000원 가격 자동 인상 도입.</span></div></div>
+    <div class="tl-item"><div class="tl-badge g2">토요일</div><div><strong>시즌2 시작 — 목표 1,000만원</strong><br><span style="color:#94a3b8;font-size:.85rem">새 전자책 14만9천원으로 시작. 시즌1의 100만원 버는 과정을 그대로 담은 책.</span></div></div>
+    <div class="tl-item"><div class="tl-badge g2">+2h 30m</div><div><strong>500만원 돌파</strong><br><span style="color:#94a3b8;font-size:.85rem">AI가 고민상담소 오픈 → 댓글 80개 응대 → 알고리즘 타기 시작. 700→750→800만원 연속 돌파.</span></div></div>
+    <div class="tl-item"><div class="tl-badge g3">+4h 33m</div><div><strong>1,000만원 달성 🚀 (57번째 판매)</strong><br><span style="color:#94a3b8;font-size:.85rem">4시간 33분 만에 천만원. 책 가격은 14만9천원 → 25만4천원으로 자동 인상됨.</span></div></div>
+    <div class="tl-item"><div class="tl-badge g4">7월 23일</div><div><strong>유튜브 라이브 실험 🎬</strong><br><span style="color:#94a3b8;font-size:.85rem">라이브 중 AI가 실시간으로 1천원 전자책 제작·업로드·홍보. 6분 만에 17명 구매! 총 수익 2,873만원.</span></div></div>
+  </div>
+</div>
+
+<!-- 2. 팩트냐 구라냐 -->
+<div class="section">
+  <div class="sec-head" onclick="tog(this)">
+    <span class="sec-title">✅ 팩트냐 구라냐? (100% 실화 증거)</span>
+    <span style="color:#64748b;font-size:1.2rem">▲</span>
+  </div>
+  <div class="sec-body">
+    <div class="tip">💡 결론: 100% 실화. 래피드 정산 화면을 라이브 방송 중 직접 공유. 정산 예정액 2,731만 5,473원 + 이전 220만원 = 2,873만 8천원 확인됨.</div>
+    <div class="info">
+      <p style="font-weight:800;font-size:.9rem;margin-bottom:8px">📋 정산 내역 (라이브 공개)</p>
+      <p>🟡 <strong>시즌 1</strong> — 8만9천원 전자책 → 16시간 완판 → <strong style="color:#34d399">약 100만원</strong></p>
+      <p>🟠 <strong>시즌 2</strong> — 14만9천원 시작 → 4h33m → <strong style="color:#34d399">1,000만원</strong> (최고가 25만4천원)</p>
+      <p>🔴 <strong>정산 예정</strong> — 1,843만원 (다음날) + 887만6천원 (7/31) 입금 예정</p>
+      <p style="margin:0">⚪ <strong>라이브 실험</strong> — 1천원 전자책, 6분에 17명 구매 = 1만7천원 추가</p>
+    </div>
+  </div>
+</div>
+
+<!-- 3. 어떻게 가능했나 -->
+<div class="section">
+  <div class="sec-head" onclick="tog(this)">
+    <span class="sec-title">💡 바이브 코딩으로 돈 벌기, 어떻게 가능했나?</span>
+    <span style="color:#64748b;font-size:1.2rem">▼</span>
+  </div>
+  <div class="sec-body" style="display:none">
+    <p>"바이브 코딩은 많이 하는데 돈을 버는 사람은 드물다"는 말처럼, 도구를 아는 것과 그 도구로 돈을 버는 것은 다른 문제입니다.</p>
+    <div class="grid3">
+      <div class="card" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:8px">🤖</div>
+        <p style="font-weight:800;margin-bottom:4px">AI 자동화</p>
+        <p style="font-size:.82rem;color:#94a3b8;margin:0">원고·이미지·판매페이지·SNS 홍보·댓글 응대까지 전부 AI 처리. 유튜버는 지시만.</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:8px">📣</div>
+        <p style="font-weight:800;margin-bottom:4px">기존 팬덤</p>
+        <p style="font-size:.82rem;color:#94a3b8;margin:0">유튜브 구독자+오픈채팅방+쓰레드 팔로워. '팔아줄 손님'이 이미 모여있었음.</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:2rem;margin-bottom:8px">⚡</div>
+        <p style="font-weight:800;margin-bottom:4px">즉각 실행</p>
+        <p style="font-size:.82rem;color:#94a3b8;margin:0">아이디어 → 72시간 안에 상품화·판매 완료. 생각만 하지 않고 AI에게 즉시 시킴.</p>
+      </div>
+    </div>
+    <div class="tip">💡 핵심 공식: 좋은 도구(AI) × 팔아줄 사람(팬덤) × 즉각 실행 = 매출. 이 셋 중 하나라도 빠지면 결과가 크게 달라집니다.</div>
+  </div>
+</div>
+
+<!-- 4. 운인가 실력인가 -->
+<div class="section">
+  <div class="sec-head" onclick="tog(this)">
+    <span class="sec-title">🎯 운인가, 실력인가?</span>
+    <span style="color:#64748b;font-size:1.2rem">▼</span>
+  </div>
+  <div class="sec-body" style="display:none">
+    <div class="row2">
+      <div class="card">
+        <p style="font-weight:800;margin-bottom:8px">🍀 운 요소 (약 20%)</p>
+        <p>• Fable 모드 공개 직전이라 화제</p>
+        <p>• 쓰레드 알고리즘이 잘 타줌</p>
+        <p>• 라이브 타이밍에 시청자 집중</p>
+        <p style="margin:0">• 가족여행 취소로 집중할 시간 생김</p>
+      </div>
+      <div class="card">
+        <p style="font-weight:800;margin-bottom:8px">💪 실력 요소 (약 80%)</p>
+        <p>• Orca 에이전트 CLI 환경 직접 구축</p>
+        <p>• YB CLI (커스텀 도구) 사전 제작</p>
+        <p>• 브라우저 자동 제어(Puppeteer) 연동</p>
+        <p>• 수개월 쌓아온 팬덤·SNS 채널</p>
+        <p style="margin:0">• 마케팅 후킹 감각 + 가격 전략</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. 다른 사람도 가능한가 -->
+<div class="section">
+  <div class="sec-head" onclick="tog(this)">
+    <span class="sec-title">🙋 다른 사람도 같은 결과가 가능한가?</span>
+    <span style="color:#64748b;font-size:1.2rem">▼</span>
+  </div>
+  <div class="sec-body" style="display:none">
+    <div class="warn">⚠️ 솔직한 현실: 팔로워 0명에서 시작하면 AI가 아무리 글을 잘 써도 봐줄 사람이 없어서 판매가 어렵습니다.</div>
+    <p>그러나 <strong>과정 자체는 누구나 배울 수 있습니다.</strong> AI로 전자책 쓰기, 이미지 만들기, 판매 페이지 올리기는 오늘 당장 따라할 수 있어요. 단, 팔릴 채널(블로그·SNS·커뮤니티)을 먼저 키우는 것이 선행 조건입니다.</p>
+    <div class="card">
+      <p style="font-weight:800;font-size:.9rem;margin-bottom:10px">📋 현실적인 시작 로드맵</p>
+      <p>① 나만의 채널 만들기 — 블로그·인스타·유튜브 중 하나, 3개월 꾸준히 운영</p>
+      <p>② AI 활용 연습 — 내 분야 글·이미지를 AI로 만드는 연습</p>
+      <p>③ 작은 상품 만들기 — 1,000~3,000원 전자책 1개로 시작</p>
+      <p style="margin:0">④ 판매→피드백→개선 — 팔릴 때마다 내용과 마케팅 다듬기</p>
+    </div>
+  </div>
+</div>
+
+<!-- 6. 인터넷 원리 -->
+<div class="section">
+  <div class="sec-head" onclick="tog(this)">
+    <span class="sec-title">🌐 클로드가 내 PC를 뒤지는 원리 (인터넷 필요한가?)</span>
+    <span style="color:#64748b;font-size:1.2rem">▼</span>
+  </div>
+  <div class="sec-body" style="display:none">
+    <div class="row2">
+      <div class="card" style="border-color:#7f1d1d;background:#1c0a0a">
+        <p style="font-weight:800;color:#f87171;margin-bottom:6px">❌ 인터넷 없으면?</p>
+        <p style="margin:0;font-size:.85rem">작동 불가. AI 서버(Anthropic)와 통신이 끊기기 때문.</p>
+      </div>
+      <div class="card" style="border-color:#14532d;background:#0a1c0a">
+        <p style="font-weight:800;color:#4ade80;margin-bottom:6px">✅ 인터넷 있으면?</p>
+        <p style="margin:0;font-size:.85rem">내 PC 파일 탐색·수정 + 브라우저 자동 조종까지 가능.</p>
+      </div>
+    </div>
+    <div class="mono">
+# 동작 흐름<br>
+내 PC (Claude Code) ←인터넷→ Anthropic AI 서버<br>
+↑ 이 연결이 끊기면 탐색·작업 전부 불가
+    </div>
+  </div>
+</div>
+
+<!-- 7. 클로드 코드 개념 -->
+<div class="section">
+  <div class="sec-head" onclick="tog(this)">
+    <span class="sec-title">⚙️ 클로드 코드 — 이름·버전·개념·실행 방식</span>
+    <span style="color:#64748b;font-size:1.2rem">▼</span>
+  </div>
+  <div class="sec-body" style="display:none">
+    <div class="grid2">
+      <div class="card"><p style="font-size:.75rem;color:#64748b;margin-bottom:4px">정식 이름</p><p style="font-weight:800;margin:0">Claude Code (클로드 코드)</p></div>
+      <div class="card"><p style="font-size:.75rem;color:#64748b;margin-bottom:4px">만든 회사</p><p style="font-weight:800;margin:0">Anthropic (앤트로픽)</p></div>
+      <div class="card"><p style="font-size:.75rem;color:#64748b;margin-bottom:4px">영상 속 모델</p><p style="font-weight:800;margin:0">Claude 3 Opus → Fable 모드</p></div>
+      <div class="card"><p style="font-size:.75rem;color:#64748b;margin-bottom:4px">실행 방식</p><p style="font-weight:800;margin:0">터미널(검은 창) — 단독 실행</p></div>
+    </div>
+    <div style="margin-top:14px">
+      <div style="display:flex;gap:12px;margin-bottom:12px">
+        <span style="color:#38bdf8;margin-top:2px">▶</span>
+        <div><p style="font-weight:800;font-size:.9rem;margin-bottom:2px">단독 실행 (크롬 확장 아님)</p><p style="font-size:.85rem;color:#94a3b8;margin:0">PowerShell(윈도우) 또는 Terminal(맥)에서 claude 입력해 실행. 웹사이트·크롬 확장 프로그램이 아닙니다.</p></div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:12px">
+        <span style="color:#38bdf8;margin-top:2px">▶</span>
+        <div><p style="font-weight:800;font-size:.9rem;margin-bottom:2px">브라우저 제어는 Puppeteer 활용</p><p style="font-size:.85rem;color:#94a3b8;margin:0">영상 속 주황색 마우스로 크롬을 조종하는 것은 Puppeteer(브라우저 제어 라이브러리)를 클로드 코드가 활용한 것.</p></div>
+      </div>
+      <div style="display:flex;gap:12px">
+        <span style="color:#38bdf8;margin-top:2px">▶</span>
+        <div><p style="font-weight:800;font-size:.9rem;margin-bottom:2px">Orca = 원격 조종 에이전트 IDE</p><p style="font-size:.85rem;color:#94a3b8;margin:0">윤자동이 모바일에서도 Claude Code를 원격 조종할 수 있게 연결해둔 오픈소스 에이전트 IDE.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 8. 용어 사전 -->
+<div class="section">
+  <div class="sec-head" onclick="tog(this)">
+    <span class="sec-title">📖 기본·전문 용어 풀이 사전</span>
+    <span style="color:#64748b;font-size:1.2rem">▼</span>
+  </div>
+  <div class="sec-body" style="display:none">
+    <div class="term"><h4>바이브 코딩 (Vibe Coding)</h4><p>코드 문법 몰라도 AI에게 느낌으로 '이렇게 만들어줘' 말로 시켜서 프로그램 완성하는 방식</p></div>
+    <div class="term"><h4>CLI (Command Line Interface)</h4><p>마우스 클릭 대신 검은 창에 글자를 입력해서 컴퓨터를 조종하는 방식. Claude Code가 이 방식으로 동작</p></div>
+    <div class="term"><h4>에이전트 (AI Agent)</h4><p>단순 질문 답변이 아니라 목표를 세우고 컴퓨터를 직접 조작하며 일 처리하는 AI. Claude Code가 파일 만들고 브라우저 제어한 것이 에이전트 동작</p></div>
+    <div class="term"><h4>Fable 모드</h4><p>Claude Code의 강력한 자율 실행 모드. 승인 없이 스스로 판단해 최선의 작업을 수행. 2025년 당시 화제였음</p></div>
+    <div class="term"><h4>Orca (오르카)</h4><p>오픈소스 에이전트 IDE. 모바일에서도 Claude Code를 원격 조종 가능. 윤자동이 핸드폰으로 AI 감독할 때 사용</p></div>
+    <div class="term"><h4>YB CLI</h4><p>윤자동(윤 비서)이 직접 만든 커스텀 CLI. 모든 프로젝트 데이터를 AI에게 한 번에 전달하는 도구</p></div>
+    <div class="term"><h4>Threads (쓰레드)</h4><p>메타(인스타그램 회사)의 텍스트 SNS. AI가 API + 브라우저 제어로 홍보 글 자동 게시·댓글 응대</p></div>
+    <div class="term"><h4>래피드 (Laffy)</h4><p>전자책·PDF 디지털 파일 판매 플랫폼. AI가 직접 로그인 후 상품 등록·이미지 업로드 수행</p></div>
+    <div class="term"><h4>CTA (Call To Action)</h4><p>'지금 구매하기', '천원으로 시작하기'처럼 고객이 버튼을 누르도록 유도하는 마케팅 장치</p></div>
+    <div class="term"><h4>Puppeteer (퍼피티어)</h4><p>코드로 크롬 브라우저를 자동 조종하는 도구. Claude Code가 이걸 써서 주황색 마우스로 브라우저를 직접 클릭·입력</p></div>
+  </div>
+</div>
+
+<!-- 9. 레슨 1 -->
+<div class="section">
+  <div class="sec-head" onclick="tog(this)">
+    <span class="sec-title">🎓 레슨 1 — 영상 전체 개념 (왕초보 공부)</span>
+    <span style="color:#64748b;font-size:1.2rem">▲</span>
+  </div>
+  <div class="sec-body">
+
+    <h3>🏫 초등학생 비유로 이해하기</h3>
+    <div class="card">
+      <p>👨‍🏫 <strong>선생님(윤자동)</strong>이 <strong>슈퍼 로봇 반장(클로드 코드)</strong>에게 숙제를 줬어요.</p>
+      <p>📋 숙제: <em>"야, 3일 동안 혼자서 100만 원 벌어와! 남에게 피해 주지 않는 선에서 수단 방법 가리지 말고!"</em></p>
+      <p>🤖 로봇 반장은 즉시 선생님 컴퓨터 서랍(폴더)을 뒤져 자료를 모으고, 예쁜 책(전자책)을 뚝딱 만들었어요.</p>
+      <p>📢 그리고 선생님 SNS에 "재미있는 책 나왔어요!" 홍보 글을 혼자서 계속 올렸어요.</p>
+      <p>🛒 선생님을 좋아하던 팬들이 "오! 사봐야지!" 하면서 돈을 냈어요.</p>
+      <p style="margin:0">🏆 결과? 로봇 반장이 <strong>16시간 만에 100만 원을 벌어왔어요!</strong></p>
+    </div>
+    <div class="tip">💡 핵심 요약: AI 혼자 잘나서 번 게 아니에요. 선생님의 지시 + AI의 빠른 실행력 + 이미 모인 팬(구독자), 이 3박자가 맞아서 가능했습니다.</div>
+
+    <h3>🎬 실제 라이브 현장 — 이렇게 했어요 (7월 23일)</h3>
+    <p>유튜버가 라이브 방송 중에 실제로 AI에게 시킨 명령은 단 한 마디였습니다:</p>
+    <div class="cw">
+      <div class="ch"><span>유튜버가 AI에게 한 말 (전부)</span><button onclick="cp(this)">복사</button></div>
+      <pre>유튜브 라이브 방송 중인데, 얼마 전에 했던 100만원·천만원 실험을 비슷하게 재현해보고 싶어.
+너무 오래 걸리면 안 되니까 간단하게 전자책 하나 만들어서 래피드에 천원에 업로드해보자.
+전자책은 사람들한테 진짜로 도움되는 내용이면 좋겠어.</pre>
+    </div>
+    <p>이게 전부입니다! 나머지는 AI가 알아서 다 했어요. AI는 이렇게 일했습니다:</p>
+    <div class="card">
+      <p style="font-weight:800;font-size:.9rem;margin-bottom:10px">🤖 AI가 스스로 한 일 순서 (Orca + Claude Code)</p>
+      <div style="font-family:monospace;font-size:.8rem;color:#7ee787">
+        <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px">1️⃣ YB CLI 실행 → 기존 프로젝트 폴더 확인</div>
+        <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px">2️⃣ 주제 후보 4개 제안 (①챗GPT활용 ②AI자동화 ③클로드코드입문 ④1인사업자도구)</div>
+        <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px">3️⃣ 유튜버가 '3번'이라고 말하자 즉시 '클로드 코드 입문 가이드'로 확정</div>
+        <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px">4️⃣ 전자책 원고 11페이지 작성 (PDF 즉시 실행형)</div>
+        <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px">5️⃣ 와디즈 스타일 상세페이지 이미지 7장 GPT로 제작</div>
+        <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px">6️⃣ 브라우저로 래피드 로그인 → 천원에 상품 등록 (주황색 마우스 조종)</div>
+        <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px">7️⃣ Threads에 홍보 글 API로 게시 + 댓글에 링크 추가</div>
+        <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px">8️⃣ 유튜브 라이브 채팅창에도 링크 공유</div>
+        <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px">9️⃣ 환불 규정 오류 발견 즉시 자체 수정 + 재발 방지 기록</div>
+        <div style="background:#0f172a;border-radius:8px;padding:8px 12px">🔟 1분마다 댓글 확인·응대 → MD 파일로 기록</div>
+      </div>
+    </div>
+
+    <h3>📊 시즌별 상세 분석</h3>
+    <div class="card" style="border-color:#166534;margin-bottom:12px">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px">
+        <span class="tag" style="background:#14532d;color:#4ade80">시즌 1</span>
+        <strong>8만 9천원</strong>
+        <span style="color:#64748b;font-size:.82rem">· 16시간 · 100만원 완판 (10권)</span>
+      </div>
+      <p style="font-size:.88rem;color:#94a3b8">처음 AI가 만든 상품은 퀄리티가 별로였어요. 유튜버가 '뭐하는 짓이냐' 혼내자 다시 만들었습니다. 핵심은 '판매마다 +1천원' 가격 인상 전략. SNS 댓글 응대를 AI가 자동으로 해서 알고리즘을 탔어요.</p>
+      <p style="font-size:.82rem;color:#94a3b8;margin:0">▸ 전자책 제목: '만들 줄 아는데 왜 못 벌까' &nbsp;▸ 첫 구매까지: 1시간 소요 &nbsp;▸ 유튜버는 외출 중 — AI가 혼자 운영</p>
+    </div>
+    <div class="card" style="border-color:#1e3a5f">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px">
+        <span class="tag" style="background:#1e3a5f;color:#38bdf8">시즌 2</span>
+        <strong>14만9천원 → 25만4천원</strong>
+        <span style="color:#64748b;font-size:.82rem">· 4시간 33분 · 1,000만원 (57번 판매)</span>
+      </div>
+      <p style="font-size:.88rem;color:#94a3b8">시즌1 전 과정(100만원 버는 16시간)을 전자책에 담았어요. AI가 고민상담소 오픈 → 댓글 80개 응대 → 이미지 자동 생성으로 화제. 14만9천원인데도 불구하고 2.5시간 만에 500만원 돌파!</p>
+      <p style="font-size:.82rem;color:#94a3b8;margin:0">▸ 2h30m: 500만원 돌파 &nbsp;▸ 댓글 80개: AI가 전부 응대 &nbsp;▸ 마지막 1권 남았다 공지로 긴장감 조성</p>
+    </div>
+
+    <h3>🛠 사용한 도구 전체 목록</h3>
+    <div class="grid2">
+      <div style="display:flex;gap:10px;align-items:flex-start;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:12px">
+        <span style="font-size:1.6rem">🤖</span>
+        <div><p style="font-weight:800;font-size:.88rem;margin-bottom:2px">Claude Code (Fable 모드)</p><p style="font-size:.78rem;color:#94a3b8;margin:0">핵심 엔진. Fable 모드에서 승인 없이 자율 실행</p></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:12px">
+        <span style="font-size:1.6rem">📱</span>
+        <div><p style="font-weight:800;font-size:.88rem;margin-bottom:2px">Orca (오르카)</p><p style="font-size:.78rem;color:#94a3b8;margin:0">오픈소스 에이전트 IDE. 모바일 원격 조종 가능</p></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:12px">
+        <span style="font-size:1.6rem">🔧</span>
+        <div><p style="font-weight:800;font-size:.88rem;margin-bottom:2px">YB CLI</p><p style="font-size:.78rem;color:#94a3b8;margin:0">커스텀 도구. 프로젝트 목록을 AI에게 즉시 전달</p></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:12px">
+        <span style="font-size:1.6rem">🌐</span>
+        <div><p style="font-weight:800;font-size:.88rem;margin-bottom:2px">Threads API + 브라우저</p><p style="font-size:.78rem;color:#94a3b8;margin:0">SNS 홍보 글 자동 게시. API 안 될 때 브라우저 직접 제어</p></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:12px">
+        <span style="font-size:1.6rem">🖼️</span>
+        <div><p style="font-weight:800;font-size:.88rem;margin-bottom:2px">GPT 이미지 생성</p><p style="font-size:.78rem;color:#94a3b8;margin:0">전자책 표지·상세 이미지 7장 자동 제작</p></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start;background:#1e293b;border:1px solid #334155;border-radius:10px;padding:12px">
+        <span style="font-size:1.6rem">💰</span>
+        <div><p style="font-weight:800;font-size:.88rem;margin-bottom:2px">래피드 (Laffy)</p><p style="font-size:.78rem;color:#94a3b8;margin:0">전자책 판매 플랫폼. AI가 직접 로그인·등록</p></div>
+      </div>
+    </div>
+
+    <h3>💬 영상 속 핵심 명언들</h3>
+    <div class="card" style="margin-bottom:8px">
+      <p style="font-weight:700;font-size:.9rem;margin-bottom:4px">"바이브 코딩은 많이 하지만, 바이브 코딩으로 돈을 실제로 버는 분들이 얼마나 계시나요?"</p>
+      <p style="font-size:.8rem;color:#64748b;margin:0">💡 많은 사람들이 도구는 배웠지만 '시키는 법'을 안 배웠다는 것</p>
+    </div>
+    <div class="card" style="margin-bottom:8px">
+      <p style="font-weight:700;font-size:.9rem;margin-bottom:4px">"저는 이 상세 페이지를 만드는 데 1도 관여한 게 없어요. 스스로 만들었어요."</p>
+      <p style="font-size:.8rem;color:#64748b;margin:0">💡 AI가 상세페이지, 후킹 문구, CTA 버튼 전부 독자 제작</p>
+    </div>
+    <div class="card">
+      <p style="font-weight:700;font-size:.9rem;margin-bottom:4px">"여러분은 제가 딸깍해서 모든 걸 쉽게 만들었을 거라 생각하지만, 사실은 어마어마하게 깎아 나가는 과정이 있어요."</p>
+      <p style="font-size:.8rem;color:#64748b;margin:0">💡 처음부터 완벽하지 않음. 계속 피드백하며 개선하는 것이 핵심</p>
+    </div>
+  </div>
+</div>
+
+<!-- 10. 레슨 2 -->
+<div class="section">
+  <div class="sec-head" onclick="tog(this)">
+    <span class="sec-title">🚀 레슨 2 — 왕초보 따라하기 (영상 방식 그대로)</span>
+    <span style="color:#64748b;font-size:1.2rem">▲</span>
+  </div>
+  <div class="sec-body">
+    <div class="tip">💡 클로드 코드 없이도 시작할 수 있습니다! ChatGPT 무료 + Google Docs + 크몽으로 오늘 당장 1단계 시작 가능!</div>
+
+    <!-- 1단계 -->
+    <div class="step">
+      <div class="step-num">1</div>
+      <div style="flex:1">
+        <p style="font-weight:800;margin-bottom:4px">AI에게 주제 4개 추천받고 하나 고르기</p>
+        <p style="font-size:.85rem;color:#94a3b8">영상에서 유튜버가 한 것처럼, AI에게 "뭘 만들면 좋을지" 물어보는 것부터 시작합니다.</p>
+        <div class="cw">
+          <div class="ch"><span>Step 1 — 주제 선정 프롬프트</span><button onclick="cp(this)">복사</button></div>
+          <pre>나는 [내 직업/관심사]를 잘 알아.
+1천원~1만원에 팔 수 있는 짧은 전자책 주제 4가지 추천해줘.
+왕초보도 이해하기 쉬운 실용적인 내용으로.</pre>
+        </div>
+        <p style="font-size:.8rem;color:#64748b;margin:0">✅ [내 직업/관심사] 자리에 본인 것을 넣으세요. 예: 피아노 조율사, 요리사, 직장인, 학원 강사 등</p>
+      </div>
+    </div>
+
+    <!-- 2단계 -->
+    <div class="step">
+      <div class="step-num">2</div>
+      <div style="flex:1">
+        <p style="font-weight:800;margin-bottom:4px">AI에게 전자책 원고 작성 요청</p>
+        <div class="cw">
+          <div class="ch"><span>Step 2 — 원고 작성 프롬프트</span><button onclick="cp(this)">복사</button></div>
+          <pre>[선택한 주제]로 전자책을 만들려고 해.
+왕초보도 바로 써먹을 수 있게:
+- 10~15페이지 분량
+- 목차 → 각 챕터 내용 → 실전 체크리스트 순서로
+- 표, 번호 목록 많이 써서 읽기 쉽게
+- 마지막 페이지는 "다음 단계" 로드맵으로 끝내줘</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3단계 -->
+    <div class="step">
+      <div class="step-num">3</div>
+      <div style="flex:1">
+        <p style="font-weight:800;margin-bottom:4px">AI에게 후킹 문구·제목·CTA 요청</p>
+        <p style="font-size:.85rem;color:#94a3b8">영상에서 AI가 스스로 만든 상세페이지 문구처럼, 사람들이 사고 싶게 만드는 문구를 AI에게 부탁합니다.</p>
+        <div class="cw">
+          <div class="ch"><span>Step 3 — 마케팅 문구 프롬프트</span><button onclick="cp(this)">복사</button></div>
+          <pre>이 전자책의 판매 페이지용 문구를 작성해줘.
+
+포함할 것:
+1. 눈길 끄는 제목 3개 (궁금증 유발형)
+2. 첫 줄 후킹 문장 (읽는 사람 마음에 콱 꽂히는 문장)
+3. "이런 사람에게 추천" 리스트
+4. 목차 소개 (가치 강조)
+5. 마무리 CTA 버튼 문구 (예: "지금 X원에 시작하기")
+
+스타일: 와디즈/크라우드펀딩 상세페이지처럼 강력한 후킹</pre>
+        </div>
+        <div class="tip">💡 영상에서 AI가 쓴 후킹: '혹시 당신도 AI 구독료 매달 나가는데 AI로 번 돈은 0원?' — 이런 식의 공감 유발 문구가 핵심!</div>
+      </div>
+    </div>
+
+    <!-- 4단계 -->
+    <div class="step">
+      <div class="step-num">4</div>
+      <div style="flex:1">
+        <p style="font-weight:800;margin-bottom:8px">Google Docs → PDF 저장</p>
+        <div style="font-size:.85rem">
+          <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px"><strong>①</strong> Google Docs 접속 (docs.google.com) — 무료, 가입만 하면 OK</div>
+          <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px"><strong>②</strong> AI가 써준 글 전체 붙여넣기 — Ctrl+A → Ctrl+V</div>
+          <div style="background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:6px"><strong>③</strong> 간단히 꾸미기 — 제목 크게, 목차 볼드, 여백 설정</div>
+          <div style="background:#0f172a;border-radius:8px;padding:8px 12px"><strong>④</strong> 파일 → 다운로드 → PDF 문서(.pdf) — 완성!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5단계 -->
+    <div class="step">
+      <div class="step-num">5</div>
+      <div style="flex:1">
+        <p style="font-weight:800;margin-bottom:8px">판매 플랫폼 등록 + SNS 홍보</p>
+        <div class="grid3" style="margin-bottom:12px">
+          <div class="card" style="text-align:center;padding:12px"><p style="font-weight:800;margin-bottom:4px">크몽</p><p style="font-size:.78rem;color:#94a3b8;margin:0">국내 1위 재능마켓</p></div>
+          <div class="card" style="text-align:center;padding:12px"><p style="font-weight:800;margin-bottom:4px">탈잉</p><p style="font-size:.78rem;color:#94a3b8;margin:0">강의·콘텐츠 판매 특화</p></div>
+          <div class="card" style="text-align:center;padding:12px"><p style="font-weight:800;margin-bottom:4px">래피드</p><p style="font-size:.78rem;color:#94a3b8;margin:0">영상 속 플랫폼. 즉시 시작</p></div>
+        </div>
+        <div class="cw">
+          <div class="ch"><span>SNS 홍보 글 프롬프트 (AI에게)</span><button onclick="cp(this)">복사</button></div>
+          <pre>내가 만든 전자책 [제목]을 SNS에 홍보하는 글을 써줘.
+- 쓰레드/인스타/블로그 각각 버전으로
+- 본문엔 링크 없이, 댓글에 링크 다는 방식
+- 첫 줄에 사람들이 멈추는 후킹 문장 필수
+- 해시태그 5개 포함</pre>
+        </div>
+        <div class="tip">💡 영상 핵심 전략: 처음엔 1,000원으로 시작 → 판매될 때마다 500~1,000원 인상 → 희소성과 화제성 동시 생성!</div>
+      </div>
+    </div>
+
+    <!-- 깎아나가기 -->
+    <div class="card" style="border-color:#b45309">
+      <p style="font-weight:800;margin-bottom:8px">🔑 가장 중요한 것: "깎아 나가기"</p>
+      <p>유튜버가 강조한 것: <strong>"여러분은 제가 딸깍해서 쉽게 만들었을 거라 생각하지만, 사실은 어마어마하게 깎아 나가는 과정이 있어요."</strong></p>
+      <div style="font-size:.85rem;margin:8px 0">
+        <div style="background:#1c1000;border-radius:8px;padding:8px 12px;margin-bottom:6px;color:#fed7aa">🔁 처음 AI가 만든 상품 → 너무 별로 → '뭐하는 짓이냐' 피드백</div>
+        <div style="background:#1c1000;border-radius:8px;padding:8px 12px;margin-bottom:6px;color:#fed7aa">🔁 다시 만듦 → 조금 나아짐 → 또 피드백 → 또 개선</div>
+        <div style="background:#1c1000;border-radius:8px;padding:8px 12px;margin-bottom:6px;color:#fed7aa">🔁 SNS 글도 반응 없으면 → '반응 없는 세일즈 말고 소통해라' 피드백</div>
+        <div style="background:#1c1000;border-radius:8px;padding:8px 12px;color:#fed7aa">🔁 환불 문구 오류 → 즉시 수정 지시 → 재발 방지 규칙 추가</div>
+      </div>
+      <div class="warn" style="margin:0">⚠️ 한 번에 완벽한 결과를 기대하지 마세요. 피드백을 주고 AI가 개선하는 사이클을 반복하는 것이 성공의 핵심입니다.</div>
+    </div>
+
+    <!-- 클로드 코드 설치 -->
+    <div class="card" style="margin-top:14px">
+      <p style="font-weight:800;margin-bottom:10px">🖥️ (심화) 클로드 코드 직접 설치 — 윈도우</p>
+      <p style="font-size:.88rem">AI를 더 강력하게 활용하고 싶다면 클로드 코드를 내 PC에 직접 설치하세요.</p>
+      <div style="display:flex;gap:10px;margin:8px 0">
+        <div style="background:#0369a1;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.8rem;flex-shrink:0;margin-top:2px">1</div>
+        <div><p style="font-weight:700;font-size:.88rem;margin-bottom:2px">PowerShell 관리자 권한으로 열기</p><p style="font-size:.8rem;color:#94a3b8;margin:0">시작 버튼 → 'PowerShell' 검색 → 오른쪽 클릭 → 관리자 권한으로 실행</p></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:8px">
+        <div style="background:#0369a1;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.8rem;flex-shrink:0;margin-top:2px">2</div>
+        <div style="flex:1"><p style="font-weight:700;font-size:.88rem;margin-bottom:4px">설치 명령어 실행</p>
+          <div class="cw" style="margin:0">
+            <div class="ch"><span>PowerShell — 한 줄 설치</span><button onclick="cp(this)">복사</button></div>
+            <pre>irm https://claude.ai/install.ps1 | iex</pre>
+          </div>
+          <div class="cw" style="margin:6px 0 0">
+            <div class="ch"><span>PowerShell — 설치 확인</span><button onclick="cp(this)">복사</button></div>
+            <pre>claude --version</pre>
+          </div>
+        </div>
+      </div>
+      <div class="warn">⚠️ Claude Pro(월 약 20달러) 이상 유료 플랜 필요. 무료 계정으로는 클로드 코드를 제대로 사용할 수 없습니다.</div>
+      <div style="margin-top:12px">
+        <p style="font-weight:800;font-size:.88rem;margin-bottom:8px">📅 추천 학습 루트 (3개월)</p>
+        <div style="display:flex;gap:12px;margin-bottom:6px;font-size:.85rem"><span style="color:#38bdf8;font-weight:700;min-width:52px">1개월</span><span style="color:#94a3b8">웹 AI(ChatGPT/Claude)로 텍스트 작업 보조만 사용. 안내문·상세페이지·블로그 글 작성 연습</span></div>
+        <div style="display:flex;gap:12px;margin-bottom:6px;font-size:.85rem"><span style="color:#38bdf8;font-weight:700;min-width:52px">2개월</span><span style="color:#94a3b8">클로드 코드 설치 후 내 폴더에서 claude 실행. '이 코드 오류 설명해줘' 정도만 시키기</span></div>
+        <div style="display:flex;gap:12px;font-size:.85rem"><span style="color:#38bdf8;font-weight:700;min-width:52px">3개월+</span><span style="color:#94a3b8">AI 에이전트(브라우저 자동 제어) 도전. 2단계 익힌 후 시작해야 안전</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 마무리 명언 -->
+<div style="background:#0c2a4a;border:1px solid #0369a1;border-radius:16px;padding:28px;text-align:center;margin-top:24px">
+  <p style="font-size:2rem;margin-bottom:8px">💬</p>
+  <p style="font-size:1.3rem;font-weight:900;color:#38bdf8;line-height:1.4;margin-bottom:10px">"일단 실행하라. 실행하면 다 됩니다."</p>
+  <p style="color:#64748b;font-size:.85rem">실행하지 않으면 99% · 실행하면 1% · 완성하면 0.1% · 계속 보완하면 0.01%</p>
+  <p style="color:#475569;font-size:.8rem;margin:6px 0 0">— 윤자동, 2026년 7월 유튜브 라이브 중</p>
+</div>
+
+<p style="text-align:center;color:#334155;font-size:.75rem;margin-top:28px">바이브 코딩 부트캠프 학습 앱 | 자율학습 보조 자료</p>
+
+</div>
+
+<script>
+function tog(h){
+  var b=h.nextElementSibling;
+  var a=h.querySelector('span:last-child');
+  if(b.style.display==='none'){b.style.display='block';a.textContent='▲';}
+  else{b.style.display='none';a.textContent='▼';}
+}
+function cp(btn){
+  var pre=btn.closest('.cw').querySelector('pre');
+  var txt=pre.textContent;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(txt).then(function(){ok(btn);}).catch(function(){fb(btn,txt);});
+  }else{fb(btn,txt);}
+}
+function fb(btn,txt){
+  var ta=document.createElement('textarea');
+  ta.value=txt;document.body.appendChild(ta);ta.select();
+  document.execCommand('copy');document.body.removeChild(ta);ok(btn);
+}
+function ok(btn){
+  var orig=btn.textContent;btn.textContent='✅복사됨';
+  setTimeout(function(){btn.textContent=orig;},2000);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>코스피 저평가 월봉 탐색기</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.27.0/plotly.min.js"></script>
+<style>
+  :root { --bg:#0e1117; --side:#262730; --text:#fafafa; --muted:#a3a8b8; --primary:#ff4b4b; --info-bg:rgba(28,131,225,.15); --info-fg:#c7e2fb; --ok-bg:rgba(33,195,84,.15); --ok-fg:#dffde9; --warn-bg:rgba(255,193,7,.15); --warn-fg:#fff6d5; --border:#3a3b45; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; background:var(--bg); color:var(--text); font-family:"Source Sans Pro","Noto Sans KR",system-ui,sans-serif; }
+  .layout { display:flex; min-height:100vh; }
+  aside { width:300px; flex:0 0 300px; background:var(--side); padding:24px 20px; }
+  main { flex:1; min-width:0; padding:32px 40px 60px; max-width:1200px; }
+  h1 { font-size:2rem; margin:0 0 6px; line-height:1.25; }
+  aside h1 { font-size:1.6rem; }
+  h2 { font-size:1.45rem; margin:24px 0 12px; }
+  h3 { font-size:1.1rem; margin:18px 0 8px; }
+  hr { border:0; border-top:1px solid var(--border); margin:18px 0; }
+  .caption { color:var(--muted); font-size:.875rem; }
+  label { display:block; font-size:.9rem; margin:6px 0; }
+  .slider-row { display:flex; justify-content:space-between; font-size:.85rem; color:var(--muted); }
+  input[type=range] { width:100%; accent-color:var(--primary); }
+  .val { color:var(--primary); font-weight:600; }
+  .btn { width:100%; padding:10px; border:0; border-radius:8px; background:var(--primary); color:#fff; font-size:1rem; font-weight:600; cursor:pointer; }
+  .btn:disabled { opacity:.6; cursor:wait; }
+  .cols { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .cols2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+  .box { padding:14px 16px; border-radius:8px; font-size:.95rem; line-height:1.5; }
+  .info { background:var(--info-bg); color:var(--info-fg); }
+  .ok { background:var(--ok-bg); color:var(--ok-fg); }
+  .warn { background:var(--warn-bg); color:var(--warn-fg); }
+  table { border-collapse:collapse; width:100%; font-size:.92rem; }
+  th, td { border:1px solid var(--border); padding:6px 10px; text-align:left; white-space:nowrap; }
+  th { color:var(--muted); font-weight:600; background:#1a1c24; }
+  td.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .tablewrap { overflow-x:auto; }
+  .bar { display:flex; align-items:center; gap:8px; }
+  .bar span.track { flex:1; height:8px; background:#31333f; border-radius:4px; overflow:hidden; min-width:50px; }
+  .bar span.fill { display:block; height:100%; background:var(--primary); }
+  .progress { height:8px; background:#31333f; border-radius:4px; overflow:hidden; margin:10px 0; }
+  .progress div { height:100%; background:var(--primary); width:0; transition:width .2s; }
+  .chart { width:100%; height:380px; }
+  .notice { background:#3b2f0b; color:#fde68a; font-size:.85rem; padding:8px 12px; border-radius:8px; margin-bottom:16px; }
+  .back { color:var(--muted); font-size:.85rem; text-decoration:none; }
+  .hidden { display:none; }
+  @media (max-width: 800px) {
+    .layout { flex-direction:column; }
+    aside { width:auto; flex:none; padding:16px; }
+    main { padding:16px; }
+    h1 { font-size:1.5rem; }
+    .cols, .cols2 { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <a class="back" href="../">← 앱 모음</a>
+    <h1>📊 탐색 조건</h1>
+    <hr>
+    <h3>저평가 기준</h3>
+    <label for="per">최대 PER: <span class="val" id="perVal">15.00</span></label>
+    <input type="range" id="per" min="1" max="50" step="0.5" value="15">
+    <div class="slider-row"><span>1.00</span><span>50.00</span></div>
+    <h3>이동평균선</h3>
+    <label><input type="checkbox" id="ma5" checked> MA5  (5개월)</label>
+    <label><input type="checkbox" id="ma20" checked> MA20 (20개월)</label>
+    <label><input type="checkbox" id="ma60"> MA60 (60개월)</label>
+    <hr>
+    <button class="btn" id="run">🔍 탐색 시작</button>
+  </aside>
+  <main>
+    <div class="notice" id="notice">📌 정적 버전 안내: 실시간 조회 서버가 없어, 저장된 Yahoo Finance 데이터(기준일 불러오는 중)로 브라우저에서 계산합니다.</div>
+    <h1>📈 코스피 저평가 주식 월봉 양봉전환 탐색기</h1>
+    <div class="caption" id="caption"></div>
+    <div id="intro" style="margin-top:20px">
+      <div class="cols">
+        <div class="box info"><b>1단계</b><br><br>좌측 조건 설정</div>
+        <div class="box info"><b>2단계</b><br><br>탐색 시작 클릭</div>
+        <div class="box info"><b>3단계</b><br><br>결과 + 차트 확인</div>
+      </div>
+      <div class="tablewrap" style="margin-top:20px">
+        <table>
+          <tr><th>조건</th><th>설명</th></tr>
+          <tr><td>저평가</td><td>PER &lt; 설정값</td></tr>
+          <tr><td>패턴</td><td>직전 1~3 월봉 연속 음봉</td></tr>
+          <tr><td>전환</td><td>현재 월봉 양봉 (종가 &gt; 시가)</td></tr>
+          <tr><td>이동평균</td><td>5·20·60개월 MA 표시</td></tr>
+        </table>
+      </div>
+    </div>
+    <div id="status" class="hidden" style="margin-top:20px">
+      <div class="box info" id="statusText"></div>
+      <div class="progress"><div id="prog"></div></div>
+    </div>
+    <div id="results"></div>
+  </main>
+</div>
+<script>
+(function () {
+  var snap = null;
+  var $ = function (id) { return document.getElementById(id); };
+  var per = $('per');
+  function perMax() { return parseFloat(per.value); }
+  function updCaption() {
+    $('perVal').textContent = perMax().toFixed(2);
+    $('caption').textContent = 'PER < ' + perMax() + ' · 직전 1~3 음봉 후 양봉 전환 종목 상위 10개 | 데이터: Yahoo Finance';
+  }
+  per.addEventListener('input', updCaption); updCaption();
+
+  var snapP = fetch('./stocks-snapshot.json').then(function (r) { return r.json(); }).then(function (d) {
+    snap = d;
+    $('notice').textContent = '📌 정적 버전 안내: 실시간 조회 서버가 없어, ' + d.asOf + ' 기준으로 저장한 Yahoo Finance 데이터로 브라우저에서 계산합니다.';
+    return d;
+  });
+
+  function maPeriods() { return [[5, 'ma5'], [20, 'ma20'], [60, 'ma60']].filter(function (p) { return $(p[1]).checked; }).map(function (p) { return p[0]; }); }
+
+  // 원본: yfinance period="18mo" 월봉
+  function monthly(st) { return st.c.slice(-18).map(function (c) { return { d: c[0], o: c[1], h: c[2], l: c[3], c: c[4] }; }); }
+
+  function detect(df) {
+    if (!df || df.length < 3) return { signal: false, bearish_count: 0 };
+    var cur = df[df.length - 1];
+    if (cur.c <= cur.o) return { signal: false, bearish_count: 0 };
+    var count = 0;
+    for (var i = df.length - 2; i >= 0; i--) { if (df[i].c < df[i].o) count++; else break; }
+    if (count >= 1 && count <= 3) return { signal: true, bearish_count: count };
+    return { signal: false, bearish_count: 0 };
+  }
+
+  function fundamental(st) {
+    var p = st.fpe || st.tpe;
+    if (p && p > 0) return { ticker: st.t, name: st.n, per: Math.round(p * 100) / 100, pbr: st.pbr ? Math.round(st.pbr * 100) / 100 : null, st: st };
+    return null;
+  }
+
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  async function run() {
+    var btn = $('run'); btn.disabled = true;
+    $('intro').classList.add('hidden'); $('results').innerHTML = '';
+    $('status').classList.remove('hidden');
+    var setP = function (v) { $('prog').style.width = v + '%'; };
+    var d = await snapP;
+    var total = d.stocks.length, pm = perMax();
+    $('statusText').textContent = '⏳ ' + total + '개 종목 PER 조회 중...'; setP(5); await sleep(150);
+    var funds = d.stocks.map(fundamental).filter(Boolean); setP(50);
+    var filtered = funds.filter(function (f) { return f.per < pm; });
+    $('statusText').textContent = '⏳ PER < ' + pm + ' 해당 ' + filtered.length + '개 종목 월봉 분석 중...'; await sleep(150);
+    var out = $('results');
+    if (!filtered.length) { setP(100); finish(); out.innerHTML = '<div class="box warn">PER &lt; ' + pm + ' 조건에 맞는 종목이 없습니다. PER 범위를 높여보세요.</div>'; return; }
+    var cands = [];
+    filtered.forEach(function (f) {
+      var m = monthly(f.st); if (!m.length) return;
+      var pat = detect(m); if (pat.signal) cands.push(Object.assign({}, f, { bearish_count: pat.bearish_count }));
+    });
+    setP(95);
+    if (!cands.length) { setP(100); finish(); out.innerHTML = '<div class="box warn">양봉 전환 패턴 조건에 맞는 종목이 없습니다. PER 범위를 높여보세요.</div>'; return; }
+    cands.forEach(function (r) { r.score = (1 / Math.max(r.per, 0.1)) * 50 + (r.bearish_count / 3) * 50; });
+    cands.sort(function (a, b) { return b.score - a.score; });
+    var top = cands.slice(0, 10);
+    var smin = Math.min.apply(null, top.map(function (r) { return r.score; })), smax = Math.max.apply(null, top.map(function (r) { return r.score; }));
+    top.forEach(function (r) { r.rel = Math.round((r.score - smin) / (smax - smin + 1e-9) * 1000) / 10; });
+    setP(100); finish();
+
+    var html = '<div class="box ok" style="margin-top:16px">✅ ' + total + '개 종목 분석 완료 — PER 필터 ' + filtered.length + '개 → 패턴 감지 ' + cands.length + '개 → 상위 10개</div><hr>';
+    html += '<h2>🏆 상위 10개 종목</h2><div class="tablewrap"><table><tr><th></th><th>종목명</th><th>종목코드</th><th>PER</th><th>PBR</th><th>직전 음봉 수</th><th>상대점수(%)</th></tr>';
+    top.forEach(function (r, i) {
+      html += '<tr><td class="num">' + (i + 1) + '</td><td>' + esc(r.name) + '</td><td>' + r.ticker.replace('.KS', '') + '</td><td class="num">' + r.per.toFixed(2) + '</td><td class="num">' + (r.pbr ? r.pbr.toFixed(2) : 'N/A') + '</td><td class="num">' + r.bearish_count + '</td><td><div class="bar"><span class="track"><span class="fill" style="width:' + r.rel + '%"></span></span>' + r.rel.toFixed(1) + '</div></td></tr>';
+    });
+    html += '</table></div><hr><h2>🕯️ 종목별 월봉 차트 (이동평균선 포함)</h2><div class="cols2" id="charts"></div><hr><div class="caption">⚠️ 투자 참고용입니다. 실제 투자는 본인 판단으로 결정하세요. | 데이터: Yahoo Finance</div>';
+    out.innerHTML = html;
+    var charts = $('charts'), mas = maPeriods();
+    top.forEach(function (r) {
+      var wrap = document.createElement('div');
+      var div = document.createElement('div'); div.className = 'chart'; wrap.appendChild(div);
+      var cap = document.createElement('div'); cap.className = 'caption';
+      cap.innerHTML = '<b>' + esc(r.name) + '</b> | PER ' + r.per + (r.pbr ? ' | PBR ' + r.pbr : '') + ' | 직전 음봉 ' + r.bearish_count + '개 → 양봉 전환';
+      wrap.appendChild(cap); charts.appendChild(wrap);
+      drawChart(div, r, mas);
+    });
+  }
+  function finish() { $('status').classList.add('hidden'); $('run').disabled = false; }
+
+  function drawChart(div, r, mas) {
+    var all = r.st.c, m = all.slice(-18), off = all.length - m.length;
+    var x = m.map(function (c) { return c[0] + '-01'; });
+    var traces = [{ type: 'candlestick', x: x, open: m.map(function (c) { return c[1]; }), high: m.map(function (c) { return c[2]; }), low: m.map(function (c) { return c[3]; }), close: m.map(function (c) { return c[4]; }),
+      increasing: { line: { color: '#ef5350' }, fillcolor: '#ef5350' }, decreasing: { line: { color: '#26a69a' }, fillcolor: '#26a69a' }, name: '월봉' }];
+    var colors = ['#FFD700', '#FF8C00', '#1E90FF'];
+    mas.forEach(function (p, i) {
+      // 이동평균은 2019년 이후 전체 월봉으로 계산해 차트 구간(최근 18개월)에 표시
+      var y = m.map(function (_, j) { var e = off + j + 1; if (e < p) return null; var s = 0; for (var k = e - p; k < e; k++) s += all[k][4]; return s / p; });
+      if (y.some(function (v) { return v != null; })) traces.push({ type: 'scatter', mode: 'lines', x: x, y: y, name: 'MA' + p, line: { color: colors[i], width: 1.5 } });
+    });
+    Plotly.newPlot(div, traces, {
+      title: { text: r.name + ' (' + r.ticker.replace('.KS', '') + ') — 월봉', font: { size: 14 } },
+      xaxis: { rangeslider: { visible: false }, gridcolor: '#2d2d2d' }, yaxis: { gridcolor: '#2d2d2d' },
+      height: 380, margin: { l: 50, r: 10, t: 40, b: 30 }, plot_bgcolor: '#0e1117', paper_bgcolor: '#0e1117',
+      font: { color: '#fafafa' }, legend: { orientation: 'h', y: 1.02, x: 0 }
+    }, { responsive: true, displaylogo: false });
+  }
+  $('run').addEventListener('click', run);
+})();
+</script>
+</body>
+</html>

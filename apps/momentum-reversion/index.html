@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Momentum Reversion</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;--acc:#2563eb;--accbg:#eff6ff;--ok:#047857;--okbg:#ecfdf5}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1115;--card:#171a21;--ink:#e5e7eb;--muted:#9ca3af;--line:#2a2f3a;--acc:#60a5fa;--accbg:#172033;--ok:#34d399;--okbg:#0f2a22}}
+*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;overflow-wrap:anywhere}
+.w{max-width:760px;margin:0 auto;padding:16px}a{color:var(--acc)}.back{font-size:.85rem;color:var(--muted);text-decoration:none}
+h1{font-size:1.5rem;margin:.6rem 0 .2rem}h2{font-size:1.15rem;margin:1.4rem 0 .5rem}h3{font-size:1rem;margin:.9rem 0 .3rem}
+.sub{color:var(--muted);margin:0 0 1rem}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+.note{background:var(--accbg);border-radius:10px;padding:10px 12px;font-size:.92rem}
+.badge{display:inline-block;font-size:.75rem;padding:2px 8px;border-radius:99px;background:var(--okbg);color:var(--ok);font-weight:600}
+textarea{width:100%;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px}
+button{font:inherit;border:0;background:var(--acc);color:#fff;border-radius:8px;padding:7px 14px;cursor:pointer}
+.tbl{width:100%;border-collapse:collapse;font-size:.9rem}.tbl th,.tbl td{border-top:1px solid var(--line);padding:7px 6px;text-align:left;vertical-align:top}.tbl th{width:34%;color:var(--muted);font-weight:600}
+pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:.88rem;margin:.4rem 0}
+ul,ol{padding-left:1.2rem}li{margin:.2rem 0}
+.step{display:flex;gap:10px;align-items:flex-start}.step input{margin-top:.35rem;width:18px;height:18px;flex:none}
+.prog{height:8px;background:var(--line);border-radius:99px;overflow:hidden}.prog>i{display:block;height:100%;background:var(--acc);width:0}
+.foot{color:var(--muted);font-size:.8rem;margin:24px 0 8px}
+</style></head>
+<body><div class="w">
+<a class="back" href="../">← 앱 모음</a>
+<h1>Momentum Reversion</h1>
+<p class="sub">Replit 프로젝트 정적판 <span class="badge">거의 빈 템플릿</span></p>
+<div class="card note">원본 Replit 프로젝트는 기본 pnpm 모노레포 템플릿(Express API 서버 + 목업 샌드박스) 상태로, 화면·기능이 아직 만들어지지 않았습니다. 원본에 있던 유일한 API는 상태 확인(<code>/api/healthz</code>)이며, 아래에 그 결과를 정적으로 보여줍니다.</div>
+<div class="card"><h3>서버 상태 (정적)</h3><pre id="hz"></pre>
+<table class="tbl"><tr><th>구성</th><td>pnpm 워크스페이스, Node.js 24, TypeScript 5.9</td></tr>
+<tr><th>API</th><td>Express 5 (정적판에서는 서버 없음)</td></tr>
+<tr><th>DB</th><td>PostgreSQL + Drizzle ORM (정의된 테이블 없음)</td></tr>
+<tr><th>검증 · 코드 생성</th><td>Zod, Orval (OpenAPI)</td></tr></table></div>
+<div class="card"><h3>아이디어 메모</h3><p class="sub" style="margin:.2rem 0 .5rem">이 앱으로 만들고 싶었던 내용을 적어 두세요. 이 브라우저에만 저장됩니다.</p>
+<textarea id="memo" rows="6" placeholder="예: 기능, 화면 구성, 참고 링크…"></textarea>
+<p style="margin:.5rem 0 0"><button id="save">저장</button> <span id="st" class="sub"></span></p></div>
+<p class="foot">Replit에서 GitHub Pages 정적판으로 옮긴 페이지입니다.</p>
+</div><script>
+document.getElementById('hz').textContent=JSON.stringify({status:"ok"},null,2);
+var K='app:momentum-reversion:memo',m=document.getElementById('memo'),st=document.getElementById('st');
+try{m.value=localStorage.getItem(K)||''}catch(e){}
+document.getElementById('save').onclick=function(){try{localStorage.setItem(K,m.value);st.textContent='저장했습니다.'}catch(e){st.textContent='저장할 수 없습니다(브라우저 저장소 차단).'}};
+</script></body></html>
