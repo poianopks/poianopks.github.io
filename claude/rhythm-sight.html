@@ -60,6 +60,13 @@ details.step .sbody{padding:0 16px 16px}
 .lvnum{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:50%;background:var(--accent2);color:#fff;font-size:.95rem;margin-right:8px;vertical-align:middle}
 .dur td:first-child{font-size:1.6rem;text-align:center}
 #genScore{min-height:120px}
+.tdstep{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;margin-top:8px}
+.tdstep .tdn{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-weight:900}
+.tdstep.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 10%,var(--card))}
+.tdstep.ok .tdn{background:var(--good)}
+.tdstep .tdtxt{flex:1;min-width:200px}
+.tdprog{height:10px;border-radius:999px;background:var(--line);overflow:hidden;margin-top:6px}
+.tdprog span{display:block;height:100%;background:var(--good);width:0;transition:width .4s}
 .genbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .genbar select{font:inherit;font-weight:700;border:1.5px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--card);color:var(--ink);max-width:100%}
 </style>
@@ -69,6 +76,7 @@ details.step .sbody{padding:0 16px 16px}
   <div class="topbar">
     <span class="logo">🥁 리듬·시창 교실</span>
     <nav>
+      <a href="#today">오늘의 연습</a>
       <a href="#basics">음표 길이</a>
       <a href="#how">읽는 방법</a>
       <a href="#map">단계 지도</a>
@@ -95,6 +103,19 @@ details.step .sbody{padding:0 16px 16px}
       <text x="320" y="70" font-size="34">🥁</text>
     </svg>
   </div>
+
+  <section id="today">
+    <h2><span class="num">★</span>오늘의 연습 (10~15분)</h2>
+    <div class="card">
+      <div class="genbar"><b>지금 단계:</b> <select id="tdLevel" aria-label="연습 단계"></select></div>
+      <div class="tdstep" id="td1"><span class="tdn">1</span><span class="tdtxt"></span><button class="btn">곡 열기</button></div>
+      <div class="tdstep" id="td2"><span class="tdn">2</span><span class="tdtxt"></span><button class="btn alt">문제 풀러 가기</button></div>
+      <div class="tdstep" id="td3"><span class="tdn">3</span><span class="tdtxt"></span><button class="btn green">다음 단계로 →</button></div>
+      <p style="margin:10px 0 0;font-size:.9rem;color:var(--sub)">전체 진도 <b id="tdAll"></b></p>
+      <div class="tdprog"><span id="tdBar"></span></div>
+      <p style="margin:8px 0 0;font-size:.85rem;color:var(--sub)">진도는 이 기기(브라우저)에 저장돼요. 단계는 위에서 직접 바꿀 수도 있어요.</p>
+    </div>
+  </section>
 
   <section id="basics">
     <h2><span class="num">1</span>음표와 쉼표의 길이</h2>
@@ -205,6 +226,6 @@ details.step .sbody{padding:0 16px 16px}
 <script src="js/music-engine.js?v=20261108"></script>
 <script src="js/score-engine.js?v=20261108"></script>
 <script src="js/rhythm-sight-data.js?v=20261108"></script>
-<script src="js/rhythm-sight.js?v=20261108"></script>
+<script src="js/rhythm-sight.js?v=20261108b"></script>
 </body>
 </html>

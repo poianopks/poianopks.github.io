@@ -119,7 +119,7 @@ function startFollow(c,hand){
     onShow:function(s,i,n){msg(c,"다음 → <b>"+s.it.notes.map(function(x){return x.sol;}).join("·")+"</b>  ("+(i+1)+" / "+n+")");setTimeout(function(){SE.revealKeys(kbEl,s.midis);},30);},
     onPartial:function(s,left){msg(c,"좋아요! 나머지 파란 건반도 같이 눌러요");},
     onWrong:function(){var sc=$("sc"+c.id);sc.classList.remove("shake");void sc.offsetWidth;sc.classList.add("shake");msg(c,"앗! 다른 건반이에요. 악보의 음을 다시 읽어 봐요.","bad");},
-    onDone:function(){follow=null;followCard=null;ME.confetti();store("rs-done-"+c.id+"-"+hand,"1");$("star"+c.id).textContent=stars(c);
+    onDone:function(){follow=null;followCard=null;ME.confetti();store("rs-done-"+c.id+"-"+hand,"1");$("star"+c.id).textContent=stars(c);refreshToday();
       msg(c,"🎉 참 잘했어요! 이제 <b>계이름 보기</b>를 끄고 다시 읽어 봐요.","good");}});
   kbEl.scrollIntoView({behavior:"smooth",block:"center"});
 }
@@ -154,7 +154,7 @@ function makeQuestion(){
     });
     bars.push(toks);
   }
-  G.bars=bars;G.items=SE.parseBars(bars);G.lv=lv;drawQ();
+  G.bars=bars;G.items=SE.parseBars(bars);G.lv=lv;G.counted=false;drawQ();
   $("genMsg").innerHTML="① 박자표를 보고 <b>손뼉으로 리듬</b> → ② <b>계이름을 소리 내어</b> 읽기 → ③ <b>정답 보기·▶ 듣기</b>로 확인!";
 }
 function drawQ(){
@@ -164,7 +164,7 @@ function drawQ(){
 }
 genSel.onchange=makeQuestion;
 $("genNew").onclick=function(){SE.stopAll();$("genAns").setAttribute("aria-pressed","false");$("genAns").textContent="👀 정답(계이름) 보기";makeQuestion();};
-$("genAns").onclick=function(){var on=this.getAttribute("aria-pressed")!=="true";this.setAttribute("aria-pressed",on?"true":"false");this.textContent=on?"🙈 계이름 숨기기":"👀 정답(계이름) 보기";SE.stopAll();drawQ();};
+$("genAns").onclick=function(){var on=this.getAttribute("aria-pressed")!=="true";if(on&&!G.counted){G.counted=true;addGen();}this.setAttribute("aria-pressed",on?"true":"false");this.textContent=on?"🙈 계이름 숨기기":"👀 정답(계이름) 보기";SE.stopAll();drawQ();};
 function playQ(btn,rhythm){
   if(SE.cur()&&SE.cur().btn===btn){SE.stopAll();return;}
   SE.play([{el:$("genScore"),bars:barsOf(4,G.lv.sig,0,G.lv.bpm),parts:[{items:rhythm?rhythmItems(G.items):SE.audioItems(G.items),vel:.5},{items:G.items,prefix:"GQ-",audio:false,light:true}],beatsEl:null}],{btn:btn,countIn:true,metro:$("genMetro").checked});
@@ -174,5 +174,38 @@ $("genPlay").onclick=function(){playQ(this,false);};
 window.addEventListener("resize",debounce(drawQ,200));
 makeQuestion();
 
+/* ---------- 오늘의 연습 (1 오늘의 곡 → 2 시창 문제 3개 → 3 단계 마무리) ---------- */
+function today(){var d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();}
+function genCount(){return store("rs-gen-"+today())?+store("rs-gen-"+today()):0;}
+function addGen(){store("rs-gen-"+today(),String(genCount()+1));refreshToday();}
+function cardDone(c){return isDone(c.id,"R")&&(c.clef!=="grand"||isDone(c.id,"L"));}
+function curLevel(){
+  var saved=store("rs-level");if(saved!=null&&saved!=="")return +saved;
+  for(var i=0;i<D.length;i++){if(CARDS.filter(function(c){return c.li===i;}).some(function(c){return !cardDone(c);}))return i;}
+  return D.length-1;
+}
+function genLevelFor(li){for(var i=li;i>=0;i--)if(D[i].gen)return i;return 0;}
+function openCard(c){var d=$("ex"+c.id);if(!d.open){d.open=true;}c.draw();d.scrollIntoView({behavior:"smooth",block:"start"});}
+var tdSel=$("tdLevel");
+D.forEach(function(lv,i){var o=document.createElement("option");o.value=i;o.textContent=(i+1)+"단계 · "+lv.title;tdSel.appendChild(o);});
+tdSel.onchange=function(){store("rs-level",tdSel.value);refreshToday();};
+function refreshToday(){
+  var li=curLevel(),cards=CARDS.filter(function(c){return c.li===li;}),done=cards.filter(cardDone).length,next=cards.filter(function(c){return !cardDone(c);})[0];
+  tdSel.value=li;
+  var s1=$("td1"),s2=$("td2"),s3=$("td3"),g=genCount();
+  s1.className="tdstep"+(next?"":" ok");
+  s1.querySelector(".tdtxt").innerHTML=next?"오늘의 곡: <b>"+next.id+" "+next.ex.t+"</b> — 🥁 리듬 → 계이름 끄고 읽기 → ▶ 듣고 확인 → 🎹 따라치기(★)":"이 단계 곡을 모두 끝냈어요! ③으로 가요";
+  s1.querySelector("button").disabled=!next;s1.querySelector("button").onclick=function(){if(next)openCard(next);};
+  s2.className="tdstep"+(g>=3?" ok":"");
+  s2.querySelector(".tdtxt").innerHTML="🎲 시창 문제 <b>"+Math.min(g,3)+" / 3</b> — 먼저 읽고 <b>정답 보기</b>를 누르면 1개로 세요"+(g>3?" (오늘 "+g+"개 풀었어요!)":"");
+  s2.querySelector("button").onclick=function(){genSel.value=genLevelFor(li);makeQuestion();$("gen").scrollIntoView({behavior:"smooth"});};
+  s3.className="tdstep"+(done===cards.length?" ok":"");
+  s3.querySelector(".tdtxt").innerHTML="이 단계 진도 <b>"+done+" / "+cards.length+"곡 ★</b>"+(done===cards.length&&li<D.length-1?" — 다 했어요! 다음 단계로 가요 🎉":"");
+  var nb=s3.querySelector("button");nb.disabled=!(done===cards.length&&li<D.length-1);
+  nb.onclick=function(){store("rs-level",String(li+1));refreshToday();var c=CARDS.filter(function(c){return c.li===li+1;})[0];if(c)openCard(c);};
+  $("tdBar").style.width=Math.round(100*CARDS.filter(cardDone).length/CARDS.length)+"%";
+  $("tdAll").textContent=CARDS.filter(cardDone).length+" / "+CARDS.length+"곡";
+}
+refreshToday();
 var first=$("ex1-1");if(first){first.open=true;CARDS[0].draw();}
 })();
