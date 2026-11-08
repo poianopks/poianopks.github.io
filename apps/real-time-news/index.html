@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+    <script>(function(){
+  var NOTE = "2026-11-08 데이터 스냅샷 (실시간 아님)";
+  var DATA_BASE = new URL('data/', location.href.split('#')[0].replace(/[^/]*$/, '')).href;
+  // 정적 버전: /api/* 호출을 번들된 JSON 스냅샷으로 대체
+  var realFetch = window.fetch.bind(window);
+  function jsonRes(obj, status){ return new Response(JSON.stringify(obj), {status: status, headers: {'Content-Type': 'application/json'}}); }
+  window.fetch = function(input, init){
+    var url = typeof input === 'string' ? input : (input && input.url) || String(input);
+    var i = url.indexOf('/api/');
+    if (i === -1) return realFetch(input, init);
+    var method = ((init && init.method) || (input && input.method) || 'GET').toUpperCase();
+    var key = url.slice(i + 5);
+    if (method !== 'GET' || key.indexOf('admin') === 0) {
+      return Promise.resolve(jsonRes({error: '정적(GitHub Pages) 버전에서는 관리자/저장 기능을 사용할 수 없습니다.', message: '정적 버전에서는 사용할 수 없습니다.'}, 403));
+    }
+    var file = key.replace(/[\/?=&]/g, '_') + '.json';
+    var plain = key.split('?')[0].replace(/\//g, '_') + '.json';
+    return realFetch(DATA_BASE + file).then(function(r){
+      if (r.ok || file === plain) return r;
+      return realFetch(DATA_BASE + plain);
+    }).then(function(r){
+      if (r.ok) return r;
+      return jsonRes({error: '정적 버전에 포함되지 않은 데이터입니다.'}, 404);
+    });
+  };
+  if (window.EventSource) {
+    var RealES = window.EventSource;
+    window.EventSource = function(url, opts){
+      if (String(url).indexOf('/api/') === -1) return new RealES(url, opts);
+      return {readyState: 2, url: String(url), close: function(){}, addEventListener: function(){}, removeEventListener: function(){}, onmessage: null, onerror: null, onopen: null};
+    };
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    var d = document.createElement('div');
+    d.setAttribute('style', 'position:fixed;left:8px;bottom:8px;z-index:2147483000;font:12px/1.4 system-ui,sans-serif;background:rgba(20,20,20,.78);color:#fff;padding:4px 10px;border-radius:999px;max-width:calc(100vw - 16px);box-shadow:0 1px 4px rgba(0,0,0,.3)');
+    var a = document.createElement('a');
+    a.href = '../'; a.textContent = '← 앱 모음'; a.setAttribute('style', 'color:#fff;text-decoration:none;font-weight:600');
+    d.appendChild(a);
+    if (NOTE) { var s = document.createElement('span'); s.textContent = ' · ' + NOTE; s.setAttribute('style', 'opacity:.8'); d.appendChild(s); }
+    document.body.appendChild(d);
+  });
+})();
+</script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>뉴스 &amp; 시장 대시보드</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="./assets/index-BDhS018y.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BC9J8hfc.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
