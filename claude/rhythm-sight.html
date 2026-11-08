@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>리듬·시창 교실</title>
+<meta name="description" content="왕초보 1박자부터 바이엘·체르니 100·하농·체르니 30 수준까지 12단계로 배우는 피아노 리듬·시창(악보 읽기) 교실. 움직이는 악보, 리듬만 듣기, 멜로디 듣기, 따라치기, 끝없는 시창 문제."/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/genre.css?v=20261108">
+<style>
+.score .ksig{fill:var(--staff);font-size:20px}
+.score .ott{fill:var(--staff);font-size:12px;font-weight:900;font-style:italic}
+.score .ottl{stroke:var(--staff);stroke-width:1.2;stroke-dasharray:5 4}
+.score .orn{fill:var(--staff);font-size:13px;font-weight:900;font-style:italic;text-anchor:middle}
+.bio{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.bio{grid-template-columns:1fr}}
+.bio .card p{margin:6px 0 0;color:var(--sub);font-size:.95rem}
+.score .sec{fill:var(--accent);font-size:13px;font-weight:900}
+.score .tup{fill:var(--staff);font-size:11px;font-weight:800;text-anchor:middle;font-style:italic}
+.score .phband{fill:var(--accent2);opacity:.16}
+.score .phball{fill:var(--accent);opacity:.9}
+.score .n.pl .hd{fill:color-mix(in srgb,var(--good) 70%,var(--staff))}
+.score .n.pl .hd.open{fill:var(--card);stroke:color-mix(in srgb,var(--good) 70%,var(--staff))}
+.score .n.on .hd{fill:var(--accent);stroke:var(--accent);stroke-width:2.5}
+.score .n.on .lab{font-size:15px}
+.fullscore{max-height:72vh;overflow-y:auto;scroll-behavior:smooth;position:relative;cursor:pointer}
+.fullbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.fullbar .now{font-weight:900;color:var(--accent2);font-size:.95rem}
+.jumps{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.jumps button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 10px;font:inherit;font-weight:800;font-size:.82rem;cursor:pointer}
+
+.score .beam{fill:var(--staff)}
+.score .n.on ~ .beam{fill:var(--staff)}
+.score .tie{fill:none;stroke:var(--staff);stroke-width:1.4}
+.part{margin-top:22px}
+.parth{margin:0 0 4px;font-size:1.25rem;font-weight:900}
+details.step{margin-top:10px;padding:0}
+details.step summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;font-weight:900}
+details.step summary::-webkit-details-marker{display:none}
+details.step summary::after{content:"▾";margin-left:auto;color:var(--sub);transition:transform .2s}
+details.step[open] summary::after{transform:rotate(180deg)}
+details.step .snum{display:inline-grid;place-items:center;min-width:32px;height:32px;border-radius:10px;background:var(--accent);color:#fff;font-size:1rem}
+details.step .stitle{font-size:1.05rem}
+details.step .sstar{color:#f5a623;font-size:.95rem;letter-spacing:1px}
+details.step .sbody{padding:0 16px 16px}
+.tip{margin:8px 0;font-size:.95rem}
+.beatline{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.beatdot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--line);font-weight:900;font-size:.85rem;color:var(--sub)}
+.beatdot.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.ctrls.opts{gap:14px}
+.ctrls.opts select{font:inherit;font-weight:700;border:1.5px solid var(--line);border-radius:8px;padding:4px 6px;background:var(--card);color:var(--ink)}
+.btn.live{outline:3px solid var(--accent2);outline-offset:2px}
+.keybox{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.keybox{grid-template-columns:1fr}}
+.keybox h4{margin:0 0 4px}
+.keybox .say{font-weight:900;margin:6px 0 0}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.story{grid-template-columns:1fr}}
+.part{margin-top:26px}
+.lvnum{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:50%;background:var(--accent2);color:#fff;font-size:.95rem;margin-right:8px;vertical-align:middle}
+.dur td:first-child{font-size:1.6rem;text-align:center}
+#genScore{min-height:120px}
+.genbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.genbar select{font:inherit;font-weight:700;border:1.5px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--card);color:var(--ink);max-width:100%}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="topbar">
+    <span class="logo">🥁 리듬·시창 교실</span>
+    <nav>
+      <a href="#basics">음표 길이</a>
+      <a href="#how">읽는 방법</a>
+      <a href="#map">단계 지도</a>
+      <a href="#levels">12단계 연습</a>
+      <a href="#gen">무한 시창</a>
+    </nav>
+    <button class="themebtn" id="themeBtn" aria-label="밝기 전환">🌓</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>1박자부터 체르니까지<br><em>리듬·시창 교실</em></h1>
+      <p><b>악보를 보고 바로 리듬과 멜로디를 읽는 힘</b>(시창)을 키워요. 4분음표 한 박에서 시작해 <b>바이엘 → 체르니 100 → 하농·체르니 30</b> 수준까지 <b>12단계·48곡</b>으로 올라가요.</p>
+      <p>모든 연습곡은 <b>움직이는 악보</b>로 들을 수 있고, <b>🥁 리듬만 듣기</b>, <b>계이름 가리기</b>, <b>🎹 따라치기</b>, 끝없이 새로 나오는 <b>🎲 시창 문제</b>로 연습해요.</p>
+      <p style="margin-top:12px"><a class="btn" href="#levels" style="text-decoration:none;display:inline-block">연습 시작 ↓</a> <a class="btn alt" href="#gen" style="text-decoration:none;display:inline-block">🎲 시창 문제</a> <a class="btn alt" href="index.html" style="text-decoration:none;display:inline-block">공부방 목록</a></p>
+    </div>
+    <svg viewBox="0 0 400 260" aria-hidden="true">
+      <rect x="10" y="20" width="380" height="220" rx="28" fill="#2f8f6a" opacity=".12"/>
+      <g stroke="#26232c" stroke-width="2" opacity=".7"><line x1="40" y1="90" x2="360" y2="90"/><line x1="40" y1="105" x2="360" y2="105"/><line x1="40" y1="120" x2="360" y2="120"/><line x1="40" y1="135" x2="360" y2="135"/><line x1="40" y1="150" x2="360" y2="150"/></g>
+      <g fill="#26232c"><ellipse cx="90" cy="142" rx="9" ry="7"/><rect x="97" y="88" width="3" height="54"/><ellipse cx="150" cy="127" rx="9" ry="7"/><rect x="157" y="73" width="3" height="54"/><ellipse cx="210" cy="112" rx="9" ry="7"/><rect x="217" y="58" width="3" height="54"/><ellipse cx="270" cy="97" rx="9" ry="7"/><rect x="277" y="43" width="3" height="54"/><rect x="217" y="58" width="63" height="7"/></g>
+      <text x="60" y="210" font-size="22" font-weight="900" fill="#2f8f6a">하나 · 둘 · 셋 · 넷</text>
+      <text x="320" y="70" font-size="34">🥁</text>
+    </svg>
+  </div>
+
+  <section id="basics">
+    <h2><span class="num">1</span>음표와 쉼표의 길이</h2>
+    <div class="card table-wrap">
+      <table class="cmp dur">
+        <thead><tr><th>모양</th><th>이름</th><th>길이 (4분음표 = 1박)</th><th>세는 법</th></tr></thead>
+        <tbody>
+          <tr><td>𝅝</td><td>온음표</td><td>4박</td><td>하나–아–아–아</td></tr>
+          <tr><td>𝅗𝅥.</td><td>점2분음표</td><td>3박</td><td>하나–아–아</td></tr>
+          <tr><td>𝅗𝅥</td><td>2분음표</td><td>2박</td><td>하나–아</td></tr>
+          <tr><td>♩.</td><td>점4분음표</td><td>1박 반</td><td>하나–아–그</td></tr>
+          <tr><td>♩</td><td>4분음표</td><td>1박</td><td>하나</td></tr>
+          <tr><td>♪</td><td>8분음표</td><td>반 박 (두 개 = 1박)</td><td>하나–그</td></tr>
+          <tr><td>𝅘𝅥𝅯</td><td>16분음표</td><td>4분의 1박 (네 개 = 1박)</td><td>하나–나–그–나</td></tr>
+          <tr><td>³♪♪♪</td><td>셋잇단 8분음표</td><td>세 개 = 1박</td><td>셋–잇–단</td></tr>
+          <tr><td>𝄽</td><td>4분쉼표</td><td>1박 쉬기</td><td>(쉬–)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top:12px;font-size:.93rem">
+      <b>🎯 박자표 읽기</b>
+      <ul style="margin:6px 0 0;padding-left:18px">
+        <li><b>4/4</b>: 한 마디에 4분음표 4개 (쿵·짝·쿵·짝) · <b>3/4</b>: 한 마디에 3개 (쿵·짝·짝, 왈츠) · <b>2/4</b>: 2개 (행진곡)</li>
+        <li>점(.)은 <b>그 음표 길이의 절반</b>을 더해요. 2분음표(2박)+점 = 3박</li>
+        <li>계이름은 고정도법(C = 도)으로 적었어요.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2><span class="num">2</span>시창(악보 읽기) 4단계 방법</h2>
+    <div class="card">
+      <ol class="steps">
+        <li><b>훑어보기</b><p>박자표(4/4·3/4), 조표(♯·♭), 음자리표, 가장 높은 음·낮은 음을 먼저 봐요.</p></li>
+        <li><b>리듬 먼저</b><p>음 높이는 잊고 <b>손뼉으로 리듬만</b> 쳐요. '🥁 리듬만 듣기'로 확인!</p></li>
+        <li><b>계이름 소리 내기</b><p><b>계이름 보기</b>를 끄고, 박에 맞춰 "도·레·미"를 소리 내어 읽어요. 줄→칸→줄은 한 칸씩, 줄→줄은 건너뛰기!</p></li>
+        <li><b>듣고 확인 → 치기</b><p>▶ 멜로디 듣기로 맞았는지 확인하고, 🎹 따라치기로 손가락으로 쳐요.</p></li>
+      </ol>
+      <p style="margin:8px 0 0;color:var(--sub);font-size:.92rem">💡 매일 <b>새 악보 1~2개</b>를 처음 보는 것처럼 읽는 게 시창 실력을 가장 빨리 키워요. 아래 <a href="#gen">🎲 무한 시창 문제</a>를 활용하세요.</p>
+    </div>
+  </section>
+
+  <section id="map">
+    <h2><span class="num">3</span>단계 지도 — 왕초보에서 고급까지</h2>
+    <div class="card table-wrap">
+      <table class="cmp">
+        <thead><tr><th>단계</th><th>배우는 것</th><th>수준</th></tr></thead>
+        <tbody>
+          <tr><td>1~3</td><td>4분·2분·온음표, 쉼표, 도~솔 다섯 손가락</td><td>🌱 왕초보 (바이엘 상권 앞)</td></tr>
+          <tr><td>4~6</td><td>3/4박자, 8분음표, 한 옥타브와 건너뛰기</td><td>🌿 초급 (바이엘 상권)</td></tr>
+          <tr><td>7~9</td><td>점음표·붙임줄, 낮은음자리표, 양손 큰보표</td><td>🌳 초중급 (바이엘 하권)</td></tr>
+          <tr><td>10~11</td><td>조표·임시표, 16분음표·셋잇단</td><td>🎼 중급 (체르니 100)</td></tr>
+          <tr><td>12</td><td>양손 16분음표 손가락 연습</td><td>🏆 고급 입문 (하농·체르니 30 스타일)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="levels">
+    <h2><span class="num">4</span>12단계 연습 (48곡)</h2>
+    <p class="lead">곡을 누르면 펼쳐져요. <b>🥁 리듬만 → ▶ 멜로디 → 계이름 끄고 읽기 → 🎹 따라치기</b> 순서로! ★ = 따라치기 완료</p>
+    <div class="jumps" id="lvJump"><span style="font-weight:800;color:var(--sub);font-size:.85rem;align-self:center">바로 가기:</span></div>
+    <div id="levelList"></div>
+  </section>
+
+  <section id="gen">
+    <h2><span class="num">5</span>🎲 무한 시창 문제</h2>
+    <p class="lead">단계를 고르면 <b>처음 보는 4마디 악보</b>가 매번 새로 나와요. 계이름은 숨겨져 있어요 — 먼저 읽고 정답을 확인해요!</p>
+    <div class="card">
+      <div class="genbar">
+        <select id="genLevel" aria-label="단계 고르기"></select>
+        <button class="btn" id="genNew">🎲 새 문제</button>
+        <button class="btn alt" id="genAns" aria-pressed="false">👀 정답(계이름) 보기</button>
+      </div>
+      <div class="score" id="genScore" style="margin-top:10px"></div>
+      <div class="ctrls">
+        <button class="btn alt" id="genRhythm">🥁 리듬만 듣기</button>
+        <button class="btn" id="genPlay">▶ 멜로디 듣기</button>
+        <label class="chk"><input type="checkbox" id="genMetro" checked> 메트로놈</label>
+      </div>
+      <div class="msg" id="genMsg"></div>
+    </div>
+  </section>
+
+  <section id="more">
+    <h2><span class="num">6</span>더 연습하기</h2>
+    <div class="card">
+      <p style="margin:0">🎵 <a href="../a/ridm.html"><b>멜로디 시창 훈련 (9단계·54문제)</b></a> — 높은음자리표 멜로디를 단계별로 듣고 읽는 연습장이에요.</p>
+      <p style="margin:8px 0 0">🙏 <a href="prayer.html">소녀의 기도</a> · 🎻 <a href="czardas.html">차르다시</a> · 🍂 <a href="october.html">10월 가을의 노래</a> — 시창이 익숙해지면 실제 곡으로!</p>
+    </div>
+  </section>
+
+  <section id="sources">
+    <h2><span class="num">7</span>연습곡 안내</h2>
+    <div class="card" style="font-size:.93rem">
+      <ul style="margin:0;padding-left:18px">
+        <li>단계별 연습곡은 바이엘·체르니·하농 교재의 <b>배우는 순서</b>를 참고해 이 사이트에서 <b>새로 만든 연습곡</b>이에요.</li>
+        <li>9단계의 「환희의 송가」(베토벤), 「나비야」, 「반짝반짝 작은 별」은 <b>저작권이 끝난 옛 곡</b>의 멜로디를 쉽게 옮겼어요.</li>
+        <li>12단계 「하농 1번 모양」은 하농(1873, 공개 저작물)의 손가락 연습 모양을 따랐어요.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>소리는 브라우저에서 직접 만들어요(Web Audio). 휴대폰은 무음 모드를 꺼 주세요. · 건반은 손가락이나 마우스로 눌러요.</p>
+  </footer>
+</div>
+<script src="js/music-engine.js?v=20261108"></script>
+<script src="js/score-engine.js?v=20261108"></script>
+<script src="js/rhythm-sight-data.js?v=20261108"></script>
+<script src="js/rhythm-sight.js?v=20261108"></script>
+</body>
+</html>

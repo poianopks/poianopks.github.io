@@ -37,6 +37,8 @@ function audioItems(items){
 
 /* ---------- 조표 ---------- */
 var KEYS={
+  "0":{name:"다장조",acc:{},marks:{treble:[],bass:[]}},
+  "1":{name:"사장조",acc:{F:"#"},marks:{treble:[["#",10]],bass:[["#",-4]]}},
   "-1":{name:"라단조",acc:{B:"b"},marks:{treble:[["b",6]],bass:[["b",-8]]}},
   "2":{name:"라장조",acc:{F:"#",C:"#"},marks:{treble:[["#",10],["#",7]],bass:[["#",-4],["#",-7]]}},
   "-3":{name:"내림마장조",acc:{B:"b",E:"b",A:"b"},marks:{treble:[["b",6],["b",9],["b",5]],bass:[["b",-8],["b",-5],["b",-9]]}}
