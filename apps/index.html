@@ -1,54 +1,23 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>웹 앱 모음 · 정적 공개판</title>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>앱 모음</title>
+<meta name="description" content="Replit에서 만든 앱들을 GitHub으로 옮긴 모음 — 주식·경제 분석, 교육·학습 게임, 생활 도구.">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--line:#e5e7eb;--ink:#111827;--m:#6b7280;--a:#1d4ed8}
-*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
-.w{max-width:900px;margin:0 auto;padding:1.25rem 1rem 2.5rem}
-h1{font-size:1.45rem;margin:0 0 .4rem}.sub{color:var(--m);margin:0 0 1rem;font-size:.95rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:.75rem}
-a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:.75rem;padding:.85rem;text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-a.card:hover{border-color:#93c5fd}
-.t{font-weight:700;margin:0 0 .25rem}.d{color:var(--m);font-size:.88rem;margin:0}.tag{display:inline-block;font-size:.72rem;background:#eff6ff;color:#1e40af;padding:.12rem .4rem;border-radius:.3rem;margin-bottom:.35rem}
-.note{background:#fffbeb;border:1px solid #fde68a;border-radius:.6rem;padding:.75rem;font-size:.9rem;color:#92400e;margin:1rem 0}
-</style>
-</head>
-<body>
-<div class="w">
-  <h1>웹 앱 모음 · 정적 공개판</h1>
-  <p class="sub">브라우저만으로 열리는 공개 페이지입니다. 실시간 서버·유료 API가 필요한 기능은 안내·데모 형태로 구성했습니다.</p>
-  <div class="note">메모 등 완전 정적 앱은 바로 사용 가능합니다. 시세·뉴스가 필요한 화면은 <strong>샘플 데이터·설명 UI</strong>로 동작하며, 나중에 API 키를 연결하면 확장할 수 있습니다.</div>
-  <div class="grid" id="g"></div>
-</div>
-<script>
-const apps=[
-{f:'seongsil-memo.html',k:'피아노 업무',t:'성실피아노 메모',d:'한글 메모 추가·수정·삭제 · 브라우저 저장'},
-{f:'erp-realtime-static.html',k:'경제·데이터',t:'ERP 실시간 분석 (정적판)',d:'대시보드 UI · 샘플 지표'},
-{f:'insight-navigator-static.html',k:'분석',t:'인사이트 내비게이터 (정적판)',d:'주제 카드·메모형 인사이트'},
-{f:'stock-insights-static.html',k:'주식',t:'주식 인사이트 (정적판)',d:'관심종목 노트 · 샘플 시세 표'},
-{f:'startup-bootcamp-static.html',k:'자기계발',t:'스타트업 부트캠프 (정적판)',d:'주차별 학습 체크리스트'},
-{f:'new-project-maker-static.html',k:'도구',t:'새 프로젝트 메이커 (정적판)',d:'아이디어 입력·체크리스트 생성'},
-{f:'login-method-static.html',k:'기능',t:'로그인 방법 안내 (정적판)',d:'로그인 방식 비교 설명'},
-{f:'real-time-news-static.html',k:'뉴스',t:'뉴스 보드 (정적판)',d:'카테고리별 샘플 헤드라인'},
-{f:'momentum-reversion-static.html',k:'주식',t:'모멘텀·되돌림 (정적판)',d:'개념 설명 · 체크 메모'},
-{f:'mindfulness-meaning-static.html',k:'마음관리',t:'마음챙김·의미 (정적판)',d:'호흡·감사 일기'},
-{f:'stock-sense-static.html',k:'주식',t:'주식 센스 (정적판)',d:'시그널 메모 카드'},
-{f:'economic-insight-hub-static.html',k:'경제',t:'경제 인사이트 허브 (정적판)',d:'경제 주제 허브 카드'},
-{f:'daily-goal-reminder-static.html',k:'자기계발',t:'일일 목표 리마인더 (정적판)',d:'오늘 목표 · 로컬 저장'},
-{f:'economic-forecast-hub-static.html',k:'경제',t:'경제 전망 허브 (정적판)',d:'전망 메모 보드'},
-{f:'stock-market-rise-static.html',k:'주식',t:'상승장 노트 (정적판)',d:'상승 테마 메모'},
-{f:'new-project-insight-static.html',k:'임시',t:'프로젝트 인사이트 (정적판)',d:'간단 인사이트 메모'},
-{f:'new-project-now-2-static.html',k:'임시',t:'프로젝트 Now 2 (정적판)',d:'진행 상태 보드'},
-{f:'new-project-status-static.html',k:'임시',t:'프로젝트 상태 (정적판)',d:'상태 칸반 미니'},
-{f:'new-project-now-1-static.html',k:'임시',t:'프로젝트 Now 1 (정적판)',d:'오늘 할 일'},
-{f:'new-project-now-static.html',k:'임시',t:'프로젝트 Now (정적판)',d:'빠른 메모'},
-{f:'new-project-static.html',k:'임시',t:'새 프로젝트 (정적판)',d:'빈 프로젝트 노트'}
-];
-document.getElementById('g').innerHTML=apps.map(a=>`<a class="card" href="./${a.f}"><span class="tag">${a.k}</span><p class="t">${a.t}</p><p class="d">${a.d}</p></a>`).join('');
-</script>
-</body>
-</html>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2330;--sub:#5b6474;--line:#e2e6ec;--acc:#2f5fb3}
+@media (prefers-color-scheme:dark){:root{--bg:#13161b;--card:#1c2027;--ink:#e8ebf0;--sub:#9aa3b2;--line:#2c323b;--acc:#7aa7ff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.55}
+.w{max-width:980px;margin:0 auto;padding:22px 16px 48px}h1{margin:0 0 4px;font-size:1.7rem}.lead{color:var(--sub);margin:0 0 6px}
+h2{font-size:1.15rem;margin:26px 0 10px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.it{display:flex;flex-direction:column;gap:4px;padding:13px 14px;background:var(--card);border:1px solid var(--line);border-radius:12px;color:inherit;text-decoration:none}
+.it:hover,.it:focus-visible{border-color:var(--acc);outline:none}.it b{font-size:1rem}.it small{color:var(--sub);font-size:.86rem}
+.bd{align-self:flex-start;font-size:.72rem;font-weight:700;color:var(--c);border:1px solid var(--c);border-radius:999px;padding:0 8px}
+.note{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:.9rem;color:var(--sub);margin-top:10px}
+.top a{color:var(--acc)}
+</style></head><body><div class="w">
+<p class="top"><a href="../">← 홈</a> · <a href="../claude/">피아노 공부방</a></p>
+<h1>앱 모음</h1>
+<p class="lead">Replit에서 만든 앱 32개를 GitHub으로 옮겼어요. 서버 없이 동작하도록 바꿨어요.</p>
+<div class="note">🏷 <b>2026-11-08 데이터</b>: 주식·지표 값이 그날 기준으로 고정돼 있어요(자동 갱신 안 됨) · <b>전체 기능</b>: 원래 기능 그대로 · <b>AI 기능 제외</b>: AI 키가 필요한 기능만 빠졌어요 · 메모·진도는 <b>이 기기 브라우저</b>에 저장돼요.</div>
+<h2>📈 주식·경제</h2><div class="grid"><a class="it" href="../cld_eco/"><b>KOSPI 투자 분석 센터</b><span class="bd" style="--c:#1a7f5a">자동 갱신</span><small>원본: Stock Insights · 19개 메뉴, 매일 자동 갱신</small></a><a class="it" href="stock-sense/"><b>Stock Sense — 투자 도구 4종</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>투자 나침반 · 마켓 나침반 · Stock Lens · 망원경 투자자</small></a><a class="it" href="economic-insight-hub/"><b>InvestCompass 주식투자 나침반</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>대시보드·버블·지표·한국·포트폴리오 진단 등 8페이지</small></a><a class="it" href="economic-forecast-hub/"><b>경제나침반</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>한국 경제지표, KOSPI 전망, 왕초보 용어사전</small></a><a class="it" href="erp-realtime-analysis/"><b>마켓 밸류미터</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>ERP·버핏지수·CAPE로 미국 증시 고평가 판정</small></a><a class="it" href="real-time-news/"><b>Quant-X 뉴스·시장 대시보드</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>국내·세계 뉴스, 지수, 반도체 사이클, 코스피 종합평가</small></a><a class="it" href="new-project-now/"><b>이격도 레이더</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>나스닥·코스피 이격도, 시장 레이더, 주봉·월봉 차트</small></a><a class="it" href="new-project/"><b>거시경제 온도계 + 시장 사이클 위치계</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>금리·FOMC·DXY·M2, S&P·나스닥·코스피 사이클</small></a><a class="it" href="new-project-insight/"><b>주식 대시보드</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>시장 요약·코스피·선물·미국·뉴스 6페이지</small></a><a class="it" href="insight-navigator/"><b>AI 인사이트 — 버블인가 대박인가</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>AI 주식 버블 여부 7개 탭 리포트</small></a><a class="it" href="stock-api-saver/"><b>코스피 턴어라운드 분석기</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>TOP 10 매수 후보 점수, 기업 상세(143개 기업 재무)</small></a><a class="it" href="stock-recommender/"><b>코스피 턴어라운드 추천 종목</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>순위·섹터·레이더 차트, 종목 상세</small></a><a class="it" href="stock-finder/"><b>코스피 저평가 월봉 탐색기</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>PER·양봉전환 조건 검색, 월봉 차트</small></a><a class="it" href="school-game-maker/kospi-screener/"><b>코스피 저평가 주식 탐색기</b><span class="bd" style="--c:#b06a00">2026-11-08 데이터</span><small>PER·PBR·월봉 전환 TOP 10</small></a><a class="it" href="stock-market-rise/"><b>코스피 투자 계산기</b><span class="bd" style="--c:#2f5fb3">전체 기능</span><small>ETF 전략 시뮬레이터, 여유자금 분석, Replit 가이드</small></a></div><h2>🎓 배움·교육</h2><div class="grid"><a class="it" href="version-checker/"><b>한국어 교육 웹앱 모음</b><span class="bd" style="--c:#2f5fb3">전체 기능</span><small>Replit 배움터·완전정복, 파이썬·엑셀·주식경제 완전정복 (각 90개 활동)</small></a><a class="it" href="python-playtime/"><b>파이썬 놀이터</b><span class="bd" style="--c:#2f5fb3">전체 기능</span><small>파이썬 왕초보·초등·중학·주식, 중학교 학습 퀴즈 게임</small></a><a class="it" href="replit-game-lessons/"><b>Replit 탐험대 · 완전정복</b><span class="bd" style="--c:#2f5fb3">전체 기능</span><small>게임으로 배우는 Replit (유치원·중학생 수준 각 30레슨)</small></a><a class="it" href="school-game-maker/middle-school-games/"><b>중학교 학습 게임 30</b><span class="bd" style="--c:#2f5fb3">전체 기능</span><small>과목별 미니 게임 30개</small></a><a class="it" href="startup-bootcamp/"><b>바이브 코딩 1인 창업 부트캠프</b><span class="bd" style="--c:#2f5fb3">전체 기능</span><small>33개 레슨, 용어사전, 클로드 코드 수익 사례</small></a><a class="it" href="new-project-status/"><b>Replit 왕초보 완전정복 레슨</b><span class="bd" style="--c:#2f5fb3">전체 기능</span><small>영상 요약, 개념·기능·요금제, STEP 1~8 체크리스트</small></a><a class="it" href="new-project-maker/"><b>음악 노트 배움터</b><span class="bd" style="--c:#2f5fb3">전체 기능</span><small>MIDI·피아노 롤 레슨 (레슨 7 준비 중)</small></a><a class="it" href="mindfulness-meaning/"><b>멜로디 시창 훈련</b><span class="bd" style="--c:#2f5fb3">전체 기능</span><small>9단계 54문제 + 소녀의 기도·마이 웨이·차르다시</small></a></div><h2>🛠 생활 도구</h2><div class="grid"><a class="it" href="seongsil-memo/"><b>성실피아노 메모</b><span class="bd" style="--c:#2f5fb3">전체 기능</span><small>메모 쓰기·검색·삭제 (내 브라우저에 저장)</small></a><a class="it" href="daily-goal-reminder/"><b>하루 플래너</b><span class="bd" style="--c:#2f5fb3">전체 기능</span><small>계획 3개, 일·주·월 메모, 알람, 출석 달력</small></a><a class="it" href="new-project-now-1/"><b>웹툰 카메라</b><span class="bd" style="--c:#8a4fb3">AI 기능 제외</span><small>사진·영상 촬영 + 만화 스타일 필터</small></a><a class="it" href="ai-chatbot/"><b>AI 챗봇</b><span class="bd" style="--c:#8a4fb3">AI 기능 제외</span><small>대화 화면 (AI 답변은 정적판에서 사용 불가)</small></a></div><h2>⚪ 빈 템플릿 (내용 거의 없음)</h2><div class="grid"><a class="it" href="retlip-web-comparison/"><b>Retlip Web Comparison</b><small></small></a><a class="it" href="new-project-now-2/"><b>New Project Now (2)</b><small></small></a><a class="it" href="momentum-reversion/"><b>Momentum Reversion</b><small></small></a><a class="it" href="login-method/"><b>Login Method</b><small></small></a><a class="it" href="html-css-js-static-1/"><b>HTML, CSS, JS (Static)</b><small></small></a></div>
+</div></body></html>
