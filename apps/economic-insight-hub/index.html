@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+    <script>window.__STATIC_CFG={snapshot:"./api-snapshot.json",links:[{href:"../",text:"← 앱 모음"}],note:"정적 보관판 · 지표 데이터는 2026-11-08 스냅샷",
+postHandler:function(p,init){
+  if(p.path!=="/api/portfolio/analyze")return null;
+  var b={};try{b=JSON.parse(init&&init.body||"{}")}catch(e){}
+  var J=function(o,s){return new Response(JSON.stringify(o),{status:s||200,headers:{"Content-Type":"application/json"}})};
+  var allocations=Array.isArray(b.allocations)?b.allocations:null, riskTolerance=b.riskTolerance;
+  if(!allocations)return J({error:"Invalid portfolio input"},400);
+  var warnings=[],strengths=[],suggestions=[],score=50;
+  var has=function(a,ws){var s=String(a.asset||"").toLowerCase();return ws.some(function(w){return s.indexOf(w)>=0})};
+  var sum=function(ws){return allocations.filter(function(a){return has(a,ws)}).reduce(function(t,a){return t+Number(a.percentage||0)},0)};
+  var cashAndBonds=sum(["현금","국채","채권","cash","bond"]), aiAndTech=sum(["ai","반도체","tech","기술","나스닥"]), defensive=sum(["방어","헬스","필수","금","에너지"]);
+  var year=new Date().getFullYear();
+  if(cashAndBonds>=40){score+=20;strengths.push("현금·채권 비중 "+cashAndBonds+"%로 양호. 김영익 교수 권고(40~50%) 충족.")}
+  else if(cashAndBonds>=25){score+=5;suggestions.push("현금·채권 비중을 "+cashAndBonds+"%에서 40% 이상으로 확대 권고. "+year+"년 현재 단기 국채 연 4% 수익 가능.")}
+  else{score-=15;warnings.push("현금·채권 비중 "+cashAndBonds+"%로 과소. AI 버블 과열 국면에서 매우 위험한 포지션. 즉시 40% 이상으로 확대 필요.")}
+  if(aiAndTech>50){score-=25;warnings.push("AI/기술주 비중 "+aiAndTech+"%로 과대. 버블 붕괴 시 50% 이상 손실 가능. 즉시 30% 미만으로 축소 권고.")}
+  else if(aiAndTech>30){score-=10;warnings.push("AI/기술주 비중 "+aiAndTech+"%로 다소 높음. 20% 이하로 점진적 축소 고려.")}
+  else if(aiAndTech<=10){score+=15;strengths.push("AI/기술주 비중 "+aiAndTech+"%로 안전. 버블 붕괴 리스크 최소화.")}
+  if(defensive>=15){score+=10;strengths.push("방어 자산(금·에너지·방어주) 비중 "+defensive+"%로 위기 대비 충분.")}
+  else suggestions.push("방어 자산(금·에너지·필수소비재) 비중 "+defensive+"%로 부족. 15~20% 수준으로 확대 고려.");
+  if(riskTolerance==="aggressive"&&cashAndBonds<30)warnings.push("공격적 성향이라도 AI 버블 과열 국면에서는 현금 비중 30% 이상 유지를 강력 권고.");
+  if(riskTolerance==="conservative"&&cashAndBonds>=40){score+=10;strengths.push("보수적 성향에 적합한 안전 자산 비중 유지 중.")}
+  var total=allocations.reduce(function(t,a){return t+Number(a.percentage||0)},0);
+  if(Math.abs(total-100)>1){warnings.push("자산 비중 합계가 "+total+"%입니다. 100%로 맞춰주세요.");score-=10}
+  var f=Math.max(0,Math.min(100,score)),ra,rec;
+  if(f>=70){ra="안전 (Safe)";rec="현재 포트폴리오는 "+year+"년 AI 버블 과열 국면에서 비교적 안전합니다. 현재 전략을 유지하되, 월별 리밸런싱으로 비중을 관리하세요."}
+  else if(f>=45){ra="주의 (Caution)";rec="현재 포트폴리오는 "+year+"년 시장 위험에 일부 노출되어 있습니다. 현금·채권 비중을 단계적으로 늘리고, AI/기술주 비중을 줄이는 방향으로 리밸런싱을 권고합니다."}
+  else{ra="위험 (Danger)";rec="현재 포트폴리오는 "+year+"년 AI 버블 붕괴 시 큰 손실 위험이 있습니다. 즉시 현금·채권 비중을 40% 이상으로 확대하고, 고위험 자산 비중을 축소하세요. 버핏의 현재 전략(현금 3,900억 달러)을 참고하세요."}
+  return J({score:f,verdict:ra+" — "+rec,warnings:warnings,strengths:strengths,suggestions:suggestions});
+}};
+</script>
+    <script src="./static-api.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>InvestCompass — 주식투자 나침반</title>
+    <meta name="description" content="InvestCompass — 주식투자 나침반 — built on Replit. Update this description to reflect the app." />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="InvestCompass — 주식투자 나침반" />
+    <meta property="og:description" content="InvestCompass — 주식투자 나침반 — built on Replit. Update this description to reflect the app." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="InvestCompass — 주식투자 나침반" />
+    <meta name="twitter:description" content="InvestCompass — 주식투자 나침반 — built on Replit. Update this description to reflect the app." />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="./assets/index-B89-ieQS.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-COaZeyPN.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

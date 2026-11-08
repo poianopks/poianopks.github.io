@@ -26,10 +26,11 @@
     var exact = snap[method + " " + p.key] || snap[p.key];
     if (exact) return exact;
     // 쿼리 파라미터 순서 무시 매칭
-    var want = Array.from(p.qs.entries()).map(function (e) { return e.join("="); }).sort().join("&");
+    var norm = function (qs) { return Array.from(qs.entries()).map(function (e) { return e.join("=").toLowerCase(); }).sort().join("&"); };
+    var want = norm(p.qs);
     for (var i = 0; i < keys.length; i++) {
       var q = parse(keys[i].replace(/^(GET|POST) /, ""));
-      if (q.path === p.path && Array.from(q.qs.entries()).map(function (e) { return e.join("="); }).sort().join("&") === want) return snap[keys[i]];
+      if (q.path === p.path && norm(q.qs) === want) return snap[keys[i]];
     }
     // 시세 묶음 요청: 개별 스냅샷을 합쳐서 응답
     if (CFG.mergeQuote && p.path === CFG.mergeQuote.path && p.qs.get(CFG.mergeQuote.param)) {
@@ -42,6 +43,8 @@
       });
       if (ok) { var nb = Object.assign({}, extra); nb[CFG.mergeQuote.field] = out; return { status: 200, body: JSON.stringify(nb) }; }
     }
+    if (CFG.fallbacks && CFG.fallbacks[p.path] != null) return { status: 200, body: CFG.fallbacks[p.path] };
+    if ((CFG.noPathFallback || []).indexOf(p.path) >= 0) return null;
     // 같은 경로(쿼리 무시) 중 첫 번째
     for (var j = 0; j < keys.length; j++) {
       if (parse(keys[j].replace(/^(GET|POST) /, "")).path === p.path) return snap[keys[j]];

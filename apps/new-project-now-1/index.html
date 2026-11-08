@@ -179,7 +179,7 @@ svg{display:block}
 
   function stopStream(){if(state.stream){state.stream.getTracks().forEach(function(t){t.stop()});state.stream=null;}}
   function showFallback(msg){$("video").hidden=true;$("camFallback").hidden=false;if(msg)$("camMsg").innerHTML=msg;}
-  function startCamera(){
+  function startCamera(retry){
     stopStream();
     if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){showFallback("이 브라우저에서는 카메라를 사용할 수 없어요.<br>HTTPS 환경과 최신 브라우저에서 열어 주세요.");return;}
     navigator.mediaDevices.getUserMedia({video:{facingMode:state.facing},audio:state.mode==="video"}).catch(function(){
@@ -187,7 +187,7 @@ svg{display:block}
     }).then(function(st){
       state.stream=st;var v=$("video");v.srcObject=st;v.hidden=false;$("camFallback").hidden=true;
       v.classList.toggle("mirror",state.facing==="user");
-    }).catch(function(){showFallback("웹툰 카메라 앱을 사용하려면<br>카메라와 마이크 권한이 필요합니다");});
+    }).catch(function(){if(!retry&&location.hash!=="#/result"){setTimeout(function(){startCamera(true)},600);return;}showFallback("웹툰 카메라 앱을 사용하려면<br>카메라와 마이크 권한이 필요합니다");});
   }
   $("permBtn").onclick=startCamera;
   $("flipBtn").onclick=function(){if(state.recorder)return;state.facing=state.facing==="environment"?"user":"environment";startCamera();};
