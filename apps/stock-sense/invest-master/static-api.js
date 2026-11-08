@@ -72,9 +72,36 @@
       return resp(hit.status || 200, hit.body, hit.ct);
     });
   };
+  // EventSource(SSE) 대체: 스냅샷 한 건을 이벤트로 전달
+  if (CFG.sse && window.EventSource) {
+    var OrigES = window.EventSource;
+    var FakeES = function (u, opts) {
+      var abs = new URL(u, location.href), self = this, conf = CFG.sse[abs.pathname];
+      if (!conf) return new OrigES(u, opts);
+      this.url = abs.href; this.readyState = 0; this._l = {};
+      this.onopen = this.onmessage = this.onerror = null;
+      loadSnap().then(function (snap) {
+        if (self.readyState === 2) return;
+        var hit = snap["SSE " + abs.pathname];
+        self.readyState = 1;
+        if (self.onopen) self.onopen({ type: "open" });
+        if (hit) self._emit(conf.event || "message", hit.body);
+      });
+    };
+    FakeES.prototype.addEventListener = function (t, f) { (this._l[t] = this._l[t] || []).push(f); };
+    FakeES.prototype.removeEventListener = function (t, f) { this._l[t] = (this._l[t] || []).filter(function (x) { return x !== f; }); };
+    FakeES.prototype.close = function () { this.readyState = 2; };
+    FakeES.prototype._emit = function (t, data) {
+      var ev = { type: t, data: data };
+      (this._l[t] || []).forEach(function (f) { f(ev); });
+      if (t === "message" && this.onmessage) this.onmessage(ev);
+    };
+    FakeES.CONNECTING = 0; FakeES.OPEN = 1; FakeES.CLOSED = 2;
+    window.EventSource = FakeES;
+  }
   // 안내 배지 + 앱 모음 링크
   function badge() {
-    if (document.getElementById("static-port-badge")) return;
+    if (document.getElementById("static-port-badge") || CFG.noBadge) return;
     var d = document.createElement("div");
     d.id = "static-port-badge";
     d.setAttribute("style", "position:fixed;left:8px;bottom:8px;z-index:2147483000;max-width:calc(100vw - 16px);box-sizing:border-box;font:12px/1.4 system-ui,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:rgba(15,23,42,.88);color:#e2e8f0;border:1px solid rgba(148,163,184,.35);border-radius:10px;padding:5px 9px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;box-shadow:0 2px 10px rgba(0,0,0,.3)");
