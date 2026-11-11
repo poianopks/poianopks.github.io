@@ -63,7 +63,7 @@ details.step .sbody{padding:0 16px 16px}
 <header class="top">
   <div class="topbar">
     <span class="logo">🎼 박근성 자작곡 1</span>
-    <nav><a href="#story">이야기</a><a href="#arr">4부분 편곡 듣기</a><a href="#score">악보 보기</a></nav>
+    <nav><a href="#story">이야기</a><a href="#arr">4부분 편곡 듣기</a><a href="#midi">MIDI</a><a href="#score">악보 보기</a></nav>
     <button class="themebtn" id="themeBtn" aria-label="밝기 전환">🌓</button>
   </div>
 </header>
@@ -98,8 +98,29 @@ details.step .sbody{padding:0 16px 16px}
     </div>
   </section>
 
+  <section id="midi">
+    <h2><span class="num">3</span>3가지 음색 MIDI (피아노·플루트·바이올린)</h2>
+    <div class="card">
+      <p style="margin:0 0 6px">위 악보(13마디)를 악기별 MIDI로 만들었어요. ▶로 듣고, ⬇️로 MIDI 파일을 받아 피아노 앱·작곡 프로그램에서 열 수 있어요.</p>
+      <div style="padding:10px 0;border-top:1px solid var(--line)"><b>🎹 피아노</b> <span style="color:var(--sub);font-size:.88rem">양손 악보 그대로</span>
+        <audio controls preload="none" src="media/midi/song1-piano.mp3" style="width:100%;margin-top:6px"></audio>
+        <a href="media/midi/song1-piano.mid" download>⬇️ MIDI 파일 받기 (song1-piano.mid)</a></div>
+      <div style="padding:10px 0;border-top:1px solid var(--line)"><b>🎶 플루트</b> <span style="color:var(--sub);font-size:.88rem">멜로디 플루트 + 피아노 반주</span>
+        <audio controls preload="none" src="media/midi/song1-flute.mp3" style="width:100%;margin-top:6px"></audio>
+        <a href="media/midi/song1-flute.mid" download>⬇️ MIDI 파일 받기 (song1-flute.mid)</a></div>
+      <div style="padding:10px 0;border-top:1px solid var(--line)"><b>🎻 바이올린</b> <span style="color:var(--sub);font-size:.88rem">멜로디 바이올린 + 피아노 반주</span>
+        <audio controls preload="none" src="media/midi/song1-violin.mp3" style="width:100%;margin-top:6px"></audio>
+        <a href="media/midi/song1-violin.mid" download>⬇️ MIDI 파일 받기 (song1-violin.mid)</a></div>
+      <div style="padding:10px 0;border-top:1px solid var(--line)"><b>🎼 피아노·플루트·바이올린</b> <span style="color:var(--sub);font-size:.88rem">셋이 함께 3중주</span>
+        <audio controls preload="none" src="media/midi/song1-trio.mp3" style="width:100%;margin-top:6px"></audio>
+        <a href="media/midi/song1-trio.mid" download>⬇️ MIDI 파일 받기 (song1-trio.mid)</a></div>
+      <p style="margin:10px 0 0"><a href="media/midi/song1-all-4parts.mid" download>⬇️ 4부분 이어서 MIDI 한 파일 (피아노→플루트→바이올린→3중주)</a></p>
+      <p style="margin:6px 0 0;color:var(--sub);font-size:.85rem">ⓒ 작곡 박근성 · MIDI 파일에도 저작권 표시가 들어 있어요. 무단 복제·편곡·사용 금지.</p>
+    </div>
+  </section>
+
   <section id="score">
-    <h2><span class="num">3</span>악보 보기 — 움직이는 악보</h2>
+    <h2><span class="num">4</span>악보 보기 — 움직이는 악보</h2>
     <div class="card">
       <div class="ctrls">
         <button class="btn" data-p="B" id="pBoth" style="background:#c8641e">▶ 양손 듣기</button>

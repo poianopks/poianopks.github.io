@@ -7,6 +7,7 @@
 | 무엇 | 주소 |
 |---|---|
 | 악보 페이지 (움직이는 악보 + 4부분 편곡 듣기) | https://poianopks.github.io/claude/song1.html |
+| 3가지 음색 MIDI·mp3 (피아노·플루트·바이올린·3중주) | https://poianopks.github.io/claude/song1.html#midi |
 | 4부분 편곡 음원 mp3 (2분 36초) | https://poianopks.github.io/claude/media/song1-4parts.mp3 |
 | 유튜브용 세로 영상 mp4 (1080×1920, 2분 36초) | https://poianopks.github.io/claude/media/song1-youtube.mp4 |
 | 아트홀 사진 | https://poianopks.github.io/claude/media/song1-hall.jpg |
