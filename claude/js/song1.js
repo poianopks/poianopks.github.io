@@ -25,7 +25,7 @@ function go(btn,mode,from){
 [].forEach.call(document.querySelectorAll("[data-p]"),function(b){b.onclick=function(){var m=b.dataset.p;if(m==="stop"){SE.stopAll();return;}if(SE.cur()&&SE.cur().btn===b){SE.stopAll();return;}go(b,m,null);};});
 fs.addEventListener("click",function(e){var b=SE.barFromClick(fs,e);if(b!=null)go($("pBoth"),"B",b);});
 /* 4부분 편곡 음원: 구간 바로 가기 */
-var au=$("arr"),cuts=[0,49.8,100.0,150.2];
+var au=$("arr"),cuts=[0,49.8,85.3,120.9];
 [].forEach.call(document.querySelectorAll("[data-cut]"),function(b){b.onclick=function(){SE.stopAll();au.currentTime=cuts[+b.dataset.cut];au.play();};});
 au.addEventListener("timeupdate",function(){var t=au.currentTime,i=t<cuts[1]?0:t<cuts[2]?1:t<cuts[3]?2:3;[].forEach.call(document.querySelectorAll("[data-cut]"),function(b){b.classList.toggle("live",+b.dataset.cut===i);});});
 })();
