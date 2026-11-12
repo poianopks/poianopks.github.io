@@ -112,7 +112,7 @@
 
   var snapP = fetch('./stocks-snapshot.json').then(function (r) { return r.json(); }).then(function (d) {
     snap = d;
-    $('notice').textContent = '📌 정적 버전 안내: 실시간 조회 서버가 없어, ' + d.asOf + ' 기준으로 저장한 Yahoo Finance 데이터로 브라우저에서 계산합니다.';
+    $('notice').textContent = '📌 GitHub 버전: ' + d.asOf + ' 기준 Yahoo Finance 데이터(평일 하루 3번 자동 갱신)로 브라우저에서 계산합니다.';
     return d;
   });
 
