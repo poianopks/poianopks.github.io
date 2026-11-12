@@ -43,3 +43,19 @@ Insight Navigator, New Project Insight, Stock Recommender
 - 평일 08:41 · 12:13 · 16:11, 토요일 09:23 (한국 시간)에 Replit API에서 받아 apps/ 데이터 교체
 - 실패한 항목은 예전 데이터를 그대로 둠
 - 주식 탐색기 2종은 `.github/scripts/refresh_stock_snapshots.py`가 Yahoo Finance에서 직접 받음 (Replit을 꺼도 됨)
+
+
+## E. 2026-11-12 오후 업데이트 — Replit 4개 더 끌 수 있음
+| Replit 앱 | 상태 | 이유 |
+|---|---|---|
+| Real Time News | 🔴 끄기 | `_ports/real-time-news`가 Yahoo·RSS·World Bank·네이버에서 직접 만듦 |
+| Erp Realtime Analysis | 🔴 끄기 | `_ports/erp-realtime-analysis` (Yahoo·multpl·FRED) |
+| New Project Now | 🔴 끄기 | `_ports/new-project-now` (Yahoo·RSS) |
+| New Project | 🔴 끄기 | `_ports/new-project` (Yahoo·FRED) |
+| Stock Sense | 🟢 남기기 | FRED API 키 필요 (`FRED_API_KEY`) |
+| Economic Insight Hub | 🟢 남기기 | FRED·한국은행·DART 키 필요 |
+| Economic Forecast Hub | 🟢 남기기 | 한국은행 ECOS 키 + 수출 데이터(DB) |
+
+- Stock Sense 첫 화면 404는 고장이 아님: 첫 화면이 없고 /telescope/, /stock-lens/, /invest-master/, /market-compass/ 만 있는 구조.
+- 남긴 3개도 API 키를 GitHub Secrets에 넣으면 같은 방식으로 옮겨 끌 수 있음.
+- 2026-11-12 첫 실행(GitHub Actions): ERP 9/9, 이격도 100/101, 거시경제 12/13, 뉴스 10/10, Replit 3개 147/147, 주식 탐색기 100/101·70/71.

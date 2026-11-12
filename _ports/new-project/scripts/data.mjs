@@ -23,7 +23,8 @@ const CT = "application/json; charset=utf-8";
 
 // Upstreams that also fail on the live Replit server (Yahoo has no "^DXY" symbol → 404),
 // so the original always serves its hardcoded fallback for them. Not counted as failures.
-const KNOWN_BROKEN = [/\/chart\/%5EDXY\?/];
+// FRED WILL5000PRFC(윌셔5000)는 FRED에서 서비스가 끝나 404 → 원본도 고정값(46000)을 씀.
+const KNOWN_BROKEN = [/\/chart\/%5EDXY\?/, /id=WILL5000PRFC/];
 // A key whose output used a hardcoded fallback because a normally-working source failed
 // is kept unchanged (so real data is not replaced by placeholders). ALLOW_FALLBACK=1 writes it anyway.
 const ALLOW_FALLBACK = process.env.ALLOW_FALLBACK === "1";
