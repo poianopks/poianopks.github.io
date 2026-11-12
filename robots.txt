@@ -33,5 +33,6 @@ Disallow: /midi_replit.html
 Disallow: /jusic_geng_gi.html
 Disallow: /melody-ridm.html
 Disallow: /music
+Disallow: /replit-status.html
 
 Sitemap: https://poianopks.github.io/sitemap.xml
