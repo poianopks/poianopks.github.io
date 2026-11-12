@@ -9,14 +9,14 @@
       "price": 208000,
       "change": 2000,
       "changePercent": 0.9708738,
-      "volume": "24.33M",
+      "volume": "24.38M",
       "week52High": 374500,
       "week52Low": 94500,
       "distFromHigh": -44.45927903871829,
-      "priceToBook": 2.41,
+      "priceToBook": 2.4,
       "bps": 86052,
-      "trailingPE": 9.31,
-      "forwardPE": 4.54,
+      "trailingPE": 9.26,
+      "forwardPE": 4.52,
       "eps": 22292,
       "cnsEps": 45655
     },
@@ -29,14 +29,14 @@
       "price": 1254000,
       "change": -23000,
       "changePercent": -1.8010963,
-      "volume": "5.22M",
+      "volume": "5.23M",
       "week52High": 2987000,
       "week52Low": 501000,
       "distFromHigh": -58.018078339471046,
-      "priceToBook": 3.39,
+      "priceToBook": 3.36,
       "bps": 368998,
-      "trailingPE": 5.58,
-      "forwardPE": 3.52,
+      "trailingPE": 5.53,
+      "forwardPE": 3.49,
       "eps": 224313,
       "cnsEps": 355258
     },
@@ -273,7 +273,7 @@
       "description": "마이크론 +11.89% 강세 — 메모리 가격 상승·재고 정상화 기대"
     }
   ],
-  "updatedAt": "2026-11-12T10:39:48.488Z",
+  "updatedAt": "2026-11-12T10:58:58.543Z",
   "marketStatus": "장마감",
   "isRealtime": false
 }

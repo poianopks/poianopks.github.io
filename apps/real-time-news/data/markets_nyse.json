@@ -35,9 +35,9 @@
     {
       "name": "VIX 공포지수",
       "symbol": "^VIX",
-      "value": 18.24,
-      "change": 0.75,
-      "changePercent": 4.2881646,
+      "value": 18.25,
+      "change": 0.7600002,
+      "changePercent": 4.3453417,
       "previousClose": 17.49
     }
   ],
@@ -125,7 +125,7 @@
       "volume": "4.12M"
     }
   ],
-  "updatedAt": "2026-11-12T10:39:38.863Z",
+  "updatedAt": "2026-11-12T10:58:49.541Z",
   "marketStatus": "프리마켓",
   "isRealtime": true
 }
