@@ -1,156 +1,166 @@
 [
   {
-    "id": "CNBC-1-2026-11-12T10:30:07.000Z",
+    "id": "MarketWatch-0-2026-11-12T15:55:00.000Z",
+    "title": "Nvidia is spending more than ever on Washington lobbying. It may not stop Congress from limiting China chip sales now.",
+    "description": "‘There’s no question that Congress is going to push for a complete ban on the sale of advanced semiconductors into China,’ says a former U.S. ambassador to Beijing",
+    "url": "https://www.marketwatch.com/story/nvidia-is-spending-more-than-ever-on-washington-lobbying-it-still-may-not-be-able-to-stop-congress-from-limiting-its-china-chip-sales-now-d4c34c66?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T15:55:00.000Z"
+  },
+  {
+    "id": "MarketWatch-1-2026-11-12T15:52:00.000Z",
+    "title": "Home sales plummet to lowest level since ‘Great Recession’ as prices hit all-time high",
+    "description": "Home sales fell in October to a 16-year low as buyers bolted from the housing market in the face of 7% mortgage rates.",
+    "url": "https://www.marketwatch.com/story/home-sales-plummet-to-lowest-level-since-the-great-recession-as-buyers-flee-the-market-624e6270?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T15:52:00.000Z"
+  },
+  {
+    "id": "CNBC-0-2026-11-12T15:46:36.000Z",
+    "title": "Jensen Huang's exit from Nvidia raises critical questions about the future of AI",
+    "description": "Nvidia CEO Jensen Huang has been a singular figure in the development of the AI industry, which suddenly has to survive without him.",
+    "url": "https://www.cnbc.com/2026/11/12/jensen-huangs-exit-from-nvidia-raises-questions-about-future-of-ai.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T15:46:36.000Z"
+  },
+  {
+    "id": "CNBC-6-2026-11-12T15:27:41.000Z",
+    "title": "Nebius falls 16% as company expects increased 2026 capex spend, issues weak outlook",
+    "description": "Nebius' earnings report comes after fellow neoclouds IREN and CoreWeave showed better-than-expected results in the past week.",
+    "url": "https://www.cnbc.com/2026/11/12/nebius-q3-earnings-report-2026.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T15:27:41.000Z"
+  },
+  {
+    "id": "CNBC-9-2026-11-12T15:25:49.000Z",
+    "title": "‘It had to happen’ — Jim Cramer on Jensen Huang’s resignation and future for Nvidia stock",
+    "description": "\"There's way too much evidence,\" Jim said Thursday, moments after the news broke.",
+    "url": "https://www.cnbc.com/investingclub/2026/11/12/it-had-to-happen-jim-cramer-on-the-resignation-of-nvidia-ceo-jensen-huang.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T15:25:49.000Z"
+  },
+  {
+    "id": "CNBC-4-2026-11-12T15:22:38.000Z",
+    "title": "‘A dark day for Nvidia’: Here’s what analysts have been saying about Jensen Huang’s departure",
+    "description": "The company's board convened Wednesday evening after reports emerged of Huang engaging in an affair with an employee.",
+    "url": "https://www.cnbc.com/2026/11/12/jensen-huang-nvidia-affair-ceo.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T15:22:38.000Z"
+  },
+  {
+    "id": "CNBC-10-2026-11-12T15:08:45.000Z",
+    "title": "Oil prices mixed after Trump says no Iran deal needed: 'We've got their Strait'",
+    "description": "Oil prices were mixed on Thursday, after the latest comments from President Donald Trump raised worries that an end to the U.S.-Iran war was not in sight.",
+    "url": "https://www.cnbc.com/2026/11/12/oil-prices-jump-after-trump-says-no-iran-deal-needed-weve-got-their-strait.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T15:08:45.000Z"
+  },
+  {
+    "id": "CNBC-5-2026-11-12T15:03:59.000Z",
+    "title": "Jensen and Lori Huang's Nvidia fortune is jointly controlled. How that makes things complicated now that he's resigned",
+    "description": "Jensen Huang’s $140 billion stake in Nvidia is largely held by trusts co-owned with his wife, Lori, creating added uncertainty for his financial future.",
+    "url": "https://www.cnbc.com/2026/11/12/inside-jensen-and-lori-huangs-jointly-controlled-nvidia-fortune.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T15:03:59.000Z"
+  },
+  {
+    "id": "CNBC-1-2026-11-12T14:55:16.000Z",
+    "title": "Analysis: Jensen Huang’s exit tests Nvidia’s role as the ‘central bank of AI’",
+    "description": "The tech giant's web of ties to other companies is raising the possibility that it could do far-reaching economic and financial damage.",
+    "url": "https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-ai-financial-system-risk.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T14:55:16.000Z"
+  },
+  {
+    "id": "MarketWatch-7-2026-11-12T14:49:00.000Z",
+    "title": "Jensen Huang built Nvidia into a behemoth. His resignation puts the entire AI boom in jeopardy.",
+    "description": "Huang fueled his company and the AI ecosystem with advanced chips and creative financing deals across the supply chain. What will happen now that’s he gone?",
+    "url": "https://www.marketwatch.com/story/jensen-huang-built-nvidia-into-a-behemoth-his-scandal-puts-the-entire-ai-boom-in-jeopardy-c374b079?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T14:49:00.000Z"
+  },
+  {
+    "id": "CNBC-2-2026-11-12T14:39:34.000Z",
+    "title": "Nvidia stock falls nearly 10% as CEO Jensen Huang announces resignation",
+    "description": "Chief Financial Officer Colette Kress will serve as interim CEO until a new leader is appointed.",
+    "url": "https://www.cnbc.com/2026/11/12/nvidia-nvda-jensen-huang-second-affair.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T14:39:34.000Z"
+  },
+  {
+    "id": "MarketWatch-9-2026-11-12T14:19:00.000Z",
+    "title": "Opening trading-card packs has become a $2 billion market",
+    "description": "Pack-ripping apps are changing the way people buy and sell cards. But analysts say their “slot-like payoff” raises risks.",
+    "url": "https://www.marketwatch.com/story/opening-trading-card-packs-has-become-a-2-billion-market-new-apps-are-trying-to-cash-in-b7ba11f5?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T14:19:00.000Z"
+  },
+  {
+    "id": "CNBC-17-2026-11-12T13:59:30.000Z",
+    "title": "Canada’s ambassador warns Trump tariffs are driving up costs, threatening U.S. investment",
+    "description": "U.S.-Canada trade tensions persist as Trump's tariffs drive up costs, threaten investment and complicate negotiations between the two countries.",
+    "url": "https://www.cnbc.com/2026/11/11/canada-ambassador-trump-tariffs-investments.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T13:59:30.000Z"
+  },
+  {
+    "id": "CNBC-12-2026-11-12T13:15:02.000Z",
+    "title": "As credit card balances hit a record high, medical bills can become 'shadow debt,' expert says",
+    "description": "Medical bills can move onto credit cards and other borrowing, making the debt harder to track. Here's what consumers can check before financing care.",
+    "url": "https://www.cnbc.com/2026/11/12/medical-bills-credit-card-debt.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T13:15:02.000Z"
+  },
+  {
+    "id": "CNBC-11-2026-11-12T13:09:33.000Z",
+    "title": "Unions helped Democrats win big in 2026. Now they want action",
+    "description": "Unions spent millions of dollars and mobilized thousands of members to get out the vote for Democrats in the midterm election. Now they want to see action.",
+    "url": "https://www.cnbc.com/2026/11/12/democrats-unions-midterms-2026.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T13:09:33.000Z"
+  },
+  {
+    "id": "CNBC-15-2026-11-12T11:23:04.000Z",
     "title": "Ukraine warns of fresh Starshield disruptions as U.S. envoys arrive in Moscow for talks with Putin",
     "description": "Starshield is SpaceX's military-grade satellite network designed for government and national security use, building on the technology developed for Starlink.",
     "url": "https://www.cnbc.com/2026/11/12/starlink-starshield-ukraine-restrictions-spacex.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-12T10:30:07.000Z"
+    "publishedAt": "2026-11-12T11:23:04.000Z"
   },
   {
-    "id": "MarketWatch-0-2026-11-12T10:15:00.000Z",
-    "title": "I inherited $1.4 million from my father. Am I wrong to ask my husband of 25 years for a postnuptial agreement?",
-    "description": "“He has always said he wants his daughter to inherit a chunk of his estate, and I’ve never objected to that.”",
-    "url": "https://www.marketwatch.com/story/i-inherited-1-4-million-from-my-father-am-i-wrong-to-ask-my-husband-of-25-years-for-a-postnuptial-agreement-b739c51d?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T10:15:00.000Z"
-  },
-  {
-    "id": "MarketWatch-1-2026-11-12T10:07:00.000Z",
-    "title": "Nvidia’s stock drops as the board reportedly prepares to remove CEO Jensen Huang",
-    "description": "Nvidia’s board of directors reportedly met late Wednesday to determine the CEO’s fate.",
-    "url": "https://www.marketwatch.com/story/nvidias-stock-drops-as-the-board-reportedly-prepares-to-remove-ceo-jensen-huang-9edee58d?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T10:07:00.000Z"
-  },
-  {
-    "id": "CNBC-0-2026-11-12T09:49:21.000Z",
-    "title": "Nvidia stock falls 6% as investors await Jensen Huang’s fate",
-    "description": "Nvidia's board met on Wednesday to discuss whether to oust Jensen Huang as CEO.",
-    "url": "https://www.cnbc.com/2026/11/12/nvidia-nvda-jensen-huang-second-affair.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T09:49:21.000Z"
-  },
-  {
-    "id": "CNBC-6-2026-11-12T09:05:22.000Z",
-    "title": "Ukrainian defense tech startup hits $6 billion valuation as investors bet on battle-tested drones",
-    "description": "UFORCE's NEMESIS drones have completed 300,000 combat flights, and its MAGURA naval vessels have contributed to the destruction of Russian warships.",
-    "url": "https://www.cnbc.com/2026/11/12/uforce-defense-tech-drones-warfare-ukraine.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T09:05:22.000Z"
-  },
-  {
-    "id": "CNBC-14-2026-11-12T07:38:45.000Z",
-    "title": "Treasury yields edge higher as investors await fresh inflation and housing data",
-    "description": "Treasury yields rose as bond markets reopened following Veterans Day.",
-    "url": "https://www.cnbc.com/2026/11/12/us-treasurys-bonds-yields.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T07:38:45.000Z"
-  },
-  {
-    "id": "MarketWatch-3-2026-11-12T07:30:00.000Z",
-    "title": "Jensen Huang built Nvidia into a behemoth. His scandal puts the entire AI boom in jeopardy.",
-    "description": "Huang fueled his company and the AI ecosystem with advanced chips and creative financing deals across the supply chain. What happens if he’s gone?",
-    "url": "https://www.marketwatch.com/story/jensen-huang-built-nvidia-into-a-behemoth-his-scandal-puts-the-entire-ai-boom-in-jeopardy-c374b079?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T07:30:00.000Z"
-  },
-  {
-    "id": "MarketWatch-4-2026-11-12T04:41:00.000Z",
-    "title": "Nasdaq futures fall as Nvidia sinks 8% after hours on report board may oust Huang",
-    "description": "Stock futures were sliding Wednesday evening as a selloff in shares of Nvidia after the closing bell weighed on the Nasdaq-100 and dragged down shares of other chip makers.",
-    "url": "https://www.marketwatch.com/story/nasdaq-futures-fall-as-nvidia-sinks-8-after-hours-on-report-board-may-oust-huang-e99b898d?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T04:41:00.000Z"
-  },
-  {
-    "id": "CNBC-11-2026-11-12T03:36:44.000Z",
-    "title": "The world's super-rich are piling into alternative investments. Here's why",
-    "description": "Alternative investments now account for 60% of single-family office portfolios, surpassing traditional assets for the first time, according to BNY Wealth.",
-    "url": "https://www.cnbc.com/2026/11/12/rich-wealth-alternative-assets-.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T03:36:44.000Z"
-  },
-  {
-    "id": "MarketWatch-6-2026-11-12T03:10:00.000Z",
-    "title": "Here’s how Bernie Sanders wants to keep Social Security solvent ‘for generations’",
-    "description": "The Vermont senator aims to eliminate the taxable maximum, making the wealthy pay more in taxes",
-    "url": "https://www.marketwatch.com/story/heres-how-bernie-sanders-wants-to-keep-social-security-solvent-for-generations-f5666a38?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T03:10:00.000Z"
-  },
-  {
-    "id": "MarketWatch-7-2026-11-12T02:45:00.000Z",
-    "title": "‘I’m sick of flying’: I paid for priority boarding, but the overhead bins were full. Was I duped?",
-    "description": "“Maybe next time I’ll try the other approach: I’ll board whenever I feel like it and drop my suitcase in the first open slot I see.”",
-    "url": "https://www.marketwatch.com/story/im-sick-of-flying-i-paid-for-priority-boarding-but-the-overhead-bins-were-full-was-i-duped-0badcc80?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T02:45:00.000Z"
-  },
-  {
-    "id": "CNBC-17-2026-11-12T01:14:21.000Z",
-    "title": "Cramer's stance on Nvidia's stock amid reports that CEO Jensen Huang may be ousted",
-    "description": "Jim Cramer said Wednesday night that he was saddened by a news report that indicated Nvidia's board of directors is preparing to fire Huang.",
-    "url": "https://www.cnbc.com/investingclub/2026/11/11/jim-cramer-jensen-huang-nvidia-stock-advice.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T01:14:21.000Z"
-  },
-  {
-    "id": "CNBC-10-2026-11-11T23:41:46.000Z",
-    "title": "Jim Cramer says investors need to pay attention to CoreWeave. Here's why",
-    "description": "Cramer said he's becoming less skeptical of CoreWeave after strong earnings and reassuring comments from its CEO.",
-    "url": "https://www.cnbc.com/2026/11/11/jim-cramer-coreweave-earnings-ceo-interview.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-11T23:41:46.000Z"
-  },
-  {
-    "id": "MarketWatch-9-2026-11-11T23:30:00.000Z",
-    "title": "Your holiday credit-card bills are going up. What you can do to ease the pain.",
-    "description": "The government may have lost a month of inflation data, but don’t expect your credit card’s annual percentage rate to decline because of it.",
-    "url": "https://www.marketwatch.com/story/your-holiday-credit-card-bills-are-going-up-what-you-can-do-to-ease-the-pain-5ddeb446?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-11T23:30:00.000Z"
-  },
-  {
-    "id": "CNBC-8-2026-11-11T22:59:33.000Z",
-    "title": "Analysis: Is Nvidia too big to fail? Its AI financing web raises the stakes",
-    "description": "The tech giant's web of ties to other companies is raising the possibility that it could do far-reaching economic and financial damage.",
-    "url": "https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-ai-financial-system-risk.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-11T22:59:33.000Z"
-  },
-  {
-    "id": "CNBC-3-2026-11-11T22:58:11.000Z",
+    "id": "CNBC-14-2026-11-11T22:58:11.000Z",
     "title": "Feds arrest top official of healthcare company, alleging illegal drug importation",
     "description": "U.S. officials are accusing two top officials of a Canadian company of operating a scheme to illegally import prescription drugs, court records show.",
     "url": "https://www.cnbc.com/2026/11/11/canarx-official-arrested-drug-importation.html",
@@ -160,27 +170,7 @@
     "publishedAt": "2026-11-11T22:58:11.000Z"
   },
   {
-    "id": "CNBC-4-2026-11-11T22:46:29.000Z",
-    "title": "Jensen Huang affair in D.C.: Resignation calls and moves to tighten Nvidia China exports",
-    "description": "Huang was notably opposed to strict export controls on AI chips to China, which ruffled feathers with congressional China hawks.",
-    "url": "https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-congress-resign-ai-chips.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-11T22:46:29.000Z"
-  },
-  {
-    "id": "CNBC-7-2026-11-11T22:30:57.000Z",
-    "title": "Canada’s ambassador warns Trump tariffs are driving up costs, threatening U.S. investment",
-    "description": "U.S.-Canada trade tensions persist as Trump's tariffs drive up costs, threaten investment and complicate negotiations between the two countries.",
-    "url": "https://www.cnbc.com/2026/11/11/canada-ambassador-trump-tariffs-investments.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-11T22:30:57.000Z"
-  },
-  {
-    "id": "CNBC-18-2026-11-11T22:20:58.000Z",
+    "id": "CNBC-19-2026-11-11T22:20:58.000Z",
     "title": "American Airlines brings fresh food back to NY-Chicago first class for first time since 2019",
     "description": "American Airlines' first-class food options include sandwiches, fruit and chia bowls",
     "url": "https://www.cnbc.com/2026/11/11/american-airlines-first-class-chicago-new-york.html",
@@ -188,26 +178,6 @@
     "source": "CNBC",
     "category": "글로벌",
     "publishedAt": "2026-11-11T22:20:58.000Z"
-  },
-  {
-    "id": "CNBC-15-2026-11-11T22:10:50.000Z",
-    "title": "JetBlue unveils new first-class seats to bring back profits",
-    "description": "JetBlue gave reporters a look at its new first-class seats on Wednesday.",
-    "url": "https://www.cnbc.com/2026/11/11/jetblue-ceo-premium.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-11T22:10:50.000Z"
-  },
-  {
-    "id": "CNBC-13-2026-11-11T19:54:27.000Z",
-    "title": "Social Security could pay full benefits until 2059 if taxable payroll kept pace with GDP: AARP report",
-    "description": "An aging work force is not the only reason Social Security's trust funds now have a looming shortfall, according to AARP Public Policy Institute research.",
-    "url": "https://www.cnbc.com/2026/11/11/social-security-benefits-taxable-payroll-gdp.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-11T19:54:27.000Z"
   },
   {
     "id": "WSJ Markets-0-2025-01-27T19:26:00.000Z",
