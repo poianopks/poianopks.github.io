@@ -1,4 +1,37 @@
+User-agent: Mediapartners-Google
+Allow: /
+
 User-agent: *
 Allow: /
+Disallow: /apps/
+Disallow: /cld_eco/
+Disallow: /test/
+Disallow: /a/
+Disallow: /html/
+Disallow: /logic/
+Disallow: /ath_replit/
+Disallow: /_
+Disallow: /Aside_replit_bak.html
+Disallow: /claude_replit_bak.html
+Disallow: /ridm_bak_root.html
+Disallow: /gen
+Disallow: /genspk
+Disallow: /manus_
+Disallow: /chujung.html
+Disallow: /deep_chujung.html
+Disallow: /deepseek_chujung.html
+Disallow: /gpt_judic_balgul.html
+Disallow: /py_gpt.html
+Disallow: /copilot-memo.html
+Disallow: /simple-memo.html
+Disallow: /seongsil-memo.html
+Disallow: /ribbon.html
+Disallow: /ribon1.html
+Disallow: /replit_ath
+Disallow: /chungi_replit.html
+Disallow: /midi_replit.html
+Disallow: /jusic_geng_gi.html
+Disallow: /melody-ridm.html
+Disallow: /music
 
 Sitemap: https://poianopks.github.io/sitemap.xml
