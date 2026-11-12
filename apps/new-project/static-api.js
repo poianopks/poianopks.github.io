@@ -1,5 +1,10 @@
 /* 정적(GitHub Pages) 버전용 API 대체 스크립트: /api/* 요청을 번들된 스냅샷(api-snapshot.json)으로 응답합니다. */
 (function () {
+  // 스냅샷 값은 {status, ct, body:"문자열"} 포장형 또는 그냥 JSON 값(자동 갱신이 쓰는 형식) 둘 다 허용
+  function wrapped(h){ return h && typeof h === "object" && typeof h.body === "string" && ("ct" in h || "status" in h); }
+  function bodyOf(h){ return wrapped(h) ? h.body : JSON.stringify(h); }
+  function statusOf(h){ return wrapped(h) ? (h.status || 200) : 200; }
+  function ctOf(h){ return wrapped(h) ? h.ct : "application/json; charset=utf-8"; }
   var CFG = window.__STATIC_CFG || {};
   var SNAP_URL = CFG.snapshot || "api-snapshot.json";
   var origFetch = window.fetch.bind(window);
@@ -38,7 +43,7 @@
       keys.forEach(function (k) {
         var q = parse(k.replace(/^(GET|POST) /, ""));
         if (q.path !== p.path) return;
-        try { var b = JSON.parse(snap[k].body); var d = b[CFG.mergeQuote.field]; if (!extra) extra = b;
+        try { var b = JSON.parse(bodyOf(snap[k])); var d = b[CFG.mergeQuote.field]; if (!extra) extra = b;
           want2.forEach(function (t) { if (d && d[t] && !out[t]) { out[t] = d[t]; ok = true; } }); } catch (e) {}
       });
       if (ok) { var nb = Object.assign({}, extra); nb[CFG.mergeQuote.field] = out; return { status: 200, body: JSON.stringify(nb) }; }
@@ -69,7 +74,7 @@
     return loadSnap().then(function (snap) {
       var hit = lookup(snap, method, p);
       if (!hit) return resp(404, JSON.stringify({ error: "정적 버전에 저장된 데이터가 없습니다.", message: "정적 버전에 저장된 데이터가 없습니다." }));
-      return resp(hit.status || 200, hit.body, hit.ct);
+      return resp(statusOf(hit), bodyOf(hit), ctOf(hit));
     });
   };
   // EventSource(SSE) 대체: 스냅샷 한 건을 이벤트로 전달
@@ -85,7 +90,7 @@
         var hit = snap["SSE " + abs.pathname];
         self.readyState = 1;
         if (self.onopen) self.onopen({ type: "open" });
-        if (hit) self._emit(conf.event || "message", hit.body);
+        if (hit) self._emit(conf.event || "message", bodyOf(hit));
       });
     };
     FakeES.prototype.addEventListener = function (t, f) { (this._l[t] = this._l[t] || []).push(f); };
