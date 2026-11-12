@@ -16,18 +16,18 @@ KST = timezone(timedelta(hours=9))
 STAMP = datetime.now(KST).strftime("%Y-%m-%d %H:%M")
 
 # 보관판 폴더 → Replit 원본 주소
+# Replit에서 아직 받아 오는 앱 (API 키가 필요해 GitHub로 옮기지 않은 앱)
+# real-time-news, erp-realtime-analysis, new-project-now, new-project 는
+# _ports/ 의 GitHub 자체 스크립트로 옮겨서 Replit을 깨우지 않습니다.
 DATA_DIR_APPS = {
     "economic-forecast-hub": "https://economic-forecast-hub.replit.app",
-    "real-time-news": "https://real-time-news.replit.app",
-    "erp-realtime-analysis": "https://erp-realtime-analysis.replit.app",
 }
 SNAPSHOT_APPS = {
     "stock-sense": "https://stock-sense.replit.app",
-    "new-project-now": "https://new-project-now.replit.app",
     "economic-insight-hub": "https://economic-insight-hub.replit.app",
-    "new-project": "https://new-project-pianopks1.replit.app",
-    "new-project/market-cycle": "https://new-project-pianopks1.replit.app",
 }
+# _ports/ 스크립트가 데이터를 바꾼 뒤 날짜 표시만 고치는 앱
+PORTED_APPS = ["real-time-news", "erp-realtime-analysis", "new-project-now", "new-project"]
 SKIP = ("admin", "stream", "/ai", "chat")
 
 
@@ -92,7 +92,8 @@ def stamp_hub(slug):
 
 ok = fail = 0
 report = []
-for slug, base in DATA_DIR_APPS.items():
+STAMP_ONLY = "--stamp-ported" in sys.argv
+for slug, base in ({} if STAMP_ONLY else DATA_DIR_APPS).items():
     app_dir = os.path.join(ROOT, slug)
     eps = endpoints_from_bundle(app_dir)
     good = 0
@@ -113,7 +114,7 @@ for slug, base in DATA_DIR_APPS.items():
         stamp_files(app_dir)
         stamp_hub(slug)
 
-for slug, base in SNAPSHOT_APPS.items():
+for slug, base in ({} if STAMP_ONLY else SNAPSHOT_APPS).items():
     p = os.path.join(ROOT, slug, "api-snapshot.json")
     snap = json.load(open(p, encoding="utf-8"))
     good = 0
@@ -132,6 +133,18 @@ for slug, base in SNAPSHOT_APPS.items():
         stamp_hub(slug.split("/")[0])
     ok += good
     report.append(f"{slug}: {good}개 갱신")
+
+if "--stamp-ported" in sys.argv:
+    import subprocess
+    for slug in PORTED_APPS:
+        changed = subprocess.run(["git", "status", "--porcelain", os.path.join(ROOT, slug)],
+                                 capture_output=True, text=True).stdout.strip()
+        if changed:
+            stamp_files(os.path.join(ROOT, slug))
+            stamp_hub(slug)
+            report.append(f"{slug}: GitHub 자체 갱신 → 날짜 표시 변경")
+    print("\n".join(report))
+    sys.exit(0)
 
 print(f"{STAMP} KST · 성공 {ok} · 실패 {fail}")
 print("\n".join(report))
