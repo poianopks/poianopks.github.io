@@ -1,5 +1,15 @@
 [
   {
+    "id": "CNBC-1-2026-11-12T10:30:07.000Z",
+    "title": "Ukraine warns of fresh Starshield disruptions as U.S. envoys arrive in Moscow for talks with Putin",
+    "description": "Starshield is SpaceX's military-grade satellite network designed for government and national security use, building on the technology developed for Starlink.",
+    "url": "https://www.cnbc.com/2026/11/12/starlink-starshield-ukraine-restrictions-spacex.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T10:30:07.000Z"
+  },
+  {
     "id": "MarketWatch-0-2026-11-12T10:15:00.000Z",
     "title": "I inherited $1.4 million from my father. Am I wrong to ask my husband of 25 years for a postnuptial agreement?",
     "description": "“He has always said he wants his daughter to inherit a chunk of his estate, and I’ve never objected to that.”",
@@ -18,6 +28,36 @@
     "source": "MarketWatch",
     "category": "글로벌",
     "publishedAt": "2026-11-12T10:07:00.000Z"
+  },
+  {
+    "id": "CNBC-0-2026-11-12T09:49:21.000Z",
+    "title": "Nvidia stock falls 6% as investors await Jensen Huang’s fate",
+    "description": "Nvidia's board met on Wednesday to discuss whether to oust Jensen Huang as CEO.",
+    "url": "https://www.cnbc.com/2026/11/12/nvidia-nvda-jensen-huang-second-affair.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T09:49:21.000Z"
+  },
+  {
+    "id": "CNBC-7-2026-11-12T09:05:22.000Z",
+    "title": "Ukrainian defense tech startup hits $6 billion valuation as investors bet on battle-tested drones",
+    "description": "UFORCE's NEMESIS drones have completed 300,000 combat flights, and its MAGURA naval vessels have contributed to the destruction of Russian warships.",
+    "url": "https://www.cnbc.com/2026/11/12/uforce-defense-tech-drones-warfare-ukraine.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T09:05:22.000Z"
+  },
+  {
+    "id": "CNBC-19-2026-11-12T07:38:45.000Z",
+    "title": "Treasury yields edge higher as investors await fresh inflation and housing data",
+    "description": "Treasury yields rose as bond markets reopened following Veterans Day.",
+    "url": "https://www.cnbc.com/2026/11/12/us-treasurys-bonds-yields.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T07:38:45.000Z"
   },
   {
     "id": "MarketWatch-3-2026-11-12T07:30:00.000Z",
@@ -40,6 +80,16 @@
     "publishedAt": "2026-11-12T04:41:00.000Z"
   },
   {
+    "id": "CNBC-12-2026-11-12T03:36:44.000Z",
+    "title": "The world's super-rich are piling into alternative investments. Here's why",
+    "description": "Alternative investments now account for 60% of single-family office portfolios, surpassing traditional assets for the first time, according to BNY Wealth.",
+    "url": "https://www.cnbc.com/2026/11/12/rich-wealth-alternative-assets-.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T03:36:44.000Z"
+  },
+  {
     "id": "MarketWatch-6-2026-11-12T03:10:00.000Z",
     "title": "Here’s how Bernie Sanders wants to keep Social Security solvent ‘for generations’",
     "description": "The Vermont senator aims to eliminate the taxable maximum, making the wealthy pay more in taxes",
@@ -60,6 +110,26 @@
     "publishedAt": "2026-11-12T02:45:00.000Z"
   },
   {
+    "id": "CNBC-17-2026-11-12T01:14:21.000Z",
+    "title": "Cramer's stance on Nvidia's stock amid reports that CEO Jensen Huang may be ousted",
+    "description": "Jim Cramer said Wednesday night that he was saddened by a news report that indicated Nvidia's board of directors is preparing to fire Huang.",
+    "url": "https://www.cnbc.com/investingclub/2026/11/11/jim-cramer-jensen-huang-nvidia-stock-advice.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-12T01:14:21.000Z"
+  },
+  {
+    "id": "CNBC-11-2026-11-11T23:41:46.000Z",
+    "title": "Jim Cramer says investors need to pay attention to CoreWeave. Here's why",
+    "description": "Cramer said he's becoming less skeptical of CoreWeave after strong earnings and reassuring comments from its CEO.",
+    "url": "https://www.cnbc.com/2026/11/11/jim-cramer-coreweave-earnings-ceo-interview.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-11T23:41:46.000Z"
+  },
+  {
     "id": "MarketWatch-9-2026-11-11T23:30:00.000Z",
     "title": "Your holiday credit-card bills are going up. What you can do to ease the pain.",
     "description": "The government may have lost a month of inflation data, but don’t expect your credit card’s annual percentage rate to decline because of it.",
@@ -68,6 +138,76 @@
     "source": "MarketWatch",
     "category": "글로벌",
     "publishedAt": "2026-11-11T23:30:00.000Z"
+  },
+  {
+    "id": "CNBC-9-2026-11-11T22:59:33.000Z",
+    "title": "Analysis: Is Nvidia too big to fail? Its AI financing web raises the stakes",
+    "description": "The tech giant's web of ties to other companies is raising the possibility that it could do far-reaching economic and financial damage.",
+    "url": "https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-ai-financial-system-risk.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-11T22:59:33.000Z"
+  },
+  {
+    "id": "CNBC-3-2026-11-11T22:58:11.000Z",
+    "title": "Feds arrest top official of healthcare company, alleging illegal drug importation",
+    "description": "U.S. officials are accusing two top officials of a Canadian company of operating a scheme to illegally import prescription drugs, court records show.",
+    "url": "https://www.cnbc.com/2026/11/11/canarx-official-arrested-drug-importation.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-11T22:58:11.000Z"
+  },
+  {
+    "id": "CNBC-6-2026-11-11T22:46:29.000Z",
+    "title": "Jensen Huang affair in D.C.: Resignation calls and moves to tighten Nvidia China exports",
+    "description": "Huang was notably opposed to strict export controls on AI chips to China, which ruffled feathers with congressional China hawks.",
+    "url": "https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-congress-resign-ai-chips.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-11T22:46:29.000Z"
+  },
+  {
+    "id": "CNBC-10-2026-11-11T22:30:57.000Z",
+    "title": "Canada’s ambassador warns Trump tariffs are driving up costs, threatening U.S. investment",
+    "description": "U.S.-Canada trade tensions persist as Trump's tariffs drive up costs, threaten investment and complicate negotiations between the two countries.",
+    "url": "https://www.cnbc.com/2026/11/11/canada-ambassador-trump-tariffs-investments.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-11T22:30:57.000Z"
+  },
+  {
+    "id": "CNBC-13-2026-11-11T22:20:58.000Z",
+    "title": "American Airlines brings fresh food back to NY-Chicago first class for first time since 2019",
+    "description": "American Airlines' first-class food options include sandwiches, fruit and chia bowls",
+    "url": "https://www.cnbc.com/2026/11/11/american-airlines-first-class-chicago-new-york.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-11T22:20:58.000Z"
+  },
+  {
+    "id": "CNBC-15-2026-11-11T22:10:50.000Z",
+    "title": "JetBlue unveils new first-class seats to bring back profits",
+    "description": "JetBlue gave reporters a look at its new first-class seats on Wednesday.",
+    "url": "https://www.cnbc.com/2026/11/11/jetblue-ceo-premium.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-11T22:10:50.000Z"
+  },
+  {
+    "id": "CNBC-14-2026-11-11T19:54:27.000Z",
+    "title": "Social Security could pay full benefits until 2059 if taxable payroll kept pace with GDP: AARP report",
+    "description": "An aging work force is not the only reason Social Security's trust funds now have a looming shortfall, according to AARP Public Policy Institute research.",
+    "url": "https://www.cnbc.com/2026/11/11/social-security-benefits-taxable-payroll-gdp.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-11T19:54:27.000Z"
   },
   {
     "id": "WSJ Markets-0-2025-01-27T19:26:00.000Z",
