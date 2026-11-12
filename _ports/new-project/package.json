@@ -1,0 +1,12 @@
+{
+  "name": "new-project-port",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GitHub Actions port of the Replit 'New Project' backend (macro + market-cycle) that regenerates apps/new-project api-snapshot.json files.",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "data": "node scripts/data.mjs",
+    "shape-check": "node scripts/shape-check.mjs"
+  }
+}

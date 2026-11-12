@@ -1,7 +1,7 @@
 name: 앱 모음 데이터 갱신
 
 # apps/ 의 GitHub Pages 보관판(경제나침반, 뉴스 대시보드, 밸류미터, Stock Sense 등) 데이터를
-# Replit 원본 앱의 API에서 다시 받아 옵니다. (시간은 UTC, 한국 = UTC+9)
+# GitHub 자체 스크립트(_ports/) 또는 Replit 원본 앱의 API에서 다시 받아 옵니다. (시간은 UTC, 한국 = UTC+9)
 # Replit 앱을 하루 몇 번만 깨우므로 Replit 요금 영향은 아주 적습니다.
 # 주식 탐색기 2종(stock-finder, kospi-screener)은 Replit 없이 Yahoo Finance에서 직접 받습니다.
 on:
@@ -30,7 +30,21 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Replit 원본에서 데이터 받기
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: GitHub 자체 스크립트로 데이터 만들기 (_ports, Replit 불필요)
+        continue-on-error: true
+        run: |
+          for d in _ports/*/; do
+            echo "::group::$d"
+            (cd "$d" && npm ci --no-audit --no-fund && timeout 900 npm run data) || echo "⚠️ $d 실패 (예전 데이터 유지)"
+            echo "::endgroup::"
+          done
+          python .github/scripts/refresh_apps.py --stamp-ported
+
+      - name: Replit 원본에서 데이터 받기 (API 키가 필요한 3개 앱)
         continue-on-error: true
         run: python .github/scripts/refresh_apps.py
 
