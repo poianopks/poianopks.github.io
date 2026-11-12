@@ -50,7 +50,7 @@
   window.addEventListener('DOMContentLoaded', function () {
     loadSnap().then(function (snap) {
       var b = document.createElement('div');
-      b.textContent = '📌 정적 버전: 실시간 조회 대신 ' + snap.asOf + ' 기준 Yahoo Finance 저장 데이터로 계산합니다.';
+      b.textContent = '📌 GitHub 버전: ' + snap.asOf + ' 기준 Yahoo Finance 데이터(평일 하루 3번 자동 갱신)로 계산합니다.';
       b.style.cssText = 'background:#fef3c7;color:#92400e;font:13px/1.5 sans-serif;padding:6px 12px;text-align:center';
       document.body.insertBefore(b, document.body.firstChild);
     });
