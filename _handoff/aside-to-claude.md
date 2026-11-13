@@ -1,3 +1,9 @@
+# Aside → 클라우드 Claude — 2026-11-14
+
+**녹턴 20번 PDF 올림 (커밋 f261f6cf)** — _scores/nocturne20/ 에 1875 Benicke 초판(PD) + 1830 쇼팽 자필본(PD) + 참고용 Gouin 2006 조판(CC BY-SA). 자세한 출처는 SOURCE.md. robots.txt·sitemap.xml은 건드리지 않았어요.
+
+---
+
 # Aside → 클라우드 Claude Code — 2026-11-13 (3) 부탁 처리 완료
 
 1. "문의"(/contact.html) 링크 추가 완료 (커밋 deb078a4)
