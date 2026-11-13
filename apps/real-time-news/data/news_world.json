@@ -1,5 +1,25 @@
 [
   {
+    "id": "CNBC-4-2026-11-13T02:43:26.000Z",
+    "title": "Cerebras surges 17% after beating on quarterly revenue and announcing Microsoft deal",
+    "description": "Cerebras announced a new deal with Microsoft after partnering with major cloud providers Amazon and Oracle.",
+    "url": "https://www.cnbc.com/2026/11/12/cerebras-systems-cbrs-q3-earnings-report-2026.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T02:43:26.000Z"
+  },
+  {
+    "id": "CNBC-6-2026-11-13T02:25:02.000Z",
+    "title": "The world's super-rich are piling into alternative investments. Here's why",
+    "description": "Alternative investments now account for 60% of single-family office portfolios, surpassing traditional assets for the first time, according to BNY Wealth.",
+    "url": "https://www.cnbc.com/2026/11/12/rich-wealth-alternative-assets-.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T02:25:02.000Z"
+  },
+  {
     "id": "CNBC-10-2026-11-12T23:14:56.000Z",
     "title": "Cramer says Jensen Huang betrayed Nvidia shareholders. How to pick up the pieces",
     "description": "Without Huang, Cramer said Thursday, \"There won't be a better Nvidia, just a different one.\"",
@@ -18,16 +38,6 @@
     "source": "MarketWatch",
     "category": "글로벌",
     "publishedAt": "2026-11-12T22:57:00.000Z"
-  },
-  {
-    "id": "CNBC-4-2026-11-12T22:48:26.000Z",
-    "title": "Cerebras surges 17% after beating on quarterly revenue and announcing Microsoft deal",
-    "description": "Cerebras announced a new deal with Microsoft after partnering with major cloud providers Amazon and Oracle.",
-    "url": "https://www.cnbc.com/2026/11/12/cerebras-systems-cbrs-q3-earnings-report-2026.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T22:48:26.000Z"
   },
   {
     "id": "MarketWatch-1-2026-11-12T22:38:00.000Z",
@@ -60,7 +70,7 @@
     "publishedAt": "2026-11-12T22:16:00.000Z"
   },
   {
-    "id": "CNBC-12-2026-11-12T22:06:08.000Z",
+    "id": "CNBC-11-2026-11-12T22:06:08.000Z",
     "title": "Without Jensen Huang, Nvidia's organizational structure isn't 'built to last,' management expert says",
     "description": "Nvidia's flat management structure could pose challenges for Huang's successor, according to experts.",
     "url": "https://www.cnbc.com/make-it/2026/11/12/nvidia-jensen-huang-management-structure.html",
@@ -90,7 +100,7 @@
     "publishedAt": "2026-11-12T21:30:00.000Z"
   },
   {
-    "id": "CNBC-5-2026-11-12T21:20:35.000Z",
+    "id": "CNBC-9-2026-11-12T21:20:35.000Z",
     "title": "Cisco beats on earnings, says AI infrastructure revenue will double this fiscal year",
     "description": "Cisco is trying to become a bigger player in AI after missing out on the early years of the boom.",
     "url": "https://www.cnbc.com/2026/11/12/cisco-csco-q1-2027-earnings.html",
@@ -140,7 +150,7 @@
     "publishedAt": "2026-11-12T20:24:59.000Z"
   },
   {
-    "id": "CNBC-14-2026-11-12T20:03:57.000Z",
+    "id": "CNBC-15-2026-11-12T20:03:57.000Z",
     "title": "Donald Trump Jr. exits advisory role at Kalshi prediction market",
     "description": "The president's son will no longer serve as an advisor at Kalshi.",
     "url": "https://www.cnbc.com/2026/11/12/donald-trump-jr-exits-kalshi-advisory-role.html",
@@ -150,7 +160,7 @@
     "publishedAt": "2026-11-12T20:03:57.000Z"
   },
   {
-    "id": "CNBC-6-2026-11-12T20:01:29.000Z",
+    "id": "CNBC-5-2026-11-12T20:01:29.000Z",
     "title": "Jensen Huang is out and Nvidia stock is down—what market pros say about buying dips",
     "description": "Nvidia stock fell 5% on Thursday following the departure of CEO Jensen Huang. Some see it as a signal to sell, others an opportunity to buy.",
     "url": "https://www.cnbc.com/make-it/2026/11/12/nvidia-what-market-pros-say-about-buying-dips.html",
@@ -208,16 +218,6 @@
     "source": "CNBC",
     "category": "글로벌",
     "publishedAt": "2026-11-12T17:23:14.000Z"
-  },
-  {
-    "id": "CNBC-9-2026-11-12T03:36:44.000Z",
-    "title": "The world's super-rich are piling into alternative investments. Here's why",
-    "description": "Alternative investments now account for 60% of single-family office portfolios, surpassing traditional assets for the first time, according to BNY Wealth.",
-    "url": "https://www.cnbc.com/2026/11/12/rich-wealth-alternative-assets-.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T03:36:44.000Z"
   },
   {
     "id": "CNBC-13-2026-11-11T23:57:38.000Z",

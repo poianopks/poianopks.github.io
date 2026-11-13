@@ -1,15 +1,15 @@
 {
   "kospi": {
-    "value": 5444.67,
-    "change": 101.93994,
-    "changePercent": 1.9080123,
+    "value": 5372.64,
+    "change": 29.910156,
+    "changePercent": 0.55982906,
     "previousClose": 5342.73,
     "marketState": "REGULAR"
   },
   "kosdaq": {
-    "value": 722.11,
-    "change": 25.579956,
-    "changePercent": 3.6724844,
+    "value": 711.63,
+    "change": 15.099976,
+    "changePercent": 2.1678858,
     "previousClose": 696.53
   },
   "bondYield10y": 5.1029997,
@@ -32,7 +32,7 @@
       "level": "low"
     },
     {
-      "title": "코스피 +1.91% 등락",
+      "title": "코스피 +0.56% 등락",
       "detail": "등락폭 안정. ETF 44조 대기자금이 조정 시 자동 지지선 역할.",
       "level": "low"
     },
@@ -64,23 +64,23 @@
       "signal": "positive"
     }
   ],
-  "balanceScore": 37,
+  "balanceScore": 32,
   "kospiScenarios": [
     {
       "label": "-10% 조정",
-      "level": 4900,
+      "level": 4835,
       "pct": -10,
       "severity": "caution"
     },
     {
       "label": "-15% 조정",
-      "level": 4628,
+      "level": 4567,
       "pct": -15,
       "severity": "warning"
     },
     {
       "label": "-20% 조정",
-      "level": 4356,
+      "level": 4298,
       "pct": -20,
       "severity": "danger"
     }
@@ -92,45 +92,45 @@
       "nameKo": "효성중공업",
       "sector": "전력인프라",
       "currency": "KRW",
-      "price": 123500,
-      "change": -1100,
-      "changePercent": -0.882825
+      "price": 122100,
+      "change": -2500,
+      "changePercent": -2.0064206
     },
     {
       "symbol": "267260.KS",
       "nameKo": "HD현대일렉트릭",
       "sector": "전력인프라",
       "currency": "KRW",
-      "price": 427500,
-      "change": 6500,
-      "changePercent": 1.5421115
+      "price": 422500,
+      "change": 1500,
+      "changePercent": 0.3558719
     },
     {
       "symbol": "454910.KS",
       "nameKo": "두산로보틱스",
       "sector": "로보틱스",
       "currency": "KRW",
-      "price": 54100,
-      "change": 2700,
-      "changePercent": 5.2529182
+      "price": 53300,
+      "change": 1900,
+      "changePercent": 3.7037036
     },
     {
       "symbol": "012450.KS",
       "nameKo": "한화에어로스페이스",
       "sector": "로보틱스",
       "currency": "KRW",
-      "price": 658000,
-      "change": 4000,
-      "changePercent": 0.6116208
+      "price": 649000,
+      "change": -5000,
+      "changePercent": -0.764526
     },
     {
       "symbol": "034020.KS",
       "nameKo": "두산에너빌리티",
       "sector": "원자력",
       "currency": "KRW",
-      "price": 48000,
-      "change": 800,
-      "changePercent": 1.6949153
+      "price": 47500,
+      "change": 300,
+      "changePercent": 0.63626724
     }
   ],
   "kospiReturns": [
@@ -138,53 +138,53 @@
       "label": "1주일",
       "fromDate": "2026-11-06",
       "fromClose": 5060,
-      "toClose": 5445,
-      "returnPct": 7.61,
+      "toClose": 5376,
+      "returnPct": 6.25,
       "isATH": false
     },
     {
       "label": "1개월",
       "fromDate": "2026-10-14",
       "fromClose": 6009,
-      "toClose": 5445,
-      "returnPct": -9.39,
+      "toClose": 5376,
+      "returnPct": -10.53,
       "isATH": false
     },
     {
       "label": "3개월",
       "fromDate": "2026-08-14",
       "fromClose": 6978,
-      "toClose": 5445,
-      "returnPct": -21.97,
+      "toClose": 5376,
+      "returnPct": -22.96,
       "isATH": false
     },
     {
       "label": "6개월",
       "fromDate": "2026-05-15",
       "fromClose": 7493,
-      "toClose": 5445,
-      "returnPct": -27.34,
+      "toClose": 5376,
+      "returnPct": -28.25,
       "isATH": false
     },
     {
       "label": "1년",
       "fromDate": "2025-11-13",
       "fromClose": 4171,
-      "toClose": 5445,
-      "returnPct": 30.55,
+      "toClose": 5376,
+      "returnPct": 28.9,
       "isATH": false
     },
     {
       "label": "2년",
       "fromDate": "2024-11-13",
       "fromClose": 2417,
-      "toClose": 5445,
-      "returnPct": 125.26,
+      "toClose": 5376,
+      "returnPct": 122.42,
       "isATH": false
     }
   ],
   "kospiAth": 9115,
   "kospiAthDate": "2026-06-22",
-  "updatedAt": "2026-11-13T01:01:26.238Z",
+  "updatedAt": "2026-11-13T03:35:33.090Z",
   "isRealtime": true
 }
