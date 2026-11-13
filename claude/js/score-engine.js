@@ -41,7 +41,8 @@ var KEYS={
   "1":{name:"사장조",acc:{F:"#"},marks:{treble:[["#",10]],bass:[["#",-4]]}},
   "-1":{name:"라단조",acc:{B:"b"},marks:{treble:[["b",6]],bass:[["b",-8]]}},
   "2":{name:"라장조",acc:{F:"#",C:"#"},marks:{treble:[["#",10],["#",7]],bass:[["#",-4],["#",-7]]}},
-  "-3":{name:"내림마장조",acc:{B:"b",E:"b",A:"b"},marks:{treble:[["b",6],["b",9],["b",5]],bass:[["b",-8],["b",-5],["b",-9]]}}
+  "-3":{name:"내림마장조",acc:{B:"b",E:"b",A:"b"},marks:{treble:[["b",6],["b",9],["b",5]],bass:[["b",-8],["b",-5],["b",-9]]}},
+  "4":{name:"올림다단조",acc:{F:"#",C:"#",G:"#",D:"#"},marks:{treble:[["#",10],["#",7],["#",11],["#",8]],bass:[["#",-4],["#",-7],["#",-3],["#",-6]]}}
 };
 var BOTTOM={treble:2,bass:-10};
 function clefSVG(type,x,top){
@@ -217,7 +218,7 @@ function render(el,o){
             for(l=bot+10;l<=st2;l+=2)s+='<line class="st" x1="'+(nx-10)+'" x2="'+(nx+10)+'" y1="'+Y(it,l)+'" y2="'+Y(it,l)+'"/>';
             s+='<ellipse class="hd'+(open?" open":"")+'" cx="'+nx+'" cy="'+ny+'" rx="6.2" ry="4.4" transform="rotate(-20 '+nx+' '+ny+')"/>';
             var slot=n.letter+n.oct,want=barAcc[slot]!==undefined?barAcc[slot]:(keyAcc[n.letter]||"");
-            if(!it.cont&&n.acc!==want)s+='<text class="acc" x="'+(x-17-(dx[k]<0?11:0))+'" y="'+(ny+5)+'">'+(n.acc==="b"?"♭":n.acc==="#"?"♯":"♮")+'</text>';
+            if(!it.cont&&n.acc!==want)s+='<text class="acc" x="'+(x-17-(dx[k]<0?11:0))+'" y="'+(ny+5)+'">'+(n.acc==="b"?"♭":n.acc==="##"?"×":n.acc==="#"?"♯":"♮")+'</text>';
             barAcc[slot]=n.acc;
             if(DOTTED[it.d])s+='<circle class="hd" cx="'+(x+11+(dx[k]>0?11:0))+'" cy="'+((st2-bot)%2===0?ny-3:ny)+'" r="2"/>';
           });

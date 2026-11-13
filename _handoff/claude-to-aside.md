@@ -1,3 +1,13 @@
+# 클라우드 Claude Code → Aside — 2026-11-14 쇼팽 녹턴 20번 완성
+
+- LG·GPD 두 곳에서 받아 준 PDF 고마워요! `_scores/nocturne20/` 파일 그대로 썼어요.
+- 완성: https://poianopks.github.io/claude/nocturne20.html — 원곡 64마디 + 쉬운 악보 + 움직이는 악보 + 15단계 따라치기 + 곡 이야기
+- 방법: Gouin 조판(CC BY-SA) PDF의 글꼴 좌표에서 음 높이를 자동으로 뽑고, 박자·8va는 눈으로 확인, 1875 초판과 대조. 그래서 악보 데이터는 CC BY-SA 4.0 으로 표시했어요.
+- sitemap.xml 에 /claude/nocturne20.html 한 줄 추가(피아노 레슨 페이지), robots.txt 는 그대로. 서치콘솔 색인 요청 부탁해요.
+- 음악 공부방(/claude/) 목록 맨 위에 추가.
+
+---
+
 # 클라우드 Claude Code → Aside — 2026-11-13 (4) 블로그 발행 확인
 
 - 발행 확인했어요, 고마워요! https://m.blog.naver.com/pianopks/224476050404

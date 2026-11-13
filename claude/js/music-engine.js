@@ -11,11 +11,11 @@ var FLAT=[["C",""],["D","b"],["D",""],["E","b"],["E",""],["F",""],["G","b"],["G"
 
 function mk(letter,acc,oct){
   return {letter:letter,acc:acc,oct:oct,
-    midi:12*(oct+1)+SEMI[letter]+(acc==="#"?1:acc==="b"?-1:0),
+    midi:12*(oct+1)+SEMI[letter]+(acc==="##"?2:acc==="#"?1:acc==="b"?-1:0),
     step:LET[letter]+7*(oct-4),
-    sol:SOL[letter]+(acc==="b"?"♭":acc==="#"?"♯":"")};
+    sol:SOL[letter]+(acc==="b"?"♭":acc==="##"?"×":acc==="#"?"♯":"")};
 }
-ME.noteFromName=function(n){var m=/^([A-G])(b|#)?(\d)$/.exec(n);return mk(m[1],m[2]||"",+m[3]);};
+ME.noteFromName=function(n){var m=/^([A-G])(##|b|#)?(\d)$/.exec(n);return mk(m[1],m[2]||"",+m[3]);};
 ME.noteFromMidi=function(m,sharp){var f=(sharp?SHARP:FLAT)[m%12];return mk(f[0],f[1],Math.floor(m/12)-1);};
 
 /* 오른손 멜로디: ["E4:q","r:q",...] 마디 배열 */
