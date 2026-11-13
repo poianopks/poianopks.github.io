@@ -59,3 +59,11 @@ Insight Navigator, New Project Insight, Stock Recommender
 - Stock Sense 첫 화면 404는 고장이 아님: 첫 화면이 없고 /telescope/, /stock-lens/, /invest-master/, /market-compass/ 만 있는 구조.
 - 남긴 3개도 API 키를 GitHub Secrets에 넣으면 같은 방식으로 옮겨 끌 수 있음.
 - 2026-11-12 첫 실행(GitHub Actions): ERP 9/9, 이격도 100/101, 거시경제 12/13, 뉴스 10/10, Replit 3개 147/147, 주식 탐색기 100/101·70/71.
+
+
+## F. 2026-11-13 Stock Finder 업그레이드 → Replit 끄기 가능
+- 데이터를 야후 → **네이버 증권**으로 교체 (`.github/scripts/refresh_stock_snapshots.py`)
+- 코스피 보통주 시총 1,000억 이상 **591종목** (전 101종목), PER·추정PER·PBR·배당·시총·월봉 6년
+- 화면: PER 종류(실적/추정), 최대 PBR, 시가총액 조건 추가, 결과에 시총·배당·네이버 증권 링크
+- 학교 게임 안 탐색기(kospi-screener)도 같은 데이터 사용
+- → Replit **Stock Finder 끄기 OK**
