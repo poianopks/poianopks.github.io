@@ -45,6 +45,8 @@
   .notice { background:#3b2f0b; color:#fde68a; font-size:.85rem; padding:8px 12px; border-radius:8px; margin-bottom:16px; }
   .back { color:var(--muted); font-size:.85rem; text-decoration:none; }
   .hidden { display:none; }
+  .sel { width:100%; padding:7px 8px; border-radius:6px; background:#1a1c24; color:var(--text); border:1px solid var(--border); font:inherit; margin-bottom:6px; }
+  td a { color:#9ecbff; }
   @media (max-width: 800px) {
     .layout { flex-direction:column; }
     aside { width:auto; flex:none; padding:16px; }
@@ -61,9 +63,16 @@
     <h1>📊 탐색 조건</h1>
     <hr>
     <h3>저평가 기준</h3>
+    <label for="perType">PER 종류</label>
+    <select id="perType" class="sel"><option value="per" selected>실적 PER (지난 1년 실제 이익)</option><option value="fper">추정 PER (증권사 예상 이익)</option></select>
     <label for="per">최대 PER: <span class="val" id="perVal">15.00</span></label>
     <input type="range" id="per" min="1" max="50" step="0.5" value="15">
     <div class="slider-row"><span>1.00</span><span>50.00</span></div>
+    <label for="pbr">최대 PBR: <span class="val" id="pbrVal">제한 없음</span></label>
+    <input type="range" id="pbr" min="0.3" max="5.1" step="0.1" value="5.1">
+    <div class="slider-row"><span>0.3</span><span>제한 없음</span></div>
+    <h3>회사 크기 (시가총액)</h3>
+    <select id="mcap" class="sel"><option value="0">전체 (1,000억 이상)</option><option value="5000">5,000억 이상</option><option value="10000" selected>1조 이상</option><option value="50000">5조 이상</option></select>
     <h3>이동평균선</h3>
     <label><input type="checkbox" id="ma5" checked> MA5  (5개월)</label>
     <label><input type="checkbox" id="ma20" checked> MA20 (20개월)</label>
@@ -72,7 +81,7 @@
     <button class="btn" id="run">🔍 탐색 시작</button>
   </aside>
   <main>
-    <div class="notice" id="notice">📌 정적 버전 안내: 실시간 조회 서버가 없어, 저장된 Yahoo Finance 데이터(기준일 불러오는 중)로 브라우저에서 계산합니다.</div>
+    <div class="notice" id="notice">📌 네이버 증권 데이터 불러오는 중...</div>
     <h1>📈 코스피 저평가 주식 월봉 양봉전환 탐색기</h1>
     <div class="caption" id="caption"></div>
     <div id="intro" style="margin-top:20px">
@@ -84,7 +93,8 @@
       <div class="tablewrap" style="margin-top:20px">
         <table>
           <tr><th>조건</th><th>설명</th></tr>
-          <tr><td>저평가</td><td>PER &lt; 설정값</td></tr>
+          <tr><td>저평가</td><td>PER &lt; 설정값 (실적 또는 추정), PBR &lt; 설정값</td></tr>
+          <tr><td>회사 크기</td><td>시가총액 기준 (너무 작은 회사 제외)</td></tr>
           <tr><td>패턴</td><td>직전 1~3 월봉 연속 음봉</td></tr>
           <tr><td>전환</td><td>현재 월봉 양봉 (종가 &gt; 시가)</td></tr>
           <tr><td>이동평균</td><td>5·20·60개월 MA 표시</td></tr>
@@ -102,17 +112,21 @@
 (function () {
   var snap = null;
   var $ = function (id) { return document.getElementById(id); };
-  var per = $('per');
+  var per = $('per'), pbrEl = $('pbr');
   function perMax() { return parseFloat(per.value); }
+  function pbrMax() { var v = parseFloat(pbrEl.value); return v > 5 ? null : v; }
+  function perLabel() { return $('perType').value === 'fper' ? '추정 PER' : 'PER'; }
   function updCaption() {
     $('perVal').textContent = perMax().toFixed(2);
-    $('caption').textContent = 'PER < ' + perMax() + ' · 직전 1~3 음봉 후 양봉 전환 종목 상위 10개 | 데이터: Yahoo Finance';
+    $('pbrVal').textContent = pbrMax() == null ? '제한 없음' : pbrMax().toFixed(1);
+    $('caption').textContent = perLabel() + ' < ' + perMax() + (pbrMax() != null ? ' · PBR < ' + pbrMax() : '') + ' · 직전 1~3 음봉 후 양봉 전환 종목 상위 10개 | 데이터: 네이버 증권';
   }
-  per.addEventListener('input', updCaption); updCaption();
+  [per, pbrEl, $('perType'), $('mcap')].forEach(function (el) { el.addEventListener('input', updCaption); el.addEventListener('change', updCaption); }); updCaption();
+  function fmtCap(e) { return e >= 10000 ? (e / 10000).toFixed(e >= 100000 ? 0 : 1) + '조' : Math.round(e).toLocaleString() + '억'; }
 
   var snapP = fetch('./stocks-snapshot.json').then(function (r) { return r.json(); }).then(function (d) {
     snap = d;
-    $('notice').textContent = '📌 GitHub 버전: ' + d.asOf + ' 기준 Yahoo Finance 데이터(평일 하루 3번 자동 갱신)로 브라우저에서 계산합니다.';
+    $('notice').textContent = '📌 ' + (d.updated || d.asOf) + ' 기준 네이버 증권 데이터 · ' + (d.universe || '') + ' ' + d.stocks.length + '종목 · 평일 하루 3번 자동 갱신';
     return d;
   });
 
@@ -132,8 +146,9 @@
   }
 
   function fundamental(st) {
-    var p = st.fpe || st.tpe;
-    if (p && p > 0) return { ticker: st.t, name: st.n, per: Math.round(p * 100) / 100, pbr: st.pbr ? Math.round(st.pbr * 100) / 100 : null, st: st };
+    var p = $('perType').value === 'fper' ? st.fper : st.per;
+    if (p == null && st.per == null && st.fper == null) p = st.fpe || st.tpe; // 예전 형식 대비
+    if (p && p > 0) return { ticker: st.t, name: st.n, per: Math.round(p * 100) / 100, pbr: st.pbr ? Math.round(st.pbr * 100) / 100 : null, mcap: st.mcap || null, div: st.div, st: st };
     return null;
   }
 
@@ -146,13 +161,13 @@
     $('status').classList.remove('hidden');
     var setP = function (v) { $('prog').style.width = v + '%'; };
     var d = await snapP;
-    var total = d.stocks.length, pm = perMax();
-    $('statusText').textContent = '⏳ ' + total + '개 종목 PER 조회 중...'; setP(5); await sleep(150);
-    var funds = d.stocks.map(fundamental).filter(Boolean); setP(50);
-    var filtered = funds.filter(function (f) { return f.per < pm; });
-    $('statusText').textContent = '⏳ PER < ' + pm + ' 해당 ' + filtered.length + '개 종목 월봉 분석 중...'; await sleep(150);
+    var total = d.stocks.length, pm = perMax(), bm = pbrMax(), cm = parseFloat($('mcap').value);
+    $('statusText').textContent = '⏳ ' + total + '개 종목 ' + perLabel() + '·PBR 확인 중...'; setP(5); await sleep(150);
+    var funds = d.stocks.filter(function (st) { return !cm || (st.mcap || 0) >= cm; }).map(fundamental).filter(Boolean); setP(50);
+    var filtered = funds.filter(function (f) { return f.per < pm && (bm == null || (f.pbr != null && f.pbr < bm)); });
+    $('statusText').textContent = '⏳ 조건 통과 ' + filtered.length + '개 종목 월봉 분석 중...'; await sleep(150);
     var out = $('results');
-    if (!filtered.length) { setP(100); finish(); out.innerHTML = '<div class="box warn">PER &lt; ' + pm + ' 조건에 맞는 종목이 없습니다. PER 범위를 높여보세요.</div>'; return; }
+    if (!filtered.length) { setP(100); finish(); out.innerHTML = '<div class="box warn">' + perLabel() + ' &lt; ' + pm + (bm != null ? ', PBR &lt; ' + bm : '') + ' 조건에 맞는 종목이 없습니다. 범위를 넓혀 보세요.</div>'; return; }
     var cands = [];
     filtered.forEach(function (f) {
       var m = monthly(f.st); if (!m.length) return;
@@ -167,19 +182,20 @@
     top.forEach(function (r) { r.rel = Math.round((r.score - smin) / (smax - smin + 1e-9) * 1000) / 10; });
     setP(100); finish();
 
-    var html = '<div class="box ok" style="margin-top:16px">✅ ' + total + '개 종목 분석 완료 — PER 필터 ' + filtered.length + '개 → 패턴 감지 ' + cands.length + '개 → 상위 10개</div><hr>';
-    html += '<h2>🏆 상위 10개 종목</h2><div class="tablewrap"><table><tr><th></th><th>종목명</th><th>종목코드</th><th>PER</th><th>PBR</th><th>직전 음봉 수</th><th>상대점수(%)</th></tr>';
+    var html = '<div class="box ok" style="margin-top:16px">✅ ' + funds.length + '개 종목 분석 완료 — 조건 통과 ' + filtered.length + '개 → 양봉 전환 ' + cands.length + '개 → 상위 10개</div><hr>';
+    html += '<h2>🏆 상위 10개 종목</h2><div class="tablewrap"><table><tr><th></th><th>종목명</th><th>종목코드</th><th>' + perLabel() + '</th><th>PBR</th><th>시가총액</th><th>배당</th><th>직전 음봉 수</th><th>상대점수(%)</th></tr>';
     top.forEach(function (r, i) {
-      html += '<tr><td class="num">' + (i + 1) + '</td><td>' + esc(r.name) + '</td><td>' + r.ticker.replace('.KS', '') + '</td><td class="num">' + r.per.toFixed(2) + '</td><td class="num">' + (r.pbr ? r.pbr.toFixed(2) : 'N/A') + '</td><td class="num">' + r.bearish_count + '</td><td><div class="bar"><span class="track"><span class="fill" style="width:' + r.rel + '%"></span></span>' + r.rel.toFixed(1) + '</div></td></tr>';
+      var code = r.ticker.replace('.KS', '');
+      html += '<tr><td class="num">' + (i + 1) + '</td><td><a href="https://m.stock.naver.com/domestic/stock/' + code + '/total" target="_blank" rel="noopener">' + esc(r.name) + '</a></td><td>' + code + '</td><td class="num">' + r.per.toFixed(2) + '</td><td class="num">' + (r.pbr ? r.pbr.toFixed(2) : 'N/A') + '</td><td class="num">' + (r.mcap ? fmtCap(r.mcap) : '-') + '</td><td class="num">' + (r.div != null ? r.div + '%' : '-') + '</td><td class="num">' + r.bearish_count + '</td><td><div class="bar"><span class="track"><span class="fill" style="width:' + r.rel + '%"></span></span>' + r.rel.toFixed(1) + '</div></td></tr>';
     });
-    html += '</table></div><hr><h2>🕯️ 종목별 월봉 차트 (이동평균선 포함)</h2><div class="cols2" id="charts"></div><hr><div class="caption">⚠️ 투자 참고용입니다. 실제 투자는 본인 판단으로 결정하세요. | 데이터: Yahoo Finance</div>';
+    html += '</table></div><div class="caption">종목명을 누르면 네이버 증권에서 자세히 볼 수 있어요.</div><hr><h2>🕯️ 종목별 월봉 차트 (이동평균선 포함)</h2><div class="cols2" id="charts"></div><hr><div class="caption">⚠️ 투자 참고용입니다. 실제 투자는 본인 판단으로 결정하세요. | 데이터: 네이버 증권 (PER·PBR·월봉)</div>';
     out.innerHTML = html;
     var charts = $('charts'), mas = maPeriods();
     top.forEach(function (r) {
       var wrap = document.createElement('div');
       var div = document.createElement('div'); div.className = 'chart'; wrap.appendChild(div);
       var cap = document.createElement('div'); cap.className = 'caption';
-      cap.innerHTML = '<b>' + esc(r.name) + '</b> | PER ' + r.per + (r.pbr ? ' | PBR ' + r.pbr : '') + ' | 직전 음봉 ' + r.bearish_count + '개 → 양봉 전환';
+      cap.innerHTML = '<b>' + esc(r.name) + '</b> | ' + perLabel() + ' ' + r.per + (r.pbr ? ' | PBR ' + r.pbr : '') + (r.mcap ? ' | 시총 ' + fmtCap(r.mcap) : '') + ' | 직전 음봉 ' + r.bearish_count + '개 → 양봉 전환';
       wrap.appendChild(cap); charts.appendChild(wrap);
       drawChart(div, r, mas);
     });
@@ -193,7 +209,7 @@
       increasing: { line: { color: '#ef5350' }, fillcolor: '#ef5350' }, decreasing: { line: { color: '#26a69a' }, fillcolor: '#26a69a' }, name: '월봉' }];
     var colors = ['#FFD700', '#FF8C00', '#1E90FF'];
     mas.forEach(function (p, i) {
-      // 이동평균은 2019년 이후 전체 월봉으로 계산해 차트 구간(최근 18개월)에 표시
+      // 이동평균은 저장된 최근 6년 월봉으로 계산해 차트 구간(최근 18개월)에 표시
       var y = m.map(function (_, j) { var e = off + j + 1; if (e < p) return null; var s = 0; for (var k = e - p; k < e; k++) s += all[k][4]; return s / p; });
       if (y.some(function (v) { return v != null; })) traces.push({ type: 'scatter', mode: 'lines', x: x, y: y, name: 'MA' + p, line: { color: colors[i], width: 1.5 } });
     });

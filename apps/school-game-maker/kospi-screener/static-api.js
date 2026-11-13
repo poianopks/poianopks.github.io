@@ -50,7 +50,7 @@
   window.addEventListener('DOMContentLoaded', function () {
     loadSnap().then(function (snap) {
       var b = document.createElement('div');
-      b.textContent = '📌 GitHub 버전: ' + snap.asOf + ' 기준 Yahoo Finance 데이터(평일 하루 3번 자동 갱신)로 계산합니다.';
+      b.textContent = '📌 ' + (snap.updated || snap.asOf) + ' 기준 네이버 증권 데이터 · ' + snap.stocks.length + '종목 (평일 하루 3번 자동 갱신) · 더 많은 조건은 코스피 저평가 월봉 탐색기(../../stock-finder/)';
       b.style.cssText = 'background:#fef3c7;color:#92400e;font:13px/1.5 sans-serif;padding:6px 12px;text-align:center';
       document.body.insertBefore(b, document.body.firstChild);
     });
