@@ -4,61 +4,217 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>쇼팽 녹턴 20번 피아노 교실</title>
-<meta name="description" content="쇼팽 녹턴 20번 올림다단조(유작, B.49) 왕초보 피아노 레슨 — 곡 이야기와 배우는 순서. 움직이는 악보·쉬운 악보·따라치기는 준비 중입니다."/>
+<meta name="description" content="쇼팽 「녹턴 20번 올림다단조」(유작 B.49, 공개 저작물)를 원곡 악보 64마디 그대로, 왕초보용 쉬운 악보와 함께 느린 템포로 배우는 피아노 레슨. 움직이는 악보로 전곡 듣기, 곡 이야기, 15단계 따라치기."/>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="css/genre.css?v=20261106">
-<style>.story{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media (max-width:760px){.story{grid-template-columns:1fr}}.story .card p{margin:6px 0 0;color:var(--sub);font-size:.95rem}
-.wait{border:2px solid #e0a030;background:color-mix(in srgb,#e0a030 12%,var(--card));border-radius:14px;padding:14px 16px;margin:16px 0}</style>
+<link rel="stylesheet" href="css/genre.css?v=20261031">
+<style>
+.score .ksig{fill:var(--staff);font-size:20px}
+.score .ott{fill:var(--staff);font-size:12px;font-weight:900;font-style:italic}
+.score .ottl{stroke:var(--staff);stroke-width:1.2;stroke-dasharray:5 4}
+.score .orn{fill:var(--staff);font-size:13px;font-weight:900;font-style:italic;text-anchor:middle}
+.bio{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.bio{grid-template-columns:1fr}}
+.bio .card p{margin:6px 0 0;color:var(--sub);font-size:.95rem}
+.score .sec{fill:var(--accent);font-size:13px;font-weight:900}
+.score .tup{fill:var(--staff);font-size:11px;font-weight:800;text-anchor:middle;font-style:italic}
+.score .phband{fill:var(--accent2);opacity:.16}
+.score .phball{fill:var(--accent);opacity:.9}
+.score .n.pl .hd{fill:color-mix(in srgb,var(--good) 70%,var(--staff))}
+.score .n.pl .hd.open{fill:var(--card);stroke:color-mix(in srgb,var(--good) 70%,var(--staff))}
+.score .n.on .hd{fill:var(--accent);stroke:var(--accent);stroke-width:2.5}
+.score .n.on .lab{font-size:15px}
+.fullscore{max-height:72vh;overflow-y:auto;scroll-behavior:smooth;position:relative;cursor:pointer}
+.fullbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.fullbar .now{font-weight:900;color:var(--accent2);font-size:.95rem}
+.jumps{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.jumps button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 10px;font:inherit;font-weight:800;font-size:.82rem;cursor:pointer}
+
+.score .beam{fill:var(--staff)}
+.score .n.on ~ .beam{fill:var(--staff)}
+.score .tie{fill:none;stroke:var(--staff);stroke-width:1.4}
+.part{margin-top:22px}
+.parth{margin:0 0 4px;font-size:1.25rem;font-weight:900}
+details.step{margin-top:10px;padding:0}
+details.step summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;font-weight:900}
+details.step summary::-webkit-details-marker{display:none}
+details.step summary::after{content:"▾";margin-left:auto;color:var(--sub);transition:transform .2s}
+details.step[open] summary::after{transform:rotate(180deg)}
+details.step .snum{display:inline-grid;place-items:center;min-width:32px;height:32px;border-radius:10px;background:var(--accent);color:#fff;font-size:1rem}
+details.step .stitle{font-size:1.05rem}
+details.step .sstar{color:#f5a623;font-size:.95rem;letter-spacing:1px}
+details.step .sbody{padding:0 16px 16px}
+.tip{margin:8px 0;font-size:.95rem}
+.beatline{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.beatdot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--line);font-weight:900;font-size:.85rem;color:var(--sub)}
+.beatdot.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.ctrls.opts{gap:14px}
+.ctrls.opts select{font:inherit;font-weight:700;border:1.5px solid var(--line);border-radius:8px;padding:4px 6px;background:var(--card);color:var(--ink)}
+.btn.live{outline:3px solid var(--accent2);outline-offset:2px}
+.keybox{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.keybox{grid-template-columns:1fr}}
+.keybox h4{margin:0 0 4px}
+.keybox .say{font-weight:900;margin:6px 0 0}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.story{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <header class="top">
   <div class="topbar">
     <span class="logo">🌙 쇼팽 녹턴 20번</span>
-    <nav><a href="#glance">한눈에</a><a href="#story">곡 이야기</a><a href="#plan">배우는 순서</a></nav>
+    <nav>
+      <a href="#story">작곡가·곡 이야기</a>
+      <a href="#key">조표·기호</a>
+      <a href="#map">곡 지도</a>
+      <a href="#full">전곡 듣기</a>
+      <a href="#lessons">단계 레슨</a>
+      <a href="#howto">연습 방법</a>
+    </nav>
+    <button class="themebtn" id="themeBtn" aria-label="밝기 전환">🌓</button>
   </div>
 </header>
 <div class="wrap">
-  <div class="hero"><div>
-    <h1>쇼팽 <em>녹턴 20번</em><br>올림다단조 (유작)</h1>
-    <p>영화 「피아니스트」로 널리 알려진, 쇼팽의 가장 사랑받는 녹턴 가운데 하나예요. 왕초보도 따라 칠 수 있도록 <b>쉬운 악보부터 원곡까지</b> 차근차근 배워 봐요.</p>
-  </div></div>
-
-  <div class="wait">🛠️ <b>지금 준비 중이에요.</b> 저작권이 끝난 1800년대 공개 악보를 받아 <b>움직이는 악보·쉬운 악보·한 손씩 듣기·따라치기</b>를 만들고 있어요. 완성되면 이 주소에서 바로 배울 수 있어요. 그동안 같은 방식으로 만든 <a href="prayer.html">소녀의 기도</a>, <a href="czardas.html">차르다시</a>, <a href="october.html">차이콥스키 10월</a>을 먼저 연습해 보세요.</div>
-
-  <section id="glance">
-    <h2><span class="num">1</span>한눈에 보기</h2>
-    <div class="story">
-      <div class="card"><b>🎼 작곡</b><p>프레데리크 쇼팽 (1810–1849), 1830년 바르샤바에서 작곡</p></div>
-      <div class="card"><b>🔑 조와 빠르기</b><p>올림다단조(♯ 4개) · 렌토 콘 그란 에스프레시오네 — "아주 느리게, 깊은 표정으로"</p></div>
-      <div class="card"><b>📏 길이</b><p>약 64마디, 연주 시간 약 4분. 가운데 부분은 3/4박자로 바뀌어요</p></div>
-      <div class="card"><b>©️ 저작권</b><p>쇼팽이 세상을 떠난 지 170년이 넘어 <b>저작권이 끝난 곡(공개 저작물)</b>이에요</p></div>
+  <div class="hero">
+    <div>
+      <h1>천천히, 한 음씩<br><em>쇼팽 녹턴 20번 피아노 교실</em></h1>
+      <p>쇼팽의 <b>「녹턴 20번 올림다단조」</b>(유작)를 <b>원곡 악보 그대로</b>(♯4, 64마디) 배워요.</p>
+      <p>처음엔 <b>🌱 쉬운 악보</b>(멜로디 + 베이스)와 <b>🐢 느린 빠르기</b>로 시작하고, 익숙해지면 <b>🎼 원곡 그대로</b>로 바꿔요. 소리에 맞춰 <b>악보가 움직이고</b>, 건반을 따라 누르는 <b>따라치기</b>도 있어요.</p>
+      <p style="margin-top:12px"><a class="btn" href="#lessons" style="text-decoration:none;display:inline-block">레슨 시작 ↓</a> <a class="btn alt" href="#full" style="text-decoration:none;display:inline-block">전곡 듣기</a> <a class="btn alt" href="index.html" style="text-decoration:none;display:inline-block">음악 공부방</a></p>
     </div>
-  </section>
+    <svg viewBox="0 0 400 260" aria-hidden="true">
+      <rect x="10" y="20" width="380" height="220" rx="28" fill="#2c3e7a" opacity=".12"/>
+      <circle cx="300" cy="80" r="40" fill="#f5e6a8"/><circle cx="318" cy="70" r="36" fill="var(--bg)"/>
+      <text x="60" y="80" font-size="22" fill="#6a7bd0">✦</text><text x="150" y="60" font-size="16" fill="#6a7bd0">✦</text><text x="220" y="110" font-size="14" fill="#6a7bd0">✦</text>
+      <g transform="translate(60,150)"><rect width="280" height="70" rx="6" fill="#fff" stroke="#cfc7b8"/>
+        <g fill="#26232c"><rect x="28" width="14" height="42" rx="2"/><rect x="68" width="14" height="42" rx="2"/><rect x="148" width="14" height="42" rx="2"/><rect x="188" width="14" height="42" rx="2"/><rect x="228" width="14" height="42" rx="2"/></g>
+        <g stroke="#cfc7b8"><line x1="40" y1="0" x2="40" y2="70"/><line x1="80" y1="0" x2="80" y2="70"/><line x1="120" y1="0" x2="120" y2="70"/><line x1="160" y1="0" x2="160" y2="70"/><line x1="200" y1="0" x2="200" y2="70"/><line x1="240" y1="0" x2="240" y2="70"/></g></g>
+      <text x="40" y="135" font-size="26" fill="#2c3e7a">♯♯♯♯</text><text x="300" y="140" font-size="30">🎶</text>
+    </svg>
+  </div>
 
   <section id="story">
-    <h2><span class="num">2</span>곡 이야기</h2>
-    <div class="card">
-      <p style="margin:0">쇼팽이 스무 살 무렵 고향 바르샤바에서 쓴 곡이에요. 쇼팽은 이 곡을 <b>누나 루드비카</b>에게 주며, 자신의 <b>피아노 협주곡 2번</b>을 연습하기 전에 쳐 보라고 했다고 전해져요. 그래서 곡 가운데에는 협주곡 2번과 쇼팽의 노래에 나오는 선율이 살짝 들어 있어요.</p>
-      <p>쇼팽이 살아 있을 때는 출판되지 않았고, 세상을 떠난 뒤 1875년에야 악보가 나왔어요. 처음에는 '녹턴'이라는 이름이 없었지만, 밤의 노래처럼 고요하고 서정적이어서 나중에 <b>녹턴 20번</b>으로 불리게 되었어요.</p>
-      <p>2002년 영화 「피아니스트」에서 전쟁 속 폴란드 피아니스트가 이 곡을 연주하는 장면이 나오면서 전 세계에 더 널리 알려졌어요.</p>
+    <h2><span class="num">1</span>작곡가와 곡 이야기</h2>
+    <div class="bio">
+      <div class="card"><b>🎹 프레데리크 쇼팽 (1810–1849)</b>
+        <p><b>폴란드</b>에서 태어난 '피아노의 시인'. 거의 모든 작품을 피아노를 위해 썼고, 밤의 노래 같은 <b>녹턴(Nocturne, 야상곡)</b>을 21곡 남겼어요.</p>
+        <p>스무 살 무렵 고향을 떠나 파리에서 활동했고, 39세에 세상을 떠났어요.</p></div>
+      <div class="card"><b>💌 누나에게 준 곡</b>
+        <p>1830년 바르샤바에서 쓴 곡으로, 누나 <b>루드비카</b>에게 자신의 <b>피아노 협주곡 2번</b>을 연습하기 전에 쳐 보라며 주었다고 전해져요. 그래서 가운데 3/4박자 부분에 협주곡 2번과 쇼팽의 노래에서 따온 선율이 들어 있어요.</p></div>
+      <div class="card"><b>📜 세상에 늦게 나온 녹턴</b>
+        <p>쇼팽이 살아 있을 때는 출판되지 않았고, 세상을 떠난 뒤 <b>1875년</b>에야 처음 악보가 나왔어요. 원래 제목은 빠르기말인 <b>'Lento con gran espressione'</b>(아주 느리게, 깊은 표정으로)였고, 나중에 <b>녹턴 20번</b>으로 불리게 됐어요.</p></div>
+      <div class="card"><b>🎬 영화 「피아니스트」</b>
+        <p>2002년 영화 「피아니스트」에서 전쟁 속 폴란드 피아니스트가 이 곡을 연주하는 장면으로 전 세계에 널리 알려졌어요. 조용하지만 마음을 울리는 녹턴이에요.</p></div>
+      <div class="card" style="grid-column:1/-1"><b>🎼 저작권은 괜찮을까?</b>
+        <p>쇼팽이 1849년에 세상을 떠나 <b>저작권이 끝난 공개 저작물(퍼블릭 도메인)</b>이에요. 이 페이지의 악보는 <b>1875년 초판(공개 저작물)</b>을 바탕으로 다시 그렸어요. 자세한 출처는 아래 7번에 있어요.</p></div>
     </div>
   </section>
 
-  <section id="plan">
-    <h2><span class="num">3</span>이렇게 배울 거예요 (준비 중)</h2>
+  <section id="key">
+    <h2><span class="num">2</span>조표와 악보 기호 익히기</h2>
+    <p class="lead">「녹턴 20번」은 <b>올림다단조(C♯ minor)</b>예요. 오선 앞의 <b>♯ 4개</b> 때문에 <b>파·도·솔·레는 곡 내내 반음 올려서(파♯·도♯·솔♯·레♯)</b> 쳐요. 단조라서 '이끈음'인 <b>시♯</b>(=도 건반)이 자주 나와요.</p>
     <div class="card">
-      <ol style="margin:0;padding-left:1.2em">
-        <li><b>도입 4마디</b> — 느린 화음으로 분위기 잡기</li>
-        <li><b>노래하는 멜로디</b> — 오른손 선율 + 왼손 펼친 화음</li>
-        <li><b>3/4박자 가운데 부분</b> — 박자가 바뀌는 곳 세어 보기</li>
-        <li><b>빠른 장식음</b> — 느리게 나눠서 연습하기</li>
-        <li><b>끝맺음</b> — 위아래로 흐르는 음계와 마지막 화음</li>
+      <div class="score" id="scale-cs"></div>
+      <p class="say" style="font-weight:900;margin:6px 0 0">도♯ · 레♯ · 미 · 파♯ · 솔♯ · 라 · 시♯ · 도♯ (화성단음계)</p>
+      <div class="ctrls"><button class="btn" id="scaleplay">▶ 올림다단조 음계 듣기</button></div>
+    </div>
+    <div class="card" style="margin-top:12px;font-size:.93rem">
+      <b>🔤 이 곡에 나오는 기호</b>
+      <ul style="margin:6px 0 0;padding-left:18px">
+        <li><b>Lento con gran espressione</b> = 아주 느리게, 깊은 표정으로 · <b>Più animato</b> = 조금 더 생기 있게 · <b>Animato</b> = 생기 있게 · <b>Adagio</b> = 느리게 · <b>Tempo I</b> = 처음 빠르기로</li>
+        <li><b>× 더블샵</b>: 반음 두 번 올려요. <b>파×</b> = 솔 건반, <b>도×</b> = 레 건반, <b>라×</b> = 시 건반.</li>
+        <li><b>♯ 이 붙은 미·시</b>: <b>미♯</b> = 파 건반, <b>시♯</b> = 도 건반이에요. 처음엔 헷갈려도 파란 건반을 보면 돼요!</li>
+        <li><b>박자가 바뀌어요</b>: 4/4 → 32마디는 <b>5/4</b> → 33~43마디는 <b>3/4</b> → 다시 4/4.</li>
+        <li><b>셋잇단음표(3)</b>: 한 박에 음 3개. 가운데 부분 왼손이 내내 셋잇단이에요.</li>
+        <li><b>8va</b>: 점선 아래 음을 <b>한 옥타브 높게</b>. 15·48·58마디의 아주 높은 음.</li>
+        <li><b>tr(트릴)</b>·작은 꾸밈음: 이 페이지 악보에서는 <b>본음만</b> 적었어요. 익숙해지면 원곡처럼 꾸며 보세요.</li>
+        <li><b>con pedale</b> = 페달을 쓰며. 왼손 펼친 화음이 이어지도록 마디마다 페달을 바꿔요.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="map">
+    <h2><span class="num">3</span>곡 지도</h2>
+    <div class="card table-wrap">
+      <table class="cmp">
+        <thead><tr><th>부분</th><th>마디</th><th>특징</th><th>레슨</th></tr></thead>
+        <tbody>
+          <tr><td>🌙 도입</td><td>1~4</td><td>조용한 화음, 두 번째는 pp</td><td>1단계</td></tr>
+          <tr><td>🎶 주제</td><td>5~20</td><td>노래하는 선율 + 왼손 펼친 화음, 15마디 흘러내리는 음계</td><td>2~5단계</td></tr>
+          <tr><td>💃 조금 빠르게</td><td>21~32</td><td>16분음표·겹음, 32마디 5/4박자</td><td>6~8단계</td></tr>
+          <tr><td>🎻 가운데</td><td>33~43</td><td>3/4박자, 왼손 셋잇단 (협주곡 2번 인용)</td><td>9~10단계</td></tr>
+          <tr><td>🔁 주제가 돌아옴</td><td>44~56</td><td>Adagio 다리 → Tempo I, 53마디 가장 세게(f)</td><td>11~13단계</td></tr>
+          <tr><td>✨ 끝맺음</td><td>57~64</td><td>빠른 장식 음계, 장조 화음으로 마무리</td><td>14~15단계</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="full">
+    <h2><span class="num">4</span>전곡 듣기 — 움직이는 악보</h2>
+    <p class="lead"><b>64마디 전곡</b>을 들으며 악보를 따라가요. 지금 치는 음표는 <b>주황</b>, 지나간 음표는 <b>초록</b>으로 바뀌고, 악보는 저절로 넘어가요. <b>마디를 누르면 거기서부터</b> 들려줘요.</p>
+    <div class="card">
+      <div class="ctrls">
+        <button class="btn" data-full="B" id="fullBoth" style="background:#6a4bc4">▶ 전곡 양손 듣기</button>
+        <button class="btn" data-full="R">▶ 오른손만</button>
+        <button class="btn alt" data-full="L">▶ 왼손만</button>
+        <button class="btn alt" data-full="stop">⏹ 멈춤</button>
+      </div>
+      <div class="ctrls opts">
+        <label class="chk">빠르기 <select id="fullSpeed"><option value="1" selected>🏃 원곡 빠르기</option><option value="0.8">🚶 조금 느리게 (80%)</option><option value="0.65">🐢 느리게 (65%)</option><option value="0.5">🐌 아주 느리게 (50%)</option></select></label>
+        <label class="chk"><input type="checkbox" id="fullMetro"> 메트로놈</label>
+        <span class="now" id="fullNow"></span>
+      </div>
+      <div class="jumps">
+        <span style="font-weight:800;color:var(--sub);font-size:.85rem;align-self:center">바로 가기:</span>
+        <button data-jump="1">🌙 도입</button><button data-jump="5">🎶 주제</button><button data-jump="21">💃 조금 빠르게</button><button data-jump="33">🎻 가운데 3/4</button><button data-jump="44">🔁 주제가 돌아옴</button><button data-jump="57">✨ 끝맺음</button>
+      </div>
+      <div class="score fullscore" id="fullScore"><p style="padding:20px;color:var(--sub)">악보를 그리는 중…</p></div>
+      <div class="kb" id="fullKb"></div>
+      <p style="margin:8px 0 0;color:var(--sub);font-size:.88rem">※ 소리는 컴퓨터 피아노 소리예요. 트릴·꾸밈음은 빼고 본음만, 5·6·9잇단 같은 아주 빠른 음은 가장 가까운 음표 길이로 나눠 적었어요. 실제 연주는 훨씬 자유롭게(루바토) 쳐요.</p>
+    </div>
+  </section>
+
+  <section id="lessons">
+    <h2><span class="num">5</span>단계별 레슨 (15단계)</h2>
+    <p class="lead">단계를 누르면 펼쳐져요. <b>🌱 쉬운 악보 + 🐢 아주 느리게</b>로 시작 → 익숙해지면 <b>🎼 원곡 그대로</b>. ★★ = 오른손·왼손 따라치기 완료</p>
+    <div id="lessonList"></div>
+  </section>
+
+  <section id="howto">
+    <h2><span class="num">6</span>왕초보 연습 순서</h2>
+    <div class="card">
+      <ol class="steps">
+        <li><b>듣기</b><p>전곡 듣기로 <b>주제(5~20마디)</b>를 여러 번 들으며 선율을 흥얼거려요.</p></li>
+        <li><b>쉬운 악보로 오른손</b><p>🌱 쉬운 악보 + 🎹 오른손 따라치기. ♯이 많아 검은 건반이 많아요 — 파란 건반을 보세요.</p></li>
+        <li><b>쉬운 악보로 왼손</b><p>2박마다 바뀌는 베이스 한 음을 따라 쳐요. 익숙해지면 원곡의 펼친 화음(도♯–솔♯–미–도♯)으로!</p></li>
+        <li><b>소리와 같이</b><p>🐢 아주 느리게 + 메트로놈 + 반복을 켜고 한 손씩 같이 쳐요.</p></li>
+        <li><b>원곡으로</b><p>🎼 원곡 그대로로 바꿔 화음·빠른 음계까지. 빠른 음계는 4~6음씩 나눠서 연습해요.</p></li>
       </ol>
-      <p style="margin:10px 0 0;color:var(--sub)">🌱 쉬운 악보(멜로디 + 간단한 왼손)와 🎼 원곡 악보를 함께 보여 드릴 예정이에요.</p>
+      <p style="margin:8px 0 0;color:var(--sub);font-size:.92rem">💡 녹턴은 <b>노래하듯</b> 치는 곡이에요. 오른손 멜로디는 조금 크게, 왼손 반주는 작고 부드럽게!</p>
     </div>
   </section>
 
-  <footer><p>성실피아노 · 피아노조율사 박근성의 <a href="index.html">음악 공부방</a> · 📞 <a href="tel:01087568740">010-8756-8740</a></p></footer>
+  <section id="sources">
+    <h2><span class="num">7</span>악보 출처와 참고</h2>
+    <div class="card" style="font-size:.93rem">
+      <ul style="margin:0;padding-left:18px">
+        <li><b>본 악보</b>: 1875년 초판 — 「3 Mazury i adagio」 No.4, Leipzig: W. Benicke (편집 M. A. Szulc), <b>Public Domain</b> (<a href="https://imslp.org/wiki/Nocturne_in_C-sharp_minor,_B.49_(Chopin,_Fr%C3%A9d%C3%A9ric)" target="_blank" rel="noopener">IMSLP</a> #1005676)</li>
+        <li><b>대조</b>: 쇼팽 자필 악보(1830), Public Domain (IMSLP #921410)</li>
+        <li><b>읽기 보조</b>: Pierre Gouin 조판(Les Éditions Outremontaises 2006, IMSLP #127864, <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ko" target="_blank" rel="noopener">CC BY-SA 4.0</a>) — 음표 위치를 컴퓨터로 읽는 데 썼어요. 그래서 이 페이지의 악보 데이터(<code>js/nocturne20-full.js</code>)도 <b>CC BY-SA 4.0</b>으로 공개해요.</li>
+        <li><b>쉬운 악보</b>: 원곡에서 오른손은 굵은 박의 맨 윗음, 왼손은 2박마다 맨 아랫음만 남긴 연습용이에요.</li>
+        <li>판에 따라 마디 수와 가운데 부분이 조금씩 달라요(이 페이지는 64마디 판).</li>
+      </ul>
+      <p style="margin:10px 0 0;color:var(--sub)">틀린 음을 발견하시면 알려 주세요. 확인해서 고칠게요. · 성실피아노 📞 <a href="tel:01087568740">010-8756-8740</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <p>소리는 브라우저에서 직접 만들어요(Web Audio). 휴대폰은 무음 모드를 꺼 주세요. · 건반은 손가락이나 마우스로 눌러요.</p>
+  </footer>
 </div>
+<script src="js/music-engine.js?v=20261114"></script>
+<script src="js/score-engine.js?v=20261114"></script>
+<script src="js/nocturne20-full.js?v=20261114"></script>
+<script src="js/nocturne20.js?v=20261114"></script>
 </body>
 </html>
