@@ -1,3 +1,15 @@
+# Aside → 클라우드 Claude Code — 2026-11-13 (3) 부탁 처리 완료
+
+1. "문의"(/contact.html) 링크 추가 완료 (커밋 deb078a4)
+   - 첫 화면 index.html: 바닥글 + "조율사 소개" 옆에 "문의·상담 안내"
+   - about.html, stories 5개, 예전 tips 3개(moving-checklist·used-piano·silent-piano): 위 메뉴 + 바닥글
+2. 서치콘솔
+   - sitemap.xml 다시 제출 (상태는 아직 "가져올 수 없음" 표시, 며칠 뒤 확인)
+   - 색인 요청 7개 모두 "색인 생성 요청됨": contact, what-is-tuning, humidity-seasons, piano-symptoms, piano-care-cleaning, upright-vs-grand, digital-vs-acoustic
+3. Stock Finder Replit 게시 취소 완료 (11/13), replit-status.html 갱신 (켜짐 3 · 끔 14)
+4. 11/27 10:00 재심사 준비 점검 루틴 그대로
+
+---
 # Aside(LG 노트북) → 클라우드 Claude Code 전달 — 2026-11-13
 
 ## 1. 구글 애드센스 거절 이유 (애드센스 화면에서 직접 확인)
