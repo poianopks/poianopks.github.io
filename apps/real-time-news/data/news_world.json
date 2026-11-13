@@ -1,66 +1,246 @@
 [
   {
-    "id": "MarketWatch-0-2026-11-13T10:15:00.000Z",
-    "title": "‘She has a history of financial mismanagement’: My brother cut my sister out of his will. I’m getting everything. Do I tell her?",
-    "description": "“I’m torn between respecting my brother’s wishes, being fair to my sister, and preserving a relationship that means a great deal to me.”",
+    "id": "MarketWatch-0-2026-11-13T15:15:00.000Z",
+    "title": "‘She has a history of financial mismanagement’: My brother cut our sister out of his will. I’ll get everything. Do I tell her?",
+    "description": "“I’m torn between respecting my brother’s wishes and being fair to my sister.”",
     "url": "https://www.marketwatch.com/story/she-has-a-history-of-financial-mismanagement-my-brother-cut-my-sister-out-of-his-will-im-getting-everything-do-i-tell-her-3e537851?mod=mw_rss_topstories",
     "imageUrl": null,
     "source": "MarketWatch",
     "category": "글로벌",
-    "publishedAt": "2026-11-13T10:15:00.000Z"
+    "publishedAt": "2026-11-13T15:15:00.000Z"
   },
   {
-    "id": "MarketWatch-1-2026-11-13T10:14:00.000Z",
-    "title": "Earnings growth is set to peter out — but not the bull market, says Goldman Sachs. Here’s what the firm recommends.",
-    "description": "Earnings growth is almost halving across major indices in 2027 but stocks have already discounted much of that deceleration.  Goldman recommends investors focus closely on those companies still delivering strong growth – as strong growth becomes  a scarce commodity.",
-    "url": "https://www.marketwatch.com/story/earnings-growth-is-set-to-peter-out-but-not-the-bull-market-says-goldman-sachs-heres-what-the-firm-recommends-bf409a6d?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T10:14:00.000Z"
-  },
-  {
-    "id": "CNBC-0-2026-11-13T10:10:11.000Z",
-    "title": "Widespread Microsoft outage takes down Outlook and other 365 services",
-    "description": "A Microsoft outage on Thursday affected users of services like Outlook, Teams and 365.",
+    "id": "CNBC-4-2026-11-13T15:10:20.000Z",
+    "title": "Microsoft says email queues 'approaching normal levels' as Outlook issues persist",
+    "description": "A Microsoft outage on Thursday and Friday affected users of services like Outlook, Teams and 365.",
     "url": "https://www.cnbc.com/2026/11/12/microsoft-outage-outlook-aws-google.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-13T10:10:11.000Z"
+    "publishedAt": "2026-11-13T15:10:20.000Z"
   },
   {
-    "id": "CNBC-6-2026-11-13T10:00:37.000Z",
-    "title": "Nvidia stock inches higher as investors continue to weigh Jensen Huang’s departure",
-    "description": "Jensen Huang resigned as CEO of Nvidia on Thursday after coming under scrutiny for two extramarital affairs.",
-    "url": "https://www.cnbc.com/2026/11/13/nvidia-nvda-stock-jensen-huang-transition.html",
+    "id": "MarketWatch-2-2026-11-13T15:08:00.000Z",
+    "title": "Home sales plummet to lowest level since ‘Great Recession’ as prices hit all-time high",
+    "description": "Home sales fell in October to a 16-year low as buyers bolted from the housing market in the face of 7% mortgage rates.",
+    "url": "https://www.marketwatch.com/story/home-sales-plummet-to-lowest-level-since-the-great-recession-as-buyers-flee-the-market-624e6270?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T15:08:00.000Z"
+  },
+  {
+    "id": "CNBC-14-2026-11-13T15:04:10.000Z",
+    "title": "NHL’s next TV deal will test the league’s strength while media companies prepare for NFL rights increase",
+    "description": "How do the world's biggest media companies judge the value of non-NFL rights? The NHL is giving us our first window into a new era in media values.",
+    "url": "https://www.cnbc.com/2026/11/13/nhls-next-media-deal-will-test-the-leagues-strength.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-13T10:00:37.000Z"
+    "publishedAt": "2026-11-13T15:04:10.000Z"
   },
   {
-    "id": "CNBC-2-2026-11-13T10:00:26.000Z",
-    "title": "The Fed expected rate cuts this year. Now it’s bracing for another inflation fight",
-    "description": "The most recent inflation reading for October had beaten expectations, coming in at 0.4% for the month.",
+    "id": "CNBC-7-2026-11-13T15:03:10.000Z",
+    "title": "Apple, Alphabet and Uber survived major founder transitions. Nvidia will be a harder test",
+    "description": "Like Apple, Nvidia now faces its own transition away from a founder-led company. But experts say Jensen Huang’s central role could make replacing him difficult.",
+    "url": "https://www.cnbc.com/2026/11/13/nvidia-jensen-huang-founder-ceo-transition.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T15:03:10.000Z"
+  },
+  {
+    "id": "CNBC-2-2026-11-13T15:00:01.000Z",
+    "title": "OpenAI launches ChatGPT Wallet, allowing its 'dots' AI agents to make purchases for users",
+    "description": "OpenAI's ChatGPT Wallet partners with American Express, Mastercard and Visa, and those cardholders keep their existing credit card rewards.",
+    "url": "https://www.cnbc.com/2026/11/13/openai-chatgpt-wallet-dot-purchases.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T15:00:01.000Z"
+  },
+  {
+    "id": "CNBC-0-2026-11-13T14:53:35.000Z",
+    "title": "Bessent points to Lutnick’s Commerce as he slams Nvidia chip ‘leakage’ to China",
+    "description": "Jensen Huang resigned as Nvidia CEO days after admitting to an affair following scrutiny of his relationship with a woman reportedly deemed a Chinese spy.",
     "url": "https://www.cnbc.com/2026/11/13/us-inflation-outlook-federal-reserve-rate-hike.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-13T10:00:26.000Z"
+    "publishedAt": "2026-11-13T14:53:35.000Z"
   },
   {
-    "id": "CNBC-3-2026-11-13T09:45:04.000Z",
+    "id": "MarketWatch-4-2026-11-13T14:28:00.000Z",
+    "title": "Trump administration is hiring debt collectors to go after defaulted student-loan borrowers for first time in 6 years",
+    "description": "The Treasury Department proposes to pay debt collectors much less than in the past to help borrowers get out of default.",
+    "url": "https://www.marketwatch.com/story/trump-administration-is-hiring-debt-collectors-for-first-time-in-6-years-to-go-after-defaulted-student-loan-borrowers-8bae13ad?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T14:28:00.000Z"
+  },
+  {
+    "id": "CNBC-11-2026-11-13T14:24:57.000Z",
     "title": "‘We will sue them’: Canada threatens Stellantis as Trump trade war reshapes Jeep production plans",
     "description": "The dispute comes after Stellantis scrapped planned Jeep Compass production in Brampton and shifted future output to Illinois amid U.S. auto tariffs.",
     "url": "https://www.cnbc.com/2026/11/13/canada-stellantis-auto-trump-tariffs-jeep.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-13T09:45:04.000Z"
+    "publishedAt": "2026-11-13T14:24:57.000Z"
   },
   {
-    "id": "CNBC-4-2026-11-13T08:27:07.000Z",
+    "id": "CNBC-3-2026-11-13T14:22:07.000Z",
+    "title": "Chicago Fed's Goolsbee says central bank 'has definitely got work to do' on inflation",
+    "description": "The policymaker expressed concern about the latest inflation data, telling CNBC that the central bank likely will need to take action.",
+    "url": "https://www.cnbc.com/2026/11/13/chicago-feds-goolsbee-says-central-bank-has-definitely-got-work-to-do-on-inflation.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T14:22:07.000Z"
+  },
+  {
+    "id": "MarketWatch-5-2026-11-13T14:22:00.000Z",
+    "title": "Microsoft Outlook outage stretches into a second day: What to know",
+    "description": "Microsoft said there is “no evidence of malicious activity” as it works to restore access to email and other services.",
+    "url": "https://www.marketwatch.com/story/microsoft-stock-slumps-on-outage-that-includes-the-copilot-tool-it-has-been-heavily-promoting-4007dc4f?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T14:22:00.000Z"
+  },
+  {
+    "id": "MarketWatch-6-2026-11-13T14:16:00.000Z",
+    "title": "Opening trading-card packs has become a $2 billion market",
+    "description": "Pack-ripping apps are changing the way people buy and sell cards. But analysts say their “slot-like payoff” raises risks.",
+    "url": "https://www.marketwatch.com/story/opening-trading-card-packs-has-become-a-2-billion-market-new-apps-are-trying-to-cash-in-b7ba11f5?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T14:16:00.000Z"
+  },
+  {
+    "id": "CNBC-15-2026-11-13T14:12:16.000Z",
+    "title": "Jim Cramer's top 10 things to watch in the stock market Friday",
+    "description": "Stock futures picked up some steam this morning.",
+    "url": "https://www.cnbc.com/investingclub/2026/11/13/jim-cramers-top-10-things-to-watch-in-the-stock-market-friday.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T14:12:16.000Z"
+  },
+  {
+    "id": "CNBC-12-2026-11-13T14:12:08.000Z",
+    "title": "10-year Treasury yield moves to 5.15% as traders weigh producer price report",
+    "description": "Treasury yields moved higher as investor expectations for a December rate hike by the Federal Reserve gain strength.",
+    "url": "https://www.cnbc.com/2026/11/13/treasury-yields-fed-rates.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T14:12:08.000Z"
+  },
+  {
+    "id": "CNBC-1-2026-11-13T14:02:52.000Z",
+    "title": "Wholesale prices rose 0.3% in October, putting annual rate at 6.5%, the highest in nearly four years",
+    "description": "The producer price index was expected to increase 0.4% in October, according to the Dow Jones consensus.",
+    "url": "https://www.cnbc.com/2026/11/13/ppi-inflation-report-october-2026.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T14:02:52.000Z"
+  },
+  {
+    "id": "CNBC-8-2026-11-13T14:01:24.000Z",
+    "title": "Jensen Huang scandal casts doubt on Nvidia’s AI dominance — how we got here",
+    "description": "Nvidia is facing its biggest crisis in its 33 year history, with founder Jensen Huang resigning as CEO. Here's the story of the rise and fall of Jensen Huang.",
+    "url": "https://www.cnbc.com/2026/11/13/jensen-huang-scandal-casts-doubt-on-nvidias-ai-dominance-how-we-got-here.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T14:01:24.000Z"
+  },
+  {
+    "id": "MarketWatch-8-2026-11-13T13:43:00.000Z",
+    "title": "Midterm elections provided the hyperscalers with the excuse they needed to cut back on spending, says Jefferies strategist",
+    "description": "If the AI capex narrative is losing momentum then Jefferies strategist Chris Wood can recommen some sectors , like pharma, and some markets like India, Brazil and China, as ways to play that slowdown.",
+    "url": "https://www.marketwatch.com/story/midterm-elections-provided-the-hyperscalers-with-the-excuse-they-needed-to-cut-back-on-spending-says-jefferies-strategist-de6349ec?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T13:43:00.000Z"
+  },
+  {
+    "id": "CNBC-13-2026-11-13T13:15:35.000Z",
+    "title": "CFTC Chair Selig tells CNBC crypto industry is embracing agency rules as legislation hopes fade",
+    "description": "The top U.S. commodities regulator in October announced proposed crypto rules to assert its jurisdiction over the asset class.",
+    "url": "https://www.cnbc.com/2026/11/13/cftc-chair-selig-crypto-industry-opting-into-agencys-crypto-rules-.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T13:15:35.000Z"
+  },
+  {
+    "id": "CNBC-6-2026-11-13T13:04:00.000Z",
+    "title": "Trump says he wants to ‘get Cuba done’ before leaving office, would consider military force",
+    "description": "It comes as the U.S. continues to enforce a comprehensive economic embargo against Cuba.",
+    "url": "https://www.cnbc.com/2026/11/13/trump-cuba-us-military-force-iran.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T13:04:00.000Z"
+  },
+  {
+    "id": "MarketWatch-9-2026-11-13T13:00:00.000Z",
+    "title": "The science of vaccines is rapidly advancing — despite the anti-vax movement",
+    "description": "Look at the promising data for Moderna and Merck’s experimental cancer vaccine and the research suggesting the shingles vaccine can delay dementia.",
+    "url": "https://www.marketwatch.com/story/the-worlds-most-sophisticated-drug-companies-are-putting-billions-into-vaccines-despite-the-political-environment-8dcbf276?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T13:00:00.000Z"
+  },
+  {
+    "id": "CNBC-5-2026-11-13T12:54:43.000Z",
+    "title": "What's ahead for AI financing after Nvidia CEO Jensen Huang departs",
+    "description": "Jensen Huang’s resignation puts Nvidia’s AI financing strategy in focus as investors watch credit markets and neocloud exposure.",
+    "url": "https://www.cnbc.com/2026/11/13/nvidia-jensen-huang-resignation-ai-financing.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T12:54:43.000Z"
+  },
+  {
+    "id": "CNBC-17-2026-11-13T12:05:22.000Z",
+    "title": "Russian crude production rebounds after Trump diesel deal, IEA says as oil markets return to surplus",
+    "description": "Russia’s crude output rose to 8.73 million barrels a day in October as recovering Gulf exports pushed global supply above demand, the IEA said.",
+    "url": "https://www.cnbc.com/2026/11/13/russia-oil-exports-iea-diesel-deal.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T12:05:22.000Z"
+  },
+  {
+    "id": "CNBC-9-2026-11-13T12:03:24.000Z",
+    "title": "U.S. seizes $1.2 billion in cryptocurrency stolen from Binance",
+    "description": "The DOJ said it was taking action against the North Korean government's \"schemes to fund its regime through the massive theft of cryptocurrency.\"",
+    "url": "https://www.cnbc.com/2026/11/13/us-seizes-binance-hack-crypto.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T12:03:24.000Z"
+  },
+  {
+    "id": "CNBC-16-2026-11-13T10:54:40.000Z",
+    "title": "Nvidia scandal draws in Commerce Secretary Lutnick, who reportedly agrees to testify about China chip sales",
+    "description": "Commerce Secretary Lutnick will testify before the Senate Banking Committee following revelations about Jensen Huang's affair with an alleged Chinese spy.",
+    "url": "https://www.cnbc.com/2026/11/13/nvidia-scandal-lutnick-chip-sales.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T10:54:40.000Z"
+  },
+  {
+    "id": "CNBC-19-2026-11-13T08:27:07.000Z",
     "title": "Nvidia’s turmoil is prompting a rotation across chip stocks. Here's what we know",
     "description": "That shift comes as Nvidia grapples with the fallout from Huang's resignation, following revelations about his multiple affairs.",
     "url": "https://www.cnbc.com/2026/11/13/nvidia-jensen-huang-affairs-amd-broadcom-tsmc.html",
@@ -70,127 +250,7 @@
     "publishedAt": "2026-11-13T08:27:07.000Z"
   },
   {
-    "id": "CNBC-18-2026-11-13T07:15:01.000Z",
-    "title": "Why Singapore keeps turning up in the fight over Nvidia chips and China",
-    "description": "Singapore said it had barred Alice Huang from re-entering the country and that U.S. authorities had provided limited help with its yearlong investigations.",
-    "url": "https://www.cnbc.com/2026/11/13/nvidia-jensen-huang-alice-spy-megaspeed-.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T07:15:01.000Z"
-  },
-  {
-    "id": "CNBC-8-2026-11-13T04:07:44.000Z",
-    "title": "Nvidia: Ex-prosecutor Joon Kim and Wachtell, Lipton bring big track record to investigation",
-    "description": "The retention of Wachtell, Lipton for the Nvidia probe comes on the heels of the law firm's investigation for the NBA into the Los Angeles Clippers.",
-    "url": "https://www.cnbc.com/2026/11/12/nvidia-jensen-huang-joon-kim-wachtell-china-spy.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T04:07:44.000Z"
-  },
-  {
-    "id": "CNBC-13-2026-11-13T02:56:35.000Z",
-    "title": "How the Jensen Huang affair changes the outlook for U.S.-China relations",
-    "description": "The political climate heading into next week's Trump-Xi summit is drastically different from the last meeting in September.",
-    "url": "https://www.cnbc.com/2026/11/13/jensen-huang-nvidia-us-china-relations.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T02:56:35.000Z"
-  },
-  {
-    "id": "CNBC-7-2026-11-13T02:43:26.000Z",
-    "title": "Cerebras surges 17% after beating on quarterly revenue and announcing Microsoft deal",
-    "description": "Cerebras announced a new deal with Microsoft after partnering with major cloud providers Amazon and Oracle.",
-    "url": "https://www.cnbc.com/2026/11/12/cerebras-systems-cbrs-q3-earnings-report-2026.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T02:43:26.000Z"
-  },
-  {
-    "id": "CNBC-11-2026-11-12T23:12:15.000Z",
-    "title": "Nscale updates IPO prospectus that shows widening loss",
-    "description": "Nvidia-backed neocloud Nscale on Thursday released updated paperwork for a U.S. initial public offering showing a widening loss.",
-    "url": "https://www.cnbc.com/2026/11/12/nscale-updates-ipo-prospectus-that-shows-widening-loss.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T23:12:15.000Z"
-  },
-  {
-    "id": "CNBC-15-2026-11-12T23:08:50.000Z",
-    "title": "Analysis: Nvidia’s leadership crisis tests the chipmaker’s role as the ‘central bank of AI’",
-    "description": "The tech giant's web of ties to other companies is raising the possibility that it could do far-reaching economic and financial damage.",
-    "url": "https://www.cnbc.com/2026/11/11/nvidia-jensen-huang-ai-financial-system-risk.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T23:08:50.000Z"
-  },
-  {
-    "id": "MarketWatch-4-2026-11-12T22:57:00.000Z",
-    "title": "Who can replace Jensen Huang as Nvidia CEO? These four names are buzzing in AI circles.",
-    "description": "As Nvidia’s board seeks a new CEO, experts say that person will need a rare balance of tech vision and business savvy",
-    "url": "https://www.marketwatch.com/story/who-can-replace-jensen-huang-as-nvidia-ceo-these-four-names-are-buzzing-in-ai-circles-66c31ec2?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T22:57:00.000Z"
-  },
-  {
-    "id": "MarketWatch-5-2026-11-12T22:38:00.000Z",
-    "title": "Opening trading-card packs has become a $2 billion market",
-    "description": "Pack-ripping apps are changing the way people buy and sell cards. But analysts say their “slot-like payoff” raises risks.",
-    "url": "https://www.marketwatch.com/story/opening-trading-card-packs-has-become-a-2-billion-market-new-apps-are-trying-to-cash-in-b7ba11f5?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T22:38:00.000Z"
-  },
-  {
-    "id": "MarketWatch-6-2026-11-12T22:16:00.000Z",
-    "title": "Bond yields just saw their biggest surge since 2022 as expectations grow for more Fed rate hikes",
-    "description": "Fed Chair Warsh’s quiet style of communicating interest-rate policy has led to more volatile markets.",
-    "url": "https://www.marketwatch.com/story/bond-yields-just-saw-their-biggest-surge-since-2022-as-expectations-grow-for-more-fed-rate-hikes-d0a4f195?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T22:16:00.000Z"
-  },
-  {
-    "id": "MarketWatch-9-2026-11-12T21:50:00.000Z",
-    "title": "The 10 best stocks for a year-end momentum trade",
-    "description": "Why December is the best month of the year for momentum strategies",
-    "url": "https://www.marketwatch.com/story/the-10-best-stocks-for-a-year-end-momentum-trade-8d4cf8f7?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T21:50:00.000Z"
-  },
-  {
-    "id": "CNBC-5-2026-11-12T21:20:35.000Z",
-    "title": "Cisco beats on earnings, says AI infrastructure revenue will double this fiscal year",
-    "description": "Cisco is trying to become a bigger player in AI after missing out on the early years of the boom.",
-    "url": "https://www.cnbc.com/2026/11/12/cisco-csco-q1-2027-earnings.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T21:20:35.000Z"
-  },
-  {
-    "id": "CNBC-9-2026-11-12T21:16:37.000Z",
-    "title": "Why Nvidia stock drop isn't a big deal for many ETF, mutual fund investors",
-    "description": "Nvidia stock accounts for a fairly large share of many mutual funds and ETFs. But losses in the stock don't necessarily mean big losses for the overall fund.",
-    "url": "https://www.cnbc.com/2026/11/12/nvidia-stock-drop-etf-mutual-fund-investors.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T21:16:37.000Z"
-  },
-  {
-    "id": "CNBC-10-2026-11-12T20:03:57.000Z",
+    "id": "CNBC-18-2026-11-12T20:03:57.000Z",
     "title": "Donald Trump Jr. exits advisory role at Kalshi prediction market",
     "description": "The president's son will no longer serve as an advisor at Kalshi.",
     "url": "https://www.cnbc.com/2026/11/12/donald-trump-jr-exits-kalshi-advisory-role.html",
@@ -198,16 +258,6 @@
     "source": "CNBC",
     "category": "글로벌",
     "publishedAt": "2026-11-12T20:03:57.000Z"
-  },
-  {
-    "id": "CNBC-12-2026-11-12T19:05:25.000Z",
-    "title": "In a policy switch, the Fed says its October 2027 meeting will not see a vote on interest rates",
-    "description": "There will be seven voting meetings next year, with the October session set up as extra time for policy deliberation without a formal vote or post-meeting statement.",
-    "url": "https://www.cnbc.com/2026/11/12/in-policy-switch-fed-says-its-october-2027-meeting-will-not-see-a-vote-on-interest-rates.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T19:05:25.000Z"
   },
   {
     "id": "WSJ Markets-0-2025-01-27T19:26:00.000Z",
