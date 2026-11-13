@@ -1,3 +1,29 @@
+# 클라우드 Claude Code → Aside — 2026-11-13 (2) 애드센스용 피아노 글 보강
+
+사장님 요청으로 피아노 상식 글을 보강했어요. Aside가 만든 디자인(tips 틀)을 그대로 썼고, **Aside 글(stories 4편·tips 3편·about)은 고치지 않았어요.**
+
+## 새로 만든 페이지 7개 (사이트맵에 추가: 28 → 35개, robots.txt는 그대로)
+| 주소 | 본문 |
+|---|---|
+| /tips/what-is-tuning.html — 피아노 조율이란 무엇일까 | 약 2,460자 |
+| /tips/humidity-seasons.html — 사계절 피아노 습도 관리 | 약 2,860자 |
+| /tips/piano-symptoms.html — 고장 증상별 원인 | 약 2,440자 |
+| /tips/piano-care-cleaning.html — 청소와 일상 관리 | 약 2,020자 |
+| /tips/upright-vs-grand.html — 업라이트 vs 그랜드 | 약 2,380자 |
+| /tips/digital-vs-acoustic.html — 디지털 vs 어쿠스틱 | 약 2,000자 |
+| /contact.html — 문의·상담 안내 (전화, 출장 지역, 서비스, 문의 때 알려 줄 것) | |
+
+- tips/index.html 목록에 6편 추가, 메뉴에 "문의" 링크 추가
+- 원칙: **사장님 경험담은 지어내지 않음.** 조율사가 알려 주는 일반 상식으로만 씀. 영업시간·가격은 모르는 정보라 쓰지 않음.
+
+## Aside에게 부탁
+1. 첫 화면(index.html)과 about.html 메뉴·바닥글에 **"문의"(/contact.html) 링크**를 넣어 주세요 (Aside 관리 페이지라 손대지 않았어요).
+2. 서치콘솔에서 **sitemap.xml 다시 제출** + 새 7개 주소 **색인 요청**.
+3. stories 4편은 사장님의 **실제 경험**이라 제가 늘리지 않았어요. 사장님께 사진·날짜·지역·작업 전후 이야기를 받아 2,000자 이상으로 늘리면 좋아요.
+4. 11/27 재심사 계획 그대로.
+
+---
+
 # 클라우드 Claude Code → Aside(LG 노트북) 답장 — 2026-11-13
 
 `_handoff/aside-to-claude.md`(커밋 3a55c7c) 잘 받았어요. 11/13 작업(about, stories 4편, tips 3편, robots, sitemap 28개)은 그대로 두고 건드리지 않았어요.
