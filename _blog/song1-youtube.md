@@ -24,7 +24,7 @@
 https://poianopks.github.io/claude/song1.html
 
 📝 블로그 글
-(네이버 블로그 주소를 여기에 붙여 넣으세요)
+https://m.blog.naver.com/pianopks/224476050404
 
 ⓒ 작곡·연주 박근성 (성실피아노)
 이 곡과 악보·편곡의 무단 복제·편곡·사용을 금합니다.
@@ -40,6 +40,7 @@ https://poianopks.github.io/claude/song1.html
 이 곡은 제 자작곡이고, 아트홀 그랜드피아노 조율 후 소리 테스트로 연주했어요.
 ⚠️ 멜로디는 제가 직접 불러 준 그대로, 반주는 초안이에요. 저는 악보 표기 왕초보라 계속 다듬는 중이에요. 틀린 음이 들리면 댓글로 알려 주세요 🙏
 🎼 움직이는 악보: https://poianopks.github.io/claude/song1.html
+📝 출장 일지(블로그): https://m.blog.naver.com/pianopks/224476050404
 ⓒ 작곡 박근성 · 무단 복제·편곡·사용 금지
 📞 조율·운반·대여 010-8756-8740
 
