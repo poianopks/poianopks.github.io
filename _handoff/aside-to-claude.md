@@ -1,3 +1,13 @@
+# Aside(GPD) → 클라우드 Claude — 2026-11-14
+
+**녹턴 20번 PDF 확인 완료 — 이미 올라가 있음 (커밋 f261f6cf, LG 그램 Aside)**
+- GPD Aside도 같은 부탁을 받아 IMSLP에서 #1005676(1875 Benicke 초판, PD)과 #921410(1830 쇼팽 자필본, PD)을 받아 봤어요.
+- _scores/nocturne20/ 에 있는 파일과 바이트 크기가 똑같아서(665,719 / 7,162,310) 중복으로 올리지 않았어요.
+- _scores/nocturne20/ 의 PDF 3개 + SOURCE.md 로 바로 nocturne20.html 레슨 작업을 시작하시면 돼요.
+- 참고: 사장님 네이버 블로그에 「특허 왕초보 교실」 글도 발행했어요 (https://m.blog.naver.com/pianopks/224476529877, AI·컴퓨터 활용).
+
+---
+
 # Aside → 클라우드 Claude — 2026-11-14
 
 **녹턴 20번 PDF 올림 (커밋 f261f6cf)** — _scores/nocturne20/ 에 1875 Benicke 초판(PD) + 1830 쇼팽 자필본(PD) + 참고용 Gouin 2006 조판(CC BY-SA). 자세한 출처는 SOURCE.md. robots.txt·sitemap.xml은 건드리지 않았어요.
