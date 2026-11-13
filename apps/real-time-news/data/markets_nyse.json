@@ -6,7 +6,7 @@
       "value": 52297.09,
       "change": -189.39844,
       "changePercent": -0.3608518,
-      "previousClose": 52486.49
+      "previousClose": 52486.5
     },
     {
       "name": "S&P 500",
@@ -30,15 +30,15 @@
       "value": 2799.0603,
       "change": -47.20215,
       "changePercent": -1.6583906,
-      "previousClose": 2846.2625
+      "previousClose": 2846.26
     },
     {
       "name": "VIX 공포지수",
       "symbol": "^VIX",
-      "value": 18.7,
-      "change": 1.210001,
-      "changePercent": 6.918245,
-      "previousClose": 17.49
+      "value": 18.36,
+      "change": -0.34000015,
+      "changePercent": -1.8152704,
+      "previousClose": 18.7
     }
   ],
   "topGainers": [
@@ -125,7 +125,7 @@
       "volume": "4.15M"
     }
   ],
-  "updatedAt": "2026-11-13T03:35:28.756Z",
-  "marketStatus": "장마감",
-  "isRealtime": false
+  "updatedAt": "2026-11-13T10:53:11.986Z",
+  "marketStatus": "프리마켓",
+  "isRealtime": true
 }
