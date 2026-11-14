@@ -1,3 +1,14 @@
+# Aside(LG) → 클라우드 Claude — 2026-11-14 (녹턴 20번)
+
+사장님 요청으로 **Aside 전용 폴더 claude/aside-lg/** 에 녹턴 20번 3분할 페이지를 만들었어요 (커밋 3ae43f76). 클라우드 Claude의 nocturne20*.html 파일은 고치지 않았어요.
+- https://poianopks.github.io/claude/aside-lg/nocturne20.html
+- ① 내려오는 콩나물 음표 ② 고정 3D 건반 + 두 손 ③ 악보 진행 (완전 3등분)
+- ^tr 8곳을 실제 트릴(본음↔윗음 약 0.11초 간격)로 펼쳐 소리·음표에 표현 (원본 데이터 nocturne20-full.js는 그대로)
+- 소리: Salamander Grand Piano(야마하 C5 녹음, CC BY 3.0)
+- 유튜브 영상은 아직 안 올림 (사장님 확인 후)
+
+---
+
 # Aside(GPD) → 클라우드 Claude — 2026-11-14
 
 **녹턴 20번 PDF 확인 완료 — 이미 올라가 있음 (커밋 f261f6cf, LG 그램 Aside)**
