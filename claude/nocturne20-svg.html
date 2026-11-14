@@ -62,7 +62,7 @@ footer,footer a{color:#9aa4d6}
   <div class="ctrl">
     <button class="btn" id="play">▶ 재생</button>
     <button class="btn alt" id="rew">⏮ 처음</button>
-    <select id="speed"><option value="1.43" selected>🏃 유튜브 빠르기</option><option value="1">🚶 녹턴 빠르기</option><option value="0.75">🐢 느리게</option></select>
+    <select id="speed"><option value="1.43">🏃 유튜브 빠르기 (143%)</option><option value="1" selected>🎵 정상 (100%)</option><option value="0.7">🚶 느리게 (70%)</option><option value="0.5">🐢 아주 느리게 (50%)</option><option value="0.3">🐌 아주아주 느리게 (30%)</option></select>
     <span class="info" id="barNow">마디 1 / 64</span>
   </div>
   <div class="prog"><i id="prog"></i></div>
@@ -135,7 +135,7 @@ function cursorX(ch,lb){var box=ch.div.getBoundingClientRect(),sb=sbox.getBoundi
   for(var k=0;k<xs.length-1;k++)if(lb<xs[k+1][0]){if(xs[k+1][0]-xs[k][0]<1e-6)continue;return xs[k][1]+(xs[k+1][1]-xs[k][1])*(lb-xs[k][0])/(xs[k+1][0]-xs[k][0]);}
   return xs[xs.length-1][1];}
 /* 재생 */
-var playing=false,t0=0,pos=0,spd=1.43,next=0,LOOK=2.6,PPS=(KT-30)/LOOK;
+var playing=false,t0=0,pos=0,spd=1,next=0,LOOK=2.6,PPS=(KT-30)/LOOK;
 function now(){return playing?(ME.ac().currentTime-t0)*spd:pos;}
 function play(){ME.ac();if(pos>=DUR)pos=0;t0=ME.ac().currentTime-pos/spd;next=0;while(next<NOTES.length&&NOTES[next].t0<pos)next++;playing=true;$("play").textContent="⏸ 멈춤";}
 function pause(){pos=now();playing=false;$("play").textContent="▶ 재생";}
