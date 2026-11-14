@@ -114,6 +114,7 @@ async function renderAudio(onp) {
   ac = ac || new AudioContext();
   const used = new Set(); for (const h of ["R", "L"]) for (const e of EV[h]) { e.midi.forEach((m) => used.add(m)); if (e.tr) used.add(e.tr.up); }
   const smp = {}; let n = 0; for (const m of used) { smp[m] = await ac.decodeAudioData(b64ToBuf(MIDI.Soundfont.acoustic_grand_piano[sfName(m)])); if (onp) onp(++n / used.size); }
+  if (onp) onp(-1);
   const SR = 44100, oc = new OfflineAudioContext(2, Math.ceil((TOTAL + 4) * SR), SR);
   const comp = oc.createDynamicsCompressor(); comp.threshold.value = -16; comp.ratio.value = 3; comp.connect(oc.destination);
   const master = oc.createGain(); master.gain.value = 0.9; master.connect(comp);
@@ -340,7 +341,7 @@ window.chunk = async function (i, sz) { const b = BLOB.slice(i * sz, (i + 1) * s
 document.getElementById("go").onclick = async () => {
   const msg = document.getElementById("msg"), go = document.getElementById("go"); go.disabled = true; go.textContent = "준비 중…";
   ac = ac || new AudioContext(); await ac.resume();
-  try { await window.init((p) => { msg.textContent = "피아노 소리 준비 중… " + Math.round(p * 100) + "%"; }); } catch (e) { msg.textContent = "준비 중 문제가 생겼어요: " + e.message; return; }
+  try { await window.init((p) => { msg.textContent = p < 0 ? "전곡 소리를 만드는 중… (휴대폰은 30초쯤 걸려요)" : "피아노 소리 준비 중… " + Math.round(p * 100) + "%"; }); } catch (e) { msg.textContent = "준비 중 문제가 생겼어요: " + e.message; return; }
   document.getElementById("ov").style.display = "none"; document.getElementById("bar").style.display = "flex"; play(); };
 document.getElementById("pp").onclick = async (e) => { if (ac.state === "running") { await ac.suspend(); e.target.textContent = "▶ 계속"; } else { await ac.resume(); e.target.textContent = "⏸ 잠깐 멈춤"; } };
 document.getElementById("rs").onclick = async () => { await ac.resume(); document.getElementById("pp").textContent = "⏸ 잠깐 멈춤"; play(); };
