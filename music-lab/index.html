@@ -1,0 +1,89 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>박근성 음악 작업실</title>
+<meta name="description" content="피아노 조율사 박근성의 녹음 파일 정리, 3D 피아노 영상 업그레이드, 자작곡·쇼팽 녹턴 20번 멜로디/반주 MIDI 추출 기록">
+<script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+<style>
+:root{--bg:#fbf7f2;--card:#fff;--ink:#2a2230;--sub:#6a5f70;--acc:#d6337f;--acc2:#2f6fd6;--line:#eadfd6}
+@media (prefers-color-scheme:dark){:root{--bg:#17141c;--card:#221d29;--ink:#f1ebf4;--sub:#b8adc0;--acc:#ff6fae;--acc2:#7fb2ff;--line:#3a3242}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;line-height:1.75}
+header{padding:48px 16px 28px;text-align:center;background:linear-gradient(135deg,#ffe3ef,#ffe9cf);color:#3a2030}
+header h1{margin:0 0 8px;font-size:clamp(26px,5vw,40px)}header p{margin:0;color:#6a4a5a}
+main{max-width:920px;margin:0 auto;padding:16px}
+nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px 0}nav a{padding:6px 14px;border-radius:20px;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:15px}
+section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 20px;margin:18px 0}
+h2{margin:0 0 10px;font-size:24px;color:var(--acc)}h3{margin:18px 0 6px;font-size:18px}
+table{width:100%;border-collapse:collapse;font-size:15px}td,th{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left;vertical-align:top}th{color:var(--sub);font-weight:normal}
+.num{text-align:right;white-space:nowrap}.tag{display:inline-block;background:#ffe3ef;color:#a01f5a;border-radius:8px;padding:0 8px;font-size:13px;margin-right:4px}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}.flow span{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:14px}.flow b{color:var(--acc)}
+.midi{border:1px solid var(--line);border-radius:14px;padding:12px;margin:12px 0}.mlabel{font-weight:bold;margin-bottom:6px}
+midi-player{display:block;width:100%;margin:4px 0}midi-visualizer{display:block;width:100%;overflow-x:auto;background:#fff;border-radius:8px;max-height:180px}
+.dl{display:inline-block;margin-top:6px;font-size:14px;color:var(--acc2)}
+.yt{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin:10px 0}.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.note{font-size:14px;color:var(--sub)}footer{text-align:center;color:var(--sub);font-size:14px;padding:24px 16px 40px}
+a{color:var(--acc2)}ul{padding-left:20px}
+</style></head><body>
+<header><h1>박근성 음악 작업실</h1><p>피아노 조율사 박근성 · 성실피아노 — 옛 녹음 정리부터 3D 피아노 영상, 멜로디 추출 MIDI까지</p></header>
+<main>
+<nav><a href="#rec">① 녹음 파일 정리</a><a href="#prayer">② 3D 영상 업그레이드</a><a href="#jajak">③ 자작곡1 멜로디 추출</a><a href="#noct">④ 쇼팽 녹턴 20번 MIDI</a><a href="#src">출처</a></nav>
+
+<section id="rec"><h2>① 옛 녹음 파일은 어디에 있었나</h2>
+<p>2007~2018년에 휴대폰, PDA, 디지털카메라, 녹음기로 남긴 작곡 연습 녹음을 컴퓨터와 외장 드라이브, 네이버 MYBOX(N드라이브)에서 모두 찾아 목록으로 만들었어요. 그중에서 2009년 1월 17일 카시오 디지털카메라로 녹음한 <b>CIMG0839</b>가 <b>박근성 자작곡 1</b>의 원본이에요.</p>
+<table><tr><th>종류</th><th class="num">개수</th><th>형식</th></tr>
+<tr><td>음성·연주 녹음 (오디오)</td><td class="num">1,408개</td><td>WAV 965 · MP3 266 · OGG 139 · M4A 38</td></tr>
+<tr><td>옛 휴대폰·PDA 녹음 (GSM 압축 WAV)</td><td class="num">168개</td><td>2007~2009년 · 2017년</td></tr>
+<tr><td>동영상 (연주가 담길 수 있는 영상)</td><td class="num">1,711개</td><td>MP4 1,042 · MOV 334 · 3GP 334</td></tr></table>
+<h3>작곡 연습 녹음이 많이 모여 있는 곳</h3>
+<table><tr><th>위치</th><th class="num">개수</th></tr>
+<tr><td>OneDrive › 바탕화면 › 작곡연습 › xp-lg백업 <span class="tag">옛 윈XP·카메라 백업</span></td><td class="num">707</td></tr>
+<tr><td>OneDrive › 바탕화면 › 작곡연습 › 박근성작곡연습</td><td class="num">406</td></tr>
+<tr><td>F드라이브 › 작곡연습(아이폰5·일본폰) › 박근성작곡연습 › 메모리카드</td><td class="num">171</td></tr>
+<tr><td>C드라이브 › 작곡연습 › xp-lg백업 › 안드로이드 앱 백업</td><td class="num">143</td></tr>
+<tr><td>F드라이브 › 갤럭시 S8 SD카드 › Voice Recorder</td><td class="num">38</td></tr>
+<tr><td>OneDrive › 구형 카시오카메라 › DCIM</td><td class="num">27</td></tr></table>
+<p class="note">※ 개인 통화 녹음, 다른 사람의 폰 자료, 파일 하나하나의 이름은 공개 페이지에 올리지 않았어요. 전체 목록은 박근성 님의 N드라이브(MYBOX) 폴더에만 보관해요.</p>
+</section>
+
+<section id="prayer"><h2>② 소녀의 기도 3D 업그레이드 — 악보·팔·손 터치 일치</h2>
+<div class="yt"><iframe src="https://www.youtube.com/embed/GYryhWP6Rs4" title="소녀의 기도 3D 업그레이드" allowfullscreen loading="lazy"></iframe></div>
+<div class="flow"><span>악보 데이터 (60마디)</span><b>→</b><span>음표마다 시간 계산</span><b>→</b><span>3D 건반 누름</span><b>+</b><span>팔·손가락 움직임</span><b>+</b><span>소리</span><b>+</b><span>악보 하이라이트</span></div>
+<ul>
+<li><b>하나의 시간표</b>로 소리, 건반, 손가락, 악보 노란 상자를 함께 움직여서 네 가지가 같은 순간에 맞아요.</li>
+<li>3D 건반 88개: 자바스크립트로 원근(멀고 가까움)을 직접 계산해 그렸고, 누르는 건반은 쏙 들어가며 <b style="color:#e0a000">노랑(오른손)</b> · <b style="color:#2f6fd6">파랑(왼손)</b>으로 바뀌어요.</li>
+<li>팔은 어깨-팔꿈치-손목 두 마디 관절 계산(IK)으로, 손가락은 다음 음보다 0.12초 먼저 움직여 자연스럽게 건반에 닿아요.</li>
+<li>왼손 반주 소리는 0.42배로 작게, 오른손 멜로디는 0.95배로 또렷하게 들려요.</li>
+<li><b>한 음씩 검사</b>: 악보 음표와 눌리는 건반을 컴퓨터로 대조해 틀린 것 0개 — 소녀의 기도 1,066음(오른손 617 · 왼손 449), 차르다시 1,288음(오른손 957 · 왼손 331).</li>
+</ul>
+<p>차르다시 3D 업그레이드: <a href="https://youtu.be/pGGK0eUzIcU">youtu.be/pGGK0eUzIcU</a> · 배우는 법 블로그: <a href="https://blog.naver.com/pianopks/224475803688">소녀의 기도 편</a> · <a href="https://blog.naver.com/pianopks/224475813090">차르다시 편</a></p>
+</section>
+
+<section id="jajak"><h2>③ 박근성 자작곡 1 — 왼손 반주 빼고 오른손 멜로디 뽑기</h2>
+<div class="yt"><iframe src="https://www.youtube.com/embed/l6WNDW5wNbk" title="박근성 자작곡 1" allowfullscreen loading="lazy"></iframe></div>
+<div class="flow"><span>2009.01.17 원본 녹음 CIMG0839</span><b>→</b><span>소리 높이 분석</span><b>→</b><span>악보로 채보 (다장조 4/4 ♩=66)</span><b>→</b><span>오른손 / 왼손 나누기</span><b>→</b><span>MIDI 3개</span></div>
+<p>원본 녹음에서 가장 높게 노래하는 줄을 오른손 멜로디로, 그 아래 '도-솔-미-솔' 같은 펼침화음을 왼손 반주로 나눴어요. 피아노 앱이나 작곡 프로그램에서 열면 멜로디만, 반주만, 또는 둘을 합쳐서 들을 수 있어요.</p>
+<div class="midi"><div class="mlabel">1) 오른손 멜로디만 — 45음</div><midi-player src="midi/jajakgok1-1-melody-RH.mid" sound-font visualizer="#v-jajakgok11melodyRHmid"></midi-player><midi-visualizer type="piano-roll" id="v-jajakgok11melodyRHmid" src="midi/jajakgok1-1-melody-RH.mid"></midi-visualizer><a class="dl" href="midi/jajakgok1-1-melody-RH.mid" download>⬇ jajakgok1-1-melody-RH.mid 내려받기</a></div>
+<div class="midi"><div class="mlabel">2) 왼손 반주만 — 136음</div><midi-player src="midi/jajakgok1-2-accomp-LH.mid" sound-font visualizer="#v-jajakgok12accompLHmid"></midi-player><midi-visualizer type="piano-roll" id="v-jajakgok12accompLHmid" src="midi/jajakgok1-2-accomp-LH.mid"></midi-visualizer><a class="dl" href="midi/jajakgok1-2-accomp-LH.mid" download>⬇ jajakgok1-2-accomp-LH.mid 내려받기</a></div>
+<div class="midi"><div class="mlabel">3) 멜로디 + 반주 합친 것 — 181음 · 1분 5초</div><midi-player src="midi/jajakgok1-3-both.mid" sound-font visualizer="#v-jajakgok13bothmid"></midi-player><midi-visualizer type="piano-roll" id="v-jajakgok13bothmid" src="midi/jajakgok1-3-both.mid"></midi-visualizer><a class="dl" href="midi/jajakgok1-3-both.mid" download>⬇ jajakgok1-3-both.mid 내려받기</a></div>
+</section>
+
+<section id="noct"><h2>④ 쇼팽 녹턴 20번 (올림다단조, 유작) — 멜로디·반주 MIDI</h2>
+<p>참고한 유튜브 3개: <a href="https://youtu.be/l6WNDW5wNbk">박근성 자작곡 1</a>(멜로디 추출 방법) · <a href="https://youtu.be/xF7D3dRkM_8">쇼팽 녹턴 20번·21번 작품 설명</a> · <a href="https://youtu.be/A8zO2KX_VVU">조성진 연주 녹턴 20번 (2017)</a></p>
+<div class="flow"><span>공개 악보 (1875 초판 · 1830 쇼팽 자필 · 2006 Gouin 조판)</span><b>→</b><span>전곡 64마디 음표 데이터</span><b>→</b><span>오른손 윗줄 = 멜로디</span><b>+</b><span>왼손 = 반주</span><b>→</b><span>MIDI 3개</span></div>
+<p>귀로 듣고 뽑는 대신, 저작권이 끝난 <b>악보에서 직접</b> 음표를 옮겨 정확하게 나눴어요. 오른손 화음은 가장 위 음만 남겨 멜로디 한 줄로, 끝부분의 흐르는 음계와 꾸밈 음표도 그대로 들어 있어요. 빠르기는 부분마다 바뀌어요 (도입 → 노래하는 멜로디 → 조금 빠르게 → 가운데 3/4박자 → 느리게 → 처음 빠르기 → 끝맺음 음계).</p>
+<div class="midi"><div class="mlabel">1) 멜로디만 (오른손 윗줄) — 318음</div><midi-player src="midi/nocturne20-1-melody.mid" sound-font visualizer="#v-nocturne201melodymid"></midi-player><midi-visualizer type="piano-roll" id="v-nocturne201melodymid" src="midi/nocturne20-1-melody.mid"></midi-visualizer><a class="dl" href="midi/nocturne20-1-melody.mid" download>⬇ nocturne20-1-melody.mid 내려받기</a></div>
+<div class="midi"><div class="mlabel">2) 왼손 반주만 — 438음</div><midi-player src="midi/nocturne20-2-accomp-LH.mid" sound-font visualizer="#v-nocturne202accompLHmid"></midi-player><midi-visualizer type="piano-roll" id="v-nocturne202accompLHmid" src="midi/nocturne20-2-accomp-LH.mid"></midi-visualizer><a class="dl" href="midi/nocturne20-2-accomp-LH.mid" download>⬇ nocturne20-2-accomp-LH.mid 내려받기</a></div>
+<div class="midi"><div class="mlabel">3) 멜로디 + 반주 합친 것 (전곡) — 794음 · 6분 2초</div><midi-player src="midi/nocturne20-3-both.mid" sound-font visualizer="#v-nocturne203bothmid"></midi-player><midi-visualizer type="piano-roll" id="v-nocturne203bothmid" src="midi/nocturne20-3-both.mid"></midi-visualizer><a class="dl" href="midi/nocturne20-3-both.mid" download>⬇ nocturne20-3-both.mid 내려받기</a></div>
+<p class="note">조성진 님 연주(2017)는 음반 저작권이 있어서 소리를 내려받거나 분석하지 않았어요. 같은 곡의 악보를 따라 치는 공부방: <a href="../claude/nocturne20.html">녹턴 20번 피아노 교실</a></p>
+</section>
+
+<section id="src"><h2>출처와 만든 사람</h2>
+<ul>
+<li>기획·확인: 피아노 조율사 박근성 (성실피아노) · 분석·코드·정리: AI(Claude)</li>
+<li>쇼팽 녹턴 20번 음표 데이터: 성실피아노 공부방 nocturne20-full.js (CC BY-SA 4.0) — IMSLP 1875 Benicke 초판(퍼블릭 도메인), 1830 쇼팽 자필 악보(퍼블릭 도메인), Pierre Gouin 2006 조판(CC BY-SA 4.0)을 대조. 그래서 녹턴 MIDI 3개도 CC BY-SA 4.0으로 공개해요.</li>
+<li>MIDI 재생: html-midi-player, Magenta.js</li>
+<li>소녀의 기도 음 데이터: 위키미디어 커먼즈 공개 MIDI (Michael Bednarek, 퍼블릭 도메인) + 원본 악보 대조 · 차르다시: flutetunes.com 공개 MIDI 참고</li>
+<li>박근성 자작곡 1: 작곡·연주 박근성 (2009), 저작권은 박근성에게 있어요.</li>
+<li>블로그: <a href="https://blog.naver.com/pianopks">blog.naver.com/pianopks</a> · 공부방: <a href="../claude/prayer.html">소녀의 기도</a> · <a href="../claude/czardas.html">차르다시</a></li>
+</ul></section>
+</main>
+<footer>© 성실피아노 · 피아노 조율사 박근성 · 2026-11-14</footer>
+</body></html>
