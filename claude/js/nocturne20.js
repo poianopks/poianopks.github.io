@@ -52,8 +52,8 @@ function rawItems(hand,b0,b1){
   var go=function(btn,mode,fromBar){
     ensure();
     var parts=[];
-    if(mode!=="L")parts.push({items:rawItems("R",0,BARS.length),vel:.42},{items:R,prefix:"FR",audio:false,light:true});
-    if(mode!=="R")parts.push({items:rawItems("L",0,BARS.length),vel:mode==="L"?.42:.32},{items:L,prefix:"FL",audio:false,light:true});
+    if(mode!=="L")parts.push({items:rawItems("R",0,BARS.length),vel:.5},{items:R,prefix:"FR",audio:false,light:true});
+    if(mode!=="R")parts.push({items:rawItems("L",0,BARS.length),vel:mode==="L"?.42:.24},{items:L,prefix:"FL",audio:false,light:true});
     SE.play([{el:fs,bars:BARS,parts:parts,kb:$("fullKb")}],{btn:btn,mul:+$("fullSpeed").value,fromBar:fromBar,metro:$("fullMetro").checked,scrollBox:fs,
       onBar:function(b){$("fullNow").textContent=(b+1)+" / "+BARS.length+"마디"+(SECS[b+1]?" · "+SECS[b+1]:"");}});
   };
@@ -67,7 +67,7 @@ function rawItems(hand,b0,b1){
 /* ---------- 단계별 레슨 ---------- */
 var STEPS=[
   {id:1,part:"intro",from:1,to:4,bpm:40,title:"도입 — 조용한 화음",tip:"<b>C♯m(도♯·미·솔♯)</b> 화음으로 시작해요. 2마디의 <b>파×</b>는 '파 더블샵' = <b>솔</b>과 같은 건반이에요.",tip2:"3·4마디는 1·2마디와 같아요. 두 번째는 <b>pp</b>(아주 여리게)로 메아리처럼."},
-  {id:2,part:"theme",from:5,to:8,bpm:42,title:"주제 ① — 노래하는 멜로디",tip:"오른손은 <b>솔♯ → 파♯ → 솔♯ → 도♯</b> 긴 음으로 노래하고, 왼손은 <b>도♯–솔♯–미–도♯</b> 펼친 화음이 물결처럼 흘러요.",tip2:"원곡의 tr(트릴)과 작은 꾸밈음은 빼고 본음만 적었어요. 익숙해지면 파♯–솔♯을 빠르게 번갈아 쳐 보세요."},
+  {id:2,part:"theme",from:5,to:8,bpm:42,title:"주제 ① — 노래하는 멜로디",tip:"오른손은 <b>솔♯ → 파♯ → 솔♯ → 도♯</b> 긴 음으로 노래하고, 왼손은 <b>도♯–솔♯–미–도♯</b> 펼친 화음이 물결처럼 흘러요.",tip2:"6마디 <b>tr(트릴)</b>: 파♯–솔♯을 빠르게 번갈아요. 🎼 원곡 소리에 트릴·꾸밈음이 들어 있어요. 왕초보는 파♯ 하나만 길게 쳐도 괜찮아요."},
   {id:3,part:"theme",from:9,to:12,bpm:42,title:"주제 ② — 대답하는 선율",tip:"9마디 왼손 첫 음은 <b>시♯(=도)</b>. 11마디는 레♯을 길게 끌다가 <b>레♯–도♯</b>으로 내려와요.",tip2:"12마디 마지막 솔♯은 다음 마디로 이어지는 '숨'이에요."},
   {id:4,part:"theme",from:13,to:16,bpm:40,title:"주제 ③ — 흘러내리는 음계",tip:"15마디는 아주 높은 <b>도♯</b>(8va)에서 한 음씩 쏟아져 내려와요. 셋잇단 → 5잇단 → 6잇단으로 점점 빨라져요.",tip2:"🌱 쉬운 악보는 빠른 음을 빼고 큰 박의 음만 남겼어요. 원곡은 🐢 아주 느리게로 한 묶음씩!"},
   {id:5,part:"theme",from:17,to:20,bpm:40,title:"주제 ④ — 슬픈 마무리",tip:"17마디 <b>레♮</b>(하얀 건반 레)가 갑자기 어두운 색을 줘요. 18마디의 <b>라×</b>는 '라 더블샵' = <b>시</b> 건반.",tip2:"20마디 낮은 도♯에서 한 번 쉬어 가요."},
@@ -160,7 +160,7 @@ function card(st){
     var m=mode(st),v=st[m],parts=[];
     var aud=function(h){return m==="orig"?rawItems(h,st.from-1,st.to):SE.audioItems(v[h]);};
     if(a!=="L")parts.push({items:aud("R"),vel:.48},{items:v.R,prefix:"R"+st.id+"-",audio:false,light:true});
-    if(a!=="R")parts.push({items:aud("L"),vel:a==="L"?.48:.34},{items:v.L,prefix:"L"+st.id+"-",audio:false,light:true});
+    if(a!=="R")parts.push({items:aud("L"),vel:a==="L"?.48:.28},{items:v.L,prefix:"L"+st.id+"-",audio:false,light:true});
     SE.play([{el:$("score"+st.id),bars:stepBars(st,bpm),parts:parts,kb:$("kb"+st.id),beatsEl:$("beat"+st.id)}],{btn:b,countIn:true,
       metro:d.querySelector('[data-o="metro"]').checked,loop:function(){return d.querySelector('[data-o="loop"]').checked;}});
   });
