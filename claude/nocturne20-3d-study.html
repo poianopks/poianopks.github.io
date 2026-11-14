@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>쇼팽 녹턴 20번 — 3D 3등분 연습실</title>
+<meta name="description" content="쇼팽 녹턴 20번(유작) 3D 연습실 — 화면 3등분: 떨어지는 음표(콩나물) · 고정된 3D 건반과 두 손 · 진한 악보. 야마하 그랜드 피아노 음색, 정상·느리게·아주 느리게, 오른손/왼손 소리 따로, 유튜브용 영상 다운로드."/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/genre.css?v=20261106">
+<style>
+body{background:#070b1f}
+.wrap{max-width:1240px}
+h1{color:#ffd166;margin:14px 0 4px;font-size:clamp(1.3rem,4vw,1.9rem)}
+.lead{color:#cfd8ff}
+#stageWrap{position:relative;width:100%;overflow:hidden;border-radius:14px;background:#03040f}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;background:#03040f;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+#gl{position:absolute;left:0;top:0;width:1920px;height:720px;display:block;background:linear-gradient(#050a2a,#2a1866 48%,#120c2a 52%,#0a0814)}
+#hud{position:absolute;left:0;top:0;width:1920px;height:52px;display:flex;align-items:center;gap:22px;padding:0 24px;box-sizing:border-box;background:linear-gradient(rgba(3,5,18,.85),rgba(3,5,18,0));color:#e8ecff;font-weight:800;font-size:24px;pointer-events:none}
+#hud .t{color:#ffd166;font-size:30px;font-weight:900}
+#hud .sp{margin-left:auto;font-size:20px;color:#c9cff0}
+#hud .r{color:#ffd166}#hud .l{color:#6ec3ff}
+#sbox{position:absolute;left:0;top:720px;width:1920px;height:360px;background:#fffaf2;overflow:hidden;border-top:4px solid #c21f35;box-sizing:border-box}
+.chunk{position:absolute;width:2100px;transform-origin:0 0;display:none}
+.chunk.show{display:block}
+#cur{position:absolute;top:0;width:4px;height:360px;background:#e0413a;box-shadow:0 0 8px rgba(224,65,58,.7);display:none}
+#sbox .score{--staff:#000;--ink:#000;--sub:#222}
+#sbox .score .staffline{stroke-width:1.8}
+#sbox .score .n .st{stroke-width:2.2}
+#sbox .score .n .hd.open{stroke-width:2.5}
+#sbox .score .lab{font-weight:900;fill:#000}
+#sbox .score .beam,#sbox .score .ink{fill:#000}
+#sbox .score text{font-weight:900}
+.score .ksig{fill:var(--staff);font-size:20px}
+.score .ott{fill:var(--staff);font-size:12px;font-weight:900;font-style:italic}
+.score .ottl{stroke:var(--staff);stroke-width:1.2;stroke-dasharray:5 4}
+.score .orn{fill:var(--staff);font-size:13px;font-weight:900;font-style:italic;text-anchor:middle}
+.score .sec{fill:var(--accent);font-size:13px;font-weight:900}
+.score .tup{fill:var(--staff);font-size:11px;font-weight:800;text-anchor:middle;font-style:italic}
+.score .tie{fill:none;stroke:var(--staff);stroke-width:2}
+.score .n.on .hd{fill:#ff3d1f;stroke:#ff3d1f}
+#ov{position:absolute;left:0;top:0;width:1920px;height:720px;display:none;place-items:center;text-align:center;background:rgba(3,5,18,.86);color:#fff}
+#ov h2{margin:0;font-size:96px;color:#ffd166;text-shadow:0 0 30px rgba(255,209,102,.7)}
+#ov p{margin:14px 0 0;font-size:34px;font-weight:800;color:#e8ecff}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;background:#0d1236;padding:10px;border-radius:14px;margin-top:8px}
+.ctrl select{font:inherit;font-weight:800;border-radius:999px;border:1.5px solid #3a4380;background:#141a40;color:#eef1ff;padding:7px 12px}
+.ctrl .info{color:#ffd166;font-weight:900}
+.prog{height:12px;background:#26304f;border-radius:6px;margin:8px 0;overflow:hidden;cursor:pointer}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#6ec3ff,#ffd166)}
+.card{margin-top:12px}
+.card p,.card li{color:var(--ink)}
+footer,footer a{color:#9aa4d6}
+#msg{color:#ffb4a8;font-weight:800;text-align:center}
+body.rec{margin:0;overflow:hidden}
+body.rec .wrap>*:not(#stageWrap),body.rec header{display:none!important}
+body.rec .wrap{max-width:none;margin:0;padding:0}
+body.rec #stageWrap{width:1920px;height:1080px!important;border-radius:0}
+</style>
+</head>
+<body>
+<header class="top"><div class="topbar"><span class="logo">🎹 녹턴 20번 3D 연습실</span><nav><a href="nocturne20-3d.html">✨ 3D 무대</a><a href="nocturne20-svg.html">🎼 SVG 음표</a><a href="nocturne20-video.html">🎬 영상</a><a href="nocturne20.html">녹턴 교실</a><a href="index.html">음악 공부방</a></nav></div></header>
+<div class="wrap">
+  <h1>쇼팽 녹턴 20번 — 3D 3등분 연습실</h1>
+  <p class="lead">화면을 <b>똑같이 3등분</b>했어요. 위 = 떨어지는 음표(악보와 같은 콩나물 모양) · 가운데 = 고정된 3D 건반과 두 손 · 아래 = 진한 악보. 건반과 손가락을 보면서 배우는 연습실이에요. 휴대폰은 가로로 돌리면 크게 보여요.</p>
+  <div id="stageWrap"><div id="stage">
+    <canvas id="gl" width="1920" height="720"></canvas>
+    <div id="hud"><span class="t">쇼팽 녹턴 20번</span><span id="barNow">마디 1 / 64</span><span id="secNow"></span><span class="sp" id="spNow"></span><span class="r">■ 오른손</span><span class="l">■ 왼손</span></div>
+    <div id="ov"><div id="ovIn"></div></div>
+    <div id="sbox"><div id="cur"></div></div>
+  </div></div>
+  <div class="prog" id="progBar" title="누르면 그 자리로 가요"><i id="prog"></i></div>
+  <div class="ctrl">
+    <button class="btn" id="play">▶ 재생</button>
+    <button class="btn alt" id="rew">⏮ 처음</button>
+    <select id="speed" aria-label="빠르기">
+      <option value="1.43">🏃 유튜브 빠르기 (143%)</option>
+      <option value="1" selected>🎵 정상 (100%)</option>
+      <option value="0.7">🚶 느리게 (70%)</option>
+      <option value="0.5">🐢 아주 느리게 (50%)</option>
+      <option value="0.3">🐌 아주아주 느리게 (30%)</option>
+    </select>
+    <select id="hands" aria-label="소리 나는 손">
+      <option value="RL" selected>🎧 양손 소리</option>
+      <option value="R">오른손 소리만</option>
+      <option value="L">왼손 소리만</option>
+    </select>
+    <span class="info" id="tNow">0:00</span>
+  </div>
+  <p id="msg"></p>
+  <div class="card">
+    <b>🎬 유튜브용 영상 (1920×1080 가로, 똑같이 3등분)</b>
+    <p style="margin:8px 0 0">같은 화면을 영상으로 만들었어요. 받아서 유튜브에 그대로 올릴 수 있어요.</p>
+    <p><a class="btn" style="text-decoration:none;display:inline-block" href="media/nocturne20-3d-study.mp4" download="chopin-nocturne20-3d-study.mp4">⬇️ 영상 다운로드 (mp4)</a> <a class="btn alt" style="text-decoration:none;display:inline-block" href="media/nocturne20-3d-study.mp4" target="_blank" rel="noopener">▶ 영상 보기</a></p>
+    <p style="font-size:.9rem;color:var(--sub)">유튜브 제목·설명·태그는 <a href="nocturne20-video.html">영상 페이지</a>에 있는 글을 복사해서 쓰면 돼요.</p>
+  </div>
+  <div class="card">
+    <b>🎹 이렇게 연습해요</b>
+    <ol style="margin:8px 0 0;padding-left:1.3em">
+      <li>먼저 <b>아주 느리게(50%)</b>로 틀고, 가운데 건반에서 <b>어느 손가락이 어느 건반</b>을 누르는지 봐요.</li>
+      <li><b>오른손 소리만</b>으로 멜로디를 따라 불러 보고, 다음엔 <b>왼손 소리만</b>으로 반주를 들어요.</li>
+      <li>위에서 떨어지는 음표 모양(빈 머리=2분음표, 꼬리 1개=8분음표, 꼬리 2개=16분음표)과 아래 악보를 같이 봐요.</li>
+      <li>익숙해지면 느리게(70%) → 정상(100%)으로 올려요.</li>
+    </ol>
+  </div>
+  <p style="color:#9aa4d6;font-size:.88rem;margin-top:12px">피아노 음색: YDP Grand Piano (FreePats, CC BY 3.0) · 악보 데이터: 성실피아노 공부방 (CC BY-SA 4.0) · 1875년 초판(공개 저작물)을 바탕으로 했어요.</p>
+  <footer><p>ⓒ 성실피아노 · 피아노조율사 박근성 · <a href="nocturne20.html">녹턴 20번 피아노 교실</a> · <a href="index.html">음악 공부방</a></p></footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/music-engine.js?v=20261114b"></script>
+<script src="js/score-engine.js?v=20261114b"></script>
+<script src="js/nocturne20-full.js?v=20261114b"></script>
+<script>
+(function(){
+"use strict";
+var REC=/[?&]rec=1/.test(location.search);if(REC)document.body.classList.add("rec");
+var F=window.NC_FULL,SE=window.SE,ME=window.ME,$=function(i){return document.getElementById(i);};
+if(!window.THREE){$("msg").textContent="3D를 불러오지 못했어요. 인터넷 연결을 확인해 주세요.";return;}
+/* ---------- 시간 ---------- */
+var bars=F.bars,NB=bars.length,off=[0],secs=[0];
+bars.forEach(function(b){off.push(off[off.length-1]+b.sig);secs.push(secs[secs.length-1]+b.sig*60/b.bpm);});
+function tOfBeat(be){var k=0;while(k<NB-1&&off[k+1]<=be+1e-9)k++;return secs[k]+(be-off[k])*60/bars[k].bpm;}
+function beatOfT(t){if(t<0)return -1;var k=0;while(k<NB-1&&secs[k+1]<=t)k++;return off[k]+Math.min(bars[k].sig,(t-secs[k])/(60/bars[k].bpm));}
+var NOTES=F.raw.map(function(r,i){return {t0:tOfBeat(r[0]),t1:tOfBeat(r[0]+r[1]),m:r[2],h:r[3],len:r[1],i:i};}).sort(function(a,b){return a.t0-b.t0;});
+var DUR=secs[NB];
+var SECN=[],cs="";bars.forEach(function(b,i){if(b.sec)cs=b.sec;SECN[i]=cs;});
+/* ---------- 무대 크기 ---------- */
+var wrap=$("stageWrap"),stage=$("stage");
+function fitStage(){if(REC)return;var s=wrap.clientWidth/1920;stage.style.transform="scale("+s+")";wrap.style.height=(1080*s)+"px";}
+addEventListener("resize",fitStage);fitStage();
+/* ---------- 3D 장면 ---------- */
+var renderer=new THREE.WebGLRenderer({canvas:$("gl"),antialias:true,alpha:true,preserveDrawingBuffer:REC});
+renderer.setPixelRatio(1);renderer.setSize(1920,720,false);
+var scene=new THREE.Scene();renderer.setClearColor(0x000000,0);
+scene.add(new THREE.AmbientLight(0xffffff,.62));
+var dl=new THREE.DirectionalLight(0xffffff,.75);dl.position.set(-4,20,14);scene.add(dl);
+function isB(m){return [1,3,6,8,10].indexOf(m%12)>=0;}
+var lo=200,hi=0;NOTES.forEach(function(n){lo=Math.min(lo,n.m);hi=Math.max(hi,n.m);});
+var KLO=lo-3,KHI=hi+3;while(isB(KLO))KLO--;while(isB(KHI))KHI++;
+var whites=[];for(var m=KLO;m<=KHI;m++)if(!isB(m))whites.push(m);
+var NW=whites.length,X={};
+whites.forEach(function(m,i){X[m]=i-(NW-1)/2;});
+for(m=KLO;m<=KHI;m++)if(isB(m))X[m]=X[m-1]+.5;
+/* 별 */
+(function(){var g=new THREE.BufferGeometry(),p=[],sd=5;function r(){sd=(sd*16807)%2147483647;return sd/2147483647;}
+ for(var i=0;i<700;i++)p.push((r()-.5)*90,r()*40+2,-8-r()*30);g.setAttribute("position",new THREE.Float32BufferAttribute(p,3));
+ scene.add(new THREE.Points(g,new THREE.PointsMaterial({color:0xfff6dc,size:.18})));})();
+/* 건반 */
+var body=new THREE.Mesh(new THREE.BoxGeometry(NW+1.2,1.2,1.4),new THREE.MeshStandardMaterial({color:0x0b0b10,roughness:.3,metalness:.5}));body.position.set(0,.1,-.75);scene.add(body);
+var felt=new THREE.Mesh(new THREE.BoxGeometry(NW+.2,.08,.12),new THREE.MeshBasicMaterial({color:0xc21f35}));felt.position.set(0,.05,-.08);scene.add(felt);
+var front=new THREE.Mesh(new THREE.BoxGeometry(NW+1.2,.7,.6),new THREE.MeshStandardMaterial({color:0x0b0b10,roughness:.3,metalness:.5}));front.position.set(0,-.55,6.3);scene.add(front);
+var KEYS={};
+for(m=KLO;m<=KHI;m++){var bk=isB(m),mat=new THREE.MeshStandardMaterial({color:bk?0x141218:0xf7f4ec,roughness:bk?.35:.45,metalness:bk?.2:0});
+  var k=new THREE.Mesh(bk?new THREE.BoxGeometry(.56,.5,3.8):new THREE.BoxGeometry(.94,.5,6),mat);
+  k.position.set(X[m],bk?.2:-.25,bk?1.9:3);k.userData={y:k.position.y,bk:bk};scene.add(k);KEYS[m]=k;}
+/* 카메라: 건반 고정 (뒤쪽 끝 = 화면 가운데 줄, 위 1/3 = 음표, 가운데 1/3 = 건반과 손) */
+var FOV=20,ASP=1920/720,TH=50*Math.PI/180;
+var camera=new THREE.PerspectiveCamera(FOV,ASP,1,400);
+var DIST=(NW/2+.5)/(Math.tan(FOV*Math.PI/360)*ASP);
+camera.position.set(0,Math.sin(TH)*DIST,Math.cos(TH)*DIST);camera.lookAt(0,0,0);
+/* 떨어지는 음표 (콩나물 모양) */
+var COLR=new THREE.Color(0xffd166),COLL=new THREE.Color(0x6ec3ff);
+var gHead=new THREE.SphereGeometry(.2,20,14),gRing=new THREE.TorusGeometry(.19,.055,10,28),gStem=new THREE.CylinderGeometry(.03,.03,1,8),gFlag=new THREE.BoxGeometry(.05,.34,.05),gDot=new THREE.SphereGeometry(.055,10,8);
+var shTex=(function(){var c=document.createElement("canvas");c.width=c.height=64;var x=c.getContext("2d");x.fillStyle="#fff";x.font="900 54px serif";x.textAlign="center";x.textBaseline="middle";x.fillText("♯",32,34);return new THREE.CanvasTexture(c);})();
+var pool=[],used=0;
+function getNote(){if(used<pool.length)return pool[used++];
+  var mat=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true}),gr=new THREE.Group();
+  var head=new THREE.Mesh(gHead,mat);head.scale.set(1.4,1,.7);head.rotation.z=.35;
+  var ring=new THREE.Mesh(gRing,mat);ring.scale.set(1.4,1,1);ring.rotation.z=.35;
+  var stem=new THREE.Mesh(gStem,mat);stem.scale.y=1.05;stem.position.set(.25,.55,0);
+  var f1=new THREE.Mesh(gFlag,mat);f1.position.set(.36,.92,0);f1.rotation.z=.75;
+  var f2=new THREE.Mesh(gFlag,mat);f2.position.set(.36,.74,0);f2.rotation.z=.75;
+  var dot=new THREE.Mesh(gDot,mat);dot.position.set(.42,.06,0);
+  var sh=new THREE.Sprite(new THREE.SpriteMaterial({map:shTex,transparent:true}));sh.scale.set(.42,.42,1);sh.position.set(-.48,.05,0);
+  [head,ring,stem,f1,f2,dot,sh].forEach(function(o){gr.add(o);});gr.scale.setScalar(1.55);
+  gr.userData={mat:mat,head:head,ring:ring,stem:stem,f1:f1,f2:f2,dot:dot,sh:sh};scene.add(gr);pool.push(gr);used++;return gr;}
+function shapeNote(gr,n,a){var u=gr.userData,len=n.len,open=len>=1.9,whole=len>=3.9,fl=len<.3?2:len<.9?1:0,col=n.h==="R"?COLR:COLL;
+  u.head.visible=!open;u.ring.visible=open;u.stem.visible=!whole;u.f1.visible=fl>0;u.f2.visible=fl>1;
+  u.dot.visible=[.75,1.5,3].some(function(v){return Math.abs(len-v)<.02;});u.sh.visible=isB(n.m);
+  u.mat.color.copy(col);u.sh.material.color.copy(col);u.mat.opacity=a;u.sh.material.opacity=a;}
+/* 두 손 (앞에서 내려다본 손, 짧은 소매) */
+var SKIN=new THREE.MeshStandardMaterial({color:0xf6d0ae,roughness:.7});
+var gFing=new THREE.CylinderGeometry(.27,.31,1,16),gTip=new THREE.SphereGeometry(.28,16,12),gPalm=new THREE.SphereGeometry(1,28,18);
+function makeHand(hd){
+  var col=hd==="R"?0xffd166:0x6ec3ff,g=new THREE.Group();
+  var palm=new THREE.Mesh(gPalm,SKIN);palm.scale.set(1.85,.42,1.15);g.add(palm);
+  var cuff=new THREE.Mesh(new THREE.CylinderGeometry(1.15,1.2,1.1,28),new THREE.MeshStandardMaterial({color:0xe2669a,roughness:.6}));cuff.rotation.x=Math.PI/2;cuff.scale.set(1.45,1,.62);g.add(cuff);
+  var band=new THREE.Mesh(new THREE.CylinderGeometry(1.2,1.2,.22,28),new THREE.MeshStandardMaterial({color:col,roughness:.5,emissive:col,emissiveIntensity:.25}));band.rotation.x=Math.PI/2;band.scale.set(1.45,1,.64);g.add(band);
+  var f=[];for(var i=0;i<5;i++){var cyl=new THREE.Mesh(gFing,SKIN.clone()),tip=new THREE.Mesh(gTip,SKIN.clone());scene.add(cyl);scene.add(tip);f.push({cyl:cyl,tip:tip});}
+  scene.add(g);return {hd:hd,g:g,palm:palm,cuff:cuff,band:band,f:f,col:new THREE.Color(col)};}
+var HANDS={R:makeHand("R"),L:makeHand("L")};
+var BYH={R:NOTES.filter(function(n){return n.h==="R";}),L:NOTES.filter(function(n){return n.h==="L";})};
+var vA=new THREE.Vector3(),vB=new THREE.Vector3(),UP=new THREE.Vector3(0,1,0);
+function placeCyl(c,a,b){vA.subVectors(b,a);var L=vA.length();c.position.copy(a).addScaledVector(vA,.5);c.scale.set(1,L,1);c.quaternion.setFromUnitVectors(UP,vA.normalize());}
+function handCenter(hd,t,spd){var ns=BYH[hd],sw=0,sx=0,best=null,bd=1e9;
+  for(var i=0;i<ns.length;i++){var n=ns[i],d=(n.t0-t)/spd;if(d>2.5)break;if(d<-2.5)continue;
+    var w=Math.exp(-Math.pow((d-.12)/.45,2));sw+=w;sx+=w*X[n.m];if(Math.abs(d)<bd){bd=Math.abs(d);best=n;}}
+  if(sw>1e-3)return sx/sw;
+  if(best)return X[best.m];
+  var near=null;for(i=0;i<ns.length;i++){if(!near||Math.abs(ns[i].t0-t)<Math.abs(near.t0-t))near=ns[i];}return near?X[near.m]:(hd==="R"?6:-6);}
+function drawHand(H,cx,pressed){
+  var hd=H.hd,PZ=6.35,PY=1.3,R_=hd==="R";
+  var ps=pressed.slice().sort(function(a,b){return X[a]-X[b];}).slice(0,5),sp=1;
+  if(ps.length){var a0=X[ps[0]],a1=X[ps[ps.length-1]];if(a1-a0>3.4){sp=Math.min(1.9,(a1-a0)/3.4);cx=(a0+a1)/2;}else{cx=Math.max(a1-1.6,Math.min(a0+1.6,cx));}}
+  H.g.position.set(cx,PY,PZ);H.palm.scale.set(1.55*sp+.3,.42,1.15);H.cuff.position.set(0,-.1,1.55);H.band.position.set(0,-.1,1.05);
+  H.cuff.scale.set(1.45*Math.min(1.25,sp),1,.62);H.band.scale.set(1.45*Math.min(1.25,sp),1,.64);
+  /* 손가락 0~4 = 왼쪽→오른쪽. 오른손 엄지 = 0, 왼손 엄지 = 4 */
+  var thumbIdx=R_?0:4,KN=[],BASE=[],LEN=[];
+  var fx=[-1.05,-.35,.35,1.05],fl=R_?[2.3,2.55,2.35,1.95]:[1.95,2.35,2.55,2.3],j=0;
+  for(var i=0;i<5;i++){if(i===thumbIdx){KN.push(new THREE.Vector3(cx+(R_?-1.5:1.5)*sp,PY,PZ-.05));BASE.push(cx+(R_?-2.05:2.05)*sp);LEN.push(1.7);}
+    else{KN.push(new THREE.Vector3(cx+fx[j]*sp,PY+.12,PZ-.85));BASE.push(cx+fx[j]*sp*1.12);LEN.push(fl[j]);j++;}}
+  var asg={};
+  if(ps.length===1){var bi=0,bd=1e9;for(i=0;i<5;i++){var d=Math.abs(BASE[i]-X[ps[0]]);if(d<bd){bd=d;bi=i;}}asg[bi]=ps[0];}
+  else ps.forEach(function(m2,k2){asg[Math.round(k2*4/(ps.length-1))]=m2;});
+  for(i=0;i<5;i++){var fr=H.f[i],kn=KN[i],tip,thumb=i===thumbIdx;
+    if(asg[i]!==undefined){var pm=asg[i],bk=isB(pm);tip=new THREE.Vector3(X[pm],bk?.66:.24,bk?2.7:Math.max(3.9,kn.z-LEN[i]*.95));
+      fr.tip.material.color.copy(H.col);fr.tip.material.emissive=H.col;fr.tip.material.emissiveIntensity=.4;}
+    else{tip=new THREE.Vector3(BASE[i],.62,kn.z-LEN[i]*(thumb?.75:.92));fr.tip.material.color.setHex(0xf6d0ae);fr.tip.material.emissiveIntensity=0;}
+    placeCyl(fr.cyl,kn,tip);fr.tip.position.copy(tip);}
+}
+/* ---------- 악보 (아래 1/3, 진하게, 한 줄 최대 2마디) ---------- */
+var sbox=$("sbox"),cur=$("cur"),CH=[],B2C=[],BARS=bars.map(function(b){return {sig:b.sig,key:b.key,bpm:b.bpm,sec:b.sec};});
+for(var q=0;q<NB;){var e=q+1,cnt=F.rh[q].length+F.lh[q].length;
+  while(e<NB&&e-q<2&&bars[e].sig===bars[q].sig&&cnt+F.rh[e].length+F.lh[e].length<=30){cnt+=F.rh[e].length+F.lh[e].length;e++;}
+  CH.push({a:q,b:e});for(var z=q;z<e;z++)B2C[z]=CH.length-1;q=e;}
+function buildChunk(c){var ch=CH[c];if(ch.div)return ch;
+  var div=document.createElement("div");div.className="chunk score show";sbox.insertBefore(div,cur);
+  var R=SE.parseBars(F.rh.slice(ch.a,ch.b)),L=SE.parseBars(F.lh.slice(ch.a,ch.b));
+  SE.render(div,{staves:[{clef:"treble",items:R,prefix:"R"+c+"-",labels:true,ott:true,autoClef:"row"},{clef:"bass",items:L,prefix:"L"+c+"-",labels:true,autoClef:"item"}],bars:BARS.slice(ch.a,ch.b),startBar:ch.a+1});
+  var h=div.scrollHeight,box=div.getBoundingClientRect(),sc=Math.min(1.75,340/h,1880/2100),xs=[],its=[];
+  [["R",R],["L",L]].forEach(function(p){p[1].forEach(function(it){var n=div.querySelector('[data-i="'+p[0]+c+"-"+it.i+'"]');if(!n)return;var r=n.getBoundingClientRect();if(!r.width)return;
+    xs.push([it.gpos,(r.left+r.width/2-box.left)/box.width*2100]);if(!it.rest)its.push({el:n,a:it.gpos,b:it.gpos+it.len});});});
+  xs.sort(function(p1,p2){return p1[0]-p2[0];});var u=[];xs.forEach(function(p){if(!u.length||Math.abs(u[u.length-1][0]-p[0])>1e-6)u.push(p);else u[u.length-1][1]=Math.min(u[u.length-1][1],p[1]);});
+  var left=Math.round((1920-2100*sc)/2);div.style.transform="scale("+sc+")";div.style.left=left+"px";div.style.top=Math.round((356-h*sc)/2)+"px";
+  ch.div=div;ch.sc=sc;ch.left=left;ch.xs=u;ch.its=its;ch.beats=off[ch.b]-off[ch.a];div.classList.remove("show");return ch;}
+function curX(ch,lb){var xs=ch.xs;if(!xs.length)return 40;if(lb<=xs[0][0])return xs[0][1];
+  for(var k=0;k<xs.length-1;k++)if(lb<xs[k+1][0])return xs[k][1]+(xs[k+1][1]-xs[k][1])*(lb-xs[k][0])/(xs[k+1][0]-xs[k][0]);
+  var la=xs[xs.length-1];return la[1]+Math.min(70,2050-la[1])*Math.min(1,(lb-la[0])/Math.max(.5,ch.beats-la[0]));}
+var shown=-1;
+/* ---------- 한 장면 그리기 ---------- */
+var LOOK=2.4,FALL=13.5;
+function drawAt(t,spd){
+  var beat=beatOfT(t),bi=0;if(beat>=0){while(bi<NB-1&&off[bi+1]<=beat+1e-9)bi++;}
+  /* 음표 */
+  used=0;
+  for(var i=0;i<NOTES.length;i++){var n=NOTES[i],d=(n.t0-t)/spd;if(d>LOOK)break;if(d<-.15)continue;
+    var gr=getNote(),bk=isB(n.m),a=d<0?1+d/.15:Math.min(1,(LOOK-d)/.35);shapeNote(gr,n,a);
+    gr.position.set(X[n.m],(bk?.95:.5)+Math.max(0,d)/LOOK*FALL,bk?1.6:3.6);gr.quaternion.copy(camera.quaternion);gr.visible=true;}
+  for(i=used;i<pool.length;i++)pool[i].visible=false;
+  /* 건반·손 */
+  var down={},pr={R:[],L:[]};
+  NOTES.forEach(function(n2){if(n2.t0<=t&&t<Math.min(n2.t1,n2.t0+(n2.h==="L"?1.2:2.2)*Math.min(1,spd))){down[n2.m]=n2.h;if(pr[n2.h].indexOf(n2.m)<0)pr[n2.h].push(n2.m);}});
+  for(var mm in KEYS){var k=KEYS[mm],h=down[mm];k.position.y=h?k.userData.y-.14:k.userData.y;k.rotation.x=h?.03:0;
+    k.material.color.setHex(h==="R"?0xffd166:h==="L"?0x6ec3ff:(k.userData.bk?0x141218:0xf7f4ec));}
+  var cR=handCenter("R",t,spd),cL=handCenter("L",t,spd);if(cR-cL<4.6){var mid=(cR+cL)/2;cR=mid+2.3;cL=mid-2.3;}
+  var EL=X[KLO]+2.4,ER=X[KHI]-2.4;cL=Math.max(EL,Math.min(ER-4.6,cL));cR=Math.max(EL+4.6,Math.min(ER,cR));
+  drawHand(HANDS.L,cL,pr.L);drawHand(HANDS.R,cR,pr.R);
+  renderer.render(scene,camera);
+  /* 글자 */
+  $("barNow").textContent="마디 "+(bi+1)+" / "+NB;$("secNow").textContent=SECN[bi]||"";
+  $("spNow").textContent="ⓒ 성실피아노 · 피아노조율사 박근성";
+  /* 악보 */
+  var ci=B2C[bi];if(ci!==shown){if(shown>=0)CH[shown].div.classList.remove("show");buildChunk(ci).div.classList.add("show");shown=ci;}
+  var ch=CH[ci],lb=beat<0?-1:beat-off[ch.a];
+  cur.style.left=(ch.left+curX(ch,Math.max(0,lb))*ch.sc-2)+"px";cur.style.display=beat<0||t>DUR?"none":"block";
+  ch.its.forEach(function(it){it.el.classList.toggle("on",lb>=it.a-1e-6&&lb<it.b-1e-6);});
+}
+CH.forEach(function(c,i){buildChunk(i);});
+/* ---------- 영상 만들기용 ---------- */
+var INTRO=3.5,OUTRO=8,VS=0.7;
+window.VTOTAL=INTRO+DUR*VS+OUTRO;
+window.renderVideo=function(tv){var t=(tv-INTRO)/VS;drawAt(t,1/VS);
+  var ov=$("ov");
+  if(tv<INTRO){ov.style.display="grid";ov.style.opacity=tv<INTRO-.7?1:(INTRO-tv)/.7;$("ovIn").innerHTML='<p style="margin:0">영화 「피아니스트」 그 곡</p><h2>쇼팽 녹턴 20번</h2><p>위: 떨어지는 음표 · 가운데: 건반과 두 손 · 아래: 악보</p><p style="font-size:28px;color:#ffd166">건반 보고 배우는 3D 연습 영상</p>';}
+  else if(tv>INTRO+DUR*VS){ov.style.display="grid";ov.style.opacity=Math.min(1,(tv-INTRO-DUR*VS)/1.2);$("ovIn").innerHTML='<h2 style="font-size:70px">들어 주셔서 고마워요 🌙</h2><p style="color:#9fd0ff">🎹 따라 배우기 — poianopks.github.io/claude/nocturne20-3d-study.html</p><p style="font-size:24px">악보: 1875년 초판 (공개 저작물) · 악보 데이터: 성실피아노 공부방 (CC BY-SA 4.0) · 피아노 음색: YDP Grand Piano (FreePats, CC BY 3.0)</p><p style="font-size:26px">ⓒ 성실피아노 · 피아노조율사 박근성 · 010-8756-8740</p>';}
+  else ov.style.display="none";};
+if(REC){window.READY=true;return;}
+/* ---------- 야마하 그랜드 음색 (샘플) ---------- */
+var SM=[31,34,37,40,43,46,49,52,55,58,61,64,67,70,73,76,79,82,85,88,91,94,97,100],BUF={},loaded=false,loading=null,master=null;
+function ac(){return ME.ac();}
+function loadSamples(){if(loading)return loading;$("msg").textContent="🎹 야마하 그랜드 피아노 소리를 불러오는 중…";
+  loading=Promise.all(SM.map(function(n){return fetch("media/ydp/n"+n+".mp3").then(function(r){return r.arrayBuffer();}).then(function(b){return new Promise(function(res,rej){ac().decodeAudioData(b,res,rej);});}).then(function(bf){BUF[n]=bf;});}))
+   .then(function(){loaded=true;$("msg").textContent="";},function(){$("msg").textContent="피아노 소리 파일을 못 불러와서 기본 소리로 연주해요.";});return loading;}
+function note(m,when,dur,vel){
+  if(!loaded){ME.piano(m,when,dur,vel);return;}
+  if(!master){master=ac().createGain();master.gain.value=.9;master.connect(ac().destination);}
+  var s=SM[0];SM.forEach(function(x){if(Math.abs(x-m)<Math.abs(s-m))s=x;});
+  var src=ac().createBufferSource(),g=ac().createGain();src.buffer=BUF[s];src.playbackRate.value=Math.pow(2,(m-s)/12);
+  g.gain.setValueAtTime(vel,when);g.gain.setTargetAtTime(0,when+dur,.12);src.connect(g);g.connect(master);src.start(when);src.stop(when+dur+1.2);}
+/* ---------- 재생 ---------- */
+var playing=false,t0=0,pos=0,spd=1,next=0,who="RL";
+function now(){return playing?(ac().currentTime-t0)*spd:pos;}
+function play(){ac();if(ac().resume)ac().resume();loadSamples().then(function(){if(pos>=DUR)pos=0;t0=ac().currentTime+.05-pos/spd;next=0;while(next<NOTES.length&&NOTES[next].t0<pos)next++;playing=true;$("play").textContent="⏸ 멈춤";});}
+function pause(){pos=now();playing=false;$("play").textContent="▶ 재생";}
+$("play").onclick=function(){playing?pause():play();};
+$("rew").onclick=function(){var p=playing;if(p)pause();pos=0;if(p)play();};
+$("speed").onchange=function(){var p=playing;if(p)pause();spd=+this.value;if(p)play();};
+$("hands").onchange=function(){who=this.value;};
+$("progBar").onclick=function(ev){var r=this.getBoundingClientRect(),p=playing;if(p)pause();pos=Math.max(0,Math.min(DUR,(ev.clientX-r.left)/r.width*DUR));if(p)play();};
+function fmt(s){s=Math.max(0,s);return Math.floor(s/60)+":"+("0"+Math.floor(s%60)).slice(-2);}
+function frame(){
+  requestAnimationFrame(frame);
+  var t=now();
+  if(playing){var a=ac();while(next<NOTES.length&&NOTES[next].t0<=t+.2*spd){var n=NOTES[next++],when=t0+n.t0/spd;
+      if(who.indexOf(n.h)>=0&&when>=a.currentTime-.02)note(n.m,Math.max(a.currentTime,when),Math.max(.12,(n.t1-n.t0)/spd),n.h==="R"?.55:.35);}
+    if(t>=DUR+1)pause();}
+  drawAt(t,spd);
+  $("prog").style.width=(100*Math.min(1,t/DUR)).toFixed(2)+"%";$("tNow").textContent=fmt(t/spd)+" / "+fmt(DUR/spd);
+}
+frame();
+window.NC3S={seek:function(t){pos=t;}};
+})();
+</script>
+</body>
+</html>

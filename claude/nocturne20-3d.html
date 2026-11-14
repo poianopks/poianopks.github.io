@@ -42,7 +42,7 @@ button.on{background:#6ec3ff;color:#04122a;border-color:#6ec3ff}
   <div class="row">
     <button class="main" id="play">▶ 재생</button>
     <button id="rew">⏮ 처음</button>
-    <select id="speed"><option value="1.43" selected>🏃 유튜브 빠르기</option><option value="1">🚶 녹턴 빠르기</option><option value="0.75">🐢 느리게</option></select>
+    <select id="speed"><option value="1.43">🏃 유튜브 빠르기 (143%)</option><option value="1" selected>🎵 정상 (100%)</option><option value="0.7">🚶 느리게 (70%)</option><option value="0.5">🐢 아주 느리게 (50%)</option><option value="0.3">🐌 아주아주 느리게 (30%)</option></select>
   </div>
   <div class="row" id="views">
     <button data-v="auto" class="on">🎥 자동 회전</button><button data-v="front">앞</button><button data-v="top">위</button><button data-v="side">옆</button><button data-v="free">✋ 내 마음대로</button>
@@ -128,7 +128,7 @@ var tween=null;
 [].forEach.call(document.querySelectorAll("#views button"),function(b){b.onclick=function(){setView(b.dataset.v);};});
 camera.position.set(0,9,16);
 /* ---------- 재생 ---------- */
-var playing=false,t0=0,pos=0,spd=1.43,next=0,lastBurst={};
+var playing=false,t0=0,pos=0,spd=1,next=0,lastBurst={};
 function now(){return playing?(ME.ac().currentTime-t0)*spd:pos;}
 function schedule(from){next=0;while(next<NOTES.length&&NOTES[next].t0<from)next++;}
 function play(){ME.ac();if(pos>=DUR)pos=0;t0=ME.ac().currentTime-pos/spd;schedule(pos);playing=true;$("play").textContent="⏸ 멈춤";}
