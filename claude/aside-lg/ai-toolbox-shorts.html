@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>AI에게 연장통을 쥐여 주는 법 — 30초 쇼츠 (Aside LG 작업방)</title>
+<title>클로드코드에게 연장통을 쥐여 주는 법 — 30초 쇼츠 (Aside LG 작업방)</title>
 <style>html,body{margin:0;height:100%;background:#05030d;overflow:hidden}#wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}#out{height:100%;max-width:100%;aspect-ratio:9/16}</style></head>
 <body><div id="wrap"><canvas id="out" width="1080" height="1920"></canvas></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function(){"use strict";
-var W=1080,H=1920,TOTAL=29.5,FN='"Malgun Gothic","Apple SD Gothic Neo",sans-serif';
+var W=1080,H=1920,TOTAL=30,FN='"Malgun Gothic","Apple SD Gothic Neo",sans-serif';
 var out=document.getElementById("out"),X=out.getContext("2d");
 var TOOLS=[{e:"📒",n:"비법 노트",k:"스킬",d:"자주 하는 일의 순서표",c:"#ffd54f"},{e:"🗂",n:"기억 서랍",k:"세컨드 브레인",d:"말 안 해도 아는 조수",c:"#81d4fa"},{e:"⏰",n:"알람 시계",k:"루틴",d:"정한 시간에 저절로",c:"#ce93d8"},{e:"🔌",n:"연장 콘센트",k:"MCP · CLI · API",d:"다른 프로그램과 손잡기",c:"#a5d6a7"}];
 // ---- three.js cube ----
@@ -26,7 +26,7 @@ function rr(a,b,w,h,r){X.beginPath();X.roundRect(a,b,w,h,r);}
 function T(s,x,y,font,fill,stroke,lw,al){X.font=font;X.textAlign=al||"center";X.lineJoin="round";if(stroke){X.lineWidth=lw||8;X.strokeStyle=stroke;X.strokeText(s,x,y);}X.fillStyle=fill;X.fillText(s,x,y);}
 function bg(t){var g=X.createLinearGradient(0,0,0,H);g.addColorStop(0,"#160f38");g.addColorStop(1,"#05030d");X.fillStyle=g;X.fillRect(0,0,W,H);
   for(var i=0;i<60;i++){var sx=(Math.sin(i*91.7)*.5+.5)*W,sy=(Math.sin(i*37.3)*.5+.5)*H;X.fillStyle="rgba(255,250,230,"+(.15+.25*Math.abs(Math.sin(t*1.3+i)))+")";X.beginPath();X.arc(sx,sy,1.5+(i%3),0,7);X.fill();}}
-function header(){T("🧰 AI에게 연장통을",W/2,120,"900 70px "+FN,"#ffe082","#000",10);T("쥐여 주는 법",W/2,205,"900 70px "+FN,"#ffe082","#000",10);}
+function header(){T("🧰 클로드코드에게",W/2,120,"900 70px "+FN,"#ffe082","#000",10);T("연장통을 쥐여 주는 법",W/2,205,"900 70px "+FN,"#ffe082","#000",10);}
 function footer(){T("피아노조율 성실 · 010-8756-8740",W/2,H-50,"800 34px "+FN,"rgba(255,255,255,.75)");}
 // ---- scenes ----
 function sceneHook(t){ // 0-3.2
@@ -36,18 +36,18 @@ function sceneHook(t){ // 0-3.2
   X.save();X.translate(cx-260,cy);X.rotate(-u*0.9);X.fillStyle="#d24b3c";rr(0,-90,520,100,24);X.fill();X.restore();
   X.strokeStyle="#333";X.lineWidth=18;X.beginPath();X.arc(cx,cy-90+u*20,90,Math.PI,0);X.stroke();
   TOOLS.forEach(function(tl,i){var a=-Math.PI/2+(i-1.5)*0.55,d=ease((t-0.6-i*0.25)/0.8)*330;T(tl.e,cx+Math.cos(a)*d,cy+20+Math.sin(a)*d,"110px "+FN,"#fff");});
-  T("AI도 맨손이면 대답만 해요",W/2,1360,"900 58px "+FN,"#fff","#000",9);T("연장을 주면 일을 해요!",W/2,1440,"900 58px "+FN,"#a7f3d0","#000",9);
+  T("클로드코드도 맨손이면 반쪽 실력",W/2,1360,"900 58px "+FN,"#fff","#000",9);T("연장을 주면 진짜 일을 해요!",W/2,1440,"900 58px "+FN,"#a7f3d0","#000",9);
   T("피아노조율사 · 개발자 · 소설가로 배우는 4가지 연장",W/2,1540,"800 36px "+FN,"#d9d2ff","#000",6);}
 function sceneCube(t){ // 3.2-14.2 (11s): 4 faces x 2.75s
-  header();var k=Math.min(3,Math.floor(t/2.75)),u=(t%2.75)/2.75;var from=faceRot[k],to=k<3?faceRot[k+1]:faceRot[k];var target=from+(u>0.72?(to-from)*ease((u-.72)/.28):0);if(k===3)target=from+u*0.3;
+  header();var k=Math.min(3,Math.floor(t/2.25)),u=(t%2.25)/2.25;var from=faceRot[k],to=k<3?faceRot[k+1]:faceRot[k];var target=from+(u>0.72?(to-from)*ease((u-.72)/.28):0);if(k===3)target=from+u*0.3;
   cube.rotation.set(0.32+0.05*Math.sin(t*1.5),target+0.25*Math.sin(t*.8)*0.2,0);cube.position.y=0.15*Math.sin(t*2);stars.rotation.y=t*.03;
   r3.render(scene,cam);X.drawImage(r3.domElement,0,330,W,1100);
   var tl=TOOLS[k];X.fillStyle="rgba(10,6,30,.85)";rr(80,1430,920,260,40);X.fill();X.strokeStyle=tl.c;X.lineWidth=6;X.stroke();
   T((k+1)+". "+tl.e+" "+tl.n,W/2,1530,"900 70px "+FN,tl.c);T(tl.d,W/2,1610,"800 48px "+FN,"#fff");T("("+tl.k+")",W/2,1668,"700 36px "+FN,"rgba(255,255,255,.7)");}
 function sceneConn(t){ // 14.2-21.2 (7s)
-  T("🔌 AI가 손잡는 3가지 길",W/2,160,"900 66px "+FN,"#ffe082","#000",10);
+  T("🔌 클로드코드가 손잡는 3가지 길",W/2,160,"900 66px "+FN,"#ffe082","#000",10);
   var rows=[{n:"MCP",s:"만능 콘센트",d:"꽂기만 하면 여러 앱과 대화",c:"#a5d6a7",y:340},{n:"CLI",s:"글자 명령 창",d:"까만 창에 명령 한 줄",c:"#ffcc80",y:830},{n:"API",s:"주문 창구",d:"정해진 양식으로 주문서",c:"#90caf9",y:1320}];
-  var k=Math.min(2,Math.floor(t/2.3)),u=(t%2.3)/2.3;
+  var k=Math.min(2,Math.floor(t/2)),u=(t%2)/2;
   rows.forEach(function(r,i){var on=i===k,al=i<=k?1:.25;X.globalAlpha=al;X.fillStyle=on?"rgba(255,255,255,.1)":"rgba(255,255,255,.05)";rr(60,r.y,960,420,36);X.fill();
     X.fillStyle=r.c;rr(100,r.y+40,220,80,40);X.fill();T(r.n,210,r.y+97,"900 50px "+FN,"#102");T(r.s,560,r.y+100,"900 56px "+FN,r.c,"#000",6,"left");T(r.d,W/2,r.y+370,"800 40px "+FN,"#fff");
     X.fillStyle="#2a1f55";rr(110,r.y+160,150,140,24);X.fill();T("🤖",185,r.y+262,"80px "+FN,"#fff");
@@ -60,10 +60,24 @@ function sceneJobs(t){ // 21.2-27 (5.8s)
   var J=[{e:"🎹",n:"피아노조율사",c:"#ffd54f",s:["조율 순서표","손님별 피아노 기록","1년 뒤 조율 알림","예약·블로그 연결"]},{e:"💻",n:"코드 개발자",c:"#81d4fa",s:["배포 순서","설계 문서 목차","밤마다 자동 점검","깃허브 연결"]},{e:"✍",n:"소설가",c:"#f48fb1",s:["인물 말투 규칙","인물·지명 사전","원고량 알림","자료조사 연결"]}];
   J.forEach(function(j,i){var d=ease((t-i*0.5)/0.7),y=300+i*520,xoff=(1-d)*(i%2?1:-1)*900;X.save();X.translate(xoff,0);X.fillStyle="rgba(255,255,255,.07)";rr(60,y,960,470,40);X.fill();X.fillStyle=j.c;rr(60,y,960,120,40);X.fill();
     T(j.e+" "+j.n,W/2,y+82,"900 60px "+FN,"#1a1030");j.s.forEach(function(s,k){T(TOOLS[k].e+" "+s,k%2?780:300,y+215+Math.floor(k/2)*150,"800 42px "+FN,"#fff");});X.restore();});}
-function sceneEnd(t){ // 27-29.5
-  var a=ease(t/0.6);X.globalAlpha=a;T("🧰",W/2,620,"240px "+FN,"#fff");T("하나씩 손에 익히면",W/2,860,"900 76px "+FN,"#fff","#000",10);T("든든한 AI 조수!",W/2,960,"900 76px "+FN,"#ffe082","#000",10);
-  T("자세한 왕초보 레슨은 블로그에서",W/2,1150,"800 46px "+FN,"#a7f3d0","#000",6);T("네이버 블로그 「성실피아노」",W/2,1220,"800 44px "+FN,"#fff","#000",6);T("피아노조율 성실 · 010-8756-8740",W/2,1420,"900 54px "+FN,"#ffd54f","#000",8);X.globalAlpha=1;}
-function frame(t){bg(t);if(t<3.2)sceneHook(t);else if(t<14.2)sceneCube(t-3.2);else if(t<21.2)sceneConn(t-14.2);else if(t<27)sceneJobs(t-21.2);else sceneEnd(t-27);if(t<27)footer();
+function sceneOther(t){ // 18.2-23.2
+  T("🤔 다른 AI도 될까?",W/2,170,"900 70px "+FN,"#ffe082","#000",10);T("원리는 같고, 이름만 조금 달라요",W/2,250,"800 44px "+FN,"#fff","#000",6);
+  var AIs=[{n:"클로드 코드",c:"#ffb38a",f:["SKILL.md","CLAUDE.md","클라우드 예약","MCP"]},{n:"코덱스·챗GPT",c:"#9be7c4",f:["SKILL.md","AGENTS.md","예약·자동화","MCP"]},{n:"제미나이 CLI",c:"#9cc7ff",f:["SKILL.md","GEMINI.md","△ 따로 설정","MCP"]}];
+  X.fillStyle="rgba(255,255,255,.06)";rr(40,320,1000,1080,36);X.fill();
+  TOOLS.forEach(function(tl,r){T(tl.e+" "+tl.n,150,520+r*230,"900 34px "+FN,tl.c,null,0,"left");});
+  AIs.forEach(function(a,i){var x0=420+i*215,d=ease((t-i*0.4)/0.6);X.globalAlpha=d;X.fillStyle=a.c;rr(x0-95,350,190,90,22);X.fill();T(a.n,x0,405,"900 27px "+FN,"#1a1030");
+    a.f.forEach(function(f,r){var y=520+r*230;T(f.indexOf("△")===0?"△":"✅",x0,y-10,"54px "+FN,"#fff");T(f.replace("△ ",""),x0,y+50,"800 26px "+FN,"#fff");});X.globalAlpha=1;});
+  T("한 가지 AI로 연장통 원리를 익히면",W/2,1500,"900 46px "+FN,"#a7f3d0","#000",6);T("어떤 AI로 바꿔도 그대로 써요",W/2,1570,"900 46px "+FN,"#a7f3d0","#000",6);}
+function sceneEnd(t){ // 23.2-30 blog intro
+  var a=ease(t/0.6);X.globalAlpha=a;T("📖 자세한 왕초보 레슨은 블로그에서!",W/2,190,"900 56px "+FN,"#ffe082","#000",8);
+  var y0=290-(1-a)*60;X.fillStyle="#fff";rr(110,y0,860,1060,40);X.fill();X.fillStyle="#03c75a";rr(110,y0,860,120,40);X.fill();X.fillRect(110,y0+80,860,40);T("N 블로그 · 성실피아노",W/2,y0+80,"900 46px "+FN,"#fff");
+  T("AI·컴퓨터 활용",W/2,y0+200,"800 32px "+FN,"#03a64c");
+  ["클로드코드에게","연장통을 쥐여 주는 법"].forEach(function(l,i){T(l,W/2,y0+300+i*82,"900 62px "+FN,"#111");});
+  T("피아노조율사·개발자·소설가로 배우는",W/2,y0+500,"800 36px "+FN,"#444");T("4가지 연장과 MCP·CLI·API",W/2,y0+550,"800 36px "+FN,"#444");T("+ 다른 AI도 될까? 비교표",W/2,y0+600,"800 36px "+FN,"#e65100");
+  TOOLS.forEach(function(tl,i){var x0=230+i*207;X.fillStyle=tl.c;rr(x0-90,y0+680,180,180,30);X.fill();T(tl.e,x0,y0+780,"80px "+FN,"#fff");T(tl.n,x0,y0+840,"900 27px "+FN,"#1a1030");});
+  T("움직이는 그림 · 3D 큐브 · 무료 사진",W/2,y0+960,"800 34px "+FN,"#555");T("🔍 네이버에서 「성실피아노 클로드코드」 검색",W/2,y0+1015,"800 32px "+FN,"#03a64c");
+  T("피아노조율 성실 · 010-8756-8740",W/2,1560,"900 54px "+FN,"#ffd54f","#000",8);T("국가공인 피아노조율사 35년",W/2,1630,"800 38px "+FN,"#fff","#000",6);X.globalAlpha=1;}
+function frame(t){bg(t);if(t<3.2)sceneHook(t);else if(t<12.2)sceneCube(t-3.2);else if(t<18.2)sceneConn(t-12.2);else if(t<23.2)sceneOther(t-18.2);else sceneEnd(t-23.2);if(t<23.2)footer();
   var u=Math.min(1,t/TOTAL);X.fillStyle="rgba(255,255,255,.15)";X.fillRect(0,H-10,W,10);X.fillStyle="#ffd54f";X.fillRect(0,H-10,W*u,10);}
 // ---- original music (Salamander = Yamaha C5) ----
 var SAMP=["C2","Ds2","Fs2","A2","C3","Ds3","Fs3","A3","C4","Ds4","Fs4","A4","C5","Ds5","Fs5","A5","C6"];
