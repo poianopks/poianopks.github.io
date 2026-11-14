@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AI에게 연장통을 쥐여 주는 법 — 30초 쇼츠 (Aside LG 작업방)</title>
+<style>html,body{margin:0;height:100%;background:#05030d;overflow:hidden}#wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}#out{height:100%;max-width:100%;aspect-ratio:9/16}</style></head>
+<body><div id="wrap"><canvas id="out" width="1080" height="1920"></canvas></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){"use strict";
+var W=1080,H=1920,TOTAL=29.5,FN='"Malgun Gothic","Apple SD Gothic Neo",sans-serif';
+var out=document.getElementById("out"),X=out.getContext("2d");
+var TOOLS=[{e:"📒",n:"비법 노트",k:"스킬",d:"자주 하는 일의 순서표",c:"#ffd54f"},{e:"🗂",n:"기억 서랍",k:"세컨드 브레인",d:"말 안 해도 아는 조수",c:"#81d4fa"},{e:"⏰",n:"알람 시계",k:"루틴",d:"정한 시간에 저절로",c:"#ce93d8"},{e:"🔌",n:"연장 콘센트",k:"MCP · CLI · API",d:"다른 프로그램과 손잡기",c:"#a5d6a7"}];
+// ---- three.js cube ----
+var r3=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});r3.setPixelRatio(1);r3.setSize(W,1100,false);
+var scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,W/1100,.1,100);cam.position.set(0,1.2,9);cam.lookAt(0,0,0);
+scene.add(new THREE.AmbientLight(0xffffff,.55));var dl=new THREE.DirectionalLight(0xffffff,.9);dl.position.set(4,6,6);scene.add(dl);
+function faceTex(t,big){var c=document.createElement("canvas");c.width=c.height=512;var x=c.getContext("2d");x.fillStyle=t.c;x.fillRect(0,0,512,512);x.strokeStyle="rgba(0,0,0,.25)";x.lineWidth=16;x.strokeRect(8,8,496,496);x.textAlign="center";x.font="170px "+FN;x.fillText(t.e,256,250);x.fillStyle="#1a1030";x.font="900 64px "+FN;x.fillText(t.n,256,360);x.font="800 40px "+FN;x.fillStyle="rgba(26,16,48,.75)";x.fillText(t.k,256,420);return new THREE.CanvasTexture(c);}
+function plainTex(txt,col){var c=document.createElement("canvas");c.width=c.height=512;var x=c.getContext("2d");x.fillStyle=col;x.fillRect(0,0,512,512);x.fillStyle="#fff";x.textAlign="center";x.font="900 120px "+FN;x.fillText(txt,256,300);return new THREE.CanvasTexture(c);}
+// box faces order: +x,-x,+y,-y,+z,-z
+var mats=[TOOLS[1],TOOLS[3],null,null,TOOLS[0],TOOLS[2]].map(function(t,i){return new THREE.MeshStandardMaterial({map:t?faceTex(t):plainTex(i===2?"🤖 AI":"조수","#5e4b9e"),roughness:.45,metalness:.1});});
+var cube=new THREE.Mesh(new THREE.BoxGeometry(3,3,3),mats);scene.add(cube);
+// sparkles
+var pg=new THREE.BufferGeometry(),pp=[];for(var i=0;i<300;i++)pp.push((Math.random()-.5)*16,(Math.random()-.5)*10,(Math.random()-.5)*6-3);pg.setAttribute("position",new THREE.Float32BufferAttribute(pp,3));var stars=new THREE.Points(pg,new THREE.PointsMaterial({color:0xfff2c0,size:.06,transparent:true,opacity:.8}));scene.add(stars);
+var faceRot=[0,-Math.PI/2,Math.PI,Math.PI/2]; // which y-rotation shows TOOLS[k] front: +z(0)=TOOLS0, +x=TOOLS1 needs -90, -z=TOOLS2 needs 180, -x=TOOLS3 needs +90
+function ease(u){return u<0?0:u>1?1:u*u*(3-2*u);}
+function rr(a,b,w,h,r){X.beginPath();X.roundRect(a,b,w,h,r);}
+function T(s,x,y,font,fill,stroke,lw,al){X.font=font;X.textAlign=al||"center";X.lineJoin="round";if(stroke){X.lineWidth=lw||8;X.strokeStyle=stroke;X.strokeText(s,x,y);}X.fillStyle=fill;X.fillText(s,x,y);}
+function bg(t){var g=X.createLinearGradient(0,0,0,H);g.addColorStop(0,"#160f38");g.addColorStop(1,"#05030d");X.fillStyle=g;X.fillRect(0,0,W,H);
+  for(var i=0;i<60;i++){var sx=(Math.sin(i*91.7)*.5+.5)*W,sy=(Math.sin(i*37.3)*.5+.5)*H;X.fillStyle="rgba(255,250,230,"+(.15+.25*Math.abs(Math.sin(t*1.3+i)))+")";X.beginPath();X.arc(sx,sy,1.5+(i%3),0,7);X.fill();}}
+function header(){T("🧰 AI에게 연장통을",W/2,120,"900 70px "+FN,"#ffe082","#000",10);T("쥐여 주는 법",W/2,205,"900 70px "+FN,"#ffe082","#000",10);}
+function footer(){T("피아노조율 성실 · 010-8756-8740",W/2,H-50,"800 34px "+FN,"rgba(255,255,255,.75)");}
+// ---- scenes ----
+function sceneHook(t){ // 0-3.2
+  var u=ease(t/1.2);header();
+  // toolbox drawing opening
+  var cx=W/2,cy=900;X.fillStyle="#b23a2e";rr(cx-260,cy,520,300,30);X.fill();X.fillStyle="#7e241b";X.fillRect(cx-260,cy+120,520,24);
+  X.save();X.translate(cx-260,cy);X.rotate(-u*0.9);X.fillStyle="#d24b3c";rr(0,-90,520,100,24);X.fill();X.restore();
+  X.strokeStyle="#333";X.lineWidth=18;X.beginPath();X.arc(cx,cy-90+u*20,90,Math.PI,0);X.stroke();
+  TOOLS.forEach(function(tl,i){var a=-Math.PI/2+(i-1.5)*0.55,d=ease((t-0.6-i*0.25)/0.8)*330;T(tl.e,cx+Math.cos(a)*d,cy+20+Math.sin(a)*d,"110px "+FN,"#fff");});
+  T("AI도 맨손이면 대답만 해요",W/2,1360,"900 58px "+FN,"#fff","#000",9);T("연장을 주면 일을 해요!",W/2,1440,"900 58px "+FN,"#a7f3d0","#000",9);
+  T("피아노조율사 · 개발자 · 소설가로 배우는 4가지 연장",W/2,1540,"800 36px "+FN,"#d9d2ff","#000",6);}
+function sceneCube(t){ // 3.2-14.2 (11s): 4 faces x 2.75s
+  header();var k=Math.min(3,Math.floor(t/2.75)),u=(t%2.75)/2.75;var from=faceRot[k],to=k<3?faceRot[k+1]:faceRot[k];var target=from+(u>0.72?(to-from)*ease((u-.72)/.28):0);if(k===3)target=from+u*0.3;
+  cube.rotation.set(0.32+0.05*Math.sin(t*1.5),target+0.25*Math.sin(t*.8)*0.2,0);cube.position.y=0.15*Math.sin(t*2);stars.rotation.y=t*.03;
+  r3.render(scene,cam);X.drawImage(r3.domElement,0,330,W,1100);
+  var tl=TOOLS[k];X.fillStyle="rgba(10,6,30,.85)";rr(80,1430,920,260,40);X.fill();X.strokeStyle=tl.c;X.lineWidth=6;X.stroke();
+  T((k+1)+". "+tl.e+" "+tl.n,W/2,1530,"900 70px "+FN,tl.c);T(tl.d,W/2,1610,"800 48px "+FN,"#fff");T("("+tl.k+")",W/2,1668,"700 36px "+FN,"rgba(255,255,255,.7)");}
+function sceneConn(t){ // 14.2-21.2 (7s)
+  T("🔌 AI가 손잡는 3가지 길",W/2,160,"900 66px "+FN,"#ffe082","#000",10);
+  var rows=[{n:"MCP",s:"만능 콘센트",d:"꽂기만 하면 여러 앱과 대화",c:"#a5d6a7",y:340},{n:"CLI",s:"글자 명령 창",d:"까만 창에 명령 한 줄",c:"#ffcc80",y:830},{n:"API",s:"주문 창구",d:"정해진 양식으로 주문서",c:"#90caf9",y:1320}];
+  var k=Math.min(2,Math.floor(t/2.3)),u=(t%2.3)/2.3;
+  rows.forEach(function(r,i){var on=i===k,al=i<=k?1:.25;X.globalAlpha=al;X.fillStyle=on?"rgba(255,255,255,.1)":"rgba(255,255,255,.05)";rr(60,r.y,960,420,36);X.fill();
+    X.fillStyle=r.c;rr(100,r.y+40,220,80,40);X.fill();T(r.n,210,r.y+97,"900 50px "+FN,"#102");T(r.s,560,r.y+100,"900 56px "+FN,r.c,"#000",6,"left");T(r.d,W/2,r.y+370,"800 40px "+FN,"#fff");
+    X.fillStyle="#2a1f55";rr(110,r.y+160,150,140,24);X.fill();T("🤖",185,r.y+262,"80px "+FN,"#fff");
+    if(i===0){["📧","🎬","📝"].forEach(function(e,j){var ax=880,ay=r.y+150+j*65;var lit=i<k||(on&&u>j*.25);X.strokeStyle=lit?r.c:"rgba(255,255,255,.2)";X.lineWidth=8;X.beginPath();X.moveTo(260,r.y+230);X.bezierCurveTo(560,r.y+230,600,ay+20,ax-40,ay+20);X.stroke();T(e,ax,ay+40,"52px "+FN,"#fff");});}
+    if(i===1){X.fillStyle="#000";rr(320,r.y+160,640,150,18);X.fill();var cmd="> ffmpeg -i 사진.jpg 영상.mp4";var n=i<k?cmd.length:on?Math.floor(cmd.length*Math.min(1,u*1.5)):0;T(cmd.slice(0,n)+(on&&Math.floor(t*3)%2?"▌":""),345,r.y+230,"700 36px Consolas,monospace","#7CFC00",null,0,"left");if(i<k||(on&&u>.7))T("✔ 완료!",345,r.y+285,"800 34px "+FN,"#a7f3d0",null,0,"left");}
+    if(i===2){var px=on?300+420*ease(u):(i<k?720:300);X.fillStyle="#fff";rr(px,r.y+180,140,100,12);X.fill();X.fillStyle=r.c;for(var l=0;l<3;l++)X.fillRect(px+18,r.y+200+l*24,104-l*24,10);T("🏢",900,r.y+270,"100px "+FN,"#fff");}
+    X.globalAlpha=1;});}
+function sceneJobs(t){ // 21.2-27 (5.8s)
+  T("같은 연장통, 다른 직업",W/2,170,"900 66px "+FN,"#ffe082","#000",10);
+  var J=[{e:"🎹",n:"피아노조율사",c:"#ffd54f",s:["조율 순서표","손님별 피아노 기록","1년 뒤 조율 알림","예약·블로그 연결"]},{e:"💻",n:"코드 개발자",c:"#81d4fa",s:["배포 순서","설계 문서 목차","밤마다 자동 점검","깃허브 연결"]},{e:"✍",n:"소설가",c:"#f48fb1",s:["인물 말투 규칙","인물·지명 사전","원고량 알림","자료조사 연결"]}];
+  J.forEach(function(j,i){var d=ease((t-i*0.5)/0.7),y=300+i*520,xoff=(1-d)*(i%2?1:-1)*900;X.save();X.translate(xoff,0);X.fillStyle="rgba(255,255,255,.07)";rr(60,y,960,470,40);X.fill();X.fillStyle=j.c;rr(60,y,960,120,40);X.fill();
+    T(j.e+" "+j.n,W/2,y+82,"900 60px "+FN,"#1a1030");j.s.forEach(function(s,k){T(TOOLS[k].e+" "+s,k%2?780:300,y+215+Math.floor(k/2)*150,"800 42px "+FN,"#fff");});X.restore();});}
+function sceneEnd(t){ // 27-29.5
+  var a=ease(t/0.6);X.globalAlpha=a;T("🧰",W/2,620,"240px "+FN,"#fff");T("하나씩 손에 익히면",W/2,860,"900 76px "+FN,"#fff","#000",10);T("든든한 AI 조수!",W/2,960,"900 76px "+FN,"#ffe082","#000",10);
+  T("자세한 왕초보 레슨은 블로그에서",W/2,1150,"800 46px "+FN,"#a7f3d0","#000",6);T("네이버 블로그 「성실피아노」",W/2,1220,"800 44px "+FN,"#fff","#000",6);T("피아노조율 성실 · 010-8756-8740",W/2,1420,"900 54px "+FN,"#ffd54f","#000",8);X.globalAlpha=1;}
+function frame(t){bg(t);if(t<3.2)sceneHook(t);else if(t<14.2)sceneCube(t-3.2);else if(t<21.2)sceneConn(t-14.2);else if(t<27)sceneJobs(t-21.2);else sceneEnd(t-27);if(t<27)footer();
+  var u=Math.min(1,t/TOTAL);X.fillStyle="rgba(255,255,255,.15)";X.fillRect(0,H-10,W,10);X.fillStyle="#ffd54f";X.fillRect(0,H-10,W*u,10);}
+// ---- original music (Salamander = Yamaha C5) ----
+var SAMP=["C2","Ds2","Fs2","A2","C3","Ds3","Fs3","A3","C4","Ds4","Fs4","A4","C5","Ds5","Fs5","A5","C6"];
+function nm2m(n){var pc={C:0,Ds:3,Fs:6,A:9}[n.replace(/\d/,"")];return 12*(+n.match(/\d/)[0]+1)+pc;}
+function notes(){var N=[],bpm=96,b=60/bpm,prog=[[48,55,64],[43,50,59],[45,52,60],[41,48,57]],mel=[72,74,76,79,77,76,74,72,71,72,74,76,72,69,71,72];
+  for(var bar=0;bar<12;bar++){var t0=0.3+bar*4*b,ch=prog[bar%4];N.push([t0,ch[0]-12,4*b,.32]);for(var k=0;k<4;k++){N.push([t0+k*b,ch[1+(k%2)],b*.9,.18]);}
+    var m1=mel[(bar*2)%16],m2=mel[(bar*2+1)%16];if(bar<11){N.push([t0,m1,2*b,.42]);N.push([t0+2*b,m2,1.5*b,.38]);N.push([t0+3.5*b,m2+(bar%2?2:-1),.5*b,.3]);}else N.push([t0,72,6*b,.45]);}
+  return N;}
+function render(){var SR=44100,oc=new OfflineAudioContext(2,Math.ceil((TOTAL+1)*SR),SR),bufs={};
+  return Promise.all(SAMP.map(function(nm){return fetch("https://tonejs.github.io/audio/salamander/"+nm+".mp3").then(function(r){return r.arrayBuffer();}).then(function(b){return oc.decodeAudioData(b);}).then(function(ab){bufs[nm2m(nm)]=ab;});})).then(function(){
+    var ks=Object.keys(bufs).map(Number);var irb=oc.createBuffer(2,SR*2.5,SR);for(var c=0;c<2;c++){var d=irb.getChannelData(c);for(var i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);}var cv=oc.createConvolver();cv.buffer=irb;var bus=oc.createGain(),wet=oc.createGain();wet.gain.value=.3;bus.connect(oc.destination);bus.connect(cv);cv.connect(wet);wet.connect(oc.destination);
+    notes().forEach(function(n){var s=ks.reduce(function(a,k){return Math.abs(k-n[1])<Math.abs(a-n[1])?k:a;},ks[0]);var src=oc.createBufferSource();src.buffer=bufs[s];src.playbackRate.value=Math.pow(2,(n[1]-s)/12);var g=oc.createGain();g.gain.setValueAtTime(n[3],n[0]);g.gain.setValueAtTime(n[3],n[0]+n[2]);g.gain.exponentialRampToValueAtTime(.001,n[0]+n[2]+.6);src.connect(g);g.connect(bus);src.start(n[0]);src.stop(n[0]+n[2]+.7);});
+    return oc.startRendering();});}
+window.SH={frame:frame,total:TOTAL,renderAudio:render};
+var st=performance.now();(function loop(){var t=((performance.now()-st)/1000)%TOTAL;frame(t);requestAnimationFrame(loop);})();
+})();
+</script></body></html>
