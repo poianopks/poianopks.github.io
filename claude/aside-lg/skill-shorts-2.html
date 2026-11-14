@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>클로드코드에게 연장통을 쥐여 주는 법 2탄 — 첫 스킬 만들기 (Aside LG 작업방)</title>
+<style>html,body{margin:0;height:100%;background:#05030d;overflow:hidden}#wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}#out{height:100%;max-width:100%;aspect-ratio:9/16}</style></head>
+<body><div id="wrap"><canvas id="out" width="1080" height="1920"></canvas></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){"use strict";
+var W=1080,H=1920,TOTAL=30,FN='"Malgun Gothic","Apple SD Gothic Neo",sans-serif',MONO='Consolas,"D2Coding",monospace';
+var out=document.getElementById("out"),X=out.getContext("2d");
+function ease(u){return u<0?0:u>1?1:u*u*(3-2*u);}
+function rr(a,b,w,h,r){X.beginPath();X.roundRect(a,b,w,h,r);}
+function T(s,x,y,font,fill,stroke,lw,al){X.font=font;X.textAlign=al||"center";X.lineJoin="round";if(stroke){X.lineWidth=lw||8;X.strokeStyle=stroke;X.strokeText(s,x,y);}X.fillStyle=fill;X.fillText(s,x,y);}
+function bg(t){var g=X.createLinearGradient(0,0,0,H);g.addColorStop(0,"#11223a");g.addColorStop(1,"#04070f");X.fillStyle=g;X.fillRect(0,0,W,H);for(var i=0;i<50;i++){var sx=(Math.sin(i*91.7)*.5+.5)*W,sy=(Math.sin(i*37.3)*.5+.5)*H;X.fillStyle="rgba(220,240,255,"+(.12+.2*Math.abs(Math.sin(t*1.2+i)))+")";X.beginPath();X.arc(sx,sy,1.4+(i%3),0,7);X.fill();}}
+function header(){T("🧰 클로드코드에게 연장통을",W/2,110,"900 58px "+FN,"#ffe082","#000",9);T("쥐여 주는 법",W/2,185,"900 58px "+FN,"#ffe082","#000",9);X.fillStyle="#f48fb1";rr(W/2-95,215,190,58,29);X.fill();T("2탄",W/2,258,"900 40px "+FN,"#fff");}
+function footer(){T("피아노조율 성실 · 010-8756-8740",W/2,H-50,"800 32px "+FN,"rgba(255,255,255,.75)");}
+// ---- three.js : spinning 3D notebook (비법 노트) ----
+var r3=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});r3.setPixelRatio(1);r3.setSize(W,900,false);
+var scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,W/900,.1,100);cam.position.set(0,1.0,9);cam.lookAt(0,0,0);
+scene.add(new THREE.AmbientLight(0xffffff,.6));var dl=new THREE.DirectionalLight(0xffffff,.9);dl.position.set(4,6,6);scene.add(dl);
+function coverTex(){var c=document.createElement("canvas");c.width=512;c.height=680;var x=c.getContext("2d");var g=x.createLinearGradient(0,0,0,680);g.addColorStop(0,"#ffd54f");g.addColorStop(1,"#ffb300");x.fillStyle=g;x.fillRect(0,0,512,680);x.fillStyle="rgba(0,0,0,.18)";x.fillRect(0,0,46,680);
+  x.textAlign="center";x.font="180px "+FN;x.fillText("📒",276,250);x.fillStyle="#3b2a00";x.font="900 70px "+FN;x.fillText("비법 노트",276,380);x.font="800 44px "+MONO;x.fillText("SKILL.md",276,450);x.font="800 36px "+FN;x.fillStyle="rgba(59,42,0,.7)";x.fillText("견적서 만들기",276,520);return new THREE.CanvasTexture(c);}
+var bookMat=[new THREE.MeshStandardMaterial({color:0xfff8e1}),new THREE.MeshStandardMaterial({color:0xb57f00}),new THREE.MeshStandardMaterial({color:0xfff8e1}),new THREE.MeshStandardMaterial({color:0xfff8e1}),new THREE.MeshStandardMaterial({map:coverTex(),roughness:.5}),new THREE.MeshStandardMaterial({color:0xffc107})];
+var book=new THREE.Mesh(new THREE.BoxGeometry(3,4,.4),bookMat);scene.add(book);
+var pg=new THREE.BufferGeometry(),pp=[];for(var i=0;i<200;i++)pp.push((Math.random()-.5)*12,(Math.random()-.5)*8,(Math.random()-.5)*4-2);pg.setAttribute("position",new THREE.Float32BufferAttribute(pp,3));var sp=new THREE.Points(pg,new THREE.PointsMaterial({color:0xffe9a0,size:.07,transparent:true,opacity:.8}));scene.add(sp);
+function drawBook(t,y,scale,spin){book.rotation.set(0.12,spin,0.05*Math.sin(t*2));book.position.y=0.15*Math.sin(t*2);sp.rotation.y=t*.05;book.scale.setScalar(scale);r3.render(scene,cam);X.drawImage(r3.domElement,0,y,W,900);}
+// ---- scenes ----
+function sceneHook(t){header();drawBook(t,300,ease(t/0.8),t*1.4);
+  T("첫 비법 노트(스킬) 만들기",W/2,1290,"900 62px "+FN,"#fff","#000",9);T("4단계 따라하기 🎹",W/2,1370,"900 58px "+FN,"#a7f3d0","#000",9);
+  T("예시: 피아노 조율 견적서 스킬",W/2,1470,"800 40px "+FN,"#ffe082","#000",6);}
+function stepBox(n,title,sub,col){X.fillStyle=col;rr(60,330,960,130,36);X.fill();T(n,140,418,"900 70px "+FN,"#10201a");T(title,560,412,"900 52px "+FN,"#10201a");T(sub,W/2,520,"800 38px "+FN,"#fff","#000",5);}
+function term(x0,y0,w,h,lines,t,speed){X.fillStyle="#0b0f14";rr(x0,y0,w,h,24);X.fill();X.fillStyle="#1f2937";rr(x0,y0,w,54,24);X.fill();X.fillRect(x0,y0+30,w,24);["#ff5f56","#ffbd2e","#27c93f"].forEach(function(c,i){X.fillStyle=c;X.beginPath();X.arc(x0+36+i*34,y0+27,10,0,7);X.fill();});
+  var total=0;lines.forEach(function(l){total+=l[0].length;});var shown=Math.floor(total*Math.min(1,t*speed)),y=y0+110;
+  lines.forEach(function(l){var s=l[0];var n=Math.max(0,Math.min(s.length,shown));shown-=s.length;T(s.slice(0,n),x0+40,y,"700 "+(l[2]||38)+"px "+MONO,l[1]||"#e5e7eb",null,0,"left");y+=(l[2]||38)*1.45;});}
+function scene1(t){header();stepBox("①","노트 서랍(폴더) 만들기","스킬마다 폴더 하나 · 이름은 영어 소문자","#a7f3d0");
+  term(60,600,960,520,[["작업폴더/","#93c5fd"],["  └ .claude/","#93c5fd"],["      └ skills/","#93c5fd"],["          └ piano-estimate/","#fde68a"],["              └ SKILL.md  ← 여기에 비법!","#fca5a5"]],t,0.8);
+  T("📁 폴더 이름 = 스킬 이름",W/2,1250,"900 50px "+FN,"#ffe082","#000",7);}
+function scene2(t){header();stepBox("②","SKILL.md 쓰기","맨 위 이름표 + 아래 순서표","#fde68a");
+  term(60,600,960,760,[["---","#9ca3af"],["name: piano-estimate","#fde68a"],["description: 피아노 조율·운반","#fde68a",34],["  견적서를 만들 때 사용","#fde68a",34],["---","#9ca3af"],["1. 피아노 종류·층수 묻기","#e5e7eb",36],["2. 가격표 적용","#e5e7eb",36],["   업라이트 7만원~ 그랜드 12만원~","#a7f3d0",32],["3. 연락처 010-8756-8740 넣기","#e5e7eb",36]],t,0.45);
+  T("description = 언제 꺼내 쓸지 알려 주는 말",W/2,1460,"900 40px "+FN,"#a7f3d0","#000",6);}
+function scene3(t){header();stepBox("③","불러 쓰기","슬래시(/) + 스킬 이름 · 또는 그냥 말로","#bae6fd");
+  X.fillStyle="#fff";rr(60,640,960,170,30);X.fill();var cmd="/piano-estimate 그랜드 운반+조율";var n=Math.floor(cmd.length*Math.min(1,t*1.2));T(cmd.slice(0,n)+(Math.floor(t*3)%2?"▌":""),100,745,"800 46px "+MONO,"#1d4ed8",null,0,"left");
+  X.fillStyle="rgba(255,255,255,.1)";rr(60,860,960,170,30);X.fill();T("💬 \"그랜드 견적서 하나 써 줘\"",W/2,965,"900 46px "+FN,"#fff");
+  T("두 방법 모두 OK!",W/2,1130,"900 56px "+FN,"#ffe082","#000",8);T("클로드코드가 비법 노트를 꺼내 읽고 그대로 해요",W/2,1210,"800 36px "+FN,"#fff","#000",5);}
+function scene4(t){header();stepBox("④","결과 확인","매번 같은 형식 · 같은 품질","#f9a8d4");
+  var d=ease(t/0.8);X.save();X.translate(W/2,1000);X.rotate((1-d)*0.3);X.scale(.6+.4*d,.6+.4*d);X.fillStyle="#fff";rr(-380,-370,760,740,26);X.fill();X.fillStyle="#03c75a";rr(-380,-370,760,110,26);X.fill();X.fillRect(-380,-290,760,30);
+  T("🎹 피아노 견적서",0,-298,"900 52px "+FN,"#fff");var rows=[["그랜드 운반","상담 후 안내"],["그랜드 조율","120,000원~"],["작업 날짜","손님과 상의"],["연락처","010-8756-8740"]];rows.forEach(function(r,i){var y=-170+i*110;T(r[0],-330,y,"800 40px "+FN,"#333",null,0,"left");T(r[1],330,y,"900 40px "+FN,"#111",null,0,"right");X.fillStyle="#e5e7eb";X.fillRect(-330,y+30,660,3);});
+  T("성실피아노",0,320,"900 44px "+FN,"#03a64c");X.restore();
+  if(t>0.8){T("✔ 다음부터는 한마디면 끝!",W/2,1510,"900 54px "+FN,"#a7f3d0","#000",8);}}
+function sceneTip(t){header();drawBook(t,260,1,Math.sin(t*1.5)*0.6);
+  T("💡 기준은 딱 하나",W/2,1210,"900 58px "+FN,"#ffe082","#000",8);T("같은 부탁을 두 번 했다면",W/2,1300,"900 60px "+FN,"#fff","#000",9);T("→ 비법 노트(스킬)로!",W/2,1385,"900 62px "+FN,"#a7f3d0","#000",9);
+  T("말로 \"이거 스킬로 만들어 줘\"라고 해도 돼요",W/2,1480,"800 38px "+FN,"#fff","#000",5);}
+function sceneEnd(t){var a=ease(t/0.6);X.globalAlpha=a;T("📖 따라하기 전체는 블로그에서!",W/2,190,"900 56px "+FN,"#ffe082","#000",8);
+  var y0=280;X.fillStyle="#fff";rr(110,y0,860,1000,40);X.fill();X.fillStyle="#03c75a";rr(110,y0,860,120,40);X.fill();X.fillRect(110,y0+80,860,40);T("N 블로그 · 성실피아노",W/2,y0+80,"900 46px "+FN,"#fff");
+  T("AI·컴퓨터 활용",W/2,y0+195,"800 32px "+FN,"#03a64c");["클로드코드에게 연장통을","쥐여 주는 법 2탄"].forEach(function(l,i){T(l,W/2,y0+300+i*80,"900 58px "+FN,"#111");});
+  T("첫 비법 노트(스킬) 만들기 따라하기",W/2,y0+470,"800 38px "+FN,"#444");
+  ["① 폴더","② SKILL.md","③ 불러 쓰기","④ 결과"].forEach(function(s,i){var x0=230+i*207;X.fillStyle=["#a7f3d0","#fde68a","#bae6fd","#f9a8d4"][i];rr(x0-92,y0+560,184,130,24);X.fill();T(s,x0,y0+640,"900 30px "+FN,"#1a1030");});
+  T("◀ 1탄: 4가지 연장 한눈에 보기",W/2,y0+790,"800 36px "+FN,"#e65100");T("🔍 네이버 「성실피아노 클로드코드」",W/2,y0+880,"800 34px "+FN,"#03a64c");
+  T("피아노조율 성실 · 010-8756-8740",W/2,1500,"900 54px "+FN,"#ffd54f","#000",8);T("국가공인 피아노조율사 35년",W/2,1570,"800 38px "+FN,"#fff","#000",6);X.globalAlpha=1;}
+var SC=[[0,3,sceneHook],[3,7.5,scene1],[7.5,13.5,scene2],[13.5,17.5,scene3],[17.5,21.5,scene4],[21.5,25,sceneTip],[25,30,sceneEnd]];
+function frame(t){bg(t);for(var i=0;i<SC.length;i++){if(t<SC[i][1]||i===SC.length-1){SC[i][2](t-SC[i][0]);break;}}if(t<25)footer();var u=Math.min(1,t/TOTAL);X.fillStyle="rgba(255,255,255,.15)";X.fillRect(0,H-10,W,10);X.fillStyle="#a7f3d0";X.fillRect(0,H-10,W*u,10);}
+// ---- original music: bright 104bpm, F major ----
+var SAMP=["C2","Ds2","Fs2","A2","C3","Ds3","Fs3","A3","C4","Ds4","Fs4","A4","C5","Ds5","Fs5","A5","C6"];
+function nm2m(n){var pc={C:0,Ds:3,Fs:6,A:9}[n.replace(/\d/,"")];return 12*(+n.match(/\d/)[0]+1)+pc;}
+function notes(){var N=[],b=60/104,prog=[[41,53,57,60],[46,53,58,62],[48,55,60,64],[41,53,57,60]],mel=[69,72,74,72,70,69,67,65,67,69,70,72,74,72,69,72];
+  for(var bar=0;bar<13;bar++){var t0=0.25+bar*4*b,ch=prog[bar%4];N.push([t0,ch[0]-12,4*b,.3]);for(var k=0;k<8;k++)N.push([t0+k*b/2,ch[1+(k%3)],b*.45,.13]);
+    if(bar<12){var m1=mel[(bar*2)%16],m2=mel[(bar*2+1)%16];N.push([t0,m1,1.5*b,.42]);N.push([t0+1.5*b,m1+2,.5*b,.32]);N.push([t0+2*b,m2,2*b,.4]);}else N.push([t0,77,5*b,.45]);}
+  return N;}
+function render(){var SR=44100,oc=new OfflineAudioContext(2,Math.ceil((TOTAL+1)*SR),SR),bufs={};
+  return Promise.all(SAMP.map(function(nm){return fetch("https://tonejs.github.io/audio/salamander/"+nm+".mp3").then(function(r){return r.arrayBuffer();}).then(function(b){return oc.decodeAudioData(b);}).then(function(ab){bufs[nm2m(nm)]=ab;});})).then(function(){
+    var ks=Object.keys(bufs).map(Number);var irb=oc.createBuffer(2,SR*2.2,SR);for(var c=0;c<2;c++){var d=irb.getChannelData(c);for(var i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);}var cv=oc.createConvolver();cv.buffer=irb;var bus=oc.createGain(),wet=oc.createGain();wet.gain.value=.25;bus.connect(oc.destination);bus.connect(cv);cv.connect(wet);wet.connect(oc.destination);
+    notes().forEach(function(n){if(n[0]>TOTAL-0.3)return;var s=ks.reduce(function(a,k){return Math.abs(k-n[1])<Math.abs(a-n[1])?k:a;},ks[0]);var src=oc.createBufferSource();src.buffer=bufs[s];src.playbackRate.value=Math.pow(2,(n[1]-s)/12);var g=oc.createGain();g.gain.setValueAtTime(n[3],n[0]);g.gain.setValueAtTime(n[3],n[0]+n[2]);g.gain.exponentialRampToValueAtTime(.001,n[0]+n[2]+.5);src.connect(g);g.connect(bus);src.start(n[0]);src.stop(n[0]+n[2]+.6);});
+    return oc.startRendering();});}
+window.SH={frame:frame,total:TOTAL,renderAudio:render};
+var st=performance.now();(function loop(){frame(((performance.now()-st)/1000)%TOTAL);requestAnimationFrame(loop);})();
+})();
+</script></body></html>
