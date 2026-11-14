@@ -18,7 +18,7 @@ html,body{margin:0;height:100%;background:#05030d;overflow:hidden;font-family:"M
 </head>
 <body>
 <div id="wrap"><canvas id="out" width="1080" height="1920"></canvas></div>
-<div id="start"><div><h2 style="margin:0 0 6px">🌙 쇼팽 녹턴 20번 · 트릴의 순간</h2><p>30초 · 3D 건반 · 야마하 그랜드 녹음 음색</p><button id="go">▶ 재생</button><p style="margin-top:14px">소리가 나요 · <a href="nocturne20.html">전곡 3분할 보기</a></p></div></div>
+<div id="tap" style="display:none;position:absolute;left:50%;bottom:28%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;font-weight:900;font-size:18px;padding:10px 18px;border-radius:999px;border:2px solid #ffd54f;cursor:pointer;white-space:nowrap">🔊 화면을 한 번 누르면 소리가 나요</div>
 <div id="hidden" style="position:absolute;left:-99999px;top:0;width:7000px"><div id="sc" class="score"></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="../js/music-engine.js?v=20261114b"></script>
@@ -83,7 +83,7 @@ function hash(i){var s=Math.sin(i*127.1+311.7)*43758.5453;return s-Math.floor(s)
 var xc=(KX(LO)+KX(HI))/2;
 function place(t){
   // camera: diagonal look like a 3D stage, slow gentle move
-  var a=-0.55+0.07*Math.sin(t*.22),dist=37-3*Math.min(1,t/TOTAL);var tx=xc+2,ty=1.2,tz=-1;
+  var a=-0.55+0.05*Math.sin(t*.22),dist=37-3*Math.min(1,t/TOTAL);var pan=-7*Math.cos(2*Math.PI*t/TOTAL);var tx=xc+2+pan,ty=1.2,tz=-1;
   cam.position.set(tx+Math.sin(a)*dist,15+0.8*Math.sin(t*.3),tz+Math.cos(a)*dist);cam.lookAt(tx,ty+3.5,tz);cam.updateProjectionMatrix();
   var act={};
   N.forEach(function(n){var o=n.obj,k=keys[n.m],kx=k.position.x,kz=isB(n.m)?-1.6:-0.4,topY=isB(n.m)?.7:.2;
@@ -143,10 +143,17 @@ function loadBufs(ctx,base){var bufs={};return Promise.all(SAMP.map(function(nm)
 // ---- public API (for video capture) ----
 window.SH={ready:buildScore(),frame:frame,total:TOTAL,
   renderAudio:function(){var SR=44100,oc=new OfflineAudioContext(2,Math.ceil((TOTAL+1)*SR),SR);return loadBufs(oc).then(function(b){schedule(oc,chain(oc),b,0);return oc.startRendering();});}};
-// ---- live player ----
-document.getElementById("go").onclick=function(){var ctx=new (window.AudioContext||window.webkitAudioContext)();document.getElementById("start").style.display="none";
-  loadBufs(ctx).then(function(b){var t0=ctx.currentTime+.2;schedule(ctx,chain(ctx),b,t0);function loop(){var t=ctx.currentTime-t0;frame(Math.max(0,t));if(t<TOTAL)requestAnimationFrame(loop);else document.getElementById("start").style.display="flex";}loop();});};
-window.SH.ready.then(function(){frame(INTRO+0.6);});
+// ---- live player: starts by itself ----
+var LV={ctx:null,t0:0,bufs:null,sound:false,start:0};
+function now(){return LV.ctx&&LV.sound?LV.ctx.currentTime-LV.t0:(performance.now()-LV.start)/1000;}
+function loop(){var t=now();if(t>=TOTAL){restart();t=0;}frame(Math.max(0,t));requestAnimationFrame(loop);}
+function startSound(){if(LV.sound||!LV.ctx||!LV.bufs)return;if(LV.ctx.state!=="running")return;var t=(performance.now()-LV.start)/1000;LV.dest=LV.dest||chain(LV.ctx);LV.t0=LV.ctx.currentTime-t;schedule(LV.ctx,LV.dest,LV.bufs,LV.t0);LV.sound=true;document.getElementById("tap").style.display="none";}
+function restart(){LV.start=performance.now();if(LV.sound){LV.t0=LV.ctx.currentTime+.1;schedule(LV.ctx,LV.dest,LV.bufs,LV.t0);}}
+window.SH.ready.then(function(){LV.start=performance.now();requestAnimationFrame(loop);
+  try{LV.ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}
+  if(LV.ctx){loadBufs(LV.ctx).then(function(b){LV.bufs=b;if(LV.ctx.state==="running")startSound();else{LV.ctx.resume().then(startSound).catch(function(){});setTimeout(function(){if(!LV.sound)document.getElementById("tap").style.display="block";},600);}});}
+  var unlock=function(){if(!LV.ctx)return;LV.ctx.resume().then(function(){startSound();});};document.addEventListener("pointerdown",unlock);document.addEventListener("keydown",unlock);});
+
 })();
 </script>
 </body>
