@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>소녀의 기도 2탄 연습실 — 내려오는 음표 · 건반 · 악보 3분할, 빠르기 선택, 디지털 피아노 연결</title>
+<meta name="description" content="바다르체프스카 「소녀의 기도」를 왕초보가 아주 느리게부터 따라 치는 연습실. 내려오는 음표·건반·악보 3분할 화면, 빠르기 100%·70%·50%·30%, 오른손/왼손 따로, 구간 반복, 기다리기 모드, 디지털 피아노 USB(MIDI) 연결."/>
+<link rel="stylesheet" href="css/genre.css?v=20261031">
+<style>
+html,body{height:100%}
+body{margin:0;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);overflow:hidden}
+.pbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px 10px;background:var(--card);border-bottom:1px solid var(--line)}
+.pbar h1{font-size:1.02rem;margin:0 8px 0 0;white-space:nowrap}
+.pbar h1 em{font-style:normal;background:#f48fb1;color:#fff;border-radius:999px;padding:1px 8px;font-size:.8rem;margin-left:4px}
+.grp{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.grp .lab{font-size:.78rem;font-weight:800;color:var(--sub);margin-right:2px}
+.pb{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 11px;font:inherit;font-weight:800;font-size:.85rem;cursor:pointer;white-space:nowrap}
+.pb.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.pb.big{font-size:1rem;padding:6px 16px;background:#6a4bc4;border-color:#6a4bc4;color:#fff}
+.pbar select{font:inherit;font-weight:700;border:1.5px solid var(--line);border-radius:8px;padding:3px 4px;background:var(--card);color:var(--ink)}
+.stat{font-size:.82rem;font-weight:800;color:var(--sub)}
+.stat b{color:var(--accent2)}
+#midiStat.ok{color:#16a34a}
+#stage{flex:1;display:flex;flex-direction:column;min-height:0}
+#fallWrap{flex:30 1 0;position:relative;min-height:0;background:#120c24}
+#kbWrap{flex:30 1 0;position:relative;min-height:0;background:#1b120c}
+#scoreWrap{flex:40 1 0;min-height:0;overflow-y:auto;background:var(--card);position:relative;scroll-behavior:smooth;cursor:pointer}
+canvas{display:block;width:100%;height:100%}
+#info{position:absolute;left:8px;top:6px;color:#fff;font-weight:800;font-size:.9rem;text-shadow:0 1px 3px #000;pointer-events:none}
+#info span{color:#ffe082}
+#waitMsg{position:absolute;right:8px;top:6px;color:#a5f3fc;font-weight:900;font-size:.9rem;display:none;text-shadow:0 1px 3px #000}
+.score .ksig{fill:var(--staff);font-size:20px}
+.score .ott{fill:var(--staff);font-size:12px;font-weight:900;font-style:italic}
+.score .ottl{stroke:var(--staff);stroke-width:1.2;stroke-dasharray:5 4}
+.score .orn{fill:var(--staff);font-size:13px;font-weight:900;font-style:italic;text-anchor:middle}
+.score .sec{fill:var(--accent);font-size:13px;font-weight:900}
+.score .tup{fill:var(--staff);font-size:11px;font-weight:800;text-anchor:middle;font-style:italic}
+.score .phband,.score .phball{display:none}
+.score .beam{fill:var(--staff)}
+.score .tie{fill:none;stroke:var(--staff);stroke-width:1.4}
+.score [data-i^="FR"].on .hd{fill:#f59e0b;stroke:#f59e0b;stroke-width:2.5}
+.score [data-i^="FL"].on .hd{fill:#2563eb;stroke:#2563eb;stroke-width:2.5}
+.score .n.on .lab{font-size:15px;font-weight:900}
+#score svg{display:block;margin:0 auto;width:auto!important;max-width:100%;max-height:var(--sh,300px);height:auto}
+.note{font-size:.75rem;color:var(--sub);padding:4px 10px;background:var(--card);border-top:1px solid var(--line)}
+.note a{color:var(--accent2)}
+@media (max-width:760px){.pbar{gap:3px 4px;padding:3px 5px}.pb{padding:3px 7px;font-size:.74rem}.pb.big{font-size:.82rem;padding:4px 10px}.pbar h1{font-size:.85rem}.pbar select{font-size:.74rem;padding:1px 2px}.grp .lab{font-size:.7rem}.hidem{display:none}.stat{font-size:.7rem}.note{display:none}.notem{display:block!important}#info{font-size:.72rem}}
+.notem{display:none;font-size:.68rem;color:var(--sub);padding:3px 8px;background:var(--card)}
+</style>
+</head>
+<body>
+<div class="pbar">
+  <h1>🙏 소녀의 기도 <em>2탄 연습실</em></h1>
+  <div class="grp"><button class="pb big" id="play">▶ 재생</button><button class="pb" id="rew" title="처음(구간 시작)으로">⏮</button></div>
+  <div class="grp"><span class="lab">빠르기</span><button class="pb on" data-sp="1">100%</button><button class="pb" data-sp="0.7">70%</button><button class="pb" data-sp="0.5">50%</button><button class="pb" data-sp="0.3">30%</button></div>
+  <div class="grp"><span class="lab">손</span><button class="pb on" data-hand="B">두 손</button><button class="pb" data-hand="R">오른손</button><button class="pb" data-hand="L">왼손</button></div>
+  <div class="grp"><span class="lab">구간</span><select id="from"></select>~<select id="to"></select><button class="pb" id="loop">🔁 반복</button>
+    <span class="lab hidem">바로가기</span><select id="jump"><option value="">📍구간</option><option value="1-4">🎬 전주 (1~4)</option><option value="5-12">🙏 주제 (5~12)</option><option value="13-28">✨ 변주 1 (13~28)</option><option value="29-36">🎻 변주 2 (29~36)</option><option value="37-52">🌀 변주 3 (37~52)</option><option value="53-60">💎 변주 4 (53~60)</option><option value="1-60">전곡</option></select></div>
+  <div class="grp"><button class="pb" id="wait" title="다음 음을 칠 때까지 기다려요">⏳ 기다리기</button><button class="pb" id="snd">🔊 소리</button></div>
+  <div class="grp"><button class="pb" id="midiBtn">🎹 디지털 피아노 연결</button><span class="stat" id="midiStat">연결 안 됨</span><span class="stat">맞음 <b id="okN">0</b> · 틀림 <b id="ngN">0</b></span></div>
+</div>
+<div id="stage">
+  <div id="fallWrap"><canvas id="fall"></canvas><div id="info"></div><div id="waitMsg">⏳ 다음 음을 눌러 주세요</div></div>
+  <div id="kbWrap"><canvas id="kb"></canvas></div>
+  <div id="scoreWrap" class="score"><div id="score"><p style="padding:20px;color:var(--sub)">악보를 그리는 중…</p></div></div>
+</div>
+<div class="note">노랑 = 오른손 · 파랑 = 왼손 · 초록 = 내가 누른 건반(디지털 피아노 또는 화면 터치). 악보의 마디를 누르면 거기서부터 재생해요. 디지털 피아노 연결은 <b>컴퓨터 크롬·엣지</b>, <b>안드로이드 크롬</b>에서만 돼요 (아이폰·아이패드·사파리는 안 돼요). <a href="prayer.html">← 소녀의 기도 피아노 교실</a> · 피아노 소리: Salamander Grand Piano (Alexander Holm, CC BY 3.0) · ⓒ 성실피아노 010-8756-8740</div>
+
+<div class="notem">노랑=오른손 · 파랑=왼손 · 초록=내가 누름 · 휴대폰은 <b>가로로 돌리면</b> 더 넓어요 · 디지털 피아노 연결: 안드로이드 크롬만 (아이폰 X) · ⓒ 성실피아노</div>
+<script src="js/music-engine.js?v=20261031"></script>
+<script src="js/score-engine.js?v=20261108"></script>
+<script src="js/prayer-full.js?v=20261031"></script>
+<script>
+(function(){
+"use strict";
+var F=window.PR_FULL, $=function(i){return document.getElementById(i);};
+var SECS={1:"전주 Andante",5:"주제 — 소녀의 기도 멜로디",13:"변주 1 — 반짝이는 아르페지오 (반복)",29:"변주 2 — 낮은 목소리로 (marcato)",37:"변주 3 — 트릴 장식 (반복)",53:"변주 4 — 셋잇단 화음 (마지막)"};
+var SOL=["도","레♭","레","미♭","미","파","솔♭","솔","라♭","라","시♭","시"];
+var NB=F.bars.length, BARS=F.bars.map(function(b,i){return {sig:b.sig,key:b.key,bpm:b.bpm,sec:SECS[i+1]};});
+// ---------- time map (song seconds at 100%) ----------
+var ST=[0]; F.bars.forEach(function(b){ST.push(ST[ST.length-1]+4*60/b.bpm);});
+function b2s(g){var k=Math.min(NB-1,Math.max(0,Math.floor(g/4)));return ST[k]+(g-4*k)*60/F.bars[k].bpm;}
+function s2b(s){var k=0;while(k<NB-1&&ST[k+1]<=s)k++;return 4*k+(s-ST[k])*F.bars[k].bpm/60;}
+function barOf(s){var k=0;while(k<NB-1&&ST[k+1]<=s)k++;return k;}
+var END=ST[NB];
+// ---------- notes ----------
+var N=F.raw.map(function(r,i){return {g:r[0],d:r[1],m:r[2],h:r[3],i:i};}).sort(function(a,b){return a.g-b.g||a.m-b.m;});
+["R","L"].forEach(function(h){var a=N.filter(function(n){return n.h===h;}),ons=[];a.forEach(function(n){var k=+n.g.toFixed(4);if(ons[ons.length-1]!==k)ons.push(k);});
+  a.forEach(function(n){var k=ons.indexOf(+n.g.toFixed(4)),nx=k+1<ons.length?ons[k+1]:n.g+n.d;var pd=Math.max(0.08,Math.min(n.d,nx-n.g)*0.92);n.s0=b2s(n.g);n.s1=b2s(n.g+pd);n.se=b2s(n.g+n.d);});});
+var LO=127,HI=0;N.forEach(function(n){LO=Math.min(LO,n.m);HI=Math.max(HI,n.m);});LO=LO-LO%12;HI=HI+(11-HI%12);if(HI>108)HI=108;
+// ---------- state ----------
+var st={s:0,play:false,sp:1,hand:"B",loop:false,from:1,to:NB,wait:false,snd:true,ok:0,ng:0,held:{},waitG:null,waitHit:{}};
+function handOK(h){return st.hand==="B"||st.hand===h;}
+// ---------- audio ----------
+var ctx=null,master=null,bufs={},keys=[],live=[];
+function ac(){if(!ctx){ctx=new (window.AudioContext||window.webkitAudioContext)();master=ctx.createGain();master.gain.value=.9;var c=ctx.createDynamicsCompressor();master.connect(c);c.connect(ctx.destination);loadSamples();}if(ctx.state==="suspended")ctx.resume();return ctx;}
+function loadSamples(){var names=[];for(var o=0;o<=8;o++)["C","Ds","Fs","A"].forEach(function(n){if((o===0&&n!=="A")||(o===8&&n!=="C"))return;names.push(n+o);});
+  names.forEach(function(nm){var pc={C:0,Ds:3,Fs:6,A:9}[nm.replace(/\d/,"")],m=12*(+nm.match(/\d/)[0]+1)+pc;
+    fetch("https://tonejs.github.io/audio/salamander/"+nm+".mp3").then(function(r){return r.arrayBuffer();}).then(function(b){return ctx.decodeAudioData(b);}).then(function(ab){bufs[m]=ab;keys=Object.keys(bufs).map(Number).sort(function(a,b){return a-b;});}).catch(function(){});});}
+function voice(m,t,dur,vel){if(!keys.length){ME.piano(m,t,dur,vel*.8);return;}var s=keys[0];keys.forEach(function(k){if(Math.abs(k-m)<Math.abs(s-m))s=k;});
+  var src=ctx.createBufferSource();src.buffer=bufs[s];src.playbackRate.value=Math.pow(2,(m-s)/12);var g=ctx.createGain();g.gain.setValueAtTime(vel,t);var rel=t+Math.max(.08,dur);g.gain.setValueAtTime(vel,rel);g.gain.exponentialRampToValueAtTime(.0008,rel+.45);
+  src.connect(g);g.connect(master);src.start(t);src.stop(rel+.5);live.push(src);src.onended=function(){var i=live.indexOf(src);if(i>=0)live.splice(i,1);};}
+function hush(){live.slice().forEach(function(n){try{n.stop();}catch(e){}});live=[];}
+var nextI=0;
+function seekIdx(){nextI=0;while(nextI<N.length&&N[nextI].s0<st.s-1e-6)nextI++;}
+function schedule(){ if(!st.play||!st.snd||!ctx)return; var now=ctx.currentTime,ahead=0.25*st.sp;
+  while(nextI<N.length&&N[nextI].s0<=st.s+ahead){var n=N[nextI++];if(n.s0<st.s-0.05)continue;if(!handOK(n.h))continue;if(st.wait&&st.waitG!==null)break;
+    var t=now+(n.s0-st.s)/st.sp,top=true;var v=n.h==="R"?.55:.32;voice(n.m,Math.max(now,t),(n.se-n.s0)/st.sp,v);} }
+// ---------- score ----------
+var R=SE.parseBars(F.rh),L=SE.parseBars(F.lh),el=$("score"),items=[];
+function drawScore(){SE.render(el,{staves:[{clef:"treble",items:R,prefix:"FR",labels:true,ott:true,autoClef:"row"},{clef:"bass",items:L,prefix:"FL",labels:true,autoClef:"item"}],bars:BARS,startBar:1});
+  items=[];[["FR",R,"R"],["FL",L,"L"]].forEach(function(a){a[1].forEach(function(it,idx){if(it.rest)return;var key=a[0]+(it.i!==undefined?it.i:idx),g=el._nodes&&el._nodes[key];if(g)items.push({g:it.gpos,e:it.gpos+it.len,node:g,h:a[2]});});});lastRow=-1;onNodes=[];}
+var onNodes=[],lastRow=-1;
+function scoreTick(){var b=s2b(st.s),now=[];items.forEach(function(it){if(b>=it.g-1e-6&&b<it.e-1e-6&&handOK(it.h))now.push(it.node);});
+  onNodes.forEach(function(n){if(now.indexOf(n)<0)n.classList.remove("on");});now.forEach(function(n){n.classList.add("on");});onNodes=now;
+  var k=barOf(st.s),bar=el._bars&&el._bars[k];if(bar&&bar.row!==lastRow&&el._rows){lastRow=bar.row;var row=el._rows[bar.row],w=$("scoreWrap");if(row){var top=row.getBoundingClientRect().top-w.getBoundingClientRect().top+w.scrollTop;w.scrollTop=Math.max(0,top-8);}}}
+$("scoreWrap").addEventListener("click",function(e){if(!el._rows||!el._bars)return;var svg=e.target.closest("svg");if(!svg)return;var r=el._rows.indexOf(svg);if(r<0)return;
+  var pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;var p=pt.matrixTransform(svg.getScreenCTM().inverse());var bs=el._bars.filter(function(b){return b.row===r;});var hit=bs.filter(function(b){return p.x>=b.x0&&p.x<b.x1;})[0]||bs[0];if(hit)seek(ST[hit.b]);});
+// ---------- canvases ----------
+var fc=$("fall"),fx=fc.getContext("2d"),kc=$("kb"),kx=kc.getContext("2d"),DPR=Math.min(2,window.devicePixelRatio||1);
+function fit(){var sw=$("scoreWrap");sw.style.setProperty("--sh",Math.max(120,sw.clientHeight-6)+"px");[fc,kc].forEach(function(c){var r=c.getBoundingClientRect();c.width=Math.max(10,r.width*DPR);c.height=Math.max(10,r.height*DPR);});}
+function isB(m){return [1,3,6,8,10].indexOf(m%12)>=0;}
+var WI={},NW=0;function geo(){WI={};NW=0;for(var m=LO;m<=HI;m++)if(!isB(m))WI[m]=NW++;}
+function keyX(m,W){var ww=W/NW;return isB(m)?WI[m+1]*ww:(WI[m]+.5)*ww;}
+function keyW(m,W){var ww=W/NW;return isB(m)?ww*.6:ww;}
+function active(){var a={};for(var i=0;i<N.length;i++){var n=N[i];if(n.s0>st.s)break;if(n.s1>st.s&&handOK(n.h))a[n.m]=n;}return a;}
+function drawFall(){var W=fc.width,H=fc.height;fx.clearRect(0,0,W,H);var g=fx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#0d0820");g.addColorStop(1,"#2a1648");fx.fillStyle=g;fx.fillRect(0,0,W,H);
+  for(var m=LO;m<=HI;m++)if(m%12===0){var lx=keyX(m,W)-W/NW/2;fx.strokeStyle="rgba(255,255,255,.07)";fx.beginPath();fx.moveTo(lx,0);fx.lineTo(lx,H);fx.stroke();}
+  var pps=H/2.6; // pixels per real second
+  for(var i=0;i<N.length;i++){var n=N[i];var ys=(n.s0-st.s)/st.sp*pps;if(ys>H)break;if(n.s1<st.s||!handOK(n.h))continue;
+    var yb=H-ys,yt=H-(n.s1-st.s)/st.sp*pps;yb=Math.min(yb,H);if(yb<0)continue;var bw=keyW(n.m,W)*(isB(n.m)?1:.86),cx=keyX(n.m,W);
+    fx.fillStyle=n.h==="R"?"#fbbf24":"#60a5fa";fx.shadowColor=fx.fillStyle;fx.shadowBlur=10*DPR;fx.beginPath();if(fx.roundRect)fx.roundRect(cx-bw/2,Math.max(0,yt),bw,Math.max(3,yb-Math.max(0,yt)),Math.min(5*DPR,bw/2));else fx.rect(cx-bw/2,Math.max(0,yt),bw,Math.max(3,yb-Math.max(0,yt)));fx.fill();fx.shadowBlur=0;
+    if(yb-yt>16*DPR&&bw>12*DPR){fx.fillStyle="rgba(40,20,0,.75)";fx.font="800 "+Math.round(Math.min(bw*.62,13*DPR))+"px sans-serif";fx.textAlign="center";fx.fillText(SOL[n.m%12].replace("♭","b"),cx,yb-4*DPR);}}
+  var hg=fx.createLinearGradient(0,H-14*DPR,0,H);hg.addColorStop(0,"rgba(255,230,160,0)");hg.addColorStop(1,"rgba(255,230,160,.35)");fx.fillStyle=hg;fx.fillRect(0,H-14*DPR,W,14*DPR);}
+function drawKb(act){var W=kc.width,H=kc.height;kx.clearRect(0,0,W,H);kx.fillStyle="#1b120c";kx.fillRect(0,0,W,H);var ww=W/NW,kh=H*.94,bh=kh*.62;
+  for(var m=LO;m<=HI;m++){if(isB(m))continue;var x0=WI[m]*ww,a=act[m],held=st.held[m];kx.fillStyle=a?(a.h==="R"?"#fcd34d":"#93c5fd"):"#fbf8f1";kx.fillRect(x0+1,0,ww-2,kh);
+    if(held){kx.fillStyle="rgba(34,197,94,.55)";kx.fillRect(x0+1,kh*.45,ww-2,kh*.55);}
+    kx.fillStyle="rgba(0,0,0,.08)";kx.fillRect(x0+1,kh-6*DPR,ww-2,6*DPR);
+    var lab=a||held?SOL[m%12]:(m%12===0?"C"+(m/12-1):"");if(lab){kx.fillStyle=a?"#3b2a00":held?"#065f46":"rgba(80,70,60,.6)";kx.font="800 "+Math.round(Math.min(ww*.55,16*DPR))+"px sans-serif";kx.textAlign="center";kx.fillText(lab,x0+ww/2,kh-12*DPR);}}
+  for(m=LO;m<=HI;m++){if(!isB(m))continue;var bx=WI[m+1]*ww-ww*.3,a2=act[m],h2=st.held[m];kx.fillStyle=a2?(a2.h==="R"?"#f59e0b":"#2563eb"):h2?"#16a34a":"#151515";kx.fillRect(bx,0,ww*.6,bh);
+    if(a2||h2){kx.fillStyle="#fff";kx.font="800 "+Math.round(Math.min(ww*.42,12*DPR))+"px sans-serif";kx.textAlign="center";kx.fillText(SOL[m%12].replace("♭",""),bx+ww*.3,bh-8*DPR);kx.fillText("♭",bx+ww*.3,bh-22*DPR);}}}
+function info(){var k=barOf(st.s),sec="";for(var s in SECS)if(k+1>=+s)sec=SECS[s];$("info").innerHTML="마디 "+(k+1)+" / "+NB+" · <span>"+sec+"</span> · 빠르기 "+Math.round(st.sp*100)+"% (♩="+Math.round(F.bars[k].bpm*st.sp)+")";}
+// ---------- wait mode ----------
+function nextGroup(){for(var i=0;i<N.length;i++){var n=N[i];if(n.s0>=st.s-1e-4&&handOK(n.h)){var g=n.s0;return N.filter(function(x){return Math.abs(x.s0-g)<1e-4&&handOK(x.h);});}}return null;}
+// ---------- main loop ----------
+var last=performance.now();
+function frame(t){var dt=Math.min(.1,(t-last)/1000);last=t;
+  if(st.play){
+    if(st.wait){ if(st.waitG===null){var g=nextGroup();var ns=g?g[0].s0:END;var adv=st.s+dt*st.sp;if(g&&adv>=ns){st.s=ns;st.waitG=g;st.waitHit={};$("waitMsg").style.display="block";}else st.s=adv;}
+      else{var done=st.waitG.every(function(n){return st.waitHit[n.m];});if(done){var g2=st.waitG;st.waitG=null;$("waitMsg").style.display="none";st.s+=0.0002;if(st.snd&&ctx){g2.forEach(function(n){});}}}}
+    else st.s+=dt*st.sp;
+    var endS=st.loop?ST[st.to]:END; if(st.s>=endS){ if(st.loop){seek(ST[st.from-1]);} else {st.play=false;st.s=END;$("play").textContent="▶ 재생";hush();} }
+    schedule();}
+  drawFall();drawKb(active());scoreTick();info();requestAnimationFrame(frame);}
+function seek(s){hush();st.s=Math.max(0,Math.min(END,s));st.waitG=null;$("waitMsg").style.display="none";seekIdx();lastRow=-1;}
+// ---------- controls ----------
+$("play").onclick=function(){ac();st.play=!st.play;this.textContent=st.play?"⏸ 멈춤":"▶ 재생";if(st.play){if(st.s>=END-0.01)seek(st.loop?ST[st.from-1]:0);seekIdx();}else hush();};
+$("rew").onclick=function(){seek(st.loop?ST[st.from-1]:ST[st.from-1]);};
+function onlyOn(sel,btn){document.querySelectorAll(sel).forEach(function(b){b.classList.toggle("on",b===btn);});}
+document.querySelectorAll("[data-sp]").forEach(function(b){b.onclick=function(){st.sp=+this.dataset.sp;onlyOn("[data-sp]",this);hush();seekIdx();};});
+document.querySelectorAll("[data-hand]").forEach(function(b){b.onclick=function(){st.hand=this.dataset.hand;onlyOn("[data-hand]",this);hush();seekIdx();st.waitG=null;};});
+var fs=$("from"),ts=$("to");for(var i=1;i<=NB;i++){fs.add(new Option(i+"마디",i));ts.add(new Option(i+"마디",i));}fs.value=1;ts.value=NB;
+function setRange(a,b){st.from=Math.max(1,Math.min(a,b));st.to=Math.min(NB,Math.max(a,b));fs.value=st.from;ts.value=st.to;}
+fs.onchange=ts.onchange=function(){setRange(+fs.value,+ts.value);if(st.loop)seek(ST[st.from-1]);};
+$("jump").onchange=function(){if(!this.value)return;var p=this.value.split("-").map(Number);setRange(p[0],p[1]);seek(ST[p[0]-1]);this.value="";};
+$("loop").onclick=function(){st.loop=!st.loop;this.classList.toggle("on",st.loop);if(st.loop&&(st.s<ST[st.from-1]||st.s>=ST[st.to]))seek(ST[st.from-1]);};
+$("wait").onclick=function(){st.wait=!st.wait;this.classList.toggle("on",st.wait);st.waitG=null;$("waitMsg").style.display="none";};
+$("snd").onclick=function(){st.snd=!st.snd;this.classList.toggle("on",!st.snd);this.textContent=st.snd?"🔊 소리":"🔇 소리 끔";if(!st.snd)hush();};
+// ---------- input: MIDI + touch ----------
+function press(m){st.held[m]=true;
+  if(st.waitG){if(st.waitG.some(function(n){return n.m===m;})){st.waitHit[m]=true;st.ok++;}else st.ng++;}
+  else if(st.play){var tol=0.3*st.sp+0.05,hit=null;for(var i=0;i<N.length;i++){var n=N[i];if(n.s0>st.s+tol)break;if(n.m===m&&handOK(n.h)&&!n._hit&&Math.abs(n.s0-st.s)<=tol){hit=n;break;}}if(hit){hit._hit=true;st.ok++;}else st.ng++;}
+  $("okN").textContent=st.ok;$("ngN").textContent=st.ng;}
+function release(m){delete st.held[m];}
+window.__practice={press:press,release:release,st:st};
+var midiAcc=null;
+function bindInputs(){var names=[];midiAcc.inputs.forEach(function(inp){names.push(inp.name);inp.onmidimessage=function(e){var d=e.data,c=d[0]&0xf0;if(c===0x90&&d[2]>0)press(d[1]);else if(c===0x80||(c===0x90&&d[2]===0))release(d[1]);};});
+  var s=$("midiStat");if(names.length){s.textContent="연결됨: "+names.join(", ");s.className="stat ok";}else{s.textContent="허락됨 · 피아노가 안 보여요 (케이블·전원 확인)";s.className="stat";}}
+$("midiBtn").onclick=function(){var s=$("midiStat");
+  if(!navigator.requestMIDIAccess){s.textContent="이 브라우저는 안 돼요 (아이폰·사파리 X) → 컴퓨터 크롬/엣지, 안드로이드 크롬";return;}
+  if(!window.isSecureContext){s.textContent="https 주소에서만 돼요";return;}
+  s.textContent="허락을 물어보는 중…";navigator.requestMIDIAccess().then(function(a){midiAcc=a;bindInputs();a.onstatechange=bindInputs;},function(){s.textContent="허락이 거절됐어요 (주소창 왼쪽 자물쇠 → MIDI 허용)";});};
+// touch / click on keyboard
+function kbNote(e){var r=kc.getBoundingClientRect(),x=(e.clientX-r.left)*DPR,y=(e.clientY-r.top)*DPR,W=kc.width,H=kc.height,ww=W/NW,bh=H*.94*.62;
+  if(y<bh){for(var m=LO;m<=HI;m++){if(!isB(m))continue;var bx=WI[m+1]*ww-ww*.3;if(x>=bx&&x<bx+ww*.6)return m;}}
+  for(m=LO;m<=HI;m++){if(isB(m))continue;var x0=WI[m]*ww;if(x>=x0&&x<x0+ww)return m;}return null;}
+var touchM=null;kc.addEventListener("pointerdown",function(e){var m=kbNote(e);if(m===null)return;ac();touchM=m;if(st.snd)voice(m,ctx.currentTime,.6,.5);press(m);});
+window.addEventListener("pointerup",function(){if(touchM!==null){release(touchM);touchM=null;}});
+// ---------- start ----------
+geo();fit();window.addEventListener("resize",function(){fit();});
+setTimeout(function(){drawScore();scoreTick();},30);
+var rt;window.addEventListener("resize",function(){clearTimeout(rt);rt=setTimeout(function(){drawScore();},300);});
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
