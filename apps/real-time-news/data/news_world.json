@@ -1,96 +1,236 @@
 [
   {
-    "id": "MarketWatch-0-2026-11-13T15:15:00.000Z",
+    "id": "CNBC-2-2026-11-14T06:00:01.000Z",
+    "title": "Ecuador wants to monetize its biodiversity — while still drilling for oil",
+    "description": "Ecuador is planning to channel funds into its biodiversity, but faces a key challenge: its reliance on oil.",
+    "url": "https://www.cnbc.com/2026/11/14/ecuador-biodiversity-green-finance-oil.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-14T06:00:01.000Z"
+  },
+  {
+    "id": "CNBC-1-2026-11-14T05:08:24.000Z",
+    "title": "FAA lifts ground stop after more than four hours, but flight cancellations will stretch into the weekend",
+    "description": "The Federal Aviation Administration issued a nationwide ground stop on Friday afternoon, disrupting thousands of departing of flights.",
+    "url": "https://www.cnbc.com/2026/11/13/faa-ground-stop.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-14T05:08:24.000Z"
+  },
+  {
+    "id": "MarketWatch-1-2026-11-14T01:58:00.000Z",
+    "title": "14 dividend stocks selected for long-term growth",
+    "description": "These stocks feature attractive dividend payouts and are trading low to the companies’ intrinsic value, according to John Buckingham of Value87 Investment Partners.",
+    "url": "https://www.marketwatch.com/story/14-dividend-stocks-selected-for-long-term-growth-0a095c0d?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-14T01:58:00.000Z"
+  },
+  {
+    "id": "CNBC-0-2026-11-14T01:34:11.000Z",
+    "title": "Trump doesn’t plan to raise Nvidia, spy issue during China trip: U.S. officials",
+    "description": "Nvidia CEO Jensen Huang resigned this week after reports of multiple affairs, including one with a suspected Chinese spy, Alice Huang.",
+    "url": "https://www.cnbc.com/2026/11/13/trump-nvidia-huang-china.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-14T01:34:11.000Z"
+  },
+  {
+    "id": "CNBC-4-2026-11-14T01:18:51.000Z",
+    "title": "SpaceX launches Starship in key test flight of massive rocket",
+    "description": "The test flight is SpaceX's first attempt to ​catch both the Super Heavy booster and upper stage spacecraft of the rocket at its launch site in Starbase, Texas.",
+    "url": "https://www.cnbc.com/2026/11/13/spacex-launches-starship-in-key-test-flight-of-massive-rocket.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-14T01:18:51.000Z"
+  },
+  {
+    "id": "CNBC-7-2026-11-13T23:42:18.000Z",
+    "title": "Lutnick faces questions over Nvidia spy scandal. His sons' firm has deep ties to the chipmaker",
+    "description": "Jensen Huang’s resignation as Nvidia CEO has brought renewed scrutiny to Commerce Secretary Howard Lutnick and his family's financial ties to the chipmaker.",
+    "url": "https://www.cnbc.com/2026/11/13/howard-lutnick-nvidia-jensen-huang-china-cantor-fitzgerald.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T23:42:18.000Z"
+  },
+  {
+    "id": "MarketWatch-3-2026-11-13T22:45:00.000Z",
+    "title": "4 expert tips for signing up for Medicare",
+    "description": "A day in the life of a Medicare counselor",
+    "url": "https://www.marketwatch.com/story/what-really-happens-during-medicare-counseling-6a4f618e?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T22:45:00.000Z"
+  },
+  {
+    "id": "MarketWatch-4-2026-11-13T22:21:00.000Z",
+    "title": "Nvidia’s stock is on a losing streak not seen in 14 years. What comes next?",
+    "description": "Nvidia wiped out $573 billion in market capitalization this week — its sixth consecutive week of stock declines.",
+    "url": "https://www.marketwatch.com/story/nvidias-stock-is-on-a-losing-streak-not-seen-in-14-years-what-comes-next-a07e801e?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T22:21:00.000Z"
+  },
+  {
+    "id": "CNBC-5-2026-11-13T22:18:43.000Z",
+    "title": "Nvidia stock suffers longest weekly losing streak since 2012 as market value sinks by $1.7 trillion",
+    "description": "Jensen Huang's resignation added to Nvidia's market woes, with the stock already in a downward slide since early October.",
+    "url": "https://www.cnbc.com/2026/11/13/nvidia-stock-jensen-affair-ai.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T22:18:43.000Z"
+  },
+  {
+    "id": "MarketWatch-5-2026-11-13T22:04:00.000Z",
+    "title": "Global oil supplies are suddenly flowing. Why a crude glut won’t mean cheaper diesel.",
+    "description": "It’s official: the world is expected to soon have more oil than it needs for the first time since the Iran war began in February. But more oil doesn’t automatically lead to lower diesel prices.",
+    "url": "https://www.marketwatch.com/story/global-oil-supplies-are-suddenly-flowing-why-a-crude-glut-wont-mean-cheaper-diesel-a5fa80c8?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T22:04:00.000Z"
+  },
+  {
+    "id": "CNBC-16-2026-11-13T21:44:07.000Z",
+    "title": "Goldman Sachs looks to cash in on big IPOs twice. Anthropic’s historic deal is its next chance",
+    "description": "While co-leading the offering, Goldman also wants a shot at managing the billions of dollars in new wealth that the deal creates. It's not the only one.",
+    "url": "https://www.cnbc.com/investingclub/2026/11/13/goldman-sachs-looks-to-cash-in-on-anthropics-ipo-twice-heres-how-and-who-else-wants-to.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T21:44:07.000Z"
+  },
+  {
+    "id": "MarketWatch-7-2026-11-13T21:32:00.000Z",
     "title": "‘She has a history of financial mismanagement’: My brother cut our sister out of his will. I’ll get everything. Do I tell her?",
     "description": "“I’m torn between respecting my brother’s wishes and being fair to my sister.”",
     "url": "https://www.marketwatch.com/story/she-has-a-history-of-financial-mismanagement-my-brother-cut-my-sister-out-of-his-will-im-getting-everything-do-i-tell-her-3e537851?mod=mw_rss_topstories",
     "imageUrl": null,
     "source": "MarketWatch",
     "category": "글로벌",
-    "publishedAt": "2026-11-13T15:15:00.000Z"
+    "publishedAt": "2026-11-13T21:32:00.000Z"
   },
   {
-    "id": "CNBC-4-2026-11-13T15:10:20.000Z",
-    "title": "Microsoft says email queues 'approaching normal levels' as Outlook issues persist",
-    "description": "A Microsoft outage on Thursday and Friday affected users of services like Outlook, Teams and 365.",
-    "url": "https://www.cnbc.com/2026/11/12/microsoft-outage-outlook-aws-google.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T15:10:20.000Z"
-  },
-  {
-    "id": "MarketWatch-2-2026-11-13T15:08:00.000Z",
-    "title": "Home sales plummet to lowest level since ‘Great Recession’ as prices hit all-time high",
-    "description": "Home sales fell in October to a 16-year low as buyers bolted from the housing market in the face of 7% mortgage rates.",
-    "url": "https://www.marketwatch.com/story/home-sales-plummet-to-lowest-level-since-the-great-recession-as-buyers-flee-the-market-624e6270?mod=mw_rss_topstories",
+    "id": "MarketWatch-8-2026-11-13T21:26:00.000Z",
+    "title": "Bitcoin is now below $69,000 and could fall even further if investors cash out to buy into the Anthropic IPO",
+    "description": "Investors may have to sell some of their existing bets in crypto to make room in their portfolio for what could be one of the most sought-after stock offerings in history.",
+    "url": "https://www.marketwatch.com/story/bitcoin-could-fall-even-further-if-investors-cash-out-to-buy-into-the-anthropic-ipo-5a14f46a?mod=mw_rss_topstories",
     "imageUrl": null,
     "source": "MarketWatch",
     "category": "글로벌",
-    "publishedAt": "2026-11-13T15:08:00.000Z"
+    "publishedAt": "2026-11-13T21:26:00.000Z"
   },
   {
-    "id": "CNBC-14-2026-11-13T15:04:10.000Z",
-    "title": "NHL’s next TV deal will test the league’s strength while media companies prepare for NFL rights increase",
-    "description": "How do the world's biggest media companies judge the value of non-NFL rights? The NHL is giving us our first window into a new era in media values.",
-    "url": "https://www.cnbc.com/2026/11/13/nhls-next-media-deal-will-test-the-leagues-strength.html",
+    "id": "CNBC-6-2026-11-13T21:18:30.000Z",
+    "title": "AI risks are the biggest threat to the financial system, Fed survey finds",
+    "description": "The report comes with Wall Street on edge over high-flying AI hyperscalers, while communities are on alert for the rapid spread of data centers.",
+    "url": "https://www.cnbc.com/2026/11/13/ai-risks-financial-system-federal-reserve.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-13T15:04:10.000Z"
+    "publishedAt": "2026-11-13T21:18:30.000Z"
   },
   {
-    "id": "CNBC-7-2026-11-13T15:03:10.000Z",
-    "title": "Apple, Alphabet and Uber survived major founder transitions. Nvidia will be a harder test",
-    "description": "Like Apple, Nvidia now faces its own transition away from a founder-led company. But experts say Jensen Huang’s central role could make replacing him difficult.",
-    "url": "https://www.cnbc.com/2026/11/13/nvidia-jensen-huang-founder-ceo-transition.html",
+    "id": "MarketWatch-9-2026-11-13T21:10:00.000Z",
+    "title": "AMD and other chip stocks slide as Wall Street rethinks the AI trade without Jensen Huang",
+    "description": "At first, it looked like Nvidia’s pain might be the rest of the chip sector’s gain. But now, investors aren’t so sure.",
+    "url": "https://www.marketwatch.com/story/amd-and-other-chip-stocks-slide-as-wall-street-rethinks-the-ai-trade-without-jensen-huang-2fb74547?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T21:10:00.000Z"
+  },
+  {
+    "id": "CNBC-12-2026-11-13T21:06:25.000Z",
+    "title": "They train people to avoid 'honeypot' scams—here are the common red flags they spot: 'It feels so good to be wanted'",
+    "description": "Corporate security firms train companies and their employees on strategies for being vigilant against honeypots, and other social engineering attacks.",
+    "url": "https://www.cnbc.com/make-it/2026/11/13/honeypot-scam-red-flags.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-13T15:03:10.000Z"
+    "publishedAt": "2026-11-13T21:06:25.000Z"
   },
   {
-    "id": "CNBC-2-2026-11-13T15:00:01.000Z",
+    "id": "CNBC-14-2026-11-13T20:48:13.000Z",
+    "title": "Supreme Court agrees to hear Robinhood challenge to IPO information omission lawsuit",
+    "description": "The Trump administration had urged the Supreme Court to hear an appeal by Robinhood of a lower-court's decision to revive an investors' lawsuit over the IPO.",
+    "url": "https://www.cnbc.com/2026/11/13/robinhood-supreme-court-ipo-lawsuit.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T20:48:13.000Z"
+  },
+  {
+    "id": "CNBC-11-2026-11-13T19:30:36.000Z",
+    "title": "A trading strategy to ride out the Nvidia uncertainty and generate income in the process",
+    "description": "By deploying a persistent covered call strategy, investors can leverage the exact fear driving the stock down to generate robust, risk-reducing income.",
+    "url": "https://www.cnbc.com/2026/11/13/a-trading-strategy-to-ride-out-the-nvidia-uncertainty-and-generate-income-in-the-process.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T19:30:36.000Z"
+  },
+  {
+    "id": "CNBC-10-2026-11-13T19:01:12.000Z",
+    "title": "Retirees sometimes tap savings for one-off expenses. Here’s what advisors say to consider first",
+    "description": "Retirees who need cash for a one-time expense may look to their 401(k) or IRA, but financial advisors say there are trade-offs to weigh first.",
+    "url": "https://www.cnbc.com/2026/11/13/retirement-401k-ira-withdrawal-taxes.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T19:01:12.000Z"
+  },
+  {
+    "id": "CNBC-15-2026-11-13T18:56:26.000Z",
     "title": "OpenAI launches ChatGPT Wallet, allowing its 'dots' AI agents to make purchases for users",
     "description": "OpenAI's ChatGPT Wallet partners with American Express, Mastercard and Visa, and those cardholders keep their existing credit card rewards.",
     "url": "https://www.cnbc.com/2026/11/13/openai-chatgpt-wallet-dot-purchases.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-13T15:00:01.000Z"
+    "publishedAt": "2026-11-13T18:56:26.000Z"
   },
   {
-    "id": "CNBC-0-2026-11-13T14:53:35.000Z",
-    "title": "Bessent points to Lutnick’s Commerce as he slams Nvidia chip ‘leakage’ to China",
-    "description": "Jensen Huang resigned as Nvidia CEO days after admitting to an affair following scrutiny of his relationship with a woman reportedly deemed a Chinese spy.",
-    "url": "https://www.cnbc.com/2026/11/13/us-inflation-outlook-federal-reserve-rate-hike.html",
+    "id": "CNBC-3-2026-11-13T18:18:28.000Z",
+    "title": "Microsoft apologizes for massive outage that took down Outlook and other 365 services",
+    "description": "A Microsoft outage on Thursday and Friday affected users of services like Outlook, Teams and 365.",
+    "url": "https://www.cnbc.com/2026/11/12/microsoft-outage-outlook-aws-google.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-13T14:53:35.000Z"
+    "publishedAt": "2026-11-13T18:18:28.000Z"
   },
   {
-    "id": "MarketWatch-4-2026-11-13T14:28:00.000Z",
-    "title": "Trump administration is hiring debt collectors to go after defaulted student-loan borrowers for first time in 6 years",
-    "description": "The Treasury Department proposes to pay debt collectors much less than in the past to help borrowers get out of default.",
-    "url": "https://www.marketwatch.com/story/trump-administration-is-hiring-debt-collectors-for-first-time-in-6-years-to-go-after-defaulted-student-loan-borrowers-8bae13ad?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T14:28:00.000Z"
-  },
-  {
-    "id": "CNBC-11-2026-11-13T14:24:57.000Z",
-    "title": "‘We will sue them’: Canada threatens Stellantis as Trump trade war reshapes Jeep production plans",
-    "description": "The dispute comes after Stellantis scrapped planned Jeep Compass production in Brampton and shifted future output to Illinois amid U.S. auto tariffs.",
-    "url": "https://www.cnbc.com/2026/11/13/canada-stellantis-auto-trump-tariffs-jeep.html",
+    "id": "CNBC-18-2026-11-13T18:00:01.000Z",
+    "title": "Is a bottom in for the Nasdaq-100? Charts to watch",
+    "description": "Frank Cappelleri of CappThesis looks at several charts to help answer that question.",
+    "url": "https://www.cnbc.com/2026/11/13/is-a-bottom-in-for-the-nasdaq-100-charts-to-watch.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-13T14:24:57.000Z"
+    "publishedAt": "2026-11-13T18:00:01.000Z"
   },
   {
-    "id": "CNBC-3-2026-11-13T14:22:07.000Z",
+    "id": "CNBC-13-2026-11-13T15:44:16.000Z",
+    "title": "Wholesale prices rose 0.3% in October, putting annual rate at 6.5%, the highest in nearly four years",
+    "description": "The producer price index was expected to increase 0.4% in October, according to the Dow Jones consensus.",
+    "url": "https://www.cnbc.com/2026/11/13/ppi-inflation-report-october-2026.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-13T15:44:16.000Z"
+  },
+  {
+    "id": "CNBC-19-2026-11-13T14:22:07.000Z",
     "title": "Chicago Fed's Goolsbee says central bank 'has definitely got work to do' on inflation",
     "description": "The policymaker expressed concern about the latest inflation data, telling CNBC that the central bank likely will need to take action.",
     "url": "https://www.cnbc.com/2026/11/13/chicago-feds-goolsbee-says-central-bank-has-definitely-got-work-to-do-on-inflation.html",
@@ -98,166 +238,6 @@
     "source": "CNBC",
     "category": "글로벌",
     "publishedAt": "2026-11-13T14:22:07.000Z"
-  },
-  {
-    "id": "MarketWatch-5-2026-11-13T14:22:00.000Z",
-    "title": "Microsoft Outlook outage stretches into a second day: What to know",
-    "description": "Microsoft said there is “no evidence of malicious activity” as it works to restore access to email and other services.",
-    "url": "https://www.marketwatch.com/story/microsoft-stock-slumps-on-outage-that-includes-the-copilot-tool-it-has-been-heavily-promoting-4007dc4f?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T14:22:00.000Z"
-  },
-  {
-    "id": "MarketWatch-6-2026-11-13T14:16:00.000Z",
-    "title": "Opening trading-card packs has become a $2 billion market",
-    "description": "Pack-ripping apps are changing the way people buy and sell cards. But analysts say their “slot-like payoff” raises risks.",
-    "url": "https://www.marketwatch.com/story/opening-trading-card-packs-has-become-a-2-billion-market-new-apps-are-trying-to-cash-in-b7ba11f5?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T14:16:00.000Z"
-  },
-  {
-    "id": "CNBC-15-2026-11-13T14:12:16.000Z",
-    "title": "Jim Cramer's top 10 things to watch in the stock market Friday",
-    "description": "Stock futures picked up some steam this morning.",
-    "url": "https://www.cnbc.com/investingclub/2026/11/13/jim-cramers-top-10-things-to-watch-in-the-stock-market-friday.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T14:12:16.000Z"
-  },
-  {
-    "id": "CNBC-12-2026-11-13T14:12:08.000Z",
-    "title": "10-year Treasury yield moves to 5.15% as traders weigh producer price report",
-    "description": "Treasury yields moved higher as investor expectations for a December rate hike by the Federal Reserve gain strength.",
-    "url": "https://www.cnbc.com/2026/11/13/treasury-yields-fed-rates.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T14:12:08.000Z"
-  },
-  {
-    "id": "CNBC-1-2026-11-13T14:02:52.000Z",
-    "title": "Wholesale prices rose 0.3% in October, putting annual rate at 6.5%, the highest in nearly four years",
-    "description": "The producer price index was expected to increase 0.4% in October, according to the Dow Jones consensus.",
-    "url": "https://www.cnbc.com/2026/11/13/ppi-inflation-report-october-2026.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T14:02:52.000Z"
-  },
-  {
-    "id": "CNBC-8-2026-11-13T14:01:24.000Z",
-    "title": "Jensen Huang scandal casts doubt on Nvidia’s AI dominance — how we got here",
-    "description": "Nvidia is facing its biggest crisis in its 33 year history, with founder Jensen Huang resigning as CEO. Here's the story of the rise and fall of Jensen Huang.",
-    "url": "https://www.cnbc.com/2026/11/13/jensen-huang-scandal-casts-doubt-on-nvidias-ai-dominance-how-we-got-here.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T14:01:24.000Z"
-  },
-  {
-    "id": "MarketWatch-8-2026-11-13T13:43:00.000Z",
-    "title": "Midterm elections provided the hyperscalers with the excuse they needed to cut back on spending, says Jefferies strategist",
-    "description": "If the AI capex narrative is losing momentum then Jefferies strategist Chris Wood can recommen some sectors , like pharma, and some markets like India, Brazil and China, as ways to play that slowdown.",
-    "url": "https://www.marketwatch.com/story/midterm-elections-provided-the-hyperscalers-with-the-excuse-they-needed-to-cut-back-on-spending-says-jefferies-strategist-de6349ec?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T13:43:00.000Z"
-  },
-  {
-    "id": "CNBC-13-2026-11-13T13:15:35.000Z",
-    "title": "CFTC Chair Selig tells CNBC crypto industry is embracing agency rules as legislation hopes fade",
-    "description": "The top U.S. commodities regulator in October announced proposed crypto rules to assert its jurisdiction over the asset class.",
-    "url": "https://www.cnbc.com/2026/11/13/cftc-chair-selig-crypto-industry-opting-into-agencys-crypto-rules-.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T13:15:35.000Z"
-  },
-  {
-    "id": "CNBC-6-2026-11-13T13:04:00.000Z",
-    "title": "Trump says he wants to ‘get Cuba done’ before leaving office, would consider military force",
-    "description": "It comes as the U.S. continues to enforce a comprehensive economic embargo against Cuba.",
-    "url": "https://www.cnbc.com/2026/11/13/trump-cuba-us-military-force-iran.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T13:04:00.000Z"
-  },
-  {
-    "id": "MarketWatch-9-2026-11-13T13:00:00.000Z",
-    "title": "The science of vaccines is rapidly advancing — despite the anti-vax movement",
-    "description": "Look at the promising data for Moderna and Merck’s experimental cancer vaccine and the research suggesting the shingles vaccine can delay dementia.",
-    "url": "https://www.marketwatch.com/story/the-worlds-most-sophisticated-drug-companies-are-putting-billions-into-vaccines-despite-the-political-environment-8dcbf276?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T13:00:00.000Z"
-  },
-  {
-    "id": "CNBC-5-2026-11-13T12:54:43.000Z",
-    "title": "What's ahead for AI financing after Nvidia CEO Jensen Huang departs",
-    "description": "Jensen Huang’s resignation puts Nvidia’s AI financing strategy in focus as investors watch credit markets and neocloud exposure.",
-    "url": "https://www.cnbc.com/2026/11/13/nvidia-jensen-huang-resignation-ai-financing.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T12:54:43.000Z"
-  },
-  {
-    "id": "CNBC-17-2026-11-13T12:05:22.000Z",
-    "title": "Russian crude production rebounds after Trump diesel deal, IEA says as oil markets return to surplus",
-    "description": "Russia’s crude output rose to 8.73 million barrels a day in October as recovering Gulf exports pushed global supply above demand, the IEA said.",
-    "url": "https://www.cnbc.com/2026/11/13/russia-oil-exports-iea-diesel-deal.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T12:05:22.000Z"
-  },
-  {
-    "id": "CNBC-9-2026-11-13T12:03:24.000Z",
-    "title": "U.S. seizes $1.2 billion in cryptocurrency stolen from Binance",
-    "description": "The DOJ said it was taking action against the North Korean government's \"schemes to fund its regime through the massive theft of cryptocurrency.\"",
-    "url": "https://www.cnbc.com/2026/11/13/us-seizes-binance-hack-crypto.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T12:03:24.000Z"
-  },
-  {
-    "id": "CNBC-16-2026-11-13T10:54:40.000Z",
-    "title": "Nvidia scandal draws in Commerce Secretary Lutnick, who reportedly agrees to testify about China chip sales",
-    "description": "Commerce Secretary Lutnick will testify before the Senate Banking Committee following revelations about Jensen Huang's affair with an alleged Chinese spy.",
-    "url": "https://www.cnbc.com/2026/11/13/nvidia-scandal-lutnick-chip-sales.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T10:54:40.000Z"
-  },
-  {
-    "id": "CNBC-19-2026-11-13T08:27:07.000Z",
-    "title": "Nvidia’s turmoil is prompting a rotation across chip stocks. Here's what we know",
-    "description": "That shift comes as Nvidia grapples with the fallout from Huang's resignation, following revelations about his multiple affairs.",
-    "url": "https://www.cnbc.com/2026/11/13/nvidia-jensen-huang-affairs-amd-broadcom-tsmc.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-13T08:27:07.000Z"
-  },
-  {
-    "id": "CNBC-18-2026-11-12T20:03:57.000Z",
-    "title": "Donald Trump Jr. exits advisory role at Kalshi prediction market",
-    "description": "The president's son will no longer serve as an advisor at Kalshi.",
-    "url": "https://www.cnbc.com/2026/11/12/donald-trump-jr-exits-kalshi-advisory-role.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-12T20:03:57.000Z"
   },
   {
     "id": "WSJ Markets-0-2025-01-27T19:26:00.000Z",

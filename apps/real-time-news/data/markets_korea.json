@@ -10,11 +10,11 @@
     "value": 699.66,
     "change": 3.1299438,
     "changePercent": 0.44936237,
-    "previousClose": 705.1
+    "previousClose": 696.53
   },
-  "bondYield10y": 5.149,
-  "bondYield30y": 5.4830003,
-  "vixLevel": 19.76,
+  "bondYield10y": 5.1540003,
+  "bondYield30y": 5.481,
+  "vixLevel": 19.3,
   "riskItems": [
     {
       "title": "미국 30년물 금리 5.48%",
@@ -27,7 +27,7 @@
       "level": "high"
     },
     {
-      "title": "VIX 공포지수 19.8",
+      "title": "VIX 공포지수 19.3",
       "detail": "안정 구간. 과도한 낙관 시 역설적 경계 신호 — 공포가 없을 때가 위험한 때.",
       "level": "low"
     },
@@ -138,53 +138,53 @@
       "label": "1주일",
       "fromDate": "2026-11-06",
       "fromClose": 5060,
-      "toClose": 5343,
-      "returnPct": 5.59,
+      "toClose": 5291,
+      "returnPct": 4.56,
       "isATH": false
     },
     {
       "label": "1개월",
       "fromDate": "2026-10-15",
       "fromClose": 5554,
-      "toClose": 5343,
-      "returnPct": -3.81,
+      "toClose": 5291,
+      "returnPct": -4.75,
       "isATH": false
     },
     {
       "label": "3개월",
       "fromDate": "2026-08-14",
       "fromClose": 6978,
-      "toClose": 5343,
-      "returnPct": -23.43,
+      "toClose": 5291,
+      "returnPct": -24.18,
       "isATH": false
     },
     {
       "label": "6개월",
       "fromDate": "2026-05-15",
       "fromClose": 7493,
-      "toClose": 5343,
-      "returnPct": -28.7,
+      "toClose": 5291,
+      "returnPct": -29.4,
       "isATH": false
     },
     {
       "label": "1년",
       "fromDate": "2025-11-14",
       "fromClose": 4012,
-      "toClose": 5343,
-      "returnPct": 33.18,
+      "toClose": 5291,
+      "returnPct": 31.88,
       "isATH": false
     },
     {
       "label": "2년",
       "fromDate": "2024-11-14",
       "fromClose": 2419,
-      "toClose": 5343,
-      "returnPct": 120.88,
+      "toClose": 5291,
+      "returnPct": 118.72,
       "isATH": false
     }
   ],
   "kospiAth": 9115,
   "kospiAthDate": "2026-06-22",
-  "updatedAt": "2026-11-13T15:20:37.661Z",
+  "updatedAt": "2026-11-14T06:46:06.417Z",
   "isRealtime": false
 }
