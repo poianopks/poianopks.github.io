@@ -1,0 +1,355 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>쇼팽 녹턴 20번 · 3등분 피아노 영상 미리보기</title>
+<script src="https://cdn.jsdelivr.net/npm/abcjs@6.2.3/dist/abcjs-basic-min.js"></script>
+<script src="piano-sf.js"></script>
+<script src="../claude/js/nocturne20-full.js"></script>
+<style>
+html,body{margin:0;height:100%;background:#05060f;overflow:hidden;font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif}
+#wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#c{height:100vh;width:auto;max-width:100vw;aspect-ratio:9/16;object-fit:contain;display:block}
+#paper{position:absolute;left:-5000px;top:0;width:900px}
+#ov{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(5,6,15,.72);color:#fff;text-align:center;padding:16px}
+#ov button{font:bold 22px inherit;font-family:inherit;padding:16px 34px;border:0;border-radius:40px;background:#ffc23a;color:#2a1a00;cursor:pointer}
+#ov small{color:#cdd3f5;line-height:1.6;font-size:15px}
+#bar{position:fixed;left:0;right:0;bottom:0;display:none;justify-content:center;gap:10px;padding:8px;background:rgba(0,0,0,.35)}
+#bar button{font-family:inherit;font-size:15px;padding:8px 16px;border-radius:20px;border:0;background:#fff;cursor:pointer}
+</style></head><body>
+<div id="wrap"><canvas id="c" width="1080" height="1920"></canvas></div><div id="paper"></div>
+<div id="ov"><div style="font-size:26px;font-weight:bold;color:#ffd27a">쇼팽 녹턴 20번</div>
+<div>리본 · 건반 소녀 · 악보 3등분 영상 (유튜브 올리기 전 미리보기)</div>
+<button id="go">▶ 소리 켜고 보기</button><small id="msg">처음 누르면 피아노 소리를 준비하느라 10초쯤 걸려요.<br>노랑 = 오른손 · 파랑 = 왼손</small></div>
+<div id="bar"><button id="pp">⏸ 잠깐 멈춤</button><button id="rs">⟲ 처음부터</button></div>
+<script>
+"use strict";
+const W = 1080, H = 1920, cv = document.getElementById("c"), g = cv.getContext("2d");
+const F = '"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",sans-serif';
+const Q = new URLSearchParams(location.search);
+const TK = +(Q.get("k") || 1.5); // tempo factor: 1.5 = about 4 minutes like YouTube performances, 1 = score tempo (about 6 minutes)
+const Y1 = 140, Y2 = 720, Y3 = 1300, Y4 = 1880; // header | ribbons | keys + girl | score | footer
+const DUR = { w: 4, dh: 3, h: 2, dq: 1.5, q: 1, de: .75, e: .5, ds: .375, t: 1 / 3, s: .25, ts: 1 / 6, z: .125, tz: 1 / 12, x: 1 / 24 };
+const L64 = { w: 64, dh: 48, h: 32, dq: 24, q: 16, de: 12, e: 8, ds: 6, s: 4, z: 2, t: 8, ts: 4, tz: 2, x: 1 };
+const TUP = { t: 1, ts: 1, tz: 1, x: 1 };
+const PC = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+const SOLF_SH = ["도", "도#", "레", "레#", "미", "파", "파#", "솔", "솔#", "라", "라#", "시"];
+const KEYNAME = { "0": "C", "1": "G", "2": "D", "3": "A", "4": "E", "5": "B", "6": "F#", "-1": "F", "-2": "Bb", "-3": "Eb", "-4": "Ab" };
+function parseNote(n) { const m = n.match(/^([A-G])(##|#|bb|b)?(\d)$/); const acc = { "##": 2, "#": 1, "b": -1, "bb": -2 }[m[2]] || 0; return { L: m[1], acc, oct: +m[3], midi: (+m[3] + 1) * 12 + PC[m[1]] + acc }; }
+function keySigMap(k) { const s = {}; const sh = "FCGDAEB", fl = "BEADGCF"; if (k > 0) for (let i = 0; i < k; i++) s[sh[i]] = 1; if (k < 0) for (let i = 0; i < -k; i++) s[fl[i]] = -1; return s; }
+function upperNeighbor(p, key) { const Ls = "CDEFGAB", i = Ls.indexOf(p.L), L = Ls[(i + 1) % 7], oct = p.oct + (i === 6 ? 1 : 0); return (oct + 1) * 12 + PC[L] + (keySigMap(key)[L] || 0); }
+function abcPitch(p, state, sig) {
+  const id = p.L + p.oct; const cur = id in state ? state[id] : (sig[p.L] || 0); let mark = "";
+  if (cur !== p.acc) { mark = { "2": "^^", "1": "^", "-1": "_", "-2": "__", "0": "=" }[p.acc]; state[id] = p.acc; }
+  return mark + (p.oct >= 5 ? p.L.toLowerCase() + "'".repeat(p.oct - 5) : p.L + ",".repeat(4 - p.oct));
+}
+// ---------- build ABC (with solfege lyrics) + timed events ----------
+let BARS, EV = { R: [], L: [] }, TOTAL = 0; const barT = [];
+function build() {
+  const d = window.NC_FULL; BARS = d.bars;
+  let t = 0; for (const b of BARS) { barT.push(t); t += b.sig * 60 / (b.bpm * TK); } barT.push(t); TOTAL = t;
+  const chunks = []; let cur = [], cnt = 0;
+  for (let i = 0; i < BARS.length; i++) { const n = Math.max(d.rh[i].length, d.lh[i].length);
+    if (cur.length && (cur.length >= 3 || cnt + n > 16 || (BARS[i].sig !== BARS[cur[0]].sig && cur.length >= 1))) { chunks.push(cur); cur = []; cnt = 0; }
+    cur.push(i); cnt += n; }
+  if (cur.length) chunks.push(cur);
+  let abc = `X:1\nL:1/64\nM:${BARS[0].sig}/4\nK:${KEYNAME[BARS[0].key]}\n%%score {V1 | V2}\n%%vocalfont Malgun Gothic 11\nV:V1 clef=treble\nV:V2 clef=bass\n`;
+  const lines = { R: [], L: [] }, lyr = { R: [], L: [] };
+  for (const hand of ["R", "L"]) {
+    const src = hand === "R" ? d.rh : d.lh; let prevTie = null;
+    for (const ch of chunks) { let line = "", ly = [];
+      for (const bi of ch) { const bar = BARS[bi], sig = keySigMap(bar.key), state = {}, spb = 60 / (bar.bpm * TK);
+        if (bi > 0 && BARS[bi - 1].sig !== bar.sig) line += `[M:${bar.sig}/4] `;
+        const toks = src[bi]; let pos = 0, i = 0;
+        while (i < toks.length) {
+          const code = toks[i].split(":")[1].replace("~", "").replace(/\^.*/, ""); const group = [i];
+          if (TUP[code]) { while (group.length < 3 && i + group.length < toks.length && toks[i + group.length].split(":")[1].replace("~", "").replace(/\^.*/, "") === code) group.push(i + group.length); line += group.length === 3 ? "(3" : `(3:2:${group.length}`; }
+          for (const k of group) {
+            const [notes, dc] = toks[k].split(":"); const tie = dc.includes("~"), orn = dc.includes("^tr"), c = dc.replace("~", "").replace(/\^.*/, "");
+            const len = DUR[c];
+            if (Math.floor(pos + 1e-6) !== Math.floor(pos - 1e-6) && pos > 0 && !TUP[c]) line += " ";
+            if (notes === "r") { line += "z" + L64[c]; EV[hand].push({ bar: bi, t: barT[bi] + pos * spb, d: len * spb, midi: [], rest: true }); prevTie = null; }
+            else { const ps = notes.split("+").map(parseNote);
+              const s = ps.map((p) => abcPitch(p, state, sig)).join("");
+              line += (orn ? "T" : "") + (ps.length > 1 ? "[" + s + "]" : s) + L64[c] + (tie ? "-" : "");
+              const midi = ps.map((p) => p.midi), cont = prevTie ? midi.filter((m) => prevTie.includes(m)) : [];
+              const allCont = cont.length === midi.length;
+              const top = hand === "R" ? Math.max(...midi) : Math.min(...midi);
+              ly.push(allCont ? "*" : SOLF_SH[top % 12]);
+              const ev = { bar: bi, t: barT[bi] + pos * spb, d: len * spb, midi, cont, rest: false, dia: ps.map((p) => p.oct * 7 + "CDEFGAB".indexOf(p.L) - 28).sort((a, b) => a - b) };
+              if (orn) { const hi = ps.reduce((a, b) => (a.midi > b.midi ? a : b)); ev.tr = { main: hi.midi, up: upperNeighbor(hi, bar.key) }; }
+              EV[hand].push(ev); prevTie = tie ? midi : null; }
+            pos += len; }
+          if (TUP[code]) line += " ";
+          i += group.length; }
+        line += " | "; }
+      lines[hand].push(line); lyr[hand].push(ly.join(" ")); } }
+  for (let ci = 0; ci < chunks.length; ci++) abc += `[V:V1] ${lines.R[ci]}\nw: ${lyr.R[ci]}\n[V:V2] ${lines.L[ci]}\nw: ${lyr.L[ci]}\n`;
+  for (const hand of ["R", "L"]) { const a = EV[hand]; for (let i = 1; i < a.length; i++) if (a[i].cont && a[i].cont.length) { let j = i - 1; while (j > 0 && a[j].rest) j--; a[j].tieExt = (a[j].tieExt || 0) + a[i].d; } }
+  return { abc, chunks: chunks.length };
+}
+// ---------- score render & mapping, pre-rasterised ----------
+let LINES = [], SCORE = null, SW = 870; const SS = 1.25;
+async function renderScore(abc) {
+  const vo = ABCJS.renderAbc("paper", abc, { staffwidth: 940, scale: 1.0, add_classes: true, paddingtop: 4, paddingbottom: 4, paddingleft: 4, paddingright: 4 })[0];
+  const svg = document.querySelector("#paper svg"), sr = svg.getBoundingClientRect(); SW = sr.width;
+  const rel = (el) => { const r = el.getBoundingClientRect(); return { x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height }; };
+  const uni = (els) => { let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9; for (const e of els) { if (!e || !e.getBoundingClientRect) continue; const r = rel(e); if (r.w <= 0 && r.h <= 0) continue; x0 = Math.min(x0, r.x); y0 = Math.min(y0, r.y); x1 = Math.max(x1, r.x + r.w); y1 = Math.max(y1, r.y + r.h); } return x0 < 1e9 ? { x: x0, y: y0, w: x1 - x0, h: y1 - y0 } : null; };
+  const lists = { R: [], L: [] };
+  vo.lines.forEach((ln, li) => { if (!ln.staff) return;
+    ln.staff.forEach((st, si) => { const hand = si === 0 ? "R" : "L"; st.voices[0].forEach((el) => { if (el.el_type === "note") { const box = el.abselem ? uni((el.abselem.elemset || []).filter((e) => !(e.classList && e.classList.contains("abcjs-lyric")))) : null; lists[hand].push({ line: li, box, dia: (el.pitches || []).map((p) => p.pitch).sort((a, b) => a - b), rest: !!el.rest }); } }); });
+    const els = svg.querySelectorAll(".abcjs-l" + li); let y0 = 1e9, y1 = -1e9; els.forEach((e) => { const r = rel(e); if (r.h > 0 && r.h < 700) { y0 = Math.min(y0, r.y); y1 = Math.max(y1, r.y + r.h); } }); LINES[li] = { y0: y0 - 3, y1: y1 + 6 }; });
+  const mism = []; for (const hand of ["R", "L"]) EV[hand].forEach((e, i) => { const m = lists[hand][i]; e.line = m ? m.line : null; e.box = m ? m.box : null; if (m && !e.rest && JSON.stringify(m.dia) !== JSON.stringify(e.dia)) mism.push(hand + i); if (m && e.rest !== m.rest) mism.push(hand + i + "r"); });
+  const xml = new XMLSerializer().serializeToString(svg);
+  const img = new Image(); img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml); await img.decode();
+  SCORE = document.createElement("canvas"); SCORE.width = Math.ceil(sr.width * SS); SCORE.height = Math.ceil(sr.height * SS);
+  const sg = SCORE.getContext("2d"); sg.scale(SS, SS); sg.drawImage(img, 0, 0);
+  return { mism: mism.length, mismEx: mism.slice(0, 6), R: [EV.R.length, lists.R.length], L: [EV.L.length, lists.L.length], lines: LINES.length, w: sr.width, h: sr.height };
+}
+// ---------- audio (trills realised as fast alternation) ----------
+let ac, MIX;
+const NN = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+const sfName = (m) => NN[m % 12] + (Math.floor(m / 12) - 1);
+function b64ToBuf(s) { const b = atob(s.split(",")[1]); const u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u.buffer; }
+const TRR = 0.085; // seconds per trill note
+async function renderAudio(onp) {
+  ac = ac || new AudioContext();
+  const used = new Set(); for (const h of ["R", "L"]) for (const e of EV[h]) { e.midi.forEach((m) => used.add(m)); if (e.tr) used.add(e.tr.up); }
+  const smp = {}; let n = 0; for (const m of used) { smp[m] = await ac.decodeAudioData(b64ToBuf(MIDI.Soundfont.acoustic_grand_piano[sfName(m)])); if (onp) onp(++n / used.size); }
+  const SR = 44100, oc = new OfflineAudioContext(2, Math.ceil((TOTAL + 4) * SR), SR);
+  const comp = oc.createDynamicsCompressor(); comp.threshold.value = -16; comp.ratio.value = 3; comp.connect(oc.destination);
+  const master = oc.createGain(); master.gain.value = 0.9; master.connect(comp);
+  const hit = (m, t0, t1, v) => { const src = oc.createBufferSource(); src.buffer = smp[m]; const gn = oc.createGain();
+    gn.gain.setValueAtTime(v, t0); gn.gain.setValueAtTime(v, t1); gn.gain.exponentialRampToValueAtTime(0.001, t1 + 0.4);
+    const pan = oc.createStereoPanner(); pan.pan.value = Math.max(-0.5, Math.min(0.5, (m - 62) / 50)); src.connect(gn).connect(pan).connect(master); src.start(t0); src.stop(t1 + 0.45); };
+  for (const h of ["R", "L"]) { const a = EV[h];
+    for (let i = 0; i < a.length; i++) { const e = a[i]; if (e.rest) continue;
+      let nxt = TOTAL + 2; for (let j = i + 1; j < a.length; j++) if (!a[j].rest) { nxt = a[j].t; break; }
+      const end = e.t + e.d + (e.tieExt || 0);
+      const rel = h === "L" ? Math.min(end + 1.0, Math.max(end, nxt) + 0.9) : Math.min(Math.max(end, Math.min(nxt, end + 0.6)), end + 1.6) + 0.12;
+      const v0 = (h === "R" ? 0.95 : 0.4) * (e.midi.length > 2 ? 0.8 : 1);
+      for (const m of e.midi) { if (e.cont && e.cont.includes(m)) continue;
+        if (e.tr && m === e.tr.main) { // trill: main, upper, main, upper ... then hold main
+          const stop = end - 0.12; let k = 0; for (let s = e.t; s < stop; s += TRR, k++) hit(k % 2 ? e.tr.up : m, s, Math.min(s + TRR * 1.05, stop), v0 * (k % 2 ? 0.7 : 0.78));
+          hit(m, Math.max(e.t, stop), rel, v0 * 0.75); }
+        else hit(m, e.t, rel, v0); } } }
+  MIX = await oc.startRendering();
+  let pk = 0; for (let ch = 0; ch < 2; ch++) { const c0 = MIX.getChannelData(ch); for (let i = 0; i < c0.length; i++) pk = Math.max(pk, Math.abs(c0[i])); }
+  const gainN = 0.85 / Math.max(pk, 1e-3); for (let ch = 0; ch < 2; ch++) { const d = MIX.getChannelData(ch); for (let i = 0; i < d.length; i++) d[i] *= gainN; }
+  return { dur: MIX.duration, peak: pk, notes: used.size };
+}
+// ---------- 3D keyboard (middle third) ----------
+const LO = 21, HI = 108; const isBlack = (m) => [1, 3, 6, 8, 10].includes(m % 12);
+const whites = []; for (let m = LO; m <= HI; m++) if (!isBlack(m)) whites.push(m);
+const KW = 23.5, KL = 150, BL = 95, KHT = 14, BHT = 10; const KBW = whites.length * KW;
+const kx = {}; whites.forEach((m, i) => kx[m] = -KBW / 2 + i * KW);
+const CAM = { k: 1064 / KBW, D: 900, yF: 900, ds: 0.95 };
+function P(X, Y, Z) { const sc = CAM.D / (CAM.D - Z); return [540 + X * CAM.k * sc, CAM.yF - (-Z) * CAM.ds * sc - Y * CAM.k * sc * 0.55]; }
+function quad(a, b, c, d2, fill, stroke) { g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.lineTo(c[0], c[1]); g.lineTo(d2[0], d2[1]); g.closePath(); g.fillStyle = fill; g.fill(); if (stroke) { g.strokeStyle = stroke; g.lineWidth = 1; g.stroke(); } }
+function keyGeom(m) {
+  if (!isBlack(m)) { return { x0: kx[m] + 0.6, x1: kx[m] + KW - 0.6, z0: -KL, z1: 0, h: KHT, black: false }; }
+  const xc = kx[m - 1] + KW, bw = KW * 0.58; return { x0: xc - bw / 2, x1: xc + bw / 2, z0: -KL, z1: -KL + BL, h: KHT + BHT, black: true };
+}
+function keyTarget(m, press) { const k = keyGeom(m); const zz = k.black ? k.z1 - 14 : -28; return P((k.x0 + k.x1) / 2, k.h - (press ? 4 : 0), zz); }
+const HITY = P(0, KHT, -KL)[1];
+const KEYX = {}; for (let m = LO; m <= HI; m++) { const k = keyGeom(m); KEYX[m] = { x: P((k.x0 + k.x1) / 2, k.h, -KL)[0], w: (k.x1 - k.x0) * CAM.k * 0.86 }; }
+function drawKeyboard(lit, glow) {
+  const bl = P(-KBW / 2 - 16, 0, -KL - 26), br = P(KBW / 2 + 16, 0, -KL - 26), fr = P(KBW / 2 + 16, 0, 14), fl = P(-KBW / 2 - 16, 0, 14);
+  quad(bl, br, fr, fl, "#140d0a");
+  const f0 = P(-KBW / 2 - 16, 0, 14), f1 = P(KBW / 2 + 16, 0, 14); g.fillStyle = "#2a1a12"; g.fillRect(f0[0], f0[1], f1[0] - f0[0], 26);
+  g.fillStyle = "#8a2236"; const rf0 = P(-KBW / 2, KHT + 2, -KL - 4), rf1 = P(KBW / 2, KHT + 2, -KL - 4), rf2 = P(KBW / 2, KHT + 2, -KL), rf3 = P(-KBW / 2, KHT + 2, -KL); quad(rf0, rf1, rf2, rf3, "#b02a44");
+  const draw = (m) => { const k = keyGeom(m), on = lit[m], top = k.h + (on ? -4 : 0);
+    let topC, frontC; if (k.black) { topC = on ? (on === 1 ? "#ffab2e" : "#3a92ee") : "#1b1b1f"; frontC = on ? (on === 1 ? "#c56c00" : "#1d5ea3") : "#050506"; }
+    else { topC = on ? (on === 1 ? "#ffc93c" : "#7ab9ff") : "#fbfaf4"; frontC = on ? (on === 1 ? "#d99400" : "#3d8ad6") : "#d9d6cc"; }
+    const a = P(k.x0, top, k.z0), b = P(k.x1, top, k.z0), c = P(k.x1, top, k.z1), d2 = P(k.x0, top, k.z1);
+    quad(a, b, c, d2, topC, k.black ? "#000" : "#9b978c");
+    const e = P(k.x1, top - k.h + (k.black ? KHT : 0), k.z1), f = P(k.x0, top - k.h + (k.black ? KHT : 0), k.z1);
+    quad(d2, c, e, f, frontC, k.black ? "#000" : "#8e8a80");
+    if (k.black && !on) { quad(P(k.x0 + 2, top + 0.1, k.z0 + 4), P(k.x0 + 4, top + 0.1, k.z0 + 4), P(k.x0 + 4, top + 0.1, k.z1 - 6), P(k.x0 + 2, top + 0.1, k.z1 - 6), "rgba(255,255,255,0.18)"); }
+    if (!k.black && m % 12 === 0) { const p = P((k.x0 + k.x1) / 2, top, -12); g.font = "10px " + F; g.fillStyle = on ? "#5a3a00" : "#9a968c"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("C" + (m / 12 - 1), p[0], p[1]); } };
+  for (const m of whites) draw(m);
+  for (let m = LO; m <= HI; m++) if (isBlack(m)) draw(m);
+  for (const gl of glow) { const p = keyTarget(gl.m, true); const a = 1 - gl.age / 0.5; if (a <= 0) continue; g.beginPath(); g.arc(p[0], p[1] - 4, 8 + gl.age * 56, 0, 7); g.strokeStyle = (gl.h === "R" ? "rgba(255,200,60," : "rgba(90,170,255,") + a.toFixed(2) + ")"; g.lineWidth = 3; g.stroke(); }
+}
+// ---------- girl seen from behind, arms by IK ----------
+function ik(sx, sy, hx, hy, L1, L2, bend) {
+  let dx = hx - sx, dy = hy - sy, d = Math.hypot(dx, dy); const maxd = L1 + L2 - 1; if (d > maxd) { hx = sx + dx / d * maxd; hy = sy + dy / d * maxd; dx = hx - sx; dy = hy - sy; d = maxd; }
+  const a = (L1 * L1 - L2 * L2 + d * d) / (2 * d), h = Math.sqrt(Math.max(0, L1 * L1 - a * a)); const mx = sx + dx * a / d, my = sy + dy * a / d;
+  return { ex: mx + bend * (-dy) * h / d, ey: my + bend * dx * h / d, hx, hy };
+}
+const HANDS = { R: { x: 640, y: 880, tgt: [] }, L: { x: 440, y: 880, tgt: [] } };
+let BODYX = 540;
+function drawGirl(t) {
+  const S = 1.45, sway = Math.sin(t * 1.1) * 5; const cxT = 540 + ((HANDS.L.x + HANDS.R.x) / 2 - 540) * 0.5; BODYX += (cxT - BODYX) * 0.06;
+  const cx = BODYX + sway, shY = 1128, headY = 1052;
+  // bench
+  g.fillStyle = "#3b2414"; g.beginPath(); g.roundRect(cx - 210, 1250, 420, 26, 10); g.fill(); g.fillStyle = "#24150b"; g.fillRect(cx - 185, 1276, 18, 24); g.fillRect(cx + 167, 1276, 18, 24);
+  const cloth = ["#ffb3cf", "#e8679a"];
+  const tg = g.createLinearGradient(cx - 100, 0, cx + 100, 0); tg.addColorStop(0, cloth[1]); tg.addColorStop(0.5, cloth[0]); tg.addColorStop(1, cloth[1]); g.fillStyle = tg;
+  g.beginPath(); g.moveTo(cx - 58 * S, shY - 6); g.quadraticCurveTo(cx, shY - 26 * S, cx + 58 * S, shY - 6); g.lineTo(cx + 92 * S, 1262); g.lineTo(cx - 92 * S, 1262); g.closePath(); g.fill();
+  g.fillStyle = "#fff"; g.beginPath(); g.arc(cx, shY - 16 * S, 15 * S, 0, Math.PI); g.fill();
+  for (const hand of ["L", "R"]) { const s = hand === "L" ? -1 : 1, sx = cx + s * 52 * S, sy = shY, Hh = HANDS[hand];
+    const dd = Math.hypot(Hh.x - sx, Hh.y + 16 - sy); const L1 = Math.max(118, dd / 2 + 6), r = ik(sx, sy, Hh.x, Hh.y + 16, L1, L1 * 0.95, s);
+    g.lineCap = "round"; g.strokeStyle = cloth[1]; g.lineWidth = 30; g.beginPath(); g.moveTo(sx, sy); g.lineTo(r.ex, r.ey); g.stroke();
+    g.strokeStyle = cloth[0]; g.lineWidth = 24; g.beginPath(); g.moveTo(sx, sy); g.lineTo(r.ex, r.ey); g.stroke();
+    g.strokeStyle = "#f2c6a6"; g.lineWidth = 18; g.beginPath(); g.moveTo(r.ex, r.ey); g.lineTo(r.hx, r.hy); g.stroke();
+    g.strokeStyle = "#ffd9c0"; g.lineWidth = 13; g.beginPath(); g.moveTo(r.ex, r.ey); g.lineTo(r.hx, r.hy); g.stroke();
+    const px = r.hx, py = r.hy, tg2 = Hh.tgt; let span = 0; if (tg2.length > 1) { const xs = tg2.map((p) => p[0]); span = Math.max(...xs) - Math.min(...xs); }
+    g.fillStyle = "#ffd9c0"; g.beginPath(); g.ellipse(px, py, 18 + span * 0.22, 11, 0, 0, 7); g.fill(); g.strokeStyle = "#e9b896"; g.lineWidth = 1.5; g.stroke();
+    g.strokeStyle = "#ffd9c0"; g.lineWidth = 7; g.lineCap = "round";
+    if (tg2.length) for (const p of tg2) { const fx = px + Math.max(-1, Math.min(1, (p[0] - px) / (span / 2 + 1e-6))) * (span * 0.22 + 9); g.beginPath(); g.moveTo(fx, py - 5); g.lineTo(p[0], p[1]); g.stroke(); g.fillStyle = "#ffe8d8"; g.beginPath(); g.arc(p[0], p[1], 4, 0, 7); g.fill(); }
+    else for (let k = -2; k <= 2; k++) { g.beginPath(); g.moveTo(px + k * 6, py - 6); g.lineTo(px + k * 7, py - 18 + Math.abs(k) * 2); g.stroke(); } }
+  const hx = cx + sway * 0.6;
+  g.fillStyle = "#3a2216"; g.beginPath(); g.ellipse(hx, headY, 40 * S, 44 * S, 0, 0, 7); g.fill();
+  g.beginPath(); g.moveTo(hx - 36 * S, headY + 5); g.quadraticCurveTo(hx - 47 * S, headY + 60 * S, hx - 22 * S, headY + 84 * S); g.lineTo(hx + 22 * S, headY + 84 * S); g.quadraticCurveTo(hx + 47 * S, headY + 60 * S, hx + 36 * S, headY + 5); g.closePath(); g.fill();
+  g.strokeStyle = "rgba(255,255,255,0.10)"; g.lineWidth = 3; for (let k = -3; k <= 3; k++) { g.beginPath(); g.moveTo(hx + k * 11, headY - 58); g.quadraticCurveTo(hx + k * 18, headY + 14, hx + k * 12, headY + 112); g.stroke(); }
+  const by = headY - 34; g.fillStyle = "#ffd27a"; g.beginPath(); g.moveTo(hx, by); g.lineTo(hx - 34, by - 19); g.lineTo(hx - 34, by + 19); g.closePath(); g.fill(); g.beginPath(); g.moveTo(hx, by); g.lineTo(hx + 34, by - 19); g.lineTo(hx + 34, by + 19); g.closePath(); g.fill(); g.fillStyle = "#e7a92c"; g.beginPath(); g.arc(hx, by, 8, 0, 7); g.fill();
+}
+// ---------- ribbons (top third) ----------
+const LOOK = 3.0, PPS = (HITY - Y1) / LOOK;
+const STARS = []; for (let i = 0; i < 120; i++) STARS.push([(i * 397) % W, Y1 + ((i * 211) % (Y2 - Y1 + 60)), 0.6 + (i % 3) * 0.6, i * 0.7]);
+function drawStage(t) {
+  const gr = g.createLinearGradient(0, Y1, 0, HITY); gr.addColorStop(0, "#0b0f2e"); gr.addColorStop(1, "#2a1f55"); g.fillStyle = gr; g.fillRect(0, Y1, W, HITY - Y1);
+  for (const [x, y, r, p] of STARS) { g.globalAlpha = 0.35 + 0.35 * Math.sin(t * 1.6 + p); g.fillStyle = "#fff"; g.fillRect(x, y, r, r); } g.globalAlpha = 1;
+  // moon
+  g.fillStyle = "#fff4c9"; g.beginPath(); g.arc(930, Y1 + 90, 44, 0, 7); g.fill(); g.fillStyle = "#0e1335"; g.beginPath(); g.arc(950, Y1 + 80, 40, 0, 7); g.fill();
+  // spotlights
+  for (const [x0, c] of [[300, "255,220,170"], [790, "150,170,255"]]) { const sg = g.createLinearGradient(0, Y1, 0, HITY); sg.addColorStop(0, `rgba(${c},0.13)`); sg.addColorStop(1, `rgba(${c},0.02)`); g.fillStyle = sg;
+    g.beginPath(); g.moveTo(x0 - 40, Y1); g.lineTo(x0 + 40, Y1); g.lineTo(x0 + 260, HITY); g.lineTo(x0 - 260, HITY); g.closePath(); g.fill(); }
+  // key guide lines
+  g.strokeStyle = "rgba(255,255,255,0.045)"; g.lineWidth = 1; for (let m = 24; m <= 108; m += 12) { const x = KEYX[m].x - KEYX[m].w; g.beginPath(); g.moveTo(x, Y1); g.lineTo(x, HITY); g.stroke(); }
+}
+function ribbon(x, w, yTop, yBot, hand) {
+  if (yBot < Y1 || yTop > HITY) return; yTop = Math.max(Y1, yTop); yBot = Math.min(HITY, yBot); if (yBot - yTop < 2) return;
+  const [c1, c2, glow] = hand === "R" ? ["#fff1b0", "#ffb51e", "rgba(255,190,40,0.25)"] : ["#cfe6ff", "#3c8dff", "rgba(80,160,255,0.25)"];
+  g.fillStyle = glow; g.beginPath(); g.roundRect(x - w / 2 - 5, yTop - 3, w + 10, yBot - yTop + 6, (w + 10) / 2); g.fill();
+  const lg = g.createLinearGradient(x - w / 2, 0, x + w / 2, 0); lg.addColorStop(0, c2); lg.addColorStop(0.5, c1); lg.addColorStop(1, c2);
+  g.fillStyle = lg; g.beginPath(); g.roundRect(x - w / 2, yTop, w, yBot - yTop, w / 2); g.fill();
+}
+function drawRibbons(t) {
+  for (const hand of ["L", "R"]) for (const e of EV[hand]) { if (e.rest) continue; if (e.t > t + LOOK) break;
+    const end = e.t + e.d + (e.tieExt || 0); if (end < t) continue;
+    for (const m of e.midi) { if (e.cont && e.cont.includes(m)) continue; const K = KEYX[m];
+      ribbon(K.x, Math.max(9, K.w), HITY - (end - t) * PPS, HITY - (e.t - t) * PPS, hand);
+      if (e.tr && m === e.tr.main) { const yb = HITY - (e.t - t) * PPS; if (yb > Y1 + 20 && yb - 6 < HITY) { g.font = "italic bold 22px Georgia,serif"; g.fillStyle = "#ffe9a8"; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText("tr~", K.x + 10, Math.min(yb, HITY) - 24); } } } }
+  const hl = g.createLinearGradient(0, HITY - 30, 0, HITY); hl.addColorStop(0, "rgba(255,90,120,0)"); hl.addColorStop(1, "rgba(255,90,120,0.35)"); g.fillStyle = hl; g.fillRect(0, HITY - 30, W, 30);
+}
+// ---------- score panel (bottom third) ----------
+let curLine = 0, prevLine = 0, lineSwitchT = -9;
+function drawScore(t, boxes) {
+  const PX = 18, PY = Y3 + 74, PW = W - 36, PH = Y4 - PY - 12;
+  g.fillStyle = "#fffdf6"; g.beginPath(); g.roundRect(PX, PY, PW, PH, 22); g.fill();
+  const slotH = (PH - 20) / 2;
+  const drawLine = (li, slot, alpha, hl) => { const L = LINES[li]; if (!L) return; const sh = L.y1 - L.y0, s = Math.min((PW - 20) / SW, (slotH - 6) / sh);
+    const ox = PX + (PW - SW * s) / 2, oy = PY + 10 + slot * slotH + (slotH - sh * s) / 2; g.globalAlpha = alpha;
+    if (hl) for (const b of boxes) { if (b.line !== li || !b.box) continue; const bx = b.box; g.fillStyle = b.h === "R" ? "rgba(255,180,30,0.55)" : "rgba(80,160,255,0.45)"; g.beginPath(); g.roundRect(ox + (bx.x - 5) * s, oy + (bx.y - L.y0 - 5) * s, (bx.w + 10) * s, (bx.h + 10) * s, 6); g.fill(); }
+    g.drawImage(SCORE, 0, L.y0 * SS, SW * SS, sh * SS, ox, oy, SW * s, sh * s); g.globalAlpha = 1; };
+  const a = Math.min(1, (t - lineSwitchT) / 0.4);
+  if (a < 1) drawLine(prevLine, 0, 1 - a, true);
+  drawLine(curLine, 0, a, true); drawLine(curLine + 1, 1, 0.5 * a, false);
+  g.strokeStyle = "rgba(0,0,0,0.08)"; g.beginPath(); g.moveTo(PX + 30, PY + 10 + slotH); g.lineTo(PX + PW - 30, PY + 10 + slotH); g.stroke();
+}
+// ---------- frame ----------
+const glows = []; let lastT = 0;
+function txt(s, x, y, size, col, align = "center", bold = true) { g.font = (bold ? "bold " : "") + size + "px " + F; g.fillStyle = col; g.textAlign = align; g.textBaseline = "middle"; g.fillText(s, x, y); }
+function pill(x, y, w, h, col) { g.fillStyle = col; g.beginPath(); g.roundRect(x, y, w, h, h / 2); g.fill(); }
+function header() {
+  g.fillStyle = "#070914"; g.fillRect(0, 0, W, Y1);
+  txt("쇼팽 녹턴 20번", 34, 54, 58, "#ffd27a", "left"); g.font = "bold 58px " + F; const tw = g.measureText("쇼팽 녹턴 20번").width;
+  pill(52 + tw, 30, 92, 48, "#ff8fb1"); txt("유작", 98 + tw, 55, 26, "#fff");
+  txt("올림다단조 · 1830 · Lento con gran espressione", 36, 110, 25, "#e6e2ff", "left");
+  g.fillStyle = "#ffc93c"; g.fillRect(860, 36, 22, 22); txt("오른손", 892, 48, 26, "#ffc93c", "left");
+  g.fillStyle = "#4b9bff"; g.fillRect(860, 80, 22, 22); txt("왼손", 892, 92, 26, "#6fb0ff", "left");
+}
+function sectionName(bi) { const b = BARS[bi]; let s = BARS[0].sec; for (let i = 0; i <= bi; i++) if (BARS[i].sec) s = BARS[i].sec; return s || ""; }
+function scene(t) {
+  const lit = {}, boxes = [], tgt = { R: [], L: [] }; let lineNow = null, lastStart = -1;
+  for (const hand of ["R", "L"]) { let lastNote = null;
+    for (const e of EV[hand]) { if (e.t > t + 1e-4) break; if (e.rest) continue; lastNote = e;
+      const end = e.t + e.d + (e.tieExt || 0);
+      if (t < end - 0.015) { for (const m of e.midi) lit[m] = hand === "R" ? 1 : 2; boxes.push({ h: hand, box: e.box, line: e.line });
+        if (e.tr && t < end - 0.12 && Math.floor((t - e.t) / TRR) % 2 === 1) { delete lit[e.tr.main]; lit[e.tr.up] = 1; } }
+      if (e.t > lastT - 1e-4 && e.t <= t) for (const m of e.midi) if (!(e.cont && e.cont.includes(m))) glows.push({ m, h: hand, t0: e.t }); }
+    if (lastNote) { const pressed = t < lastNote.t + lastNote.d + (lastNote.tieExt || 0) - 0.015; tgt[hand] = lastNote.midi.map((m) => keyTarget(m, pressed));
+      if (lastNote.tr && pressed && lit[lastNote.tr.up]) tgt[hand] = [keyTarget(lastNote.tr.up, true)];
+      if (hand === "R" || lineNow == null) { if (lastNote.t > lastStart) { lastStart = lastNote.t; lineNow = lastNote.line; } } } }
+  for (const hand of ["R", "L"]) { const Hh = HANDS[hand]; let goal = tgt[hand];
+    const nxt = EV[hand].find((e) => !e.rest && e.t > t); if (nxt && nxt.t - t < 0.12) goal = nxt.midi.map((m) => keyTarget(m, false));
+    if (goal.length) { const gx = goal.reduce((s, p) => s + p[0], 0) / goal.length, gy = Math.max(...goal.map((p) => p[1])) + 26; Hh.x += (gx - Hh.x) * 0.5; Hh.y += (gy - Hh.y) * 0.5; } Hh.tgt = tgt[hand]; }
+  if (lineNow != null && lineNow !== curLine) { prevLine = curLine; curLine = lineNow; lineSwitchT = t; }
+  lastT = t; for (let i = glows.length - 1; i >= 0; i--) { glows[i].age = t - glows[i].t0; if (glows[i].age > 0.5) glows.splice(i, 1); }
+  // paint
+  g.fillStyle = "#05060f"; g.fillRect(0, 0, W, H);
+  drawStage(t); drawRibbons(t);
+  const kg = g.createLinearGradient(0, HITY, 0, Y3); kg.addColorStop(0, "#1f150f"); kg.addColorStop(1, "#0d0807"); g.fillStyle = kg; g.fillRect(0, HITY, W, Y3 - HITY);
+  const sp = g.createRadialGradient(540, 1100, 40, 540, 1100, 520); sp.addColorStop(0, "rgba(255,225,170,0.16)"); sp.addColorStop(1, "rgba(255,225,170,0)"); g.fillStyle = sp; g.fillRect(0, HITY, W, Y3 - HITY);
+  drawKeyboard(lit, glows);
+  drawGirl(t);
+  // solfege bubbles at the hit line
+  for (const m of Object.keys(lit).map(Number).sort((a, b) => a - b)) { const col = lit[m] === 1 ? "#e07a00" : "#1f6fd0", lab = SOLF_SH[m % 12], x = KEYX[m].x;
+    g.font = "bold 22px " + F; const w = Math.max(44, g.measureText(lab).width + 20); g.fillStyle = "#fff"; g.beginPath(); g.roundRect(x - w / 2, HITY - 66, w, 34, 17); g.fill(); g.strokeStyle = col; g.lineWidth = 3; g.stroke(); txt(lab, x, HITY - 49, 22, col); }
+  header();
+  // score third
+  g.fillStyle = "#0b0d1c"; g.fillRect(0, Y3, W, H - Y3);
+  let bi = 0; while (bi < BARS.length - 1 && barT[bi + 1] <= t) bi++;
+  pill(22, Y3 + 16, 230, 48, "#22264a"); txt(`마디 ${bi + 1} / ${BARS.length}`, 137, Y3 + 41, 26, "#fff");
+  txt(`${sectionName(bi)} · ♩=${Math.round(BARS[bi].bpm * TK)}`, 660, Y3 + 41, 27, "#ffd27a");
+  drawScore(t, boxes);
+  const prog = Math.min(1, Math.max(0, t / TOTAL)); g.fillStyle = "rgba(255,255,255,0.15)"; g.fillRect(30, Y4 + 4, W - 60, 6); g.fillStyle = "#ffc23a"; g.fillRect(30, Y4 + 4, (W - 60) * prog, 6);
+  txt("© 성실피아노 · 피아노조율사 박근성 · blog.naver.com/pianopks", 540, Y4 + 26, 18, "#9aa0c8", "center", false);
+}
+function card(a, lines) { g.fillStyle = "#05060f"; g.fillRect(0, 0, W, H); drawStage(a * 2); g.fillStyle = "#0b0d1c"; g.fillRect(0, HITY, W, H - HITY); g.globalAlpha = Math.min(1, a / 0.7); lines(); g.globalAlpha = 1; }
+function intro(a) { card(a, () => {
+  txt("🎹", 540, 330, 90, "#fff"); txt("쇼팽 녹턴 20번", 540, 470, 92, "#ffd27a"); txt("올림다단조 · 유작 (1830)", 540, 570, 40, "#fff", "center", false);
+  txt("Lento con gran espressione", 540, 630, 34, "#e6e2ff", "center", false);
+  pill(190, 900, 700, 76, "#ff5fa8"); txt("성실피아노 · 피아노조율사 박근성", 540, 939, 32, "#fff");
+  txt("리본 · 건반 소녀 · 악보가 같은 순간에 움직여요", 540, 1060, 30, "#ffe1a8", "center", false);
+  txt("노랑 = 오른손   파랑 = 왼손", 540, 1120, 28, "#cfd4ff", "center", false);
+  txt("악보: 1875 초판 · 1830 자필 · 공개 조판 (공개 저작물)", 540, 1500, 22, "#9aa0c8", "center", false); }); }
+function outro(a) { card(a, () => {
+  txt("끝까지 들어 주셔서 감사합니다", 540, 520, 54, "#ffd27a");
+  txt("쇼팽 녹턴 20번 올림다단조", 540, 610, 34, "#fff", "center", false);
+  pill(150, 860, 780, 84, "#03c75a"); txt("블로그  blog.naver.com/pianopks", 540, 903, 36, "#fff");
+  txt("오른손 · 왼손 · 전곡 듣기 사이트", 540, 1040, 30, "#fff", "center", false);
+  txt("poianopks.github.io/music-lab", 540, 1090, 30, "#ffe1a8", "center", false);
+  txt("피아노 조율 · 운반 · 대여 상담은 성실피아노로", 540, 1200, 28, "#cfd4ff", "center", false); }); }
+// ---------- init / live play / record ----------
+const T1 = 4.0; let BLOB = null, INIT = null;
+window.init = async function (onp) { if (INIT) return INIT; const b = build(); const r = await renderScore(b.abc); const a = await renderAudio(onp); window.ABC = b.abc; INIT = { ...r, total: TOTAL, audio: a, chunks: b.chunks }; return INIT; };
+window.frameAt = function (sec) { for (let s = Math.max(0, sec - T1 - 1.5); s <= sec - T1; s += 1 / 30) scene(s); if (sec < T1) intro(sec); else if (sec < T1 + TOTAL + 2.5) scene(sec - T1); else outro(1); return cv.toDataURL("image/png").split(",")[1]; };
+function paint(t) { if (t < T1) intro(Math.max(0, t)); else if (t < T1 + TOTAL + 3) scene(t - T1); else outro(t - T1 - TOTAL - 3); }
+let SRC = null, T0 = 0;
+async function play() {
+  await ac.resume(); if (SRC) { try { SRC.stop(); } catch (e) {} }
+  glows.length = 0; lastT = 0; curLine = 0;
+  T0 = ac.currentTime + 0.2; SRC = ac.createBufferSource(); SRC.buffer = MIX; SRC.connect(ac.destination); SRC.start(T0 + T1);
+  const my = SRC; (function loop() { if (my !== SRC) return; const t = ac.currentTime - T0; paint(t); if (t < T1 + TOTAL + 10) requestAnimationFrame(loop); })();
+}
+window.record = async function (vbps = 9000000) {
+  await ac.resume(); const dest = ac.createMediaStreamDestination(); const keep = ac.createConstantSource(); keep.offset.value = 0.00005; keep.connect(dest); keep.start();
+  const stream = new MediaStream([...cv.captureStream(30).getVideoTracks(), ...dest.stream.getAudioTracks()]);
+  const rec = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9,opus", videoBitsPerSecond: vbps, audioBitsPerSecond: 192000 });
+  const chunks = []; rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+  intro(0); await new Promise((r) => setTimeout(r, 500)); rec.start(1000);
+  const t0 = ac.currentTime + 0.3; const src = ac.createBufferSource(); src.buffer = MIX; src.connect(dest); src.start(t0 + T1);
+  const END = T1 + TOTAL + 3 + 6;
+  await new Promise((res) => { (function loop() { const t = ac.currentTime - t0; paint(t); if (t >= END) return res(); requestAnimationFrame(loop); })(); });
+  await new Promise((r) => { rec.onstop = r; rec.stop(); });
+  BLOB = new Blob(chunks, { type: "video/webm" }); return { size: BLOB.size, dur: END };
+};
+window.chunk = async function (i, sz) { const b = BLOB.slice(i * sz, (i + 1) * sz); const u = new Uint8Array(await b.arrayBuffer()); let s = ""; for (let k = 0; k < u.length; k += 8192) s += String.fromCharCode.apply(null, u.subarray(k, k + 8192)); return btoa(s); };
+// live page controls
+document.getElementById("go").onclick = async () => {
+  const msg = document.getElementById("msg"), go = document.getElementById("go"); go.disabled = true; go.textContent = "준비 중…";
+  ac = ac || new AudioContext(); await ac.resume();
+  try { await window.init((p) => { msg.textContent = "피아노 소리 준비 중… " + Math.round(p * 100) + "%"; }); } catch (e) { msg.textContent = "준비 중 문제가 생겼어요: " + e.message; return; }
+  document.getElementById("ov").style.display = "none"; document.getElementById("bar").style.display = "flex"; play(); };
+document.getElementById("pp").onclick = async (e) => { if (ac.state === "running") { await ac.suspend(); e.target.textContent = "▶ 계속"; } else { await ac.resume(); e.target.textContent = "⏸ 잠깐 멈춤"; } };
+document.getElementById("rs").onclick = async () => { await ac.resume(); document.getElementById("pp").textContent = "⏸ 잠깐 멈춤"; play(); };
+if (Q.get("rec")) document.getElementById("ov").style.display = "none";
+window.makeGif = function (start, n, fps, w) { const h = Math.round(w * 16 / 9), oc = document.createElement("canvas"); oc.width = w; oc.height = h; const og = oc.getContext("2d"); const frames = [], delays = [];
+  for (let s = Math.max(0, start - 1.5); s < start; s += 1 / 30) scene(s);
+  for (let i = 0; i < n; i++) { scene(start + i / fps); og.drawImage(cv, 0, 0, w, h); frames.push(og.getImageData(0, 0, w, h).data.slice()); delays.push(Math.round(100 / fps)); }
+  return window.encodeGif(frames, w, h, delays); };
+window.READY = true;
+// first paint for the poster
+intro(1);
+</script></body></html>
