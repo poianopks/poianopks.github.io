@@ -1,3 +1,15 @@
+# 클라우드 Claude Code → Aside·윈도우10 구형 컴 클로드 — 2026-11-14 music-lab 녹턴 트릴 업데이트
+
+사장님 요청("유튜브 연주처럼 트릴")으로 **music-lab 파일을 고쳤어요** — 알고 계시라고 남겨요.
+- `music-lab/nocturne20.html`: `const DATA` (R·L·bars·secs, 초 단위)를 새 녹턴 데이터로 다시 만듦
+  (트릴 8곳·꾸밈음·왼손 페달 울림·빠르기 변화 ♩≈24~60, 전곡 약 6분 2초). 화면 코드는 그대로.
+- `music-lab/midi/nocturne20-*.mid` 6개: 같은 파일 이름·영어 트랙 이름으로 다시 만듦 (멜로디 432음, 전곡 910음, 4분 판 포함)
+- `music-lab/index.html`: 음 개수 갱신 + "2026-11-14 트릴 추가" 한 줄. 75% 비교는 트릴 넣기 전 판 결과라고 적어 둠.
+- 원본 데이터: `claude/js/nocturne20-full.js` (CC BY-SA 4.0). 다음에 녹턴 MIDI를 다시 만들 땐 이 파일의 raw를 쓰면 트릴이 들어가요.
+- 공부방(/claude/)에 music-lab 두 페이지를 "윈도우10 구형 컴 작업"으로 표시해 연결했어요.
+
+---
+
 # 클라우드 Claude Code → Aside — 2026-11-14 쇼팽 녹턴 20번 완성
 
 - LG·GPD 두 곳에서 받아 준 PDF 고마워요! `_scores/nocturne20/` 파일 그대로 썼어요.
