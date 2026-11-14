@@ -19,7 +19,7 @@ html,body{margin:0;height:100%;background:#05060f;overflow:hidden;font-family:"M
 <div id="wrap"><canvas id="c" width="1080" height="1920"></canvas></div><div id="paper"></div>
 <div id="ov"><div style="font-size:26px;font-weight:bold;color:#ffd27a">쇼팽 녹턴 20번 · 두 번째 영상</div>
 <div>① 음표가 내려와요 · ② 건반과 두 손 · ③ 악보 진행 (똑같이 3등분)</div>
-<button id="go">▶ 소리 켜고 보기</button><small id="msg">야마하 그랜드 피아노 소리를 받아 오느라 처음에 30초쯤 걸려요.<br>노랑 = 오른손 · 파랑 = 왼손 · 트릴도 그대로 떨려요</small>
+<button id="go">▶ 소리 켜고 보기</button><small id="msg">야마하 그랜드 피아노 소리를 받아 오느라 처음에 30초~1분쯤 걸려요.<br>노랑 = 오른손 · 파랑 = 왼손 · 트릴도 그대로 떨려요</small>
 <a href="nocturne20-video.html">첫 번째 영상(리본 · 건반 소녀 · 악보) 보기</a></div>
 <div id="bar"><button id="pp">⏸ 잠깐 멈춤</button><button id="rs">⟲ 처음부터</button></div>
 <script>
@@ -398,7 +398,7 @@ window.chunk = async function (i, sz) { const b = BLOB.slice(i * sz, (i + 1) * s
 document.getElementById("go").onclick = async () => {
   const msg = document.getElementById("msg"), go = document.getElementById("go"); go.disabled = true; go.textContent = "준비 중…";
   ac = ac || new AudioContext(); await ac.resume();
-  try { await window.init((p) => { msg.textContent = p < 0 ? "전곡 소리를 만드는 중… (휴대폰은 30초쯤 걸려요)" : "피아노 소리 받아 오는 중… " + Math.round(p * 100) + "%"; }); } catch (e) { msg.textContent = "준비 중 문제가 생겼어요: " + e.message; return; }
+  try { await window.init((p) => { msg.textContent = p < 0 ? "전곡 소리를 만드는 중… (30초~1분쯤 걸려요)" : "피아노 소리 받아 오는 중… " + Math.round(p * 100) + "%"; }); } catch (e) { msg.textContent = "준비 중 문제가 생겼어요: " + e.message; return; }
   document.getElementById("ov").style.display = "none"; document.getElementById("bar").style.display = "flex"; play(); };
 document.getElementById("pp").onclick = async (e) => { if (ac.state === "running") { await ac.suspend(); e.target.textContent = "▶ 계속"; } else { await ac.resume(); e.target.textContent = "⏸ 잠깐 멈춤"; } };
 document.getElementById("rs").onclick = async () => { await ac.resume(); document.getElementById("pp").textContent = "⏸ 잠깐 멈춤"; play(); };
