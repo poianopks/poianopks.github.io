@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>쇼팽 녹턴 20번 · 트릴의 순간 (30초 쇼츠, 3D) — Aside LG 작업방</title>
+<link rel="stylesheet" href="../css/genre.css?v=20261031">
+<style>
+.score .phband,.score .phball{display:none}.score .orn{fill:#c2185b;font-size:15px;font-weight:900;font-style:italic;text-anchor:middle}.score .ksig{font-size:20px}
+html,body{margin:0;height:100%;background:#05030d;overflow:hidden;font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif}
+#wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+#out{height:100%;max-width:100%;aspect-ratio:9/16;background:#000}
+#start{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,3,13,.75);color:#fff;text-align:center}
+#start button{font:inherit;font-size:20px;font-weight:900;border:0;border-radius:999px;padding:14px 30px;background:#ffd54f;color:#2a1b00;cursor:pointer}
+#start p{color:#cfc8f0;font-size:14px}
+#start a{color:#ffd54f}
+</style>
+</head>
+<body>
+<div id="wrap"><canvas id="out" width="1080" height="1920"></canvas></div>
+<div id="start"><div><h2 style="margin:0 0 6px">🌙 쇼팽 녹턴 20번 · 트릴의 순간</h2><p>30초 · 3D 건반 · 야마하 그랜드 녹음 음색</p><button id="go">▶ 재생</button><p style="margin-top:14px">소리가 나요 · <a href="nocturne20.html">전곡 3분할 보기</a></p></div></div>
+<div id="hidden" style="position:absolute;left:-99999px;top:0;width:7000px"><div id="sc" class="score"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="../js/music-engine.js?v=20261114b"></script>
+<script src="../js/score-engine.js?v=20261108"></script>
+<script src="../js/nocturne20-full.js?v=20261114b"></script>
+<script>
+(function(){
+"use strict";
+var F=window.NC_FULL, W=1080, H=1920, H3=1440, B0=10, B1=14; // bars 11..14
+var INTRO=1.8, OUTRO=3.2;
+var NB=F.bars.length,G0=[0];F.bars.forEach(function(b){G0.push(G0[G0.length-1]+b.sig);});
+var STs=[0];F.bars.forEach(function(b){STs.push(STs[STs.length-1]+b.sig*60/b.bpm);});
+function barOfG(g){var k=0;while(k<NB-1&&G0[k+1]<=g+1e-9)k++;return k;}
+function b2s(g){var k=barOfG(g);return STs[k]+(g-G0[k])*60/F.bars[k].bpm;}
+var SONG0=STs[B0], SONGLEN=STs[B1]-STs[B0], TOTAL=INTRO+SONGLEN+OUTRO;
+function vt(g){return INTRO+b2s(g)-SONG0;} // video time of beat
+// ---- notes (with real trills) ----
+function upper(m){var pc=m%12;for(var d=1;d<=3;d++){if([1,3,4,6,8,9,11].indexOf((pc+d)%12)>=0)return m+d;}return m+2;}
+var raw=F.raw.map(function(r){return {g:r[0],d:r[1],m:r[2],h:r[3]};});
+var trills=[];F.rh.forEach(function(bar,bi){var pos=0;bar.forEach(function(tok){var it=SE.parseBars([[tok]])[0],len=it?it.len:0;if(/\^tr/.test(tok)){trills.push({g:G0[bi]+pos,len:len,m:ME.noteFromName(tok.split(":")[0].replace(/\^.*/,"")).midi});}pos+=len;});});
+var TRM=[];trills.forEach(function(t){var idx=-1;for(var i=0;i<raw.length;i++)if(raw[i].h==="R"&&raw[i].m===t.m&&Math.abs(raw[i].g-t.g)<.26){idx=i;break;}var g0=idx>=0?raw[idx].g:t.g;if(idx>=0)raw.splice(idx,1);
+  var step=Math.max(.0625,.11*F.bars[barOfG(g0)].bpm/60),n=Math.floor(t.len*.8/step),up=upper(t.m);for(var k=0;k<n;k++)raw.push({g:g0+k*step,d:step*.95,m:k%2?up:t.m,h:"R",tr:1});raw.push({g:g0+n*step,d:t.len-n*step,m:t.m,h:"R",tr:1});TRM.push({g:g0,e:g0+t.len,m:t.m,up:up});});
+var gA=G0[B0],gB=G0[B1];
+var N=raw.filter(function(n){return n.g>=gA-1e-6&&n.g<gB-1e-6;}).sort(function(a,b){return a.g-b.g||a.m-b.m;});
+["R","L"].forEach(function(h){var a=N.filter(function(n){return n.h===h;}),ons=[];a.forEach(function(n){var k=+n.g.toFixed(4);if(ons[ons.length-1]!==k)ons.push(k);});
+  a.forEach(function(n){var k=ons.indexOf(+n.g.toFixed(4)),nx=k+1<ons.length?ons[k+1]:n.g+n.d;var pd=Math.max(.06,Math.min(n.d,nx-n.g)*.92);n.t0=vt(n.g);n.t1=vt(n.g+pd);n.te=vt(Math.min(n.g+n.d,gB+2));});});
+TRM=TRM.filter(function(t){return t.g>=gA&&t.g<gB;}).map(function(t){t.t0=vt(t.g);t.t1=vt(t.e);return t;});
+var LO=Math.min.apply(null,N.map(function(n){return n.m;})),HI=Math.max.apply(null,N.map(function(n){return n.m;}));
+// ---- THREE scene ----
+var r3=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,alpha:false});r3.setPixelRatio(1);r3.setSize(W,H3,false);
+var scene=new THREE.Scene();scene.background=new THREE.Color(0x07051a);scene.fog=new THREE.Fog(0x07051a,40,110);
+var cam=new THREE.PerspectiveCamera(38,W/H3,.1,300);
+scene.add(new THREE.AmbientLight(0x8a80c0,.55));var moon=new THREE.DirectionalLight(0xfff1d6,1.0);moon.position.set(-10,30,18);scene.add(moon);var rim=new THREE.DirectionalLight(0x7aa2ff,.5);rim.position.set(20,10,-20);scene.add(rim);
+// stars
+(function(){var g=new THREE.BufferGeometry(),p=[];for(var i=0;i<900;i++){p.push((Math.random()-.5)*220,Math.random()*90+5,-30-Math.random()*90);}g.setAttribute("position",new THREE.Float32BufferAttribute(p,3));scene.add(new THREE.Points(g,new THREE.PointsMaterial({color:0xfff6e0,size:.35,transparent:true,opacity:.8})));})();
+// keyboard
+var isB=function(m){return [1,3,6,8,10].indexOf(m%12)>=0;};var WI={},nw=0;for(var m=21;m<=108;m++)if(!isB(m))WI[m]=nw++;
+function KX(m){return isB(m)?WI[m+1]-.5:WI[m];} // x center (white key width 1)
+var KEY_TOP=.42;var keys={};var kb=new THREE.Group();scene.add(kb);
+var body=new THREE.Mesh(new THREE.BoxGeometry(nw+2,1.4,8),new THREE.MeshStandardMaterial({color:0x0c0a10,roughness:.35,metalness:.3}));body.position.set(nw/2-.5,-.75,-.6);kb.add(body);
+var back=new THREE.Mesh(new THREE.BoxGeometry(nw+2,1.6,.6),new THREE.MeshStandardMaterial({color:0x0c0a10,roughness:.3,metalness:.4}));back.position.set(nw/2-.5,.35,-3.6);kb.add(back);
+var felt=new THREE.Mesh(new THREE.BoxGeometry(nw,.08,.12),new THREE.MeshStandardMaterial({color:0x8b1a2b}));felt.position.set(nw/2-.5,.4,-3.2);kb.add(felt);
+for(m=21;m<=108;m++){var b=isB(m);var geo=b?new THREE.BoxGeometry(.58,.5,3.5):new THREE.BoxGeometry(.96,.4,5.6);var mat=new THREE.MeshStandardMaterial({color:b?0x141414:0xf4f1e8,roughness:b?.3:.45,metalness:.05,emissive:0x000000});
+  var k=new THREE.Mesh(geo,mat);k.position.set(KX(m),b?.45:0,b?-1.25:-.2);k.userData={base:k.position.y,b:b};kb.add(k);keys[m]=k;}
+// floor glow
+var floor=new THREE.Mesh(new THREE.PlaneGeometry(300,300),new THREE.MeshStandardMaterial({color:0x140c2c,roughness:1}));floor.rotation.x=-Math.PI/2;floor.position.y=-1.5;scene.add(floor);
+// note meshes
+var headG=new THREE.SphereGeometry(.42,20,14),stemG=new THREE.CylinderGeometry(.05,.05,2.0,8),flagG=new THREE.TorusGeometry(.38,.06,6,12,Math.PI*.8);
+var matR=new THREE.MeshStandardMaterial({color:0xffd54f,emissive:0x8a5a00,emissiveIntensity:.6,roughness:.3}),matL=new THREE.MeshStandardMaterial({color:0x7cc4ff,emissive:0x0b3a7a,emissiveIntensity:.6,roughness:.3}),matT=new THREE.MeshStandardMaterial({color:0xff6fb5,emissive:0x7a0a45,emissiveIntensity:.7,roughness:.3});
+function sharpSprite(color){var c=document.createElement("canvas");c.width=c.height=64;var x=c.getContext("2d");x.fillStyle=color;x.font="900 52px serif";x.textAlign="center";x.textBaseline="middle";x.fillText("♯",32,34);var s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true}));s.scale.set(.8,.8,.8);return s;}
+var SPEED=6.2;
+N.forEach(function(n){var g=new THREE.Group(),mt=n.tr?matT:(n.h==="R"?matR:matL),hd=new THREE.Mesh(headG,mt);hd.scale.set(1.15,.78,.78);hd.rotation.z=-.4;g.add(hd);
+  if(!n.tr){var st=new THREE.Mesh(stemG,mt);st.position.set(.42,1.0,0);g.add(st);if(n.d<=.6){var fl=new THREE.Mesh(flagG,mt);fl.position.set(.78,1.75,0);fl.rotation.z=-1.9;g.add(fl);}if(isB(n.m)){var sp=sharpSprite(n.h==="R"?"#ffd54f":"#7cc4ff");sp.position.set(-.85,.1,0);g.add(sp);}}
+  else g.scale.set(.7,.7,.7);
+  g.visible=false;scene.add(g);n.obj=g;
+  // sparkles
+  var pg=new THREE.BufferGeometry(),pp=new Float32Array(14*3);pg.setAttribute("position",new THREE.BufferAttribute(pp,3));var pm=new THREE.PointsMaterial({color:n.tr?0xff9fd0:(n.h==="R"?0xffe49a:0xa9d8ff),size:.22,transparent:true,opacity:1});var pts=new THREE.Points(pg,pm);pts.visible=false;scene.add(pts);n.sp=pts;n.seed=Math.random()*1000;});
+// trill wave ribbons (pink tube that wiggles)
+TRM.forEach(function(t){var c=document.createElement("canvas");c.width=256;c.height=96;var x=c.getContext("2d");x.fillStyle="#ff6fb5";x.font="italic 900 64px serif";x.fillText("tr",8,66);x.strokeStyle="#ff6fb5";x.lineWidth=6;x.beginPath();for(var i=0;i<150;i+=2)x.lineTo(80+i,52+Math.sin(i/8)*12);x.stroke();
+  var s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true}));s.scale.set(4.2,1.6,1);s.visible=false;scene.add(s);t.spr=s;});
+function hash(i){var s=Math.sin(i*127.1+311.7)*43758.5453;return s-Math.floor(s);}
+var xc=(KX(LO)+KX(HI))/2;
+function place(t){
+  // camera: diagonal look like a 3D stage, slow gentle move
+  var a=-0.55+0.07*Math.sin(t*.22),dist=37-3*Math.min(1,t/TOTAL);var tx=xc+2,ty=1.2,tz=-1;
+  cam.position.set(tx+Math.sin(a)*dist,15+0.8*Math.sin(t*.3),tz+Math.cos(a)*dist);cam.lookAt(tx,ty+3.5,tz);cam.updateProjectionMatrix();
+  var act={};
+  N.forEach(function(n){var o=n.obj,k=keys[n.m],kx=k.position.x,kz=isB(n.m)?-1.6:-0.4,topY=isB(n.m)?.7:.2;
+    var dt=n.t0-t;if(dt>3.6||n.t1<t-.05){o.visible=false;}else{o.visible=true;var y=dt>0?topY+.45+dt*SPEED:topY+.45;o.position.set(kx,y,kz);if(dt<=0){var f=Math.max(0,1-(t-n.t0)/Math.max(.08,n.t1-n.t0));o.scale.setScalar((n.tr?.7:1)*(.6+.4*f));}else o.scale.setScalar(n.tr?.7:1);}
+    if(n.t0<=t&&n.t1>t)act[n.m]=n;
+    var a2=t-n.t0;if(a2>=0&&a2<.7){var p=n.sp.geometry.attributes.position.array;for(var i=0;i<14;i++){var an=hash(n.seed+i)*6.283,sp=1.2+2.2*hash(n.seed+i*3);p[i*3]=kx+Math.cos(an)*sp*a2;p[i*3+1]=topY+.5+3.2*a2-4*a2*a2+hash(n.seed+i*7)*.3;p[i*3+2]=kz+Math.sin(an)*sp*a2*.6;}n.sp.geometry.attributes.position.needsUpdate=true;n.sp.material.opacity=1-a2/.7;n.sp.visible=true;}else n.sp.visible=false;});
+  for(var mm in keys){var k=keys[mm],n=act[mm],mt=k.material;if(n){k.position.y=k.userData.base-.14;mt.color.setHex(n.tr?0xff8cc6:(n.h==="R"?(k.userData.b?0xffb300:0xffd54f):(k.userData.b?0x1e6fd0:0x7cc4ff)));mt.emissive.setHex(n.tr?0x5a0a35:(n.h==="R"?0x4a3000:0x0a2a5a));}
+    else{k.position.y=k.userData.base;mt.color.setHex(k.userData.b?0x141414:0xf4f1e8);mt.emissive.setHex(0);}}
+  TRM.forEach(function(tr){var on=t>=tr.t0-.6&&t<tr.t1+.3;tr.spr.visible=on;if(on){var k=keys[tr.m];tr.spr.position.set(k.position.x+1.2,3.4+.2*Math.sin(t*14),-.6);tr.spr.material.opacity=Math.min(1,(t-tr.t0+.6)/.3);}});
+  return act;}
+// ---- score strip (bottom 25%) ----
+var SCR=[],SCB=[],SCN=[],SCH=0,SCW=0;
+function buildScore(){var el=document.getElementById("sc");var R=SE.parseBars(F.rh.slice(B0,B1)),L=SE.parseBars(F.lh.slice(B0,B1));var bars=F.bars.slice(B0,B1).map(function(b){return {sig:b.sig,key:b.key,bpm:b.bpm};});
+  SE.render(el,{staves:[{clef:"treble",items:R,prefix:"FR",labels:true,ott:true,autoClef:"row"},{clef:"bass",items:L,prefix:"FL",labels:true,autoClef:"item"}],bars:bars,startBar:B0+1});
+  var rows=el._rows,props=["fill","stroke","stroke-width","stroke-linecap","opacity","font-family","font-size","font-weight","font-style","text-anchor","display","stroke-dasharray"],off=0,ps=[];
+  rows.forEach(function(svg,ri){var vb=svg.getAttribute("viewBox").split(" ").map(Number);var cl=svg.cloneNode(true),src=[svg].concat([].slice.call(svg.querySelectorAll("*"))),dst=[cl].concat([].slice.call(cl.querySelectorAll("*")));
+    src.forEach(function(e,i){var cs=getComputedStyle(e);var st=props.map(function(p){return p+":"+cs.getPropertyValue(p);}).join(";");if(/\b(ph|phband|phball)\b/.test(e.getAttribute("class")||""))st+=";display:none";dst[i].setAttribute("style",st);dst[i].removeAttribute("class");});
+    cl.setAttribute("xmlns","http://www.w3.org/2000/svg");var bs=el._bars.filter(function(b){return b.row===ri;});var x0=ri===0?0:Math.min.apply(null,bs.map(function(b){return b.x0;}))-6,x1=Math.max.apply(null,bs.map(function(b){return b.x1;}))+4;
+    var rec={vb:vb,off:off,cut:x0,w:x1-x0};SCR.push(rec);bs.forEach(function(b){SCB.push({row:ri,g0:b.g0,x0:off+b.x0-x0,x1:off+b.x1-x0});});off+=rec.w;SCH=Math.max(SCH,vb[3]);
+    ps.push(new Promise(function(res){var im=new Image();im.onload=function(){rec.im=im;res();};im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(new XMLSerializer().serializeToString(cl));}));});
+  SCW=off;
+  [["FR",R,"R"],["FL",L,"L"]].forEach(function(a){a[1].forEach(function(it,idx){if(it.rest)return;var g=el._nodes[a[0]+(it.i!==undefined?it.i:idx)];if(!g)return;var ri=rows.indexOf(g.ownerSVGElement),bb=g.getBBox(),r=SCR[ri];SCN.push({g:gA+it.gpos,e:gA+it.gpos+it.len,h:a[2],x:r.off+bb.x-r.cut,y:bb.y,w:bb.width,hh:bb.height});});});
+  return Promise.all(ps);}
+function gAt(t){var s=t-INTRO+SONG0;var k=0;while(k<NB-1&&STs[k+1]<=s)k++;return G0[k]+(s-STs[k])*F.bars[k].bpm/60;}
+// ---- compositor ----
+var out=document.getElementById("out"),X=out.getContext("2d"),FN='"Malgun Gothic","Apple SD Gothic Neo",sans-serif';
+function rr(a,b,c,d,r){X.beginPath();X.roundRect(a,b,c,d,r);}
+function T(txt,x,y,font,fill,stroke,lw){X.font=font;X.lineJoin="round";if(stroke){X.lineWidth=lw||8;X.strokeStyle=stroke;X.strokeText(txt,x,y);}X.fillStyle=fill;X.fillText(txt,x,y);}
+function drawScore(t){var top=H3,h=H-H3;var g=X.createLinearGradient(0,top,0,H);g.addColorStop(0,"#120c24");g.addColorStop(1,"#05030d");X.fillStyle=g;X.fillRect(0,top,W,h);
+  X.fillStyle="#fffdf5";rr(16,top+14,W-32,h-62,22);X.fill();if(!SCR.length||!SCR[0].im)return;
+  var sc=(h-90)/SCH,gb=Math.max(gA,Math.min(gB-1e-3,gAt(t)));var bi=0;for(var i=0;i<SCB.length;i++)if(gb>=gA+SCB[i].g0-1e-6)bi=i;var bar=SCB[bi],sig=F.bars[B0+bi].sig,u=Math.max(0,Math.min(1,(gb-gA-bar.g0)/sig)),px=bar.x0+(bar.x1-bar.x0)*u;
+  var targetX=W*.4,ox=Math.min(30,Math.max(W-40-SCW*sc,targetX-px*sc)),oy=top+20;
+  X.save();rr(16,top+14,W-32,h-62,22);X.clip();
+  SCN.forEach(function(n){if(gb>=n.g&&gb<n.e){X.fillStyle=n.h==="R"?"rgba(255,193,7,.55)":"rgba(66,165,245,.5)";rr(ox+(n.x-4)*sc,oy+(n.y-4)*sc,(n.w+8)*sc,(n.hh+8)*sc,8);X.fill();}});
+  X.filter="contrast(1.7) brightness(.8)";SCR.forEach(function(r){if(r.im)X.drawImage(r.im,r.cut,0,r.w,r.vb[3],ox+r.off*sc,oy,r.w*sc,r.vb[3]*sc);});X.filter="none";
+  X.strokeStyle="rgba(229,57,53,.85)";X.lineWidth=4;X.beginPath();X.moveTo(ox+px*sc,oy+6);X.lineTo(ox+px*sc,oy+SCH*sc-6);X.stroke();X.restore();
+  X.textAlign="center";T("ⓒ 성실피아노 · 피아노조율 010-8756-8740",W/2,H-16,"700 24px "+FN,"rgba(255,255,255,.7)");}
+function drawHud(t,act){X.textAlign="left";var hg=X.createLinearGradient(0,0,0,230);hg.addColorStop(0,"rgba(5,3,13,.92)");hg.addColorStop(1,"rgba(5,3,13,0)");X.fillStyle=hg;X.fillRect(0,0,W,230);
+  T("🌙 쇼팽 녹턴 20번",40,92,"900 60px "+FN,"#ffd54f","#000",8);T("트릴(tr)의 순간 · 야마하 그랜드 음색",42,146,"800 34px "+FN,"#e9e3ff","#000",6);
+  X.textAlign="right";T("■ 오른손",W-40,80,"800 30px "+FN,"#ffd54f","#000",5);T("■ 왼손",W-40,122,"800 30px "+FN,"#7cc4ff","#000",5);T("■ 트릴",W-40,164,"800 30px "+FN,"#ff6fb5","#000",5);
+  var bar=Math.max(B0,Math.min(B1-1,barOfG(gAt(t))))+1;X.textAlign="left";X.fillStyle="rgba(0,0,0,.5)";rr(34,H3-86,250,58,29);X.fill();T("마디 "+bar+" / 64",58,H3-45,"800 32px "+FN,"#fff");
+  // trill caption
+  var tr=TRM.filter(function(x){return t>=x.t0-.4&&t<x.t1+.4;})[0];if(tr){var a=Math.min(1,(t-tr.t0+.4)/.3,(tr.t1+.4-t)/.3);X.globalAlpha=Math.max(0,a);X.textAlign="center";X.fillStyle="rgba(40,0,25,.78)";rr(W/2-430,240,860,124,30);X.fill();X.strokeStyle="#ff6fb5";X.lineWidth=4;X.stroke();
+    T("🌀 트릴 tr",W/2,296,"900 46px "+FN,"#ff9fd0","#000",6);T("두 음을 아주 빠르게 번갈아 쳐요",W/2,346,"800 34px "+FN,"#fff","#000",5);X.globalAlpha=1;}
+  // hook & outro
+  if(t<INTRO+1.4){var a2=t<INTRO+.8?1:Math.max(0,(INTRO+1.4-t)/.6);X.globalAlpha=a2;X.fillStyle="rgba(5,3,13,.72)";X.fillRect(0,420,W,520);X.textAlign="center";T("영화 「피아니스트」의 그 곡",W/2,600,"900 64px "+FN,"#fff","#000",10);T("트릴이 반짝이는 30초 🎹",W/2,700,"900 58px "+FN,"#ffd54f","#000",10);T("쇼팽 · 녹턴 20번 올림다단조 (1830)",W/2,790,"800 36px "+FN,"#d9d2ff","#000",6);X.globalAlpha=1;}
+  if(t>TOTAL-OUTRO+.4){var a3=Math.min(1,(t-(TOTAL-OUTRO+.4))/.6);X.globalAlpha=a3;X.fillStyle="rgba(5,3,13,.82)";X.fillRect(0,420,W,560);X.textAlign="center";T("전곡 · 3분할 연습 화면은",W/2,600,"900 54px "+FN,"#fff","#000",8);T("설명란 링크에서 🎹",W/2,684,"900 54px "+FN,"#ffd54f","#000",8);T("피아노조율 성실 · 010-8756-8740",W/2,800,"900 44px "+FN,"#a7f3d0","#000",8);T("국가공인 피아노조율사 35년",W/2,866,"800 34px "+FN,"#fff","#000",6);X.globalAlpha=1;}}
+function frame(t){var act=place(t);r3.render(scene,cam);X.drawImage(r3.domElement,0,0,W,H3);drawHud(t,act);drawScore(t);}
+// ---- audio ----
+var SAMP=["A0","C1","Ds1","Fs1","A1","C2","Ds2","Fs2","A2","C3","Ds3","Fs3","A3","C4","Ds4","Fs4","A4","C5","Ds5","Fs5","A5","C6","Ds6","Fs6","A6","C7","Ds7","Fs7","A7","C8"];
+function nm2m(n){var pc={C:0,Ds:3,Fs:6,A:9}[n.replace(/\d/,"")];return 12*(+n.match(/\d/)[0]+1)+pc;}
+function schedule(ctx,dest,bufs,t0){var ks=Object.keys(bufs).map(Number).sort(function(a,b){return a-b;});
+  N.forEach(function(n){if(!ks.length)return;var s=ks[0];ks.forEach(function(k){if(Math.abs(k-n.m)<Math.abs(s-n.m))s=k;});var src=ctx.createBufferSource();src.buffer=bufs[s];src.playbackRate.value=Math.pow(2,(n.m-s)/12);
+    var v=n.h==="R"?(n.tr?.42:.6):.3;var g=ctx.createGain(),t=t0+n.t0,rel=t0+Math.max(n.t0+.08,n.te);g.gain.setValueAtTime(v,t);g.gain.setValueAtTime(v,rel);g.gain.exponentialRampToValueAtTime(.0008,rel+.6);src.connect(g);g.connect(dest);src.start(t);src.stop(rel+.65);});}
+function chain(ctx){var SR=ctx.sampleRate,ir=ctx.createBuffer(2,SR*2.8,SR);for(var c=0;c<2;c++){var d=ir.getChannelData(c);for(var i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);}var conv=ctx.createConvolver();conv.buffer=ir;var bus=ctx.createGain(),wet=ctx.createGain(),dry=ctx.createGain();wet.gain.value=.28;dry.gain.value=.9;var comp=ctx.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=3;bus.connect(dry);bus.connect(conv);conv.connect(wet);dry.connect(comp);wet.connect(comp);comp.connect(ctx.destination);return bus;}
+function loadBufs(ctx,base){var bufs={};return Promise.all(SAMP.map(function(nm){return fetch((base||"https://tonejs.github.io/audio/salamander/")+nm+".mp3").then(function(r){return r.arrayBuffer();}).then(function(b){return ctx.decodeAudioData(b);}).then(function(ab){bufs[nm2m(nm)]=ab;}).catch(function(){});})).then(function(){return bufs;});}
+// ---- public API (for video capture) ----
+window.SH={ready:buildScore(),frame:frame,total:TOTAL,
+  renderAudio:function(){var SR=44100,oc=new OfflineAudioContext(2,Math.ceil((TOTAL+1)*SR),SR);return loadBufs(oc).then(function(b){schedule(oc,chain(oc),b,0);return oc.startRendering();});}};
+// ---- live player ----
+document.getElementById("go").onclick=function(){var ctx=new (window.AudioContext||window.webkitAudioContext)();document.getElementById("start").style.display="none";
+  loadBufs(ctx).then(function(b){var t0=ctx.currentTime+.2;schedule(ctx,chain(ctx),b,t0);function loop(){var t=ctx.currentTime-t0;frame(Math.max(0,t));if(t<TOTAL)requestAnimationFrame(loop);else document.getElementById("start").style.display="flex";}loop();});};
+window.SH.ready.then(function(){frame(INTRO+0.6);});
+})();
+</script>
+</body>
+</html>
