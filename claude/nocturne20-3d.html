@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>쇼팽 녹턴 20번 3D 달빛 무대</title>
-<meta name="description" content="쇼팽 녹턴 20번(유작)을 3D 그랜드피아노 무대에서 — 날아오는 음표, 빛나는 건반, 별빛 반짝임. 손가락으로 돌려 보고, 빠르기·시점을 바꿔 들어요."/>
+<meta name="description" content="쇼팽 녹턴 20번(유작)을 3D 그랜드피아노 무대에서 — 위에서 떨어지는 음표(악보와 같은 콩나물 모양), 빛나는 건반, 별빛 반짝임. 손가락으로 돌려 보고, 빠르기·시점을 바꿔 들어요."/>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
 <style>
 html,body{margin:0;height:100%;background:#03040f;color:#eef1ff;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;overflow:hidden}
@@ -47,7 +47,7 @@ button.on{background:#6ec3ff;color:#04122a;border-color:#6ec3ff}
   <div class="row" id="views">
     <button data-v="auto" class="on">🎥 자동 회전</button><button data-v="front">앞</button><button data-v="top">위</button><button data-v="side">옆</button><button data-v="free">✋ 내 마음대로</button>
   </div>
-  <div class="links">손가락·마우스로 돌리고, 두 손가락·휠로 확대해요 · <a href="nocturne20.html">악보로 배우기</a> · <a href="nocturne20-video.html">영상 받기</a> · <a href="index.html">음악 공부방</a></div>
+  <div class="links">손가락·마우스로 돌리고, 두 손가락·휠로 확대해요 · <a href="nocturne20.html">악보로 배우기</a> · <a href="nocturne20-svg.html">SVG 음표</a> · <a href="nocturne20-video.html">영상 받기</a> · <a href="index.html">음악 공부방</a></div>
 </div>
 <div id="start"><div><h2>쇼팽 녹턴 20번</h2><p>3D 달빛 무대 · 영화 「피아니스트」 그 곡</p><button class="main" id="go">▶ 무대 열기</button><p style="font-size:13px;margin-top:14px">소리가 나요 · 휴대폰은 무음 모드를 꺼 주세요</p></div></div>
 <div id="msg"></div>
@@ -65,7 +65,7 @@ var bars=F.bars,NB=bars.length,off=[0],secs=[0];
 bars.forEach(function(b){off.push(off[off.length-1]+b.sig);secs.push(secs[secs.length-1]+b.sig*60/b.bpm);});
 function tOfBeat(beat){var k=0;while(k<NB-1&&off[k+1]<=beat+1e-9)k++;return secs[k]+(beat-off[k])*60/bars[k].bpm;}
 function beatOfT(t){if(t<0)return 0;var k=0;while(k<NB-1&&secs[k+1]<=t)k++;return off[k]+Math.min(bars[k].sig,(t-secs[k])/(60/bars[k].bpm));}
-var NOTES=F.raw.map(function(r){return {t0:tOfBeat(r[0]),t1:tOfBeat(r[0]+r[1]),m:r[2],h:r[3]};}).sort(function(a,b){return a.t0-b.t0;});
+var NOTES=F.raw.map(function(r){return {t0:tOfBeat(r[0]),t1:tOfBeat(r[0]+r[1]),m:r[2],h:r[3],len:r[1]};}).sort(function(a,b){return a.t0-b.t0;});
 var DUR=secs[NB]+2,SECN=[],cur="";bars.forEach(function(b,i){if(b.sec)cur=b.sec;SECN[i]=cur;});
 var CAP=[[1,"1830년, 스무 살 쇼팽이 누나에게 선물한 곡"],[5,"노래하는 멜로디 — 트릴이 별빛처럼 떨려요 ✨"],[21,"조금 빠르게, 작은 춤을 추듯"],[33,"3/4박자 — 피아노 협주곡 2번의 추억"],[44,"숨을 고르고, 아주 느리게…"],[46,"처음 노래가 다시 돌아와요"],[53,"가장 크게 — 마음이 터지는 순간"],[57,"별이 쏟아지는 음계 🌠"],[63,"그리고, 고요한 밤"]].map(function(c){return [tOfBeat(off[c[0]-1]),c[1]];});
 
@@ -97,10 +97,26 @@ for(m=LO;m<=HI;m++)if(isB(m))xs[m]=xs[m-1]+WW/2;
 var wMat=function(){return new THREE.MeshStandardMaterial({color:0xf6f3ea,roughness:.4,emissive:0x000000});},bMat=function(){return new THREE.MeshStandardMaterial({color:0x111015,roughness:.3,metalness:.3,emissive:0x000000});};
 for(m=LO;m<=HI;m++){var bk=isB(m),k=new THREE.Mesh(bk?new THREE.BoxGeometry(WW*.58,.36,1.5):new THREE.BoxGeometry(WW*.94,.3,2.5),bk?bMat():wMat());
  k.position.set(xs[m],bk?.24:0,bk?-1.6:-1.1);k.userData={base:k.position.y,bk:bk};scene.add(k);keys[m]=k;}
-/* 날아오는 음표: 건반 뒤쪽(-z)에서 앞으로 */
-var LANE_Z=-2.4,SPEED=6.5,LOOK=7,COLR=new THREE.Color(0xffd166),COLL=new THREE.Color(0x6ec3ff);
-var pool=[],used=0,geo=new THREE.BoxGeometry(1,1,1);
-function getBlock(){if(used<pool.length)return pool[used++];var mm=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.92}));scene.add(mm);pool.push(mm);used++;return mm;}
+/* 떨어지는 음표: 악보와 같은 콩나물 모양(머리·기둥·꼬리·점·올림표)이 위에서 건반으로 */
+var VS=2.6,LOOK=4.6,COLR=new THREE.Color(0xffd166),COLL=new THREE.Color(0x6ec3ff);
+var gHead=new THREE.SphereGeometry(.2,20,14),gRing=new THREE.TorusGeometry(.19,.055,10,28),gStem=new THREE.CylinderGeometry(.03,.03,1,8),gFlag=new THREE.BoxGeometry(.05,.34,.05),gDot=new THREE.SphereGeometry(.055,10,8);
+var shTex=(function(){var c=document.createElement("canvas");c.width=c.height=64;var x=c.getContext("2d");x.fillStyle="#fff";x.font="900 54px serif";x.textAlign="center";x.textBaseline="middle";x.fillText("\u266F",32,34);return new THREE.CanvasTexture(c);})();
+var pool=[],used=0;
+function getNote(){if(used<pool.length)return pool[used++];
+  var mat=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true}),gr=new THREE.Group();
+  var head=new THREE.Mesh(gHead,mat);head.scale.set(1.4,1,.7);head.rotation.z=.35;
+  var ring=new THREE.Mesh(gRing,mat);ring.scale.set(1.4,1,1);ring.rotation.z=.35;
+  var stem=new THREE.Mesh(gStem,mat);stem.scale.y=1.05;stem.position.set(.25,.55,0);
+  var f1=new THREE.Mesh(gFlag,mat);f1.position.set(.36,.92,0);f1.rotation.z=.75;
+  var f2=new THREE.Mesh(gFlag,mat);f2.position.set(.36,.74,0);f2.rotation.z=.75;
+  var dot=new THREE.Mesh(gDot,mat);dot.position.set(.42,.06,0);
+  var sh=new THREE.Sprite(new THREE.SpriteMaterial({map:shTex,transparent:true}));sh.scale.set(.42,.42,1);sh.position.set(-.48,.05,0);
+  [head,ring,stem,f1,f2,dot,sh].forEach(function(o){gr.add(o);});gr.userData={mat:mat,head:head,ring:ring,stem:stem,f1:f1,f2:f2,dot:dot,sh:sh};
+  scene.add(gr);pool.push(gr);used++;return gr;}
+function shapeNote(gr,n){var u=gr.userData,len=n.len,open=len>=1.9,whole=len>=3.9,fl=len<.3?2:len<.9?1:0,col=n.h==="R"?COLR:COLL;
+  u.head.visible=!open;u.ring.visible=open;u.stem.visible=!whole;u.f1.visible=fl>0;u.f2.visible=fl>1;
+  u.dot.visible=[.75,1.5,3].some(function(v){return Math.abs(len-v)<.02;});u.sh.visible=isB(n.m);
+  u.mat.color.copy(col);u.sh.material.color.copy(col);}
 /* 반짝이 */
 var sparks=[];
 function burst(m,col){for(var j=0;j<10;j++){var s=new THREE.Mesh(new THREE.SphereGeometry(.06,6,6),new THREE.MeshBasicMaterial({color:col,transparent:true}));s.position.set(xs[m],.5,-2.3);var a=Math.random()*Math.PI*2;s.userData={v:new THREE.Vector3(Math.cos(a)*1.4,2+Math.random()*2.5,Math.sin(a)*.6-.4),life:0};scene.add(s);sparks.push(s);}}
@@ -130,11 +146,12 @@ function frame(){
     while(next<NOTES.length&&NOTES[next].t0<=t+.15){var n=NOTES[next++];var when=t0+n.t0/spd;if(when>=ac.currentTime-.02)ME.piano(n.m,Math.max(ac.currentTime,when),Math.max(.12,(n.t1-n.t0)/spd),n.h==="R"?.5:.3);}
     if(t>=DUR)pause();
   }
-  /* 음표 블록 */
+  /* 떨어지는 음표 */
   used=0;
-  for(var i=0;i<NOTES.length;i++){var n=NOTES[i];if(n.t0>t+LOOK)break;var vis1=Math.min(n.t1,n.t0+(n.h==="L"?1.1:2.2));if(vis1<t)continue;
-    var zf=LANE_Z-(n.t0-t)*SPEED,zb=LANE_Z-(vis1-t)*SPEED;if(zf>LANE_Z)zf=LANE_Z;var len=Math.max(.15,zf-zb);
-    var bl=getBlock();bl.scale.set(isB(n.m)?.2:.28,.18,len);bl.position.set(xs[n.m],isB(n.m)?.62:.5,zb+len/2);bl.material.color.copy(n.h==="R"?COLR:COLL);bl.visible=true;}
+  for(var i=0;i<NOTES.length;i++){var n=NOTES[i];if(n.t0>t+LOOK)break;if(n.t0<t-.15)continue;
+    var gr=getNote(),bk=isB(n.m),dtn=n.t0-t;shapeNote(gr,n);
+    gr.position.set(xs[n.m],(bk?.66:.46)+Math.max(0,dtn)*VS,bk?-1.75:-.9);
+    var a=dtn<0?1+dtn/.15:Math.min(1,(LOOK-dtn)/.6);gr.userData.mat.opacity=a;gr.userData.sh.material.opacity=a;gr.quaternion.copy(camera.quaternion);gr.visible=true;}
   for(i=used;i<pool.length;i++)pool[i].visible=false;
   /* 건반 눌림 */
   var down={};
