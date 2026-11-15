@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>제니오 사일런트 3D 쇼츠 (30초)</title>
+<style>
+html,body{margin:0;background:#05070d;color:#fff;font-family:'Malgun Gothic',sans-serif}
+#wrap{display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px}
+canvas{width:360px;height:640px;border-radius:14px;box-shadow:0 0 30px #0008}
+button{font-size:18px;padding:8px 18px;border-radius:10px;border:0;background:#ffd54a;font-weight:bold;cursor:pointer}
+</style></head><body>
+<div id="wrap"><canvas id="cv" width="1080" height="1920"></canvas>
+<button id="play">▶ 재생 (소리 포함)</button>
+<div style="font-size:13px;opacity:.7">제니오 사일런트 원리 3D 애니메이션 · 성실피아노</div></div>
+<script>
+const W=1080,H=1920,DUR=30,FPS=30;
+const cv=document.getElementById('cv'),g=cv.getContext('2d');
+const ease=t=>t<0?0:t>1?1:t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const seg=(t,a,b)=>clamp((t-a)/(b-a),0,1);
+const GOLD='#ffd54a';
+
+// ---------- 3D helpers ----------
+function proj(p,cam){ // p=[x,y,z]
+  let [x,y,z]=p; const cy=Math.cos(cam.yaw),sy=Math.sin(cam.yaw);
+  let X=x*cy-z*sy, Z=x*sy+z*cy;
+  const cp=Math.cos(cam.pitch),sp=Math.sin(cam.pitch);
+  let Y=y*cp-Z*sp; Z=y*sp+Z*cp;
+  Z+=cam.dist; const f=cam.f/Z;
+  return [cam.cx+X*f, cam.cy-Y*f, Z];
+}
+function quad(pts,fill,stroke){g.beginPath();pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.closePath();g.fillStyle=fill;g.fill();if(stroke){g.strokeStyle=stroke;g.lineWidth=2;g.stroke();}}
+function box(x0,y0,z0,x1,y1,z1,cam,col){ // col={top,front,side}
+  const P=(x,y,z)=>proj([x,y,z],cam);
+  const faces=[
+    {pts:[P(x0,y1,z0),P(x1,y1,z0),P(x1,y1,z1),P(x0,y1,z1)],c:col.top},
+    {pts:[P(x0,y0,z0),P(x1,y0,z0),P(x1,y1,z0),P(x0,y1,z0)],c:col.front},
+    {pts:[P(x1,y0,z0),P(x1,y0,z1),P(x1,y1,z1),P(x1,y1,z0)],c:col.side},
+    {pts:[P(x0,y0,z0),P(x0,y0,z1),P(x0,y1,z1),P(x0,y1,z0)],c:col.side},
+  ];
+  faces.forEach(f=>f.z=f.pts.reduce((s,p)=>s+p[2],0)/4);
+  faces.sort((a,b)=>b.z-a.z).forEach(f=>quad(f.pts,f.c,'rgba(0,0,0,.25)'));
+}
+function bg(t,top,bot){const gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,top);gr.addColorStop(1,bot);g.fillStyle=gr;g.fillRect(0,0,W,H);
+  // stars
+  for(let i=0;i<70;i++){const x=(i*397)%W,y=(i*911)%1100,a=.25+.25*Math.sin(t*2+i);g.fillStyle=`rgba(255,255,255,${a})`;g.fillRect(x,y,3,3);}
+}
+function text(s,y,size,col,alpha=1,weight='bold'){g.save();g.globalAlpha=alpha;g.font=`${weight} ${size}px "Malgun Gothic"`;g.textAlign='center';g.textBaseline='middle';
+  g.lineWidth=10;g.strokeStyle='rgba(0,0,0,.65)';s.split('\n').forEach((l,i)=>{g.strokeText(l,W/2,y+i*size*1.25);g.fillStyle=col;g.fillText(l,W/2,y+i*size*1.25);});g.restore();}
+function footer(a=1){g.save();g.globalAlpha=a;g.fillStyle='rgba(0,0,0,.55)';g.fillRect(0,H-210,W,210);g.restore();
+  text('성실피아노  010-8756-8740',H-140,50,GOLD,a);text('poianopks.github.io/silent',H-70,38,'#fff',a,'normal');}
+
+// ---------- keyboard (3D) ----------
+const NK=14;
+function keyboard(t,cam,pressFn,y0=0){
+  const kw=1.0,kl=5.2,gap=.06,x0=-NK*kw/2;
+  // body
+  box(x0-.6,-1.2+y0,-.4,-x0+.6,-.15+y0,kl+.8,cam,{top:'#2a1a12',front:'#3b2518',side:'#24150e'});
+  for(let i=0;i<NK;i++){const d=pressFn(i)*.28;const xa=x0+i*kw+gap,xb=x0+(i+1)*kw-gap;
+    box(xa,-.15-d+y0,0,xb,.25-d+y0,kl,cam,{top:d>.05?'#ffe9a8':'#f7f7f2',front:'#d9d9d2',side:'#bdbdb5'});}
+  const blk=[0,1,3,4,5,7,8,10,11,12];
+  blk.forEach(i=>{if(i>=NK-1)return;const xc=x0+(i+1)*kw;box(xc-.3,.25+y0,2.2,xc+.3,.65+y0,kl,cam,{top:'#1a1a1a',front:'#0d0d0d',side:'#111'});});
+}
+
+// ---------- action side view ----------
+// returns hammer angle; draws key, hammer, string, stop rail
+function action(t,o){ // o:{hit:0..1 cycle phase, rail:0..1, sensor:bool, glow}
+  const cx=540, cy=1000, s=1.0;
+  g.save(); g.translate(cx,cy);
+  // frame / soundboard
+  g.fillStyle='#3a2416';g.fillRect(250,-520,70,900);
+  // string
+  const vib=o.vib||0; g.strokeStyle='#cfd8e3';g.lineWidth=6;g.beginPath();
+  for(let y=-500;y<=360;y+=10){const xx=230+Math.sin((y+500)/860*Math.PI)*vib*Math.sin(t*90);y===-500?g.moveTo(xx,y):g.lineTo(xx,y);} g.stroke();
+  // key (lever)
+  const kd=o.key||0; g.save(); g.translate(-380,260); g.rotate(-kd*0.08);
+  g.fillStyle='#f4f4ef'; g.fillRect(-100,-30,560,50); g.fillStyle='#ccc';g.fillRect(-100,20,560,12); g.restore();
+  // sensor under key
+  if(o.sensor){g.fillStyle=o.glow?'#4af0ff':'#2a6c7a';g.beginPath();g.arc(-300,330,22,0,7);g.fill();
+    if(o.glow){g.strokeStyle='rgba(74,240,255,.6)';g.lineWidth=4;for(let r=1;r<=3;r++){g.beginPath();g.arc(-300,330,22+r*18*((t*3)%1+.2),0,7);g.stroke();}}}
+  // hammer: pivot at (0,120); rest angle 0 (head at left-down), strike angle -> head reaches string x=230
+  const ang=o.ang||0; g.save(); g.translate(0,140); g.rotate(-0.2+ang);
+  g.fillStyle='#8b5a2b'; g.fillRect(-10,-330,20,330); // shank
+  g.fillStyle='#e8e0cf'; g.beginPath(); g.ellipse(10,-350,42,72,0,0,7); g.fill(); // felt head
+  g.fillStyle='#6a4520'; g.fillRect(-40,-395,30,90); g.restore();
+  // stop rail (genio)
+  if(o.rail>0){const rx=-60+ (1-o.rail)*-500, a=o.rail; g.save(); g.globalAlpha=a;
+    g.fillStyle=GOLD; g.fillRect(rx+110,-330,46,260); g.fillStyle='#000'; g.font='bold 30px "Malgun Gothic"';
+    g.save(); g.translate(rx+142,-200); g.rotate(-Math.PI/2); g.textAlign='center'; g.fillText('제니오',0,0); g.restore(); g.restore();}
+  g.restore();
+}
+function waves(t,amp,x=770,y=780){if(amp<=0)return;g.save();for(let r=0;r<5;r++){const ph=((t*1.6)+r/5)%1;g.strokeStyle=`rgba(255,120,90,${amp*(1-ph)})`;g.lineWidth=10;g.beginPath();g.arc(x,y,80+ph*360,-Math.PI/3,Math.PI/3);g.stroke();}g.restore();}
+
+function headphones(x,y,sc,a){g.save();g.globalAlpha=a;g.translate(x,y);g.scale(sc,sc);g.strokeStyle='#e6e6e6';g.lineWidth=26;g.beginPath();g.arc(0,0,150,Math.PI,0);g.stroke();
+  g.fillStyle='#ffd54a';g.fillRect(-190,-10,70,130);g.fillRect(120,-10,70,130);g.restore();}
+function note(x,y,a){g.save();g.globalAlpha=a;g.fillStyle='#4af0ff';g.beginPath();g.ellipse(x,y,22,16,-.4,0,7);g.fill();g.fillRect(x+16,y-80,7,80);g.restore();}
+
+// ---------- scenes ----------
+function drawFrame(t){
+  g.clearRect(0,0,W,H);
+  if(t<6){ // A: 3D keyboard
+    bg(t,'#0b1430','#1b0f24');
+    const cam={yaw:-0.5+t*0.12,pitch:0.55,dist:19,f:1300,cx:540,cy:1080};
+    keyboard(t,cam,i=>{const ph=(t*3-i*0.35);return ph>0&&ph<1?Math.sin(ph*Math.PI):0;});
+    text('밤 11시에도\n마음껏 피아노',380,110,'#fff',seg(t,.2,1.2));
+    text('제니오 사일런트',1560,70,GOLD,seg(t,1.5,2.5));
+    footer(seg(t,2,3));
+  } else if(t<12){ // B: loud hammer hits string
+    const u=t-6; bg(t,'#2a0c0c','#120608');
+    const cyc=(u*1.6)%1, hit=cyc<.25?Math.sin(cyc/.25*Math.PI/2):cyc<.45?1-(cyc-.25)/.2:0;
+    const ang=hit*0.92; const struck=cyc>.2&&cyc<.6;
+    action(t,{ang,key:hit,vib:struck?14*(1-(cyc-.2)/.4):0,rail:0});
+    waves(t,struck?1:.4);
+    text('쾅! 쾅!',360,120,'#ff8a6a',seg(u,.2,.8));
+    text('층간소음 걱정되시죠?',1560,66,'#fff',seg(u,1,2));
+    footer(.9);
+  } else if(t<19){ // C: rail slides, hammer stops
+    const u=t-12; bg(t,'#0b2030','#07121c');
+    const rail=ease(seg(u,0,1.6));
+    const cyc=(u*1.6)%1, hit=cyc<.25?Math.sin(cyc/.25*Math.PI/2):cyc<.45?1-(cyc-.25)/.2:0;
+    const maxA=0.92-0.55*rail; const ang=hit*maxA;
+    action(t,{ang,key:hit,vib:rail<.9&&cyc>.2&&cyc<.6?8:0,rail});
+    waves(t,(1-rail)*.8);
+    if(rail>.9){g.save();g.globalAlpha=seg(u,2,2.6);g.strokeStyle='#5dff9a';g.lineWidth=14;g.beginPath();g.moveTo(820,700);g.lineTo(870,760);g.lineTo(980,620);g.stroke();g.restore();}
+    text('제니오 사일런트',330,104,GOLD,seg(u,.3,1));
+    text('망치가 현 앞에서 딱!\n소리가 나지 않아요',1500,62,'#fff',seg(u,2,3));
+    footer(.9);
+  } else if(t<24){ // D: sensor -> headphones
+    const u=t-19; bg(t,'#0a1a2c','#061018');
+    const cyc=(u*1.6)%1, hit=cyc<.25?Math.sin(cyc/.25*Math.PI/2):cyc<.45?1-(cyc-.25)/.2:0;
+    g.save();g.translate(-120,120);g.scale(.8,.8);action(t,{ang:hit*.37,key:hit,rail:1,sensor:true,glow:hit>.3});g.restore();
+    // signal dots
+    for(let k=0;k<8;k++){const p=((u*.9)+k/8)%1;const x=280+p*480,y=1430-p*820+Math.sin(p*6)*40;g.fillStyle=`rgba(74,240,255,${1-p})`;g.beginPath();g.arc(x,y,12,0,7);g.fill();}
+    headphones(800,560,.9,seg(u,.3,1));
+    for(let k=0;k<3;k++){const p=((u*.7)+k/3)%1;note(700+k*90,500-p*220,1-p);}
+    text('건반 센서 → 디지털 소리',330,70,'#4af0ff',seg(u,.2,1));
+    text('헤드폰으로\n나만 듣는 연주',1500,80,'#fff',seg(u,1,2));
+    footer(.9);
+  } else if(t<27){ // E: toggle
+    const u=t-24; bg(t,'#14102a','#0a0816');
+    const on=u>1.2; const k=ease(seg(u,1.0,1.5));
+    g.save();g.translate(540,900);g.fillStyle='#2c2c3a';g.beginPath();g.roundRect(-260,-110,520,220,110);g.fill();
+    g.fillStyle=on?'#2bd47a':'#555';g.beginPath();g.roundRect(-250,-100,500,200,100);g.fill();
+    g.fillStyle='#fff';g.beginPath();g.arc(-150+300*k,0,90,0,7);g.fill();g.restore();
+    g.font='bold 58px "Malgun Gothic"';g.fillStyle='#fff';g.textAlign='center';g.fillText('일반',250,1100);g.fillStyle=GOLD;g.fillText('방음',830,1100);
+    text('스위치 하나로\n일반 ↔ 방음 전환',420,92,'#fff',seg(u,.2,1));
+    text('쓰던 피아노 그대로!',1400,70,GOLD,seg(u,1.4,2.2));
+    footer(.9);
+  } else { // F: card + 3D keyboard
+    const u=t-27; bg(t,'#0b1430','#1b0f24');
+    const cam={yaw:0.3+u*.1,pitch:0.6,dist:19,f:1250,cx:540,cy:1250};
+    keyboard(t,cam,i=>{const ph=(u*4-i*0.3);return ph>0&&ph<1?Math.sin(ph*Math.PI):0;});
+    text('제니오 사일런트 설치',330,88,GOLD,seg(u,0,.6));
+    text('서울·경기·인천 출장',470,68,'#fff',seg(u,.2,.8));
+    text('성실피아노',700,110,'#fff',seg(u,.4,1));
+    text('010-8756-8740',840,90,GOLD,seg(u,.5,1.1));
+    text('poianopks.github.io/silent',1700,46,'#fff',seg(u,.6,1.2),'normal');
+  }
+  // global fade
+  const fa=Math.min(seg(t,0,.4),1-seg(t,DUR-.5,DUR)); if(fa<1){g.fillStyle=`rgba(0,0,0,${1-fa})`;g.fillRect(0,0,W,H);}
+}
+window.drawFrame=drawFrame;
+
+// ---------- audio (offline, original) ----------
+function pianoNote(ctx,out,t0,f,vel,dur){
+  [1,2,3].forEach((h,i)=>{const o=ctx.createOscillator();o.type=i?'sine':'triangle';o.frequency.value=f*h;
+    const gn=ctx.createGain();const v=vel*[.6,.25,.1][i];gn.gain.setValueAtTime(0,t0);gn.gain.linearRampToValueAtTime(v,t0+.008);gn.gain.exponentialRampToValueAtTime(v*.25,t0+.4);gn.gain.exponentialRampToValueAtTime(.0001,t0+dur);
+    o.connect(gn);gn.connect(out);o.start(t0);o.stop(t0+dur+.05);});
+}
+const mf=m=>440*Math.pow(2,(m-69)/12);
+async function renderAudio(){
+  const ctx=new OfflineAudioContext(2,44100*DUR,44100);
+  const master=ctx.createGain();master.gain.value=.5;master.connect(ctx.destination);
+  // simple reverb
+  const len=44100*2.2,ir=ctx.createBuffer(2,len,44100);for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);}
+  const conv=ctx.createConvolver();conv.buffer=ir;const wet=ctx.createGain();wet.gain.value=.35;conv.connect(wet);wet.connect(master);
+  const bus=ctx.createGain();bus.connect(master);bus.connect(conv);
+  // gentle arpeggio melody A (0-6), D (19-24), F (27-30)
+  const prog=[[60,64,67,72],[57,60,64,69],[53,57,60,65],[55,59,62,67]];
+  const arp=(s,e,vel)=>{let t=s,i=0;while(t<e){const ch=prog[Math.floor(i/8)%4];pianoNote(ctx,bus,t,mf(ch[i%4]+(i%8>=4?12:0)),vel,1.6);t+=.3;i++;}};
+  arp(.2,6,.22); arp(19,24,.2); arp(24,27,.16); arp(27,29.5,.22);
+  // B loud hits (cycle 1/1.6 s) 6-12
+  for(let t=6+.13;t<12;t+=1/1.6){[48,55,60,64].forEach(m=>pianoNote(ctx,bus,t,mf(m),.5,1.4));}
+  // C: hits fading out as rail comes in, then soft thuds
+  for(let t=12+.13;t<19;t+=1/1.6){const r=Math.min(1,(t-12)/1.6);if(r<1)[48,55,60,64].forEach(m=>pianoNote(ctx,bus,t,mf(m),.5*(1-r),1.2));
+    const o=ctx.createOscillator();o.frequency.value=70;const gn=ctx.createGain();gn.gain.setValueAtTime(.12*r,t);gn.gain.exponentialRampToValueAtTime(.0001,t+.12);o.connect(gn);gn.connect(master);o.start(t);o.stop(t+.15);}
+  const buf=await ctx.startRendering();
+  // to wav base64
+  const n=buf.length,ch=2,ab=new ArrayBuffer(44+n*ch*2),dv=new DataView(ab);const ws=(o,s)=>{for(let i=0;i<s.length;i++)dv.setUint8(o+i,s.charCodeAt(i));};
+  ws(0,'RIFF');dv.setUint32(4,36+n*ch*2,true);ws(8,'WAVE');ws(12,'fmt ');dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,ch,true);dv.setUint32(24,44100,true);dv.setUint32(28,44100*ch*2,true);dv.setUint16(32,ch*2,true);dv.setUint16(34,16,true);ws(36,'data');dv.setUint32(40,n*ch*2,true);
+  const L=buf.getChannelData(0),R=buf.getChannelData(1);let o=44;for(let i=0;i<n;i++){dv.setInt16(o,clamp(L[i],-1,1)*32767,true);dv.setInt16(o+2,clamp(R[i],-1,1)*32767,true);o+=4;}
+  window.__buf=buf; return ab;
+}
+window.renderAudio=renderAudio;
+window.renderWavB64=async()=>{const ab=await renderAudio();let s='';const u=new Uint8Array(ab);for(let i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));window.__wav=btoa(s);return window.__wav.length;};
+
+// preview player
+drawFrame(1.5);
+document.getElementById('play').onclick=async()=>{const ac=new AudioContext();if(!window.__buf)await renderAudio();const src=ac.createBufferSource();src.buffer=window.__buf;src.connect(ac.destination);const t0=ac.currentTime+.05;src.start(t0);
+  const loop=()=>{const t=ac.currentTime-t0;drawFrame(clamp(t,0,DUR-.01));if(t<DUR)requestAnimationFrame(loop);};loop();};
+</script></body></html>
