@@ -3,6 +3,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+Allow: /genio/
 Disallow: /apps/
 Disallow: /cld_eco/
 Disallow: /test/
