@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>샹송 왼손 반주 3D 레슨</title>
+<meta name="description" content="샹송(프랑스 노래) 왼손 반주를 3D 건반과 두 손으로 배우는 영상 레슨. 남자 선생님 목소리 설명, 3/4박자 왈츠 쿵짝짝, C·F·C·G 화음, 교대 베이스 왈츠, 오른손 멜로디와 함께."/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/genre.css?v=20261106">
+<style>
+body{background:#140b14}
+.wrap{max-width:1240px}
+h1{color:#ffb3cf;margin:14px 0 4px;font-size:clamp(1.3rem,4vw,1.9rem)}
+.lead{color:#f3dbe6}
+#stageWrap{position:relative;width:100%;overflow:hidden;border-radius:14px;background:#120810}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:#120810}
+#gl{position:absolute;left:0;top:0;width:1920px;height:720px;display:block;background:radial-gradient(ellipse at 18% 18%,rgba(255,190,120,.28),rgba(0,0,0,0) 32%),linear-gradient(#2a0f22,#4a1a36 44%,#1a0a16 50%,#0e060c)}
+#top{position:absolute;left:0;top:0;width:1920px;height:330px;pointer-events:none}
+#chip{position:absolute;left:36px;top:28px;display:flex;gap:14px;align-items:center}
+#chip .logo{color:#ffd6e6;font-size:30px;font-weight:900}
+#chip .step{background:#e8457a;color:#fff;border-radius:999px;padding:6px 18px;font-size:26px;font-weight:900}
+#segTitle{position:absolute;left:36px;top:84px;color:#fff;font-size:44px;font-weight:900;text-shadow:0 3px 14px rgba(0,0,0,.5)}
+#sub{position:absolute;left:36px;top:150px;width:1180px;background:rgba(12,4,10,.72);border:2px solid rgba(255,170,200,.45);border-radius:22px;padding:16px 24px;color:#fff;font-size:33px;font-weight:800;line-height:1.45;min-height:96px}
+#sub .done{color:#ffd166}
+#sub .who{display:block;font-size:20px;color:#ffb3cf;font-weight:800;margin-bottom:4px}
+#beats{position:absolute;right:40px;top:30px;display:flex;gap:14px}
+.bt{width:118px;height:132px;border-radius:22px;background:rgba(12,4,10,.6);border:3px solid rgba(255,255,255,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#f3dbe6;transition:all .08s}
+.bt b{font-size:46px;font-weight:900;line-height:1}
+.bt span{font-size:24px;font-weight:900;margin-top:6px}
+.bt.on{background:#e8457a;border-color:#ffd6e6;color:#fff;transform:scale(1.08)}
+.bt.acc.on{background:#ffd166;color:#3a1400;border-color:#fff}
+#chord{position:absolute;right:40px;top:186px;width:400px;height:120px;border-radius:22px;background:rgba(12,4,10,.6);border:3px solid rgba(110,195,255,.5);display:flex;align-items:center;gap:18px;padding:0 22px;box-sizing:border-box;color:#fff;opacity:0;transition:opacity .3s}
+#chord b{font-size:64px;font-weight:900;color:#6ec3ff;min-width:70px;text-align:center}
+#chord span{font-size:28px;font-weight:900;line-height:1.3}
+#bot{position:absolute;left:0;top:720px;width:1920px;height:360px;background:#fff8fb;border-top:4px solid #e8457a;box-sizing:border-box;overflow:hidden}
+#scoreBox{position:absolute;left:0;top:0;width:1920px;height:356px}
+.chunk{position:absolute;width:1700px;transform-origin:0 0;display:none}
+.chunk.show{display:block}
+#cur{position:absolute;top:0;width:5px;height:356px;background:#e0413a;box-shadow:0 0 8px rgba(224,65,58,.7);display:none;z-index:3}
+#card{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:0 80px;box-sizing:border-box;color:#2a1020}
+#card .in{display:flex;gap:40px;align-items:center}
+#card .big{font-size:120px}
+#card h3{margin:0 0 10px;font-size:46px;color:#c22e62}
+#card p{margin:6px 0;font-size:32px;font-weight:700;line-height:1.45}
+#bot .score{--staff:#000;--ink:#000;--sub:#222}
+#bot .score .staffline{stroke-width:1.8}
+#bot .score .n .st{stroke-width:2.2}
+#bot .score .lab{font-weight:900;fill:#000}
+#bot .score .beam,#bot .score .ink{fill:#000}
+#bot .score text{font-weight:900}
+.score .ksig{fill:var(--staff);font-size:20px}
+.score .n.on .hd{fill:#e8457a;stroke:#e8457a}
+.score .tie{fill:none;stroke:var(--staff);stroke-width:2}
+.score .tup{fill:var(--staff);font-size:11px;font-weight:800;text-anchor:middle;font-style:italic}
+#ov{position:absolute;left:0;top:0;width:1920px;height:1080px;display:none;place-items:center;text-align:center;background:radial-gradient(ellipse at 50% 40%,#5a1a3c,#140810 70%);color:#fff;z-index:9}
+#ov h2{margin:0;font-size:104px;color:#ffd6e6;text-shadow:0 0 30px rgba(232,69,122,.8)}
+#ov p{margin:14px 0 0;font-size:36px;font-weight:800;color:#ffe8f1}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;background:#2a0f22;padding:10px;border-radius:14px;margin-top:8px}
+.ctrl .info{color:#ffd6e6;font-weight:900}
+.prog{height:12px;background:#4a2038;border-radius:6px;margin:8px 0;overflow:hidden;cursor:pointer}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#e8457a,#ffd166)}
+.card{margin-top:12px}
+footer,footer a{color:#e9b9cc}
+body.rec{margin:0;overflow:hidden}
+body.rec .wrap>*:not(#stageWrap),body.rec header{display:none!important}
+body.rec .wrap{max-width:none;margin:0;padding:0}
+body.rec #stageWrap{width:1920px;height:1080px!important;border-radius:0}
+</style>
+</head>
+<body>
+<header class="top"><div class="topbar"><span class="logo">🎹 샹송 왼손 반주 3D 레슨</span><nav><a href="chanson-3d-video.html">📺 유튜브 영상</a><a href="left-hand-rhythm.html#chanson">왼손 반주 교실</a><a href="room-claude.html">동영상 방</a><a href="index.html">음악 공부방</a></nav></div></header>
+<div class="wrap">
+  <h1>샹송 왼손 반주 — 3D 건반 레슨</h1>
+  <p class="lead">선생님 목소리로 설명을 듣고, 3D 건반에서 <b>왼손 손가락이 어느 건반을 누르는지</b> 보면서 배워요. 3/4박자 왈츠 <b>쿵 짝짝</b> → 화음 C·F·C·G → 1단계 · 2단계 → 오른손 멜로디와 함께. 휴대폰은 가로로 돌리면 크게 보여요.</p>
+  <div id="stageWrap"><div id="stage">
+    <canvas id="gl" width="1920" height="720"></canvas>
+    <div id="top">
+      <div id="chip"><span class="logo">🎹 성실피아노 왼손 반주 교실</span><span class="step" id="step">시작</span></div>
+      <div id="segTitle"></div>
+      <div id="sub"><span class="who">🎙 선생님</span><span id="subT"></span></div>
+      <div id="beats"><div class="bt acc" id="b0"><b>1</b><span>쿵</span></div><div class="bt" id="b1"><b>2</b><span>짝</span></div><div class="bt" id="b2"><b>3</b><span>짝</span></div></div>
+      <div id="chord"><b id="chN">C</b><span id="chT">도·미·솔<br><small style="color:#ffb3cf">쿵 = 도</small></span></div>
+    </div>
+    <div id="bot"><div id="scoreBox"><div id="cur"></div></div><div id="card"><div class="in"><div class="big" id="cardIcon"></div><div><h3 id="cardH"></h3><div id="cardP"></div></div></div></div></div>
+    <div id="ov"><div id="ovIn"></div></div>
+  </div></div>
+  <div class="prog" id="progBar" title="누르면 그 자리로 가요"><i id="prog"></i></div>
+  <div class="ctrl">
+    <button class="btn" id="play">▶ 레슨 시작</button>
+    <button class="btn alt" id="rew">⏮ 처음</button>
+    <span class="info" id="tNow">0:00</span>
+  </div>
+  <audio id="aud" src="media/chanson-lesson.mp3?v=1" preload="auto"></audio>
+  <div class="card">
+    <b>📺 유튜브용 영상</b>
+    <p style="margin:8px 0 0">같은 레슨을 영상(1920×1080)으로 만들었어요. <a href="chanson-3d-video.html">유튜브 영상 페이지</a>에서 받고, 제목·설명·태그를 복사할 수 있어요. 직접 따라 치려면 <a href="left-hand-rhythm.html#chanson">왼손 반주 교실의 샹송</a>에서 건반 따라치기를 해 보세요.</p>
+  </div>
+  <p style="color:#e9b9cc;font-size:.88rem;margin-top:12px">목소리: 컴퓨터 음성(Microsoft 신경망 음성 · 한국어 남성) · 피아노 음색: Salamander Grand Piano (Alexander Holm, CC BY 3.0) · 반주·멜로디: 성실피아노 왼손 반주 교실 (CC BY-SA 4.0)</p>
+  <footer><p>ⓒ 성실피아노 · 피아노조율사 박근성 · <a href="left-hand-rhythm.html#chanson">왼손 반주 교실</a> · <a href="index.html">음악 공부방</a></p></footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/music-engine.js?v=20261114b"></script>
+<script src="js/score-engine.js?v=20261116"></script>
+<script src="js/chanson-lesson-data.js?v=1"></script>
+<script>
+(function(){
+"use strict";
+var REC=/[?&]rec=1/.test(location.search);if(REC)document.body.classList.add("rec");
+var D=window.CL,SE=window.SE,$=function(i){return document.getElementById(i);};
+if(!window.THREE){return;}
+var wrap=$("stageWrap"),stage=$("stage");
+function fitStage(){if(REC)return;var s=wrap.clientWidth/1920;stage.style.transform="scale("+s+")";wrap.style.height=(1080*s)+"px";}
+addEventListener("resize",fitStage);fitStage();
+var NOTES=D.notes.map(function(n){return {t0:n[0],t1:n[0]+n[1],m:n[2],h:n[3]};}).sort(function(a,b){return a.t0-b.t0;});
+/* ---------- 3D ---------- */
+var renderer=new THREE.WebGLRenderer({canvas:$("gl"),antialias:true,alpha:true,preserveDrawingBuffer:REC});
+renderer.setPixelRatio(1);renderer.setSize(1920,720,false);
+var scene=new THREE.Scene();renderer.setClearColor(0x000000,0);
+scene.add(new THREE.AmbientLight(0xffffff,.6));
+var dl=new THREE.DirectionalLight(0xfff0e0,.8);dl.position.set(-6,20,14);scene.add(dl);
+function isB(m){return [1,3,6,8,10].indexOf(m%12)>=0;}
+var KLO=36,KHI=72;
+var whites=[];for(var m=KLO;m<=KHI;m++)if(!isB(m))whites.push(m);
+var NW=whites.length,X={};
+whites.forEach(function(m,i){X[m]=i-(NW-1)/2;});
+for(m=KLO;m<=KHI;m++)if(isB(m))X[m]=X[m-1]+.5;
+var body=new THREE.Mesh(new THREE.BoxGeometry(NW+1.2,1.2,1.4),new THREE.MeshStandardMaterial({color:0x14070e,roughness:.3,metalness:.5}));body.position.set(0,.1,-.75);scene.add(body);
+var felt=new THREE.Mesh(new THREE.BoxGeometry(NW+.2,.08,.12),new THREE.MeshBasicMaterial({color:0xe8457a}));felt.position.set(0,.05,-.08);scene.add(felt);
+var front=new THREE.Mesh(new THREE.BoxGeometry(NW+1.2,.7,.6),new THREE.MeshStandardMaterial({color:0x14070e,roughness:.3,metalness:.5}));front.position.set(0,-.55,6.3);scene.add(front);
+var KEYS={},LBL={};
+for(m=KLO;m<=KHI;m++){var bk=isB(m),mat=new THREE.MeshStandardMaterial({color:bk?0x141218:0xf7f4ec,roughness:bk?.35:.45,metalness:bk?.2:0});
+  var k=new THREE.Mesh(bk?new THREE.BoxGeometry(.56,.5,3.8):new THREE.BoxGeometry(.94,.5,6),mat);
+  k.position.set(X[m],bk?.2:-.25,bk?1.9:3);k.userData={y:k.position.y,bk:bk};scene.add(k);KEYS[m]=k;}
+/* 건반 위 계이름 글자 (흰 건반, 도는 진하게) */
+var SOL=["도","","레","","미","파","","솔","","라","","시"];
+whites.forEach(function(m){var c=document.createElement("canvas");c.width=c.height=64;var x=c.getContext("2d");x.fillStyle=m%12===0?"#c22e62":"#7a6a72";x.font="900 40px sans-serif";x.textAlign="center";x.textBaseline="middle";x.fillText(SOL[m%12],32,34);
+  var sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthTest:false}));sp.scale.set(.7,.7,1);sp.position.set(X[m],.2,5.2);scene.add(sp);LBL[m]=sp;});
+var FOV=20,ASP=1920/720,TH=50*Math.PI/180;
+var camera=new THREE.PerspectiveCamera(FOV,ASP,1,400);
+var DIST=Math.max(NW/2+.5,16.5)/(Math.tan(FOV*Math.PI/360)*ASP);
+camera.position.set(0,Math.sin(TH)*DIST,Math.cos(TH)*DIST);camera.lookAt(0,0,0);
+/* 두 손 (앞에서 내려다본 손, 짧은 소매) */
+var SKIN=new THREE.MeshStandardMaterial({color:0xf6d0ae,roughness:.7});
+var gFing=new THREE.CylinderGeometry(.27,.31,1,16),gTip=new THREE.SphereGeometry(.28,16,12),gPalm=new THREE.SphereGeometry(1,28,18);
+function makeHand(hd){
+  var col=hd==="R"?0xffd166:0x6ec3ff,g=new THREE.Group();
+  var palm=new THREE.Mesh(gPalm,SKIN);palm.scale.set(1.85,.42,1.15);g.add(palm);
+  var cuff=new THREE.Mesh(new THREE.CylinderGeometry(1.15,1.2,1.1,28),new THREE.MeshStandardMaterial({color:0xe2669a,roughness:.6}));cuff.rotation.x=Math.PI/2;cuff.scale.set(1.45,1,.62);g.add(cuff);
+  var band=new THREE.Mesh(new THREE.CylinderGeometry(1.2,1.2,.22,28),new THREE.MeshStandardMaterial({color:col,roughness:.5,emissive:col,emissiveIntensity:.25}));band.rotation.x=Math.PI/2;band.scale.set(1.45,1,.64);g.add(band);
+  var f=[];for(var i=0;i<5;i++){var cyl=new THREE.Mesh(gFing,SKIN.clone()),tip=new THREE.Mesh(gTip,SKIN.clone());scene.add(cyl);scene.add(tip);f.push({cyl:cyl,tip:tip});}
+  scene.add(g);return {hd:hd,g:g,palm:palm,cuff:cuff,band:band,f:f,col:new THREE.Color(col)};}
+var HANDS={R:makeHand("R"),L:makeHand("L")};
+var BYH={R:NOTES.filter(function(n){return n.h==="R";}),L:NOTES.filter(function(n){return n.h==="L";})};
+var vA=new THREE.Vector3(),vB=new THREE.Vector3(),UP=new THREE.Vector3(0,1,0);
+function placeCyl(c,a,b){vA.subVectors(b,a);var L=vA.length();c.position.copy(a).addScaledVector(vA,.5);c.scale.set(1,L,1);c.quaternion.setFromUnitVectors(UP,vA.normalize());}
+function handCenter(hd,t,spd){var ns=BYH[hd],sw=0,sx=0,best=null,bd=1e9;
+  for(var i=0;i<ns.length;i++){var n=ns[i],d=(n.t0-t)/spd;if(d>2.5)break;if(d<-2.5)continue;
+    var w=Math.exp(-Math.pow((d-.12)/.45,2));sw+=w;sx+=w*X[n.m];if(Math.abs(d)<bd){bd=Math.abs(d);best=n;}}
+  if(sw>1e-3)return sx/sw;
+  if(best)return X[best.m];
+  var near=null;for(i=0;i<ns.length;i++){if(!near||Math.abs(ns[i].t0-t)<Math.abs(near.t0-t))near=ns[i];}return near?X[near.m]:(hd==="R"?6:-6);}
+function drawHand(H,cx,pressed){
+  var hd=H.hd,PZ=6.35,PY=1.3,R_=hd==="R";
+  var ps=pressed.slice().sort(function(a,b){return X[a]-X[b];}).slice(0,5),sp=1;
+  if(ps.length){var a0=X[ps[0]],a1=X[ps[ps.length-1]];if(a1-a0>3.4){sp=Math.min(1.9,(a1-a0)/3.4);cx=(a0+a1)/2;}else{cx=Math.max(a1-1.6,Math.min(a0+1.6,cx));}}
+  H.g.position.set(cx,PY,PZ);H.palm.scale.set(1.55*sp+.3,.42,1.15);H.cuff.position.set(0,-.1,1.55);H.band.position.set(0,-.1,1.05);
+  H.cuff.scale.set(1.45*Math.min(1.25,sp),1,.62);H.band.scale.set(1.45*Math.min(1.25,sp),1,.64);
+  /* 손가락 0~4 = 왼쪽→오른쪽. 오른손 엄지 = 0, 왼손 엄지 = 4 */
+  var thumbIdx=R_?0:4,KN=[],BASE=[],LEN=[];
+  var fx=[-1.05,-.35,.35,1.05],fl=R_?[2.3,2.55,2.35,1.95]:[1.95,2.35,2.55,2.3],j=0;
+  for(var i=0;i<5;i++){if(i===thumbIdx){KN.push(new THREE.Vector3(cx+(R_?-1.5:1.5)*sp,PY,PZ-.05));BASE.push(cx+(R_?-2.05:2.05)*sp);LEN.push(1.7);}
+    else{KN.push(new THREE.Vector3(cx+fx[j]*sp,PY+.12,PZ-.85));BASE.push(cx+fx[j]*sp*1.12);LEN.push(fl[j]);j++;}}
+  var asg={};
+  if(ps.length===1){var bi=0,bd=1e9;for(i=0;i<5;i++){var d=Math.abs(BASE[i]-X[ps[0]]);if(d<bd){bd=d;bi=i;}}asg[bi]=ps[0];}
+  else ps.forEach(function(m2,k2){asg[Math.round(k2*4/(ps.length-1))]=m2;});
+  for(i=0;i<5;i++){var fr=H.f[i],kn=KN[i],tip,thumb=i===thumbIdx;
+    if(asg[i]!==undefined){var pm=asg[i],bk=isB(pm);tip=new THREE.Vector3(X[pm],bk?.66:.24,bk?2.7:Math.max(3.9,kn.z-LEN[i]*.95));
+      fr.tip.material.color.copy(H.col);fr.tip.material.emissive=H.col;fr.tip.material.emissiveIntensity=.4;}
+    else{tip=new THREE.Vector3(BASE[i],.62,kn.z-LEN[i]*(thumb?.75:.92));fr.tip.material.color.setHex(0xf6d0ae);fr.tip.material.emissiveIntensity=0;}
+    placeCyl(fr.cyl,kn,tip);fr.tip.position.copy(tip);}
+}
+
+/* ---------- 악보 ---------- */
+var sbox=$("scoreBox"),cur=$("cur"),CHUNK={};
+function chunkFor(seg){var d=seg.demo;if(!d||(!d.lhTok&&!d.chords))return null;if(CHUNK[seg.id])return CHUNK[seg.id];
+  var lhTok=d.lhTok;
+  if(!d.lhTok)lhTok=D.prog.map(function(c){var ch=D.chords[c];return [nm(ch.root)+"+"+ch.T.map(nm).join("+")+":dh"];});
+  var div=document.createElement("div");div.className="chunk score show";sbox.insertBefore(div,cur);
+  var bars=[0,1,2,3].map(function(){return {sig:3,key:0,bpm:90};});
+  var staves=[];var R=d.rhTok?SE.parseBars(d.rhTok):null,L=SE.parseBars(lhTok);
+  if(R)staves.push({clef:"treble",items:R,prefix:"R"+seg.id+"-",labels:true});
+  staves.push({clef:"bass",items:L,prefix:"L"+seg.id+"-",labels:true});
+  SE.render(div,{staves:staves,bars:bars,startBar:1});
+  var h=div.scrollHeight,box=div.getBoundingClientRect(),sc=Math.min(1.6,340/h,1860/1700),xs=[],its=[];
+  [["R",R],["L",L]].forEach(function(p){if(!p[1])return;p[1].forEach(function(it){var n=div.querySelector('[data-i="'+p[0]+seg.id+"-"+it.i+'"]');if(!n)return;var r=n.getBoundingClientRect();if(!r.width)return;
+    xs.push([it.gpos,(r.left+r.width/2-box.left)/box.width*1700]);if(!it.rest)its.push({el:n,a:it.gpos,b:it.gpos+it.len});});});
+  xs.sort(function(a,b){return a[0]-b[0];});
+  var left=Math.round((1920-1700*sc)/2);div.style.transform="scale("+sc+")";div.style.left=left+"px";div.style.top=Math.round((356-h*sc)/2)+"px";div.classList.remove("show");
+  return CHUNK[seg.id]={div:div,sc:sc,left:left,xs:xs,its:its};}
+var NM=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];function nm(x){return NM[x%12]+(Math.floor(x/12)-1);}
+function curX(ch,lb){var xs=ch.xs;if(!xs.length)return 40;if(lb<=xs[0][0])return xs[0][1];for(var k=0;k<xs.length-1;k++)if(lb<xs[k+1][0]){if(xs[k+1][0]-xs[k][0]<1e-6)continue;return xs[k][1]+(xs[k+1][1]-xs[k][1])*(lb-xs[k][0])/(xs[k+1][0]-xs[k][0]);}return xs[xs.length-1][1];}
+D.segs.forEach(chunkFor);
+var CARDS={
+  what:["🇫🇷","샹송 = 프랑스 말로 '노래'","<p>사랑 · 추억 · 거리 풍경을 시처럼 들려주는 노래</p><p>🪗 아코디언과 '쿵 짝짝' 왈츠(뮈제트 왈츠)가 잘 어울려요</p>"],
+  tips:["💡","연습 요령","<p>① 아주 느리게, '하나 둘 셋' 소리 내어 세기</p><p>② 쿵은 조금 크게, 짝짝은 작고 가볍게</p><p>③ 화음이 바뀌어도 박자는 멈추지 않기</p>"],
+  outro:["🎹","더 배우려면","<p>성실피아노 공부방 → 왼손 반주 교실 → 샹송</p><p style='color:#c22e62'>poianopks.github.io/claude/left-hand-rhythm.html</p>"],
+  intro:["🎹","오늘 배울 것","<p>샹송 왼손 반주 — 3/4박자 왈츠 '쿵 짝짝'</p><p>화음 C · F · C · G · 1단계 · 2단계 · 양손</p>"],
+  beat:["🥁","3/4박자 = 하나 둘 셋","<p><b style='color:#c22e62'>하나(쿵)</b> 무겁게 · 둘(짝) · 셋(짝) 가볍게</p>"],
+  listen:null};
+var shownChunk=null,shownCard=null,segShown=-1;
+/* ---------- 한 장면 ---------- */
+function segAt(t){var s=null;D.segs.forEach(function(g,i){if(t>=g.t0-1e-6)s=i;});return s===null?0:s;}
+function draw(t){
+  var si=segAt(t),seg=D.segs[si],d=seg.demo;
+  if(si!==segShown){segShown=si;$("step").textContent=seg.step;$("segTitle").textContent=seg.title;}
+  /* 자막: 말한 만큼 노랗게 */
+  var vf=Math.max(0,Math.min(1,(t-seg.v0)/seg.vdur)),txt=seg.text,cut=Math.round(txt.length*vf);
+  $("subT").innerHTML='<span class="done">'+txt.slice(0,cut)+'</span>'+txt.slice(cut);
+  /* 박자 동그라미 */
+  var bOn=-1;if(d&&d.beats){for(var i=0;i<d.beats.length;i++){if(d.beats[i][0]<=t&&t<d.beats[i][0]+(d.spb||.75)*.85)bOn=d.beats[i][1];}}
+  for(i=0;i<3;i++)$("b"+i).classList.toggle("on",bOn===i);
+  /* 지금 화음 */
+  var chName=null;
+  if(d&&d.evs){d.evs.forEach(function(e){if(t>=e[0]-.05&&t<e[0]+1.6)chName=e[1];});}
+  else if(d&&d.lhTok&&t>=d.t0&&t<d.t1){var pos=(t-d.t0)/d.spb,bi=Math.floor(pos/3)%4;chName=D.prog[bi];}
+  if(chName){var ch=D.chords[chName],bass=(d&&d.lh===2&&d.lhTok&&Math.floor((t-d.t0)/d.spb/3)%2===1)?ch["5L"]:ch.root;
+    $("chN").textContent=chName;$("chT").innerHTML=ch.sol+'<br><small style="color:#ffb3cf">쿵 = '+SOL[bass%12]+(bass<ch.root?" (아래 5음)":" (근음)")+'</small>';$("chord").style.opacity=1;}
+  else $("chord").style.opacity=0;
+  /* 아래: 악보 또는 카드 */
+  var ck=chunkFor(seg),card=null;
+  if(!ck){card=CARDS[seg.card||seg.id]||CARDS.intro;}
+  if(ck!==shownChunk){if(shownChunk)shownChunk.div.classList.remove("show");if(ck)ck.div.classList.add("show");shownChunk=ck;}
+  if(card!==shownCard){shownCard=card;$("card").style.display=card?"flex":"none";if(card){$("cardIcon").textContent=card[0];$("cardH").textContent=card[1];$("cardP").innerHTML=card[2];}}
+  if(ck&&d.lhTok&&t>=d.t0&&t<d.t1){var lb=((t-d.t0)/d.spb)%12;cur.style.display="block";cur.style.left=(ck.left+curX(ck,lb)*ck.sc-2)+"px";ck.its.forEach(function(it){it.el.classList.toggle("on",lb>=it.a-1e-6&&lb<it.b-1e-6);});}
+  else if(ck&&d.evs&&t>=d.t0&&t<d.t1){var lb2=Math.min(11.9,(t-d.t0)/1.6*3);cur.style.display="block";cur.style.left=(ck.left+curX(ck,lb2)*ck.sc-2)+"px";ck.its.forEach(function(it){it.el.classList.toggle("on",lb2>=it.a-1e-6&&lb2<it.b-1e-6);});}
+  else{cur.style.display="none";if(ck)ck.its.forEach(function(it){it.el.classList.remove("on");});}
+  /* 건반·손 */
+  var down={},pr={R:[],L:[]};
+  NOTES.forEach(function(n){if(n.t0<=t&&t<n.t1){down[n.m]=n.h;if(pr[n.h].indexOf(n.m)<0)pr[n.h].push(n.m);}});
+  for(var mm in KEYS){var k=KEYS[mm],h=down[mm];k.position.y=h?k.userData.y-.14:k.userData.y;k.rotation.x=h?.03:0;
+    k.material.color.setHex(h==="R"?0xffd166:h==="L"?0x6ec3ff:(k.userData.bk?0x141218:0xf7f4ec));}
+  var cL=handCenter("L",t,1),cR=handCenter("R",t,1),rVis=BYH.R.some(function(n){return Math.abs(n.t0-t)<2.5;});
+  if(rVis&&cR-cL<4.6){cR=cL+4.6;}
+  cL=Math.max(X[KLO]+2.2,Math.min(X[KHI]-2.2,cL));
+  drawHand(HANDS.L,cL,pr.L);
+  HANDS.R.g.visible=rVis;HANDS.R.f.forEach(function(f){f.cyl.visible=rVis;f.tip.visible=rVis;});
+  if(rVis)drawHand(HANDS.R,Math.min(X[KHI]-2.2,cR),pr.R);
+  renderer.render(scene,camera);
+  /* 처음·끝 화면 */
+  var ov=$("ov");
+  if(t<D.intro){ov.style.display="grid";ov.style.opacity=t<D.intro-.6?1:(D.intro-t)/.6;$("ovIn").innerHTML='<p style="margin:0">성실피아노 왼손 반주 교실 · 3D 레슨</p><h2>샹송 왼손 반주</h2><p>3/4박자 왈츠 \'쿵 짝짝\' · 화음 C F C G</p><p style="font-size:28px;color:#ffd166">🎙 선생님 설명과 함께 건반·손가락을 보며 배워요</p>';}
+  else if(t>D.total-4){ov.style.display="grid";ov.style.opacity=Math.min(1,(t-(D.total-4))/1);$("ovIn").innerHTML='<h2 style="font-size:76px">함께해 주셔서 고마워요 🎹</h2><p style="color:#ffd6e6">따라 치기 — poianopks.github.io/claude/left-hand-rhythm.html</p><p style="font-size:24px">목소리: 컴퓨터 음성(한국어 남성) · 피아노 음색: Salamander Grand Piano (CC BY 3.0)</p><p style="font-size:26px">ⓒ 성실피아노 · 피아노조율사 박근성 · 010-8756-8740</p>';}
+  else ov.style.display="none";
+}
+window.VTOTAL=D.total;window.renderVideo=function(t){draw(t);};
+if(REC){draw(0);window.READY=true;return;}
+/* ---------- 재생 (목소리+피아노 mp3에 맞춰) ---------- */
+var aud=$("aud");
+function fmt(s){s=Math.max(0,s);return Math.floor(s/60)+":"+("0"+Math.floor(s%60)).slice(-2);}
+$("play").onclick=function(){if(aud.paused){aud.play();this.textContent="⏸ 멈춤";}else{aud.pause();this.textContent="▶ 이어서";}};
+$("rew").onclick=function(){aud.currentTime=0;};
+$("progBar").onclick=function(e){var r=this.getBoundingClientRect();aud.currentTime=Math.max(0,Math.min(D.total,(e.clientX-r.left)/r.width*D.total));};
+aud.onended=function(){$("play").textContent="▶ 다시 보기";};
+function frame(){requestAnimationFrame(frame);var t=aud.currentTime||0;draw(t);$("prog").style.width=(100*t/D.total).toFixed(2)+"%";$("tNow").textContent=fmt(t)+" / "+fmt(D.total);}
+frame();
+})();
+</script>
+</body>
+</html>
