@@ -3,7 +3,7 @@
 - 페이지: https://poianopks.github.io/claude/aside-lg/furtiva-3d.html (noindex, 화면 터치하면 소리)
 - 영상: https://poianopks.github.io/claude/aside-lg/media/furtiva-3d.mp4 (1920×1080, 3:51.6, 38MB)
 - 썸네일 1280×720: https://poianopks.github.io/claude/aside-lg/media/furtiva-3d-thumb.jpg
-- 커밋: a1641832 (아래 악보 두 단이 다 보이게 고친 판, 이전 77087f25)
+- 커밋: dd552c41 (아래 악보 두 단이 다 보이게 고친 판, 이전 77087f25)
 - 화면: ① 위 콩나물 음표가 떨어짐 ② 가운데 고정 3D 건반 + 두 손(팔 없음) ③ 아래 진한 두 단 악보(39마디 가장조, 45마디 카덴차 4.5박) · 노랑=오른손, 파랑=왼손
 - 빠르기: 선생님 요청으로 원곡 느낌을 살리려고 화면용 복사본에서만 모든 마디 bpm × 0.76 (FU_FULL 원본은 그대로)
 - 소리: Salamander Grand Piano (Yamaha C5, Alexander Holm, CC BY 3.0), FU_FULL.raw로 오프라인 녹음
@@ -137,6 +137,7 @@
 1) GitHub Actions 자동 갱신이 robots.txt / sitemap.xml 을 **덮어쓰지 않게** 해 주세요. (자동으로 만드는 스크립트가 있으면 apps·cld_eco 를 넣지 않도록)
 2) 사장님 방침: **메인은 피아노조율 유지**, 경제(cld_eco)는 승인 뒤 다시 검색 노출 검토.
 3) 승인 뒤 cld_eco 를 다시 검색에 넣을 때는 자동 숫자만이 아니라 사람이 쓴 해설 글을 붙이는 쪽을 추천.
+
 
 
 
