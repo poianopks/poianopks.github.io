@@ -42,6 +42,7 @@ var KEYS={
   "-1":{name:"라단조",acc:{B:"b"},marks:{treble:[["b",6]],bass:[["b",-8]]}},
   "2":{name:"라장조",acc:{F:"#",C:"#"},marks:{treble:[["#",10],["#",7]],bass:[["#",-4],["#",-7]]}},
   "-3":{name:"내림마장조",acc:{B:"b",E:"b",A:"b"},marks:{treble:[["b",6],["b",9],["b",5]],bass:[["b",-8],["b",-5],["b",-9]]}},
+  "3":{name:"가장조",acc:{F:"#",C:"#",G:"#"},marks:{treble:[["#",10],["#",7],["#",11]],bass:[["#",-4],["#",-7],["#",-3]]}},
   "4":{name:"올림다단조",acc:{F:"#",C:"#",G:"#",D:"#"},marks:{treble:[["#",10],["#",7],["#",11],["#",8]],bass:[["#",-4],["#",-7],["#",-3],["#",-6]]}}
 };
 var BOTTOM={treble:2,bass:-10};
@@ -102,16 +103,16 @@ function render(el,o){
   var html="",rows=[],b0=0;
   while(b0<nb){
     var bar0=o.bars[b0],prev=b0>0?o.bars[b0-1]:null;
-    var showTime=!prev||prev.sig!==bar0.sig,ksW=KEYS[bar0.key].marks.treble.length*10;
+    var showTime=(!prev||prev.sig!==bar0.sig||prev.ts!==bar0.ts)&&bar0.ts!=="-",ksW=KEYS[bar0.key].marks.treble.length*10;
     var left=42+ksW+(showTime?30:6),avail=W-left-6,used=0,b1=b0;
     while(b1<nb){
-      if(b1>b0&&(o.bars[b1].key!==bar0.key||o.bars[b1].sig!==bar0.sig))break;
+      if(b1>b0&&(o.bars[b1].key!==bar0.key||o.bars[b1].sig!==bar0.sig||o.bars[b1].ts!==bar0.ts))break;
       if(b1>b0&&used+maps[b1].min>avail)break;
       used+=maps[b1].min;b1++;
     }
     var stretch=used>avail?avail/used:Math.max(1,avail/used);
     if(b1===nb&&b1-b0===1&&stretch>2.2)stretch=2.2;
-    rows.push({b0:b0,b1:b1,left:left,stretch:stretch,showTime:showTime,key:bar0.key,sig:bar0.sig});
+    rows.push({b0:b0,b1:b1,left:left,stretch:stretch,showTime:showTime,key:bar0.key,sig:bar0.sig,ts:bar0.ts});
     b0=b1;
   }
   var dstep=function(n,it){return n.step-(it._sh||0);};
@@ -166,7 +167,7 @@ function render(el,o){
       s+='<line class="staffline" x1="4" x2="4" y1="'+top+'" y2="'+(top+40)+'"/>';
       s+=clefSVG(rowClef[si],8,top)+keySigSVG(rowClef[si],row.key,42,top);
       if(row.showTime){var tx=42+KEYS[row.key].marks.treble.length*10+14;
-        s+='<g class="ink" stroke="none" font-family="Georgia,serif" font-weight="900" font-size="22" text-anchor="middle"><text x="'+tx+'" y="'+(top+18)+'">'+row.sig+'</text><text x="'+tx+'" y="'+(top+39)+'">4</text></g>';}
+        s+='<g class="ink" stroke="none" font-family="Georgia,serif" font-weight="900" font-size="22" text-anchor="middle"><text x="'+tx+'" y="'+(top+18)+'">'+(row.ts?row.ts.split("/")[0]:row.sig)+'</text><text x="'+tx+'" y="'+(top+39)+'">'+(row.ts?row.ts.split("/")[1]:4)+'</text></g>';}
       if(st.labels)s+='<text x="6" y="'+labY+'" class="cnt" style="text-anchor:start">계이름</text>';
       var keyAcc=KEYS[row.key].acc,xOf={},prevClef=rowClef[si];
       for(var bi=row.b0;bi<row.b1;bi++){
