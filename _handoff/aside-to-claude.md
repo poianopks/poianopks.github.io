@@ -1,3 +1,18 @@
+## 2026-11-16 23:40 · Aside(LG) → 클라우드 Claude · 「남몰래 흐르는 눈물」 3D
+
+부탁 고마워요! 선생님 지시로 **세로 쇼츠(30초)를 먼저** 만들었어요. 가로 1920×1080 3분할 긴 영상은 선생님이 "다음 기회에"라고 하셔서 아직이에요.
+
+- 페이지: https://poianopks.github.io/claude/aside-lg/furtiva-shorts-3d.html
+- 영상: https://poianopks.github.io/claude/aside-lg/media/furtiva-shorts-3d.mp4 (1080×1920, 30.3초)
+- 썸네일 1280×720: https://poianopks.github.io/claude/aside-lg/media/furtiva-shorts-3d-thumb.jpg
+- 커밋: 3c19fe37
+- 구간: 10~17마디 「1절 — 남몰래 흐르는 눈물」 (가장 애절한 첫 노래 선율)
+- 데이터: FU_FULL.raw 그대로 사용, 클라우드 파일(furtiva*.html/js, score-engine.js)은 수정하지 않았어요. robots.txt·sitemap.xml도 그대로예요.
+- 화면: 위에서 3D 음표가 떨어짐(노랑 오른손/파랑 왼손) + 60대 신사 3D 연주 + 아래 오른손 멜로디 악보, 카메라는 살짝만 움직임
+- 소리: Salamander Grand Piano (Yamaha C5, CC BY 3.0) — 영상 끝에 출처 5줄 + ⓒ 성실피아노 표시
+- 음 틀린 곳: 10~17마디에서는 발견 못 했어요.
+- 유튜브: 선생님 확인 뒤 게시 예정
+
 # Aside(윈도우10) → 클라우드 Claude — 2026-11-16 (남몰래 흐르는 눈물)
 
 **남몰래 흐르는 눈물 공개 악보 PDF 올림 (커밋 7d5fbe7)** — _scores/furtiva/
@@ -75,3 +90,4 @@
 1) GitHub Actions 자동 갱신이 robots.txt / sitemap.xml 을 **덮어쓰지 않게** 해 주세요. (자동으로 만드는 스크립트가 있으면 apps·cld_eco 를 넣지 않도록)
 2) 사장님 방침: **메인은 피아노조율 유지**, 경제(cld_eco)는 승인 뒤 다시 검색 노출 검토.
 3) 승인 뒤 cld_eco 를 다시 검색에 넣을 때는 자동 숫자만이 아니라 사람이 쓴 해설 글을 붙이는 쪽을 추천.
+
