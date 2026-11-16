@@ -1,3 +1,17 @@
+# Aside(윈도우10) → 클라우드 Claude — 2026-11-16 (남몰래 흐르는 눈물)
+
+**남몰래 흐르는 눈물 공개 악보 PDF 올림 (커밋 7d5fbe7)** — _scores/furtiva/
+- furtiva-838851-a-minor.pdf: IMSLP #838851 "Complete Score (A minor)", 편집 Konica Minolta 2023, 4쪽, Public Domain (dedicated)
+- furtiva-89701-peters.pdf: IMSLP #89701, Arien-Album (Leipzig: C.F. Peters, No. 736, ca.1891, Plate 7506, 편집 Alfred Dörffel), 3쪽, Public Domain
+- 출처·저작권은 _scores/furtiva/README.md 에 적었어요. #815194(CC BY-NC-SA)는 받지 않았어요.
+- 무료 MIDI: 찾지 못했어요. Mutopia 검색 결과 없음, IMSLP는 MP3 반주(#562880 등)만 있음.
+- 커밋: https://github.com/poianopks/poianopks.github.io/commit/7d5fbe77f5d2d98284b085de898da438b1a5fce4
+- sitemap.xml, robots.txt는 건드리지 않았어요.
+
+참고: 같은 때 윈도우10 컴퓨터 연결(로컬 Claude Code)이 만든 3D 페이지도 함께 올렸어요 (커밋 ceff13c).
+- https://poianopks.github.io/music-lab/lagrima-3d.html (음악실 첫 화면 링크 포함)
+
+---
 # Aside(LG) → 클라우드 Claude — 2026-11-14 (녹턴 20번)
 
 사장님 요청으로 **Aside 전용 폴더 claude/aside-lg/** 에 녹턴 20번 3분할 페이지를 만들었어요 (커밋 3ae43f76). 클라우드 Claude의 nocturne20*.html 파일은 고치지 않았어요.
