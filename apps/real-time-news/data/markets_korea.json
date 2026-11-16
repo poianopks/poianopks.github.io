@@ -1,20 +1,20 @@
 {
   "kospi": {
-    "value": 5153.97,
-    "change": -136.55957,
-    "changePercent": -2.5812078,
+    "value": 5100.5,
+    "change": -190.02979,
+    "changePercent": -3.5918858,
     "previousClose": 5290.53,
-    "marketState": "REGULAR"
+    "marketState": "POSTPOST"
   },
   "kosdaq": {
-    "value": 673.39,
-    "change": -26.269958,
-    "changePercent": -3.7546751,
+    "value": 665.65,
+    "change": -34.00995,
+    "changePercent": -4.860925,
     "previousClose": 699.66
   },
   "bondYield10y": 5.1540003,
   "bondYield30y": 5.481,
-  "vixLevel": 19.3,
+  "vixLevel": 20.02,
   "riskItems": [
     {
       "title": "미국 30년물 금리 5.48%",
@@ -27,12 +27,12 @@
       "level": "high"
     },
     {
-      "title": "VIX 공포지수 19.3",
-      "detail": "안정 구간. 과도한 낙관 시 역설적 경계 신호 — 공포가 없을 때가 위험한 때.",
-      "level": "low"
+      "title": "VIX 공포지수 20.0",
+      "detail": "불안 구간. 변동성 확대 중. 분할 매수 접근 권장, 풀베팅 자제.",
+      "level": "medium"
     },
     {
-      "title": "코스피 -2.58% 급락",
+      "title": "코스피 -3.59% 급락",
       "detail": "반대매매(마진콜) 연쇄 위험. 외국인 대규모 매도 시 추가 하락 가능 — 빚투 계좌 청산 도미노 경계.",
       "level": "high"
     },
@@ -64,23 +64,23 @@
       "signal": "positive"
     }
   ],
-  "balanceScore": 15,
+  "balanceScore": 7,
   "kospiScenarios": [
     {
       "label": "-10% 조정",
-      "level": 4639,
+      "level": 4590,
       "pct": -10,
       "severity": "caution"
     },
     {
       "label": "-15% 조정",
-      "level": 4381,
+      "level": 4335,
       "pct": -15,
       "severity": "warning"
     },
     {
       "label": "-20% 조정",
-      "level": 4123,
+      "level": 4080,
       "pct": -20,
       "severity": "danger"
     }
@@ -92,45 +92,45 @@
       "nameKo": "효성중공업",
       "sector": "전력인프라",
       "currency": "KRW",
-      "price": 117900,
-      "change": -2800,
-      "changePercent": -2.319801
+      "price": 118200,
+      "change": -2500,
+      "changePercent": -2.071251
     },
     {
       "symbol": "267260.KS",
       "nameKo": "HD현대일렉트릭",
       "sector": "전력인프라",
       "currency": "KRW",
-      "price": 408000,
-      "change": -8000,
-      "changePercent": -1.9230769
+      "price": 401000,
+      "change": -15000,
+      "changePercent": -3.6057692
     },
     {
       "symbol": "454910.KS",
       "nameKo": "두산로보틱스",
       "sector": "로보틱스",
       "currency": "KRW",
-      "price": 50300,
-      "change": -1600,
-      "changePercent": -3.0828516
+      "price": 49400,
+      "change": -2500,
+      "changePercent": -4.8169556
     },
     {
       "symbol": "012450.KS",
       "nameKo": "한화에어로스페이스",
       "sector": "로보틱스",
       "currency": "KRW",
-      "price": 654000,
-      "change": 13000,
-      "changePercent": 2.0280812
+      "price": 649000,
+      "change": 8000,
+      "changePercent": 1.24805
     },
     {
       "symbol": "034020.KS",
       "nameKo": "두산에너빌리티",
       "sector": "원자력",
       "currency": "KRW",
-      "price": 45100,
-      "change": -1750,
-      "changePercent": -3.7353256
+      "price": 44900,
+      "change": -1950,
+      "changePercent": -4.16222
     }
   ],
   "kospiReturns": [
@@ -138,53 +138,53 @@
       "label": "1주일",
       "fromDate": "2026-11-09",
       "fromClose": 5019,
-      "toClose": 5154,
-      "returnPct": 2.69,
+      "toClose": 5101,
+      "returnPct": 1.63,
       "isATH": false
     },
     {
       "label": "1개월",
       "fromDate": "2026-10-16",
       "fromClose": 5668,
-      "toClose": 5154,
-      "returnPct": -9.07,
+      "toClose": 5101,
+      "returnPct": -10.01,
       "isATH": false
     },
     {
       "label": "3개월",
       "fromDate": "2026-08-18",
       "fromClose": 6870,
-      "toClose": 5154,
-      "returnPct": -24.98,
+      "toClose": 5101,
+      "returnPct": -25.76,
       "isATH": false
     },
     {
       "label": "6개월",
       "fromDate": "2026-05-18",
       "fromClose": 7516,
-      "toClose": 5154,
-      "returnPct": -31.43,
+      "toClose": 5101,
+      "returnPct": -32.14,
       "isATH": false
     },
     {
       "label": "1년",
       "fromDate": "2025-11-17",
       "fromClose": 4089,
-      "toClose": 5154,
-      "returnPct": 26.04,
+      "toClose": 5101,
+      "returnPct": 24.73,
       "isATH": false
     },
     {
       "label": "2년",
       "fromDate": "2024-11-18",
       "fromClose": 2469,
-      "toClose": 5154,
-      "returnPct": 108.74,
+      "toClose": 5101,
+      "returnPct": 106.58,
       "isATH": false
     }
   ],
   "kospiAth": 9115,
   "kospiAthDate": "2026-06-22",
-  "updatedAt": "2026-11-16T03:06:45.537Z",
-  "isRealtime": true
+  "updatedAt": "2026-11-16T11:05:02.257Z",
+  "isRealtime": false
 }

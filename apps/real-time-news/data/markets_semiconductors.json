@@ -6,17 +6,17 @@
       "nameKo": "삼성전자",
       "role": "DRAM/NAND/파운드리",
       "currency": "KRW",
-      "price": 199300,
-      "change": -6700,
-      "changePercent": -3.252427,
-      "volume": "7.43M",
+      "price": 196800,
+      "change": -9200,
+      "changePercent": -4.4660196,
+      "volume": "17.72M",
       "week52High": 374500,
       "week52Low": 94500,
-      "distFromHigh": -46.78237650200267,
-      "priceToBook": 2.31,
+      "distFromHigh": -47.44993324432577,
+      "priceToBook": 2.27,
       "bps": 86052,
-      "trailingPE": 8.94,
-      "forwardPE": 4.36,
+      "trailingPE": 8.75,
+      "forwardPE": 4.27,
       "eps": 22292,
       "cnsEps": 45655
     },
@@ -26,17 +26,17 @@
       "nameKo": "SK하이닉스",
       "role": "DRAM/HBM",
       "currency": "KRW",
-      "price": 1152000,
-      "change": -64000,
-      "changePercent": -5.2588334,
-      "volume": "1.62M",
+      "price": 1120000,
+      "change": -96000,
+      "changePercent": -7.8947363,
+      "volume": "4.77M",
       "week52High": 2987000,
       "week52Low": 501000,
-      "distFromHigh": -61.43287579511215,
-      "priceToBook": 3.11,
+      "distFromHigh": -62.504184800803486,
+      "priceToBook": 3.03,
       "bps": 368998,
-      "trailingPE": 5.11,
-      "forwardPE": 3.23,
+      "trailingPE": 4.98,
+      "forwardPE": 3.15,
       "eps": 224313,
       "cnsEps": 355258
     },
@@ -54,7 +54,7 @@
       "week52Low": 148.8,
       "distFromHigh": -33.0854254838312,
       "trailingPE": 20.587864,
-      "forwardPE": 10.272057
+      "forwardPE": 10.281584
     },
     {
       "symbol": "ASML",
@@ -81,7 +81,7 @@
       "price": 398.73,
       "change": -6.75998,
       "changePercent": -1.66711,
-      "volume": "10.75M",
+      "volume": "10.68M",
       "week52High": 487.47,
       "week52Low": 266.82,
       "distFromHigh": -18.204197181365007,
@@ -118,7 +118,7 @@
       "week52Low": 215.5,
       "distFromHigh": -49.91009504238376,
       "trailingPE": 29.358162,
-      "forwardPE": 14.995149
+      "forwardPE": 14.996751
     },
     {
       "symbol": "LRCX",
@@ -166,7 +166,7 @@
       "week52Low": 188.22,
       "distFromHigh": -18.899957480410624,
       "trailingPE": 114.11539,
-      "forwardPE": 30.188778
+      "forwardPE": 30.27817
     },
     {
       "symbol": "INTC",
@@ -213,7 +213,7 @@
       "week52Low": 289.77,
       "distFromHigh": -29.8969696969697,
       "trailingPE": 44.31801,
-      "forwardPE": 17.827318
+      "forwardPE": 17.874178
     },
     {
       "symbol": "TXN",
@@ -234,19 +234,19 @@
   ],
   "cyclePosition": "하락",
   "cycleSignal": "red",
-  "cycleSummary": "반도체 섹터가 52주 고점 대비 평균 37.2% 하회 중입니다. 싸이클 하락 국면 — 저가 매수 타이밍인지 추가 데이터 확인 필요.",
+  "cycleSummary": "반도체 섹터가 52주 고점 대비 평균 37.4% 하회 중입니다. 싸이클 하락 국면 — 저가 매수 타이밍인지 추가 데이터 확인 필요.",
   "signals": [
     {
       "label": "섹터 평균 등락",
-      "value": "-3.26%",
+      "value": "-3.53%",
       "signal": "red",
-      "description": "12종목 평균 -3.26% — 섹터 전반 하락, 추가 약세 주의"
+      "description": "12종목 평균 -3.53% — 섹터 전반 하락, 추가 약세 주의"
     },
     {
       "label": "52주 고점 거리",
-      "value": "평균 -37.23%",
+      "value": "평균 -37.35%",
       "signal": "green",
-      "description": "고점 37.2% 하회 — 저가 구간 진입 가능성"
+      "description": "고점 37.4% 하회 — 저가 구간 진입 가능성"
     },
     {
       "label": "상승 종목 수",
@@ -273,7 +273,7 @@
       "description": "마이크론 -2.52% 약세 — 메모리 재고 부담·가격 하락 우려"
     }
   ],
-  "updatedAt": "2026-11-16T03:06:50.799Z",
-  "marketStatus": "장개장중",
-  "isRealtime": true
+  "updatedAt": "2026-11-16T11:05:07.793Z",
+  "marketStatus": "장마감",
+  "isRealtime": false
 }
