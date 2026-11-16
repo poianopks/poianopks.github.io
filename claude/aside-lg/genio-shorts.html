@@ -46,8 +46,8 @@ function bg(t,top,bot){const gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(
 }
 function text(s,y,size,col,alpha=1,weight='bold'){g.save();g.globalAlpha=alpha;g.font=`${weight} ${size}px "Malgun Gothic"`;g.textAlign='center';g.textBaseline='middle';
   g.lineWidth=10;g.strokeStyle='rgba(0,0,0,.65)';s.split('\n').forEach((l,i)=>{g.strokeText(l,W/2,y+i*size*1.25);g.fillStyle=col;g.fillText(l,W/2,y+i*size*1.25);});g.restore();}
-function footer(a=1){g.save();g.globalAlpha=a;g.fillStyle='rgba(0,0,0,.55)';g.fillRect(0,H-210,W,210);g.restore();
-  text('성실피아노  010-8756-8740',H-140,50,GOLD,a);text('poianopks.github.io/silent',H-70,38,'#fff',a,'normal');}
+function footer(a=1){g.save();g.globalAlpha=a;g.fillStyle='rgba(0,0,0,.55)';g.beginPath();g.roundRect(150,1405,780,175,30);g.fill();g.restore();
+  text('성실피아노  010-8756-8740',1460,52,GOLD,a);text('poianopks.github.io/silent',1530,38,'#fff',a,'normal');}
 
 // ---------- keyboard (3D) ----------
 const NK=14;
@@ -64,7 +64,7 @@ function keyboard(t,cam,pressFn,y0=0){
 // ---------- action side view ----------
 // returns hammer angle; draws key, hammer, string, stop rail
 function action(t,o){ // o:{hit:0..1 cycle phase, rail:0..1, sensor:bool, glow}
-  const cx=540, cy=1000, s=1.0;
+  const cx=540, cy=880, s=1.0;
   g.save(); g.translate(cx,cy);
   // frame / soundboard
   g.fillStyle='#3a2416';g.fillRect(250,-520,70,900);
@@ -99,19 +99,19 @@ function drawFrame(t){
   g.clearRect(0,0,W,H);
   if(t<6){ // A: 3D keyboard
     bg(t,'#0b1430','#1b0f24');
-    const cam={yaw:-0.5+t*0.12,pitch:0.55,dist:19,f:1300,cx:540,cy:1080};
+    const cam={yaw:-0.5+t*0.12,pitch:0.55,dist:19,f:1300,cx:540,cy:930};
     keyboard(t,cam,i=>{const ph=(t*3-i*0.35);return ph>0&&ph<1?Math.sin(ph*Math.PI):0;});
     text('밤 11시에도\n마음껏 피아노',380,110,'#fff',seg(t,.2,1.2));
-    text('제니오 사일런트',1560,70,GOLD,seg(t,1.5,2.5));
+    text('제니오 사일런트',1300,70,GOLD,seg(t,1.5,2.5));
     footer(seg(t,2,3));
   } else if(t<12){ // B: loud hammer hits string
     const u=t-6; bg(t,'#2a0c0c','#120608');
     const cyc=(u*1.6)%1, hit=cyc<.25?Math.sin(cyc/.25*Math.PI/2):cyc<.45?1-(cyc-.25)/.2:0;
     const ang=hit*0.92; const struck=cyc>.2&&cyc<.6;
     action(t,{ang,key:hit,vib:struck?14*(1-(cyc-.2)/.4):0,rail:0});
-    waves(t,struck?1:.4);
+    waves(t,struck?1:.4,770,660);
     text('쾅! 쾅!',360,120,'#ff8a6a',seg(u,.2,.8));
-    text('층간소음 걱정되시죠?',1560,66,'#fff',seg(u,1,2));
+    text('층간소음 걱정되시죠?',1310,66,'#fff',seg(u,1,2));
     footer(.9);
   } else if(t<19){ // C: rail slides, hammer stops
     const u=t-12; bg(t,'#0b2030','#07121c');
@@ -119,21 +119,21 @@ function drawFrame(t){
     const cyc=(u*1.6)%1, hit=cyc<.25?Math.sin(cyc/.25*Math.PI/2):cyc<.45?1-(cyc-.25)/.2:0;
     const maxA=0.92-0.55*rail; const ang=hit*maxA;
     action(t,{ang,key:hit,vib:rail<.9&&cyc>.2&&cyc<.6?8:0,rail});
-    waves(t,(1-rail)*.8);
-    if(rail>.9){g.save();g.globalAlpha=seg(u,2,2.6);g.strokeStyle='#5dff9a';g.lineWidth=14;g.beginPath();g.moveTo(820,700);g.lineTo(870,760);g.lineTo(980,620);g.stroke();g.restore();}
+    waves(t,(1-rail)*.8,770,660);
+    if(rail>.9){g.save();g.globalAlpha=seg(u,2,2.6);g.strokeStyle='#5dff9a';g.lineWidth=14;g.beginPath();g.moveTo(800,600);g.lineTo(850,660);g.lineTo(950,520);g.stroke();g.restore();}
     text('제니오 사일런트',330,104,GOLD,seg(u,.3,1));
-    text('망치가 현 앞에서 딱!\n소리가 나지 않아요',1500,62,'#fff',seg(u,2,3));
+    text('망치가 현 앞에서 딱!\n소리가 나지 않아요',1270,62,'#fff',seg(u,2,3));
     footer(.9);
   } else if(t<24){ // D: sensor -> headphones
     const u=t-19; bg(t,'#0a1a2c','#061018');
     const cyc=(u*1.6)%1, hit=cyc<.25?Math.sin(cyc/.25*Math.PI/2):cyc<.45?1-(cyc-.25)/.2:0;
-    g.save();g.translate(-120,120);g.scale(.8,.8);action(t,{ang:hit*.37,key:hit,rail:1,sensor:true,glow:hit>.3});g.restore();
+    g.save();g.translate(-120,60);g.scale(.8,.8);action(t,{ang:hit*.37,key:hit,rail:1,sensor:true,glow:hit>.3});g.restore();
     // signal dots
-    for(let k=0;k<8;k++){const p=((u*.9)+k/8)%1;const x=280+p*480,y=1430-p*820+Math.sin(p*6)*40;g.fillStyle=`rgba(74,240,255,${1-p})`;g.beginPath();g.arc(x,y,12,0,7);g.fill();}
+    for(let k=0;k<8;k++){const p=((u*.9)+k/8)%1;const x=280+p*480,y=1250-p*680+Math.sin(p*6)*40;g.fillStyle=`rgba(74,240,255,${1-p})`;g.beginPath();g.arc(x,y,12,0,7);g.fill();}
     headphones(800,560,.9,seg(u,.3,1));
     for(let k=0;k<3;k++){const p=((u*.7)+k/3)%1;note(700+k*90,500-p*220,1-p);}
     text('건반 센서 → 디지털 소리',330,70,'#4af0ff',seg(u,.2,1));
-    text('헤드폰으로\n나만 듣는 연주',1500,80,'#fff',seg(u,1,2));
+    text('헤드폰으로\n나만 듣는 연주',1240,76,'#fff',seg(u,1,2));
     footer(.9);
   } else if(t<27){ // E: toggle
     const u=t-24; bg(t,'#14102a','#0a0816');
@@ -143,7 +143,7 @@ function drawFrame(t){
     g.fillStyle='#fff';g.beginPath();g.arc(-150+300*k,0,90,0,7);g.fill();g.restore();
     g.font='bold 58px "Malgun Gothic"';g.fillStyle='#fff';g.textAlign='center';g.fillText('일반',250,1100);g.fillStyle=GOLD;g.fillText('방음',830,1100);
     text('스위치 하나로\n일반 ↔ 방음 전환',420,92,'#fff',seg(u,.2,1));
-    text('쓰던 피아노 그대로!',1400,70,GOLD,seg(u,1.4,2.2));
+    text('쓰던 피아노 그대로!',1290,70,GOLD,seg(u,1.4,2.2));
     footer(.9);
   } else { // F: card + 3D keyboard
     const u=t-27; bg(t,'#0b1430','#1b0f24');
@@ -153,7 +153,7 @@ function drawFrame(t){
     text('서울·경기·인천 출장',470,68,'#fff',seg(u,.2,.8));
     text('성실피아노',700,110,'#fff',seg(u,.4,1));
     text('010-8756-8740',840,90,GOLD,seg(u,.5,1.1));
-    text('poianopks.github.io/silent',1700,46,'#fff',seg(u,.6,1.2),'normal');
+    text('poianopks.github.io/silent',960,46,'#fff',seg(u,.6,1.2),'normal');
   }
   // global fade
   const fa=Math.min(seg(t,0,.4),1-seg(t,DUR-.5,DUR)); if(fa<1){g.fillStyle=`rgba(0,0,0,${1-fa})`;g.fillRect(0,0,W,H);}
