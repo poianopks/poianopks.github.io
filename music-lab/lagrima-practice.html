@@ -1,0 +1,289 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>남몰래 흐르는 눈물 · 연습용 (큰 건반 · 큰 악보)</title>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/abcjs@6.2.3/dist/abcjs-basic-min.js"></script>
+<script src="lagrima-data.js"></script>
+<style>
+:root{--bg:#0e0b16;--fg:#f5e9d8;--acc:#ffc23a}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:"Malgun Gothic","맑은 고딕",sans-serif}
+#wrap{position:relative;width:100%;max-width:470px;margin:0 auto}
+#c{display:block;width:100%;height:auto;aspect-ratio:9/16;background:#000}
+#paper{position:absolute;left:-5000px;top:0;width:900px}
+#ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(10,6,14,.6)}
+#ov .sp{display:flex;gap:8px}
+#ov .sp button{font:bold 17px "Malgun Gothic",sans-serif;padding:8px 14px;border-radius:20px;border:2px solid #ffc23a;background:transparent;color:#ffc23a;cursor:pointer}
+#ov .sp button.on{background:#ffc23a;color:#2a1a08}
+#play{font:bold 22px "Malgun Gothic",sans-serif;padding:14px 34px;border-radius:40px;border:0;background:var(--acc);color:#2a1a08;cursor:pointer}
+#ov p{margin:0;font-size:15px;opacity:.9;text-align:center;padding:0 16px}
+#bar{display:flex;gap:10px;justify-content:center;padding:10px 16px;flex-wrap:wrap}
+#bar a,#bar button{color:var(--fg);background:#241c30;border:1px solid #43365a;border-radius:20px;padding:6px 14px;font-size:14px;text-decoration:none;cursor:pointer}
+</style></head><body>
+<div id="wrap"><canvas id="c" width="720" height="1280"></canvas>
+<div id="ov"><div class="sp"><button data-s="1">100% 보통</button><button data-s="0.5" class="on">50% 느리게</button><button data-s="0.2">20% 아주 느리게</button></div>
+<button id="play">▶ 연습 시작</button><p id="msg">처음 누르면 피아노 소리를 만드느라 30초~1분쯤 걸려요.</p></div></div>
+<div id="bar"><button id="again">빠르기 바꾸기 / 처음부터</button><a href="lagrima-man2.html">3D 연주 영상</a><a href="index.html">음악 공부방으로</a></div>
+<div id="paper"></div>
+<script>
+"use strict";
+const W = 720, H = 1280, cv = document.getElementById("c"), g = cv.getContext("2d");
+const F = '"Malgun Gothic","맑은 고딕",sans-serif';
+const D = window.LAG, TOTAL = D.total, Q = new URLSearchParams(location.search);
+const NB = D.bars.length - 1;
+let SPD = +(Q.get("spd") || 0.5);
+// ---------------- notes ----------------
+const NOTES = D.notes.map(([t, e, m, r, role]) => ({ t, e, m, h: r ? "R" : "L", role })).filter((n) => n.role !== 1);
+const SOLF = ["도", "레♭", "레", "미♭", "미", "파", "솔♭", "솔", "라♭", "라", "시♭", "시"];
+const isBlack = (m) => [1, 3, 6, 8, 10].includes(m % 12);
+const LO = 31, HI = 91;
+const whites = []; for (let m = LO; m <= HI; m++) if (!isBlack(m)) whites.push(m);
+const NW = whites.length, KW = 1, KBW = NW * KW;
+const KX = {}; { let wi = 0; for (let m = LO; m <= HI; m++) { if (!isBlack(m)) { KX[m] = -KBW / 2 + (wi + 0.5) * KW; wi++; } else KX[m] = -KBW / 2 + wi * KW; } }
+const barOf = (t) => { let b = 0; while (b < NB - 1 && D.bars[b + 1] <= t) b++; return b; };
+const SOLF7 = { 0: "도", 2: "레", 4: "미", 5: "파", 7: "솔", 9: "라", 11: "시" };
+// ---------------- three.js: big keyboard + hands (top half) ----------------
+const V3H = 640;
+const R3 = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: false });
+R3.setPixelRatio(1); R3.setSize(W, V3H, false); R3.outputColorSpace = THREE.SRGBColorSpace;
+const scene = new THREE.Scene();
+{ const c2 = document.createElement("canvas"); c2.width = 4; c2.height = 256; const x = c2.getContext("2d"); const gr = x.createLinearGradient(0, 0, 0, 256);
+  gr.addColorStop(0, "#0b0920"); gr.addColorStop(1, "#2a1a30"); x.fillStyle = gr; x.fillRect(0, 0, 4, 256); const tx = new THREE.CanvasTexture(c2); tx.colorSpace = THREE.SRGBColorSpace; scene.background = tx; }
+const cam = new THREE.PerspectiveCamera(34, W / V3H, 0.2, 300);
+scene.add(new THREE.AmbientLight(0xf0e8ff, 0.9));
+const key = new THREE.DirectionalLight(0xfff2dc, 2.0); key.position.set(10, 30, 25); scene.add(key);
+const fill = new THREE.DirectionalLight(0x9fb8ff, 0.6); fill.position.set(-20, 10, 10); scene.add(fill);
+const kbd = new THREE.Group(); scene.add(kbd);
+const matW = new THREE.MeshStandardMaterial({ color: 0xf8f4ea, roughness: 0.35 });
+const matB = new THREE.MeshStandardMaterial({ color: 0x141214, roughness: 0.3, metalness: 0.1 });
+const WL = 6, BL = 3.8, WT = 0.5;
+const keys = {};
+const nameTex = {}; function keyName(txt) { if (nameTex[txt]) return nameTex[txt]; const c = document.createElement("canvas"); c.width = 64; c.height = 64; const x = c.getContext("2d"); x.fillStyle = "#8a7f72"; x.font = "bold 40px " + F; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(txt, 32, 34); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return nameTex[txt] = t; }
+for (let m = LO; m <= HI; m++) {
+  const b = isBlack(m); const piv = new THREE.Group(); piv.position.set(KX[m], 0, -WL / 2); kbd.add(piv);
+  const geo = b ? new THREE.BoxGeometry(0.56, 0.42, BL) : new THREE.BoxGeometry(KW - 0.06, WT, WL);
+  const mat = (b ? matB : matW).clone(); const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(0, b ? WT + 0.15 : WT / 2, b ? BL / 2 : WL / 2); piv.add(mesh);
+  if (!b) { const lb = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 0.7), new THREE.MeshBasicMaterial({ map: keyName(SOLF7[m % 12]), transparent: true, depthWrite: false })); lb.rotation.x = -Math.PI / 2; lb.position.set(0, WT + 0.01, WL - 0.6); piv.add(lb);
+    if (m % 12 === 0) { const ct = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.5), new THREE.MeshBasicMaterial({ map: keyName(String(Math.floor(m / 12) - 1)), transparent: true, depthWrite: false })); ct.rotation.x = -Math.PI / 2; ct.position.set(0, WT + 0.01, WL - 1.3); piv.add(ct); } }
+  keys[m] = { piv, mesh, mat, b, base: mat.color.clone(), lit: 0 };
+}
+const lacq = new THREE.MeshStandardMaterial({ color: 0x0b0910, roughness: 0.18, metalness: 0.35 });
+{ const back = new THREE.Mesh(new THREE.BoxGeometry(KBW + 2.2, 2.4, 1.2), lacq); back.position.set(0, 1.2, -WL / 2 - 0.6); kbd.add(back);
+  const rail = new THREE.Mesh(new THREE.BoxGeometry(KBW + 2.2, 1.2, WL + 1.6), lacq); rail.position.set(0, -0.65, 0.2); kbd.add(rail);
+  const felt = new THREE.Mesh(new THREE.BoxGeometry(KBW, 0.08, 0.25), new THREE.MeshStandardMaterial({ color: 0x7a1020 })); felt.position.set(0, WT + 0.05, -WL / 2 + 0.05); kbd.add(felt); }
+// ---------------- falling score notes (콩나물) ----------------
+const COL = { mel: 0xffc23a, acc: 0xf09a50, L: 0x5aa8ff };
+const headGeo = new THREE.SphereGeometry(0.42, 20, 14);
+const stemGeo = new THREE.CylinderGeometry(0.045, 0.045, 2.0, 8);
+const flagGeo = new THREE.BoxGeometry(0.08, 0.7, 0.05);
+const glowTex = (() => { const c = document.createElement("canvas"); c.width = c.height = 64; const x = c.getContext("2d"); const gr = x.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(0.35, "rgba(255,255,255,.45)"); gr.addColorStop(1, "rgba(255,255,255,0)"); x.fillStyle = gr; x.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(c); })();
+function makeNoteObj() { const grp = new THREE.Group(); const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x000000, roughness: 0.3, metalness: 0.15, transparent: true });
+  const head = new THREE.Mesh(headGeo, mat); head.scale.set(1.25, 0.85, 0.6); head.rotation.z = 0.38; grp.add(head);
+  const stem = new THREE.Mesh(stemGeo, mat); stem.position.set(0.47, 1.05, 0); grp.add(stem);
+  const f1 = new THREE.Mesh(flagGeo, mat); f1.position.set(0.68, 1.75, 0); f1.rotation.z = 0.75; grp.add(f1);
+  const f2 = new THREE.Mesh(flagGeo, mat); f2.position.set(0.68, 1.4, 0); f2.rotation.z = 0.75; grp.add(f2);
+  const gl = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: 0xffffff, transparent: true, opacity: 0.5, depthWrite: false, blending: THREE.AdditiveBlending })); gl.scale.set(2.6, 2.6, 1); grp.add(gl);
+  grp.visible = false; scene.add(grp); return { grp, mat, head, stem, f1, f2, gl }; }
+const POOL = []; for (let i = 0; i < 140; i++) POOL.push(makeNoteObj());
+const LEAD = 2.4, FALL = 13; // seconds of look-ahead, fall height
+const noteZ = (m) => isBlack(m) ? -WL / 2 + BL * 0.55 : -WL / 2 + WL * 0.62;
+const noteTop = (m) => isBlack(m) ? WT + 0.36 : WT;
+// sparks
+const SPK = []; const spkMat = (c) => new THREE.SpriteMaterial({ map: glowTex, color: c, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+for (let i = 0; i < 160; i++) { const s = new THREE.Sprite(spkMat(0xffffff)); s.visible = false; scene.add(s); SPK.push({ s, t0: -9, v: new THREE.Vector3(), p: new THREE.Vector3() }); }
+let spkI = 0;
+function burst(x, y, z, col, n, t) { for (let i = 0; i < n; i++) { const o = SPK[spkI++ % SPK.length]; o.t0 = t; o.p.set(x, y, z); const a = (i / n) * Math.PI * 2 + n; o.v.set(Math.cos(a) * 1.6, 2.2 + (i % 3) * 0.9, Math.sin(a) * 1.0); o.s.material.color.setHex(col); o.s.visible = true; } }
+// labels (계이름)
+const labelCache = {};
+function labelTex(txt, col) { const k = txt + col; if (labelCache[k]) return labelCache[k]; const c = document.createElement("canvas"); c.width = 128; c.height = 72; const x = c.getContext("2d");
+  x.fillStyle = "rgba(255,253,246,.95)"; x.beginPath(); x.roundRect(8, 6, 112, 60, 30); x.fill(); x.lineWidth = 6; x.strokeStyle = col; x.stroke(); x.fillStyle = "#2a1a08"; x.font = "bold 38px " + F; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(txt, 64, 38);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return labelCache[k] = t; }
+const LBL = []; for (let i = 0; i < 24; i++) { const s = new THREE.Sprite(new THREE.SpriteMaterial({ transparent: true, depthTest: false })); s.scale.set(1.6, 0.9, 1); s.visible = false; scene.add(s); LBL.push({ s, t0: -9, m: 0 }); }
+let lblI = 0;
+const skin = new THREE.MeshStandardMaterial({ color: 0xe9b892, roughness: 0.7 });
+const sleeveMat = new THREE.MeshStandardMaterial({ color: 0x1d2742, roughness: 0.75 });
+const shirtM = new THREE.MeshStandardMaterial({ color: 0xf4f2ee, roughness: 0.7 });
+function makeHand(side) { const grp = new THREE.Group(); scene.add(grp);
+  const palm = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 16), skin); palm.scale.set(1.45, 0.42, 1.15); palm.position.set(0, 0.1, 2.3); grp.add(palm);
+  const back = new THREE.Mesh(new THREE.SphereGeometry(1, 20, 12), skin); back.scale.set(0.9, 0.45, 1.0); back.position.set(0, 0.15, 3.3); grp.add(back);
+  const fingers = []; for (let i = 0; i < 5; i++) { const fg = new THREE.Group(); const thumb = i === 0; const len = thumb ? 1.0 : [0, 1.25, 1.4, 1.3, 1.0][i];
+    const seg = new THREE.Mesh(new THREE.CapsuleGeometry(thumb ? 0.24 : 0.2, len, 6, 12), skin.clone()); seg.rotation.x = Math.PI / 2; seg.position.z = -len / 2; fg.add(seg);
+    const bx = side === "R" ? -1.3 + i * 0.62 : 1.3 - i * 0.62; fg.position.set(bx, thumb ? -0.05 : 0.05, thumb ? 2.0 : 1.45); if (thumb) fg.rotation.y = side === "R" ? 0.5 : -0.5;
+    grp.add(fg); fingers.push({ fg, seg, bx, dx: 0, press: 0 }); }
+  const arm = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.65, 1, 18), sleeveMat); scene.add(arm);
+  const cuff = new THREE.Mesh(new THREE.CylinderGeometry(1.15, 1.15, 1, 16), shirtM); scene.add(cuff);
+  return { side, grp, fingers, arm, cuff, x: side === "R" ? 4 : -6, tx: 0 }; }
+const HANDS = { R: makeHand("R"), L: makeHand("L") };
+const up = new THREE.Vector3(0, 1, 0);
+function placeCyl(mesh, a, b) { const d = new THREE.Vector3().subVectors(b, a); const L = d.length(); mesh.position.copy(a).addScaledVector(d, 0.5); mesh.scale.set(1, L, 1); mesh.quaternion.setFromUnitVectors(up, d.normalize()); }
+// ---------------- score (abcjs) ----------------
+let LINES = [], scoreImg, EV = D.ev;
+function renderScore() {
+  const vo = ABCJS.renderAbc("paper", D.abc, { staffwidth: 860, scale: 1.0, add_classes: true, paddingtop: 4, paddingbottom: 4, paddingleft: 4, paddingright: 4 })[0];
+  const svg = document.querySelector("#paper svg"), sr = svg.getBoundingClientRect();
+  const rel = (el) => { const r = el.getBoundingClientRect(); return { x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height }; };
+  const uni = (els) => { let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9; for (const e of els) { if (!e || !e.getBoundingClientRect) continue; const r = rel(e); if (r.w <= 0 && r.h <= 0) continue; x0 = Math.min(x0, r.x); y0 = Math.min(y0, r.y); x1 = Math.max(x1, r.x + r.w); y1 = Math.max(y1, r.y + r.h); } return x0 < 1e9 ? { x: x0, y: y0, w: x1 - x0, h: y1 - y0 } : null; };
+  const lists = { R: [], L: [] };
+  vo.lines.forEach((ln, li) => { if (!ln.staff) return; ln.staff.forEach((st, si) => { const hand = si === 0 ? "R" : "L"; st.voices[0].forEach((el) => { if (el.el_type === "note") { const box = el.abselem ? uni(el.abselem.elemset || []) : null; lists[hand].push({ line: li, box, dia: (el.pitches || []).map((p) => p.pitch).sort((a, b) => a - b), rest: !!el.rest }); } }); });
+    const els = svg.querySelectorAll(".abcjs-l" + li); let y0 = 1e9, y1 = -1e9; els.forEach((e) => { const r = rel(e); if (r.h > 0 && r.h < 600) { y0 = Math.min(y0, r.y); y1 = Math.max(y1, r.y + r.h); } }); LINES[li] = { y0: y0 - 10, y1: y1 + 8 }; });
+  const mism = []; for (const hand of ["R", "L"]) EV[hand].forEach((e, i) => { const m = lists[hand][i]; e.line = m ? m.line : null; e.box = m ? m.box : null; if (m && !e.rest && JSON.stringify(m.dia) !== JSON.stringify(e.dia)) mism.push(hand + i + ":" + JSON.stringify(e.dia) + "vs" + JSON.stringify(m.dia)); if (m && e.rest !== m.rest) mism.push(hand + i + ":rest"); });
+  const xml = new XMLSerializer().serializeToString(svg);
+  scoreImg = new Image(); scoreImg.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml);
+  return { mism: mism.length, mismEx: mism.slice(0, 6), R: [EV.R.length, lists.R.length], L: [EV.L.length, lists.L.length], lines: LINES.length };
+}
+// ---------------- audio: Yamaha C5 grand (Salamander samples) ----------------
+let ac, MIX, SOUND = "";
+const SAL = "https://tonejs.github.io/audio/salamander/", SALN = { 9: "A", 0: "C", 3: "Ds", 6: "Fs" };
+const salFor = (m) => Math.max(21, Math.min(108, 21 + Math.round((m - 21) / 3) * 3));
+const NN = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+const sfName = (m) => NN[m % 12] + (Math.floor(m / 12) - 1);
+function b64ToBuf(s) { const b = atob(s.split(",")[1]); const u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u.buffer; }
+function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = () => rej(new Error("load " + src)); document.head.appendChild(s); }); }
+async function loadSalamander(used, onp) { const need = [...new Set([...used].map(salFor))], buf = {}; let n = 0;
+  await Promise.all(need.map(async (s) => { const r = await fetch(SAL + SALN[s % 12] + (Math.floor(s / 12) - 1) + ".mp3"); if (!r.ok) throw new Error("sample " + s); buf[s] = await ac.decodeAudioData(await r.arrayBuffer()); if (onp) onp(++n / need.length); }));
+  const out = {}; for (const m of used) out[m] = { b: buf[salFor(m)], rate: Math.pow(2, (m - salFor(m)) / 12) }; return out; }
+async function loadBasic(used, onp) { if (!window.MIDI) await loadScript("piano-sf.js"); const out = {}; let n = 0; for (const m of used) { out[m] = { b: await ac.decodeAudioData(b64ToBuf(MIDI.Soundfont.acoustic_grand_piano[sfName(m)])), rate: 1 }; if (onp) onp(++n / used.size); } return out; }
+async function renderAudio(onp) {
+  ac = ac || new AudioContext();
+  const used = new Set(NOTES.map((n) => n.m)); let smp; const SNOTES = NOTES.map((n) => ({ ...n, t: n.t / SPD, e: n.e / SPD }));
+  if (Q.get("snd") !== "basic") { try { smp = await loadSalamander(used, onp); SOUND = "yamaha"; } catch (e) { smp = null; } }
+  if (!smp) { smp = await loadBasic(used, onp); SOUND = "basic"; }
+  const SR = 44100, oc = new OfflineAudioContext(2, Math.ceil((TOTAL / SPD + 5) * SR), SR);
+  const comp = oc.createDynamicsCompressor(); comp.threshold.value = -16; comp.ratio.value = 3; comp.connect(oc.destination);
+  const rev = oc.createConvolver(); { const L = SR * 2.2, ir = oc.createBuffer(2, L, SR); for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < L; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / L, 3.2); } rev.buffer = ir; }
+  const wet = oc.createGain(); wet.gain.value = 0.16; rev.connect(wet).connect(comp);
+  const master = oc.createGain(); master.gain.value = 0.9; master.connect(comp); master.connect(rev);
+  const relT = 0.55;
+  const byRole = { 2: [], 1: [], 0: [] }; SNOTES.forEach((n) => byRole[n.role].push(n));
+  for (const n of SNOTES) { const S = smp[n.m]; const v = n.role === 2 ? (n.h === "R" ? 0.95 : 0.6) : n.role === 1 ? 0.4 : 0.34;
+    let end = n.e; if (n.role === 0) end = n.e + 0.55; else if (n.role === 2) { const arr = byRole[2]; const i = arr.indexOf(n); const nx = i + 1 < arr.length ? arr[i + 1].t : end + 1; end = Math.min(Math.max(n.e, Math.min(nx, n.e + 0.4)), n.e + 1.2) + 0.08; } else end = n.e + 0.2;
+    const src = oc.createBufferSource(); src.buffer = S.b; src.playbackRate.value = S.rate; const gn = oc.createGain();
+    gn.gain.setValueAtTime(v, n.t); gn.gain.setValueAtTime(v, end); gn.gain.exponentialRampToValueAtTime(0.001, end + relT);
+    const pan = oc.createStereoPanner(); pan.pan.value = Math.max(-0.5, Math.min(0.5, (n.m - 62) / 50)); src.connect(gn).connect(pan).connect(master); src.start(n.t); src.stop(end + relT + 0.05); }
+  MIX = await oc.startRendering();
+  let pk = 0; for (let ch = 0; ch < 2; ch++) { const c0 = MIX.getChannelData(ch); for (let i = 0; i < c0.length; i++) pk = Math.max(pk, Math.abs(c0[i])); }
+  const gN = 0.85 / Math.max(pk, 1e-3); for (let ch = 0; ch < 2; ch++) { const d = MIX.getChannelData(ch); for (let i = 0; i < d.length; i++) d[i] *= gN; }
+  return { dur: MIX.duration, peak: pk, notes: used.size, sound: SOUND };
+}
+// ---------------- 3D update (pt = time in the piece) ----------------
+let camX = -1, camSpan = 18;
+function update3D(pt, intro) {
+  // camera follows the hands, showing only the keys in use (very big)
+  let lo = 1e9, hi = -1e9; for (const n of NOTES) { if (n.t > pt + 1.6) break; if (n.e < pt - 0.3) continue; lo = Math.min(lo, KX[n.m]); hi = Math.max(hi, KX[n.m]); }
+  if (lo > hi) { lo = -8; hi = 6; }
+  const cx = (lo + hi) / 2, span = Math.max(13, Math.min(27, hi - lo + 7));
+  camX += (cx - camX) * 0.035; camSpan += (span - camSpan) * 0.035;
+  const dist = camSpan / 0.68, az = 0.32 + Math.sin(pt * 0.05) * 0.03, el = 0.98;
+  cam.position.set(camX + Math.sin(az) * Math.cos(el) * dist, 0.5 + Math.sin(el) * dist, 1.2 + Math.cos(az) * Math.cos(el) * dist); cam.lookAt(camX, 0, -1.6);
+  // keys
+  const pressed = { R: [], L: [] };
+  for (const k of Object.values(keys)) k.lit = 0;
+  if (!intro) for (const n of NOTES) { if (n.t > pt) break; if (n.e > pt && n.t <= pt) { const k = keys[n.m]; if (!k) continue; const role = n.h === "L" ? "L" : n.role === 2 ? "mel" : "acc"; if (role === "mel" || !k.lit) { k.lit = 1; k.col = COL[role]; } pressed[n.h].push(n); } }
+  for (const k of Object.values(keys)) { const tgt = k.lit ? (k.b ? 0.07 : 0.06) : 0; k.piv.rotation.x += (tgt - k.piv.rotation.x) * 0.5;
+    if (k.lit) { k.mat.color.setHex(k.col); k.mat.emissive.setHex(k.col); k.mat.emissiveIntensity = 0.35; } else { k.mat.color.copy(k.base); k.mat.emissive.setHex(0x000000); } }
+  for (const o of POOL) o.grp.visible = false;
+  // 계이름 labels above every pressed key
+  let li = 0; const all = [...pressed.R, ...pressed.L].sort((a, b) => a.m - b.m); const seen = new Set();
+  for (const n of all) { if (seen.has(n.m) || li >= LBL.length) continue; seen.add(n.m); const L = LBL[li++]; L.s.material.map = labelTex(SOLF[n.m % 12], n.h === "R" ? "#ffb21e" : "#3d8fff"); L.s.material.needsUpdate = true; L.s.material.opacity = 1;
+    L.s.visible = true; L.s.scale.set(2.5, 1.4, 1); const stack = all.filter((o) => o.m < n.m && KX[n.m] - KX[o.m] < 1.9).length; L.s.position.set(KX[n.m], 3.0 + (stack % 3) * 1.5, noteZ(n.m) - 0.6); }
+  for (; li < LBL.length; li++) LBL[li].s.visible = false;
+  for (const o of SPK) o.s.visible = false;
+  // hands with exact finger placement
+  for (const h of ["R", "L"]) { const Hh = HANDS[h]; let xs = pressed[h].map((n) => KX[n.m]);
+    if (!xs.length) { const nx = NOTES.find((n) => n.h === h && n.t > pt && n.t < pt + 1.0); if (nx) xs = [KX[nx.m]]; }
+    if (xs.length) Hh.tx = (Math.min(...xs) + Math.max(...xs)) / 2;
+    Hh.x += (Hh.tx - Hh.x) * 0.3; const by = 1.75 - (pressed[h].length ? 0.18 : 0);
+    Hh.grp.position.set(Hh.x, by, -1.6); Hh.grp.scale.setScalar(1.3);
+    const used = new Set(); for (const f of Hh.fingers) { f.press *= 0.6; f.tdx = 0; }
+    for (const n of pressed[h].slice(0, 5)) { const rx = (KX[n.m] - Hh.x) / 1.3; let best = null, bd = 1e9; Hh.fingers.forEach((f, i) => { if (used.has(i)) return; const d = Math.abs(f.bx - rx); if (d < bd) { bd = d; best = i; } }); if (best == null) continue; used.add(best); const f = Hh.fingers[best]; f.tdx = Math.max(-3.2, Math.min(3.2, rx - f.bx)); f.press = 1; f.blk = isBlack(n.m); f.col = n.role === 2 ? COL.mel : n.h === "L" ? COL.L : COL.acc; }
+    Hh.fingers.forEach((f, i) => { f.dx += (f.tdx - f.dx) * 0.6; f.fg.position.x = f.bx + f.dx; f.fg.rotation.x = -0.25 - f.press * (f.blk ? 0.35 : 0.62); f.seg.material.emissive.setHex(f.press > 0.5 ? f.col : 0x000000); f.seg.material.emissiveIntensity = 0.55; });
+    const wrist = new THREE.Vector3(Hh.x, by + 0.3, 4.6), elbow = new THREE.Vector3(Hh.x * 0.8 + (h === "R" ? 4 : -4), 2.6, 14);
+    placeCyl(Hh.arm, wrist.clone().add(new THREE.Vector3(0, 0, 0.9)), elbow); placeCyl(Hh.cuff, wrist.clone().add(new THREE.Vector3(0, 0, 0.2)), wrist.clone().add(new THREE.Vector3(0, 0.05, 1.0))); }
+  R3.render(scene, cam);
+}
+// ---------------- 2D ----------------
+function txt(s, x, y, size, col, align = "center", bold = true) { g.font = (bold ? "bold " : "") + size + "px " + F; g.fillStyle = col; g.textAlign = align; g.textBaseline = "middle"; g.fillText(s, x, y); }
+function pill(x, y, w, h, col) { g.fillStyle = col; g.beginPath(); g.roundRect(x, y, w, h, h / 2); g.fill(); }
+const SPDNAME = () => SPD >= 1 ? "100% 보통 빠르기" : SPD >= 0.5 ? "50% 느리게" : "20% 아주 느리게";
+let curLine = 0, prevLine = 0, lineSwitchT = -9, scrollX = 0;
+const SP = { x: 8, y: 720, w: W - 16, h: 552 };
+function evX(e) { return e.box.x + e.box.w / 2; }
+function playX(li, pt) { const ev = [...EV.R, ...EV.L].filter((e) => e.line === li && e.box && !e.rest).sort((a, b) => a.t - b.t); if (!ev.length) return 0; let i = -1; for (let k = 0; k < ev.length; k++) if (ev[k].t <= pt) i = k; if (i < 0) return evX(ev[0]);
+  const e = ev[i]; let j = i + 1; while (j < ev.length && ev[j].t <= e.t) j++; const nx = ev[j]; let x = evX(e); if (nx) x += (evX(nx) - x) * Math.max(0, Math.min(1, ((pt - e.t) / Math.max(0.05, nx.t - e.t) - 0.82) / 0.18)); return x; }
+function drawScore(pt, boxes, rt) {
+  const { x: PX, y: PY, w: PW, h: PH } = SP;
+  g.fillStyle = "#fffdf6"; g.beginPath(); g.roundRect(PX, PY, PW, PH, 16); g.fill();
+  const L = LINES[curLine]; if (!L) return; const sh = L.y1 - L.y0; const s = Math.min(1.75, (PH - 60) / sh); const viewW = PW / s;
+  const px = pt >= 0 ? playX(curLine, pt) : 0; const want = Math.max(0, Math.min(870 - viewW, px - viewW * 0.38));
+  scrollX += (want - scrollX) * (Math.abs(want - scrollX) > 300 ? 1 : 0.08);
+  const oy = PY + 30 + (PH - 60 - sh * s) / 2, ox = PX - scrollX * s;
+  g.save(); g.beginPath(); g.roundRect(PX, PY, PW, PH, 16); g.clip();
+  const a = Math.min(1, (rt - lineSwitchT) / 0.4); g.globalAlpha = a;
+  for (const b of boxes) { if (b.line !== curLine || !b.box) continue; const bx = b.box; g.fillStyle = b.h === "R" ? "rgba(255,180,30,0.55)" : "rgba(80,160,255,0.45)"; g.beginPath(); g.roundRect(ox + (bx.x - 5) * s, oy + (bx.y - L.y0 - 5) * s, (bx.w + 10) * s, (bx.h + 10) * s, 8); g.fill(); }
+  g.drawImage(scoreImg, 0, L.y0, 870, sh, ox, oy, 870 * s, sh * s);
+  for (const b of boxes) { if (b.line !== curLine || !b.box || b.h !== "R") continue; const bx = b.box; const nm = SOLF[Math.max(...b.midi) % 12]; const X = ox + (bx.x + bx.w / 2) * s, Y = oy + (bx.y - L.y0) * s - 26;
+    g.fillStyle = "rgba(255,178,30,.95)"; g.beginPath(); g.roundRect(X - 30, Y - 19, 60, 38, 19); g.fill(); txt(nm, X, Y, 24, "#2a1a08"); }
+  g.globalAlpha = 1;
+  if (pt >= 0) { const X = ox + px * s; g.fillStyle = "rgba(225,40,50,.85)"; g.fillRect(X - 2, PY + 10, 4, PH - 20); }
+  g.restore();
+  // next line hint
+  const nl = LINES[curLine + 1]; if (nl) txt("다음 줄 →", PX + PW - 14, PY + PH - 16, 15, "#a89f92", "right", false);
+}
+function header(pt) { const gr = g.createLinearGradient(0, 0, 0, 110); gr.addColorStop(0, "rgba(8,6,18,.92)"); gr.addColorStop(1, "rgba(8,6,18,0)"); g.fillStyle = gr; g.fillRect(0, 0, W, 110);
+  txt("남몰래 흐르는 눈물 · 연습용", 22, 34, 30, "#ffc23a", "left"); txt("도니체티 · 큰 건반 · 큰 악보", 22, 70, 19, "#e8dccb", "left", false);
+  const sn = SPDNAME(); g.font = "bold 20px " + F; const sw = g.measureText(sn).width + 32; pill(W - 16 - sw, 16, sw, 40, SPD >= 1 ? "#2f7d4a" : SPD >= 0.5 ? "#2f5fb0" : "#8a3fb0"); txt(sn, W - 16 - sw / 2, 36, 20, "#fff");
+  g.fillStyle = "#ffc23a"; g.fillRect(W - 176, 70, 14, 14); txt("오른손", W - 92, 77, 17, "#ffc23a", "right"); g.fillStyle = "#5aa8ff"; g.fillRect(W - 82, 70, 14, 14); txt("왼손", W - 18, 77, 17, "#8fc4ff", "right"); }
+function middle(pt, b) { g.fillStyle = "#0e0b16"; g.fillRect(0, 640, W, 80);
+  const prog = Math.max(0, Math.min(1, pt / TOTAL)); g.fillStyle = "#3a2a40"; g.fillRect(0, 640, W, 6); g.fillStyle = "#ffc23a"; g.fillRect(0, 640, W * prog, 6);
+  pill(14, 658, 200, 48, "rgba(255,255,255,.08)"); txt(`마디 ${Math.min(48, b + 1)} / 48`, 114, 682, 26, "#fff");
+  txt("악보 (위: 오른손 · 아래: 왼손)", W - 18, 682, 19, "#ffc23a", "right"); }
+function frame(pt, rt) {
+  update3D(pt, false); g.drawImage(R3.domElement, 0, 0, W, V3H); header(pt);
+  const b = barOf(Math.max(0, pt)); middle(pt, b);
+  const li = D.lineOfBar[b] ?? 0; if (li !== curLine) { prevLine = curLine; curLine = li; lineSwitchT = rt; scrollX = 0; }
+  const boxes = []; for (const h of ["R", "L"]) for (const e of EV[h]) { if (e.t > pt) break; if (!e.rest && e.t <= pt && pt < e.t + Math.max(e.d, 0.12)) boxes.push({ line: e.line, box: e.box, h, midi: e.midi }); }
+  drawScore(pt, boxes, rt);
+}
+function card(lines, a) { g.fillStyle = `rgba(8,6,16,${Math.min(0.82, a / 0.8)})`; g.fillRect(0, 0, W, H); g.globalAlpha = Math.min(1, a / 0.8); for (const [s, y, sz, c, bold] of lines) txt(s, W / 2, y, sz, c, "center", bold !== false); g.globalAlpha = 1; }
+function intro(a) { curLine = 0; scrollX = 0; update3D(-1, true); g.drawImage(R3.domElement, 0, 0, W, V3H); header(0); middle(0, 0); drawScore(-1, [], 99);
+  card([["남몰래 흐르는 눈물", 420, 54, "#ffc23a"], ["피아노 연습용", 490, 34, "#f5e9d8"], [SPDNAME(), 560, 30, "#9fd0ff"], ["위: 큰 건반과 손 · 아래: 큰 악보", 650, 22, "#e8dccb", false], ["노랑 = 오른손 · 파랑 = 왼손", 690, 22, "#e8dccb", false], ["눌리는 건반 위에 계이름이 떠요", 730, 22, "#ffd98a", false], ["성실피아노", 830, 26, "#d8b56a"]], a); }
+function outro(a) { update3D(TOTAL + 1, true); g.drawImage(R3.domElement, 0, 0, W, V3H); header(TOTAL); middle(TOTAL, 47); drawScore(-1, [], 99);
+  card([["수고하셨습니다", 470, 46, "#ffc23a"], ["남몰래 흐르는 눈물 — G. 도니체티 (공개 저작물)", 540, 21, "#f5e9d8", false], ["음 데이터: flutetunes.com 공개 MIDI를 피아노 독주로 편곡", 590, 18, "#e8dccb", false], ["피아노 소리: Salamander Grand Piano (야마하 C5)", 625, 18, "#e8dccb", false], ["성실피아노 · 피아노조율사 박근성", 720, 26, "#d8b56a"]], a); }
+// ---------------- init / play / record ----------------
+const T1 = 5; let READYP = null, MIXSPD = 0;
+window.init = async function (onp) { const r = renderScore(); await scoreImg.decode(); const a = await renderAudio(onp); MIXSPD = SPD; return { ...r, total: TOTAL, spd: SPD, audio: a }; };
+window.frameAt = function (sec) { const pt = (sec - T1) * SPD; for (let s = Math.max(0, pt - 2); s < pt; s += SPD / 30) update3D(s, false); if (sec < T1) intro(sec); else if (pt < TOTAL + 1) frame(pt, sec); else outro(sec - T1 - (TOTAL + 1) / SPD); return cv.toDataURL("image/png").split(",")[1]; };
+let BLOB;
+window.record = async function (vbps = 5000000, mime = "video/webm;codecs=vp9,opus") {
+  await ac.resume(); const dest = ac.createMediaStreamDestination(); const keep = ac.createConstantSource(); keep.offset.value = 0.00005; keep.connect(dest); keep.start();
+  const stream = new MediaStream([...cv.captureStream(30).getVideoTracks(), ...dest.stream.getAudioTracks()]);
+  const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: vbps, audioBitsPerSecond: 160000 });
+  const chunks = []; rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+  intro(0); await new Promise((r) => setTimeout(r, 500)); rec.start(1000);
+  const t0 = ac.currentTime + 0.3; const src = ac.createBufferSource(); src.buffer = MIX; src.connect(dest); src.start(t0 + T1);
+  const PEND = T1 + (TOTAL + 1) / SPD, END = PEND + 7; let frames = 0, slow = 0, lastW = performance.now();
+  await new Promise((res) => { function loop() { const t = ac.currentTime - t0; const nw = performance.now(); if (nw - lastW > 50) slow++; lastW = nw; frames++;
+      if (t < T1) intro(Math.max(0, t)); else if (t < PEND) frame((t - T1) * SPD, t); else outro(t - PEND);
+      if (t >= END) return res(); requestAnimationFrame(loop); } loop(); });
+  await new Promise((r) => { rec.onstop = r; rec.stop(); });
+  BLOB = new Blob(chunks, { type: mime.split(";")[0] }); return { size: BLOB.size, dur: END, frames, slow };
+};
+window.chunk = async function (i, sz) { const b = BLOB.slice(i * sz, (i + 1) * sz); const u = new Uint8Array(await b.arrayBuffer()); let s = ""; for (let k = 0; k < u.length; k += 8192) s += String.fromCharCode.apply(null, u.subarray(k, k + 8192)); return btoa(s); };
+// ---------------- live page ----------------
+let playing = false, startAt = 0, srcNode = null, scoreReady = false;
+function idle(now) { if (playing) return; if (!scoreReady) { try { renderScore(); scoreReady = true; } catch (e) {} } if (scoreImg && scoreImg.complete) intro(1 + (now / 1000) % 1000); requestAnimationFrame(idle); }
+requestAnimationFrame(idle);
+document.querySelectorAll("#ov .sp button").forEach((b) => b.onclick = () => { SPD = +b.dataset.s; document.querySelectorAll("#ov .sp button").forEach((x) => x.classList.toggle("on", x === b)); });
+async function start() {
+  const btn = document.getElementById("play"), msg = document.getElementById("msg"); btn.disabled = true;
+  try { if (!MIX || MIXSPD !== SPD) { msg.textContent = "피아노 소리를 만드는 중… (30초~1분쯤)"; await window.init((p) => { msg.textContent = `피아노 소리 불러오는 중… ${Math.round(p * 100)}%`; }); } }
+  catch (e) { msg.textContent = "소리를 만들지 못했어요: " + e.message; btn.disabled = false; return; }
+  await ac.resume(); document.getElementById("ov").style.display = "none";
+  if (srcNode) try { srcNode.stop(); } catch (e) {}
+  srcNode = ac.createBufferSource(); srcNode.buffer = MIX; srcNode.connect(ac.destination); startAt = ac.currentTime + 0.2; srcNode.start(startAt); playing = true; curLine = 0; scrollX = 0;
+  (function loop() { if (!playing) return; const t = ac.currentTime - startAt, pt = t * SPD; if (pt < TOTAL + 1) frame(pt, t); else if (t < (TOTAL + 1) / SPD + 6) outro(t - (TOTAL + 1) / SPD); else { playing = false; document.getElementById("ov").style.display = "flex"; btn.disabled = false; btn.textContent = "▶ 다시 연습"; requestAnimationFrame(idle); return; } requestAnimationFrame(loop); })();
+}
+document.getElementById("play").onclick = start;
+document.getElementById("again").onclick = () => { playing = false; if (srcNode) try { srcNode.stop(); } catch (e) {} document.getElementById("ov").style.display = "flex"; document.getElementById("play").disabled = false; requestAnimationFrame(idle); };
+window.READY = true;
+</script></body></html>
