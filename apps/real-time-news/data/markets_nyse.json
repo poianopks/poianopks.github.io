@@ -22,7 +22,7 @@
       "value": 25136.273,
       "change": -229.82617,
       "changePercent": -0.9060367,
-      "previousClose": 25366.094
+      "previousClose": 25366.1
     },
     {
       "name": "러셀 2000",
@@ -48,7 +48,7 @@
       "price": 641.69,
       "change": 18.080017,
       "changePercent": 2.8992507,
-      "volume": "15.09M"
+      "volume": "15.15M"
     },
     {
       "symbol": "MA",
@@ -80,7 +80,7 @@
       "price": 346.19,
       "change": 3.37,
       "changePercent": 0.983022,
-      "volume": "4.18M"
+      "volume": "4.20M"
     }
   ],
   "topLosers": [
@@ -90,7 +90,7 @@
       "price": 162.85,
       "change": -3.3399963,
       "changePercent": -2.0097456,
-      "volume": "362.49M"
+      "volume": "365.80M"
     },
     {
       "symbol": "TSLA",
@@ -98,7 +98,7 @@
       "price": 390.22,
       "change": -7.230011,
       "changePercent": -1.8190994,
-      "volume": "32.04M"
+      "volume": "32.39M"
     },
     {
       "symbol": "GOOGL",
@@ -106,7 +106,7 @@
       "price": 295.77,
       "change": -2.9300232,
       "changePercent": -0.980925,
-      "volume": "30.65M"
+      "volume": "30.80M"
     },
     {
       "symbol": "AMZN",
@@ -114,7 +114,7 @@
       "price": 266.66,
       "change": -0.7799988,
       "changePercent": -0.29165375,
-      "volume": "30.82M"
+      "volume": "31.15M"
     },
     {
       "symbol": "MSFT",
@@ -122,10 +122,10 @@
       "price": 523.88,
       "change": 0.8800049,
       "changePercent": 0.16826096,
-      "volume": "25.46M"
+      "volume": "26.19M"
     }
   ],
-  "updatedAt": "2026-11-14T06:46:02.182Z",
+  "updatedAt": "2026-11-16T03:06:40.869Z",
   "marketStatus": "장마감",
   "isRealtime": false
 }
