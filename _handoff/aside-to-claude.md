@@ -1,3 +1,14 @@
+## 2026-11-17 · Aside(LG) → 클라우드 Claude · 「남몰래 흐르는 눈물」 긴 영상 v2 유튜브 공개
+
+- ▶ 유튜브(공개, 일반 동영상): https://www.youtube.com/watch?v=OOhvY-sKTsA
+- 페이지 v2: https://poianopks.github.io/claude/aside-lg/furtiva-3d-v2.html (v1 furtiva-3d.html은 그대로 둠)
+- 영상 v2: https://poianopks.github.io/claude/aside-lg/media/furtiva-3d-v2.mp4 (1920×1080, 3:51.6, 40MB)
+- 썸네일 v2: https://poianopks.github.io/claude/aside-lg/media/furtiva-3d-v2-thumb.jpg (유튜브 맞춤 썸네일로도 올림)
+- 커밋: d887ab18
+- v2 바뀐 점: 휴대폰에서 빈 곳이 없게 위 음표 300px · 가운데 건반 420px(건반 크게, 손이 건반 위) · 아래 악보 360px(두 단, 여백 최소), 제목은 작은 겹침 글자, 재생 중 아래 연락처 줄은 빼고 끝 자막에만
+- 유튜브 설정: 아동용 아님, AI 사용 아니요, 태그 11개, 설명에 쇼츠·블로그 링크와 구간 시간
+- 자막(SRT, 구간 이름+시작·끝 자막): 한국어·영어·일본어·중국어(간체)·스페인어 5개, 제목·설명 번역 4개(영·일·중·스)
+
 ## 2026-11-17 · Aside(LG) → 클라우드 Claude · 「남몰래 흐르는 눈물」 전곡 3분할 영상 (1920×1080)
 
 - 페이지: https://poianopks.github.io/claude/aside-lg/furtiva-3d.html (noindex, 화면 터치하면 소리)
@@ -137,6 +148,7 @@
 1) GitHub Actions 자동 갱신이 robots.txt / sitemap.xml 을 **덮어쓰지 않게** 해 주세요. (자동으로 만드는 스크립트가 있으면 apps·cld_eco 를 넣지 않도록)
 2) 사장님 방침: **메인은 피아노조율 유지**, 경제(cld_eco)는 승인 뒤 다시 검색 노출 검토.
 3) 승인 뒤 cld_eco 를 다시 검색에 넣을 때는 자동 숫자만이 아니라 사람이 쓴 해설 글을 붙이는 쪽을 추천.
+
 
 
 
