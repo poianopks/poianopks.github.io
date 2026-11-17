@@ -3,129 +3,129 @@
     {
       "name": "다우존스",
       "symbol": "^DJI",
-      "value": 51608.17,
-      "change": -739.3789,
-      "changePercent": -1.4124422,
-      "previousClose": 52347.6
+      "value": 50721.5,
+      "change": -886.6719,
+      "changePercent": -1.7180734,
+      "previousClose": 51608.17
     },
     {
       "name": "S&P 500",
       "symbol": "^GSPC",
-      "value": 7416.59,
-      "change": -145.08008,
-      "changePercent": -1.9186249,
-      "previousClose": 7561.67
+      "value": 7305.55,
+      "change": -111.04004,
+      "changePercent": -1.4971906,
+      "previousClose": 7416.59
     },
     {
       "name": "나스닥",
       "symbol": "^IXIC",
-      "value": 24509.758,
-      "change": -626.5156,
-      "changePercent": -2.4924762,
-      "previousClose": 25136.273
+      "value": 24110.086,
+      "change": -399.67188,
+      "changePercent": -1.630693,
+      "previousClose": 24509.758
     },
     {
       "name": "러셀 2000",
       "symbol": "^RUT",
-      "value": 2742.9412,
-      "change": -47.54834,
-      "changePercent": -1.7039427,
-      "previousClose": 2790.49
+      "value": 2702.3699,
+      "change": -40.57129,
+      "changePercent": -1.4792237,
+      "previousClose": 2742.9412
     },
     {
       "name": "VIX 공포지수",
       "symbol": "^VIX",
-      "value": 23.09,
-      "change": 0.1800003,
-      "changePercent": 0.78499913,
+      "value": 26.74,
+      "change": 3.83,
+      "changePercent": 16.74683,
       "previousClose": 22.91
     }
   ],
   "topGainers": [
     {
+      "symbol": "XOM",
+      "name": "ExxonMobil Holdings Corporation",
+      "price": 167.39,
+      "change": 0.5200043,
+      "changePercent": 0.31162238,
+      "volume": "2.87M"
+    },
+    {
       "symbol": "PG",
       "name": "Procter & Gamble Company (The)",
-      "price": 173.02,
-      "change": 3.22,
-      "changePercent": 1.89635,
-      "volume": "13.10M"
-    },
-    {
-      "symbol": "UNH",
-      "name": "UnitedHealth Group Incorporated",
-      "price": 412.02,
-      "change": 4.56,
-      "changePercent": 1.11913,
-      "volume": "4.40M"
-    },
-    {
-      "symbol": "V",
-      "name": "Visa Inc.",
-      "price": 426.46,
-      "change": 0.699982,
-      "changePercent": 0.164408,
-      "volume": "7.39M"
-    },
-    {
-      "symbol": "MA",
-      "name": "Mastercard Incorporated",
-      "price": 661.71,
-      "change": 0.52002,
-      "changePercent": 0.078649,
-      "volume": "2.35M"
-    },
-    {
-      "symbol": "BRK-B",
-      "name": "Berkshire Hathaway Inc. New",
-      "price": 592.85,
-      "change": -0.0900269,
-      "changePercent": -0.0151831,
-      "volume": "3.74M"
-    }
-  ],
-  "topLosers": [
-    {
-      "symbol": "NVDA",
-      "name": "NVIDIA Corporation",
-      "price": 156.14,
-      "change": -6.7100067,
-      "changePercent": -4.12036,
-      "volume": "329.96M"
-    },
-    {
-      "symbol": "GOOGL",
-      "name": "Alphabet Inc.",
-      "price": 283.72,
-      "change": -12.049988,
-      "changePercent": -4.0741076,
-      "volume": "34.08M"
-    },
-    {
-      "symbol": "AMZN",
-      "name": "Amazon.com, Inc.",
-      "price": 257.75,
-      "change": -8.910004,
-      "changePercent": -3.3413346,
-      "volume": "47.70M"
+      "price": 172.655,
+      "change": -0.3650055,
+      "changePercent": -0.21096145,
+      "volume": "3.22M"
     },
     {
       "symbol": "TSLA",
       "name": "Tesla, Inc.",
-      "price": 379.74,
-      "change": -10.480011,
-      "changePercent": -2.6856673,
-      "volume": "30.08M"
+      "price": 378.015,
+      "change": -1.7249756,
+      "changePercent": -0.45425177,
+      "volume": "10.58M"
     },
     {
-      "symbol": "META",
-      "name": "Meta Platforms, Inc.",
-      "price": 626.41,
-      "change": -15.280029,
-      "changePercent": -2.3812168,
-      "volume": "11.51M"
+      "symbol": "AAPL",
+      "name": "Apple Inc.",
+      "price": 351.08,
+      "change": -1.7000122,
+      "changePercent": -0.4818902,
+      "volume": "12.25M"
+    },
+    {
+      "symbol": "BRK-B",
+      "name": "Berkshire Hathaway Inc. New",
+      "price": 588.2825,
+      "change": -4.567505,
+      "changePercent": -0.7704318,
+      "volume": "1.62M"
     }
   ],
-  "updatedAt": "2026-11-17T11:45:29.338Z",
-  "marketStatus": "프리마켓",
+  "topLosers": [
+    {
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "price": 497.28,
+      "change": -20.709991,
+      "changePercent": -3.9981449,
+      "volume": "8.90M"
+    },
+    {
+      "symbol": "UNH",
+      "name": "UnitedHealth Group Incorporated",
+      "price": 397.13,
+      "change": -14.889984,
+      "changePercent": -3.6150627,
+      "volume": "3.16M"
+    },
+    {
+      "symbol": "JPM",
+      "name": "JP Morgan Chase & Co.",
+      "price": 330.275,
+      "change": -7.9349976,
+      "changePercent": -2.3461747,
+      "volume": "2.67M"
+    },
+    {
+      "symbol": "MA",
+      "name": "Mastercard Incorporated",
+      "price": 647.125,
+      "change": -14.585022,
+      "changePercent": -2.204141,
+      "volume": "836.93K"
+    },
+    {
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "price": 152.87,
+      "change": -3.2700043,
+      "changePercent": -2.0942771,
+      "volume": "171.93M"
+    }
+  ],
+  "updatedAt": "2026-11-17T16:52:20.316Z",
+  "marketStatus": "장개장중",
   "isRealtime": true
 }
