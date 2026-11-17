@@ -35,10 +35,10 @@
     {
       "name": "VIX 공포지수",
       "symbol": "^VIX",
-      "value": 22.91,
-      "change": 3.6100006,
-      "changePercent": 18.704668,
-      "previousClose": 19.3
+      "value": 23.09,
+      "change": 0.1800003,
+      "changePercent": 0.78499913,
+      "previousClose": 22.91
     }
   ],
   "topGainers": [
@@ -88,7 +88,7 @@
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
       "price": 156.14,
-      "change": -6.71001,
+      "change": -6.7100067,
       "changePercent": -4.12036,
       "volume": "329.96M"
     },
@@ -96,36 +96,36 @@
       "symbol": "GOOGL",
       "name": "Alphabet Inc.",
       "price": 283.72,
-      "change": -12.05,
-      "changePercent": -4.07411,
+      "change": -12.049988,
+      "changePercent": -4.0741076,
       "volume": "34.08M"
     },
     {
       "symbol": "AMZN",
       "name": "Amazon.com, Inc.",
       "price": 257.75,
-      "change": -8.91,
-      "changePercent": -3.34133,
+      "change": -8.910004,
+      "changePercent": -3.3413346,
       "volume": "47.70M"
     },
     {
       "symbol": "TSLA",
       "name": "Tesla, Inc.",
       "price": 379.74,
-      "change": -10.48,
-      "changePercent": -2.68567,
+      "change": -10.480011,
+      "changePercent": -2.6856673,
       "volume": "30.08M"
     },
     {
       "symbol": "META",
       "name": "Meta Platforms, Inc.",
       "price": 626.41,
-      "change": -15.28,
-      "changePercent": -2.38122,
+      "change": -15.280029,
+      "changePercent": -2.3812168,
       "volume": "11.51M"
     }
   ],
-  "updatedAt": "2026-11-17T05:15:51.325Z",
-  "marketStatus": "장마감",
-  "isRealtime": false
+  "updatedAt": "2026-11-17T11:45:29.338Z",
+  "marketStatus": "프리마켓",
+  "isRealtime": true
 }

@@ -1,16 +1,166 @@
 [
   {
-    "id": "CNBC-1-2026-11-17T04:50:19.000Z",
-    "title": "Third U.S. carrier arrives, stoking concerns about renewed conflicts with Iran",
+    "id": "CNBC-2-2026-11-17T11:33:44.000Z",
+    "title": "Home Depot names Richard McPhail as new CEO, beats earnings expectations",
+    "description": "Home Depot named Richard McPhail as its new CEO effective next week.",
+    "url": "https://www.cnbc.com/2026/11/17/home-depot-hd-q3-earnings-2026.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T11:33:44.000Z"
+  },
+  {
+    "id": "CNBC-5-2026-11-17T11:27:33.000Z",
+    "title": "Ukraine damages Putin’s prized Crimea bridge as Zelenskyy lauds ‘unprecedented operation’",
+    "description": "Ukraine attacked the Kerch Bridge linking Russia to occupied Crimea for a second consecutive day, delivering a symbolic blow to President Vladimir Putin.",
+    "url": "https://www.cnbc.com/2026/11/17/kerch-bridge-ukraine-russia-putin-kyiv.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T11:27:33.000Z"
+  },
+  {
+    "id": "CNBC-7-2026-11-17T11:22:54.000Z",
+    "title": "Iran escalates threats as third U.S. carrier arrives in Middle East, tanker struck in Hormuz",
     "description": "Iran has ratcheted up threats against U.S. forces as a third American aircraft carrier arrived in the Gulf, stoking fears of a resumption of military tensions.",
     "url": "https://www.cnbc.com/2026/11/17/iran-war-trump-hormuz-oil-.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-17T04:50:19.000Z"
+    "publishedAt": "2026-11-17T11:22:54.000Z"
   },
   {
-    "id": "CNBC-2-2026-11-17T00:42:33.000Z",
+    "id": "MarketWatch-0-2026-11-17T11:15:00.000Z",
+    "title": "‘It is heartbreaking, exhausting and downright dirty’: My brother took over our ailing mother’s life and finances. What can I do?",
+    "description": "‘It is devastating when the people you should be able to trust become the very people you have to protect yourself from’",
+    "url": "https://www.marketwatch.com/story/it-is-heartbreaking-exhausting-and-downright-dirty-my-brother-took-over-our-ailing-mothers-life-and-finances-what-can-i-do-b4d48817?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T11:15:00.000Z"
+  },
+  {
+    "id": "CNBC-10-2026-11-17T10:49:36.000Z",
+    "title": "South Korea will suspend all aircraft operation for 35 minutes and markets will open late. Here’s why",
+    "description": "South Korea will suspend aircraft takeoffs and landings nationwide for 35 minutes on Thursday to minimize noise during a college entrance exam.",
+    "url": "https://www.cnbc.com/2026/11/17/south-korea-suspend-aircraft-exam-markets.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T10:49:36.000Z"
+  },
+  {
+    "id": "MarketWatch-1-2026-11-17T10:47:00.000Z",
+    "title": "Pick the two sectors where earnings growth will accelerate — as long as the 10-year stays below this key level, say strategists",
+    "description": "Strategists at the investment bank recommend hyperscalers and the health care sector in an environment of slowing earnings growth.",
+    "url": "https://www.marketwatch.com/story/pick-the-two-sectors-where-earnings-growth-will-accelerate-as-long-as-the-10-year-stays-below-this-key-level-say-strategists-e7c13914?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T10:47:00.000Z"
+  },
+  {
+    "id": "MarketWatch-2-2026-11-17T10:28:00.000Z",
+    "title": "Tepper, Loeb among fund managers piling into Nvidia and other megacap tech on the eve of October drawdown",
+    "description": "13-F filings with the SEC offer a snapshot of how large institutional funds were positioning for the fourth quarter. Given the blowup in the AI trade, some positions reported suggest a painful six weeks for many portfolio managers.",
+    "url": "https://www.marketwatch.com/story/tepper-loeb-among-fund-managers-piling-into-nvidia-and-other-megacap-tech-on-the-eve-of-october-drawdown-de45f572?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T10:28:00.000Z"
+  },
+  {
+    "id": "CNBC-9-2026-11-17T10:25:54.000Z",
+    "title": "Data center policy dominated the midterms. The 'Virginia of Europe' is the latest battleground",
+    "description": "Data center policy has become a key election issue in Spain, creating an obstacle to existing deals and potentially costing billions of dollars in investment.",
+    "url": "https://www.cnbc.com/2026/11/17/spain-data-center-decree-election.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T10:25:54.000Z"
+  },
+  {
+    "id": "MarketWatch-3-2026-11-17T10:15:00.000Z",
+    "title": "‘Nvidia spooked me’: Should I sell my stocks or ride out the market turmoil?",
+    "description": "“Real estate here in Florida seems to be presenting some interesting opportunities.”",
+    "url": "https://www.marketwatch.com/story/nvidia-spooked-me-should-i-sell-my-stocks-or-ride-out-the-market-turmoil-560583c6?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T10:15:00.000Z"
+  },
+  {
+    "id": "MarketWatch-4-2026-11-17T10:01:00.000Z",
+    "title": "‘Breaking Bad’ star Dean Norris is selling 11-acre California estate for $3.2 million amid divorce",
+    "description": "Dean Norris is looking for a buyer for his 11-acre Temecula, Calif., property, listing the hilltop home for $3.2 million—after his wife, Bridget Norris, filed for divorce.",
+    "url": "https://www.marketwatch.com/story/breaking-bad-star-dean-norris-is-selling-11-acre-california-estate-for-3-2-million-amid-divorce-03963997?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T10:01:00.000Z"
+  },
+  {
+    "id": "MarketWatch-5-2026-11-17T09:57:00.000Z",
+    "title": "Supermodel Bella Hadid snaps up a charming Colorado compound for $5.5 million",
+    "description": "Bella Hadid has purchased a creekside compound in Crested Butte, Colorado, for $5.5 million.",
+    "url": "https://www.marketwatch.com/story/supermodel-bella-hadid-snaps-up-a-charming-colorado-compound-for-5-5-million-b907958c?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T09:57:00.000Z"
+  },
+  {
+    "id": "MarketWatch-6-2026-11-17T09:35:00.000Z",
+    "title": "Here’s how much of Deutsche Bank’s market cap has been wiped away after reports on 15 million leaked documents",
+    "description": "Deutsche Bank saw as much as €3.8 billion ($4.2 billion) of its market cap wiped away after a team of media organizations wrote about a trove of 15 million leaked documents.",
+    "url": "https://www.marketwatch.com/story/heres-how-much-of-deutsche-banks-market-cap-has-been-wiped-away-after-reports-on-15-million-leaked-documents-fe3db078?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T09:35:00.000Z"
+  },
+  {
+    "id": "CNBC-4-2026-11-17T09:23:40.000Z",
+    "title": "Deutsche Bank shares sink as whistleblowers reveal Epstein payments, Trump tax leak, Russia bets",
+    "description": "A 15-million-file leak details alleged control failures at Deutsche Bank, including Epstein-linked payments and a Trump tax blunder.",
+    "url": "https://www.cnbc.com/2026/11/17/deutsche-bank-leak-epstein-trump.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T09:23:40.000Z"
+  },
+  {
+    "id": "CNBC-13-2026-11-17T08:52:45.000Z",
+    "title": "U.S. companies from Nvidia to Apple face a growing China dilemma",
+    "description": "The stakes have just gotten higher for businesses navigating the U.S. and China markets.",
+    "url": "https://www.cnbc.com/2026/11/17/us-tech-firms-china-ties-political-pressure.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T08:52:45.000Z"
+  },
+  {
+    "id": "CNBC-0-2026-11-17T07:07:35.000Z",
+    "title": "Nvidia warns chip buyers of legal risks tied to China AI access, sources tell CNBC",
+    "description": "The U.S. Commerce Department is making moves to tighten export controls.",
+    "url": "https://www.cnbc.com/2026/11/17/nvidia-china-cloud-ai-chip-access.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T07:07:35.000Z"
+  },
+  {
+    "id": "CNBC-16-2026-11-17T06:59:42.000Z",
+    "title": "U.S. agencies say they initiated investigation into Nvidia partner Megaspeed in 2024",
+    "description": "The Commerce and Justice departments said in a joint statement that U.S. investigations into Megaspeed began in 2024.",
+    "url": "https://www.cnbc.com/2026/11/17/megaspeed-investigation-nvidia-jensen-huang.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-17T06:59:42.000Z"
+  },
+  {
+    "id": "CNBC-11-2026-11-17T00:42:33.000Z",
     "title": "Analysis: The Fed's chairman sees an AI revolution coming. Now he has to figure out what it means",
     "description": "Kevin Warsh sees AI at a turning point. He faces tough questions on jobs and interest rates.",
     "url": "https://www.cnbc.com/2026/11/16/kevin-warsh-fed-ai-jobs-productivity-interest-rateshtml.html",
@@ -20,17 +170,17 @@
     "publishedAt": "2026-11-17T00:42:33.000Z"
   },
   {
-    "id": "CNBC-7-2026-11-17T00:00:49.000Z",
-    "title": "United Airlines resolves system outage that affected departing flights",
-    "description": "The airline said there was no impact on flights in progress and there was no indication the outage was a cyberattack.",
-    "url": "https://www.cnbc.com/2026/11/16/united-airlines-outage-faa.html",
+    "id": "CNBC-12-2026-11-16T23:45:03.000Z",
+    "title": "Jim Cramer says Costco's hefty special dividend signals ‘more gains ahead’",
+    "description": "Jim Cramer says investors should hold on to Costco after its $30-per-share special dividend announcement.",
+    "url": "https://www.cnbc.com/2026/11/16/costco-special-dividend-jim-cramer.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-17T00:00:49.000Z"
+    "publishedAt": "2026-11-16T23:45:03.000Z"
   },
   {
-    "id": "MarketWatch-2-2026-11-16T23:28:00.000Z",
+    "id": "MarketWatch-9-2026-11-16T23:28:00.000Z",
     "title": "Stanley Druckenmiller dumped these chip stocks while buying into SpaceX and Palantir",
     "description": "Druckenmiller’s family office unloaded AMD and Sandisk shares in the third quarter.",
     "url": "https://www.marketwatch.com/story/stanley-druckenmiller-dumped-these-chip-stocks-while-buying-into-spacex-and-palantir-9ae1f078?mod=mw_rss_topstories",
@@ -38,16 +188,6 @@
     "source": "MarketWatch",
     "category": "글로벌",
     "publishedAt": "2026-11-16T23:28:00.000Z"
-  },
-  {
-    "id": "CNBC-9-2026-11-16T23:23:47.000Z",
-    "title": "Jim Cramer says Nvidia’s leadership shake-up won’t derail the AI trade",
-    "description": "CNBC's Jim Cramer pushed back against fears that Nvidia's leadership shake-up could unravel the AI boom.",
-    "url": "https://www.cnbc.com/2026/11/16/nvidia-cramer-ai-trade-leadership-change.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T23:23:47.000Z"
   },
   {
     "id": "CNBC-3-2026-11-16T23:05:12.000Z",
@@ -60,16 +200,6 @@
     "publishedAt": "2026-11-16T23:05:12.000Z"
   },
   {
-    "id": "MarketWatch-3-2026-11-16T23:04:00.000Z",
-    "title": "Do Amazon’s Black Friday deals really save you money? A new report casts doubt.",
-    "description": "Almost a third of Amazon Black Friday deals “provided no savings at all” in the last two years, a report says. The retailer is pushing back.",
-    "url": "https://www.marketwatch.com/story/do-amazons-black-friday-deals-really-save-you-money-03859cf3?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T23:04:00.000Z"
-  },
-  {
     "id": "CNBC-6-2026-11-16T23:01:19.000Z",
     "title": "Berkshire Hathaway raised its stake in Delta in the third quarter. It also trimmed a key bank holding",
     "description": "Berkshire Hathaway added to several stock positions in the third quarter while trimming others, including Bank of America.",
@@ -80,67 +210,7 @@
     "publishedAt": "2026-11-16T23:01:19.000Z"
   },
   {
-    "id": "MarketWatch-4-2026-11-16T23:00:00.000Z",
-    "title": "My husband is happily retired at 64 and thinks I should keep working. Is he being fair?",
-    "description": "“I’m exhausted. My alarm goes off at 6 a.m., and I have a 50-minute commute.”",
-    "url": "https://www.marketwatch.com/story/my-husband-is-happily-retired-at-64-and-thinks-i-should-keep-working-is-he-being-fair-325c5f38?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T23:00:00.000Z"
-  },
-  {
-    "id": "MarketWatch-5-2026-11-16T22:46:00.000Z",
-    "title": "U.S. dollar’s AI-driven breakout could become a stock-market wrecking ball",
-    "description": "The dollar recently climbed to its strongest level in a year and a half.",
-    "url": "https://www.marketwatch.com/story/u-s-dollars-ai-driven-breakout-could-become-a-stock-market-wrecking-ball-18199b95?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T22:46:00.000Z"
-  },
-  {
-    "id": "CNBC-0-2026-11-16T22:37:45.000Z",
-    "title": "Trump’s accounts traded up to $97.5 million in Nvidia as Huang gained White House access",
-    "description": "Trump’s accounts sold up to $1 million in Nvidia stock five days after he was briefed on Jensen Huang’s relationship with a suspected Chinese spy.",
-    "url": "https://www.cnbc.com/2026/11/16/trump-nvidia-stock-trades-jensen-huang.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T22:37:45.000Z"
-  },
-  {
-    "id": "MarketWatch-6-2026-11-16T22:33:00.000Z",
-    "title": "Berkshire upped its bet on a beleaguered U.S. housing market, while souring on these bank stocks",
-    "description": "Berkshire Hathaway stepped up its investments in the U.S. housing market last quarter, nearly doubling its stake in home builder Lennar.",
-    "url": "https://www.marketwatch.com/story/berkshire-upped-its-bet-on-a-beleaguered-u-s-housing-market-while-souring-on-these-bank-stocks-2e8de402?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T22:33:00.000Z"
-  },
-  {
-    "id": "MarketWatch-8-2026-11-16T22:21:00.000Z",
-    "title": "The FDA declined to approve one of biotech’s most closely watched cancer drugs. The company’s stock tumbled.",
-    "description": "The regulator told Summit Therapeutics that the lung-cancer drug needs to prove it can help people live longer.",
-    "url": "https://www.marketwatch.com/story/the-fda-declined-to-approve-one-of-biotechs-most-closely-watched-cancer-drugs-d7c6a0a3?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T22:21:00.000Z"
-  },
-  {
-    "id": "CNBC-12-2026-11-16T22:19:02.000Z",
-    "title": "U.S. crude oil declines to $85 a barrel on recovering Middle East exports",
-    "description": "Oil prices are falling as forecasts project a surplus in oil in the fourth quarter",
-    "url": "https://www.cnbc.com/2026/11/16/us-crude-oil-declines-to-87-a-barrel-on-recovering-middle-east-exports.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T22:19:02.000Z"
-  },
-  {
-    "id": "CNBC-13-2026-11-16T22:11:09.000Z",
+    "id": "CNBC-17-2026-11-16T22:11:09.000Z",
     "title": "California sues OpenAI over Hugging Face, other AI model loss of control",
     "description": "Two OpenAI models in July gained unauthorized access to Hugging Face's internal systems to find information for use in cheating on an evaluation.",
     "url": "https://www.cnbc.com/2026/11/16/openai-california-bonta-ai-lawsuit.html",
@@ -150,17 +220,7 @@
     "publishedAt": "2026-11-16T22:11:09.000Z"
   },
   {
-    "id": "MarketWatch-9-2026-11-16T22:08:00.000Z",
-    "title": "‘It leaves me with a sour taste’: My elderly mother gave our cousin $800 for a car repair. Should I be worried?",
-    "description": "“I know older people can easily feel patronized, and I don’t want that to happen.”",
-    "url": "https://www.marketwatch.com/story/it-leaves-me-with-a-sour-taste-my-elderly-mother-gave-our-cousin-800-for-a-car-repair-should-i-be-worried-88dbd188?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T22:08:00.000Z"
-  },
-  {
-    "id": "CNBC-11-2026-11-16T21:23:34.000Z",
+    "id": "CNBC-14-2026-11-16T21:23:34.000Z",
     "title": "Kalshi plans to launch stock trading soon",
     "description": "Kalshi's interest in offering stock trading shows the platform's push into traditional financial markets.",
     "url": "https://www.cnbc.com/2026/11/16/kalshi-plans-to-launch-stock-trading-soon.html",
@@ -170,64 +230,14 @@
     "publishedAt": "2026-11-16T21:23:34.000Z"
   },
   {
-    "id": "CNBC-19-2026-11-16T21:03:36.000Z",
-    "title": "Robert Pattinson cast as next James Bond",
-    "description": "Pattinson has been in major films this year, including Christopher Nolan's \"The Odyssey,\" and will soon appear in \"Dune: Part Three.\"",
-    "url": "https://www.cnbc.com/2026/11/16/robert-pattinson-james-bond.html",
+    "id": "CNBC-15-2026-11-16T20:44:24.000Z",
+    "title": "Anthropic’s Wall Street whisperer: Meet CFO Krishna Rao",
+    "description": "Anthropic's upcoming IPO is putting finance chief Krishna Rao into the limelight.",
+    "url": "https://www.cnbc.com/2026/11/16/anthropic-cfo-krishna-rao-ipo.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-16T21:03:36.000Z"
-  },
-  {
-    "id": "CNBC-17-2026-11-16T19:06:11.000Z",
-    "title": "This Anthropic proxy play is getting traders' attention – here's where they see it going",
-    "description": "There are bullish signs surrounding the Anthropic IPO in the derivatives market.",
-    "url": "https://www.cnbc.com/2026/11/16/anthropic-proxy-destiny-tech100-fund.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T19:06:11.000Z"
-  },
-  {
-    "id": "CNBC-16-2026-11-16T18:56:49.000Z",
-    "title": "Market's Nvidia obsession obscuring an opportunity in this name",
-    "description": "Investors might be overlooking Disney earnings.",
-    "url": "https://www.cnbc.com/2026/11/16/disney-options-trade-before-earnings.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T18:56:49.000Z"
-  },
-  {
-    "id": "CNBC-14-2026-11-16T18:46:07.000Z",
-    "title": "Fed Chairman Kevin Warsh stresses importance of AI to economy, but says it could ‘disappoint’",
-    "description": null,
-    "url": "https://www.cnbc.com/2026/11/16/fed-ai-task-force-kevin-warsh.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T18:46:07.000Z"
-  },
-  {
-    "id": "CNBC-10-2026-11-16T17:39:32.000Z",
-    "title": "Warren Buffett donates $5.5 billion, says kindness 'compounds' in Thanksgiving letter",
-    "description": "Following the donations, the chairman emeritus of Berkshire still owns 182,140 Class A shares -- roughly $162 billion.",
-    "url": "https://www.cnbc.com/2026/11/16/warren-buffett-donates-5point5-billion-thanksgiving.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T17:39:32.000Z"
-  },
-  {
-    "id": "CNBC-18-2026-11-16T13:42:43.000Z",
-    "title": "Nvidia's Colette Kress confronts key questions in first earnings report since Jensen Huang’s exit",
-    "description": "Less than a week after Jensen Huang's abrupt departure, Nvidia interim CEO Colette Kress faces a major test with earnings.",
-    "url": "https://www.cnbc.com/2026/11/16/nvidia-earnings-jensen-huang-resignation.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-16T13:42:43.000Z"
+    "publishedAt": "2026-11-16T20:44:24.000Z"
   },
   {
     "id": "WSJ Markets-0-2025-01-27T19:26:00.000Z",
