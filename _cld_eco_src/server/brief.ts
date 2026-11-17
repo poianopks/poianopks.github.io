@@ -196,6 +196,11 @@ export async function collectBrief(prev?: any) {
   };
   const nk = await safe("코스피 일별(네이버)", naverDaily("KOSPI"));
   if (nk?.length) kospiY.bars = mergeBars(kospiY.bars, nk);
+  // 네이버가 막히고 Yahoo 일봉에도 마지막 날이 아직 없으면, Yahoo 현재가(마지막 체결)로 그날 종가를 채움
+  if (kospiY.last && kospiY.lastTime) {
+    const ld = new Date(Date.parse(kospiY.lastTime) + 9 * 3600 * 1000).toISOString().slice(0, 10);
+    if (ld > kospiY.bars[kospiY.bars.length - 1].date) kospiY.bars = mergeBars(kospiY.bars, [{ date: ld, close: kospiY.last }]);
+  }
   const nk200 = await safe("코스피200 일별(네이버)", naverDaily("KPI200"));
   if (ks200 && nk200?.length) ks200.bars = mergeBars(ks200.bars, nk200);
 
@@ -266,10 +271,18 @@ export async function collectBrief(prev?: any) {
         const sorted = [...hist].sort((a, b) => a - b);
         const ref = sorted[Math.floor(sorted.length / 2)];
         const residual = ((e1.close * f1.close) / last.close) / ref - 1;
+        // 2026-11 보정: EWY 잔차를 그대로 쓰면 큰 날 너무 크게 나옴(잔차 2%↑ 날 평균 오차 1.96%p).
+        // 최근 2년(446일) 실제 시초가로 맞춘 식: 갭% = 0.043 + 0.374×잔차% + 0.025×S&P% + 0.146×SOX%
+        // (같은 기간 평균 오차 1.15 → 0.78%p, 뒤 30% 검증 1.52 → 1.24%p, 방향 적중 76% 동일)
+        const spx = us.spx?.date === e1.date ? us.spx.chgPct : 0;
+        const soxc = us.sox?.date === e1.date ? us.sox.chgPct : 0;
+        const estPct = 0.043 + 0.374 * residual * 100 + 0.025 * spx + 0.146 * soxc;
         gap = {
           ewyDate: e1.date, ewyChgPct: round((e1.close / e0.close - 1) * 100),
           usdkrwChgPct: f0 ? round((f1.close / f0.close - 1) * 100) : 0, refDays: hist.length,
-          residualPct: round(residual * 100), estOpen: round(last.close * (1 + residual), 0),
+          residualPct: round(residual * 100), estPct: round(estPct),
+          estOpen: round(last.close * (1 + estPct / 100), 0),
+          estLow: round(last.close * (1 + (estPct - 0.8) / 100), 0), estHigh: round(last.close * (1 + (estPct + 0.8) / 100), 0),
         };
       }
     }

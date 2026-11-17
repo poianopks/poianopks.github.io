@@ -29,7 +29,7 @@ interface Brief {
     since: string; days: number;
   };
   us: Record<string, any>;
-  gap: { ewyDate: string; ewyChgPct: number; usdkrwChgPct: number; refDays: number; residualPct: number; estOpen: number } | null;
+  gap: { ewyDate: string; ewyChgPct: number; usdkrwChgPct: number; refDays: number; residualPct: number; estOpen: number; estPct?: number; estLow?: number; estHigh?: number } | null;
   flowsToday: FlowDay | null;
   flowHistory: FlowDay[];
   signals: { label: string; value: string; score: -1 | 0 | 1; note: string }[];
@@ -191,11 +191,12 @@ export function OpeningBrief() {
               <div className="text-xs font-bold text-indigo-700">🎯 추정 시초가 (EWY 환산)</div>
               <div className="flex flex-wrap items-baseline gap-x-3">
                 <span className="text-xl font-black">{data.gap.estOpen.toLocaleString()}</span>
-                <span className={`font-black ${tone(data.gap.residualPct)}`}>{sign(data.gap.residualPct)}%</span>
+                <span className={`font-black ${tone(data.gap.estPct ?? data.gap.residualPct)}`}>{sign(data.gap.estPct ?? data.gap.residualPct)}%</span>
+                {data.gap.estLow != null && <span className="text-xs text-slate-500">보통 범위 {data.gap.estLow.toLocaleString()} ~ {data.gap.estHigh!.toLocaleString()}</span>}
               </div>
               <div className="text-[10px] text-slate-600 leading-relaxed mt-1">
-                EWY {sign(data.gap.ewyChgPct)}% · 원/달러 {sign(data.gap.usdkrwChgPct)}%. "EWY×환율÷코스피" 비율이 최근 {data.gap.refDays}거래일 보통 수준(중앙값)에서 벗어난 만큼을 코스피 종가에 적용했어요.
-                1년 시험 평균 오차 약 1.6%p · 방향 적중 약 75%. 코스피200 야간선물이 더 직접적인 신호이니 함께 보세요. 실제 시초가는 장 전 동시호가·뉴스에 따라 달라집니다.
+                EWY {sign(data.gap.ewyChgPct)}% · 원/달러 {sign(data.gap.usdkrwChgPct)}% · EWY 추가 반영 {sign(data.gap.residualPct)}%. 계산: EWY 추가 반영의 약 3분의 1 + 미국 반도체(SOX)·S&P 움직임 (최근 2년 실제 시초가로 맞춘 식).
+                2년 시험 평균 오차 약 0.8~1.2%p · 방향 적중 약 76% — 그래서 ±0.8% "보통 범위"를 같이 보여 줘요. 코스피200 야간선물이 더 직접적인 신호이니 함께 보세요. 실제 시초가는 장 전 동시호가·뉴스에 따라 달라집니다.
               </div>
             </div>
           ) : (
