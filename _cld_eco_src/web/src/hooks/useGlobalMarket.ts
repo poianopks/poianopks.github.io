@@ -13,6 +13,9 @@ export interface MarketItem {
   changePct: number;
   currency: string;
   marketState: string;
+  extPrice?: number;      // 프리·장후 가격
+  extChangePct?: number;  // 정규장 종가 대비
+  asOf?: string;          // 정규장 마지막 체결 시각
 }
 
 export interface GlobalMarketData {

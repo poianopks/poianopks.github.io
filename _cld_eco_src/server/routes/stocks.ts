@@ -1548,6 +1548,23 @@ router.get("/stocks/global-market", async (_req, res): Promise<void> => {
         return "CLOSED";
       };
       const marketState = computeMarketState();
+      // 프리·장후 가격: 정규장 밖 시간의 마지막 1분봉 종가
+      let extPrice: number | undefined, extChangePct: number | undefined;
+      try {
+        const res0 = raw.chart.result[0];
+        const ts: number[] = res0.timestamp ?? [];
+        const cl: (number | null)[] = res0.indicators?.quote?.[0]?.close ?? [];
+        const rs = ctp?.regular?.start, re = ctp?.regular?.end;
+        for (let i = ts.length - 1; i >= 0; i--) {
+          if (cl[i] == null) continue;
+          if (rs && re && (ts[i] < rs || ts[i] >= re)) {
+            extPrice = +(cl[i] as number).toFixed(2);
+            extChangePct = price ? +(((extPrice - price) / price) * 100).toFixed(2) : 0;
+          }
+          break;
+        }
+      } catch { /* 없으면 생략 */ }
+      const asOf = meta.regularMarketTime ? new Date(meta.regularMarketTime * 1000).toISOString() : undefined;
       return {
         symbol: sym,
         name,
@@ -1556,6 +1573,8 @@ router.get("/stocks/global-market", async (_req, res): Promise<void> => {
         changePct: +changePct.toFixed(2),
         currency: meta.currency ?? "USD",
         marketState,
+        ...(extPrice !== undefined && Math.abs(extPrice - price) > 1e-9 ? { extPrice, extChangePct } : {}),
+        ...(asOf ? { asOf } : {}),
         ...extra,
       };
     } catch {

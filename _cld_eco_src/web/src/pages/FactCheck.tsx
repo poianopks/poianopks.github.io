@@ -46,11 +46,18 @@ function arrow(v: number) {
   return "–";
 }
 
+/* 데이터가 30분 넘게 묵었으면 "진행중" 대신 기준 시각을 보여 줘요 (사이트는 GitHub가 몇 시간마다 새로 받아 오는 정적 자료) */
+let STALE_AT = "";
+function fmtKst(iso: string) {
+  const d = new Date(iso);
+  return d.toLocaleString("ko-KR", { timeZone: "Asia/Seoul", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", hour12: false });
+}
 function MarketCard({ item, onClick, selected }: {
   item: MarketItem;
   onClick?: () => void;
   selected?: boolean;
 }) {
+  const stale = !!STALE_AT;
   return (
     <div
       onClick={onClick}
@@ -66,12 +73,14 @@ function MarketCard({ item, onClick, selected }: {
         <div className="flex items-center gap-1">
           {onClick && <span className="text-[9px] text-slate-300">📈</span>}
           <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
+            stale                                              ? "bg-slate-100 text-slate-500" :
             item.marketState === "REGULAR"                     ? "bg-emerald-100 text-emerald-700" :
             item.marketState === "PRE" || item.marketState === "PREPRE" ? "bg-amber-100 text-amber-700" :
             item.marketState === "POST" || item.marketState === "POSTPOST" ? "bg-orange-100 text-orange-600" :
                                                                  "bg-slate-100 text-slate-500"
           }`}>
-            {item.marketState === "REGULAR"                       ? "🟢 진행중" :
+            {stale                                                ? "📸 " + STALE_AT + " 기준" :
+             item.marketState === "REGULAR"                       ? "🟢 진행중" :
              item.marketState === "PRE" || item.marketState === "PREPRE"   ? "🟡 프리마켓" :
              item.marketState === "POST" || item.marketState === "POSTPOST" ? "🟠 장후거래" :
                                                                               "⚫ 마감됨"}
@@ -86,6 +95,12 @@ function MarketCard({ item, onClick, selected }: {
           {arrow(item.changePct)} {Math.abs(item.changePct).toFixed(2)}%
         </span>
       </div>
+      {item.extPrice !== undefined && (
+        <div className="text-[11px] font-bold text-slate-600 mt-0.5">
+          🌙 장 밖 {item.extPrice.toLocaleString("en-US", { maximumFractionDigits: 2 })}{" "}
+          <span className={pctColor(item.extChangePct ?? 0)}>{arrow(item.extChangePct ?? 0)} {Math.abs(item.extChangePct ?? 0).toFixed(2)}%</span>
+        </div>
+      )}
       {item.note && <div className="text-[10px] text-slate-400 mt-0.5">{item.note}</div>}
     </div>
   );
@@ -776,6 +791,7 @@ export function FactCheck() {
   const [selectedAdr, setSelectedAdr] = useState<{ symbol: string; name: string } | null>(null);
   const [showEwyPanel, setShowEwyPanel] = useState(false);
   const { data: market, loading: mLoading, refetch: mRefetch } = useGlobalMarket();
+  STALE_AT = market.updatedAt && Date.now() - Date.parse(market.updatedAt) > 30 * 60 * 1000 ? fmtKst(market.updatedAt) : "";
   const { data: hist, loading: hLoading } = useGlobalMarketHistory();
   const { data: quotesRaw } = useQuery({
     queryKey: ["factcheck-quotes"],
@@ -942,6 +958,11 @@ export function FactCheck() {
                 {/* 전체 시장 상태 뱃지 */}
                 {(() => {
                   const states = market.adrs.map(a => a.marketState);
+                  if (STALE_AT) return (
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border bg-slate-100 text-slate-600 border-slate-300">
+                      📸 {STALE_AT} 기준 (실시간 아님 · 몇 시간마다 자동 갱신)
+                    </span>
+                  );
                   const isRegular = states.some(s => s === "REGULAR");
                   const isPre = !isRegular && states.some(s => s === "PRE" || s === "PREPRE");
                   const isPost = !isRegular && !isPre && states.some(s => s === "POST" || s === "POSTPOST");
@@ -1021,7 +1042,7 @@ export function FactCheck() {
 
             {market.updatedAt && (
               <p className="text-[10px] text-slate-400">
-                마지막 업데이트: {new Date(market.updatedAt).toLocaleTimeString("ko-KR")}
+                마지막 업데이트: {fmtKst(market.updatedAt)} (한국시간) · 🌙 장 밖 = 프리마켓·장후거래 가격
                 {market.cached && " (캐시)"}
               </p>
             )}
