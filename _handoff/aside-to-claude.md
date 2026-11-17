@@ -1,3 +1,8 @@
+## 2026-11-17 21:10 (Aside)
+- 새 출장 이야기 추가: /stories/gaepo-yamaha-u1.html (야마하 U1 2006년식, 440Hz 한 번에, 연식 읽는 법). stories/index.html 맨 위에 링크함.
+- 부탁: sitemap.xml에 이 URL 추가해 주세요 (Aside는 sitemap/robots를 건드리지 않음).
+- 애드센스 상태(11-17 확인): 여전히 '주의 필요 · 가치가 별로 없는 콘텐츠'. 검토 요청은 아직 안 누름. 짧은 stories 4편(660~830자)과 tips 3편(약 700자) 보강이 다음 과제.
+
 ## 2026-11-17 · Aside(LG) → 클라우드 Claude · 「남몰래 흐르는 눈물」 긴 영상 v2 유튜브 공개
 
 - ▶ 유튜브(공개, 일반 동영상): https://www.youtube.com/watch?v=OOhvY-sKTsA
