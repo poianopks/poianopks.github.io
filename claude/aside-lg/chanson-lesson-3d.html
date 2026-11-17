@@ -25,12 +25,12 @@ var EV=[];TL.forEach(function(s){if(s.type==="play")EV=EV.concat(evtsFor(s));});
 function setTL(tl,tot){TL=tl;TOTAL=tot;EV=[];TL.forEach(function(s){if(s.type==="play")EV=EV.concat(evtsFor(s));});}
 function segAt(t){var s=TL[0];for(var i=0;i<TL.length;i++)if(t>=TL[i].t0-.25)s=TL[i];return s;}
 // ---------- three ----------
-var H3=640,Y3=300;
+var H3=700,Y3=250;
 var r3=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});r3.setPixelRatio(1);r3.setSize(W,H3,false);
 var scene=new THREE.Scene();scene.background=new THREE.Color(0x12101f);
 var cam=new THREE.PerspectiveCamera(30,W/H3,.1,300);
 scene.add(new THREE.AmbientLight(0xb8b0e0,.6));var dl=new THREE.DirectionalLight(0xfff3e0,.95);dl.position.set(-6,26,18);scene.add(dl);var rim=new THREE.DirectionalLight(0x8fb4ff,.35);rim.position.set(14,8,-16);scene.add(rim);
-var isB=function(m){return [1,3,6,8,10].indexOf(m%12)>=0;},LO=36,HI=84,WI={},nw=0;for(var m=LO;m<=HI;m++)if(!isB(m))WI[m]=nw++;
+var isB=function(m){return [1,3,6,8,10].indexOf(m%12)>=0;},LO=36,HI=72,WI={},nw=0;for(var m=LO;m<=HI;m++)if(!isB(m))WI[m]=nw++;
 function KX(m){return isB(m)?WI[m+1]-.5:WI[m];}
 var keys={},kb=new THREE.Group();scene.add(kb);
 var body=new THREE.Mesh(new THREE.BoxGeometry(nw+1.6,1.4,8),new THREE.MeshStandardMaterial({color:0x1a1210,roughness:.35,metalness:.25}));body.position.set(nw/2-.5,-.75,-.6);kb.add(body);
@@ -57,7 +57,7 @@ function placeHands(t,show){[["L",HL],["R",HR]].forEach(function(p){var tg=handT
 // ---------- per frame ----------
 var xc=(KX(LO)+KX(HI))/2;
 function place(t){var s=segAt(t);
-  var a=-.08+.05*Math.sin(t*.12);cam.position.set(xc+Math.sin(a)*21,13.5,Math.cos(a)*21+7);cam.lookAt(xc,0,-.5);
+  var a=-.08+.05*Math.sin(t*.12);cam.position.set(xc+Math.sin(a)*12.8,9.6,Math.cos(a)*12.8+5);cam.lookAt(xc,.1,-.8);
   var act={};EV.forEach(function(e){if(t>=e.t&&t<e.t+e.d)e.m.forEach(function(m){act[m]=e;});});
   // chord preview in 'chords' talk
   var prev=null;if(s.v==="chords"){var u=(t-s.t0)/s.dur;var idx=u<.42?-1:u<.6?0:u<.78?1:3;if(idx>=0){prev=PROG[idx];[prev[1]].concat(prev[2]).forEach(function(m){act[m]={h:"P",lab:NAMES[m%12]};});}}
@@ -94,7 +94,7 @@ function hud(t,s){
   // subtitle
   X.fillStyle="#0e0c18";X.fillRect(0,Y3+H3,W,H-Y3-H3);
   var txt=s.type==="talk"?s.text:(s.v==="p3"?"♪ 오른손 멜로디 + 왼손 쿵짝짝 (2번 반복)":"♪ 들어 보세요 — 쿵 짝 짝 · 쿵 짝 짝");
-  var L=wrap(txt,W-260,"800 38px "+FN);X.textAlign="center";L.slice(0,3).forEach(function(l,i){T(l,W/2,Y3+H3+(L.length>2?36:52)+i*48,"800 38px "+FN,"#fff","#000",6);});
+  var L=wrap(txt,W-160,"800 42px "+FN);X.textAlign="center";L.slice(0,2).forEach(function(l,i){T(l,W/2,Y3+H3+(L.length>1?50:78)+i*54,"800 42px "+FN,"#fff","#000",6);});
   // outro
   if(t>TOTAL-4.2){var a=Math.min(1,(t-(TOTAL-4.2))/.6);X.globalAlpha=a;X.fillStyle="rgba(10,8,20,.9)";X.fillRect(0,0,W,H);X.textAlign="center";T("🎹 샹송 왼손 반주 — 쿵짝짝 왈츠",W/2,380,"900 64px "+FN,GOLD,"#000",8);T("공부방에서 소리 듣고 천천히 따라 쳐 보세요",W/2,470,"800 40px "+FN,"#fff");T("poianopks.github.io/claude/left-hand-rhythm.html#chanson",W/2,540,"800 34px "+FN,"#a7f3d0");T("ⓒ 성실피아노 · 피아노조율사 박근성 · 010-8756-8740",W/2,660,"900 38px "+FN,"#fff");T("피아노 음색: Salamander Grand Piano (Yamaha C5, Alexander Holm, CC BY 3.0)",W/2,730,"700 28px "+FN,"#bbb");X.globalAlpha=1;}
   var fa=Math.min(1,t/.6);if(fa<1){X.fillStyle="rgba(0,0,0,"+(1-fa)+")";X.fillRect(0,0,W,H);}}
