@@ -1,0 +1,358 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>샹송 왼손 반주 · 큰 건반 3D 레슨</title>
+<meta name="description" content="샹송 왼손 반주(쿵 짝짝 왈츠)를 아주 큰 3D 건반과 큰 악보로 배우는 목소리 설명 레슨. 손가락 번호와 계이름이 눌리는 건반 위에 떠요.">
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/abcjs@6.2.3/dist/abcjs-basic-min.js"></script>
+<style>
+:root{--bg:#140b14;--fg:#f8e9ef;--acc:#ff8fb5}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",sans-serif}
+#wrap{position:relative;width:100%;max-width:470px;margin:0 auto}
+#c{display:block;width:100%;height:auto;aspect-ratio:9/16;background:#000}
+#paper{position:absolute;left:-5000px;top:0;width:700px}
+#ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(14,6,12,.55)}
+#play{font:bold 22px "Malgun Gothic",sans-serif;padding:14px 34px;border-radius:40px;border:0;background:var(--acc);color:#2a0816;cursor:pointer}
+#ov p{margin:0;font-size:15px;opacity:.95;text-align:center;padding:0 16px}
+#chap{display:flex;gap:6px;justify-content:center;padding:10px 10px 0;flex-wrap:wrap;max-width:560px;margin:0 auto}
+#chap button{font:bold 14px "Malgun Gothic",sans-serif;color:var(--fg);background:#2a1424;border:1px solid #5a2a48;border-radius:16px;padding:6px 11px;cursor:pointer}
+#chap button.on{background:var(--acc);color:#2a0816;border-color:var(--acc)}
+#bar{display:flex;gap:10px;justify-content:center;padding:10px 16px 20px;flex-wrap:wrap}
+#bar a,#bar button{color:var(--fg);background:#2a1424;border:1px solid #5a2a48;border-radius:20px;padding:6px 14px;font-size:14px;text-decoration:none;cursor:pointer}
+</style></head><body>
+<div id="wrap"><canvas id="c" width="720" height="1280"></canvas>
+<div id="ov"><button id="play">▶ 레슨 시작</button><p id="msg">처음 누르면 목소리와 피아노 소리를 불러오느라 20~40초쯤 걸려요.</p></div></div>
+<div id="chap"></div>
+<div id="bar"><button id="stop">⏸ 멈춤</button><a href="left-hand-rhythm.html#chanson">왼손 반주 교실</a><a href="chanson-3d-lesson.html">샹송 3D 레슨 1판</a><a href="index.html">음악 공부방</a></div>
+<div style="max-width:470px;margin:0 auto;padding:4px 16px 8px;line-height:1.6;font-size:15px"><b>📺 영상으로 보기 (5분 26초)</b><br>기다림 없이 바로 재생돼요. 받아서 휴대폰에 두고 볼 수도 있어요.<video src="media/chanson2/chanson-lesson2.mp4" poster="media/chanson2/chanson-lesson2.jpg" controls preload="none" playsinline style="width:100%;margin-top:8px;border-radius:12px;background:#000"></video><a href="media/chanson2/chanson-lesson2.mp4" download style="color:#ff8fb5">⬇ 영상 받기 (mp4)</a><p style="font-size:13px;opacity:.8">목소리: 컴퓨터 음성(Microsoft 신경망 음성 · 한국어 남성) · 피아노 소리: Salamander Grand Piano (CC BY 3.0) · 반주·멜로디: 성실피아노 왼손 반주 교실 · ⓒ 성실피아노 피아노조율사 박근성</p></div>
+<div id="paper"></div>
+<script>
+"use strict";
+const W = 720, H = 1280, cv = document.getElementById("c"), g = cv.getContext("2d");
+const F = '"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",sans-serif';
+const Q = new URLSearchParams(location.search), MEDIA = "media/chanson2/";
+const SOLF = ["도", "도#", "레", "레#", "미", "파", "파#", "솔", "솔#", "라", "라#", "시"];
+const isBlack = (m) => [1, 3, 6, 8, 10].includes(m % 12);
+// ================= lesson script =================
+const SEGS = [
+  { id: "intro", step: "시작", title: "샹송 왼손 반주", card: "intro", text: "안녕하세요, 성실피아노 왼손 반주 교실입니다. 오늘은 프랑스 노래, 샹송의 왼손 반주를 큰 건반으로 천천히 배워 보겠습니다. 어느 손가락이 어느 건반을 누르는지 잘 보세요." },
+  { id: "listen", step: "듣기", title: "먼저 들어 봐요", text: "먼저 완성된 소리를 들어 볼까요? 오른손은 노래, 왼손은 쿵 짝짝 반주입니다.", demo: { kind: "song", bpm: 100 }, cap: "🎧 들어 보세요 — 오른손 노래 + 왼손 쿵 짝짝" },
+  { id: "what", step: "이야기", title: "샹송은?", card: "what", text: "샹송은 프랑스 말로 노래라는 뜻입니다. 파리의 작은 카페에서 아코디언이 쿵 짝짝, 왈츠를 연주하는 모습을 떠올려 보세요. 그 쿵 짝짝을 우리 왼손이 맡습니다." },
+  { id: "beat", step: "박자", title: "3/4박자 왈츠", card: "beat", text: "샹송 반주는 사분의 삼박자, 왈츠입니다. 하나 둘 셋, 하나 둘 셋. 첫 박 하나는 조금 무겁게, 둘 셋은 가볍게 셉니다. 같이 세어 볼까요?", demo: { kind: "clicks", bpm: 80, bars: 3 }, cap: "하나(쿵) · 둘(짝) · 셋(짝) — 같이 세어 보세요" },
+  { id: "chords", step: "화음", title: "오늘 쓸 화음 3개", text: "오늘 쓰는 화음은 세 가지입니다. C 화음은 도 미 솔, F 화음은 도 파 라, G 화음은 시 레 솔입니다. 세 화음 모두 손 위치가 거의 같아서, 손을 크게 옮기지 않아도 됩니다.", demo: { kind: "chords" }, cap: "C 도미솔 → F 도파라 → C 도미솔 → G 시레솔" },
+  { id: "s1", step: "1단계", title: "1단계 · 쿵 짝짝", text: "1단계, 쿵 짝짝입니다. 첫 박 쿵은 새끼손가락으로 낮은 근음을 깊게 누르고, 둘째 셋째 박 짝 짝은 화음을 가볍게 누릅니다. 아주 느리게 쳐 보겠습니다.", demo: { kind: "waltz", bpm: 60 }, cap: "🐢 아주 느리게 (빠르기 60) · 쿵 = 새끼손가락 ⑤" },
+  { id: "s1b", step: "1단계", title: "1단계 · 조금 빠르게", text: "이번에는 조금 빠르게, 두 번 이어서 쳐 보겠습니다. 쿵은 깊게, 짝 짝은 짧고 가볍게.", demo: { kind: "waltz", bpm: 92, reps: 2 }, cap: "조금 빠르게 (빠르기 92) · 두 번" },
+  { id: "s2", step: "2단계", title: "2단계 · 베이스 번갈아", text: "2단계, 베이스 번갈아 치기입니다. 첫 마디의 쿵은 근음, 다음 마디의 쿵은 다섯 번째 음으로 바꿉니다. C 화음이면 도, 그다음은 솔. 베이스가 천천히 걸어가는 것처럼 들립니다.", demo: { kind: "alt", bpm: 76 }, cap: "쿵: 도 → 솔 → 파 → 도 → 도 → 솔 → 솔 → 레" },
+  { id: "both", step: "함께", title: "오른손과 함께", text: "이제 오른손 노래와 함께 쳐 보겠습니다. 왼손은 1단계 쿵 짝짝 그대로입니다. 먼저 느리게 갑니다.", demo: { kind: "song", bpm: 66 }, cap: "🐢 느리게 · 양손 (빠르기 66)" },
+  { id: "both2", step: "함께", title: "보통 빠르기로", text: "좋습니다. 이번에는 보통 빠르기로 한 번 더 들어 보세요.", demo: { kind: "song", bpm: 100 }, cap: "보통 빠르기 · 양손 (빠르기 100)" },
+  { id: "tips", step: "요령", title: "연습 요령", card: "tips", text: "연습 요령입니다. 첫째, 하나 둘 셋을 소리 내어 세면서 아주 느리게. 둘째, 쿵은 무겁게, 짝 짝은 가볍게. 셋째, 왼손을 충분히 익힌 다음에 오른손을 더하세요." },
+  { id: "outro", step: "마무리", title: "오늘 배운 것", card: "outro", text: "오늘은 샹송의 쿵 짝짝 왈츠 반주를 배웠습니다. 하루 오 분씩, 천천히 연습해 보세요. 성실피아노였습니다. 감사합니다." },
+];
+const CARDS = {
+  intro: ["🎹", "샹송 왼손 반주", ["쿵 짝짝 왈츠 · 큰 건반 레슨", "① 3/4박자  ② 화음 C · F · G", "③ 1단계 쿵 짝짝  ④ 2단계 베이스 번갈아", "⑤ 오른손 노래와 함께"]],
+  what: ["🎶", "샹송 = 프랑스 말로 ‘노래’", ["사랑 · 추억 · 거리 풍경을 시처럼", "🎵 아코디언 + 쿵 짝짝 왈츠", "쿵 짝짝은 왼손이 맡아요"]],
+  tips: ["💡", "연습 요령", ["① 하나 둘 셋 소리 내어 세며 아주 느리게", "② 쿵은 무겁게, 짝 짝은 가볍게", "③ 왼손을 익힌 뒤 오른손 더하기"]],
+  outro: ["🙏", "수고하셨습니다", ["오늘: 3/4박자 · C F G 화음 · 쿵 짝짝", "하루 5분, 천천히 따라 쳐 보세요", "성실피아노 · 피아노조율사 박근성"]],
+};
+// chords: left-hand voicings (close position, little hand movement) + fingers (L: 1 = thumb)
+const CH = {
+  C: { bass: 36, alt: 43, tri: [48, 52, 55], fi: [5, 3, 1], nm: "도·미·솔" },
+  F: { bass: 41, alt: 36, tri: [48, 53, 57], fi: [5, 2, 1], nm: "도·파·라" },
+  G: { bass: 43, alt: 38, tri: [47, 50, 55], fi: [5, 3, 1], nm: "시·레·솔" },
+};
+const PROG4 = ["C", "F", "C", "G"], PROG8 = ["C", "F", "C", "G", "C", "F", "G", "C"];
+const MEL = [[[64, 2], [67, 1]], [[65, 2], [69, 1]], [[67, 1], [65, 1], [64, 1]], [[62, 3]], [[64, 1], [65, 1], [67, 1]], [[69, 2], [67, 1]], [[65, 1], [64, 1], [62, 1]], [[60, 3]]];
+// ---- score + note groups for each demo kind ----
+// a "bar" = { ch, R:[ [midis,beats] ], L:[ [midis,beats,fingers] ] }
+function waltzBar(c, alt) { const k = CH[c]; const b = alt ? k.alt : k.bass; return { ch: c, R: null, L: [[[b], 1, [5]], [k.tri, 1, k.fi], [k.tri, 1, k.fi]] }; }
+function barsFor(kind) {
+  if (kind === "song") return PROG8.map((c, i) => ({ ...waltzBar(c, false), R: MEL[i].map(([m, b]) => [[m], b]) }));
+  if (kind === "waltz") return PROG4.map((c) => waltzBar(c, false));
+  if (kind === "alt") return ["C", "C", "F", "F", "C", "C", "G", "G"].map((c, i) => waltzBar(c, i % 2 === 1));
+  if (kind === "chords") return PROG4.map((c) => ({ ch: c, R: null, L: [[CH[c].tri, 3, CH[c].fi]] }));
+  return null;
+}
+// ================= audio buffers =================
+let ac, MIX, TOTAL = 0, NOTES = [], CLICKS = [], BEATS = [];
+function loadBuf(url) { return new Promise((res, rej) => { const x = new XMLHttpRequest(); x.open("GET", url); x.responseType = "arraybuffer"; x.onload = () => (x.status === 200 || x.status === 0) && x.response && x.response.byteLength ? res(x.response) : rej(new Error("load " + url)); x.onerror = () => rej(new Error("load " + url)); x.send(); }); }
+const SAL = "https://tonejs.github.io/audio/salamander/", SALN = { 9: "A", 0: "C", 3: "Ds", 6: "Fs" };
+const salFor = (m) => Math.max(21, Math.min(108, 21 + Math.round((m - 21) / 3) * 3));
+// ================= timeline =================
+function buildTimeline(vdur) {
+  let T = 2.6; NOTES = []; CLICKS = []; BEATS = [];
+  for (const s of SEGS) {
+    s.s = T - 0.4; s.v0 = T; s.vdur = vdur[s.id]; T += s.vdur + 0.7;
+    const d = s.demo; s.bars = d ? barsFor(d.kind) : null;
+    if (d && d.kind === "chords") {
+      d.t0 = T; d.groups = []; let tt = T;
+      s.bars.forEach((b, i) => { const L = b.L[0]; L[0].forEach((m, j) => NOTES.push({ t: tt, e: tt + 1.6, m, h: "L", f: L[2][j], role: 0, seg: s.id, bar: i, gi: 0 })); d.groups.push({ t: tt, bar: i, ch: b.ch }); tt += 2.0; });
+      d.t1 = tt; T = tt + 0.6;
+    } else if (d) {
+      const spb = 60 / d.bpm; d.spb = spb; const reps = d.reps || 1;
+      d.ci = T; for (let k = 0; k < 3; k++) { CLICKS.push({ t: T + k * spb, acc: k === 0 }); BEATS.push({ t: T + k * spb, k, ci: true }); }
+      d.t0 = T + 3 * spb;
+      if (d.kind === "clicks") { for (let i = 0; i < d.bars * 3; i++) { CLICKS.push({ t: d.t0 + i * spb, acc: i % 3 === 0 }); BEATS.push({ t: d.t0 + i * spb, k: i % 3 }); } d.t1 = d.t0 + d.bars * 3 * spb; d.barT = []; }
+      else {
+        d.barT = []; let bi = 0;
+        for (let r = 0; r < reps; r++) s.bars.forEach((b, i) => {
+          const bt = d.t0 + bi * 3 * spb; d.barT.push({ t: bt, bar: i, ch: b.ch }); bi++;
+          for (let k = 0; k < 3; k++) BEATS.push({ t: bt + k * spb, k });
+          let off = 0; b.L.forEach(([ms, bb, fs], gi) => { const t = bt + off * spb, bass = ms.length === 1; ms.forEach((m, j) => NOTES.push({ t, e: t + spb * (bass ? 0.92 : 0.6), m, h: "L", f: fs[j], role: bass ? 0 : 1, seg: s.id, bar: i, gi })); off += bb; });
+          if (b.R) { off = 0; b.R.forEach(([ms, bb], gi) => { const t = bt + off * spb; ms.forEach((m) => NOTES.push({ t, e: t + spb * bb * 0.96, m, h: "R", role: 2, seg: s.id, bar: i, gi })); off += bb; }); }
+        });
+        d.t1 = d.t0 + bi * 3 * spb;
+      }
+      T = d.t1 + 1.3;
+    }
+    s.end = T;
+  }
+  TOTAL = T + 1.5; SEGS[SEGS.length - 1].end = TOTAL;
+  NOTES.sort((a, b) => a.t - b.t || a.m - b.m);
+  // hand-range per segment for the camera
+  for (const s of SEGS) { const ns = NOTES.filter((n) => n.seg === s.id); s.lo = ns.length ? Math.min(...ns.map((n) => KX[n.m])) : KX[48]; s.hi = ns.length ? Math.max(...ns.map((n) => KX[n.m])) : KX[57]; s.hasR = ns.some((n) => n.h === "R"); s.hasL = ns.some((n) => n.h === "L") || !s.demo; }
+}
+async function renderAudio(onp) {
+  ac = ac || new AudioContext();
+  const vbuf = {}, vdur = {}; let n = 0; const used = new Set(); [36, 38, 41, 43, 47, 48, 50, 52, 53, 55, 57, 60, 62, 64, 65, 67, 69].forEach((m) => used.add(m));
+  const need = [...new Set([...used].map(salFor))], sbuf = {}; const tot = SEGS.length + need.length;
+  await Promise.all([
+    ...SEGS.map(async (s) => { vbuf[s.id] = await ac.decodeAudioData(await loadBuf(MEDIA + "n-" + s.id + ".mp3")); vdur[s.id] = vbuf[s.id].duration; if (onp) onp(++n / tot); }),
+    ...need.map(async (sm) => { try { const r = await fetch(SAL + SALN[sm % 12] + (Math.floor(sm / 12) - 1) + ".mp3"); if (!r.ok) throw 0; sbuf[sm] = await ac.decodeAudioData(await r.arrayBuffer()); } catch (e) { sbuf[sm] = null; } if (onp) onp(++n / tot); }),
+  ]);
+  buildTimeline(vdur);
+  const SR = 44100, oc = new OfflineAudioContext(2, Math.ceil((TOTAL + 1) * SR), SR);
+  const comp = oc.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 3; comp.connect(oc.destination);
+  const rev = oc.createConvolver(); { const L = SR * 2.0, ir = oc.createBuffer(2, L, SR); for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < L; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / L, 3.2); } rev.buffer = ir; }
+  const wet = oc.createGain(); wet.gain.value = 0.14; rev.connect(wet).connect(comp);
+  const piano = oc.createGain(); piano.gain.value = 1.0; piano.connect(comp); piano.connect(rev);
+  const voice = oc.createGain(); voice.gain.value = 1.15; voice.connect(comp);
+  for (const s of SEGS) { const src = oc.createBufferSource(); src.buffer = vbuf[s.id]; src.connect(voice); src.start(s.v0); }
+  for (const nt of NOTES) { const sm = salFor(nt.m), B = sbuf[sm]; const v = nt.role === 2 ? 0.85 : nt.role === 0 ? 0.55 : 0.3; const end = nt.e + (nt.role === 0 ? 0.25 : 0.05), rel = nt.role === 1 ? 0.25 : 0.5;
+    const gn = oc.createGain(); gn.gain.setValueAtTime(v, nt.t); gn.gain.setValueAtTime(v, end); gn.gain.exponentialRampToValueAtTime(0.001, end + rel);
+    const pan = oc.createStereoPanner(); pan.pan.value = Math.max(-0.5, Math.min(0.5, (nt.m - 55) / 40)); gn.connect(pan).connect(piano);
+    if (B) { const src = oc.createBufferSource(); src.buffer = B; src.playbackRate.value = Math.pow(2, (nt.m - sm) / 12); src.connect(gn); src.start(nt.t); src.stop(end + rel + 0.05); }
+    else { const o = oc.createOscillator(); o.type = "triangle"; o.frequency.value = 440 * Math.pow(2, (nt.m - 69) / 12); o.connect(gn); o.start(nt.t); o.stop(end + rel + 0.05); } }
+  for (const c of CLICKS) { const o = oc.createOscillator(), gn = oc.createGain(); o.frequency.value = c.acc ? 1760 : 1175; gn.gain.setValueAtTime(0.0001, c.t); gn.gain.exponentialRampToValueAtTime(c.acc ? 0.5 : 0.3, c.t + 0.004); gn.gain.exponentialRampToValueAtTime(0.0001, c.t + 0.07); o.connect(gn).connect(comp); o.start(c.t); o.stop(c.t + 0.09); }
+  MIX = await oc.startRendering();
+  let pk = 0; for (let ch = 0; ch < 2; ch++) { const c0 = MIX.getChannelData(ch); for (let i = 0; i < c0.length; i++) pk = Math.max(pk, Math.abs(c0[i])); }
+  const gN = 0.92 / Math.max(pk, 1e-6); for (let ch = 0; ch < 2; ch++) { const c0 = MIX.getChannelData(ch); for (let i = 0; i < c0.length; i++) c0[i] *= gN; }
+  return { dur: MIX.duration, peak: pk, samples: Object.values(sbuf).filter(Boolean).length + "/" + need.length };
+}
+// ================= three.js: big keyboard + translucent hands =================
+const LO = 36, HI = 74, KW = 1, KX = {};
+{ const wh = []; for (let m = LO; m <= HI; m++) if (!isBlack(m)) wh.push(m); wh.forEach((m, i) => (KX[m] = (i - (wh.length - 1) / 2) * KW)); for (let m = LO; m <= HI; m++) if (isBlack(m)) KX[m] = KX[m - 1] + KW / 2; }
+const KBW = (KX[HI] - KX[LO]) + KW;
+const V3Y = 300, V3H = 500;
+const R3 = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: false });
+R3.setPixelRatio(1); R3.setSize(W, V3H, false); R3.outputColorSpace = THREE.SRGBColorSpace;
+const scene = new THREE.Scene();
+{ const c2 = document.createElement("canvas"); c2.width = 4; c2.height = 256; const x = c2.getContext("2d"); const gr = x.createLinearGradient(0, 0, 0, 256); gr.addColorStop(0, "#1c0a18"); gr.addColorStop(1, "#3a1630"); x.fillStyle = gr; x.fillRect(0, 0, 4, 256); const tx = new THREE.CanvasTexture(c2); tx.colorSpace = THREE.SRGBColorSpace; scene.background = tx; }
+const cam = new THREE.PerspectiveCamera(34, W / V3H, 0.2, 300);
+scene.add(new THREE.AmbientLight(0xfff0f6, 0.9));
+const keyL = new THREE.DirectionalLight(0xfff2dc, 2.0); keyL.position.set(10, 30, 25); scene.add(keyL);
+const fillL = new THREE.DirectionalLight(0xffb0d0, 0.5); fillL.position.set(-20, 10, 10); scene.add(fillL);
+const matW = new THREE.MeshStandardMaterial({ color: 0xf8f4ea, roughness: 0.35 }), matB = new THREE.MeshStandardMaterial({ color: 0x141214, roughness: 0.3, metalness: 0.1 });
+const WL = 6, BL = 3.8, WT = 0.5, keys = {};
+const nameTex = {}; function keyName(t, col) { const k = t + col; if (nameTex[k]) return nameTex[k]; const c = document.createElement("canvas"); c.width = 64; c.height = 64; const x = c.getContext("2d"); x.fillStyle = col; x.font = "bold 40px " + F; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(t, 32, 34); const tx = new THREE.CanvasTexture(c); tx.colorSpace = THREE.SRGBColorSpace; return (nameTex[k] = tx); }
+for (let m = LO; m <= HI; m++) {
+  const b = isBlack(m), piv = new THREE.Group(); piv.position.set(KX[m], 0, -WL / 2); scene.add(piv);
+  const mat = (b ? matB : matW).clone(), mesh = new THREE.Mesh(b ? new THREE.BoxGeometry(0.56, 0.42, BL) : new THREE.BoxGeometry(KW - 0.06, WT, WL), mat);
+  mesh.position.set(0, b ? WT + 0.15 : WT / 2, b ? BL / 2 : WL / 2); piv.add(mesh);
+  if (!b) { const lb = new THREE.Mesh(new THREE.PlaneGeometry(0.72, 0.72), new THREE.MeshBasicMaterial({ map: keyName(SOLF[m % 12], m % 12 === 0 ? "#c22e62" : "#8a7f72"), transparent: true, depthWrite: false })); lb.rotation.x = -Math.PI / 2; lb.position.set(0, WT + 0.01, WL - 0.6); piv.add(lb);
+    if (m % 12 === 0) { const ct = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.5), new THREE.MeshBasicMaterial({ map: keyName(String(Math.floor(m / 12) - 1), "#b8a8a0"), transparent: true, depthWrite: false })); ct.rotation.x = -Math.PI / 2; ct.position.set(0, WT + 0.01, WL - 1.3); piv.add(ct); } }
+  keys[m] = { piv, mat, b, base: mat.color.clone(), lit: 0 };
+}
+const lacq = new THREE.MeshStandardMaterial({ color: 0x120810, roughness: 0.18, metalness: 0.35 });
+{ const back = new THREE.Mesh(new THREE.BoxGeometry(KBW + 2.2, 2.4, 1.2), lacq); back.position.set(0, 1.2, -WL / 2 - 0.6); scene.add(back);
+  const rail = new THREE.Mesh(new THREE.BoxGeometry(KBW + 2.2, 1.2, WL + 1.6), lacq); rail.position.set(0, -0.65, 0.2); scene.add(rail);
+  const felt = new THREE.Mesh(new THREE.BoxGeometry(KBW, 0.08, 0.25), new THREE.MeshStandardMaterial({ color: 0xe8457a })); felt.position.set(0, WT + 0.05, -WL / 2 + 0.05); scene.add(felt); }
+const COL = { L: 0x3d8fff, R: 0xffb21e };
+// floating 계이름 + finger number labels
+const labTex = {}; function labelTex(name, fin, col) { const k = name + fin + col; if (labTex[k]) return labTex[k]; const c = document.createElement("canvas"); c.width = 160; c.height = 96; const x = c.getContext("2d");
+  x.fillStyle = col; x.beginPath(); x.roundRect(4, 4, fin ? 112 : 152, 88, 30); x.fill(); x.fillStyle = "#1a0a14"; x.font = "bold 54px " + F; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(name, fin ? 60 : 80, 52);
+  if (fin) { x.fillStyle = "#fff"; x.beginPath(); x.arc(134, 48, 24, 0, 7); x.fill(); x.strokeStyle = col; x.lineWidth = 5; x.stroke(); x.fillStyle = "#1a0a14"; x.font = "bold 34px " + F; x.fillText(fin, 134, 50); }
+  const tx = new THREE.CanvasTexture(c); tx.colorSpace = THREE.SRGBColorSpace; return (labTex[k] = tx); }
+const LBL = []; for (let i = 0; i < 8; i++) { const s = new THREE.Sprite(new THREE.SpriteMaterial({ transparent: true, depthTest: false })); s.visible = false; s.renderOrder = 10; scene.add(s); LBL.push(s); }
+// hands: translucent so the keys under them stay visible; two-joint fingers with nails
+const skinBase = { color: 0xf0c09a, roughness: 0.6, transparent: true, opacity: 0.66, depthWrite: false };
+const skin = new THREE.MeshStandardMaterial(skinBase);
+const sleeveMat = new THREE.MeshStandardMaterial({ color: 0x3a1a34, roughness: 0.75, transparent: true, opacity: 0.45, depthWrite: false });
+const shirtM = new THREE.MeshStandardMaterial({ color: 0xf4f2ee, roughness: 0.7, transparent: true, opacity: 0.5, depthWrite: false });
+const HS = 1.3;
+function makeHand(side) { const grp = new THREE.Group(); scene.add(grp);
+  const palm = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 16), skin); palm.scale.set(1.35, 0.36, 1.0); palm.position.set(0, 0.55, 2.6); grp.add(palm);
+  const back = new THREE.Mesh(new THREE.SphereGeometry(1, 20, 12), skin); back.scale.set(0.85, 0.38, 0.9); back.position.set(0, 0.6, 3.5); grp.add(back);
+  const fingers = []; for (let i = 0; i < 5; i++) { const fg = new THREE.Group(), thumb = i === 0, len = thumb ? 1.0 : [0, 1.25, 1.4, 1.3, 1.0][i];
+    const l1 = len * 0.62, l2 = len * 0.5; const sm = new THREE.MeshStandardMaterial(skinBase); const seg = new THREE.Mesh(new THREE.CapsuleGeometry(thumb ? 0.22 : 0.17, l1, 6, 12), sm); seg.rotation.x = Math.PI / 2; seg.position.z = -l1 / 2; fg.add(seg);
+    const jt = new THREE.Group(); jt.position.z = -l1; jt.rotation.x = thumb ? -0.35 : -0.75; fg.add(jt); const seg2 = new THREE.Mesh(new THREE.CapsuleGeometry(thumb ? 0.2 : 0.155, l2, 6, 12), sm); seg2.rotation.x = Math.PI / 2; seg2.position.z = -l2 / 2; jt.add(seg2);
+    const nail = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 6), new THREE.MeshStandardMaterial({ color: 0xffe2d0, transparent: true, opacity: 0.8 })); nail.position.set(0, 0.08, -l2 + 0.05); jt.add(nail);
+    const bx = side === "R" ? -1.3 + i * 0.62 : 1.3 - i * 0.62; fg.position.set(bx, thumb ? 0.3 : 0.5, thumb ? 2.1 : 1.75); if (thumb) fg.rotation.y = side === "R" ? 0.5 : -0.5;
+    grp.add(fg); fingers.push({ fg, sm, jt, bx, dx: 0, tdx: 0, press: 0, thumb }); }
+  const arm = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.65, 1, 18), sleeveMat); scene.add(arm);
+  const cuff = new THREE.Mesh(new THREE.CylinderGeometry(1.15, 1.15, 1, 16), shirtM); scene.add(cuff);
+  return { side, grp, fingers, arm, cuff, x: side === "R" ? 6 : -4, tx: side === "R" ? 6 : -4, vis: 1 }; }
+const HANDS = { R: makeHand("R"), L: makeHand("L") };
+const up = new THREE.Vector3(0, 1, 0);
+function placeCyl(mesh, a, b) { const d = new THREE.Vector3().subVectors(b, a); const L = d.length(); mesh.position.copy(a).addScaledVector(d, 0.5); mesh.scale.set(1, L, 1); mesh.quaternion.setFromUnitVectors(up, d.normalize()); }
+let camX = 0, camSpan = 14;
+function handTarget(h, ns) { if (h === "L") { let s = 0; for (const n of ns) s += KX[n.m] - HANDS.L.fingers[n.f - 1].bx * HS; return s / ns.length; } const xs = ns.map((n) => KX[n.m]); return (Math.min(...xs) + Math.max(...xs)) / 2; }
+function segAt(t) { for (const s of SEGS) if (t < s.end) return s; return SEGS[SEGS.length - 1]; }
+function update3D(t) {
+  const seg = segAt(t);
+  let lo = 1e9, hi = -1e9; for (const n of NOTES) { if (n.t > t + 1.6) break; if (n.e < t - 0.3) continue; lo = Math.min(lo, KX[n.m]); hi = Math.max(hi, KX[n.m]); }
+  if (lo > hi) { lo = seg.lo; hi = seg.hi; }
+  const cx = (lo + hi) / 2, span = Math.max(12, Math.min(24, hi - lo + 6));
+  camX += (cx - camX) * 0.05; camSpan += (span - camSpan) * 0.05;
+  const dist = camSpan / 0.85, az = 0.55 + Math.sin(t * 0.05) * 0.03, el = 1.0;
+  cam.position.set(camX + Math.sin(az) * Math.cos(el) * dist, 0.5 + Math.sin(el) * dist, 1.2 + Math.cos(az) * Math.cos(el) * dist); cam.lookAt(camX, 0, -1.0);
+  const pressed = { R: [], L: [] }; for (const k of Object.values(keys)) k.lit = 0;
+  for (const n of NOTES) { if (n.t > t) break; if (n.e > t) { const k = keys[n.m]; if (!k) continue; k.lit = 1; k.col = COL[n.h]; pressed[n.h].push(n); } }
+  for (const k of Object.values(keys)) { const tgt = k.lit ? (k.b ? 0.07 : 0.06) : 0; k.piv.rotation.x += (tgt - k.piv.rotation.x) * 0.5;
+    if (k.lit) { k.mat.color.setHex(k.col); k.mat.emissive.setHex(k.col); k.mat.emissiveIntensity = 0.35; } else { k.mat.color.copy(k.base); k.mat.emissive.setHex(0); } }
+  // labels: 계이름 + finger number over each pressed key
+  let li = 0; const all = [...pressed.L, ...pressed.R].sort((a, b) => a.m - b.m);
+  all.forEach((n, i) => { if (li >= LBL.length) return; const L = LBL[li++]; L.material.map = labelTex(SOLF[n.m % 12], n.h === "L" ? n.f : 0, n.h === "L" ? "#6ec3ff" : "#ffc23a"); L.material.needsUpdate = true; L.visible = true; L.scale.set(n.h === "L" ? 2.3 : 2.1, 1.38, 1);
+    const stack = i % 2; L.position.set(KX[n.m], 3.0 + stack * 1.9, (isBlack(n.m) ? -1.6 : -0.6)); });
+  for (; li < LBL.length; li++) LBL[li].visible = false;
+  for (const h of ["R", "L"]) { const Hh = HANDS[h]; const want = h === "R" ? seg.hasR : seg.hasL; Hh.vis += ((want ? 1 : 0) - Hh.vis) * 0.12; const on = Hh.vis > 0.05;
+    Hh.grp.visible = Hh.arm.visible = Hh.cuff.visible = on; if (!on) continue;
+    let ns = pressed[h]; if (!ns.length) { const nx = NOTES.find((n) => n.h === h && n.t > t && n.t < t + 1.2); if (nx) ns = NOTES.filter((n) => n.h === h && Math.abs(n.t - nx.t) < 1e-6); }
+    if (ns.length) Hh.tx = handTarget(h, ns); else if (seg.id && !NOTES.some((n) => n.seg === seg.id && n.h === h)) Hh.tx = h === "L" ? KX[48] - HANDS.L.fingers[4].bx * HS : KX[64];
+    Hh.x += (Hh.tx - Hh.x) * 0.3; const by = 1.55 - (pressed[h].length ? 0.12 : 0);
+    Hh.grp.position.set(Hh.x, by + (1 - Hh.vis) * 3, -1.6); Hh.grp.scale.setScalar(HS);
+    for (const f of Hh.fingers) { f.press *= 0.6; f.tdx = 0; }
+    const used = new Set();
+    for (const n of pressed[h].slice(0, 5)) { const rx = (KX[n.m] - Hh.x) / HS; let best;
+      if (h === "L" && n.f) best = n.f - 1; else { let bd = 1e9; Hh.fingers.forEach((f, i) => { if (used.has(i)) return; const d = Math.abs(f.bx - rx); if (d < bd) { bd = d; best = i; } }); }
+      if (best == null || used.has(best)) continue; used.add(best); const f = Hh.fingers[best]; f.tdx = Math.max(-3.2, Math.min(3.2, rx - f.bx)); f.press = 1; f.blk = isBlack(n.m); f.col = COL[h]; }
+    Hh.fingers.forEach((f) => { f.dx += (f.tdx - f.dx) * 0.6; f.fg.position.x = f.bx + f.dx; f.fg.rotation.x = -0.12 - f.press * (f.blk ? 0.22 : 0.38); f.jt.rotation.x = (f.thumb ? -0.35 : -0.75) - f.press * 0.25; f.sm.emissive.setHex(f.press > 0.5 ? f.col : 0); f.sm.emissiveIntensity = 0.6; f.sm.opacity = 0.66 * Hh.vis; });
+    const wrist = new THREE.Vector3(Hh.x, by + 0.3 + (1 - Hh.vis) * 3, 4.6), elbow = new THREE.Vector3(Hh.x * 0.8 + (h === "R" ? 4 : -4), 2.6, 14);
+    placeCyl(Hh.arm, wrist.clone().add(new THREE.Vector3(0, 0, 0.9)), elbow); placeCyl(Hh.cuff, wrist.clone().add(new THREE.Vector3(0, 0, 0.2)), wrist.clone().add(new THREE.Vector3(0, 0.05, 1.0))); }
+  R3.render(scene, cam);
+}
+// ================= score (abcjs → SVG image) =================
+const NL = { 0: "C", 2: "D", 4: "E", 5: "F", 7: "G", 9: "A", 11: "B" };
+function abcN(m) { const o = Math.floor(m / 12) - 1, l = NL[m % 12]; return o >= 5 ? l.toLowerCase() + "'".repeat(o - 5) : l + ",".repeat(4 - o); }
+function abcG(ms, b) { const d = b === 1 ? "" : String(b); return ms.length > 1 ? "[" + ms.map(abcN).join("") + "]" + d : abcN(ms[0]) + d; }
+function abcBars(bars, hand, chordSym) { return bars.map((b) => b[hand].map(([ms, bb], i) => (chordSym && i === 0 ? '"' + b.ch + '"' : "") + abcG(ms, bb)).join(" ")); }
+function makeAbc(bars) { const grand = !!bars[0].R; const per = 4, lines = []; const Rb = grand ? abcBars(bars, "R", true) : null, Lb = abcBars(bars, "L", !grand);
+  for (let i = 0; i < bars.length; i += per) { const end = i + per >= bars.length ? "|]" : "|"; if (grand) { lines.push("[V:1] " + Rb.slice(i, i + per).join(" | ") + " " + end); lines.push("[V:2] " + Lb.slice(i, i + per).join(" | ") + " " + end); } else lines.push(Lb.slice(i, i + per).join(" | ") + " " + end); }
+  return grand ? "X:1\nM:3/4\nL:1/4\n%%staves {1 2}\nV:1 clef=treble\nV:2 clef=bass\nK:C\n" + lines.join("\n") : "X:1\nM:3/4\nL:1/4\nK:C clef=bass\n" + lines.join("\n"); }
+const SCORES = {};
+function renderScores() {
+  const paper = document.getElementById("paper"); paper.innerHTML = "";
+  for (const kind of ["song", "waltz", "alt", "chords"]) {
+    const bars = barsFor(kind), div = document.createElement("div"); paper.appendChild(div);
+    const vo = ABCJS.renderAbc(div, makeAbc(bars), { staffwidth: 430, scale: 1.0, add_classes: true, paddingtop: 6, paddingbottom: 6, paddingleft: 6, paddingright: 6 })[0];
+    const svg = div.querySelector("svg"), sr = svg.getBoundingClientRect();
+    const rel = (el) => { const r = el.getBoundingClientRect(); return { x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height }; };
+    const uni = (els) => { let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9; for (const e of els) { if (!e || !e.getBoundingClientRect) continue; const r = rel(e); if (r.w <= 0 && r.h <= 0) continue; x0 = Math.min(x0, r.x); y0 = Math.min(y0, r.y); x1 = Math.max(x1, r.x + r.w); y1 = Math.max(y1, r.y + r.h); } return x0 < 1e9 ? { x: x0, y: y0, w: x1 - x0, h: y1 - y0 } : null; };
+    const grand = !!bars[0].R, lists = { R: [], L: [] }, lines = [];
+    vo.lines.forEach((ln, li) => { if (!ln.staff) return; ln.staff.forEach((st, si) => { const hand = grand && si === 0 ? "R" : "L"; st.voices[0].forEach((el) => { if (el.el_type === "note") lists[hand].push({ line: li, box: el.abselem ? uni(el.abselem.elemset || []) : null }); }); });
+      const els = svg.querySelectorAll(".abcjs-l" + li); let y0 = 1e9, y1 = -1e9; els.forEach((e) => { const r = rel(e); if (r.h > 0 && r.h < 600) { y0 = Math.min(y0, r.y); y1 = Math.max(y1, r.y + r.h); } }); lines[li] = { y0: y0 - 12, y1: y1 + 10 }; });
+    // index note-groups: bar → group index → list position
+    const idx = { R: [], L: [] }; for (const h of ["R", "L"]) { let k = 0; bars.forEach((b, bi) => { idx[h][bi] = []; (b[h] || []).forEach((_, gi) => { idx[h][bi][gi] = k++; }); }); }
+    const img = new Image(); img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(svg));
+    SCORES[kind] = { img, lists, lines, idx, w: sr.width, check: { R: lists.R.length, L: lists.L.length } };
+  }
+  return Object.fromEntries(Object.entries(SCORES).map(([k, v]) => [k, v.check]));
+}
+// ================= 2D drawing =================
+function txt(s, x, y, size, col, align = "center", bold = true) { g.font = (bold ? "bold " : "") + size + "px " + F; g.fillStyle = col; g.textAlign = align; g.textBaseline = "middle"; g.fillText(s, x, y); }
+function rr(x, y, w, h, r, col) { g.fillStyle = col; g.beginPath(); g.roundRect(x, y, w, h, r); g.fill(); }
+function beatAt(t) { let b = null; for (const x of BEATS) { if (x.t > t) break; b = x; } if (!b) return null; const seg = segAt(t), d = seg.demo; if (!d || !d.spb || t < d.ci || t > d.t1 + 0.1) return null; return { k: b.k, ph: (t - b.t) / d.spb, ci: !!b.ci, spb: d.spb, t0: b.t }; }
+const BOXX = [462, 548, 634], BOXY = 30;
+function header(seg, t) {
+  g.fillStyle = "#1c0a18"; g.fillRect(0, 0, W, V3Y);
+  g.font = "bold 22px " + F; const sw = g.measureText(seg.step).width + 30; rr(20, 22, sw, 38, 19, "#e8457a"); txt(seg.step, 20 + sw / 2, 41, 22, "#fff");
+  txt("성실피아노 왼손 반주 교실", 30 + sw, 41, 19, "#ffb3cf", "left", false);
+  txt(seg.title, 22, 94, 38, "#fff", "left");
+  // beat boxes 1 2 3 (쿵 짝 짝) + bouncing ball drawn as an SVG path
+  const bt = beatAt(t);
+  ["쿵", "짝", "짝"].forEach((w, k) => { const on = bt && bt.k === k && bt.ph < 0.55; rr(BOXX[k] - 38, BOXY, 76, 86, 16, on ? (k === 0 ? "#ffd166" : "#e8457a") : "rgba(255,255,255,.08)");
+    txt(String(k + 1), BOXX[k], BOXY + 30, 34, on ? (k === 0 ? "#3a1400" : "#fff") : "#d9b8c8"); txt(w, BOXX[k], BOXY + 66, 22, on ? (k === 0 ? "#3a1400" : "#fff") : "#d9b8c8"); });
+  if (bt) { const a = bt.k, b = (bt.k + 1) % 3, p = Math.min(1, bt.ph); const xa = BOXX[a], xb = b === 0 ? BOXX[2] + 86 : BOXX[b]; const top = BOXY - 2;
+    const path = new Path2D(`M ${xa} ${top} Q ${(xa + xb) / 2} ${top - 34} ${xb} ${top}`); g.save(); g.setLineDash([4, 7]); g.strokeStyle = "rgba(255,209,102,.45)"; g.lineWidth = 2; g.stroke(path); g.restore();
+    const x = xa + (xb - xa) * p, y = top - 4 * 26 * p * (1 - p) - 6; g.fillStyle = a === 0 && p < 0.2 ? "#fff" : "#ffd166"; g.beginPath(); g.arc(x, y, 9, 0, 7); g.fill();
+    if (bt.ci) txt("준비", BOXX[1], BOXY + 104, 18, "#ffd166"); }
+  // subtitle (karaoke) or demo caption
+  const SX = 20, SY = 140, SWd = W - 40, SH = 150; rr(SX, SY, SWd, SH, 22, "rgba(10,3,8,.78)"); g.strokeStyle = "rgba(255,170,200,.45)"; g.lineWidth = 2; g.beginPath(); g.roundRect(SX, SY, SWd, SH, 22); g.stroke();
+  const inV = t >= seg.v0 - 0.3 && t < seg.v0 + seg.vdur + 0.4;
+  if (inV || !seg.demo) { txt("🎙 선생님", SX + 20, SY + 20, 16, "#ffb3cf", "left");
+    const p = Math.max(0, Math.min(1, (t - seg.v0) / seg.vdur)); const lines = wrap(seg.text, SWd - 40, 27); const total = seg.text.length; let shown = 0; const done = Math.floor(total * p);
+    const y0 = SY + 52 + (3 - Math.min(4, lines.length)) * 14; lines.slice(0, 4).forEach((ln, i) => { let x = SX + 20; for (const ch of ln) { g.font = "bold 27px " + F; g.fillStyle = shown < done ? "#ffd166" : "#ffffff"; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText(ch, x, y0 + i * 33); x += g.measureText(ch).width; shown++; } shown += 0; }); }
+  else { txt("🎹 따라 보세요", SX + 20, SY + 22, 17, "#ffb3cf", "left"); txt(seg.cap || "", W / 2, SY + 82, 29, "#ffd166"); }
+}
+const wcache = {}; function wrap(s, maxW, size) { const k = s + maxW; if (wcache[k]) return wcache[k]; g.font = "bold " + size + "px " + F; const out = []; let cur = "";
+  for (const word of s.split(" ")) { const tryS = cur ? cur + " " + word : word; if (g.measureText(tryS).width > maxW && cur) { out.push(cur + " "); cur = word; } else cur = tryS; } if (cur) out.push(cur); return (wcache[k] = out); }
+const SP = { x: 8, y: 812, w: 704, h: 460 };
+function curBar(seg, t) { const d = seg.demo; if (!d) return null; if (d.kind === "chords") { let b = null; for (const x of d.groups) if (x.t <= t + 0.05) b = x; return b; } if (!d.barT) return null; let b = null; for (const x of d.barT) if (x.t <= t + 0.02) b = x; return b; }
+function scorePanel(seg, t) {
+  const { x: PX, y: PY, w: PW, h: PH } = SP; rr(PX, PY, PW, PH, 18, "#fff8fb"); g.fillStyle = "#e8457a"; g.fillRect(PX + 18, PY, PW - 36, 4);
+  const d = seg.demo;
+  if (seg.card) { if (seg.card === "beat") return beatCard(seg, t); const [ic, h3, ls] = CARDS[seg.card]; txt(ic, W / 2, PY + 80, 70, "#000"); txt(h3, W / 2, PY + 165, 40, "#c22e62"); ls.forEach((l, i) => txt(l, W / 2, PY + 235 + i * 52, 28, "#2a1020")); return; }
+  if (!d) return;
+  const S = SCORES[d.kind]; if (!S || !S.img.complete) return;
+  const cb = curBar(seg, t), playing = t >= d.t0 - 0.02 && t <= d.t1 + 0.05;
+  // chord badge
+  const chn = cb ? cb.ch : (seg.bars[0].ch); rr(PX + 18, PY + 18, 230, 66, 16, "#eaf4ff"); txt(chn, PX + 58, PY + 52, 46, "#1f6fd1"); txt(CH[chn].nm, PX + 160, PY + 52, 24, "#1a3a66");
+  txt(d.kind === "song" ? "악보 (위: 오른손 · 아래: 왼손)" : "왼손 악보 (낮은음자리표)", PX + PW - 18, PY + 52, 19, "#c22e62", "right");
+  const barI = cb ? cb.bar : 0, groupsL = S.idx.L[barI] || [], firstLine = S.lists.L[groupsL[0]] ? S.lists.L[groupsL[0]].line : 0;
+  const L = S.lines[firstLine]; if (!L) return; const sh = L.y1 - L.y0, avail = PH - 120; const s = Math.min((PW - 30) / S.w, avail / sh, 1.75);
+  const ox = PX + (PW - S.w * s) / 2, oy = PY + 100 + (avail - sh * s) / 2;
+  // highlight current notes
+  const cur = []; if (playing) for (const n of NOTES) { if (n.t > t) break; if (n.seg === seg.id && n.e > t) cur.push(n); }
+  const done = new Set(); for (const n of cur) { const k = n.h + n.bar + "-" + n.gi; if (done.has(k)) continue; done.add(k); const li = S.idx[n.h][n.bar]?.[n.gi]; const it = S.lists[n.h][li]; if (!it || !it.box || it.line !== firstLine) continue; const b = it.box;
+    rr(ox + (b.x - 6) * s, oy + (b.y - L.y0 - 6) * s, (b.w + 12) * s, (b.h + 12) * s, 10, n.h === "R" ? "rgba(255,180,30,.55)" : "rgba(80,160,255,.45)"); }
+  g.drawImage(S.img, 0, L.y0, S.w, sh, ox, oy, S.w * s, sh * s);
+  // 계이름 pill above current notes
+  done.clear(); for (const n of cur) { const k = n.h + n.bar + "-" + n.gi; if (done.has(k)) continue; done.add(k); const li = S.idx[n.h][n.bar]?.[n.gi]; const it = S.lists[n.h][li]; if (!it || !it.box || it.line !== firstLine) continue; const b = it.box;
+    const grp = cur.filter((o) => o.h === n.h && o.bar === n.bar && o.gi === n.gi).sort((a, c) => a.m - c.m); const nm = grp.map((o) => SOLF[o.m % 12]).join("·");
+    const X = ox + (b.x + b.w / 2) * s, Y = n.h === "R" ? oy + (b.y - L.y0) * s - 22 : oy + (b.y + b.h - L.y0) * s + 24; g.font = "bold 22px " + F; const pw = g.measureText(nm).width + 22;
+    rr(X - pw / 2, Y - 17, pw, 34, 17, n.h === "R" ? "rgba(255,178,30,.95)" : "rgba(61,143,255,.95)"); txt(nm, X, Y, 22, n.h === "R" ? "#2a1a08" : "#fff"); }
+  // red cursor
+  if (playing && cur.length) { const n = cur[0]; const li = S.idx[n.h][n.bar]?.[n.gi]; const it = S.lists[n.h][li]; if (it && it.box && it.line === firstLine) { const X = ox + (it.box.x + it.box.w / 2) * s; g.fillStyle = "rgba(225,40,50,.8)"; g.fillRect(X - 2, PY + 96, 4, PH - 110); } }
+  if (d.reps > 1 && playing) { const rep = Math.min(d.reps, 1 + Math.floor((t - d.t0) / ((d.t1 - d.t0) / d.reps))); txt(rep + " / " + d.reps + " 번째", PX + PW - 18, PY + PH - 22, 20, "#c22e62", "right"); }
+  if (S.lines.length > 1) txt("줄 " + (firstLine + 1) + " / " + S.lines.length, PX + 18, PY + PH - 22, 18, "#a08090", "left", false);
+}
+function beatCard(seg, t) { const { x: PX, y: PY, w: PW } = SP; const bt = beatAt(t); txt("3/4박자 = 한 마디에 세 박", W / 2, PY + 70, 32, "#c22e62");
+  ["하나", "둘", "셋"].forEach((w, k) => { const X = PX + PW / 2 + (k - 1) * 210, on = bt && bt.k === k && bt.ph < 0.6; const r = on ? 92 : 80; g.fillStyle = on ? (k === 0 ? "#ffd166" : "#e8457a") : "#f3dbe6"; g.beginPath(); g.arc(X, PY + 220, r, 0, 7); g.fill();
+    txt(w, X, PY + 200, 40, on ? (k === 0 ? "#3a1400" : "#fff") : "#7a4a60"); txt(k === 0 ? "쿵 (무겁게)" : "짝 (가볍게)", X, PY + 252, 22, on ? (k === 0 ? "#3a1400" : "#fff") : "#7a4a60"); });
+  txt("🎵 쿵 – 짝 – 짝 · 쿵 – 짝 – 짝", W / 2, PY + 380, 28, "#2a1020"); }
+function titleOverlay(a) { g.fillStyle = `rgba(20,6,16,${0.86 * a})`; g.fillRect(0, 0, W, H); g.globalAlpha = a; txt("🎹", W / 2, 430, 90, "#000"); txt("샹송 왼손 반주", W / 2, 560, 64, "#ffb3cf"); txt("쿵 짝짝 왈츠 · 큰 건반 3D 레슨", W / 2, 640, 32, "#fff"); txt("성실피아노 · 피아노조율사 박근성", W / 2, 760, 26, "#d8b56a"); g.globalAlpha = 1; }
+function frame(t) {
+  const seg = segAt(t); update3D(t); header(seg, t); g.drawImage(R3.domElement, 0, V3Y, W, V3H);
+  g.fillStyle = "#1c0a18"; g.fillRect(0, V3Y + V3H, W, 12); g.fillStyle = "#e8457a"; g.fillRect(0, V3Y + V3H, W * Math.max(0, Math.min(1, t / TOTAL)), 5);
+  g.fillStyle = "#1c0a18"; g.fillRect(0, SP.y - 4, W, H - SP.y + 4); scorePanel(seg, t);
+  txt("🔵 왼손 · 🟡 오른손 · ⑤ = 손가락 번호", W - 16, V3Y + 22, 17, "#ffd6e6", "right", false);
+  if (t < 2.6) titleOverlay(t < 2.0 ? 1 : 1 - (t - 2.0) / 0.6);
+}
+// ================= init / record / live =================
+window.init = async function (onp) { const sc = renderScores(); await Promise.all(Object.values(SCORES).map((s) => s.img.decode())); const a = await renderAudio(onp); buildChapters(); return { scores: sc, total: TOTAL, audio: a, segs: SEGS.map((s) => [s.id, +s.v0.toFixed(1), +s.vdur.toFixed(1), s.demo ? +s.demo.t0.toFixed(1) : null]) }; };
+window.frameAt = function (sec) { for (let s = Math.max(0, sec - 1.5); s < sec; s += 1 / 30) update3D(s); frame(sec); return cv.toDataURL("image/png").split(",")[1]; };
+let BLOB;
+window.record = async function (vbps = 3000000, mime = "video/webm;codecs=vp9,opus") {
+  await ac.resume(); const dest = ac.createMediaStreamDestination(); const keep = ac.createConstantSource(); keep.offset.value = 0.00005; keep.connect(dest); keep.start();
+  const stream = new MediaStream([...cv.captureStream(30).getVideoTracks(), ...dest.stream.getAudioTracks()]);
+  const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: vbps, audioBitsPerSecond: 128000 });
+  const chunks = []; rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+  frame(0); await new Promise((r) => setTimeout(r, 500)); rec.start(1000);
+  const t0 = ac.currentTime + 0.3; const src = ac.createBufferSource(); src.buffer = MIX; src.connect(dest); src.start(t0);
+  let frames = 0, slow = 0, lastW = performance.now();
+  await new Promise((res) => { function loop() { const t = ac.currentTime - t0; const nw = performance.now(); if (nw - lastW > 50) slow++; lastW = nw; frames++; frame(Math.max(0, t)); if (t >= TOTAL) return res(); requestAnimationFrame(loop); } loop(); });
+  await new Promise((r) => { rec.onstop = r; rec.stop(); });
+  BLOB = new Blob(chunks, { type: mime.split(";")[0] }); return { size: BLOB.size, dur: TOTAL, frames, slow };
+};
+window.chunk = async function (i, sz) { const b = BLOB.slice(i * sz, (i + 1) * sz); const u = new Uint8Array(await b.arrayBuffer()); let s = ""; for (let k = 0; k < u.length; k += 8192) s += String.fromCharCode.apply(null, u.subarray(k, k + 8192)); return btoa(s); };
+let playing = false, startAt = 0, offset = 0, srcNode = null, loaded = false;
+function idle() { if (playing) return; if (loaded) frame(offset); else { g.fillStyle = "#1c0a18"; g.fillRect(0, 0, W, H); titleOverlay(1); } }
+function buildChapters() { const box = document.getElementById("chap"); box.innerHTML = ""; const seen = new Set(); SEGS.forEach((s) => { if (seen.has(s.step)) return; seen.add(s.step); const b = document.createElement("button"); b.textContent = s.step; b.dataset.t = s.s; b.onclick = () => go(s.s); box.appendChild(b); }); }
+async function ensure() { if (loaded) return true; const msg = document.getElementById("msg"); try { msg.textContent = "불러오는 중…"; await window.init((p) => { msg.textContent = `목소리와 피아노 소리 불러오는 중… ${Math.round(p * 100)}%`; }); loaded = true; return true; } catch (e) { msg.textContent = "불러오지 못했어요: " + e.message; return false; } }
+async function go(t) { document.getElementById("play").disabled = true; if (!(await ensure())) { document.getElementById("play").disabled = false; return; } await ac.resume(); document.getElementById("ov").style.display = "none";
+  if (srcNode) try { srcNode.stop(); } catch (e) {} offset = Math.max(0, Math.min(TOTAL - 1, t)); srcNode = ac.createBufferSource(); srcNode.buffer = MIX; srcNode.connect(ac.destination); startAt = ac.currentTime + 0.15 - offset; srcNode.start(ac.currentTime + 0.15, offset); playing = true;
+  (function loop() { if (!playing) return; const tt = ac.currentTime - startAt; offset = tt; document.querySelectorAll("#chap button").forEach((b) => b.classList.toggle("on", segAt(tt).step === b.textContent));
+    if (tt < TOTAL) { frame(Math.max(0, tt)); requestAnimationFrame(loop); } else { playing = false; offset = 0; const ov = document.getElementById("ov"); ov.style.display = "flex"; document.getElementById("play").disabled = false; document.getElementById("play").textContent = "▶ 다시 보기"; } })(); }
+document.getElementById("play").onclick = () => go(offset > 0 && offset < TOTAL - 1 ? offset : 0);
+document.getElementById("stop").onclick = () => { if (!playing) return; playing = false; if (srcNode) try { srcNode.stop(); } catch (e) {} const ov = document.getElementById("ov"); ov.style.display = "flex"; document.getElementById("play").disabled = false; document.getElementById("play").textContent = "▶ 이어서 보기"; };
+idle();
+window.READY = true;
+</script></body></html>
