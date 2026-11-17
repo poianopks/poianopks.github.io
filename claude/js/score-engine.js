@@ -78,7 +78,7 @@ var MINSP=26,QW=36;
 function yOfC(clef,top,step){return top+40-(step-BOTTOM[clef])*5;}
 /* o={staves:[{clef,items,prefix,labels,autoClef:"row"|"item",ott:bool}], bars:[{sig,key,sec}], startBar} */
 function render(el,o){
-  var W=Math.max(320,Math.min(1000,Math.round(el.clientWidth||700)));
+  var W=Math.max(320,Math.min(o.maxW||1000,Math.round(el.clientWidth||700)));
   var nb=o.bars.length,byBar=o.staves.map(function(){return [];});
   for(var b=0;b<nb;b++)o.staves.forEach(function(st,si){byBar[si][b]=[];});
   o.staves.forEach(function(st,si){st.items.forEach(function(it){if(!it.hidden&&byBar[si][it.bar])byBar[si][it.bar].push(it);});});
