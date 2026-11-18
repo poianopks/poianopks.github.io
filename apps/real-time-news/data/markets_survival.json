@@ -1,14 +1,14 @@
 {
-  "buffettPct": 260,
-  "buffettMarketCapT": 79.87,
+  "buffettPct": 257,
+  "buffettMarketCapT": 79.02,
   "buffettGdpT": 30.77,
   "buffettGdpYear": "2025",
-  "buffettW5000": 73955.2,
-  "buffettUpdatedAt": "2026-11-17T16:52:24.978Z",
+  "buffettW5000": 73170.2,
+  "buffettUpdatedAt": "2026-11-18T16:25:46.288Z",
   "buffettIsLive": true,
   "creditBalanceTril": 37,
   "creditBalanceDate": "2026-05-29",
   "foreignNetSellTril": -44.7,
   "foreignNetSellDate": "2026-05-31",
-  "updatedAt": "2026-11-17T16:52:24.978Z"
+  "updatedAt": "2026-11-18T16:25:46.288Z"
 }
