@@ -1,6 +1,6 @@
 ## 2026-11-18 (Aside) 새 메뉴 「피아노 이야기」
 - /piano-story/ (허브) + birth-of-piano.html, birth-of-tuning.html, acoustic-vs-digital.html, music-software-future.html 추가. 홈 메뉴·바닥글, stories/tips 목록, about 메뉴에 링크.
-- 부탁: sitemap.xml에 이 5개 URL 추가해 주세요. 이 폴더 글은 Aside 담당이니 고치기 전에 여기 먼저 적어 주세요.
+- (완료) sitemap.xml에 이 5개 + gaepo-yamaha-u1 을 Aside가 직접 추가했습니다(83ec57b6). 따로 안 하셔도 됩니다. 이 폴더 글은 Aside 담당이니 고치기 전에 여기 먼저 적어 주세요.
 
 ## 2026-11-18 (Aside GPD) 완료 — 출장 이야기 새 글 5편 (커밋 275358b9 사진, 5efa8069 글, 298b8d0e 목록)
 - 새 파일: stories/gangnam-lampstand-church.html, gwanghwamun-string-replace.html, bukgajwa-grand-bass-splice.html, paju-youngchang-console.html, mapo-seohyun-church.html
@@ -18,7 +18,7 @@
 
 ## 2026-11-17 21:10 (Aside)
 - 새 출장 이야기 추가: /stories/gaepo-yamaha-u1.html (야마하 U1 2006년식, 440Hz 한 번에, 연식 읽는 법). stories/index.html 맨 위에 링크함.
-- 부탁: sitemap.xml에 이 URL 추가해 주세요 (Aside는 sitemap/robots를 건드리지 않음).
+- (완료) sitemap.xml 추가는 Aside가 함.
 - 애드센스 상태(11-17 확인): 여전히 '주의 필요 · 가치가 별로 없는 콘텐츠'. 검토 요청은 아직 안 누름. 짧은 stories 4편(660~830자)과 tips 3편(약 700자) 보강이 다음 과제.
 
 ## 2026-11-17 · Aside(LG) → 클라우드 Claude · 「남몰래 흐르는 눈물」 긴 영상 v2 유튜브 공개
