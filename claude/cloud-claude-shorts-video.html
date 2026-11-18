@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>클라우드 클로드코드 쇼츠 — 3D·SVG 화면</title>
+<meta name="robots" content="noindex"/>
+<style>
+html,body{margin:0;background:#03040f}
+body{display:grid;place-items:center;min-height:100vh}
+#wrap{position:relative;width:100%;max-width:440px;aspect-ratio:9/16;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0;overflow:hidden;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:linear-gradient(#060a2c,#1b1150 55%,#0a0820)}
+#gl{position:absolute;left:0;top:150px;width:1080px;height:830px}
+#top{position:absolute;left:0;top:0;width:1080px;height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(rgba(3,5,18,.95),rgba(3,5,18,.4));color:#ffd166;font-weight:900}
+#top .a{font-size:46px;letter-spacing:1px}
+#top .b{font-size:30px;color:#cfd8ff;margin-top:4px}
+#title{position:absolute;left:0;right:0;top:975px;padding:6px 30px 10px;background:linear-gradient(rgba(10,8,32,0),rgba(10,8,32,.85) 25%,rgba(10,8,32,.85) 75%,rgba(10,8,32,0));text-align:center;color:#fff;font-size:76px;font-weight:900;line-height:1.15;white-space:pre-line;text-shadow:0 4px 0 #2a1866,0 0 30px rgba(255,209,102,.55)}
+#title b{color:#ffd166}
+#svgbox{position:absolute;left:0;top:1175px;width:1080px;height:480px}
+#svgbox svg{position:absolute;left:0;top:0;width:1080px;height:480px;display:none}
+#svgbox svg.on{display:block}
+#cap{position:absolute;left:60px;right:60px;top:1698px;text-align:center;color:#e8ecff;font-size:38px;font-weight:800;line-height:1.35;background:rgba(5,8,30,.72);border:2px solid rgba(255,209,102,.45);border-radius:26px;padding:14px 22px}
+#dots{position:absolute;left:0;right:0;top:1662px;text-align:center}
+#dots i{display:inline-block;width:18px;height:18px;border-radius:50%;background:#3a4380;margin:0 7px}
+#dots i.on{background:#ffd166;box-shadow:0 0 12px #ffd166}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.t1{font:900 54px "Noto Sans KR",sans-serif;fill:#fff}
+.t2{font:900 40px "Noto Sans KR",sans-serif;fill:#ffd166}
+.t3{font:800 32px "Noto Sans KR",sans-serif;fill:#cfd8ff}
+.ln{fill:none;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+  <canvas id="gl" width="1080" height="830"></canvas>
+  <div id="top"><div class="a">🎹 성실피아노 010-8756-8740</div><div class="b">왕초보 1분 · 클라우드 클로드코드 + GitHub</div></div>
+  <div id="title"></div>
+  <div id="svgbox">
+<!-- hook: 컴퓨터 ✕ / 스마트폰 ✓ -->
+<svg id="sv-hook" viewBox="0 0 1080 520">
+  <g transform="translate(250,40)">
+    <rect x="-150" y="40" width="300" height="200" rx="18" class="ln" stroke="#8b93c9" stroke-width="12" stroke-dasharray="1000" stroke-dashoffset="1000"><animate attributeName="stroke-dashoffset" from="1000" to="0" begin="0.2s" dur="1s" fill="freeze"/></rect>
+    <path d="M-60 270 h120 M0 240 v30" class="ln" stroke="#8b93c9" stroke-width="12"/>
+    <path d="M-120 20 L120 290 M120 20 L-120 290" class="ln" stroke="#ff5a5f" stroke-width="22" stroke-dasharray="400" stroke-dashoffset="400"><animate attributeName="stroke-dashoffset" from="400" to="0" begin="1.4s" dur=".6s" fill="freeze"/></path>
+    <text x="0" y="380" text-anchor="middle" class="t3">컴퓨터 없이</text>
+  </g>
+  <g transform="translate(800,20)">
+    <rect x="-95" y="20" width="190" height="320" rx="34" fill="#141a40" stroke="#ffd166" stroke-width="12" opacity="0"><animate attributeName="opacity" from="0" to="1" begin="2.2s" dur=".5s" fill="freeze"/></rect>
+    <circle cx="0" cy="180" r="0" fill="#3ddc84"><animate attributeName="r" values="0;70;58" begin="2.8s" dur=".6s" fill="freeze"/></circle>
+    <path d="M-30 180 l22 24 l42 -48" class="ln" stroke="#fff" stroke-width="16" stroke-dasharray="120" stroke-dashoffset="120"><animate attributeName="stroke-dashoffset" from="120" to="0" begin="3.3s" dur=".4s" fill="freeze"/></path>
+    <text x="0" y="400" text-anchor="middle" class="t2">스마트폰 하나로!</text>
+  </g>
+</svg>
+<!-- cloud -->
+<svg id="sv-cloud" viewBox="0 0 1080 520">
+  <path d="M300 300 a90 90 0 0 1 60 -170 a130 130 0 0 1 250 -30 a110 110 0 0 1 180 110 a80 80 0 0 1 -20 160 z" fill="#fff" fill-opacity=".12" class="ln" stroke="#fff" stroke-width="12" stroke-dasharray="1600" stroke-dashoffset="1600"><animate attributeName="stroke-dashoffset" from="1600" to="0" dur="1.4s" fill="freeze"/></path>
+  <rect x="455" y="170" width="170" height="110" rx="12" fill="#1d2463" stroke="#6ec3ff" stroke-width="8" opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1.2s" dur=".4s" fill="freeze"/></rect>
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1.6s" dur=".4s" fill="freeze"/>
+    <circle cx="540" cy="225" r="34" fill="#e8835a"/><circle cx="527" cy="218" r="5" fill="#fff"/><circle cx="553" cy="218" r="5" fill="#fff"/><path d="M526 235 q14 12 28 0" class="ln" stroke="#fff" stroke-width="5"/>
+  </g>
+  <text x="540" y="400" text-anchor="middle" class="t2">구름 위 컴퓨터에서</text>
+  <text x="540" y="460" text-anchor="middle" class="t3">AI 클로드가 직접 일해요
+    <animate attributeName="opacity" values="0;1" begin="2s" dur=".5s" fill="freeze"/></text>
+</svg>
+<!-- pcoff -->
+<svg id="sv-pcoff" viewBox="0 0 1080 520">
+  <rect x="340" y="40" width="400" height="260" rx="20" fill="#0c0f24" stroke="#8b93c9" stroke-width="12"/>
+  <path d="M460 340 h160 M540 300 v40" class="ln" stroke="#8b93c9" stroke-width="12"/>
+  <g transform="translate(540,170)"><path d="M-40 -30 a55 55 0 1 0 80 0" class="ln" stroke="#ff5a5f" stroke-width="14"/><path d="M0 -60 v55" class="ln" stroke="#ff5a5f" stroke-width="14"/>
+    <animateTransform attributeName="transform" type="scale" additive="sum" values="1;1.12;1" dur="1.2s" repeatCount="indefinite"/></g>
+  <text x="790" y="110" class="t2" opacity="0">z<animate attributeName="opacity" values="0;1;0" dur="1.6s" repeatCount="indefinite"/></text>
+  <text x="830" y="70" class="t2" opacity="0">Z<animate attributeName="opacity" values="0;1;0" begin=".5s" dur="1.6s" repeatCount="indefinite"/></text>
+  <text x="540" y="430" text-anchor="middle" class="t1">꺼져 있어도 괜찮아요</text>
+</svg>
+<!-- phone -->
+<svg id="sv-phone" viewBox="0 0 1080 520">
+  <rect x="380" y="0" width="320" height="500" rx="40" fill="#141a40" stroke="#ffd166" stroke-width="10"/>
+  <g font-family="Noto Sans KR" font-weight="900" font-size="30">
+    <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin=".3s" dur=".3s" fill="freeze"/><rect x="470" y="40" width="210" height="64" rx="22" fill="#ffd166"/><text x="575" y="83" text-anchor="middle" fill="#1b1150">악보 만들어 줘</text></g>
+    <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1.6s" dur=".3s" fill="freeze"/><rect x="400" y="125" width="180" height="64" rx="22" fill="#6ec3ff"/><text x="490" y="168" text-anchor="middle" fill="#06102a">🎼 완성!</text></g>
+    <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="3s" dur=".3s" fill="freeze"/><rect x="470" y="210" width="210" height="64" rx="22" fill="#ffd166"/><text x="575" y="253" text-anchor="middle" fill="#1b1150">3D 영상도!</text></g>
+    <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="4.4s" dur=".3s" fill="freeze"/><rect x="400" y="295" width="200" height="64" rx="22" fill="#6ec3ff"/><text x="500" y="338" text-anchor="middle" fill="#06102a">🎹 완성!</text></g>
+    <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="5.8s" dur=".3s" fill="freeze"/><rect x="430" y="380" width="250" height="64" rx="22" fill="#3ddc84"/><text x="555" y="423" text-anchor="middle" fill="#06102a">🌐 웹페이지까지</text></g>
+  </g>
+</svg>
+<!-- sleep -->
+<svg id="sv-sleep" viewBox="0 0 1080 520">
+  <path d="M250 100 a110 110 0 1 0 120 150 a90 90 0 0 1 -120 -150z" fill="#ffd166"/>
+  <g fill="#fff6dc"><circle cx="130" cy="80" r="6"><animate attributeName="opacity" values="1;.2;1" dur="1.4s" repeatCount="indefinite"/></circle><circle cx="420" cy="60" r="5"><animate attributeName="opacity" values=".2;1;.2" dur="1.2s" repeatCount="indefinite"/></circle><circle cx="380" cy="320" r="7"/></g>
+  <g transform="translate(720,200)"><circle r="130" fill="#141a40" stroke="#6ec3ff" stroke-width="12"/>
+    <path d="M0 0 v-90" class="ln" stroke="#fff" stroke-width="12"><animateTransform attributeName="transform" type="rotate" from="0" to="720" dur="5s" fill="freeze"/></path>
+    <path d="M0 0 h60" class="ln" stroke="#ffd166" stroke-width="12"><animateTransform attributeName="transform" type="rotate" from="0" to="60" dur="5s" fill="freeze"/></path></g>
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="3.4s" dur=".3s" fill="freeze"/><rect x="300" y="380" width="480" height="90" rx="30" fill="#3ddc84"/><text x="540" y="440" text-anchor="middle" class="t1" style="font-size:44px;fill:#06102a">🔔 다 됐어요!</text></g>
+</svg>
+<!-- github -->
+<svg id="sv-github" viewBox="0 0 1080 520">
+  <g transform="translate(540,230)">
+    <rect x="-170" y="-170" width="340" height="340" rx="40" fill="#161b22" stroke="#ffd166" stroke-width="12"/>
+    <circle r="90" fill="none" stroke="#8b93c9" stroke-width="14"/>
+    <g><path d="M0 -70 v40 M0 30 v40 M-70 0 h40 M30 0 h40" class="ln" stroke="#ffd166" stroke-width="14"/><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="3s" repeatCount="indefinite"/></g>
+    <text y="250" text-anchor="middle" class="t1">GitHub</text>
+  </g>
+  <text x="140" y="140" class="t2" font-size="80">✨<animate attributeName="opacity" values="0;1;0" dur="1s" repeatCount="indefinite"/></text>
+  <text x="880" y="400" class="t2" font-size="80">✨<animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></text>
+</svg>
+<!-- pages -->
+<svg id="sv-pages" viewBox="0 0 1080 520">
+  <rect x="150" y="20" width="780" height="460" rx="24" fill="#fffaf2" stroke="#ffd166" stroke-width="10"/>
+  <rect x="150" y="20" width="780" height="80" rx="24" fill="#2a1866"/>
+  <circle cx="200" cy="60" r="12" fill="#ff5a5f"/><circle cx="240" cy="60" r="12" fill="#ffd166"/><circle cx="280" cy="60" r="12" fill="#3ddc84"/>
+  <rect x="320" y="38" width="580" height="44" rx="22" fill="#fff"/>
+  <text x="345" y="72" font-family="Noto Sans KR" font-weight="900" font-size="30" fill="#1b1150"><tspan>poianopks.github.io</tspan><animate attributeName="opacity" from="0" to="1" begin=".2s" dur=".8s" fill="freeze"/></text>
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1.2s" dur=".4s" fill="freeze"/><rect x="200" y="130" width="680" height="70" rx="12" fill="#ffd166"/><text x="540" y="178" text-anchor="middle" font-family="Noto Sans KR" font-weight="900" font-size="38" fill="#1b1150">🎹 성실피아노 공부방</text></g>
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="2s" dur=".4s" fill="freeze"/><rect x="200" y="225" width="210" height="220" rx="14" fill="#6ec3ff"/><rect x="435" y="225" width="210" height="220" rx="14" fill="#3ddc84"/><rect x="670" y="225" width="210" height="220" rx="14" fill="#e8835a"/>
+    <text x="305" y="350" text-anchor="middle" font-size="70">🎼</text><text x="540" y="350" text-anchor="middle" font-size="70">🎬</text><text x="775" y="350" text-anchor="middle" font-size="70">📈</text></g>
+  <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="3s" dur=".3s" fill="freeze"/><rect x="740" y="0" width="230" height="80" rx="40" fill="#3ddc84"/><text x="855" y="54" text-anchor="middle" class="t1" style="font-size:40px;fill:#06102a">무료!</text></g>
+</svg>
+<!-- history -->
+<svg id="sv-history" viewBox="0 0 1080 520">
+  <path d="M120 200 H960" class="ln" stroke="#8b93c9" stroke-width="12" stroke-dasharray="900" stroke-dashoffset="900"><animate attributeName="stroke-dashoffset" from="900" to="0" dur="1.5s" fill="freeze"/></path>
+  <g font-family="Noto Sans KR" font-weight="900" font-size="28" fill="#cfd8ff" text-anchor="middle">
+    <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin=".2s" dur=".3s" fill="freeze"/><circle cx="180" cy="200" r="32" fill="#3ddc84"/><text x="180" y="290">1일</text></g>
+    <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin=".6s" dur=".3s" fill="freeze"/><circle cx="400" cy="200" r="32" fill="#3ddc84"/><text x="400" y="290">2일</text></g>
+    <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1s" dur=".3s" fill="freeze"/><circle cx="620" cy="200" r="32" fill="#3ddc84"/><text x="620" y="290">3일</text></g>
+    <g opacity="0"><animate attributeName="opacity" from="0" to="1" begin="1.4s" dur=".3s" fill="freeze"/><circle cx="840" cy="200" r="32" fill="#ff5a5f"/><text x="840" y="290" fill="#ff8a8a">앗, 실수!</text></g>
+  </g>
+  <path d="M820 130 C 700 40, 520 40, 410 140" class="ln" stroke="#ffd166" stroke-width="14" stroke-dasharray="600" stroke-dashoffset="600"><animate attributeName="stroke-dashoffset" from="600" to="0" begin="2.4s" dur=".9s" fill="freeze"/></path>
+  <path d="M400 105 l10 40 l38 -14" class="ln" stroke="#ffd166" stroke-width="14" opacity="0"><animate attributeName="opacity" from="0" to="1" begin="3.2s" dur=".2s" fill="freeze"/></path>
+  <text x="540" y="430" text-anchor="middle" class="t1" opacity="0">↩ 언제든 되돌리기<animate attributeName="opacity" from="0" to="1" begin="3.3s" dur=".4s" fill="freeze"/></text>
+</svg>
+<!-- vault -->
+<svg id="sv-vault" viewBox="0 0 1080 520">
+  <g transform="translate(180,200)"><path d="M-110 40 a60 60 0 0 1 40 -110 a80 80 0 0 1 150 -10 a60 60 0 0 1 30 120 z" fill="#fff" fill-opacity=".15" stroke="#fff" stroke-width="10"/><text y="140" text-anchor="middle" class="t3">클라우드 클로드</text></g>
+  <g transform="translate(540,200)"><rect x="-100" y="-100" width="200" height="200" rx="24" fill="#161b22" stroke="#ffd166" stroke-width="10"/><circle r="45" fill="none" stroke="#8b93c9" stroke-width="10"/><path d="M-14 -6 v-18 a14 14 0 0 1 28 0 v18" class="ln" stroke="#ffd166" stroke-width="8"/><rect x="-22" y="-6" width="44" height="34" rx="6" fill="#ffd166"/><text y="150" text-anchor="middle" class="t3">🔒 비공개 금고</text></g>
+  <g transform="translate(900,200)"><path d="M-100 0 L0 -90 L100 0" class="ln" stroke="#6ec3ff" stroke-width="12"/><rect x="-80" y="0" width="160" height="100" fill="#141a40" stroke="#6ec3ff" stroke-width="10"/><rect x="-40" y="25" width="80" height="50" rx="6" fill="#6ec3ff"/><text y="150" text-anchor="middle" class="t3">집 컴퓨터 클로드</text></g>
+  <g><rect x="-30" y="-24" width="60" height="48" rx="6" fill="#ffd166"/><text y="12" text-anchor="middle" font-size="30">🎵</text>
+    <animateMotion path="M260 120 L540 120 L820 120" dur="2s" begin=".6s" repeatCount="indefinite"/></g>
+  <text x="540" y="470" text-anchor="middle" class="t2">안전하게 주고받기</text>
+</svg>
+<!-- robot -->
+<svg id="sv-robot" viewBox="0 0 1080 520">
+  <g transform="translate(330,240)">
+    <rect x="-110" y="-120" width="220" height="170" rx="40" fill="#6ec3ff"/><circle cx="-45" cy="-40" r="22" fill="#fff"/><circle cx="45" cy="-40" r="22" fill="#fff"/>
+    <circle cx="-45" cy="-40" r="10" fill="#06102a"><animate attributeName="cx" values="-50;-40;-50" dur="1.5s" repeatCount="indefinite"/></circle><circle cx="45" cy="-40" r="10" fill="#06102a"><animate attributeName="cx" values="40;50;40" dur="1.5s" repeatCount="indefinite"/></circle>
+    <path d="M-40 10 q40 25 80 0" class="ln" stroke="#06102a" stroke-width="10"/><path d="M0 -120 v-40" class="ln" stroke="#6ec3ff" stroke-width="10"/><circle cy="-170" r="14" fill="#ffd166"><animate attributeName="fill" values="#ffd166;#ff5a5f;#ffd166" dur=".8s" repeatCount="indefinite"/></circle>
+    <rect x="-90" y="60" width="180" height="140" rx="24" fill="#3a8fd6"/>
+    <g><animateTransform attributeName="transform" type="rotate" values="-8;8;-8" dur="1s" repeatCount="indefinite"/></g>
+  </g>
+  <g transform="translate(760,220)"><rect x="-150" y="-150" width="300" height="300" rx="26" fill="#fffaf2" stroke="#ffd166" stroke-width="10"/><rect x="-150" y="-150" width="300" height="70" rx="26" fill="#ff5a5f"/>
+    <text y="-100" text-anchor="middle" class="t1" style="font-size:38px">매일</text>
+    <text y="30" text-anchor="middle" font-family="Noto Sans KR" font-weight="900" font-size="80" fill="#1b1150">06:12</text>
+    <text y="110" text-anchor="middle" font-family="Noto Sans KR" font-weight="900" font-size="32" fill="#2a1866">자동 실행 ✅</text></g>
+  <text x="540" y="490" text-anchor="middle" class="t3">예: 매일 아침 주식 자료 자동 갱신</text>
+</svg>
+<!-- outro -->
+<svg id="sv-outro" viewBox="0 0 1080 520">
+  <g font-size="120" text-anchor="middle"><text x="200" y="200">📱<animate attributeName="opacity" from="0" to="1" dur=".4s" fill="freeze"/></text><text x="540" y="200" opacity="0">☁️<animate attributeName="opacity" from="0" to="1" begin=".6s" dur=".4s" fill="freeze"/></text><text x="880" y="200" opacity="0">🔒<animate attributeName="opacity" from="0" to="1" begin="1.2s" dur=".4s" fill="freeze"/></text></g>
+  <g class="t2" font-size="70" text-anchor="middle"><text x="370" y="180" class="t2" style="font-size:70px">+</text><text x="710" y="180" class="t2" style="font-size:70px">+</text></g>
+  <text x="540" y="320" text-anchor="middle" class="t1" opacity="0">스마트폰 하나로 AI와 함께<animate attributeName="opacity" from="0" to="1" begin="1.8s" dur=".5s" fill="freeze"/></text>
+  <text x="540" y="410" text-anchor="middle" class="t2" opacity="0">🎹 성실피아노 · 피아노조율사 박근성<animate attributeName="opacity" from="0" to="1" begin="2.6s" dur=".5s" fill="freeze"/></text>
+  <text x="540" y="470" text-anchor="middle" class="t3" opacity="0">poianopks.github.io · 010-8756-8740<animate attributeName="opacity" from="0" to="1" begin="3.2s" dur=".5s" fill="freeze"/></text>
+</svg>
+  </div>
+  <div id="dots"></div>
+  <div id="cap"></div>
+  <div id="flash"></div>
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/cloud-shorts-data.js"></script>
+<script>
+(function(){
+"use strict";
+var REC=/[?&]rec=1/.test(location.search),TL=window.CSH,SEGS=TL.segs,$=function(i){return document.getElementById(i);};
+var wrap=$("wrap"),stage=$("stage");
+function fit(){if(REC){wrap.style.maxWidth="none";wrap.style.width="1080px";return;}stage.style.transform="scale("+(wrap.clientWidth/1080)+")";}
+addEventListener("resize",fit);fit();
+SEGS.forEach(function(){$("dots").appendChild(document.createElement("i"));});
+/* ---------- 3D ---------- */
+var R=new THREE.WebGLRenderer({canvas:$("gl"),antialias:true,alpha:true,preserveDrawingBuffer:REC});R.setPixelRatio(1);R.setSize(1080,830,false);R.setClearColor(0,0);
+var scene=new THREE.Scene();scene.add(new THREE.AmbientLight(0xffffff,.55));var dl=new THREE.DirectionalLight(0xffffff,.8);dl.position.set(-6,12,10);scene.add(dl);
+var cam=new THREE.PerspectiveCamera(38,1080/830,.5,200);
+function std(c,o){o=o||{};return new THREE.MeshStandardMaterial({color:c,roughness:o.r||.45,metalness:o.m||0,emissive:o.e||0,emissiveIntensity:o.ei||0});}
+function label(txt,col,w){var c=document.createElement("canvas");c.width=512;c.height=128;var x=c.getContext("2d");x.font="900 64px Noto Sans KR, sans-serif";x.textAlign="center";x.textBaseline="middle";x.lineWidth=10;x.strokeStyle="rgba(3,5,18,.9)";x.strokeText(txt,256,66);x.fillStyle=col;x.fillText(txt,256,66);
+  var s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthTest:false}));s.scale.set(w||4,(w||4)/4,1);return s;}
+/* 별 */
+(function(){var g=new THREE.BufferGeometry(),p=[],sd=7;function r(){sd=(sd*16807)%2147483647;return sd/2147483647;}for(var i=0;i<500;i++)p.push((r()-.5)*70,(r()-.2)*40,-15-r()*30);g.setAttribute("position",new THREE.Float32BufferAttribute(p,3));scene.add(new THREE.Points(g,new THREE.PointsMaterial({color:0xfff6dc,size:.15})));})();
+/* 구름 + 클로드 */
+var cloud=new THREE.Group();[[0,0,0,1.6],[-1.7,-.35,0,1.15],[1.7,-.3,0,1.2],[-.8,.7,0,1.15],[.9,.65,.1,1.05],[0,-.6,.4,1.2]].forEach(function(a){var m=new THREE.Mesh(new THREE.SphereGeometry(a[3],28,20),std(0xffffff,{e:0x8899ff,ei:.18,r:.8}));m.position.set(a[0],a[1],a[2]);cloud.add(m);});
+var sun=new THREE.Mesh(new THREE.SphereGeometry(.62,28,20),std(0xe8835a,{e:0xe8835a,ei:.5}));sun.position.set(0,.1,1.55);cloud.add(sun);
+[-.22,.22].forEach(function(x){var e=new THREE.Mesh(new THREE.SphereGeometry(.09,12,10),new THREE.MeshBasicMaterial({color:0xffffff}));e.position.set(x,.22,2.1);cloud.add(e);});
+var cl=label("클라우드 클로드","#ffd166",4.6);cl.position.set(0,-1.9,1);cloud.add(cl);
+cloud.position.set(0,5.2,0);scene.add(cloud);
+/* 스마트폰 */
+var phone=new THREE.Group();var pb=new THREE.Mesh(new THREE.BoxGeometry(2.1,4,.28),std(0x141a40,{m:.4,r:.3}));phone.add(pb);
+var scrC=document.createElement("canvas");scrC.width=256;scrC.height=480;var scrX=scrC.getContext("2d"),scrT=new THREE.CanvasTexture(scrC);
+var scr=new THREE.Mesh(new THREE.PlaneGeometry(1.86,3.6),new THREE.MeshBasicMaterial({map:scrT}));scr.position.z=.15;phone.add(scr);
+var rim=new THREE.Mesh(new THREE.BoxGeometry(2.2,4.1,.2),std(0xffd166,{m:.6,r:.3,e:0xffd166,ei:.2}));rim.position.z=-.06;phone.add(rim);
+var pl=label("내 스마트폰","#ffd166",3.6);pl.position.set(0,-2.6,0);phone.add(pl);
+phone.position.set(0,-.6,1);scene.add(phone);
+function drawScreen(n){var x=scrX;x.fillStyle="#0d1236";x.fillRect(0,0,256,480);x.fillStyle="#ffd166";x.font="900 22px sans-serif";x.textAlign="center";x.fillText("Claude",128,34);
+  var B=[["악보 만들어 줘",1],["🎼 완성!",0],["3D 영상!",1],["🎹 완성!",0],["홈페이지!",1],["🌐 완성!",0]];
+  for(var i=0;i<Math.min(n,B.length);i++){var me=B[i][1],y=60+i*66;x.fillStyle=me?"#ffd166":"#6ec3ff";var w=170;x.beginPath();x.roundRect?x.roundRect(me?256-w-12:12,y,w,50,16):x.rect(me?256-w-12:12,y,w,50);x.fill();x.fillStyle="#06102a";x.font="900 22px sans-serif";x.fillText(B[i][0],me?256-w/2-12:12+w/2,y+33);}
+  scrT.needsUpdate=true;}
+var lastN=-1;
+/* 집 컴퓨터 (노트북) */
+var lap=new THREE.Group();var lb=new THREE.Mesh(new THREE.BoxGeometry(3,.15,2),std(0x8b93c9,{m:.5,r:.35}));lap.add(lb);
+var lsP=new THREE.Group();lsP.position.set(0,.07,-1);var ls=new THREE.Mesh(new THREE.BoxGeometry(3,2,.1),std(0x8b93c9,{m:.5,r:.35}));ls.position.y=1;lsP.add(ls);
+var lsc=new THREE.Mesh(new THREE.PlaneGeometry(2.7,1.7),new THREE.MeshBasicMaterial({color:0x6ec3ff}));lsc.position.set(0,1,.06);lsP.add(lsc);lap.add(lsP);lsP.rotation.x=-.25;
+var ll=label("집 컴퓨터","#6ec3ff",3.4);ll.position.set(0,-1,0);lap.add(ll);
+lap.position.set(-4.6,-2.2,-1);lap.rotation.y=.45;scene.add(lap);
+/* GitHub 금고 */
+var vault=new THREE.Group();var vb=new THREE.Mesh(new THREE.BoxGeometry(2.6,2.6,2.6),std(0x161b22,{m:.7,r:.3}));vault.add(vb);
+var door=new THREE.Mesh(new THREE.CylinderGeometry(.85,.85,.2,40),std(0xffd166,{m:.8,r:.25,e:0xffd166,ei:.25}));door.rotation.x=Math.PI/2;door.position.z=1.35;vault.add(door);
+var dial=new THREE.Group();for(var i=0;i<4;i++){var sp=new THREE.Mesh(new THREE.BoxGeometry(.16,1.3,.16),std(0x8b93c9,{m:.8}));sp.rotation.z=i*Math.PI/4;dial.add(sp);}dial.position.z=1.5;vault.add(dial);
+var vl=label("GitHub 금고","#ffd166",3.8);vl.position.set(0,-2.1,0);vault.add(vl);
+vault.position.set(4.6,-2.2,-1);vault.rotation.y=-.45;scene.add(vault);
+/* 날아다니는 파일 */
+var files=[];for(i=0;i<4;i++){var f=new THREE.Mesh(new THREE.BoxGeometry(.6,.75,.12),std(0xffd166,{e:0xffd166,ei:.5}));f.visible=false;scene.add(f);files.push(f);}
+/* 웹페이지 판 */
+var webC=document.createElement("canvas");webC.width=512;webC.height=320;(function(){var x=webC.getContext("2d");x.fillStyle="#fffaf2";x.fillRect(0,0,512,320);x.fillStyle="#2a1866";x.fillRect(0,0,512,54);x.fillStyle="#fff";x.font="900 26px sans-serif";x.fillText("poianopks.github.io",20,36);
+ x.fillStyle="#ffd166";x.fillRect(20,72,472,52);x.fillStyle="#1b1150";x.font="900 30px sans-serif";x.fillText("🎹 성실피아노 공부방",40,108);["#6ec3ff","#3ddc84","#e8835a"].forEach(function(c,k){x.fillStyle=c;x.fillRect(20+k*162,142,148,160);});})();
+var web=new THREE.Mesh(new THREE.PlaneGeometry(5.6,3.5),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(webC),transparent:true}));web.position.set(0,1.2,2.5);web.visible=false;scene.add(web);
+/* 기록 고리 */
+var ring=new THREE.Group();for(i=0;i<10;i++){var c=new THREE.Mesh(new THREE.SphereGeometry(.28,16,12),std(i===9?0xff5a5f:0x3ddc84,{e:i===9?0xff5a5f:0x3ddc84,ei:.4}));c.position.set(Math.cos(i/10*Math.PI*2)*3.2,Math.sin(i/10*Math.PI*2)*3.2,0);ring.add(c);}ring.position.set(4.6,-2.2,-1);ring.scale.setScalar(.75);ring.visible=false;scene.add(ring);
+/* 톱니(자동 일꾼) */
+var gear=new THREE.Group();var gd=new THREE.Mesh(new THREE.CylinderGeometry(1.1,1.1,.35,32),std(0x6ec3ff,{m:.6,r:.3,e:0x6ec3ff,ei:.25}));gd.rotation.x=Math.PI/2;gear.add(gd);
+for(i=0;i<10;i++){var tooth=new THREE.Mesh(new THREE.BoxGeometry(.4,.5,.35),std(0x6ec3ff,{m:.6,r:.3}));var a=i/10*Math.PI*2;tooth.position.set(Math.cos(a)*1.25,Math.sin(a)*1.25,0);tooth.rotation.z=a;gear.add(tooth);}
+gear.position.set(4.6,.6,-.4);gear.scale.setScalar(.8);gear.visible=false;scene.add(gear);
+/* 달 */
+var moon=new THREE.Mesh(new THREE.SphereGeometry(1,28,20),std(0xfff1b8,{e:0xffd166,ei:.6}));moon.position.set(-4.5,6.5,-4);moon.visible=false;scene.add(moon);
+/* 건반 (아래 띠) */
+var kb=new THREE.Group();var KEYS=[];for(i=0;i<22;i++){var w=new THREE.Mesh(new THREE.BoxGeometry(.5,.25,2),std(0xf7f4ec,{r:.45}));w.position.set((i-10.5)*.52,0,0);kb.add(w);KEYS.push(w);
+ if([0,1,3,4,5].indexOf(i%7)>=0&&i<21){var bk=new THREE.Mesh(new THREE.BoxGeometry(.3,.3,1.2),std(0x141218,{r:.35}));bk.position.set((i-10.5)*.52+.26,.18,-.4);kb.add(bk);}}
+kb.position.set(0,-5.6,1.2);kb.rotation.x=.5;
+/* ---------- 장면 ---------- */
+function ease(x){x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);}
+function segAt(t){for(var i=SEGS.length-1;i>=0;i--)if(t>=SEGS[i].t0)return i;return 0;}
+var CAMS={hook:[0,1,15.5,0,.6,0],cloud:[0,4.6,10.5,0,4.2,0],pcoff:[-3.4,-.6,8.5,-4.6,-1.6,-1],phone:[0,-.2,10,0,-.7,1],sleep:[0,1.6,15.5,0,1,0],github:[3,-.4,9.5,4.6,-1.6,-1],pages:[0,1.3,10.5,0,1.2,2],history:[3,-.4,10.5,4.6,-1.6,-1],vault:[0,.4,15.5,0,.2,0],robot:[3,0,10.5,4.6,-.9,-1],outro:[0,1,15.5,0,.6,0]};
+var cur=-1,camP=new THREE.Vector3(0,.6,15),camL=new THREE.Vector3(0,0,0);
+function render(t){
+  var si=segAt(t),S=SEGS[si],sc=S.sc,lt=t-S.t0,pt=si>0?SEGS[si-1].sc:sc;
+  if(si!==cur){cur=si;$("title").textContent=S.title;$("cap").textContent=S.text;
+    Array.prototype.forEach.call(document.querySelectorAll("#svgbox svg"),function(s){s.classList.remove("on");});
+    [].forEach.call($("dots").children,function(d,k){d.classList.toggle("on",k===si);});}
+  var sv=$("sv-"+sc);if(sv){sv.classList.add("on");try{sv.pauseAnimations();sv.setCurrentTime(Math.max(0,lt));}catch(e){}}
+  var tin=ease(lt/.45);$("title").style.opacity=tin;$("title").style.transform="translateY("+(1-tin)*30+"px) scale("+(.92+.08*tin)+")";
+  $("svgbox").style.opacity=ease(lt/.35);
+  $("flash").style.opacity=sc==="github"&&lt<.5?(.5-lt)*1.2:0;
+  /* 카메라 (이전 장면에서 부드럽게) */
+  var A=CAMS[pt],B=CAMS[sc],k=ease(lt/1.1),drift=Math.sin(t*.4)*.3;
+  camP.set(A[0]+(B[0]-A[0])*k+drift,A[1]+(B[1]-A[1])*k,A[2]+(B[2]-A[2])*k);cam.position.copy(camP);
+  camL.set(A[3]+(B[3]-A[3])*k,A[4]+(B[4]-A[4])*k,A[5]+(B[5]-A[5])*k);cam.lookAt(camL);
+  /* 물체 */
+  cloud.position.y=5.2+Math.sin(t*1.1)*.18;cloud.rotation.y=Math.sin(t*.5)*.15;sun.scale.setScalar(1+.08*Math.sin(t*4));
+  var phoneOn=["hook","phone","sleep","outro","cloud"].indexOf(sc)>=0;phone.scale.setScalar(sc==="phone"?1.25:1);phone.rotation.y=Math.sin(t*.8)*.25;phone.position.y=-.6+Math.sin(t*1.3)*.12;
+  var n=sc==="phone"?Math.min(6,Math.floor(lt/1.35)+1):sc==="hook"||sc==="cloud"?2:sc==="outro"?6:0;if(n!==lastN){lastN=n;drawScreen(n);}
+  var dim=sc==="pcoff"||sc==="sleep";lsc.material.color.setHex(dim?0x05060f:0x6ec3ff);lap.scale.setScalar(sc==="pcoff"?1.25:1);
+  var vaultBig=["github","vault","history","robot"].indexOf(sc)>=0;vault.scale.setScalar(vaultBig?1.2+.05*Math.sin(t*3):1);dial.rotation.z=t*1.5;door.material.emissiveIntensity=vaultBig?.6:.2;
+  moon.visible=sc==="sleep";web.visible=sc==="pages";if(web.visible){web.scale.setScalar(ease(lt/.6));web.rotation.y=Math.sin(t*.7)*.15;}
+  ring.visible=sc==="history";if(ring.visible){ring.rotation.z=lt<2.6?lt*.8:2.08-(lt-2.6)*1.6;}
+  gear.visible=sc==="robot";gear.rotation.z=-t*2.2;
+  /* 파일이 날아다님: cloud→phone (phone/hook), cloud→vault→laptop (vault), cloud→vault (github/pages) */
+  var path=null;if(sc==="vault")path=[cloud.position,vault.position,lap.position];else if(sc==="phone"||sc==="sleep")path=[cloud.position,phone.position];else if(sc==="github"||sc==="pages"||sc==="robot")path=[cloud.position,vault.position];
+  files.forEach(function(f,j){if(!path){f.visible=false;return;}f.visible=true;var u=((lt*.45+j/files.length)%1)*(path.length-1),s=Math.floor(u),fr=u-s;
+    f.position.lerpVectors(path[s],path[Math.min(s+1,path.length-1)],fr);f.position.y+=Math.sin(fr*Math.PI)*1.2;f.rotation.set(t*2+j,t*1.5,0);});
+  /* 건반: 피아노 박자(84bpm 8분)마다 */
+  var step=Math.floor(t/(60/84/2)),hit=[0,4,7,9,7,4,2,4][step%8]+(Math.floor(step/8)%4===1?-3:Math.floor(step/8)%4===2?-2:Math.floor(step/8)%4===3?-4:0)+7;
+  KEYS.forEach(function(kk,j){var on=j===hit||j===hit-7;kk.position.y=on?-.08:0;kk.material.color.setHex(on?(j===hit?0xffd166:0x6ec3ff):0xf7f4ec);});
+  R.render(scene,cam);
+}
+window.VTOTAL=TL.total;window.renderVideo=render;
+if(REC){window.READY=true;render(0);return;}
+/* 페이지에서 보기: 영상과 맞춰 재생 */
+var au=new Audio("media/cloud-claude-shorts.mp3");var playing=false;
+stage.addEventListener("click",function(){if(playing){au.pause();playing=false;}else{au.play();playing=true;}});
+(function loop(){render(playing?au.currentTime:0);requestAnimationFrame(loop);})();
+})();
+</script>
+</body>
+</html>
