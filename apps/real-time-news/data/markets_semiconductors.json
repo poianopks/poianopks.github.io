@@ -6,17 +6,17 @@
       "nameKo": "삼성전자",
       "role": "DRAM/NAND/파운드리",
       "currency": "KRW",
-      "price": 193600,
-      "change": 3300,
-      "changePercent": 1.734104,
-      "volume": "12.14M",
+      "price": 194700,
+      "change": 4400,
+      "changePercent": 2.3121386,
+      "volume": "19.50M",
       "week52High": 374500,
       "week52Low": 94500,
-      "distFromHigh": -48.30440587449934,
-      "priceToBook": 2.23,
+      "distFromHigh": -48.010680907877166,
+      "priceToBook": 2.28,
       "bps": 86052,
-      "trailingPE": 8.63,
-      "forwardPE": 4.22,
+      "trailingPE": 8.81,
+      "forwardPE": 4.31,
       "eps": 22292,
       "cnsEps": 45565
     },
@@ -26,17 +26,17 @@
       "nameKo": "SK하이닉스",
       "role": "DRAM/HBM",
       "currency": "KRW",
-      "price": 1154000,
-      "change": 56000,
-      "changePercent": 5.100182,
-      "volume": "2.38M",
+      "price": 1144000,
+      "change": 46000,
+      "changePercent": 4.1894355,
+      "volume": "3.85M",
       "week52High": 2987000,
       "week52Low": 501000,
-      "distFromHigh": -61.36591898225644,
-      "priceToBook": 3.1,
+      "distFromHigh": -61.70070304653499,
+      "priceToBook": 3.15,
       "bps": 368998,
-      "trailingPE": 5.1,
-      "forwardPE": 3.22,
+      "trailingPE": 5.19,
+      "forwardPE": 3.27,
       "eps": 224313,
       "cnsEps": 355971
     },
@@ -53,8 +53,8 @@
       "week52High": 243.37,
       "week52Low": 148.8,
       "distFromHigh": -36.12195422607552,
-      "trailingPE": 19.728428,
-      "forwardPE": 9.79029
+      "trailingPE": 19.653605,
+      "forwardPE": 9.61148
     },
     {
       "symbol": "ASML",
@@ -69,7 +69,7 @@
       "week52High": 1999.96,
       "week52Low": 946.11,
       "distFromHigh": -30.843116862337254,
-      "trailingPE": 34.612362,
+      "trailingPE": 34.03322,
       "forwardPE": 21.81586
     },
     {
@@ -85,7 +85,7 @@
       "week52High": 487.47,
       "week52Low": 266.82,
       "distFromHigh": -26.212895152522208,
-      "trailingPE": 24.20525,
+      "trailingPE": 23.311083,
       "forwardPE": 15.381037
     },
     {
@@ -101,7 +101,7 @@
       "week52High": 1255,
       "week52Low": 192.59,
       "distFromHigh": -43.23346613545817,
-      "trailingPE": 9.673048,
+      "trailingPE": 9.584555,
       "forwardPE": 3.4290447
     },
     {
@@ -117,7 +117,7 @@
       "week52High": 739.67,
       "week52Low": 215.5,
       "distFromHigh": -52.785701731853386,
-      "trailingPE": 27.760733,
+      "trailingPE": 27.672743,
       "forwardPE": 14.176914
     },
     {
@@ -149,7 +149,7 @@
       "week52High": 307.37,
       "week52Low": 107.196,
       "distFromHigh": -52.96873474965026,
-      "trailingPE": 36.049873,
+      "trailingPE": 36.230576,
       "forwardPE": 20.345175
     },
     {
@@ -165,7 +165,7 @@
       "week52High": 658.52,
       "week52Low": 188.22,
       "distFromHigh": -23.554333961003458,
-      "trailingPE": 107.79657,
+      "trailingPE": 107.566246,
       "forwardPE": 28.540813
     },
     {
@@ -196,8 +196,8 @@
       "week52High": 259.92,
       "week52Low": 121.99,
       "distFromHigh": -35.87642351492768,
-      "trailingPE": 13.269904,
-      "forwardPE": 13.653976
+      "trailingPE": 13.123622,
+      "forwardPE": 13.681998
     },
     {
       "symbol": "AVGO",
@@ -228,7 +228,7 @@
       "week52High": 334.03,
       "week52Low": 152.73,
       "distFromHigh": -11.427117324791174,
-      "trailingPE": 38.175484,
+      "trailingPE": 38.37354,
       "forwardPE": 25.433825
     }
   ],
@@ -238,9 +238,9 @@
   "signals": [
     {
       "label": "섹터 평균 등락",
-      "value": "+0.10%",
+      "value": "+0.08%",
       "signal": "yellow",
-      "description": "12종목 평균 +0.10% — 보합세, 방향성 탐색 중"
+      "description": "12종목 평균 +0.08% — 보합세, 방향성 탐색 중"
     },
     {
       "label": "52주 고점 거리",
@@ -273,7 +273,7 @@
       "description": "마이크론 -0.92% 보합 — DRAM/NAND 가격 방향 확인 필요"
     }
   ],
-  "updatedAt": "2026-11-18T04:43:43.027Z",
-  "marketStatus": "장개장중",
-  "isRealtime": true
+  "updatedAt": "2026-11-18T11:33:32.626Z",
+  "marketStatus": "장마감",
+  "isRealtime": false
 }
