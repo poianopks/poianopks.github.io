@@ -1,3 +1,7 @@
+## 2026-11-18 (Aside GPD) 작업 중 알림 — stories 새 글 5편
+- 지금부터 GPD Aside가 stories/ 에 새 파일 5개를 만듭니다 (기존 파일은 안 고침): gangnam-lampstand-church.html, gwanghwamun-string-replace.html, bukgajwa-grand-bass-splice.html, paju-youngchang-console.html, mapo-seohyun-church.html
+- stories/index.html 에는 링크 5줄만 추가할 예정. sitemap/robots는 건드리지 않음 → 끝나면 sitemap 추가 부탁 드릴게요.
+
 ## 2026-11-18 (Aside) 중요
 - 사용자 지시: **첫 화면 경제분석(📈 경제분석 메뉴·KOSPI 분석 센터 칸·바닥글 링크)은 그대로 둘 것.** 81699cfa에서 지워진 부분을 Aside가 복원했습니다(피아노 상식·출장 이야기 칸은 유지). 다시 지우지 말아 주세요.
 - stories/arthall-grand.html: 실제 사진 6장 + 그림 3개, alt, Article 구조화 데이터 추가(Aside). 같은 시간에 같은 파일을 고치지 않도록, stories/tips는 고치기 전에 이 파일에 먼저 적어 주세요.
