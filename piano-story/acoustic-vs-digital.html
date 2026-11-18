@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>일반 피아노와 전자피아노, 소리는 어떻게 다를까 — 해머와 줄 vs 센서와 스피커 | 피아노 이야기</title><meta name="description" content="어쿠스틱(일반) 피아노는 해머가 줄을 치고 향판이 울려 소리를 내고, 전자피아노는 센서가 누른 세기를 읽어 저장된 소리나 계산한 소리를 스피커로 냅니다. MIDI, 샘플링, 모델링, 하이브리드·사일런트 피아노까지 조율사가 원리를 그림으로 설명합니다."/><link rel="canonical" href="https://poianopks.github.io/piano-story/acoustic-vs-digital.html"/>
+<meta property="og:type" content="article"/><meta property="og:title" content="일반 피아노와 전자피아노, 소리는 어떻게 다를까 — 해머와 줄 vs 센서와 스피커 | 피아노 이야기"/><meta property="og:url" content="https://poianopks.github.io/piano-story/acoustic-vs-digital.html"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"일반 피아노와 전자피아노, 소리는 어떻게 다를까 — 해머와 줄 vs 센서와 스피커 | 피아노 이야기","datePublished":"2026-11-18","author":{"@type":"Person","name":"박근성","jobTitle":"피아노조율사","url":"https://poianopks.github.io/about.html"},"publisher":{"@type":"Organization","name":"성실피아노"}}</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<style>
+:root{--ink:#2b2118;--sub:#6b5d50;--bg:#fbf7f0;--card:#fff;--line:#e8dccb;--acc:#b5651d}
+*{box-sizing:border-box}body{margin:0;font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--ink);line-height:1.85;font-size:17px}
+header{background:#2b2118;color:#fff;padding:12px 18px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}header a{color:#ffe0b2;text-decoration:none;font-weight:700}header b{margin-right:auto}
+main{max-width:820px;margin:0 auto;padding:22px 18px 60px}h1{font-size:1.75rem;line-height:1.4;margin:.3em 0}h2{font-size:1.3rem;margin:1.8em 0 .4em;border-left:6px solid var(--acc);padding-left:10px}h3{font-size:1.08rem;margin:1.2em 0 .2em}
+.meta{color:var(--sub);font-size:.92rem}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0}
+.tip{background:#fff7e8;border:1px solid #f0d9b0;border-radius:12px;padding:12px 16px;margin:14px 0}.guess{background:#eef4ff;border:1px solid #c9d8f5;border-radius:12px;padding:12px 16px;margin:14px 0}
+ul,ol{padding-left:1.2em}li{margin:4px 0}figure{margin:16px 0}figure img,figure svg,figure canvas{width:100%;height:auto;border-radius:10px;display:block;background:#fff}figcaption{color:var(--sub);font-size:.9rem;margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:.95rem}th,td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}th{background:#f5ead9}
+.list a{display:block;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:12px;margin:10px 0;color:var(--ink);text-decoration:none}.list a b{color:var(--acc)}
+.toc{background:#fff;border:1px dashed var(--line);border-radius:12px;padding:10px 16px}
+footer{max-width:820px;margin:0 auto;padding:20px 18px;color:var(--sub);font-size:.9rem;border-top:1px solid var(--line)}a{color:var(--acc)}
+</style></head><body>
+<header><b>🎹 성실피아노 · 피아노조율사의 공부방</b><a href="/">홈</a><a href="/piano-story/">피아노 이야기</a><a href="/stories/">출장 이야기</a><a href="/tips/">피아노 상식</a><a href="/piano-tuning-guide.html">조율 가이드</a><a href="/claude/">음악 공부방</a><a href="/about.html">소개</a><a href="/contact.html">문의</a></header>
+<main><h1>일반 피아노와 전자피아노, 소리는 어떻게 다를까</h1>
+<p class="meta">피아노 이야기 · 글 피아노조율사 박근성 (성실피아노)</p>
+<p>"전자피아노도 조율해야 하나요?" 자주 받는 질문입니다. 답은 "아니요"입니다. 전자피아노는 줄이 없으니까요. 그렇다면 두 피아노는 소리를 내는 방식이 얼마나 다를까요? 어떤 피아노를 살지 고르는 요령은 <a href="/tips/digital-vs-acoustic.html">디지털 vs 어쿠스틱 비교</a>에 따로 정리해 두었고, 이 글에서는 <b>소리가 만들어지는 원리</b>와 <b>기술의 역사</b>를 조율사의 눈으로 풀어 보겠습니다.</p>
+
+<h2>1. 일반(어쿠스틱) 피아노 — 나무와 쇠가 함께 노래한다</h2>
+<p>일반 피아노의 소리는 네 단계로 만들어집니다.</p>
+<ol><li><b>건반</b>을 누르면 지렛대처럼 움직여</li><li><b>해머</b>(양털을 압축한 펠트로 감싼 나무 망치)가 <b>줄</b>을 칩니다.</li><li>줄의 떨림이 <b>브리지</b>를 타고</li><li>얇은 가문비나무 <b>향판</b>을 울려, 넓은 판 전체가 스피커처럼 공기를 흔듭니다.</li></ol>
+<p>한 음에 줄이 1~3개, 전체 약 230개의 줄이 있고, 건반을 누르지 않은 다른 줄들까지 함께 울립니다(공명). 그래서 같은 '도'라도 앞뒤에 친 음, 페달, 방의 크기에 따라 소리가 조금씩 달라집니다. 이 살아 있는 울림이 어쿠스틱 피아노의 가장 큰 매력이고, 동시에 온도와 습도에 따라 음이 변해서 <b>조율이 필요한 이유</b>이기도 합니다.</p>
+<figure><svg viewBox="0 0 640 300" role="img" aria-label="일반 피아노와 전자피아노의 소리 만드는 과정 비교 애니메이션">
+<rect width="640" height="300" fill="#fffaf2"/>
+<text x="20" y="30" font-size="18" font-weight="700" fill="#2b2118">소리가 만들어지는 길</text>
+<g font-size="14" fill="#2b2118">
+<text x="20" y="70" font-weight="700" fill="#b5651d">일반 피아노</text>
+<rect x="20" y="82" width="110" height="40" rx="8" fill="#fff" stroke="#b5651d"/><text x="48" y="107">건반</text>
+<rect x="170" y="82" width="110" height="40" rx="8" fill="#fff" stroke="#b5651d"/><text x="198" y="107">해머</text>
+<rect x="320" y="82" width="110" height="40" rx="8" fill="#fff" stroke="#b5651d"/><text x="356" y="107">줄</text>
+<rect x="470" y="82" width="150" height="40" rx="8" fill="#fff" stroke="#b5651d"/><text x="496" y="107">향판 → 공기</text>
+<circle r="7" fill="#b5651d" cy="102"><animate attributeName="cx" values="75;225;375;545" dur="2.4s" repeatCount="indefinite"/></circle>
+<text x="20" y="180" font-weight="700" fill="#2e5fa8">전자피아노</text>
+<rect x="20" y="192" width="110" height="40" rx="8" fill="#fff" stroke="#2e5fa8"/><text x="48" y="217">건반</text>
+<rect x="170" y="192" width="110" height="40" rx="8" fill="#fff" stroke="#2e5fa8"/><text x="188" y="217">센서(세기)</text>
+<rect x="320" y="192" width="110" height="40" rx="8" fill="#fff" stroke="#2e5fa8"/><text x="330" y="217">음원 칩/계산</text>
+<rect x="470" y="192" width="150" height="40" rx="8" fill="#fff" stroke="#2e5fa8"/><text x="506" y="217">스피커 → 공기</text>
+<circle r="7" fill="#2e5fa8" cy="212"><animate attributeName="cx" values="75;225;375;545" dur="1.2s" repeatCount="indefinite"/></circle></g>
+<text x="20" y="280" font-size="14" fill="#6b5d50">일반 피아노는 '진짜 진동', 전자피아노는 '진동을 다시 만든 신호'입니다.</text></svg><figcaption>▲ 직접 그린 원리 그림.</figcaption></figure>
+
+<h2>2. 전자피아노 — 누른 세기를 숫자로 읽는다</h2>
+<p>전자피아노 건반 아래에는 보통 2~3개의 <b>센서</b>가 있어서, 건반이 내려가는 <b>속도</b>를 재서 얼마나 세게 눌렀는지 계산합니다. 이 정보를 바탕으로 소리를 만드는 방법은 크게 두 가지입니다.</p>
+<h3>① 샘플링 — 진짜 피아노 소리를 녹음해 두었다가 재생</h3>
+<p>좋은 그랜드피아노의 88개 음을 여러 세기로 하나하나 녹음해 저장해 두고, 누른 세기에 맞는 녹음을 꺼내 들려줍니다. 지금 대부분의 전자피아노가 이 방식입니다. 제 유튜브 3D 레슨 영상의 피아노 소리도 야마하 C5 그랜드피아노를 녹음한 공개 음원(Salamander Grand Piano)을 쓴 것입니다.</p>
+<h3>② 모델링 — 줄과 향판의 떨림을 계산</h3>
+<p>녹음 대신 해머가 줄을 치고 향판이 울리는 과정을 수학으로 계산해 소리를 만드는 방식입니다. 2000년대 후반부터 컴퓨터가 빨라지면서 실제 악기와 프로그램에서 쓰이기 시작했습니다. 누를 때마다 조금씩 다른 소리를 만들 수 있다는 장점이 있습니다.</p>
+
+<h2>3. 전자 악기의 짧은 역사</h2>
+<table><tr><th>연도</th><th>일어난 일</th></tr><tr><td>1983년</td><td>전자 악기끼리 연주 정보를 주고받는 약속 <b>MIDI</b> 발표</td></tr><tr><td>1980년대</td><td>가정용 디지털 피아노 본격 등장</td></tr><tr><td>1990년대</td><td>일반 피아노에 센서를 단 <b>사일런트(방음) 피아노</b> 등장</td></tr><tr><td>2000년대 후반</td><td>모델링 방식 피아노 소리, 어쿠스틱 액션을 넣은 <b>하이브리드 피아노</b></td></tr><tr><td>2010년대~</td><td>블루투스·앱 연결, 레슨 앱과 함께 쓰는 피아노</td></tr></table>
+<p>MIDI 덕분에 전자피아노는 컴퓨터와 연결되어 악보 프로그램, 작곡 프로그램, 레슨 앱의 '입력 장치'가 되었습니다. 이 이야기는 <a href="/piano-story/music-software-future.html">음악 소프트웨어와 음악의 미래</a>로 이어집니다.</p>
+
+<h2>4. 한눈에 비교</h2>
+<table><tr><th></th><th>일반 피아노</th><th>전자피아노</th></tr><tr><td>소리</td><td>줄과 향판의 실제 울림, 공명이 풍부</td><td>녹음·계산된 소리, 스피커 품질에 따라 다름</td></tr><tr><td>건반 느낌</td><td>해머 액션의 무게와 반발</td><td>모델마다 차이, 고급형은 비슷하게 흉내</td></tr><tr><td>음량</td><td>조절 어려움(사일런트 장치로 해결)</td><td>볼륨·헤드폰 자유</td></tr><tr><td>관리</td><td>1년 1~2회 조율, 습도 관리</td><td>조율 불필요, 전자 부품 수명</td></tr><tr><td>수명</td><td>관리하면 수십 년</td><td>보통 전자 제품 수준</td></tr></table>
+
+<h2>5. 둘의 장점을 합친 사일런트·하이브리드</h2>
+<p>아파트 생활에서 가장 현실적인 답은 <b>일반 피아노에 사일런트 장치</b>를 다는 것입니다. 낮에는 진짜 피아노 소리로, 밤에는 같은 건반으로 헤드폰을 끼고 칩니다. 원리와 설치 과정은 <a href="/tips/silent-piano.html">사일런트(방음) 장치 글</a>과 <a href="/silent/">제니오 사일런트 안내</a>에 정리해 두었습니다.</p>
+<div class="tip"><b>조율사의 한마디</b><ul><li>손가락 힘과 음색 조절을 기르려면 일반 피아노가 좋습니다.</li><li>밤 연습, 헤드폰, 작곡·레슨 앱 연결이 중요하면 전자피아노도 훌륭한 선택입니다.</li><li>둘 다 필요하면 사일런트 장치가 중간 답입니다.</li></ul></div>
+<p class="meta">그림은 직접 만든 것입니다. · 글 피아노조율사 박근성 · 📞 <a href="tel:01087568740">010-8756-8740</a></p></main>
+<footer>성실피아노 · 피아노조율사 박근성 · 서울·경기·인천 출장 조율·운반 · 📞 <a href="tel:01087568740">010-8756-8740</a> · <a href="/piano-story/">피아노 이야기</a> · <a href="/about.html">소개</a> · <a href="/contact.html">문의</a> · <a href="/privacy.html">개인정보처리방침</a></footer></body></html>
