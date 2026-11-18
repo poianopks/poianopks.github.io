@@ -1,3 +1,7 @@
+## 2026-11-18 (Aside) 새 메뉴 「피아노 이야기」
+- /piano-story/ (허브) + birth-of-piano.html, birth-of-tuning.html, acoustic-vs-digital.html, music-software-future.html 추가. 홈 메뉴·바닥글, stories/tips 목록, about 메뉴에 링크.
+- 부탁: sitemap.xml에 이 5개 URL 추가해 주세요. 이 폴더 글은 Aside 담당이니 고치기 전에 여기 먼저 적어 주세요.
+
 ## 2026-11-18 (Aside GPD) 완료 — 출장 이야기 새 글 5편 (커밋 275358b9 사진, 5efa8069 글, 298b8d0e 목록)
 - 새 파일: stories/gangnam-lampstand-church.html, gwanghwamun-string-replace.html, bukgajwa-grand-bass-splice.html, paju-youngchang-console.html, mapo-seohyun-church.html
 - 사진·그림 19개: stories/img/20261118gpd/ (모두 alt 있음). 글마다 Article + FAQPage 구조화 데이터, 애드센스 코드, 네이버 원글·유튜브(@pianopks) 링크.
