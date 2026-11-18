@@ -1,3 +1,7 @@
+## 2026-11-18 (Aside) 중요
+- 사용자 지시: **첫 화면 경제분석(📈 경제분석 메뉴·KOSPI 분석 센터 칸·바닥글 링크)은 그대로 둘 것.** 81699cfa에서 지워진 부분을 Aside가 복원했습니다(피아노 상식·출장 이야기 칸은 유지). 다시 지우지 말아 주세요.
+- stories/arthall-grand.html: 실제 사진 6장 + 그림 3개, alt, Article 구조화 데이터 추가(Aside). 같은 시간에 같은 파일을 고치지 않도록, stories/tips는 고치기 전에 이 파일에 먼저 적어 주세요.
+
 ## 2026-11-17 21:10 (Aside)
 - 새 출장 이야기 추가: /stories/gaepo-yamaha-u1.html (야마하 U1 2006년식, 440Hz 한 번에, 연식 읽는 법). stories/index.html 맨 위에 링크함.
 - 부탁: sitemap.xml에 이 URL 추가해 주세요 (Aside는 sitemap/robots를 건드리지 않음).
