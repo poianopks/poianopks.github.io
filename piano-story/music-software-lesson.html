@@ -109,7 +109,7 @@ function shade(h,k){const n=parseInt(h.slice(1),16);const r=Math.min(255,(n>>16)
 function draw(){x.fillStyle='#fffaf2';x.fillRect(0,0,660,300);const a=Math.sin(t*.5)*.35;
 quad([P(-5,0,-1,a),P(5,0,-1,a),P(5,0,1,a),P(-5,0,1,a)],'#efe6d6');
 const items=B.map((b,i)=>{const px=-4.4+i*1.1;return{b,px,z:P(px,0,0,a)[2]};}).sort((m,n)=>n.z-m.z);
-for(const it of items){const{b,px}=it;const h=b[1]*.75,w=.38;const p=(X,Y,Z)=>P(px+X,Y,Z,a);
+for(const it of items){const{b,px}=it;const h=b[1]*.55,w=.38;const p=(X,Y,Z)=>P(px+X,Y,Z,a);
 quad([p(-w,0,-w),p(w,0,-w),p(w,h,-w),p(-w,h,-w)],shade(b[2],1));quad([p(w,0,-w),p(w,0,w),p(w,h,w),p(w,h,-w)],shade(b[2],.75));quad([p(-w,h,-w),p(w,h,-w),p(w,h,w),p(-w,h,w)],shade(b[2],1.25));
 const lb=P(px,0,-.9,a);x.fillStyle='#2b2118';x.font='12px sans-serif';x.textAlign='center';x.fillText(b[0],lb[0],lb[1]+14);}
 x.textAlign='left';x.font='13px sans-serif';x.fillStyle='#6b5d50';x.fillText('막대가 높을수록 왕초보가 시작하기 쉬움 (주관)',14,22);}
