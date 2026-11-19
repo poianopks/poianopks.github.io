@@ -4,7 +4,7 @@
     "change": 70.450195,
     "changePercent": 1.3902522,
     "previousClose": 5067.44,
-    "marketState": "POSTPOST"
+    "marketState": "PREPRE"
   },
   "kosdaq": {
     "value": 684.81,
@@ -12,9 +12,9 @@
     "changePercent": 3.3192017,
     "previousClose": 650.06
   },
-  "bondYield10y": 5.066,
-  "bondYield30y": 5.4119997,
-  "vixLevel": 22.02,
+  "bondYield10y": 5.068,
+  "bondYield30y": 5.413,
+  "vixLevel": 25.39,
   "riskItems": [
     {
       "title": "미국 30년물 금리 5.41%",
@@ -27,7 +27,7 @@
       "level": "high"
     },
     {
-      "title": "VIX 공포지수 22.0",
+      "title": "VIX 공포지수 25.4",
       "detail": "불안 구간. 변동성 확대 중. 분할 매수 접근 권장, 풀베팅 자제.",
       "level": "medium"
     },
@@ -136,55 +136,55 @@
   "kospiReturns": [
     {
       "label": "1주일",
-      "fromDate": "2026-11-12",
-      "fromClose": 5343,
-      "toClose": 5138,
-      "returnPct": -3.83,
+      "fromDate": "2026-11-13",
+      "fromClose": 5291,
+      "toClose": 5067,
+      "returnPct": -4.22,
       "isATH": false
     },
     {
       "label": "1개월",
-      "fromDate": "2026-10-20",
-      "fromClose": 5553,
-      "toClose": 5138,
-      "returnPct": -7.47,
+      "fromDate": "2026-10-21",
+      "fromClose": 5736,
+      "toClose": 5067,
+      "returnPct": -11.65,
       "isATH": false
     },
     {
       "label": "3개월",
-      "fromDate": "2026-08-20",
-      "fromClose": 6853,
-      "toClose": 5138,
-      "returnPct": -25.02,
+      "fromDate": "2026-08-21",
+      "fromClose": 6913,
+      "toClose": 5067,
+      "returnPct": -26.7,
       "isATH": false
     },
     {
       "label": "6개월",
-      "fromDate": "2026-05-21",
-      "fromClose": 7816,
-      "toClose": 5138,
-      "returnPct": -34.26,
+      "fromDate": "2026-05-22",
+      "fromClose": 7848,
+      "toClose": 5067,
+      "returnPct": -35.43,
       "isATH": false
     },
     {
       "label": "1년",
-      "fromDate": "2025-11-19",
-      "fromClose": 3930,
-      "toClose": 5138,
-      "returnPct": 30.75,
+      "fromDate": "2025-11-20",
+      "fromClose": 4005,
+      "toClose": 5067,
+      "returnPct": 26.53,
       "isATH": false
     },
     {
       "label": "2년",
-      "fromDate": "2024-11-19",
-      "fromClose": 2472,
-      "toClose": 5138,
-      "returnPct": 107.85,
+      "fromDate": "2024-11-20",
+      "fromClose": 2482,
+      "toClose": 5067,
+      "returnPct": 104.14,
       "isATH": false
     }
   ],
   "kospiAth": 9115,
   "kospiAthDate": "2026-06-22",
-  "updatedAt": "2026-11-19T11:31:47.533Z",
+  "updatedAt": "2026-11-19T16:31:40.702Z",
   "isRealtime": false
 }
