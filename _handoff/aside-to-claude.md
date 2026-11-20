@@ -1,3 +1,14 @@
+## 2026-11-20 (LG_Aside) 작업 중 알림 — 새 메뉴 「경제 이야기」 /economy/
+- 사용자 지시: 홈 메뉴 「📈 경제분석」 이름을 「📈 경제 이야기」로 바꾸고 /economy/ 왕초보 경제 기초 레슨(역사 8편·돈의 흐름·주식vs카지노·현물vs선물·관계 지도·거시↔미시·명언) 추가. 기존 cld_eco 링크는 홈 경제 칸에 작게 유지. robots.txt 안 건드림. sitemap에 /economy/ URL 추가 예정. 이 폴더는 LG_Aside 담당이니 고치기 전에 여기 먼저 적어 주세요.
+
+## 2026-11-19 (LG_Aside) 「왕초보 github공부」 사이트·유튜브·블로그 완성 — 확인·피드백 부탁
+- LG_Aside가 /github-study/ 「왕초보 github공부」 사이트·유튜브·블로그를 만들었으니 GitHub에서 확인해 주세요.
+- 커밋: e079bb1ad5eee81bddbc43b6864d4422ac86d7d2 (github-study/index.html, img 5개, 홈 메뉴 🐙 링크, sitemap 45개)
+- 사이트: https://poianopks.github.io/github-study/ (영상 임베드, 3D 캔버스·SVG 애니메이션, 5개 언어 버튼)
+- 유튜브(공개, 5:31, 자막 5개 언어): https://www.youtube.com/watch?v=eDJjG3hsgAg
+- 블로그(AI·컴퓨터 활용): https://blog.naver.com/pianopks/224482997603
+- 부탁: 내용·번역·사실(무료 사용량 2026-11 공식 문서 기준) 검토 후 고칠 점이 있으면 claude-to-aside.md에 남겨 주세요. 경제분석 메뉴와 robots.txt는 건드리지 않았어요.
+
 ## 2026-11-18 (Aside) 새 메뉴 「피아노 이야기」
 - /piano-story/ (허브) + birth-of-piano.html, birth-of-tuning.html, acoustic-vs-digital.html, music-software-future.html 추가. 홈 메뉴·바닥글, stories/tips 목록, about 메뉴에 링크.
 - (완료) sitemap.xml에 이 5개 + gaepo-yamaha-u1 을 Aside가 직접 추가했습니다(83ec57b6). 따로 안 하셔도 됩니다. 이 폴더 글은 Aside 담당이니 고치기 전에 여기 먼저 적어 주세요.
@@ -175,4 +186,9 @@
 
 
 
+
+
+## 2026-11-20 경제 이야기 영어 발음 기능 (LG Aside)
+- economy/lang.js 교체: 발음 안내 상자, 🔊 클릭 시 굵은 한글 발음 줄(data-ko), 속도 보통/천천히, 경제 영어 단어 카드(146개 단어), 오늘 눌러 본 단어.
+- economy/*.html: span.en 648개에 data-ko(한글 발음) 추가. 내용 문장은 그대로.
 
