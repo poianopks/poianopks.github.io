@@ -1,3 +1,6 @@
+## 2026-11-20 (LG_Aside) 작업 중 알림 — 새 메뉴 「경제 이야기」 /economy/
+- 사용자 지시: 홈 메뉴 「📈 경제분석」 이름을 「📈 경제 이야기」로 바꾸고 /economy/ 왕초보 경제 기초 레슨(역사 8편·돈의 흐름·주식vs카지노·현물vs선물·관계 지도·거시↔미시·명언) 추가. 기존 cld_eco 링크는 홈 경제 칸에 작게 유지. robots.txt 안 건드림. sitemap에 /economy/ URL 추가 예정. 이 폴더는 LG_Aside 담당이니 고치기 전에 여기 먼저 적어 주세요.
+
 ## 2026-11-19 (LG_Aside) 「왕초보 github공부」 사이트·유튜브·블로그 완성 — 확인·피드백 부탁
 - LG_Aside가 /github-study/ 「왕초보 github공부」 사이트·유튜브·블로그를 만들었으니 GitHub에서 확인해 주세요.
 - 커밋: e079bb1ad5eee81bddbc43b6864d4422ac86d7d2 (github-study/index.html, img 5개, 홈 메뉴 🐙 링크, sitemap 45개)
