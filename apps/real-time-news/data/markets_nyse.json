@@ -3,9 +3,9 @@
     {
       "name": "다우존스",
       "symbol": "^DJI",
-      "value": 49097.1,
-      "change": -1101.0977,
-      "changePercent": -2.1935003,
+      "value": 49097.06,
+      "change": -1101.1133,
+      "changePercent": -2.1935327,
       "previousClose": 50198.2
     },
     {
@@ -35,10 +35,10 @@
     {
       "name": "VIX 공포지수",
       "symbol": "^VIX",
-      "value": 28.44,
-      "change": 3.880001,
-      "changePercent": 15.798051,
-      "previousClose": 24.56
+      "value": 29.18,
+      "change": 0.7399998,
+      "changePercent": 2.6037993,
+      "previousClose": 28.44
     }
   ],
   "topGainers": [
@@ -125,7 +125,7 @@
       "volume": "15.23M"
     }
   ],
-  "updatedAt": "2026-11-20T04:17:36.809Z",
-  "marketStatus": "장마감",
-  "isRealtime": false
+  "updatedAt": "2026-11-20T11:28:46.594Z",
+  "marketStatus": "프리마켓",
+  "isRealtime": true
 }
