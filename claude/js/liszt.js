@@ -17,7 +17,7 @@ var ET=[
  {no:3,fr:"Paysage",ko:"풍경",key:"바장조",tempo:"Poco adagio (조금 느리게)",st:3,tech:"노래하는 멜로디 · 화음 레가토",
   say:"12곡 중 가장 평화로운 곡. 시골 들판을 바라보듯 '아주 부드럽게, 한 줄로(una corda)' 시작해요. 기교보다 '노래'를 배우는 곡이에요."},
  {no:4,fr:"Mazeppa",ko:"마제파",key:"라단조",tempo:"Allegro (빠르게)",st:5,tech:"3도 겹음 · 옥타브 · 손 교대",
-  say:"빅토르 위고의 시에서 온 이야기. 말에 묶인 채 초원을 끝없이 달리는 우크라이나 영웅 마제파를 그려요. 두 손이 3도 화음으로 멜로디를 힘차게 이어 가며, 말발굽처럼 쉬지 않고 달려요.",midi:1},
+  yt:"https://youtu.be/tfjVMODnXUo",say:"빅토르 위고의 시에서 온 이야기. 말에 묶인 채 초원을 끝없이 달리는 우크라이나 영웅 마제파를 그려요. 두 손이 3도 화음으로 멜로디를 힘차게 이어 가며, 말발굽처럼 쉬지 않고 달려요.",midi:1},
  {no:5,fr:"Feux follets",ko:"도깨비불",key:"내림나장조",tempo:"Allegretto (조금 빠르게)",st:5,tech:"반음계 겹음 · 가벼운 손가락",
   say:"밤 늪지에서 나타났다 사라지는 작은 불빛. 오른손이 아주 가볍게 반음계 겹음을 굴려요. 12곡 중 가장 어렵다고 하는 피아니스트가 많아요.",midi:1},
  {no:6,fr:"Vision",ko:"환상",key:"사단조",tempo:"Lento (느리게)",st:4,tech:"넓은 펼친화음 · 무거운 화음",
@@ -41,7 +41,7 @@ function stars(n){return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,
     return '<div class="card et" id="et'+e.no+'"><div class="ethead"><span class="etno">'+e.no+'</span><div><b>'+e.ko+'</b><small>'+e.fr+' · '+e.key+'</small></div><span class="sstar" title="난이도">'+stars(e.st)+'</span></div>'+
       '<img loading="lazy" src="media/liszt/e'+(e.no<10?"0":"")+e.no+'.jpg" alt="'+e.no+'번 '+e.ko+' 첫 줄 악보 (20세기 초 브라이트코프 판, 공개 저작물)">'+
       '<p>'+e.say+'</p><p class="small">⏱ '+e.tempo+' · 🖐 '+e.tech+'</p>'+
-      (e.midi?'<button class="btn" data-go="'+e.no+'">▶ 건반으로 들어 보기</button>':'<p class="small" style="opacity:.75">🎧 소리 자료 준비 중 — 악보 사진으로 살펴봐요</p>')+'</div>';}).join("");
+      (e.yt?'<a class="btn alt" style="text-decoration:none;display:inline-block;margin:8px 6px 0 0" href="'+e.yt+'" target="_blank" rel="noopener">📺 3D 영상 (유튜브)</a>':'')+(e.midi?'<button class="btn" data-go="'+e.no+'">▶ 건반으로 들어 보기</button>':'<p class="small" style="opacity:.75">🎧 소리 자료 준비 중 — 악보 사진으로 살펴봐요</p>')+'</div>';}).join("");
   box.addEventListener("click",function(ev){var b=ev.target.closest("[data-go]");if(!b)return;openPiece(+b.dataset.go,0,true);});
 })();
 
