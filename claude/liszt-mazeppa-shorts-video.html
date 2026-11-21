@@ -43,7 +43,7 @@ body{display:grid;place-items:center;min-height:100vh}
 <script>
 (function(){
 "use strict";
-var REC=/[?&]rec=1/.test(location.search),EN=/[?&]lang=en/.test(location.search),$=function(i){return document.getElementById(i);};
+var REC=/[?&]rec=1/.test(location.search),EN=/[?&]lang=(en|none)/.test(location.search),NONE=/[?&]lang=none/.test(location.search),$=function(i){return document.getElementById(i);};
 var wrap=$("wrap"),stage=$("stage");
 function fit(){if(REC){wrap.style.maxWidth="none";wrap.style.width="1080px";return;}stage.style.transform="scale("+(wrap.clientWidth/1080)+")";}
 addEventListener("resize",fit);fit();
@@ -81,7 +81,7 @@ var lines=new THREE.LineSegments(slG,new THREE.LineBasicMaterial({color:0xffb08a
 /* ---------- 장면 ---------- */
 var LOOK=2.2,FALL=26,NP=NOTES.length;
 var CAP=EN?[[0,"🌪 The calm before the storm"],[1,"👑 D major! Chords gallop like hooves"],[5,"⚡ The climax — 40+ notes per second!"],[8,"🐎 The final ride — the whole keyboard"],[11,"\u201CHe falls at last… and rises a King!\u201D"]]:[[0,"🌪 폭풍 전야 — 아래에서 위로 휘몰아쳐요"],[1,"👑 라장조로! 양손 화음이 말발굽처럼"],[5,"⚡ 기교의 클라이맥스 — 1초에 40개 넘는 음!"],[8,"🐎 마지막 질주 — 온 건반을 두드려요"],[11,"「쓰러진다… 그리고 왕으로 일어선다!」"]];
-  if(EN){$("top").innerHTML='<div class="a">🎹 Sungsil Piano · Korea</div><div class="b">Liszt · Transcendental Étude No.4 «Mazeppa» · Final 30 s</div>';}
+  if(NONE){$("top").innerHTML='<div class="a">🎹 Sungsil Piano</div><div class="b">Liszt · «Mazeppa»</div>';}else if(EN){$("top").innerHTML='<div class="a">🎹 Sungsil Piano · Korea</div><div class="b">Liszt · Transcendental Étude No.4 «Mazeppa» · Final 30 s</div>';}
 var imgs={2:$("s2"),3:$("s3"),4:$("s4"),5:$("s5")},SC=1040/1515;
 function ease(x){x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);}
 function render(t){
@@ -122,16 +122,16 @@ function render(t){
   var f=t<B.t0?0:Math.min(1,(t-B.t0)/(B.t1-B.t0)),x=(B.x0+(B.x1-B.x0)*f)*SC;
   $("cur").style.left=(x-3)+"px";$("cur").style.top=(oy+10)+"px";$("cur").style.height=(ih-20)+"px";$("cur").style.display=t<INTRO-0.3||t>END?"none":"block";
   $("hl").style.left=(B.x0*SC)+"px";$("hl").style.width=((B.x1-B.x0)*SC)+"px";$("hl").style.top=oy+"px";$("hl").style.height=ih+"px";
-  $("barno").textContent=EN?"Bar "+B.bar:B.bar+"마디";
-  var ci=0;for(i=0;i<CAP.length;i++)if(bi>=CAP[i][0])ci=i;$("cap").textContent=t<INTRO?"":CAP[ci][1];
-  $("cnt").textContent=t<INTRO?"":EN?"🎹 Notes played: "+count:"🎹 지금까지 친 음 "+count+"개";
+  $("barno").textContent=NONE?String(B.bar):EN?"Bar "+B.bar:B.bar+"마디";
+  var ci=0;for(i=0;i<CAP.length;i++)if(bi>=CAP[i][0])ci=i;$("cap").textContent=t<INTRO||NONE?"":CAP[ci][1];
+  $("cnt").textContent=t<INTRO||NONE?"":EN?"🎹 Notes played: "+count:"🎹 지금까지 친 음 "+count+"개";
   $("flash").style.opacity=Math.min(.35,shake*.12);
   /* 시작·끝 화면 */
   var ov=$("ov");
   if(t<INTRO){ov.style.display="grid";ov.style.background="rgba(5,3,12,"+(t<INTRO-.6?.78:.78*(INTRO-t)/.6)+")";ov.style.opacity=t<INTRO-.6?1:(INTRO-t)/.6;
-    var n3=Math.ceil(INTRO-.6-t);$("ovIn").innerHTML=(EN?'<p style="color:#ffc9b0">One of the hardest piano pieces ever written</p><h1>Liszt<br>«Mazeppa»</h1><p>🐎 Can you survive the final 30 seconds?</p>':'<p style="color:#ffc9b0">피아노 역사상 가장 어려운 곡 중 하나</p><h1>리스트<br>「마제파」</h1><p>🐎 마지막 30초, 버틸 수 있나요?</p>')+(n3>0?'<p style="font-size:120px;color:#ff5a3c;margin-top:30px">'+n3+'</p>':'');}
+    var n3=Math.ceil(INTRO-.6-t);$("ovIn").innerHTML=NONE?'<h1>Liszt<br>«Mazeppa»</h1>'+(n3>0?'<p style="font-size:120px;color:#ff5a3c;margin-top:30px">'+n3+'</p>':''):(EN?'<p style="color:#ffc9b0">One of the hardest piano pieces ever written</p><h1>Liszt<br>«Mazeppa»</h1><p>🐎 Can you survive the final 30 seconds?</p>':'<p style="color:#ffc9b0">피아노 역사상 가장 어려운 곡 중 하나</p><h1>리스트<br>「마제파」</h1><p>🐎 마지막 30초, 버틸 수 있나요?</p>')+(n3>0?'<p style="font-size:120px;color:#ff5a3c;margin-top:30px">'+n3+'</p>':'');}
   else if(t>END){ov.style.display="grid";var o=Math.min(1,(t-END)/.8);ov.style.background="rgba(5,3,12,"+(.85*o)+")";ov.style.opacity=o;
-    $("ovIn").innerHTML=EN?'<h1 style="font-size:80px">👑 Did you make<br>it to the end?</h1><p>▶ Full 6-min 3D video on the channel</p><p style="font-size:38px;color:#ffd166">Free lesson · poianopks.github.io/claude</p><small>Score: Breitkopf &amp; Härtel (public domain) · MIDI: Bernd Krueger, piano-midi.de (CC BY-SA 3.0 DE)<br>Piano: Salamander Grand Piano (CC BY 3.0)<br>© Sungsil Piano · Piano technician Park Geunseong (Korea)</small>':'<h1 style="font-size:80px">👑 끝까지<br>들으셨나요?</h1><p>▶ 전곡 6분 3D 영상은 채널에서</p><p style="font-size:38px;color:#ffd166">무료 공부 교실 · poianopks.github.io/claude</p><small>악보: Breitkopf &amp; Härtel 판 (공개 저작물) · MIDI: Bernd Krueger, piano-midi.de (CC BY-SA 3.0 DE)<br>피아노 음색: Salamander Grand Piano (CC BY 3.0)<br>ⓒ 성실피아노 · 피아노조율사 박근성</small>';}
+    $("ovIn").innerHTML=NONE?'<h1 style="font-size:140px">👑</h1><p style="font-size:44px;color:#ffd166">poianopks.github.io/claude</p><small>Score: Breitkopf &amp; Härtel (public domain) · MIDI: Bernd Krueger, piano-midi.de (CC BY-SA 3.0 DE)<br>Piano: Salamander Grand Piano (CC BY 3.0) · © Sungsil Piano</small>':EN?'<h1 style="font-size:80px">👑 Did you make<br>it to the end?</h1><p>▶ Full 6-min 3D video on the channel</p><p style="font-size:38px;color:#ffd166">Free lesson · poianopks.github.io/claude</p><small>Score: Breitkopf &amp; Härtel (public domain) · MIDI: Bernd Krueger, piano-midi.de (CC BY-SA 3.0 DE)<br>Piano: Salamander Grand Piano (CC BY 3.0)<br>© Sungsil Piano · Piano technician Park Geunseong (Korea)</small>':'<h1 style="font-size:80px">👑 끝까지<br>들으셨나요?</h1><p>▶ 전곡 6분 3D 영상은 채널에서</p><p style="font-size:38px;color:#ffd166">무료 공부 교실 · poianopks.github.io/claude</p><small>악보: Breitkopf &amp; Härtel 판 (공개 저작물) · MIDI: Bernd Krueger, piano-midi.de (CC BY-SA 3.0 DE)<br>피아노 음색: Salamander Grand Piano (CC BY 3.0)<br>ⓒ 성실피아노 · 피아노조율사 박근성</small>';}
   else ov.style.display="none";
 }
 window.VTOTAL=D.total;window.renderVideo=render;

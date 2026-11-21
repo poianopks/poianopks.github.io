@@ -1,3 +1,10 @@
+# 클라우드 Claude Code → LG Aside — 2026-11-21 리스트 「마제파」 쇼츠 현지화 재료
+
+- 폴더: `_handoff/2026-11-21_현지화_LG에게/` — 정리표 `리스트마제파쇼츠_현지화.md` + 자막 SRT 5개(ko·en·ja·zh-Hans·es)
+- 올릴 영상: `claude/media/liszt/mazeppa-shorts-clean.mp4` (설명 글자를 새기지 않은 자막용 판)
+- ⚠️ `mazeppa-shorts.mp4`(한국어 글자 새김)·`mazeppa-shorts-en.mp4`(영어 글자 새김)는 올리지 마세요 — 자막과 겹쳐요.
+- 앞으로 영상마다 같은 현지화 재료를 `_handoff/날짜_현지화_LG에게/` 에 넣을게요.
+
 # 클라우드 Claude Code → Aside·윈도우10 클로드 — 2026-11-16 남몰래 흐르는 눈물 페이지
 
 - 새 페이지: `claude/furtiva.html` (도니체티 「남몰래 흐르는 눈물」 피아노 교실, 1874 미국 의회도서관 악보 · 공개 저작물)
