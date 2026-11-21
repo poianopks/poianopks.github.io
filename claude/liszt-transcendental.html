@@ -59,6 +59,7 @@ img.mini{width:100%;max-width:760px;border-radius:8px;background:#fff;border:1px
       <a href="#story">곡 이야기</a>
       <a href="#map">12곡 지도</a>
       <a href="#player">건반으로 듣기</a>
+      <a href="#paysage">풍경 듣기</a>
       <a href="#lessons">9단계 연습</a>
       <a href="#howto">연습 방법</a>
     </nav>
@@ -125,6 +126,25 @@ img.mini{width:100%;max-width:760px;border-radius:8px;background:#fff;border:1px
     </div>
   </section>
 
+  <section id="paysage">
+    <h2><span class="num">🌾</span>3번 「풍경」 첫 6마디 — 악보로 듣기</h2>
+    <p class="lead">12곡 중 가장 평화로운 <b>3번 「풍경(Paysage)」</b>의 처음 6마디를 실제 악보(브라이트코프 판 8쪽)에서 옮겼어요. <b>1~3마디</b>는 왼손 반주만 — 바장조 화음이 3도씩 내려오다 3마디에서 반음(라♭·시♮)이 살짝 쓸쓸하게 섞여요. <b>4마디</b>부터 오른손이 <b>옥타브로 멜로디</b>(라–시♭–도–레–파–미–솔)를 노래해요.</p>
+    <div class="card">
+      <div class="score" id="payScore"><p style="padding:16px;color:var(--sub)">악보를 그리는 중…</p></div>
+      <div class="kb" id="payKb"></div>
+      <div class="ctrls">
+        <button class="btn" data-ph="RL">▶ 양손</button><button class="btn alt" data-ph="R">오른손 멜로디만</button><button class="btn alt" data-ph="L">왼손 반주만</button>
+        <label class="chk">빠르기 <select id="paySpeed"><option value="1">🎵 원래 빠르기 (♩.=58)</option><option value="0.75">🚶 느리게</option><option value="0.5" selected>🐢 아주 느리게</option></select></label>
+      </div>
+      <ul class="tips">
+        <li><b>dolcissimo, una corda</b> = 아주 부드럽게, 왼쪽 페달(약음 페달)을 밟고. <b>sempre legato e placido</b> = 늘 이어서, 고요하게.</li>
+        <li>왼손은 아래 <b>파(F)</b>를 길게 울리면서 위의 3도 화음을 살짝살짝 — 오른발 페달로 소리를 이어 줘요.</li>
+        <li>오른손 옥타브 멜로디는 <b>엄지가 아닌 새끼손가락(위 음)</b>이 노래하게. 6마디 뒤쪽부터 한 옥타브 높게(8va) 올라가요.</li>
+        <li>원래 악보는 꾸밈과 겹친 음이 더 있어요. 여기서는 소리 나는 음을 중심으로 간단히 옮겼어요.</li>
+      </ul>
+    </div>
+  </section>
+
   <section id="lessons">
     <h2><span class="num">4</span>9단계 기초 연습 — 초절기교의 씨앗</h2>
     <p class="lead">초절기교의 어려운 기술을 <b>두 마디짜리 쉬운 모양</b>으로 줄였어요. ▶ 누르면 <b>박자 세기(4번 딸깍)</b> 후 소리와 함께 악보·건반에 불이 켜져요. 처음엔 <b>🐌 아주 느리게</b>!</p>
@@ -165,6 +185,6 @@ b.onclick=function(){var n=r.dataset.theme==="dark"?"light":"dark";r.dataset.the
 <script src="js/music-engine.js?v=20261114b"></script>
 <script src="js/score-engine.js?v=20261116"></script>
 <script src="js/salamander.js?v=20261117"></script>
-<script src="js/liszt.js?v=20261120b"></script>
+<script src="js/liszt.js?v=20261121"></script>
 </body>
 </html>

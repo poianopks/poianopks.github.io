@@ -15,7 +15,7 @@ var ET=[
  {no:2,fr:"(Molto vivace)",ko:"2번 (별명: 불꽃)",key:"가단조",tempo:"Molto vivace (아주 생기 있게)",st:5,tech:"손 교대 · 겹음 · 도약",
   say:"제목이 없는 곡이라 '불꽃(Fusées)'이라는 별명으로 불려요. 두 손이 번갈아 튀어 오르며 짧은 불꽃을 터뜨려요."},
  {no:3,fr:"Paysage",ko:"풍경",key:"바장조",tempo:"Poco adagio (조금 느리게)",st:3,tech:"노래하는 멜로디 · 화음 레가토",
-  say:"12곡 중 가장 평화로운 곡. 시골 들판을 바라보듯 '아주 부드럽게, 한 줄로(una corda)' 시작해요. 기교보다 '노래'를 배우는 곡이에요."},
+  pay:1,say:"12곡 중 가장 평화로운 곡. 시골 들판을 바라보듯 '아주 부드럽게, 한 줄로(una corda)' 시작해요. 기교보다 '노래'를 배우는 곡이에요."},
  {no:4,fr:"Mazeppa",ko:"마제파",key:"라단조",tempo:"Allegro (빠르게)",st:5,tech:"3도 겹음 · 옥타브 · 손 교대",
   yt:"https://youtu.be/tfjVMODnXUo",say:"빅토르 위고의 시에서 온 이야기. 말에 묶인 채 초원을 끝없이 달리는 우크라이나 영웅 마제파를 그려요. 두 손이 3도 화음으로 멜로디를 힘차게 이어 가며, 말발굽처럼 쉬지 않고 달려요.",midi:1},
  {no:5,fr:"Feux follets",ko:"도깨비불",key:"내림나장조",tempo:"Allegretto (조금 빠르게)",st:5,tech:"반음계 겹음 · 가벼운 손가락",
@@ -41,8 +41,8 @@ function stars(n){return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,
     return '<div class="card et" id="et'+e.no+'"><div class="ethead"><span class="etno">'+e.no+'</span><div><b>'+e.ko+'</b><small>'+e.fr+' · '+e.key+'</small></div><span class="sstar" title="난이도">'+stars(e.st)+'</span></div>'+
       '<img loading="lazy" src="media/liszt/e'+(e.no<10?"0":"")+e.no+'.jpg" alt="'+e.no+'번 '+e.ko+' 첫 줄 악보 (20세기 초 브라이트코프 판, 공개 저작물)">'+
       '<p>'+e.say+'</p><p class="small">⏱ '+e.tempo+' · 🖐 '+e.tech+'</p>'+
-      (e.yt?'<a class="btn alt" style="text-decoration:none;display:inline-block;margin:8px 6px 0 0" href="'+e.yt+'" target="_blank" rel="noopener">📺 3D 영상 (유튜브)</a>':'')+(e.midi?'<button class="btn" data-go="'+e.no+'">▶ 건반으로 들어 보기</button>':'<p class="small" style="opacity:.75">🎧 소리 자료 준비 중 — 악보 사진으로 살펴봐요</p>')+'</div>';}).join("");
-  box.addEventListener("click",function(ev){var b=ev.target.closest("[data-go]");if(!b)return;openPiece(+b.dataset.go,0,true);});
+      (e.yt?'<a class="btn alt" style="text-decoration:none;display:inline-block;margin:8px 6px 0 0" href="'+e.yt+'" target="_blank" rel="noopener">📺 3D 영상 (유튜브)</a>':'')+(e.pay?'<button class="btn" data-pay="1">▶ 첫 6마디 악보로 듣기</button>':'')+(e.midi?'<button class="btn" data-go="'+e.no+'">▶ 건반으로 들어 보기</button>':e.pay?'':'<p class="small" style="opacity:.75">🎧 소리 자료 준비 중 — 악보 사진으로 살펴봐요</p>')+'</div>';}).join("");
+  box.addEventListener("click",function(ev){if(ev.target.closest("[data-pay]")){$("paysage").scrollIntoView({behavior:"smooth",block:"start"});return;}var b=ev.target.closest("[data-go]");if(!b)return;openPiece(+b.dataset.go,0,true);});
 })();
 
 /* ---------- MIDI 건반 재생기 ---------- */
@@ -110,6 +110,24 @@ if(cv){
   draw(0);
 }
 
+
+/* ---------- 3번 「풍경」 첫 6마디 (브라이트코프 판 8쪽에서 옮김) ---------- */
+(function(){var el=$("payScore");if(!el)return;
+  var R=[["r:dh"],["r:dh"],["r:dh"],["r:q","r:e","A4+A5:dq~"],["A4+A5:dq","Bb4+Bb5:q","C5+C6:e"],["D5+D6:q","F5+F6:e","E5+E6:q","G5+G6:e"]];
+  var L=[["F3+C4+F4+A4:e","C4:e","F4+A4:e","E4+G4:e","D4+F4:e","F3:e"],["F3+D4+F4:e","C4+E4:e","Bb3+D4:e","F3:e","Bb3+D4:e","A3+C4:e"],
+         ["Ab3+B3:e","G3:e","D3+F3:e","Db3+F3+Bb3:e","C3+E3:e","E3+G3+C4:e"],["F3+A3:e","F3:e","F4+A4:e","E4+G4:e","D4+F4:e","F3:e"],
+         ["F3+D4+F4:e","C4+E4:e","Bb3+D4:e","F3:e","Bb3+D4:e","A3+C4:e"],["Ab3+B3:e","G3:e","D3+F3:e","Db3+F3+Bb3:e","C3+E3:e","E3+G3+C4:e"]];
+  var secs=["","","","멜로디 시작","",""];
+  function bars(){return R.map(function(_,i){return {sig:3,key:-1,bpm:87,ts:"6/8",sec:i===0?"전주 — 왼손만":i===3?"오른손 멜로디":""};});}
+  var Ri=SE.parseBars(R),Li=SE.parseBars(L),done=false;
+  function draw(){if(done)return;done=true;
+    SE.render(el,{staves:[{clef:"treble",items:Ri,prefix:"PR",labels:true,ott:true},{clef:"bass",items:Li,prefix:"PL",labels:true}],bars:bars(),startBar:1});
+    var ms={};Ri.concat(Li).forEach(function(it){(it.notes||[]).forEach(function(x){ms[x.midi]=1;});});SE.drawKb($("payKb"),Object.keys(ms).map(Number));}
+  if("IntersectionObserver" in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){draw();io.disconnect();}});io.observe(el);}else draw();
+  [].forEach.call(document.querySelectorAll("[data-ph]"),function(b){b.addEventListener("click",function(){draw();stop();var h=b.dataset.ph,parts=[];
+    if(h.indexOf("R")>=0)parts.push({items:Ri,prefix:"PR",vel:.55,light:true});if(h.indexOf("L")>=0)parts.push({items:Li,prefix:"PL",vel:.3,light:true});
+    useSal().then(function(){SE.play([{el:el,bars:bars(),parts:parts,kb:$("payKb")}],{btn:b,mul:+$("paySpeed").value});});});});
+})();
 /* ---------- 9단계 기초 연습 ---------- */
 var STEPS=[
  {t:"손가락 깨우기 — 다섯 손가락 굴리기",st:1,bpm:80,go:[1,0],
