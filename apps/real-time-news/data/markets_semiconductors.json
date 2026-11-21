@@ -9,7 +9,7 @@
       "price": 183100,
       "change": -13800,
       "changePercent": -7.0086336,
-      "volume": "19.90M",
+      "volume": "19.91M",
       "week52High": 374500,
       "week52Low": 94500,
       "distFromHigh": -51.10814419225635,
@@ -29,7 +29,7 @@
       "price": 1113000,
       "change": -70000,
       "changePercent": -5.91716,
-      "volume": "3.63M",
+      "volume": "3.67M",
       "week52High": 2987000,
       "week52Low": 501000,
       "distFromHigh": -62.738533645798455,
@@ -46,15 +46,15 @@
       "nameKo": "엔비디아",
       "role": "AI GPU",
       "currency": "USD",
-      "price": 145.98,
-      "change": -4.98001,
-      "changePercent": -3.29889,
-      "volume": "315.86M",
+      "price": 136.04,
+      "change": -9.940002,
+      "changePercent": -6.809154,
+      "volume": "176.52M",
       "week52High": 243.37,
-      "week52Low": 145.71,
-      "distFromHigh": -40.01725767350126,
-      "trailingPE": 15.679913,
-      "forwardPE": 8.79118
+      "week52Low": 135.62,
+      "distFromHigh": -44.10157373546452,
+      "trailingPE": 14.612244,
+      "forwardPE": 8.1925745
     },
     {
       "symbol": "ASML",
@@ -62,15 +62,15 @@
       "nameKo": "ASML",
       "role": "EUV 장비",
       "currency": "USD",
-      "price": 1356.2,
-      "change": -39.0701,
-      "changePercent": -2.80018,
-      "volume": "1.66M",
+      "price": 1285.2,
+      "change": -71,
+      "changePercent": -5.235216,
+      "volume": "1.17M",
       "week52High": 1999.96,
       "week52Low": 946.11,
-      "distFromHigh": -32.18864377287546,
-      "trailingPE": 33.371063,
-      "forwardPE": 21.391407
+      "distFromHigh": -35.73871477429548,
+      "trailingPE": 31.624016,
+      "forwardPE": 20.27152
     },
     {
       "symbol": "TSM",
@@ -78,15 +78,15 @@
       "nameKo": "TSMC",
       "role": "파운드리",
       "currency": "USD",
-      "price": 352.09,
-      "change": -10.53,
-      "changePercent": -2.90387,
-      "volume": "17.84M",
+      "price": 325.565,
+      "change": -26.524994,
+      "changePercent": -7.5335836,
+      "volume": "12.98M",
       "week52High": 487.47,
       "week52Low": 266.82,
-      "distFromHigh": -27.771965454284377,
-      "trailingPE": 22.818535,
-      "forwardPE": 15.056046
+      "distFromHigh": -33.21332594826349,
+      "trailingPE": 21.099482,
+      "forwardPE": 13.921786
     },
     {
       "symbol": "MU",
@@ -94,15 +94,15 @@
       "nameKo": "마이크론",
       "role": "DRAM/NAND",
       "currency": "USD",
-      "price": 690.44,
-      "change": -14.83,
-      "changePercent": -2.10274,
-      "volume": "34.84M",
+      "price": 611,
+      "change": -79.44,
+      "changePercent": -11.505707,
+      "volume": "20.20M",
       "week52High": 1255,
       "week52Low": 192.59,
-      "distFromHigh": -44.98486055776892,
-      "trailingPE": 9.288847,
-      "forwardPE": 3.3232498
+      "distFromHigh": -51.31474103585657,
+      "trailingPE": 8.220099,
+      "forwardPE": 2.9408865
     },
     {
       "symbol": "AMAT",
@@ -110,15 +110,15 @@
       "nameKo": "어플라이드머티리얼스",
       "role": "반도체 장비",
       "currency": "USD",
-      "price": 338.93,
-      "change": -12.84,
-      "changePercent": -3.65011,
-      "volume": "7.13M",
+      "price": 309.705,
+      "change": -29.225006,
+      "changePercent": -8.625652,
+      "volume": "3.81M",
       "week52High": 739.67,
       "week52Low": 215.5,
-      "distFromHigh": -54.178214609217626,
-      "trailingPE": 26.856577,
-      "forwardPE": 13.768111
+      "distFromHigh": -58.129300904457395,
+      "trailingPE": 24.540808,
+      "forwardPE": 12.580925
     },
     {
       "symbol": "LRCX",
@@ -126,15 +126,15 @@
       "nameKo": "램리서치",
       "role": "식각 장비",
       "currency": "USD",
-      "price": 203.68,
-      "change": -7.99001,
-      "changePercent": -3.77475,
-      "volume": "12.94M",
+      "price": 186.44,
+      "change": -17.23999,
+      "changePercent": -8.464253,
+      "volume": "5.06M",
       "week52High": 438.5,
       "week52Low": 135.5,
-      "distFromHigh": -53.55074116305587,
-      "trailingPE": 30.354692,
-      "forwardPE": 16.59659
+      "distFromHigh": -57.482326111744584,
+      "trailingPE": 27.785395,
+      "forwardPE": 15.1918125
     },
     {
       "symbol": "KLAC",
@@ -142,15 +142,15 @@
       "nameKo": "KLA",
       "role": "검사 장비",
       "currency": "USD",
-      "price": 141.48,
-      "change": -3.40001,
-      "changePercent": -2.34678,
-      "volume": "9.92M",
+      "price": 130.7,
+      "change": -10.779999,
+      "changePercent": -7.619451,
+      "volume": "5.38M",
       "week52High": 307.37,
       "week52Low": 107.196,
-      "distFromHigh": -53.9707843966555,
-      "trailingPE": 35.458645,
-      "forwardPE": 19.9117
+      "distFromHigh": -57.47795816117384,
+      "trailingPE": 32.756893,
+      "forwardPE": 18.394537
     },
     {
       "symbol": "AMD",
@@ -158,15 +158,15 @@
       "nameKo": "AMD",
       "role": "CPU/GPU",
       "currency": "USD",
-      "price": 489.19,
-      "change": -40.95,
-      "changePercent": -7.72438,
-      "volume": "70.84M",
+      "price": 437.99,
+      "change": -51.200012,
+      "changePercent": -10.464144,
+      "volume": "24.42M",
       "week52High": 658.52,
       "week52Low": 188.22,
-      "distFromHigh": -25.713721678916357,
-      "trailingPE": 104.52778,
-      "forwardPE": 27.73461
+      "distFromHigh": -33.4887323088137,
+      "trailingPE": 101.386566,
+      "forwardPE": 24.831827
     },
     {
       "symbol": "INTC",
@@ -174,14 +174,14 @@
       "nameKo": "인텔",
       "role": "CPU",
       "currency": "USD",
-      "price": 55.72,
-      "change": 1.05,
-      "changePercent": 1.92062,
-      "volume": "132.52M",
+      "price": 53.94,
+      "change": -1.7800026,
+      "changePercent": -3.1945488,
+      "volume": "53.65M",
       "week52High": 142.35,
       "week52Low": 32.89,
-      "distFromHigh": -60.85704250087811,
-      "forwardPE": 31.120495
+      "distFromHigh": -62.10748155953636,
+      "forwardPE": 30.126335
     },
     {
       "symbol": "QCOM",
@@ -189,15 +189,15 @@
       "nameKo": "퀄컴",
       "role": "모바일 반도체",
       "currency": "USD",
-      "price": 162.01,
-      "change": 2.2,
-      "changePercent": 1.37663,
-      "volume": "13.40M",
+      "price": 157.79,
+      "change": -4.220001,
+      "changePercent": -2.6047783,
+      "volume": "4.50M",
       "week52High": 259.92,
       "week52Low": 121.99,
-      "distFromHigh": -37.66928285626348,
-      "trailingPE": 12.756693,
-      "forwardPE": 13.299458
+      "distFromHigh": -39.2928593413358,
+      "trailingPE": 12.424409,
+      "forwardPE": 12.953035
     },
     {
       "symbol": "AVGO",
@@ -205,15 +205,15 @@
       "nameKo": "브로드컴",
       "role": "통신 반도체",
       "currency": "USD",
-      "price": 346.65,
-      "change": -7.39999,
-      "changePercent": -2.0901,
-      "volume": "25.04M",
+      "price": 313.05,
+      "change": -33.600006,
+      "changePercent": -9.692776,
+      "volume": "16.26M",
       "week52High": 495,
       "week52Low": 289.77,
-      "distFromHigh": -29.969696969696972,
-      "trailingPE": 44.27203,
-      "forwardPE": 17.88146
+      "distFromHigh": -36.75757575757576,
+      "trailingPE": 39.980843,
+      "forwardPE": 16.124928
     },
     {
       "symbol": "TXN",
@@ -221,59 +221,59 @@
       "nameKo": "텍사스인스트루먼트",
       "role": "아날로그 반도체",
       "currency": "USD",
-      "price": 285.75,
-      "change": -6.67999,
-      "changePercent": -2.28431,
-      "volume": "5.83M",
+      "price": 272.295,
+      "change": -13.454987,
+      "changePercent": -4.708657,
+      "volume": "2.27M",
       "week52High": 334.03,
-      "week52Low": 152.73,
-      "distFromHigh": -14.453791575606974,
-      "trailingPE": 37.062256,
-      "forwardPE": 24.564713
+      "week52Low": 153.41,
+      "distFromHigh": -18.481872885668942,
+      "trailingPE": 35.317123,
+      "forwardPE": 23.408045
     }
   ],
   "cyclePosition": "하락",
   "cycleSignal": "red",
-  "cycleSummary": "반도체 섹터가 52주 고점 대비 평균 42.1% 하회 중입니다. 싸이클 하락 국면 — 저가 매수 타이밍인지 추가 데이터 확인 필요.",
+  "cycleSummary": "반도체 섹터가 52주 고점 대비 평균 45.8% 하회 중입니다. 싸이클 하락 국면 — 저가 매수 타이밍인지 추가 데이터 확인 필요.",
   "signals": [
     {
       "label": "섹터 평균 등락",
-      "value": "-3.04%",
+      "value": "-7.10%",
       "signal": "red",
-      "description": "12종목 평균 -3.04% — 섹터 전반 하락, 추가 약세 주의"
+      "description": "12종목 평균 -7.10% — 섹터 전반 하락, 추가 약세 주의"
     },
     {
       "label": "52주 고점 거리",
-      "value": "평균 -42.08%",
+      "value": "평균 -45.82%",
       "signal": "green",
-      "description": "고점 42.1% 하회 — 저가 구간 진입 가능성"
+      "description": "고점 45.8% 하회 — 저가 구간 진입 가능성"
     },
     {
       "label": "상승 종목 수",
-      "value": "2 / 14",
+      "value": "0 / 14",
       "signal": "red",
-      "description": "2개만 상승 — 대부분 하락, 섹터 전반 약세"
+      "description": "0개만 상승 — 대부분 하락, 섹터 전반 약세"
     },
     {
       "label": "장비주 CAPEX 선행지표",
-      "value": "-3.26%",
+      "value": "-8.24%",
       "signal": "red",
-      "description": "AMAT·LRCX·KLAC 평균 -3.26% — 장비주 약세, CAPEX 축소 우려"
+      "description": "AMAT·LRCX·KLAC 평균 -8.24% — 장비주 약세, CAPEX 축소 우려"
     },
     {
       "label": "NVDA — AI 수요 온도계",
-      "value": "-3.30%",
+      "value": "-6.81%",
       "signal": "red",
-      "description": "엔비디아 -3.30% 약세 — AI 수요 둔화 우려 반영"
+      "description": "엔비디아 -6.81% 약세 — AI 수요 둔화 우려 반영"
     },
     {
       "label": "MU — DRAM/NAND 직접 지표",
-      "value": "-2.10%",
+      "value": "-11.51%",
       "signal": "red",
-      "description": "마이크론 -2.10% 약세 — 메모리 재고 부담·가격 하락 우려"
+      "description": "마이크론 -11.51% 약세 — 메모리 재고 부담·가격 하락 우려"
     }
   ],
-  "updatedAt": "2026-11-20T11:28:55.615Z",
+  "updatedAt": "2026-11-20T16:05:56.648Z",
   "marketStatus": "장마감",
   "isRealtime": false
 }
