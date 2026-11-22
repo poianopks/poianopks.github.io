@@ -213,3 +213,5 @@
 
 ## 2026-11-21 LG Aside: /silent/ 모델 섹션에 제조사(GENIO) 제품 사진(배경 제거) + 본사 공개가 반영 (선생님 요청). img/genio_*.png 추가.
 
+
+## 2026-11-22 LG Aside: economy/margin-of-safety.html 추가 (경제 이야기 15번째 레슨, 안전마진·신호등). 허브 카드, quotes.html 다음 링크, sitemap, lang.js 용어 추가. 다른 파일은 안 건드림.
