@@ -53,6 +53,16 @@ g.addEventListener('click',function(e){var x=e.target.closest('button');if(!x)re
 
 /* ---------- 경제 영어 단어장: [품사, 한글 발음, 쉬운 뜻, 예문(영), 예문(한), 어원·꿀팁] ---------- */
 var G={
+"margin of safety":["명사","마전 오브 세이프티","안전마진(원래 값보다 싸게 사서 생기는 여유)","Buy with a margin of safety.","안전마진을 두고 사세요.","벤저민 그레이엄이 널리 알린 말이에요."],
+"book value":["명사","북 밸류","장부 가치(회사가 가진 순재산)","The price is below book value.","주가가 장부 가치보다 낮아요."],
+"PBR":["명사","피비알","주가순자산비율(재산에 비해 주가가 몇 배)","A PBR below 1 looks cheap.","PBR이 1보다 낮으면 싸 보여요."],
+"Buffett indicator":["명사","버핏 인디케이터","버핏지수(경제 크기에 비해 주식 시장이 얼마나 큰가)","The Buffett indicator compares market value with GDP.","버핏지수는 시가총액을 GDP와 비교해요."],
+"moving average":["명사","무빙 애버리지","이동평균선(일정 기간 평균값을 이은 선)","The price is above its moving average.","가격이 이동평균선 위에 있어요."],
+"drawdown":["명사","드로다운","고점에서 떨어진 폭","The drawdown was almost fifty percent.","고점에서 거의 50% 떨어졌어요."],
+"intrinsic value":["명사","인트린직 밸류","내재 가치(원래 값)","Investors try to find intrinsic value.","투자자들은 원래 값을 찾으려 해요."],
+"bargain":["명사","바건","싸게 사는 물건, 바겐세일","This is a real bargain.","이건 진짜 세일이에요."],
+"fear index":["명사","피어 인덱스","공포지수(시장이 얼마나 겁먹었나)","The fear index jumped this week.","이번 주 공포지수가 뛰었어요."],
+"bottom":["명사","바텀","바닥(가장 낮은 곳)","Nobody knows where the bottom is.","바닥이 어디인지는 아무도 몰라요."],
 "interest rate":["명사","인터레스트 레이트","금리(돈을 빌린 값, 이자율)","The central bank raised the interest rate.","중앙은행이 금리를 올렸어요.","interest는 '관심'이라는 뜻도 있어요. 돈 이야기에서는 '이자'예요."],
 "interest":["명사","인터레스트","이자; 관심","Banks pay interest on deposits.","은행은 예금에 이자를 줘요."],
 "policy rate":["명사","폴리시 레이트","기준금리","The policy rate is set by the central bank.","기준금리는 중앙은행이 정해요."],
