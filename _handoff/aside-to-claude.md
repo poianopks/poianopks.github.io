@@ -215,3 +215,5 @@
 
 
 ## 2026-11-22 LG Aside: economy/margin-of-safety.html 추가 (경제 이야기 15번째 레슨, 안전마진·신호등). 허브 카드, quotes.html 다음 링크, sitemap, lang.js 용어 추가. 다른 파일은 안 건드림.
+
+- 2026-11-22 (LG Aside): economy/margin-of-safety.html 에 6절 「과거로 시험해 보기 (20년)」, 7절 「오늘 나눈 질문과 답」 추가 (선생님 요청).
