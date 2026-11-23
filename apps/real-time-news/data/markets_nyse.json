@@ -90,7 +90,7 @@
       "price": 125.53,
       "change": -20.449997,
       "changePercent": -14.008766,
-      "volume": "626.27M"
+      "volume": "633.42M"
     },
     {
       "symbol": "TSLA",
@@ -98,7 +98,7 @@
       "price": 345.82,
       "change": -28.589996,
       "changePercent": -7.636013,
-      "volume": "45.99M"
+      "volume": "46.24M"
     },
     {
       "symbol": "META",
@@ -106,7 +106,7 @@
       "price": 560.84,
       "change": -35.379944,
       "changePercent": -5.934042,
-      "volume": "25.59M"
+      "volume": "25.69M"
     },
     {
       "symbol": "AMZN",
@@ -114,7 +114,7 @@
       "price": 246.82,
       "change": -10.549988,
       "changePercent": -4.099152,
-      "volume": "74.11M"
+      "volume": "74.36M"
     },
     {
       "symbol": "JPM",
@@ -125,7 +125,7 @@
       "volume": "12.50M"
     }
   ],
-  "updatedAt": "2026-11-21T07:27:42.776Z",
+  "updatedAt": "2026-11-23T04:00:36.289Z",
   "marketStatus": "장마감",
   "isRealtime": false
 }

@@ -6,17 +6,17 @@
       "nameKo": "삼성전자",
       "role": "DRAM/NAND/파운드리",
       "currency": "KRW",
-      "price": 183100,
-      "change": -13800,
-      "changePercent": -7.0086336,
-      "volume": "17.71M",
+      "price": 177000,
+      "change": -6100,
+      "changePercent": -3.331513,
+      "volume": "12.66M",
       "week52High": 374500,
-      "week52Low": 94500,
-      "distFromHigh": -51.10814419225635,
-      "priceToBook": 1.95,
+      "week52Low": 96200,
+      "distFromHigh": -52.7369826435247,
+      "priceToBook": 1.9,
       "bps": 92903,
-      "trailingPE": 5.69,
-      "forwardPE": 3.97,
+      "trailingPE": 5.54,
+      "forwardPE": 3.87,
       "eps": 31809,
       "cnsEps": 45565
     },
@@ -26,17 +26,17 @@
       "nameKo": "SK하이닉스",
       "role": "DRAM/HBM",
       "currency": "KRW",
-      "price": 1113000,
-      "change": -70000,
-      "changePercent": -5.91716,
-      "volume": "3.31M",
+      "price": 1070000,
+      "change": -43000,
+      "changePercent": -3.8634322,
+      "volume": "2.40M",
       "week52High": 2987000,
       "week52Low": 501000,
-      "distFromHigh": -62.738533645798455,
-      "priceToBook": 2.54,
+      "distFromHigh": -64.17810512219619,
+      "priceToBook": 2.46,
       "bps": 433826,
-      "trailingPE": 4.2,
-      "forwardPE": 3.09,
+      "trailingPE": 4.09,
+      "forwardPE": 3,
       "eps": 261625,
       "cnsEps": 355971
     },
@@ -49,7 +49,7 @@
       "price": 125.53,
       "change": -20.449997,
       "changePercent": -14.008766,
-      "volume": "626.27M",
+      "volume": "633.42M",
       "week52High": 243.37,
       "week52Low": 124.5,
       "distFromHigh": -48.42010108065908,
@@ -67,9 +67,9 @@
       "changePercent": -6.6347136,
       "volume": "3.29M",
       "week52High": 1999.96,
-      "week52Low": 946.11,
+      "week52Low": 973.74,
       "distFromHigh": -36.687733754675094,
-      "trailingPE": 33.374275,
+      "trailingPE": 31.156988,
       "forwardPE": 19.972149
     },
     {
@@ -83,7 +83,7 @@
       "changePercent": -9.48053,
       "volume": "37.16M",
       "week52High": 487.47,
-      "week52Low": 266.82,
+      "week52Low": 273.08,
       "distFromHigh": -34.61956633228712,
       "trailingPE": 20.655216,
       "forwardPE": 13.628653
@@ -97,9 +97,9 @@
       "price": 594.51,
       "change": -95.92999,
       "changePercent": -13.894038,
-      "volume": "59.09M",
+      "volume": "59.42M",
       "week52High": 1255,
-      "week52Low": 192.59,
+      "week52Low": 212.36,
       "distFromHigh": -52.62868525896415,
       "trailingPE": 7.998251,
       "forwardPE": 2.846877
@@ -113,9 +113,9 @@
       "price": 302.63,
       "change": -36.299988,
       "changePercent": -10.710173,
-      "volume": "14.17M",
+      "volume": "14.26M",
       "week52High": 739.67,
-      "week52Low": 215.5,
+      "week52Low": 222.86,
       "distFromHigh": -59.085808536239135,
       "trailingPE": 23.98019,
       "forwardPE": 12.289364
@@ -129,9 +129,9 @@
       "price": 183.27,
       "change": -20.409988,
       "changePercent": -10.020616,
-      "volume": "23.74M",
+      "volume": "23.88M",
       "week52High": 438.5,
-      "week52Low": 135.5,
+      "week52Low": 144.43,
       "distFromHigh": -58.20524515393386,
       "trailingPE": 27.312965,
       "forwardPE": 14.93351
@@ -145,9 +145,9 @@
       "price": 126.87,
       "change": -14.609993,
       "changePercent": -10.326544,
-      "volume": "22.64M",
+      "volume": "22.75M",
       "week52High": 307.37,
-      "week52Low": 107.196,
+      "week52Low": 110.3,
       "distFromHigh": -58.72401340404073,
       "trailingPE": 31.796993,
       "forwardPE": 17.855509
@@ -161,11 +161,11 @@
       "price": 424.39,
       "change": -64.79999,
       "changePercent": -13.246385,
-      "volume": "69.99M",
+      "volume": "70.28M",
       "week52High": 658.52,
       "week52Low": 188.22,
       "distFromHigh": -35.55396950738018,
-      "trailingPE": 98.23843,
+      "trailingPE": 90.68163,
       "forwardPE": 24.060778
     },
     {
@@ -177,9 +177,9 @@
       "price": 51.28,
       "change": -4.4400024,
       "changePercent": -7.9684176,
-      "volume": "207.75M",
+      "volume": "208.74M",
       "week52High": 142.35,
-      "week52Low": 32.89,
+      "week52Low": 34.68,
       "distFromHigh": -63.97611520899192,
       "forwardPE": 28.640684
     },
@@ -192,11 +192,11 @@
       "price": 149.94,
       "change": -12.069992,
       "changePercent": -7.450153,
-      "volume": "22.22M",
+      "volume": "22.28M",
       "week52High": 259.92,
       "week52Low": 121.99,
       "distFromHigh": -42.31301939058172,
-      "trailingPE": 12.760851,
+      "trailingPE": 11.806299,
       "forwardPE": 12.308627
     },
     {
@@ -208,12 +208,12 @@
       "price": 304.41,
       "change": -42.23999,
       "changePercent": -12.185199,
-      "volume": "59.55M",
+      "volume": "60.11M",
       "week52High": 495,
       "week52Low": 289.77,
       "distFromHigh": -38.5030303030303,
       "trailingPE": 38.877396,
-      "forwardPE": 15.67989
+      "forwardPE": 15.702569
     },
     {
       "symbol": "TXN",
@@ -224,9 +224,9 @@
       "price": 263.75,
       "change": -22,
       "changePercent": -7.6990376,
-      "volume": "16.82M",
+      "volume": "16.84M",
       "week52High": 334.03,
-      "week52Low": 153.41,
+      "week52Low": 158.69,
       "distFromHigh": -21.04002634493907,
       "trailingPE": 34.20882,
       "forwardPE": 22.673466
@@ -234,19 +234,19 @@
   ],
   "cyclePosition": "하락",
   "cycleSignal": "red",
-  "cycleSummary": "반도체 섹터가 52주 고점 대비 평균 47.4% 하회 중입니다. 싸이클 하락 국면 — 저가 매수 타이밍인지 추가 데이터 확인 필요.",
+  "cycleSummary": "반도체 섹터가 52주 고점 대비 평균 47.6% 하회 중입니다. 싸이클 하락 국면 — 저가 매수 타이밍인지 추가 데이터 확인 필요.",
   "signals": [
     {
       "label": "섹터 평균 등락",
-      "value": "-9.75%",
+      "value": "-9.34%",
       "signal": "red",
-      "description": "12종목 평균 -9.75% — 섹터 전반 하락, 추가 약세 주의"
+      "description": "12종목 평균 -9.34% — 섹터 전반 하락, 추가 약세 주의"
     },
     {
       "label": "52주 고점 거리",
-      "value": "평균 -47.40%",
+      "value": "평균 -47.62%",
       "signal": "green",
-      "description": "고점 47.4% 하회 — 저가 구간 진입 가능성"
+      "description": "고점 47.6% 하회 — 저가 구간 진입 가능성"
     },
     {
       "label": "상승 종목 수",
@@ -273,7 +273,7 @@
       "description": "마이크론 -13.89% 약세 — 메모리 재고 부담·가격 하락 우려"
     }
   ],
-  "updatedAt": "2026-11-21T07:27:51.370Z",
-  "marketStatus": "장마감",
-  "isRealtime": false
+  "updatedAt": "2026-11-23T04:00:47.022Z",
+  "marketStatus": "장개장중",
+  "isRealtime": true
 }
