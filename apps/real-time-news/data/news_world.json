@@ -1,173 +1,273 @@
 [
   {
-    "id": "CNBC-0-2026-11-23T12:19:59.000Z",
-    "title": "Anthropic, Nvidia shares rise in premarket trading after major tech sell-off",
+    "id": "MarketWatch-0-2026-11-23T18:55:00.000Z",
+    "title": "Trump is open to capping credit-card interest rates — but holiday shoppers shouldn’t bank on it yet",
+    "description": "As Americans prepare to pull out their credit cards for the holiday shopping season, President Donald Trump is saying he’s up for capping the interest rates they’re paying on their cards.",
+    "url": "https://www.marketwatch.com/story/trump-is-open-to-capping-credit-card-interest-rates-but-holiday-shoppers-shouldnt-bank-on-it-yet-34260705?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T18:55:00.000Z"
+  },
+  {
+    "id": "CNBC-3-2026-11-23T18:52:46.000Z",
+    "title": "An options strategy for making even more of your money back in Nvidia",
+    "description": "Nvidia shareholders can look to the options market to recoup lost money",
+    "url": "https://www.cnbc.com/2026/11/23/an-options-strategy-for-making-even-more-of-your-money-back-in-nvidia-.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T18:52:46.000Z"
+  },
+  {
+    "id": "MarketWatch-1-2026-11-23T18:47:00.000Z",
+    "title": "Amazon may have just found a ‘cheap’ way to get a lot more out of its chips",
+    "description": "Amazon’s deal for Decart’s AI technology, with a reported price of $7.5 billion, may be a relatively inexpensive way to boost the speed and efficiency of its custom chips, says an analyst.",
+    "url": "https://www.marketwatch.com/story/amazon-may-have-just-found-a-cheap-way-to-get-a-lot-more-out-of-its-chips-bd822bd5?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T18:47:00.000Z"
+  },
+  {
+    "id": "MarketWatch-2-2026-11-23T18:43:00.000Z",
+    "title": "Trump’s push to reinstate Jensen Huang signals Nvidia’s CEO is too big to fail",
+    "description": "“The bigger threat would be losing the brainpower of somebody like Jensen,” the president said amid concerns about corporate governance rules and export controls",
+    "url": "https://www.marketwatch.com/story/trumps-push-to-reinstate-jensen-huang-signals-nvidias-ceo-is-too-big-to-fail-10709210?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T18:43:00.000Z"
+  },
+  {
+    "id": "CNBC-6-2026-11-23T18:23:55.000Z",
+    "title": "Amazon to acquire AI startup Decart's chip software, hire founders",
+    "description": "Decart, founded in 2023, is best known for its software that lets developers sync their AI models across different chips.",
+    "url": "https://www.cnbc.com/2026/11/23/amazon-decarts-ai-acquisition.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T18:23:55.000Z"
+  },
+  {
+    "id": "MarketWatch-3-2026-11-23T18:14:00.000Z",
+    "title": "See how much more money the richest Americans are spending on the holidays compared to everyone else",
+    "description": "Most households are getting “squeezed by rising costs of everyday goods,” according to Teneo, but upper-income households “are showing resilience.”",
+    "url": "https://www.marketwatch.com/story/see-how-much-more-money-the-richest-americans-are-spending-on-the-holidays-compared-to-everyone-else-f0ff3f4b?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T18:14:00.000Z"
+  },
+  {
+    "id": "CNBC-2-2026-11-23T18:00:47.000Z",
+    "title": "‘This establishes a bottom’: Jensen Huang’s return seen as likely to stop market sell-off, for now",
+    "description": "Wall Street strategists say Jensen Huang’s return to Nvidia could steady the AI trade, though spending and data-center risks remain.",
+    "url": "https://www.cnbc.com/2026/11/23/nvidia-jensen-huang-ceo-market-rally.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T18:00:47.000Z"
+  },
+  {
+    "id": "MarketWatch-4-2026-11-23T17:54:00.000Z",
+    "title": "Consumer stocks, seen as safe bet amid cracks in AI trade, are among the S&P 500’s biggest losers Monday",
+    "description": "Shares of Kroger and Tyson Foods are down, as Nvidia storms higher",
+    "url": "https://www.marketwatch.com/story/consumer-stocks-seen-as-safe-bet-amid-cracks-in-ai-trade-are-among-the-s-p-500s-biggest-losers-monday-80cf8f81?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T17:54:00.000Z"
+  },
+  {
+    "id": "CNBC-9-2026-11-23T17:50:30.000Z",
+    "title": "CrowdStrike to buy Zscaler in $44 billion deal as AI supercharges cyberattacks",
+    "description": "CrowdStrike and competitors have shelled out billions to ramp up defenses in the wake of AI cyberattacks.",
+    "url": "https://www.cnbc.com/2026/11/23/crowdstrike-zscaler-aquisition-ai-cyberattacks.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T17:50:30.000Z"
+  },
+  {
+    "id": "CNBC-12-2026-11-23T17:48:58.000Z",
+    "title": "Average 401(k), IRA balances fall as more workers raid their accounts, Fidelity says",
+    "description": "Retirement account balances fell in the third quarter amid market swings, according to Fidelity. At the same time, more savers tapped their accounts for cash.",
+    "url": "https://www.cnbc.com/2026/11/23/fidelity-401k-ira-balances-q3-2026.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T17:48:58.000Z"
+  },
+  {
+    "id": "MarketWatch-5-2026-11-23T17:37:00.000Z",
+    "title": "More AI jobs are coming. That’s one of the big hiring trends in 2027.",
+    "description": "Maybe artificial intelligence will end up destroying lots of jobs, but the new technology might be creating more work in the short run.",
+    "url": "https://www.marketwatch.com/story/more-ai-jobs-are-coming-thats-one-of-the-big-hiring-trends-in-2027-3d810209?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T17:37:00.000Z"
+  },
+  {
+    "id": "CNBC-1-2026-11-23T17:23:04.000Z",
+    "title": "Jensen Huang reinstated as Nvidia CEO. Stock skyrockets 33%",
+    "description": "The Nvidia board said it had input from senior levels of the U.S. government.",
+    "url": "https://www.cnbc.com/2026/11/23/nvidia-jensen-huang-ceo.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T17:23:04.000Z"
+  },
+  {
+    "id": "CNBC-0-2026-11-23T17:16:39.000Z",
+    "title": "Trump tells CNBC ‘I made the deal’ to reinstate Nvidia’s Jensen Huang",
+    "description": "President Trump said his administration gave Nvidia's board assurance that Jensen Huang would not be a national security threat if he was reinstated as CEO.",
+    "url": "https://www.cnbc.com/2026/11/23/trump-nvidia-jensen-huang.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T17:16:39.000Z"
+  },
+  {
+    "id": "MarketWatch-7-2026-11-23T17:15:00.000Z",
+    "title": "I’ve been married for 58 years. It’s ‘our’ money, not ‘his’ and ‘hers.’ Why do so many couples keep their finances separate?",
+    "description": "“My wife stopped working outside the home in 1970.”",
+    "url": "https://www.marketwatch.com/story/ive-been-married-for-58-years-its-our-money-not-his-and-hers-why-dont-others-feel-the-same-c5745889?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T17:15:00.000Z"
+  },
+  {
+    "id": "CNBC-5-2026-11-23T16:45:31.000Z",
+    "title": "SpaceX sued by Oregon and Virginia over AI deepfake porn, Grok safety claims",
+    "description": "The states are seeking civil penalties and injunctions to stop Grok and X from creation and distribution of nonconsensual sexualized images.",
+    "url": "https://www.cnbc.com/2026/11/23/oregon-virginia-spacex-grok-deepfake-lawsuits.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T16:45:31.000Z"
+  },
+  {
+    "id": "MarketWatch-8-2026-11-23T16:44:00.000Z",
+    "title": "The return of Jensen Huang has saved the U.S. stock market — for now. Why the rebound may not last.",
+    "description": "Investors still have plenty of other problems to worry about.",
+    "url": "https://www.marketwatch.com/story/the-return-of-jensen-huang-has-saved-the-u-s-stock-market-for-now-why-the-rebound-may-not-last-f72656ce?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T16:44:00.000Z"
+  },
+  {
+    "id": "MarketWatch-9-2026-11-23T16:03:00.000Z",
+    "title": "The surprising reason businesses can’t keep up with customer demand. Hint: It’s not just a strong U.S. economy.",
+    "description": "The  economy is on track to grow 3% in the final three months of 2026, a pair of S&P surveys showed, aided by rising customer demand and the hope for more political stabilityafter the U.S. elections.",
+    "url": "https://www.marketwatch.com/story/the-surprising-reason-businesses-cant-keep-up-with-customer-demand-hint-its-not-just-a-strong-u-s-economy-70be4a01?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-23T16:03:00.000Z"
+  },
+  {
+    "id": "CNBC-4-2026-11-23T15:36:12.000Z",
+    "title": "Tech stocks rally after Nvidia board approves Jensen Huang's return as CEO",
     "description": "The Nasdaq slid 10% last week in its worst week since the early days of Covid in 2020.",
     "url": "https://www.cnbc.com/2026/11/23/anthropic-nvidia-shares.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-23T12:19:59.000Z"
+    "publishedAt": "2026-11-23T15:36:12.000Z"
   },
   {
-    "id": "CNBC-1-2026-11-23T12:05:06.000Z",
+    "id": "CNBC-10-2026-11-23T15:30:27.000Z",
     "title": "Tokenized stocks face pushback as NYSE, Nasdaq pivot for a new market",
     "description": "OKXICE is set to debut Monday despite objections from 90% of the companies whose stocks it initially proposed to list.",
     "url": "https://www.cnbc.com/2026/11/23/tokenized-stocks-face-pushback-as-nyse-nasdaq-pivot-for-a-new-market-.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-23T12:05:06.000Z"
+    "publishedAt": "2026-11-23T15:30:27.000Z"
   },
   {
-    "id": "CNBC-9-2026-11-23T12:00:20.000Z",
-    "title": "The biggest money-making energy trade looks over. What to buy instead",
-    "description": "The epic boom in refinery-related stocks is unwinding.",
-    "url": "https://www.cnbc.com/2026/11/23/refinery-stocks-crack-spreads.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-23T12:00:20.000Z"
-  },
-  {
-    "id": "CNBC-2-2026-11-23T11:30:37.000Z",
-    "title": "Zelenskyy praises ‘exemplary’ drone operation that sank Russian warship in a Libyan port",
-    "description": "The incident comes alongside a suspected Ukrainian drone strike on a Russian cargo ship in the Baltic Sea over the weekend.",
-    "url": "https://www.cnbc.com/2026/11/23/ukraine-russia-warship-libya.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-23T11:30:37.000Z"
-  },
-  {
-    "id": "CNBC-6-2026-11-23T10:15:19.000Z",
-    "title": "Treasury yields jump as stock futures rebound, investors await New York Fed President Williams speech",
-    "description": "U.S. Treasury yields rose Monday, partially unwinding price action seen at the end of last week, as stock futures pointed to a strong rebound on Wall Street.",
-    "url": "https://www.cnbc.com/2026/11/23/treasury-yields-bonds-fed.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-23T10:15:19.000Z"
-  },
-  {
-    "id": "CNBC-5-2026-11-23T10:13:30.000Z",
-    "title": "‘Worst COP ever’: Climate talks collapse after draft deal fails to include fossil fuels",
-    "description": "Governments and campaigners rejected the \"cover decision\" drafted at the U.N.'s climate summit, COP31, on Sunday.",
-    "url": "https://www.cnbc.com/2026/11/23/cop31-climate-summit-fossil-fuels.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-23T10:13:30.000Z"
-  },
-  {
-    "id": "CNBC-4-2026-11-23T10:00:01.000Z",
+    "id": "CNBC-11-2026-11-23T15:22:03.000Z",
     "title": "Stuck: How a frozen housing market is hitting buyers, sellers and the economy",
     "description": "A sharp spike in mortgage rates in September has pushed the already chilly real estate sector into a deep freeze.",
     "url": "https://www.cnbc.com/2026/11/23/housing-market-real-estate-economy.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-23T10:00:01.000Z"
+    "publishedAt": "2026-11-23T15:22:03.000Z"
   },
   {
-    "id": "CNBC-17-2026-11-23T09:45:42.000Z",
-    "title": "French biotech rejects short seller’s cancer-risk claims after shares plunge 17%",
-    "description": "Short seller Scorpion Capital has accused Abivax of serious scientific and safety shortcomings in its experimental inflammatory bowel disease drug.",
-    "url": "https://www.cnbc.com/2026/11/23/abivax-scorpion-capital-obefazimod.html",
+    "id": "CNBC-15-2026-11-23T15:18:51.000Z",
+    "title": "Netflix’s ‘The Altruists’ sparks FTX portrayal debate among crypto bigwigs from CZ to Star Xu",
+    "description": "Netflix’s \"The Altruists\" has drawn backlash over its portrayal of the FTX collapse, with prominent crypto industry figures questioning the series’ accuracy",
+    "url": "https://www.cnbc.com/2026/11/23/netflix-the-altruists-crypto-ftx-collapse.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-23T09:45:42.000Z"
+    "publishedAt": "2026-11-23T15:18:51.000Z"
   },
   {
-    "id": "CNBC-12-2026-11-23T07:25:24.000Z",
-    "title": "Investors gives a thumbs down to Tata Steel-APL Apollo $1.67 billion deal, plunging shares",
-    "description": "Tata Steel will buy a 26.4% stake in India's leading structural steel pipes and tubes maker to boost downstream capacity.",
-    "url": "https://www.cnbc.com/2026/11/23/tata-steel-acquisition-deal-apl-india.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-23T07:25:24.000Z"
-  },
-  {
-    "id": "CNBC-3-2026-11-23T05:08:03.000Z",
+    "id": "CNBC-14-2026-11-23T14:40:11.000Z",
     "title": "U.S. probes Megaspeed, Alice Huang as new figure emerges in Nvidia chip case",
     "description": "The U.S. is investigating Megaspeed and Alice Huang after it emerged a former associate of hers was reportedly \"deeply involved\" in the firm's activities",
     "url": "https://www.cnbc.com/2026/11/23/nvidia-megaspeed-chipmaker-us.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-23T05:08:03.000Z"
+    "publishedAt": "2026-11-23T14:40:11.000Z"
   },
   {
-    "id": "CNBC-15-2026-11-23T03:52:17.000Z",
-    "title": "Yemen's Houthis claim attacks on Saudi oil refinery as Trump warns of new strikes next year",
-    "description": "Yemen's Iran-aligned Houthis claimed an operation against Saudi Arabia's Rabigh oil refinery, as diplomatic efforts to end the war face long odds.",
-    "url": "https://www.cnbc.com/2026/11/23/trump-iran-war-hormuz-saudi-.html",
+    "id": "CNBC-13-2026-11-23T14:15:42.000Z",
+    "title": "Trump hosts crypto gala as his meme coin falls below $1",
+    "description": "Donald Trump hosted a dinner for top holders of his meme coin that has fallen to under $1. Bitcoin rebounded after falling to lowest level since September 2024.",
+    "url": "https://www.cnbc.com/2026/11/23/trump-meme-coin-gala.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-23T03:52:17.000Z"
+    "publishedAt": "2026-11-23T14:15:42.000Z"
   },
   {
-    "id": "CNBC-10-2026-11-22T18:55:05.000Z",
-    "title": "Employees at Eric Trump-backed robot startup lose health benefits as company's cash crunch deepens",
-    "description": "Foundation is pursuing an emergency bridge loan and has been in talks with VC firms as it waits for a $150 million investment from South Korea's Base Group.",
-    "url": "https://www.cnbc.com/2026/11/22/foundation-future-industries-health-benefits-payroll-base-group.html",
+    "id": "CNBC-18-2026-11-23T14:14:28.000Z",
+    "title": "Wall Street's 'Fear Gauge' just flashed a buy sign",
+    "description": "Friday's huge VIX spike could be signaling a buying opportunity, if history is any indication",
+    "url": "https://www.cnbc.com/2026/11/23/wall-streets-fear-gauge-just-flashed-a-buy-sign.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-22T18:55:05.000Z"
+    "publishedAt": "2026-11-23T14:14:28.000Z"
   },
   {
-    "id": "CNBC-8-2026-11-22T13:00:01.000Z",
-    "title": "Pizza chains are under pressure. GLP-1 use is only one part of the problem",
-    "description": "Domino's, Papa Johns and Pizza Hut face weaker demand, more delivery competition and changing eating habits, including GLP-1 use.",
-    "url": "https://www.cnbc.com/2026/11/22/pizza-chains-sales-glp-1-demand.html",
+    "id": "CNBC-17-2026-11-23T13:28:15.000Z",
+    "title": "Zelenskyy praises ‘exemplary’ drone operation that sank Russian warship in a Libyan port",
+    "description": "The incident comes alongside a suspected Ukrainian drone strike on a Russian cargo ship in the Baltic Sea over the weekend.",
+    "url": "https://www.cnbc.com/2026/11/23/ukraine-russia-warship-libya.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-22T13:00:01.000Z"
+    "publishedAt": "2026-11-23T13:28:15.000Z"
   },
   {
-    "id": "CNBC-11-2026-11-22T12:10:39.000Z",
-    "title": "The Nasdaq is in freefall. Here's one stock to look at",
-    "description": "Elevated options premiums are creating an opportunity in Amazon",
-    "url": "https://www.cnbc.com/2026/11/22/the-nasdaq-is-in-freefall-heres-one-stock-to-look-at.html",
+    "id": "CNBC-19-2026-11-23T13:16:38.000Z",
+    "title": "‘Worst COP ever’: Climate talks collapse after draft deal fails to include fossil fuels",
+    "description": "Governments and campaigners rejected the \"cover decision\" drafted at the U.N.'s climate summit, COP31, on Sunday.",
+    "url": "https://www.cnbc.com/2026/11/23/cop31-climate-summit-fossil-fuels.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-22T12:10:39.000Z"
+    "publishedAt": "2026-11-23T13:16:38.000Z"
   },
   {
-    "id": "CNBC-16-2026-11-21T15:04:56.000Z",
-    "title": "Tech outages are fueling a new doomsday economy",
-    "description": "Recent technology outages have left some worried about AI cyberattacks and the U.S. electricity grid. The doomsday economy is heating up as a result.",
-    "url": "https://www.cnbc.com/2026/11/21/emergency-prep-spending-tech-outages.html",
+    "id": "CNBC-7-2026-11-23T13:15:01.000Z",
+    "title": "More Americans pay this Obama-era investment tax every year — how to avoid it",
+    "description": "As more Americans pay net investment income tax, there are strategies to avoid it, experts say.",
+    "url": "https://www.cnbc.com/2026/11/23/net-investment-income-tax-niit.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-21T15:04:56.000Z"
-  },
-  {
-    "id": "CNBC-19-2026-11-21T14:05:40.000Z",
-    "title": "An ‘illusion of glitz and glamour’: Inside California’s modern-day gold rush, where miners can bring in millions",
-    "description": "The price of gold has sparked a modern-day gold rush in California. Small-scale miners are investing time, physical labor and money to unearth the yellow metal.",
-    "url": "https://www.cnbc.com/make-it/2026/11/21/california-mining-modern-gold-rush.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-21T14:05:40.000Z"
-  },
-  {
-    "id": "CNBC-14-2026-11-21T12:00:01.000Z",
-    "title": "International first class is over for U.S. airlines. Enter the mega business-class cabin",
-    "description": "Airlines are opting to build giant business-class cabins with ever-more luxurious suites.",
-    "url": "https://www.cnbc.com/2026/11/21/us-airlines-first-class-business-class.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-21T12:00:01.000Z"
+    "publishedAt": "2026-11-23T13:15:01.000Z"
   },
   {
     "id": "WSJ Markets-0-2025-01-27T19:26:00.000Z",
