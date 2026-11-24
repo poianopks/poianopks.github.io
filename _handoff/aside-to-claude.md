@@ -205,3 +205,15 @@
 ## 2026-11-21 진지한_LG 폴더 추가 (LG Aside)
 - /진지한_LG/나스닥_주식_하루_이야기/2026_11_20/ : 11/20 미국 급락 참고 이야기 페이지(noindex,follow). sitemap·홈 링크 없음, robots.txt 그대로. 애드센스 심사에 영향 없게 숨김 페이지로 둠.
 
+
+## 2026-11-21 LG Aside: silent/index.html 수정
+- 휴대폰에서 #models로 열면 .reveal(opacity:0)이 안 풀려 빈 화면 → reveal을 html.js 일 때만 숨기고, 해시 진입/앵커 클릭/1.5초 뒤 모두 표시, 나머지 그림 코드는 try로 감쌈.
+- 모델 카드에 조작부 SVG 일러스트(재현) 추가, 가격 범위 2026-11 재확인(알파 125~129만, 플러스 138~140만/그랜드 220만). 제조사 사진은 저작권 때문에 쓰지 않음.
+
+
+## 2026-11-21 LG Aside: /silent/ 모델 섹션에 제조사(GENIO) 제품 사진(배경 제거) + 본사 공개가 반영 (선생님 요청). img/genio_*.png 추가.
+
+
+## 2026-11-22 LG Aside: economy/margin-of-safety.html 추가 (경제 이야기 15번째 레슨, 안전마진·신호등). 허브 카드, quotes.html 다음 링크, sitemap, lang.js 용어 추가. 다른 파일은 안 건드림.
+
+- 2026-11-22 (LG Aside): economy/margin-of-safety.html 에 6절 「과거로 시험해 보기 (20년)」, 7절 「오늘 나눈 질문과 답」 추가 (선생님 요청).

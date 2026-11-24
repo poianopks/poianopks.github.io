@@ -39,14 +39,15 @@ table{width:100%;border-collapse:collapse;font-size:16px;background:#fff;border-
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.tabs button{border:none;background:var(--soft);padding:9px 16px;border-radius:20px;font-size:16px;cursor:pointer}.tabs button.on{background:var(--gold);color:#fff}
 .mcard h3{margin:0;font-size:22px}.price{font-size:26px;font-weight:800;color:#a0531f}
 details{background:#fff;border-radius:14px;margin:10px 0;box-shadow:0 1px 6px rgba(0,0,0,.06);overflow:hidden}summary{cursor:pointer;padding:14px 18px;font-weight:700;list-style:none}summary::-webkit-details-marker{display:none}summary:after{content:'＋';float:right;color:var(--gold)}details[open] summary:after{content:'－'}details p{margin:0;padding:0 18px 16px}
-.steps{counter-reset:s}.step{display:flex;gap:14px;align-items:flex-start;margin:14px 0;opacity:0;transform:translateY(20px);transition:.6s}.step.show{opacity:1;transform:none}.step b.num{flex:none;width:40px;height:40px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px}
+.steps{counter-reset:s}.step{display:flex;gap:14px;align-items:flex-start;margin:14px 0;transition:.6s}.js .step{opacity:0;transform:translateY(20px)}.js .step.show{opacity:1;transform:none}.step b.num{flex:none;width:40px;height:40px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px}
 .area span{display:inline-block;background:#fff;border-radius:14px;padding:3px 10px;margin:3px;font-size:15px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .cta{background:linear-gradient(135deg,#1d1a26,#3b2f2a);color:#fff;border-radius:22px;padding:28px 22px;text-align:center}
 .float{position:fixed;right:14px;bottom:16px;z-index:30;background:var(--gold);color:#fff;border-radius:50%;width:62px;height:62px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 6px 18px rgba(0,0,0,.3);text-decoration:none}
 footer{text-align:center;font-size:14px;color:#7a6c5c;padding:30px 16px 90px}footer ul{text-align:left;max-width:860px;margin:10px auto;font-size:13px}
-.reveal{opacity:0;transform:translateY(24px);transition:.7s}.reveal.show{opacity:1;transform:none}
+.js .reveal{opacity:0;transform:translateY(24px);transition:.7s}.js .reveal.show,.reveal{opacity:1;transform:none}
+.mill{display:block;width:100%;max-width:420px;margin:6px auto 10px}.mill-note{font-size:13px;color:#8a7a68;text-align:center;margin:-4px 0 8px}
 @media(max-width:600px){.wk{width:22px;height:110px}.bk{width:14px;height:70px}.stage{height:180px}}
-</style></head><body>
+.gprod{background:linear-gradient(135deg,#fbf6ec 0%,#efe2c8 100%);border-radius:16px;padding:22px 12px 26px;position:relative;overflow:hidden;text-align:center}.gprod:after{content:"";position:absolute;left:0;right:0;bottom:0;height:16px;background:repeating-linear-gradient(90deg,#fff 0 18px,#d9cbb2 18px 19px);opacity:.9}.gprod img{width:100%;max-width:560px;height:auto;filter:drop-shadow(0 10px 14px rgba(60,40,20,.28));position:relative;z-index:1}</style><script>document.documentElement.classList.add('js')</script></head><body>
 <nav class="top"><a href="#how">원리</a><a href="#models">모델·가격</a><a href="#compare">방음 방법 비교</a><a href="#install">설치 과정</a><a href="#faq">자주 묻는 질문</a><a href="#area">서비스 지역</a><a href="#contact">상담</a></nav>
 <header class="hero"><img src="img/action.jpg" alt="업라이트 피아노 액션과 해머"><div class="in"><div class="moon">🌙</div>
 <h1>밤 11시에도 마음껏,<br>지금 피아노 그대로</h1>
@@ -73,7 +74,7 @@ footer{text-align:center;font-size:14px;color:#7a6c5c;padding:30px 16px 90px}foo
 <div class="ph"><img src="img/keys.jpg" alt="업라이트 피아노 건반" loading="lazy"><p>건반: 아래에 광센서가 들어가 누른 세기(128단계)를 읽습니다. 건반 느낌은 그대로입니다.</p></div>
 <div class="ph"><img src="img/phones.jpg" alt="헤드폰" loading="lazy"><p>헤드폰: 디지털 피아노 소리를 헤드폰이나 스피커로 듣습니다. 단자가 2개라 둘이 같이 들을 수 있어요.</p></div></div></section>
 
-<section id="models" class="reveal"><h2>모델별 가격과 기능 차이 <small>2026년 기준, 출장·설치비 포함 시중 판매가 참고</small></h2>
+<section id="models" class="reveal"><h2>모델별 가격과 기능 차이 <small>제조사(GENIO) 공개 정찰가 · 2026년 11월 확인</small></h2>
 <div class="tabs" id="mtabs"><button data-m="0" class="on">에센스 V2</button><button data-m="1">프리미엄 알파</button><button data-m="2">프리미엄 플러스</button><button data-m="3">SV-2</button></div>
 <div class="card mcard" id="mcard"></div>
 <svg viewBox="0 0 640 230" width="100%" class="card" aria-label="모델별 가격 막대그래프"><g id="bars"></g></svg>
@@ -89,9 +90,9 @@ footer{text-align:center;font-size:14px;color:#7a6c5c;padding:30px 16px 90px}foo
 <tr><td>메트로놈</td><td>빠르기만</td><td class="y">○ (박자·음량)</td><td class="y">○</td><td class="y">○</td></tr>
 <tr><td>연습곡(바이엘·체르니·소나티나)</td><td class="n">×</td><td class="y">○</td><td class="y">○</td><td>-</td></tr>
 <tr><td>소스테누토(가운데) 페달</td><td class="n">×</td><td class="n">×</td><td class="y">○</td><td>-</td></tr>
-<tr><td>업라이트 가격(참고)</td><td>약 110만 원</td><td>약 129~130만 원</td><td>약 139~140만 원</td><td>약 140만 원</td></tr>
-<tr><td>그랜드 가격(참고)</td><td>-</td><td>약 220만 원</td><td>약 220~230만 원</td><td>약 235만 원</td></tr></table></div>
-<p style="font-size:15px;color:#777">※ 가격은 2026년 시중 판매처(도미솔 악기 2026년 6월 기준, 피아노메이트 등)에 공개된 출장·설치비 포함 가격을 참고로 정리했습니다. 실제 설치비는 피아노 종류와 상태, 지역에 따라 달라질 수 있으니 상담 때 정확히 알려 드립니다. 「-」는 판매처에 따로 표기되지 않은 항목입니다.</p>
+<tr><td>업라이트 가격(정찰가)</td><td>110만 원</td><td>129만 원</td><td>139만 원</td><td>128만 원</td></tr>
+<tr><td>그랜드 가격(정찰가)</td><td>-</td><td>220만 원</td><td>230만 원</td><td>235만 원</td></tr></table></div>
+<p style="font-size:15px;color:#777">※ 가격은 제조사(GENIO, 유에스알랩) 공식 홈페이지 제품 안내에 공개된 정찰가(소비자가)를 2026년 11월 21일에 확인한 값이며, 공식 대리점은 같은 가격으로 판매합니다. 출장·설치 포함 여부와 피아노 상태에 따른 추가 작업은 상담 때 정확히 알려 드립니다. 제품 사진은 제조사 제품 이미지에서 본체만 오려 배경을 새로 구성했고, 아래 조작부 그림은 기능을 알기 쉽게 다시 그린 일러스트입니다. 「-」는 해당 항목 표기가 없는 경우입니다.</p>
 <p style="text-align:center"><a class="btn" href="https://smartstore.naver.com/pianopks/products/4733401910" target="_blank" rel="noopener">🛒 성실피아노 스마트스토어에서 보기</a></p></section>
 
 <section id="compare" class="reveal"><h2>피아노 방음, 방법마다 무엇이 다를까? <small>층간소음 해결 방법 한눈에 비교</small></h2>
@@ -131,14 +132,23 @@ footer{text-align:center;font-size:14px;color:#7a6c5c;padding:30px 16px 90px}foo
 <footer>© 성실피아노 (가나성실피아노조율) · <a href="/">홈</a> · <a href="/about.html">조율사 소개</a> · <a href="/contact.html">문의</a>
 <p>사진 출처 (모두 저작권 걱정 없는 공개 라이선스 사진입니다)</p><ul><li><b>hero</b>: 「Fingers on the piano keys (Unsplash).jpg」 · Gabriel Barletta gabebarletta · CC0 · <a href="https://commons.wikimedia.org/wiki/File:Fingers_on_the_piano_keys_(Unsplash).jpg" target="_blank" rel="noopener">위키미디어 공용</a></li><li><b>action</b>: 「Kawai UST8 Action Wide Photo.JPG」 · Drondent · Public domain · <a href="https://commons.wikimedia.org/wiki/File:Kawai_UST8_Action_Wide_Photo.JPG" target="_blank" rel="noopener">위키미디어 공용</a></li><li><b>hammers</b>: 「Upright piano hammers & dampers.jpg」 · 작자 미상 · CC BY 2.5 · <a href="https://commons.wikimedia.org/wiki/File:Upright_piano_hammers_%26_dampers.jpg" target="_blank" rel="noopener">위키미디어 공용</a></li><li><b>grandham</b>: 「Grand piano action - Piano Hammers, at piano shop Steinway Pianos of Calgary.jpg」 · Rhona-Mae Arca · CC BY 2.0 · <a href="https://commons.wikimedia.org/wiki/File:Grand_piano_action_-_Piano_Hammers,_at_piano_shop_Steinway_Pianos_of_Calgary.jpg" target="_blank" rel="noopener">위키미디어 공용</a></li><li><b>interior</b>: 「Steinway grand piano interior.JPG」 · Kjethdubns · CC0 · <a href="https://commons.wikimedia.org/wiki/File:Steinway_grand_piano_interior.JPG" target="_blank" rel="noopener">위키미디어 공용</a></li><li><b>phones</b>: 「F-EX Records recording studio — Audio-Technica headphones (Moscow, 2025).png」 · Userud · CC BY 4.0 · <a href="https://commons.wikimedia.org/wiki/File:F-EX_Records_recording_studio_%E2%80%94_Audio-Technica_headphones_(Moscow,_2025).png" target="_blank" rel="noopener">위키미디어 공용</a></li><li><b>keys</b>: 「Schiller Piano Keys & Branding.jpg」 · Chevsapher · CC0 · <a href="https://commons.wikimedia.org/wiki/File:Schiller_Piano_Keys_%26_Branding.jpg" target="_blank" rel="noopener">위키미디어 공용</a></li><li><b>tuning</b>: 「Grand piano tuning 01.jpg」 · PlayMistyForMe · CC BY 3.0 · <a href="https://commons.wikimedia.org/wiki/File:Grand_piano_tuning_01.jpg" target="_blank" rel="noopener">위키미디어 공용</a></li></ul></footer>
 <script>
+// reveal (먼저 실행: 다른 그림 코드에 문제가 생겨도 글은 항상 보이게)
+(function(){const all=()=>{document.querySelectorAll('.reveal,.step').forEach(el=>el.classList.add('show'));};
+if(location.hash||!('IntersectionObserver' in window)){all();}else{try{const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');e.target.querySelectorAll('.step').forEach((s,i)=>setTimeout(()=>s.classList.add('show'),i*180));io.unobserve(e.target);}}),{threshold:0,rootMargin:'0px 0px -5% 0px'});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));}catch(e){all();}}
+window.addEventListener('hashchange',all);document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',all));setTimeout(all,1500);})();
+try{
 // models
-const M=[{n:'에센스 V2',p:'약 110만 원',g:'-',for:'버튼 몇 개로 간단히! 어르신·기본 연습용',f:['볼륨이 실제 버튼이라 쓰기 쉬움','광센서 128단계 세기 인식','음색 10가지 + GM 128','녹음·화면·블루투스 없음'],v:110},
-{n:'프리미엄 알파',p:'업라이트 약 129~130만 원',g:'그랜드 약 220만 원',for:'기능을 다양하게! 학생·가족용',f:['슬라이드로 숨는 본체 + LCD 화면','블루투스로 휴대폰 연결','4트랙 녹음·재생, 메트로놈','바이엘·체르니·소나티나 연습곡'],v:130},
-{n:'프리미엄 플러스',p:'업라이트 약 139~140만 원',g:'그랜드 약 220~230만 원',for:'연주·작곡까지! 전공·레슨용',f:['OLED 화면, 원터치 방음 전환','사용자 음색 16가지 편집','소스테누토 페달 센서 추가','USB 미디(컴퓨터 연결), 메모리 2GB'],v:140},
-{n:'SV-2',p:'업라이트 약 140만 원',g:'그랜드 약 235만 원',for:'더 고급스러운 음색을! (일본 수출형)',f:['야마하 음원 적용','USB-C로 태블릿 레슨 앱 연동','2024년 6월 출시','기본 사용은 단순하게'],v:140}];
-const mc=document.getElementById('mcard');function showM(i){const m=M[i];mc.innerHTML='<h3>'+m.n+'</h3><p style="margin:2px 0 8px;color:#8a7a68">'+m.for+'</p><div class="price">'+m.p+'</div><div style="color:#666">'+(m.g!=='-'?m.g:'그랜드용 없음')+'</div><ul>'+m.f.map(x=>'<li>'+x+'</li>').join('')+'</ul>';document.querySelectorAll('#mtabs button').forEach((b,j)=>b.classList.toggle('on',j==i));}
+const M=[{n:'에센스 V2',p:'업라이트 110만 원',g:'-',for:'버튼 몇 개로 간단히! 어르신·기본 연습용',f:['볼륨이 실제 버튼이라 쓰기 쉬움','광센서 128단계 세기 인식','음색 10가지 + GM 128','녹음·화면·블루투스 없음'],v:110},
+{n:'프리미엄 알파',p:'업라이트 129만 원',g:'그랜드 220만 원',for:'기능을 다양하게! 학생·가족용',f:['슬라이드로 숨는 본체 + LCD 화면','블루투스로 휴대폰 연결','4트랙 녹음·재생, 메트로놈','바이엘·체르니·소나티나 연습곡'],v:130},
+{n:'프리미엄 플러스',p:'업라이트 139만 원',g:'그랜드 230만 원',for:'연주·작곡까지! 전공·레슨용',f:['OLED 화면, 원터치 방음 전환','사용자 음색 16가지 편집','소스테누토 페달 센서 추가','USB 미디(컴퓨터 연결), 메모리 2GB'],v:140},
+{n:'SV-2',p:'업라이트 128만 원',g:'그랜드 235만 원',for:'더 고급스러운 음색을! (일본 수출형)',f:['야마하 음원 적용','USB-C로 태블릿 레슨 앱 연동','2024년 6월 출시','기본 사용은 단순하게'],v:140}];
+const IC=[{scr:0,bt:0,rec:0,col:'#6b6b6b',tag:'버튼형'},{scr:'LCD',bt:1,rec:1,col:'#3a3a3a',tag:'슬라이드'},{scr:'OLED',bt:1,rec:1,col:'#1f2430',tag:'슬라이드·원터치'},{scr:0,bt:'USB-C',rec:0,col:'#2b2b2b',tag:'야마하 음원'}];
+function ill(i){const c=IC[i];const s=c.scr?'<rect x="150" y="38" width="120" height="34" rx="4" fill="#0e2a1e"/><text x="210" y="61" text-anchor="middle" font-size="15" fill="#7dffb0">'+c.scr+' 화면</text>':'<circle cx="175" cy="55" r="11" fill="#ccc"/><circle cx="205" cy="55" r="11" fill="#ccc"/><circle cx="235" cy="55" r="11" fill="#ccc"/>';
+const ic=(x,t,on)=>'<g opacity="'+(on?1:.25)+'"><circle cx="'+x+'" cy="150" r="22" fill="#f3ead9" stroke="#c8933b" stroke-width="2"/><text x="'+x+'" y="157" text-anchor="middle" font-size="20">'+t+'</text></g>';
+return '<svg class="mill" viewBox="0 0 420 190" role="img" aria-label="'+M[i].n+' 조작부 일러스트(재현)"><rect x="20" y="20" width="380" height="72" rx="12" fill="'+c.col+'"/><text x="40" y="62" font-size="16" fill="#fff" font-weight="bold">GENIO</text>'+s+'<circle cx="320" cy="55" r="16" fill="#c8933b"/><text x="320" y="61" text-anchor="middle" font-size="14" fill="#fff">VOL</text><rect x="352" y="46" width="30" height="18" rx="3" fill="#111"/><text x="367" y="110" text-anchor="middle" font-size="11" fill="#777">헤드폰</text><text x="210" y="112" text-anchor="middle" font-size="12" fill="#8a7a68">'+c.tag+'</text>'+ic(70,'🎧',1)+ic(140,'🎙️',c.rec)+ic(210,'📶',c.bt)+ic(280,'🎼',1)+ic(350,'⏱️',1)+'</svg><p class="mill-note">🎧 헤드폰 · 🎙️ 녹음 · 📶 무선/USB 연결 · 🎼 음색 · ⏱️ 메트로놈 — 일러스트(재현), 실제 제품 모양과 다를 수 있음</p>';}
+const PI=['genio_essence.png','genio_alpha.png','genio_plus.png','genio_sv2.png'];const mc=document.getElementById('mcard');function showM(i){const m=M[i];mc.innerHTML='<div class="gprod"><img src="img/'+PI[i]+'" alt="제니오 '+m.n+' 본체(제조사 제품 사진)" loading="lazy"></div><p class="mill-note">제품 이미지: GENIO(제니오) 제조사 제품 사진, 배경 재구성</p>'+ill(i)+'<h3>'+m.n+'</h3><p style="margin:2px 0 8px;color:#8a7a68">'+m.for+'</p><div class="price">'+m.p+'</div><div style="color:#666">'+(m.g!=='-'?m.g:'그랜드용 없음')+'</div><ul>'+m.f.map(x=>'<li>'+x+'</li>').join('')+'</ul>';document.querySelectorAll('#mtabs button').forEach((b,j)=>b.classList.toggle('on',j==i));}
 document.querySelectorAll('#mtabs button').forEach(b=>b.onclick=()=>showM(+b.dataset.m));showM(0);
-const bars=document.getElementById('bars');const B=[['에센스 V2',110],['프리미엄 알파',130],['프리미엄 플러스',140],['SV-2',140],['알파 그랜드',220],['SV-2 그랜드',235]];
+const bars=document.getElementById('bars');const B=[['에센스 V2',110],['프리미엄 알파',129],['프리미엄 플러스',139],['SV-2',128],['알파 그랜드',220],['SV-2 그랜드',235]];
 bars.innerHTML=B.map((b,i)=>'<text x="10" y="'+(30+i*34)+'" font-size="15">'+b[0]+'</text><rect x="150" y="'+(16+i*34)+'" height="20" rx="6" width="0" fill="'+(i>3?'#6a8caf':'#c8933b')+'"><animate attributeName="width" from="0" to="'+(b[1]*1.8)+'" dur="1.2s" begin="'+(i*0.15)+'s" fill="freeze"/></rect><text x="'+(158+b[1]*1.8)+'" y="'+(31+i*34)+'" font-size="14" fill="#555">약 '+b[1]+'만</text>').join('');
 // mode animation
 let silent=false;const ham=document.getElementById('hammer'),wave=document.getElementById('wave'),hp=document.getElementById('hp'),sensor=document.getElementById('sensor'),mute=document.getElementById('mute');
@@ -156,7 +166,5 @@ const kw=()=>kb.children[0].offsetWidth;[0,1,3,4,5,7,8,10,11,12].forEach(i=>{con
 function press(k,f,x){k.classList.add('on');setTimeout(()=>k.classList.remove('on'),220);tone(f);const n=document.createElement('div');n.className='note';n.textContent=silent?'🎧':'♪';n.style.left=(x+6)+'px';n.style.top='-10px';notes.appendChild(n);setTimeout(()=>n.remove(),1600);}
 let auto=0;setInterval(()=>{if(document.hidden)return;const seq=[0,2,4,7,4,2];const i=seq[auto++%seq.length];const k=kb.children[i];k.classList.add('on');setTimeout(()=>k.classList.remove('on'),220);},900);
 document.querySelector('.stage').addEventListener('pointermove',e=>{const r=e.currentTarget.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;kb.style.transform='rotateX(52deg) rotateZ('+(-8+x*16)+'deg)';});
-// reveal
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');e.target.querySelectorAll('.step').forEach((s,i)=>setTimeout(()=>s.classList.add('show'),i*180));}}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+}catch(e){document.querySelectorAll('.reveal,.step').forEach(el=>el.classList.add('show'));}
 </script></body></html>
