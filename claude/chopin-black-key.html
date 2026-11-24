@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>쇼팽 흑건 공부 교실</title>
+<meta name="description" content="쇼팽 연습곡 Op.10 No.5 「흑건(Black Key)」(내림사장조, 퍼블릭 도메인) 왕초보 공부 교실 — 전곡 85마디 움직이는 악보, 떨어지는 음표 건반(아주 느리게~정상, 한 손씩), 오른손 유일한 흰 건반 찾기, 8단계 레슨."/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/genre.css?v=20261031">
+<style>
+.score .ksig{fill:var(--staff);font-size:20px}
+.score .ott{fill:var(--staff);font-size:12px;font-weight:900;font-style:italic}
+.score .ottl{stroke:var(--staff);stroke-width:1.2;stroke-dasharray:5 4}
+.score .tie{fill:none;stroke:var(--staff);stroke-width:1.4}
+.score .beam{fill:var(--staff)}
+.score .n.pl .hd{fill:color-mix(in srgb,var(--good) 70%,var(--staff))}
+.score .n.on .hd{fill:var(--accent);stroke:var(--accent);stroke-width:2.5}
+.bio{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.bio{grid-template-columns:1fr}}
+.bio .card p{margin:6px 0 0;color:var(--sub);font-size:.95rem}
+.etgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:860px){.etgrid{grid-template-columns:1fr}}
+.et img{width:100%;border-radius:8px;background:#fff;margin:8px 0 4px;border:1px solid var(--line)}
+.et p{margin:6px 0 0;font-size:.95rem}
+.et .small,.small{font-size:.85rem;color:var(--sub)}
+.et .btn{margin-top:8px}
+.ethead{display:flex;align-items:center;gap:10px}
+.ethead small{display:block;color:var(--sub);font-weight:700}
+.etno{display:inline-grid;place-items:center;min-width:36px;height:36px;border-radius:10px;background:var(--accent);color:#fff;font-weight:900;font-size:1.05rem}
+.sstar{color:#f5a623;letter-spacing:1px;margin-left:auto;white-space:nowrap}
+#lzCanvas{width:100%;height:clamp(300px,52vw,460px);display:block;border-radius:14px;background:#0b1030}
+.pick{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
+.pick button{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 14px;font:inherit;font-weight:900;cursor:pointer}
+.pick button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.prog{height:12px;background:var(--line);border-radius:6px;margin:8px 0;overflow:hidden;cursor:pointer}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#6ec3ff,#ffd166)}
+.ctrls select,.ctrls input{font:inherit;font-weight:700;border:1.5px solid var(--line);border-radius:8px;padding:4px 6px;background:var(--card);color:var(--ink)}
+.ctrls input{width:64px}
+.now{font-weight:900;color:var(--accent2)}
+.btn.live{outline:3px solid var(--accent2);outline-offset:2px}
+details.step{margin-top:10px;padding:0}
+details.step summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;font-weight:900}
+details.step summary::-webkit-details-marker{display:none}
+details.step .snum{display:inline-grid;place-items:center;min-width:32px;height:32px;border-radius:10px;background:var(--accent);color:#fff}
+details.step .stitle{font-size:1.02rem}
+details.step .sbody{padding:0 16px 16px}
+.tip{margin:8px 0;font-size:.95rem}
+.tips{margin:8px 0 0;padding-left:18px;font-size:.93rem}
+img.mini{width:100%;max-width:760px;border-radius:8px;background:#fff;border:1px solid var(--line)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-weight:900;font-size:.9rem;margin-top:6px}
+.legend .r{color:#d79a12}.legend .l{color:#2f86d0}
+
+.fullscore{max-height:72vh;overflow-y:auto;scroll-behavior:smooth;position:relative;cursor:pointer}
+.fullbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.jumps{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.jumps button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 10px;font:inherit;font-weight:800;font-size:.85rem;cursor:pointer}
+#bkCanvas{width:100%;height:clamp(300px,52vw,460px);display:block;border-radius:14px;background:#07070c}
+.map{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:760px){.map{grid-template-columns:1fr 1fr}}
+.map .card b{display:block;font-size:1.05rem}
+.map .card p{margin:6px 0 0;font-size:.9rem;color:var(--sub)}
+.score .sec{fill:var(--accent);font-size:13px;font-weight:900}
+.score .tup{fill:var(--staff);font-size:11px;font-weight:800;text-anchor:middle;font-style:italic}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="topbar">
+    <span class="logo">⚫ 쇼팽 흑건</span>
+    <nav>
+      <a href="#story">곡 이야기</a>
+      <a href="#key">검은 건반</a>
+      <a href="#map">곡 지도</a>
+      <a href="#full">전곡 악보</a>
+      <a href="#player">건반으로 듣기</a>
+      <a href="#lessons">8단계 레슨</a>
+    </nav>
+    <button class="themebtn" id="themeBtn" aria-label="밝기 전환">🌓</button>
+  </div>
+</header>
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>오른손은 검은 건반만!<br><em>쇼팽 「흑건」 공부 교실</em></h1>
+      <p>쇼팽 <b>연습곡 Op.10 No.5 「흑건(Black Key)」</b>은 오른손이 <b>85마디 내내 검은 건반만</b> 굴러다니는 반짝이는 곡이에요. 딱 한 번만 흰 건반이 나오는데 — 어디일까요? 🔍</p>
+      <p>① <b>곡 이야기</b>와 검은 건반 다섯 개 → ② <b>전곡 85마디 움직이는 악보</b> → ③ <b>떨어지는 음표 건반</b>으로 아주 느리게 → ④ <b>8단계 레슨</b>으로 실제 악보를 한 구절씩 따라 쳐요.</p>
+      <p style="margin-top:12px"><a class="btn" href="#lessons" style="text-decoration:none;display:inline-block">8단계 레슨 ↓</a> <a class="btn alt" href="#full" style="text-decoration:none;display:inline-block">전곡 악보</a> <a class="btn alt" href="#player" style="text-decoration:none;display:inline-block">🎹 건반으로 듣기</a> <a class="btn alt" href="chopin-black-key-shorts.html" style="text-decoration:none;display:inline-block">📱 30초 쇼츠</a> <a class="btn alt" href="liszt-transcendental.html" style="text-decoration:none;display:inline-block">리스트 초절기교</a> <a class="btn alt" href="index.html" style="text-decoration:none;display:inline-block">음악 공부방</a></p>
+    </div>
+    <svg viewBox="0 0 400 260" aria-hidden="true">
+      <rect x="10" y="20" width="380" height="220" rx="28" fill="#26232c" opacity=".1"/>
+      <g transform="translate(30,90)"><rect width="340" height="120" rx="8" fill="#fff" stroke="#cfc7b8"/>
+        <g stroke="#cfc7b8"><line x1="48" y1="0" x2="48" y2="120"/><line x1="97" y1="0" x2="97" y2="120"/><line x1="145" y1="0" x2="145" y2="120"/><line x1="194" y1="0" x2="194" y2="120"/><line x1="242" y1="0" x2="242" y2="120"/><line x1="291" y1="0" x2="291" y2="120"/></g>
+        <g fill="#26232c"><rect x="34" width="28" height="74" rx="3"/><rect x="83" width="28" height="74" rx="3"/><rect x="180" width="28" height="74" rx="3"/><rect x="228" width="28" height="74" rx="3"/><rect x="277" width="28" height="74" rx="3"/></g>
+        <g fill="#ffd166"><circle cx="48" cy="58" r="8"/><circle cx="97" cy="58" r="8"/><circle cx="194" cy="58" r="8"/><circle cx="242" cy="58" r="8"/><circle cx="291" cy="58" r="8"/></g></g>
+      <text x="40" y="70" font-size="26" font-weight="900" fill="#26232c">Op.10 No.5 ♭♭♭♭♭♭</text>
+    </svg>
+  </div>
+
+  <section id="story">
+    <h2><span class="num">1</span>작곡가와 곡 이야기</h2>
+    <div class="bio">
+      <div class="card"><b>🎹 프레데리크 쇼팽 (1810–1849)</b>
+        <p>폴란드에서 태어나 파리에서 활동한 <b>피아노의 시인</b>. 거의 모든 곡을 피아노를 위해 썼어요. 녹턴·왈츠·마주르카·발라드… 피아노가 '노래'하게 만든 작곡가예요.</p></div>
+      <div class="card"><b>📘 연습곡 Op.10 — 12곡</b>
+        <p>20살 무렵(1829~1832)에 쓰고 1833년에 낸 <b>연습곡 12곡</b>. 손가락 연습이면서 동시에 음악회에서 연주하는 <b>아름다운 작품</b>이에요. 그래서 '연주회용 연습곡'의 시작으로 불려요.</p></div>
+      <div class="card"><b>🤝 리스트에게 바친 곡</b>
+        <p>Op.10 연습곡집은 <b>"나의 친구 프란츠 리스트에게"</b> 바쳤어요. 우리 공부방의 <a href="liszt-transcendental.html">리스트 초절기교</a>와 이어지는 이야기예요. 리스트는 이 곡들을 아주 좋아해서 자주 연주했대요.</p></div>
+      <div class="card"><b>⚫ 왜 「흑건」일까?</b>
+        <p>오른손이 처음부터 끝까지 <b>검은 건반(흑건)</b>만 쳐요. 내림사장조(♭6개)라서 다섯 검은 건반이 모두 이 조의 음이거든요. 예외는 딱 한 번, <b>66마디의 「파」</b>예요. 아래 7단계에서 찾아봐요!</p></div>
+    </div>
+  </section>
+
+  <section id="key">
+    <h2><span class="num">2</span>검은 건반 다섯 개와 박자</h2>
+    <p class="lead">이 곡은 <b>내림사장조(G♭ major, ♭6개)</b>. 악보에 ♭이 잔뜩 있지만 겁먹지 마세요 — 오른손에는 <b>솔♭·라♭·시♭·레♭·미♭</b> 다섯 검은 건반만 나와요. <b>2/4박자</b>, 한 박에 <b>셋잇단 16분음표 6개</b>(셋씩 두 묶음)를 쳐요. 빠르기는 <b>Vivace(♩=116, 아주 생기 있게)</b>.</p>
+    <div class="card">
+      <div class="score" id="scaleBk"></div>
+      <div class="kb" id="scaleBkKb"></div>
+      <p class="say" style="font-weight:900;margin:6px 0 0">솔♭ · 라♭ · 시♭ · 레♭ · 미♭ (검은 건반 다섯 개 = 5음 음계)</p>
+      <div class="ctrls"><button class="btn" id="scaleBkPlay">▶ 검은 건반 듣기</button></div>
+    </div>
+  </section>
+
+  <section id="map">
+    <h2><span class="num">3</span>곡 지도 (85마디, 약 1분 30초)</h2>
+    <div class="map">
+      <div class="card"><b>A · 주제</b><p>1~16마디. 높은 솔♭에서 반짝이며 쏟아지는 셋잇단. 왼손은 톡톡 끊는 화음.</p></div>
+      <div class="card"><b>B · 가운데</b><p>17~48마디. 조가 여러 번 바뀌며 물결이 커졌다 작아졌다 해요.</p></div>
+      <div class="card"><b>A' · 주제가 돌아와요</b><p>49~66마디. 처음 주제가 다시! 66마디에 오른손 유일한 흰 건반.</p></div>
+      <div class="card"><b>코다 · 마무리</b><p>67~85마디. 양손 옥타브로 휘날리다 큰 화음으로 끝.</p></div>
+    </div>
+    <p class="small" style="margin-top:6px">구간 나눔은 공부하기 쉽게 정한 대략의 구분이에요.</p>
+  </section>
+
+  <section id="full">
+    <h2><span class="num">4</span>전곡 듣기 — 움직이는 악보 (85마디)</h2>
+    <p class="lead">소리에 맞춰 악보 음표에 불이 켜지고 건반이 눌려요. 악보를 누르면 그 마디부터 들려요.</p>
+    <div class="card">
+      <div class="fullbar">
+        <button class="btn" data-full="B" id="fullBoth">▶ 전곡 양손 듣기</button>
+        <button class="btn alt" data-full="R">오른손만</button>
+        <button class="btn alt" data-full="L">왼손만</button>
+        <button class="btn alt" data-full="stop">⏹ 멈춤</button>
+        <label class="chk">빠르기 <select id="fullSpeed"><option value="1">🎵 원래 빠르기</option><option value="0.75">🚶 느리게 (75%)</option><option value="0.5" selected>🐢 아주 느리게 (50%)</option><option value="0.35">🐌 아주아주 느리게 (35%)</option></select></label>
+        <span class="now" id="fullNow"></span>
+      </div>
+      <div class="jumps"><button data-jump="1">A 주제 (1)</button><button data-jump="17">B 가운데 (17)</button><button data-jump="49">A' (49)</button><button data-jump="65">⚪ 흰 건반 (66)</button><button data-jump="67">코다 (67)</button></div>
+      <div class="score fullscore" id="fullScore"><p style="padding:20px;color:var(--sub)">악보를 그리는 중…</p></div>
+      <div class="kb" id="fullKb"></div>
+    </div>
+  </section>
+
+  <section id="player">
+    <h2><span class="num">5</span>건반으로 듣기 — 떨어지는 음표</h2>
+    <p class="lead">위에서 떨어지는 막대가 건반에 닿을 때 소리가 나요. <b>오른손 흰 건반이 나오는 순간 막대가 하얗게, 건반이 빨갛게</b> 빛나요 — 찾아보세요!</p>
+    <div class="card">
+      <canvas id="bkCanvas"></canvas>
+      <div class="legend"><span class="r">■ 오른손</span><span class="l">■ 왼손</span><span style="color:#c21f35">■ 오른손 흰 건반</span><span class="now" id="bkNow"></span></div>
+      <div class="prog" id="bkProgBar"><i id="bkProg"></i></div>
+      <div class="ctrls">
+        <button class="btn" id="bkPlay">▶ 재생</button><button class="btn alt" id="bkRew">⏮ 처음</button>
+        <label class="chk">빠르기 <select id="bkSpeed"><option value="1">🎵 정상</option><option value="0.7">🚶 느리게 (70%)</option><option value="0.5">🐢 아주 느리게 (50%)</option><option value="0.3">🐌 아주아주 느리게 (30%)</option></select></label>
+        <label class="chk">소리 <select id="bkHands"><option value="RL">🎧 양손</option><option value="R">오른손만</option><option value="L">왼손만</option></select></label>
+        <label class="chk">마디 <input id="bkBarN" type="number" min="1" max="85" value="1"></label><button class="btn alt" id="bkBar">이동</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="lessons">
+    <h2><span class="num">6</span>8단계 레슨 — 실제 악보로 한 구절씩</h2>
+    <p class="lead">1단계는 검은 건반 연습, 2~8단계는 <b>실제 악보</b>의 구절이에요. ▶ 누르면 박자를 센 뒤 소리와 함께 악보·건반에 불이 켜져요.</p>
+    <div id="stepList"></div>
+  </section>
+
+  <section id="howto">
+    <h2><span class="num">7</span>왕초보 연습 순서</h2>
+    <div class="card">
+      <ol style="margin:0;padding-left:1.3em;line-height:1.8">
+        <li><b>검은 건반 익히기</b>: 2번의 다섯 건반을 눈 감고 찾을 때까지.</li>
+        <li><b>한 손씩, 4마디씩</b>: 오른손 → 왼손 → 양손. 처음엔 🐌 아주 느리게.</li>
+        <li><b>셋씩 세기</b>: '하나둘셋 하나둘셋'. 박의 첫 음에 살짝 힘을 주면 흔들리지 않아요.</li>
+        <li><b>가볍게</b>: 빠른 곡일수록 손가락은 건반 가까이, 힘은 빼고. 반짝이는 소리가 목표예요.</li>
+        <li><b>한 구절씩 이어 붙이기</b>: A(1~16) → A'(49~66) → 코다 → 마지막에 B.</li>
+        <li><b>체르니와 함께</b>: 체르니 30번 후반~40번 정도면 이 곡에 도전해 볼 만해요.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="sources">
+    <h2><span class="num">8</span>악보 출처와 참고</h2>
+    <div class="card" style="font-size:.93rem">
+      <ul style="margin:0;padding-left:18px">
+        <li><b>악보·MIDI</b>: Frédéric Chopin, Étude Op.10 No.5 (Ges-Dur) — <a href="https://www.mutopiaproject.org/" rel="noopener">Mutopia Project</a>, Roland Goretzki 입력 (Peters, Herrmann Scholtz 1900년판 바탕) — <b>퍼블릭 도메인</b>. 이 페이지의 악보는 이 자료로 다시 그렸어요.</li>
+        <li><b>피아노 음색</b>: Salamander Grand Piano (Alexander Holm, 야마하 C5 녹음, CC BY 3.0).</li>
+        <li><b>1단계 연습·설명</b>: 성실피아노 공부방 (CC BY-SA 4.0).</li>
+      </ul>
+    </div>
+  </section>
+  <footer><p>ⓒ 성실피아노 · 피아노조율사 박근성 · <a href="liszt-transcendental.html">리스트 초절기교 공부 교실</a> · <a href="prayer.html">소녀의 기도 피아노 교실</a> · <a href="index.html">음악 공부방</a></p></footer>
+</div>
+<script>
+(function(){var b=document.getElementById("themeBtn"),r=document.documentElement;try{var t=localStorage.getItem("theme");if(t)r.dataset.theme=t;}catch(e){}
+b.onclick=function(){var n=r.dataset.theme==="dark"?"light":"dark";r.dataset.theme=n;try{localStorage.setItem("theme",n);}catch(e){}};})();
+</script>
+<script src="js/music-engine.js?v=20261114b"></script>
+<script src="js/score-engine.js?v=20261124"></script>
+<script src="js/salamander.js?v=20261117"></script>
+<script src="js/chopin-bk.js?v=20261124"></script>
+<script src="js/chopin-bk-lesson.js?v=20261124"></script>
+</body>
+</html>
