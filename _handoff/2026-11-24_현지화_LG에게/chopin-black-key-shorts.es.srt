@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:01,600
+La mano derecha toca solo teclas negras
+
+2
+00:00:01,600 --> 00:00:03,200
+¡excepto UNA vez! ¿Encuentras la tecla blanca?
+
+3
+00:00:03,200 --> 00:00:13,400
+Estudio "Teclas negras" de Chopin
+
+4
+00:00:13,500 --> 00:00:14,400
+Mira bien…
+
+5
+00:00:14,500 --> 00:00:15,300
+¡La encontré! La única tecla blanca: Fa
+
+6
+00:00:15,400 --> 00:00:27,800
+Otra vez teclas negras: la coda
+
+7
+00:00:27,900 --> 00:00:33,000
+Octavas volando sobre las teclas negras
+
+8
+00:00:33,100 --> 00:00:37,600
+¡Bravo, Chopin!
+
+9
+00:00:37,700 --> 00:00:41,000
+Clase gratis (85 compases): ver descripción

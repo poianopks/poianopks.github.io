@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>쇼팽 흑건 쇼츠 — 3D 화면</title>
+<meta name="robots" content="noindex"/>
+<style>
+html,body{margin:0;background:#05030c}
+body{display:grid;place-items:center;min-height:100vh}
+#wrap{position:relative;width:100%;max-width:440px;aspect-ratio:9/16;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0;overflow:hidden;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:radial-gradient(ellipse at 50% 30%,#2a2440 0%,#0e0c18 55%,#040308 100%)}
+#gl{position:absolute;left:0;top:130px;width:1080px;height:1060px}
+#top{position:absolute;left:0;top:0;width:1080px;height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(rgba(5,3,12,.95),rgba(5,3,12,.3));color:#ffd166;font-weight:900}
+#top .a{font-size:44px}#top .b{font-size:30px;color:#ffc9b0;margin-top:2px}
+#score{position:absolute;left:20px;top:1195px;width:1040px;height:370px;background:#fffaf2;border-radius:22px;overflow:hidden;box-shadow:0 0 0 5px #c21f35,0 12px 40px rgba(0,0,0,.6)}
+#score .chunk{position:absolute;left:0;top:0;width:1000px;transform-origin:0 0;display:none}
+#score .chunk.show{display:block}
+#score .score{--staff:#000;--ink:#000;--sub:#333;--card:#fffaf2;--accent:#e0413a}
+#score .score svg{display:block;width:100%;height:auto}
+.score .staffline{stroke:#000;stroke-width:1.4}.score .ink{fill:#000;stroke:#000}.score .n .hd{fill:#000}.score .n .hd.open{fill:#fffaf2;stroke:#000;stroke-width:1.7}
+.score .n .st{stroke:#000;stroke-width:1.6}.score .beam{fill:#000}.score .acc{fill:#000;font-size:16px}.score .cnt{fill:#555;font-size:11px;text-anchor:middle}
+.score .n.on .st{stroke:#e0413a}.score .n.on .acc{fill:#e0413a}
+#score .score .n.on .hd{fill:#e0413a;stroke:#e0413a}
+#score .score text{font-weight:800}
+.score .ksig{fill:#000;font-size:20px}.score .ott{fill:#000;font-size:12px;font-weight:900;font-style:italic}.score .ottl{stroke:#000;stroke-dasharray:5 4}.score .tie{fill:none;stroke:#000;stroke-width:1.6}.score .tup{fill:#000;font-size:11px;font-weight:800;text-anchor:middle;font-style:italic}.score .sec{fill:#c21f35;font-size:13px;font-weight:900}
+#white{position:absolute;left:0;right:0;top:1760px;text-align:center;color:#fff;font-size:36px;font-weight:900}
+#hl{position:absolute;background:rgba(255,209,102,.35);border-radius:8px}
+#cur{position:absolute;width:6px;background:#e0413a;box-shadow:0 0 12px #e0413a;border-radius:3px}
+#barno{position:absolute;right:16px;top:10px;background:#c21f35;color:#fff;font-weight:900;font-size:28px;border-radius:14px;padding:4px 14px}
+#cap{position:absolute;left:40px;right:40px;top:1585px;text-align:center;color:#fff;font-size:44px;font-weight:900;line-height:1.3;text-shadow:0 3px 0 #5a0d1d,0 0 24px rgba(255,90,60,.6)}
+#cnt{position:absolute;left:0;right:0;top:1700px;text-align:center;color:#ffd166;font-size:34px;font-weight:900}
+#ov{position:absolute;left:0;top:0;width:1080px;height:1920px;display:none;place-items:center;text-align:center;color:#fff}
+#ov .in{padding:0 60px}
+#ov h1{margin:0;font-size:96px;line-height:1.1;color:#ffd166;text-shadow:0 6px 0 #5a0d1d,0 0 40px rgba(255,140,60,.8)}
+#ov p{margin:18px 0 0;font-size:46px;font-weight:900}
+#ov small{display:block;margin-top:26px;font-size:28px;color:#ffc9b0;font-weight:700;line-height:1.5}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+  <canvas id="gl" width="1080" height="1060"></canvas>
+  <div id="top"><div class="a">🎹 성실피아노 010-8756-8740</div><div class="b">쇼팽 「흑건」 Op.10 No.5 · 오른손은 검은 건반만!</div></div>
+  <div id="score"><div id="cur"></div><div id="barno"></div></div>
+  <div id="cap"></div>
+  <div id="cnt"></div><div id="white"></div>
+  <div id="ov"><div class="in" id="ovIn"></div></div>
+  <div id="flash"></div>
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/music-engine.js?v=20261114b"></script>
+<script src="js/score-engine.js?v=20261124"></script>
+<script src="js/chopin-bk.js?v=20261124"></script>
+<script>
+(function(){
+"use strict";
+var REC=/[?&]rec=1/.test(location.search),EN=/[?&]lang=(en|none)/.test(location.search),NONE=/[?&]lang=none/.test(location.search),$=function(i){return document.getElementById(i);};
+var wrap=$("wrap"),stage=$("stage");
+function fit(){if(REC){wrap.style.maxWidth="none";wrap.style.width="1080px";return;}stage.style.transform="scale("+(wrap.clientWidth/1080)+")";}
+addEventListener("resize",fit);fit();
+fetch("media/chopin-bk-shorts.json").then(function(r){return r.json();}).then(init);
+function init(D){
+var NOTES=D.notes,BARS=D.bars,INTRO=D.intro,END=D.end;
+/* ---------- 3D ---------- */
+var R=new THREE.WebGLRenderer({canvas:$("gl"),antialias:true,alpha:true,preserveDrawingBuffer:REC});R.setPixelRatio(1);R.setSize(1080,1060,false);R.setClearColor(0,0);
+var scene=new THREE.Scene();scene.fog=new THREE.Fog(0x14060f,30,70);
+scene.add(new THREE.AmbientLight(0xffffff,.45));var dl=new THREE.DirectionalLight(0xffffff,.8);dl.position.set(-5,16,12);scene.add(dl);
+var red=new THREE.PointLight(0x9fb8ff,0,40);red.position.set(0,6,6);scene.add(red);
+function isB(m){return [1,3,6,8,10].indexOf(m%12)>=0;}
+var LO=36,HI=103,X={},nw=0;for(var m=LO;m<=HI;m++)if(!isB(m))X[m]=nw++;for(m=LO;m<=HI;m++)if(isB(m))X[m]=X[m-1]+.5;
+for(m in X)X[m]-= (nw-1)/2;
+var KW=1;
+var kb=new THREE.Group();scene.add(kb);
+var body=new THREE.Mesh(new THREE.BoxGeometry(nw+1.5,1.2,1.6),new THREE.MeshStandardMaterial({color:0x0b0b10,metalness:.6,roughness:.3}));body.position.set(0,.1,-.8);kb.add(body);
+var felt=new THREE.Mesh(new THREE.BoxGeometry(nw+.3,.08,.12),new THREE.MeshBasicMaterial({color:0xc21f35}));felt.position.set(0,.06,-.06);kb.add(felt);
+var KEYS={};for(m=LO;m<=HI;m++){var bk=isB(m),k=new THREE.Mesh(bk?new THREE.BoxGeometry(.56,.5,3.8):new THREE.BoxGeometry(.94,.5,6),new THREE.MeshStandardMaterial({color:bk?0x141218:0xf7f4ec,roughness:.4,emissive:0x000000}));
+  k.position.set(X[m],bk?.2:-.25,bk?1.9:3);k.userData={y:k.position.y,bk:bk,glow:0};kb.add(k);KEYS[m]=k;}
+var cam=new THREE.PerspectiveCamera(36,1080/1060,1,300);
+/* 떨어지는 음표 막대 */
+var gBar=new THREE.BoxGeometry(1,1,1),pool=[];
+function bar(i){if(pool[i])return pool[i];var ms=new THREE.Mesh(gBar,new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xffffff,emissiveIntensity:.55,transparent:true}));scene.add(ms);pool[i]=ms;return ms;}
+var COL={R:new THREE.Color(0xffd166),L:new THREE.Color(0x6ec3ff),W:new THREE.Color(0xffffff)};
+/* 불꽃 입자 */
+var SP=600,spG=new THREE.BufferGeometry(),spP=new Float32Array(SP*3),spC=new Float32Array(SP*3);spG.setAttribute("position",new THREE.BufferAttribute(spP,3));spG.setAttribute("color",new THREE.BufferAttribute(spC,3));
+var sparks=new THREE.Points(spG,new THREE.PointsMaterial({size:.32,vertexColors:true,transparent:true,opacity:.95,blending:THREE.AdditiveBlending,depthWrite:false}));scene.add(sparks);
+function rnd(i,k){var x=Math.sin(i*12.9898+k*78.233)*43758.5453;return x-Math.floor(x);}
+/* 질주하는 속도선 (말발굽 바람) */
+var SL=140,slG=new THREE.BufferGeometry(),slP=new Float32Array(SL*6);slG.setAttribute("position",new THREE.BufferAttribute(slP,3));
+var lines=new THREE.LineSegments(slG,new THREE.LineBasicMaterial({color:0xffb08a,transparent:true,opacity:.35}));scene.add(lines);
+/* 별 */
+(function(){var g=new THREE.BufferGeometry(),p=[];for(var i=0;i<500;i++)p.push((rnd(i,1)-.5)*120,rnd(i,2)*50+4,-30-rnd(i,3)*30);g.setAttribute("position",new THREE.Float32BufferAttribute(p,3));scene.add(new THREE.Points(g,new THREE.PointsMaterial({color:0xffe6c8,size:.25})));})();
+/* ---------- 장면 ---------- */
+var LOOK=1.9,FALL=26,NP=NOTES.length;NOTES.forEach(function(n){if(n[3]==='R'&&!isB(n[2]))n[3]='W';});var WT=null;NOTES.forEach(function(n){if(n[3]==='W'&&WT===null)WT=n[0];});
+var CAP=EN?[[0,"✨ Right hand: black keys only…"],[9,"⚪ FOUND IT! The only white key: F"],[10,"🎹 Back to the black keys — the coda"],[22,"⚫ Octaves flying over the black keys"],[27,"🎉 Bravo, Chopin!"]]:[[0,"✨ 오른손은 검은 건반만…"],[9,"⚪ 찾았다! 유일한 흰 건반 「파」"],[10,"🎹 다시 검은 건반 — 마무리(코다)"],[22,"⚫ 검은 건반 위를 나는 옥타브"],[27,"🎉 브라보, 쇼팽!"]];
+  if(NONE){$("top").innerHTML='<div class="a">🎹 Sungsil Piano</div><div class="b">Chopin · «Black Key» Étude</div>';}else if(EN){$("top").innerHTML='<div class="a">🎹 Sungsil Piano · Korea</div><div class="b">Chopin · Étude Op.10 No.5 «Black Key»</div>';}
+/* 악보: 두 마디씩 SE로 그리기 */
+var SE=window.SE,BK=window.BK,B0=D.b0,CH=[],B2C={},sbox=$("score");
+for(var q=0;q<BARS.length;q+=2){CH.push({a:q,b:Math.min(BARS.length,q+2)});B2C[q]=CH.length-1;B2C[q+1]=CH.length-1;}
+function buildChunk(c){var ch=CH[c];if(ch.div)return ch;var div=document.createElement("div");div.className="chunk score show";sbox.insertBefore(div,$("cur"));
+  var a=B0-1+ch.a,b=B0-1+ch.b,R2=SE.parseBars(BK.rh.slice(a,b)),L2=SE.parseBars(BK.lh.slice(a,b));
+  SE.render(div,{maxW:1000,staves:[{clef:"treble",items:R2,prefix:"R"+c+"-",labels:false,ott:true},{clef:"bass",items:L2,prefix:"L"+c+"-",labels:false}],bars:BK.bars.slice(a,b).map(function(x){return {sig:2,key:-6,bpm:x.bpm};}),startBar:a+1});
+  var h=div.scrollHeight,box=div.getBoundingClientRect(),sc=Math.min(1.25,350/h,1040/1000),xs=[],its=[];
+  [["R",R2],["L",L2]].forEach(function(p){p[1].forEach(function(it){var nd=div.querySelector('[data-i="'+p[0]+c+"-"+it.i+'"]');if(!nd)return;var r=nd.getBoundingClientRect();if(!r.width)return;
+    xs.push([it.gpos,(r.left+r.width/2-box.left)/box.width*1000]);if(!it.rest)its.push({el:nd,a:it.gpos,b:it.gpos+it.len,w:p[0]==="R"&&it.notes.some(function(z){return !isB(z.midi);})});});});
+  xs.sort(function(p1,p2){return p1[0]-p2[0];});
+  div.style.transform="scale("+sc+")";div.style.left=Math.round((1040-1000*sc)/2)+"px";div.style.top=Math.round((370-h*sc)/2)+"px";
+  ch.div=div;ch.sc=sc;ch.left=Math.round((1040-1000*sc)/2);ch.top=Math.round((370-h*sc)/2);ch.h=h;ch.xs=xs;ch.its=its;div.classList.remove("show");return ch;}
+CH.forEach(function(c,i){buildChunk(i);});
+var shown=-1;
+function curX(ch,lb){var xs=ch.xs;if(!xs.length)return 40;if(lb<=xs[0][0])return xs[0][1];for(var k=0;k<xs.length-1;k++)if(lb<xs[k+1][0])return xs[k][1]+(xs[k+1][1]-xs[k][1])*(lb-xs[k][0])/Math.max(1e-6,xs[k+1][0]-xs[k][0]);var la=xs[xs.length-1];return Math.min(990,la[1]+30);}
+function ease(x){x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);}
+function render(t){
+  /* 소리 나는 음 / 세기 */
+  var hit=0,count=0,down={};
+  for(var i=0;i<NP;i++){var n=NOTES[i];if(n[0]>t+.0001)break;count++;var age=t-n[0];if(age<.12)hit+=n[4]*(1-age/.12);if(t<n[0]+Math.min(n[1],.5)+.03)down[n[2]]=n[3];}
+  /* 카메라 (조금씩 다가가며, 큰 화음에 흔들림) */
+  var p=Math.max(0,Math.min(1,(t-INTRO)/(END-INTRO))),shake=Math.min(1,hit/4);
+  var dist=54-p*9,ang=(50-p*6)*Math.PI/180;
+  cam.position.set(Math.sin(t*.4)*2+(rnd(Math.floor(t*30),5)-.5)*shake*.6,Math.sin(ang)*dist+(rnd(Math.floor(t*30),6)-.5)*shake*.5,Math.cos(ang)*dist);
+  cam.lookAt(0,9.5,0);
+  red.intensity=1.5*shake+.3;
+  /* 떨어지는 막대 */
+  var used=0;
+  for(i=0;i<NP;i++){n=NOTES[i];var d=n[0]-t;if(d>LOOK)break;var e=n[0]+n[1]-t;if(e<-.05)continue;
+    var ms=bar(used++),top=Math.min(LOOK,e),bot=Math.max(0,d),h=Math.max(.15,(top-bot)/LOOK*FALL);
+    ms.visible=true;ms.scale.set(isB(n[2])?.5:.8,h,.5);ms.position.set(X[n[2]],.7+bot/LOOK*FALL+h/2,isB(n[2])?1.4:3.2);
+    ms.material.color.copy(COL[n[3]]);ms.material.emissive.copy(COL[n[3]]);ms.material.opacity=Math.min(1,(LOOK-d)/.3);}
+  for(i=used;i<pool.length;i++)pool[i].visible=false;
+  /* 건반 */
+  for(var mm in KEYS){var k=KEYS[mm],h2=down[mm];k.position.y=h2?k.userData.y-.15:k.userData.y;
+    k.material.color.setHex(h2==="W"?0xff3b3b:h2==="R"?0xffd166:h2==="L"?0x6ec3ff:(k.userData.bk?0x141218:0xf7f4ec));k.material.emissive.setHex(h2==="W"?0xaa0000:h2?(h2==="R"?0x6b4a00:0x0b3a6b):0);}
+  /* 불꽃: 최근 친 음에서 튀어 오름 */
+  var si=0;for(i=0;i<NP&&si<SP;i++){n=NOTES[i];var a=t-n[0];if(a<0)break;if(a>1.1)continue;
+    for(var q=0;q<4&&si<SP;q++,si++){var vx=(rnd(i,q)-.5)*6,vy=4+rnd(i,q+9)*8*(.4+n[4]),vz=(rnd(i,q+3)-.5)*3;
+      spP[si*3]=X[n[2]]+vx*a;spP[si*3+1]=.8+vy*a-9*a*a;spP[si*3+2]=2.6+vz*a;var c=COL[n[3]],f=Math.max(0,1-a/1.1);spC[si*3]=c.r*f;spC[si*3+1]=c.g*f;spC[si*3+2]=c.b*f;}}
+  for(;si<SP;si++){spP[si*3+1]=-99;}
+  spG.attributes.position.needsUpdate=true;spG.attributes.color.needsUpdate=true;
+  /* 속도선 */
+  var sp=8+p*30;for(i=0;i<SL;i++){var z=-60+((rnd(i,7)*80+t*sp)%80),x=(rnd(i,8)-.5)*90,y=rnd(i,9)*30+2;
+    slP[i*6]=x;slP[i*6+1]=y;slP[i*6+2]=z;slP[i*6+3]=x;slP[i*6+4]=y;slP[i*6+5]=z+2+p*5;}
+  slG.attributes.position.needsUpdate=true;lines.material.opacity=.15+.4*p;
+  R.render(scene,cam);
+  /* 악보 */
+  var bi=0;for(i=0;i<BARS.length;i++)if(t>=BARS[i].t0)bi=i;var B=BARS[bi];
+  var ci2=B2C[bi];if(ci2!==shown){if(shown>=0)CH[shown].div.classList.remove("show");CH[ci2].div.classList.add("show");shown=ci2;}
+  var ch=CH[ci2],f=t<B.t0?0:Math.min(1,(t-B.t0)/(B.t1-B.t0)),lb=(bi-ch.a)*2+2*f,x=ch.left+curX(ch,lb)*ch.sc;
+  $("cur").style.left=(x-3)+"px";$("cur").style.top=(ch.top+6)+"px";$("cur").style.height=(ch.h*ch.sc-12)+"px";$("cur").style.display=t<INTRO-0.3||t>END?"none":"block";
+  ch.its.forEach(function(it){it.el.classList.toggle("on",t>=INTRO&&lb>=it.a-1e-6&&lb<it.b-1e-6);});
+  $("barno").textContent=NONE?String(B.bar):EN?"Bar "+B.bar:B.bar+"마디";
+  var ci=0;for(i=0;i<CAP.length;i++)if(bi>=CAP[i][0])ci=i;$("cap").textContent=t<INTRO||NONE?"":CAP[ci][1];
+  $("cnt").textContent=t<INTRO||NONE?"":EN?"🎹 Notes played: "+count:"🎹 지금까지 친 음 "+count+"개";
+  var wa=WT===null?9:t-WT;$("flash").style.opacity=wa>=0&&wa<.6?(.6-wa)*1.1:Math.min(.2,shake*.06);
+  $("white").textContent=t<INTRO||NONE?"":(EN?"⚪ Right-hand white keys: ":"⚪ 오른손 흰 건반: ")+(wa>=0?"1":"0")+(EN?"":"번");
+  /* 시작·끝 화면 */
+  var ov=$("ov");
+  if(t<INTRO){ov.style.display="grid";ov.style.background="rgba(5,3,12,"+(t<INTRO-.6?.78:.78*(INTRO-t)/.6)+")";ov.style.opacity=t<INTRO-.6?1:(INTRO-t)/.6;
+    var n3=Math.ceil(INTRO-.6-t);$("ovIn").innerHTML=NONE?'<h1>Chopin<br>«Black Key»</h1><p style="font-size:110px">⚫⚫⚫ ⚪?</p>'+(n3>0?'<p style="font-size:120px;color:#ffd166;margin-top:20px">'+n3+'</p>':''):(EN?'<p style="color:#cfd8ff">The right hand plays only black keys…</p><h1>Chopin<br>«Black Key»</h1><p>⚪ except ONE white key. Can you spot it?</p>':'<p style="color:#cfd8ff">오른손은 검은 건반만 쳐요… 단 한 번만 빼고!</p><h1>쇼팽<br>「흑건」</h1><p>⚪ 흰 건반 한 번, 찾을 수 있나요?</p>')+(n3>0?'<p style="font-size:120px;color:#ffd166;margin-top:30px">'+n3+'</p>':'');}
+  else if(t>END){ov.style.display="grid";var o=Math.min(1,(t-END)/.8);ov.style.background="rgba(5,3,12,"+(.85*o)+")";ov.style.opacity=o;
+    var CR='Score &amp; MIDI: Mutopia Project (Roland Goretzki, after Peters 1900) — public domain<br>Piano: Salamander Grand Piano (CC BY 3.0)';
+    $("ovIn").innerHTML=NONE?'<h1 style="font-size:110px">⚪ = 1</h1><p style="font-size:44px;color:#ffd166">poianopks.github.io/claude</p><small>'+CR+' · © Sungsil Piano</small>':EN?'<h1 style="font-size:80px">⚪ Did you<br>spot it? (bar 66)</h1><p>🎹 Free lesson: all 85 bars, slow motion</p><p style="font-size:38px;color:#ffd166">poianopks.github.io/claude</p><small>'+CR+'<br>© Sungsil Piano · Piano technician Park Geunseong (Korea)</small>':'<h1 style="font-size:80px">⚪ 찾으셨나요?<br>66마디의 「파」!</h1><p>🎹 전곡 85마디 무료 공부 교실</p><p style="font-size:38px;color:#ffd166">poianopks.github.io/claude</p><small>악보·MIDI: Mutopia Project (Roland Goretzki, Peters 1900년판 바탕) — 퍼블릭 도메인<br>피아노 음색: Salamander Grand Piano (CC BY 3.0)<br>ⓒ 성실피아노 · 피아노조율사 박근성</small>';}
+  else ov.style.display="none";
+}
+window.VTOTAL=D.total;window.renderVideo=render;
+var ready=1,all=1;
+function go(){if(REC){window.READY=true;render(0);return;}
+  var au=new Audio("media/chopin-bk-shorts.mp3"),pl=false;stage.addEventListener("click",function(){if(pl){au.pause();pl=false;}else{au.play();pl=true;}});
+  (function loop(){render(pl?au.currentTime:INTRO+.01);requestAnimationFrame(loop);})();}
+if(ready>=all)go();
+}
+})();
+</script>
+</body>
+</html>
