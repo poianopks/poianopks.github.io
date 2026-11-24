@@ -9,14 +9,14 @@
       "price": 189400,
       "change": 11900,
       "changePercent": 6.7042255,
-      "volume": "17.03M",
+      "volume": "18.44M",
       "week52High": 374500,
-      "week52Low": 96200,
+      "week52Low": 97800,
       "distFromHigh": -49.42590120160214,
-      "priceToBook": 2.05,
+      "priceToBook": 1.97,
       "bps": 92903,
-      "trailingPE": 5.99,
-      "forwardPE": 4.18,
+      "trailingPE": 5.75,
+      "forwardPE": 4.01,
       "eps": 31809,
       "cnsEps": 45565
     },
@@ -29,14 +29,14 @@
       "price": 1158000,
       "change": 73000,
       "changePercent": 6.7281103,
-      "volume": "3.55M",
+      "volume": "3.87M",
       "week52High": 2987000,
       "week52Low": 501000,
       "distFromHigh": -61.23200535654503,
-      "priceToBook": 2.68,
+      "priceToBook": 2.57,
       "bps": 433826,
-      "trailingPE": 4.44,
-      "forwardPE": 3.28,
+      "trailingPE": 4.25,
+      "forwardPE": 3.14,
       "eps": 261625,
       "cnsEps": 354200
     },
@@ -99,7 +99,7 @@
       "changePercent": 19.0392,
       "volume": "49.40M",
       "week52High": 1255,
-      "week52Low": 212.36,
+      "week52Low": 216,
       "distFromHigh": -43.60956175298804,
       "trailingPE": 9.521054,
       "forwardPE": 3.4246724
@@ -115,7 +115,7 @@
       "changePercent": 14.6185,
       "volume": "12.42M",
       "week52High": 739.67,
-      "week52Low": 222.86,
+      "week52Low": 233.14,
       "distFromHigh": -53.10476293482228,
       "trailingPE": 27.485737,
       "forwardPE": 14.085885
@@ -131,7 +131,7 @@
       "changePercent": 14.4541,
       "volume": "17.24M",
       "week52High": 438.5,
-      "week52Low": 144.43,
+      "week52Low": 145.5,
       "distFromHigh": -52.1641961231471,
       "trailingPE": 31.260803,
       "forwardPE": 17.09201
@@ -147,7 +147,7 @@
       "changePercent": 14.9602,
       "volume": "16.97M",
       "week52High": 307.37,
-      "week52Low": 110.3,
+      "week52Low": 110.742,
       "distFromHigh": -52.5490451247682,
       "trailingPE": 31.775599,
       "forwardPE": 20.573317
@@ -166,7 +166,7 @@
       "week52Low": 188.22,
       "distFromHigh": -31.13952499544433,
       "trailingPE": 96.893166,
-      "forwardPE": 25.74175
+      "forwardPE": 25.708899
     },
     {
       "symbol": "INTC",
@@ -196,7 +196,7 @@
       "week52High": 259.92,
       "week52Low": 121.99,
       "distFromHigh": -36.37273007079102,
-      "trailingPE": 11.804425,
+      "trailingPE": 13.022048,
       "forwardPE": 13.576102
     },
     {
@@ -213,7 +213,7 @@
       "week52Low": 289.77,
       "distFromHigh": -36.656565656565654,
       "trailingPE": 40.044697,
-      "forwardPE": 16.150682
+      "forwardPE": 16.174044
     },
     {
       "symbol": "TXN",
@@ -273,7 +273,7 @@
       "description": "마이크론 +19.04% 강세 — 메모리 가격 상승·재고 정상화 기대"
     }
   ],
-  "updatedAt": "2026-11-24T07:07:28.863Z",
-  "marketStatus": "애프터마켓",
-  "isRealtime": true
+  "updatedAt": "2026-11-24T13:36:14.097Z",
+  "marketStatus": "장마감",
+  "isRealtime": false
 }

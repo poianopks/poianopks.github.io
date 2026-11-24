@@ -28,17 +28,17 @@
       "name": "러셀 2000",
       "symbol": "^RUT",
       "value": 2669.655,
-      "change": 87.86548,
-      "changePercent": 3.403278,
+      "change": 87.86499,
+      "changePercent": 3.4032586,
       "previousClose": 2581.79
     },
     {
       "name": "VIX 공포지수",
       "symbol": "^VIX",
-      "value": 26.62,
-      "change": -9.269999,
-      "changePercent": -25.828918,
-      "previousClose": 35.89
+      "value": 29.88,
+      "change": 3.2599983,
+      "changePercent": 12.232637,
+      "previousClose": 26.62
     }
   ],
   "topGainers": [
@@ -125,7 +125,7 @@
       "volume": "4.77M"
     }
   ],
-  "updatedAt": "2026-11-24T07:07:20.216Z",
-  "marketStatus": "장마감",
-  "isRealtime": false
+  "updatedAt": "2026-11-24T13:36:04.623Z",
+  "marketStatus": "프리마켓",
+  "isRealtime": true
 }
