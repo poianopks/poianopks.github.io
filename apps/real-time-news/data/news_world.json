@@ -1,6 +1,196 @@
 [
   {
-    "id": "CNBC-11-2026-11-24T13:33:26.000Z",
+    "id": "MarketWatch-0-2026-11-24T18:48:00.000Z",
+    "title": "Visiting Las Vegas is getting too expensive — but don’t blame airfares",
+    "description": "Analysts say Vegas hotels have gotten pricey, with customers finding better deals in other cities or on cruise ships",
+    "url": "https://www.marketwatch.com/story/visiting-las-vegas-is-getting-too-expensive-but-dont-blame-airfares-12e2c588?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T18:48:00.000Z"
+  },
+  {
+    "id": "CNBC-3-2026-11-24T18:34:43.000Z",
+    "title": "Consumer confidence shoots up after Democrats' midterm victories — though inflation worries persist",
+    "description": "The Conference Board survey released Tuesday showed improvement across the board, with the headline confidence index jumping to 103.3.",
+    "url": "https://www.cnbc.com/2026/11/24/consumer-confidence-november-election-midterm.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T18:34:43.000Z"
+  },
+  {
+    "id": "MarketWatch-1-2026-11-24T18:33:00.000Z",
+    "title": "Micron’s stock falls as an analyst warns about a future supply glut",
+    "description": "A BNP Paribas analyst says the risk of an  “oversupply scenario is mounting” for memory chips, and that could threaten Micron’s pricing power.",
+    "url": "https://www.marketwatch.com/story/microns-stock-falls-as-an-analyst-warns-about-a-future-supply-glut-f7fbeefb?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T18:33:00.000Z"
+  },
+  {
+    "id": "CNBC-17-2026-11-24T18:30:58.000Z",
+    "title": "Nvidia shares fall 7% as Huang comeback rally cools",
+    "description": "Jensen Huang was reinstated as CEO of Nvidia after he resigned following an acknowledgement of an extramarital affair.",
+    "url": "https://www.cnbc.com/2026/11/24/nvidia-stock-jensen-huang-return.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T18:30:58.000Z"
+  },
+  {
+    "id": "MarketWatch-2-2026-11-24T18:28:00.000Z",
+    "title": "Tesla has a ‘legitimate multitrillion-dollar opportunity’ in robotaxis, says former skeptic",
+    "description": "Even for Seaport analyst Ron Jewsikow, Tesla’s robotaxi progress is now “impossible to ignore.”",
+    "url": "https://www.marketwatch.com/story/tesla-has-a-legitimate-multitrillion-dollar-opportunity-in-robotaxis-says-former-skeptic-23507364?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T18:28:00.000Z"
+  },
+  {
+    "id": "CNBC-2-2026-11-24T18:21:35.000Z",
+    "title": "Retail turnarounds are taking hold just in time for the holiday season",
+    "description": "Retail earnings reports on Tuesday pointed to a mix of factors behind the strong results, including a resilient consumer and stronger execution.",
+    "url": "https://www.cnbc.com/2026/11/24/retail-turnarounds-holiday-season.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T18:21:35.000Z"
+  },
+  {
+    "id": "CNBC-5-2026-11-24T18:17:12.000Z",
+    "title": "As Anthropic falls below its IPO price, here's how big-money traders are reacting",
+    "description": "Anthropic shares fell below the $83 IPO price as options activity surged, with large put buys, call buys and put sales pointing to a divided market.",
+    "url": "https://www.cnbc.com/2026/11/24/anthropic-options-trading-ipo-price.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T18:17:12.000Z"
+  },
+  {
+    "id": "MarketWatch-3-2026-11-24T18:15:00.000Z",
+    "title": "I’ve been married for 58 years. It’s ‘our’ money, not ‘his’ and ‘hers.’ Why do so many couples keep their finances separate?",
+    "description": "“My wife stopped working outside the home in 1970.”",
+    "url": "https://www.marketwatch.com/story/ive-been-married-for-58-years-its-our-money-not-his-and-hers-why-dont-others-feel-the-same-c5745889?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T18:15:00.000Z"
+  },
+  {
+    "id": "MarketWatch-5-2026-11-24T18:00:00.000Z",
+    "title": "A 66-year-old nurse is facing down retirement with just $500 saved. Who’s to blame?",
+    "description": "“Retirement is a financial status, not an age.”",
+    "url": "https://www.marketwatch.com/story/a-66-year-old-nurse-faces-retirement-with-just-500-saved-whos-to-blame-4249a0fd?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T18:00:00.000Z"
+  },
+  {
+    "id": "CNBC-4-2026-11-24T17:59:12.000Z",
+    "title": "Trump Account contributions from friends and family pass $1 billion mark, Treasury says",
+    "description": "Trump Account contributions from friends and family have passed $1 billion, according to the Treasury Department. Here's what families need to know.",
+    "url": "https://www.cnbc.com/2026/11/24/trump-accounts-family-contributions-billion.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T17:59:12.000Z"
+  },
+  {
+    "id": "CNBC-0-2026-11-24T17:51:45.000Z",
+    "title": "Jensen Huang to face DC grilling the same day Nvidia releases new products at GTC",
+    "description": "Jensen Huang is back as CEO of Nvidia and immediately faces the challenge of leading the chip giant and defending himself in Washington.",
+    "url": "https://www.cnbc.com/2026/11/24/jensen-huang-nvidia-congress-gtc.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T17:51:45.000Z"
+  },
+  {
+    "id": "MarketWatch-6-2026-11-24T17:48:00.000Z",
+    "title": "The AI debt market isn’t convinced the worst is over for investors",
+    "description": "Stocks rebounded on Monday, but credit markets remain cautious.",
+    "url": "https://www.marketwatch.com/story/the-ai-debt-market-isnt-convinced-the-worst-is-over-for-investors-c70eaede?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T17:48:00.000Z"
+  },
+  {
+    "id": "CNBC-1-2026-11-24T17:30:26.000Z",
+    "title": "Anthropic sinks 8%, falling below $83 IPO price, but analysts are still largely positive",
+    "description": "Anthropic has been sinking steadily since the stock opened at $111.50 on the Nasdaq on Nov. 19.",
+    "url": "https://www.cnbc.com/2026/11/24/anthropic-stock-ipo-price.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T17:30:26.000Z"
+  },
+  {
+    "id": "CNBC-15-2026-11-24T17:19:52.000Z",
+    "title": "We're adding to our position in a tech giant that is too cheap to ignore",
+    "description": "Our discipline requires us to put some money to work in these oversold conditions.",
+    "url": "https://www.cnbc.com/investingclub/2026/11/24/were-adding-to-our-position-in-a-tech-giant-that-is-too-cheap-to-ignore-.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T17:19:52.000Z"
+  },
+  {
+    "id": "MarketWatch-8-2026-11-24T17:15:00.000Z",
+    "title": "My husband secretly sends his ex-wife $1,500 a month after she lost her job. We have $2.4 million saved. Has he lied by omission?",
+    "description": "“He explained that he wasn’t trying to hide the payment, but his former wife lost her job in a medical billing company.”",
+    "url": "https://www.marketwatch.com/story/my-husband-secretly-sends-his-ex-wife-1-500-a-month-after-she-lost-her-job-we-have-2-4-million-saved-has-he-lied-by-omission-ede1972a?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T17:15:00.000Z"
+  },
+  {
+    "id": "MarketWatch-9-2026-11-24T17:10:00.000Z",
+    "title": "‘Buyers are out for blood’: With home sales at a record low, buyers are calling the shots",
+    "description": "The few buyers left in the market braving record-high home prices and 7% mortgage rates are starting to call the shots, real-estate agents say.",
+    "url": "https://www.marketwatch.com/story/buyers-are-out-for-blood-as-housing-market-finally-hits-rock-bottom-fa5093a6?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T17:10:00.000Z"
+  },
+  {
+    "id": "CNBC-10-2026-11-24T15:49:27.000Z",
+    "title": "Drugmaker Insmed shares rally 14% after Sanofi agrees to buy it in pharma’s biggest deal in three years",
+    "description": "Sanofi faces a revenue drop toward the end of the decade as top-selling drugs lose exclusivity and open up for generic drugmakers to compete.",
+    "url": "https://www.cnbc.com/2026/11/24/insmed-sanofi-deal-stock-pharma.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T15:49:27.000Z"
+  },
+  {
+    "id": "CNBC-13-2026-11-24T15:05:14.000Z",
+    "title": "Commercial real estate activity falls 14% in October, as interest rates rise",
+    "description": "Commercial real estate activity dropped 14% in October from September, according to an index from LightBox, a commercial real estate data platform.",
+    "url": "https://www.cnbc.com/2026/11/24/commercial-real-estate-activity-falls-14percent-in-october.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T15:05:14.000Z"
+  },
+  {
+    "id": "CNBC-14-2026-11-24T14:51:58.000Z",
+    "title": "Best Buy reports comparable sales growth of 6.1%, highest in five years",
+    "description": "Best Buy beat quarterly expectations for its fiscal third-quarter earnings results on Tuesday and raised its full-year guidance.",
+    "url": "https://www.cnbc.com/2026/11/24/best-buy-bby-q3-2027-earnings.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-24T14:51:58.000Z"
+  },
+  {
+    "id": "CNBC-19-2026-11-24T13:33:26.000Z",
     "title": "Fed's John Williams indicates higher interest rates likely 'over time' to address inflation",
     "description": "The influential central banker expressed confidence that inflation will get closer to the Fed's 2% target in 2027.",
     "url": "https://www.cnbc.com/2026/11/23/john-williams-fed-inflation-rate-hikes.html",
@@ -10,7 +200,7 @@
     "publishedAt": "2026-11-24T13:33:26.000Z"
   },
   {
-    "id": "CNBC-0-2026-11-24T13:31:29.000Z",
+    "id": "CNBC-11-2026-11-24T13:31:29.000Z",
     "title": "Six key questions raised by Jensen Huang's return to Nvidia",
     "description": "As Jensen Huang returns to Nvidia, questions remained around the board's reversal, Trump's involvement and the tech giant's future.",
     "url": "https://www.cnbc.com/2026/11/24/nvidia-jensen-huang-politics-market.html",
@@ -20,187 +210,17 @@
     "publishedAt": "2026-11-24T13:31:29.000Z"
   },
   {
-    "id": "CNBC-2-2026-11-24T13:17:16.000Z",
-    "title": "Commercial real estate activity falls 14% in October, as interest rates rise",
-    "description": "Commercial real estate activity dropped 14% in October from September, according to an index from LightBox, a commercial real estate data platform.",
-    "url": "https://www.cnbc.com/2026/11/24/commercial-real-estate-activity-falls-14percent-in-october.html",
+    "id": "CNBC-16-2026-11-24T12:10:59.000Z",
+    "title": "Does the Nvidia-led rip mark the market bottom? Maybe not",
+    "description": "The standard market playbook is to assume that we’ve put in “a low, not the final low.”",
+    "url": "https://www.cnbc.com/2026/11/24/does-the-nvidia-led-rip-mark-the-market-bottom-maybe-not.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-24T13:17:16.000Z"
+    "publishedAt": "2026-11-24T12:10:59.000Z"
   },
   {
-    "id": "CNBC-1-2026-11-24T12:57:35.000Z",
-    "title": "Best Buy reports comparable sales growth of 6.1%, highest in five years",
-    "description": "Best Buy beat quarterly expectations for its fiscal third-quarter earnings results on Tuesday and raised its full-year guidance.",
-    "url": "https://www.cnbc.com/2026/11/24/best-buy-bby-q3-2027-earnings.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T12:57:35.000Z"
-  },
-  {
-    "id": "MarketWatch-0-2026-11-24T12:56:00.000Z",
-    "title": "Sunday’s pot roast now costs more than a Thanksgiving feast. Why beef won’t get cheaper for years.",
-    "description": "A four-pound chuck roast runs $36.33. Walmart feeds 10 for $35. The turkey is the bait. The cow is the bill.",
-    "url": "https://www.marketwatch.com/story/sundays-pot-roast-now-costs-more-than-a-thanksgiving-feast-why-beef-wont-get-cheaper-for-years-7daa1b3f?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T12:56:00.000Z"
-  },
-  {
-    "id": "MarketWatch-1-2026-11-24T12:54:00.000Z",
-    "title": "HPE just posted its strongest growth ever — but its stock is sinking",
-    "description": "HPE boosted its financial forecast on Monday in the face of strong AI demand.",
-    "url": "https://www.marketwatch.com/story/hpe-just-posted-its-strongest-growth-ever-and-its-stock-is-tacking-on-more-big-gains-4421cebb?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T12:54:00.000Z"
-  },
-  {
-    "id": "MarketWatch-2-2026-11-24T12:50:00.000Z",
-    "title": "The biggest biotech deal in nearly three years carries a hefty $41 billion price tag",
-    "description": "French drugmaker Sanofi on Tuesday agreed to pay $41 billion for U.S. biotech Insmed, a hefty price that will help the pharmaceutical giant offset the patent expiration on a key drug.",
-    "url": "https://www.marketwatch.com/story/the-biggest-biotech-deal-in-nearly-three-years-carries-a-hefty-41-billion-price-tag-dd7fa228?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T12:50:00.000Z"
-  },
-  {
-    "id": "CNBC-3-2026-11-24T12:33:41.000Z",
-    "title": "Drugmaker Insmed shares rally 14% after Sanofi agrees to buy it in pharma’s biggest deal in three years",
-    "description": "Sanofi faces a revenue drop towards the end of the decade as top-selling drugs lose exclusivity and open up for generic drugmakers to compete.",
-    "url": "https://www.cnbc.com/2026/11/24/insmed-sanofi-deal-stock-pharma.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T12:33:41.000Z"
-  },
-  {
-    "id": "MarketWatch-3-2026-11-24T12:21:00.000Z",
-    "title": "Jensen Huang’s return was worth nearly $950 billion to Nvidia. How much of the stock market should ride on one man?",
-    "description": "Trump got the CEO he wanted. Nvidia still has an investigation to finish. Plus, the outlook for AI jobs and why Medicare Advantage insurers missed Monday’s rally.",
-    "url": "https://www.marketwatch.com/story/jensen-huangs-return-was-worth-nearly-950-billion-to-nvidia-how-much-of-the-stock-market-should-ride-on-one-man-c7129e95?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T12:21:00.000Z"
-  },
-  {
-    "id": "MarketWatch-4-2026-11-24T12:15:00.000Z",
-    "title": "I’ve been married for 58 years. It’s ‘our’ money, not ‘his’ and ‘hers.’ Why do so many couples keep their finances separate?",
-    "description": "“My wife stopped working outside the home in 1970.”",
-    "url": "https://www.marketwatch.com/story/ive-been-married-for-58-years-its-our-money-not-his-and-hers-why-dont-others-feel-the-same-c5745889?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T12:15:00.000Z"
-  },
-  {
-    "id": "CNBC-6-2026-11-24T12:00:01.000Z",
-    "title": "Some U.S. food banks see demand top pandemic levels",
-    "description": "A combination of high costs and restrictions to federal aid have led to soaring demand at many food banks in the U.S.",
-    "url": "https://www.cnbc.com/2026/11/24/us-food-banks-demand-snap.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T12:00:01.000Z"
-  },
-  {
-    "id": "MarketWatch-6-2026-11-24T11:59:00.000Z",
-    "title": "This billionaire bought Nvidia in anticipation of Jensen Huang’s return — and warns the S&P 500 could fall by a third",
-    "description": "Jim Mellon is a billionaire investor with strong views on diverse asset classes. He’s bearish on the AI sector and U.S. stocks generally but he sees real value in Chinese equity markets and long-term Japanese government debt",
-    "url": "https://www.marketwatch.com/story/this-billionaire-bought-nvidia-in-anticipation-of-jensen-huangs-return-and-warns-the-s-p-500-could-fall-by-a-third-dcff9489?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T11:59:00.000Z"
-  },
-  {
-    "id": "MarketWatch-7-2026-11-24T11:39:00.000Z",
-    "title": "The ‘epic’ buying of retail investors paid off after Nvidia’s 31% stock surge, says strategist",
-    "description": "Retail investors who bought shares in the chip giant last week saw an average gain of 11% on Monday.",
-    "url": "https://www.marketwatch.com/story/the-epic-buying-of-retail-investors-paid-off-after-nvidias-31-stock-surge-says-strategist-c8f9a502?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T11:39:00.000Z"
-  },
-  {
-    "id": "CNBC-19-2026-11-24T11:15:30.000Z",
-    "title": "Why France is at risk of recession — and what could keep it out of one",
-    "description": "Bank of France Governor Emmanuel Moulin told CNBC he still expects growth, pointing to resilience in sectors including defense, aerospace and electricity.",
-    "url": "https://www.cnbc.com/2026/11/24/france-recession-risk-pmi.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T11:15:30.000Z"
-  },
-  {
-    "id": "MarketWatch-8-2026-11-24T11:15:00.000Z",
-    "title": "A 66-year-old nurse is facing down retirement with just $500 saved. Who’s to blame?",
-    "description": "“Retirement is a financial status, not an age.”",
-    "url": "https://www.marketwatch.com/story/a-66-year-old-nurse-faces-retirement-with-just-500-saved-whos-to-blame-4249a0fd?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T11:15:00.000Z"
-  },
-  {
-    "id": "CNBC-14-2026-11-24T07:25:41.000Z",
-    "title": "Signal joins United Airlines, banks in limiting AI agents over customer risks",
-    "description": "Privacy-focused messaging application Signal has joined United Airlines and JPMorgan Chase in implementing restrictions around artificial intelligence agents.",
-    "url": "https://www.cnbc.com/2026/11/24/signal-airlines-banks-ai-limit.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T07:25:41.000Z"
-  },
-  {
-    "id": "CNBC-10-2026-11-24T05:05:08.000Z",
-    "title": "Iran says three tankers hit mines in Hormuz despite U.S. escort, as Treasury widens sanctions",
-    "description": "Iran said three oil tankers caught fire after hitting naval mines in the Strait of Hormuz, as the U.S. escalates sanctions aimed at cutting off Tehran's financial lifelines.",
-    "url": "https://www.cnbc.com/2026/11/24/iran-trump-hormuz-crude-.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T05:05:08.000Z"
-  },
-  {
-    "id": "CNBC-13-2026-11-24T04:27:38.000Z",
-    "title": "China has changed tactics but is still thwarting India's rise, a U.S. panel says",
-    "description": "China is increasingly focused on containing India economically rather than through military actions.",
-    "url": "https://www.cnbc.com/2026/11/24/us-china-thwarting-india-growth.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T04:27:38.000Z"
-  },
-  {
-    "id": "CNBC-8-2026-11-24T02:21:06.000Z",
-    "title": "What Jensen Huang’s return means for Nvidia’s Colette Kress",
-    "description": "Kress steered the company through billions in AI financing deals and during Huang's sudden departure. Now she's back to full-time CFO.",
-    "url": "https://www.cnbc.com/2026/11/23/nvidia-jensen-huang-returns-colette-kress-cfo.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T02:21:06.000Z"
-  },
-  {
-    "id": "CNBC-18-2026-11-24T02:20:44.000Z",
-    "title": "Jensen Huang cheered by Nvidia employees after return, pledges to be a better CEO",
-    "description": "Nvidia's Jensen Huang admitted to an affair in a note to employees on Nov. 8 and resigned as CEO on Nov. 12.",
-    "url": "https://www.cnbc.com/2026/11/23/jensen-huang-nvidia-ceo-return.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-24T02:20:44.000Z"
-  },
-  {
-    "id": "CNBC-5-2026-11-23T21:00:59.000Z",
+    "id": "CNBC-8-2026-11-23T21:00:59.000Z",
     "title": "Peterson: Here’s what Bessent’s about-face on Jensen Huang reveals about Trump and China",
     "description": "Treasury Secretary Scott Bessent was becoming the face of an emerging harder line on Nvidia— until he reversed course",
     "url": "https://www.cnbc.com/2026/11/23/nvidia-jensen-huang-trump-bessent-china.html",
@@ -218,16 +238,6 @@
     "source": "CNBC",
     "category": "글로벌",
     "publishedAt": "2026-11-23T20:22:49.000Z"
-  },
-  {
-    "id": "CNBC-17-2026-11-23T19:34:38.000Z",
-    "title": "Amazon to acquire AI startup Decart's chip software, hire founders",
-    "description": "Decart, founded in 2023, is best known for its software that lets developers sync their AI models across different chips.",
-    "url": "https://www.cnbc.com/2026/11/23/amazon-decarts-ai-acquisition.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-23T19:34:38.000Z"
   },
   {
     "id": "WSJ Markets-0-2025-01-27T19:26:00.000Z",
