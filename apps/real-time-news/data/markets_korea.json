@@ -4,7 +4,7 @@
     "change": -308.52002,
     "changePercent": -6.162968,
     "previousClose": 5006.03,
-    "marketState": "POSTPOST"
+    "marketState": "PREPRE"
   },
   "kosdaq": {
     "value": 650.64,
@@ -12,22 +12,22 @@
     "changePercent": -2.2886992,
     "previousClose": 635.45
   },
-  "bondYield10y": 4.9040003,
-  "bondYield30y": 5.292,
-  "vixLevel": 30.78,
+  "bondYield10y": 4.836,
+  "bondYield30y": 5.236,
+  "vixLevel": 30.11,
   "riskItems": [
     {
-      "title": "미국 30년물 금리 5.29%",
+      "title": "미국 30년물 금리 5.24%",
       "detail": "2007년 서브프라임 이후 최고치. 빅테크 AI 데이터센터 CAPEX에 자금 조달 부담 → 반도체 수요 감소 위험 상존.",
       "level": "high"
     },
     {
-      "title": "미국 10년물 금리 4.90%",
+      "title": "미국 10년물 금리 4.84%",
       "detail": "장기 기대수익률 기준선 상승. 위험자산 대비 국채 매력 증가, 코스피 외국인 이탈 압박.",
       "level": "high"
     },
     {
-      "title": "VIX 공포지수 30.8",
+      "title": "VIX 공포지수 30.1",
       "detail": "극도 공포 구간. 단기 급락 리스크 매우 높음. 현금 비중 확대·분할 접근 필수.",
       "level": "high"
     },
@@ -138,53 +138,53 @@
       "label": "1주일",
       "fromDate": "2026-11-19",
       "fromClose": 5138,
-      "toClose": 4698,
-      "returnPct": -8.57,
+      "toClose": 5006,
+      "returnPct": -2.57,
       "isATH": false
     },
     {
       "label": "1개월",
       "fromDate": "2026-10-27",
       "fromClose": 5638,
-      "toClose": 4698,
-      "returnPct": -16.69,
+      "toClose": 5006,
+      "returnPct": -11.21,
       "isATH": false
     },
     {
       "label": "3개월",
       "fromDate": "2026-08-27",
       "fromClose": 6912,
-      "toClose": 4698,
-      "returnPct": -32.04,
+      "toClose": 5006,
+      "returnPct": -27.58,
       "isATH": false
     },
     {
       "label": "6개월",
       "fromDate": "2026-05-28",
       "fromClose": 8185,
-      "toClose": 4698,
-      "returnPct": -42.61,
+      "toClose": 5006,
+      "returnPct": -38.84,
       "isATH": false
     },
     {
       "label": "1년",
       "fromDate": "2025-11-26",
       "fromClose": 3961,
-      "toClose": 4698,
-      "returnPct": 18.6,
+      "toClose": 5006,
+      "returnPct": 26.39,
       "isATH": false
     },
     {
       "label": "2년",
       "fromDate": "2024-11-26",
       "fromClose": 2520,
-      "toClose": 4698,
-      "returnPct": 86.38,
+      "toClose": 5006,
+      "returnPct": 98.62,
       "isATH": false
     }
   ],
   "kospiAth": 9115,
   "kospiAthDate": "2026-06-22",
-  "updatedAt": "2026-11-25T12:45:07.094Z",
+  "updatedAt": "2026-11-25T17:57:20.699Z",
   "isRealtime": false
 }
