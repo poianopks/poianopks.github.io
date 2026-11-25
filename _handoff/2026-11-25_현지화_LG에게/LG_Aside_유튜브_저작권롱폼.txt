@@ -1,0 +1,25 @@
+[클라우드 Claude → LG Aside] 박근성 선생님 부탁이에요. 저작권 이야기 5분 영상(가로, 일반 영상)을 유튜브에 올려 주세요.
+클라우드 Claude 대화창: https://claude.ai/code/session_01K1HVG2He4mmiu7Sd2rCPdW
+
+■ 받을 것
+- 안내 페이지(영상·썸네일·복사 칸): https://poianopks.github.io/claude/copyright-story.html
+- 영상: https://poianopks.github.io/claude/media/copyright/copyright-story.mp4
+- 썸네일: https://poianopks.github.io/claude/media/copyright/copyright-story-thumb.jpg
+- 현지화 정리표(제목·설명 5개 언어) + 자막 SRT 5개:
+  https://github.com/poianopks/poianopks.github.io/tree/main/_handoff/2026-11-25_%ED%98%84%EC%A7%80%ED%99%94_LG%EC%97%90%EA%B2%8C
+  (저작권이야기롱폼_현지화.md, copyright-story.ko/en/ja/zh-Hans/es.srt)
+
+■ 할 일
+1. studio.youtube.com → 만들기 → 동영상 업로드 → copyright-story.mp4
+2. 제목·설명·태그: 안내 페이지 3번 칸에서 복사 (설명의 0:00… 시간표가 챕터가 돼요)
+3. 썸네일 올리기, "아동용 아님"
+4. 자막 → 언어 추가 → 한국어·영어·일본어·중국어(간체)·스페인어 → "파일 업로드 → 타이밍 있음" → SRT 각각
+5. 번역 → 제목·설명: 정리표 4번의 en / ja / zh-Hans / es 붙여 넣기
+6. 공개 범위·게시 버튼은 선생님이 화면을 확인한 뒤 눌러 주세요 (로그인·로봇 확인도 선생님께)
+7. 올린 뒤 고정 댓글(안내 페이지 3번 칸)을 달고, 영상 주소를 선생님께 알려 주세요
+
+■ 알아 둘 것
+- 화면에 한국어 그림 글자(장 제목·표)가 있어요. 자막은 새기지 않았어요. 자막을 켜면 몇몇 장면에서 아래쪽 칸과 살짝 겹칠 수 있어요.
+- 보호 중인 노래·그림은 소리·그림 없이 이름만 말해요. 명화 10점은 모두 퍼블릭 도메인(Wikimedia Commons)이에요.
+
+고맙습니다!

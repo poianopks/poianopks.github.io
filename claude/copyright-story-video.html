@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>저작권 이야기 영상 — 3D·SVG 화면</title>
+<meta name="robots" content="noindex"/>
+<style>
+html,body{margin:0;background:#050814}
+body{display:grid;place-items:center;min-height:100vh}
+#wrap{position:relative;width:100%;max-width:1100px;aspect-ratio:16/9;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:radial-gradient(ellipse at 30% 20%,#1b2a5e 0%,#0b1230 55%,#050814 100%);color:#fff}
+#gl{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#brand{position:absolute;right:40px;top:28px;font-size:30px;font-weight:900;color:#ffd166;text-shadow:0 2px 8px #000}
+#chap{position:absolute;left:40px;top:24px;display:flex;align-items:center;gap:16px;font-weight:900;text-shadow:0 2px 8px #000}
+#chap .n{display:grid;place-items:center;width:56px;height:56px;border-radius:16px;background:#c21f35;font-size:32px}
+#chap .t{font-size:40px}
+#prog{position:absolute;left:0;top:0;height:8px;background:linear-gradient(90deg,#6ec3ff,#ffd166);width:0}
+#dots{position:absolute;left:40px;top:96px;display:flex;gap:8px}
+#dots i{width:46px;height:8px;border-radius:4px;background:rgba(255,255,255,.22)}#dots i.on{background:#ffd166}#dots i.done{background:#6ec3ff}
+#panel{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+#panel svg{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#card{position:absolute;inset:0;display:none;place-items:center;text-align:center;background:rgba(5,8,20,.55)}
+#card .k{font-size:44px;color:#9fd0ff;font-weight:900}#card .h{font-size:110px;font-weight:900;color:#ffd166;text-shadow:0 6px 0 #5a0d1d,0 0 40px rgba(255,180,80,.7);margin-top:10px}
+#card .s{font-size:40px;font-weight:800;margin-top:16px;color:#e8ecff}
+#card small{display:block;margin-top:24px;font-size:26px;color:#c9d6ff;font-weight:700;line-height:1.6}
+.cap{font-family:"Noto Sans KR",sans-serif;font-weight:900}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+  <canvas id="gl" width="1920" height="1080"></canvas>
+  <div id="panel"><svg id="sv" viewBox="0 0 1920 1080"></svg></div>
+  <div id="prog"></div>
+  <div id="chap"><span class="n" id="chapN">1</span><span class="t" id="chapT"></span></div>
+  <div id="dots"></div>
+  <div id="brand">🎹 성실피아노</div>
+  <div id="card"><div id="cardIn"></div></div>
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+"use strict";
+var REC=/[?&]rec=1/.test(location.search),$=function(i){return document.getElementById(i);};
+var wrap=$("wrap"),stage=$("stage");
+function fit(){if(REC){wrap.style.maxWidth="none";wrap.style.width="1920px";return;}stage.style.transform="scale("+(wrap.clientWidth/1920)+")";}
+addEventListener("resize",fit);fit();
+fetch("media/copyright/cv.json").then(function(r){return r.json();}).then(init);
+function init(D){
+var SEGS=D.segs,INTRO=D.intro,END=D.end;
+SEGS.forEach(function(){$("dots").appendChild(document.createElement("i"));});
+function rnd(i,k){var x=Math.sin(i*12.9898+k*78.233)*43758.5453;return x-Math.floor(x);}
+function ease(x){x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);}
+function back(x){x=Math.max(0,Math.min(1,x));var c=1.6;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2);}
+/* ---------- 3D ---------- */
+var R=new THREE.WebGLRenderer({canvas:$("gl"),antialias:true,alpha:true,preserveDrawingBuffer:REC});R.setPixelRatio(1);R.setSize(1920,1080,false);R.setClearColor(0,0);
+var scene=new THREE.Scene();scene.add(new THREE.AmbientLight(0xffffff,.5));var dl=new THREE.DirectionalLight(0xffffff,.85);dl.position.set(4,10,10);scene.add(dl);
+var gold=new THREE.PointLight(0xffd166,1.2,60);gold.position.set(0,6,10);scene.add(gold);
+var cam=new THREE.PerspectiveCamera(40,1920/1080,.1,300);cam.position.set(0,2,22);cam.lookAt(0,1,0);
+function tex(draw,w,h){var c=document.createElement("canvas");c.width=w;c.height=h;draw(c.getContext("2d"),w,h);var t=new THREE.CanvasTexture(c);t.anisotropy=4;return t;}
+function label(txt,col,sc,size,dep){var t=tex(function(x,w,h){x.font="900 "+(size||64)+"px Noto Sans KR, sans-serif";x.textAlign="center";x.textBaseline="middle";x.lineWidth=10;x.strokeStyle="#0b1230";x.strokeText(txt,w/2,h/2);x.fillStyle=col||"#fff";x.fillText(txt,w/2,h/2);},768,160);
+  var s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthTest:!!dep}));s.scale.set(sc||4.8,(sc||4.8)*160/768,1);return s;}
+/* 금빛 먼지 */
+var DP=600,dG=new THREE.BufferGeometry(),dP=new Float32Array(DP*3);dG.setAttribute("position",new THREE.BufferAttribute(dP,3));
+scene.add(new THREE.Points(dG,new THREE.PointsMaterial({color:0xffe6a8,size:.09,transparent:true,opacity:.8})));
+/* © 동전 */
+var coinT=tex(function(x,w,h){var g=x.createRadialGradient(w/2,h/2,20,w/2,h/2,w/2);g.addColorStop(0,"#fff2b0");g.addColorStop(1,"#c9962a");x.fillStyle=g;x.beginPath();x.arc(w/2,h/2,w/2-4,0,7);x.fill();x.lineWidth=18;x.strokeStyle="#8a6414";x.beginPath();x.arc(w/2,h/2,w/2-30,0,7);x.stroke();
+  x.strokeStyle="#6b4a0a";x.lineWidth=30;x.beginPath();x.arc(w/2,h/2,120,Math.PI*.25,Math.PI*1.75);x.stroke();x.lineWidth=14;x.beginPath();x.arc(w/2,h/2,200,0,7);x.stroke();},512,512);
+var coin=new THREE.Mesh(new THREE.CylinderGeometry(3,3,.5,64),[new THREE.MeshStandardMaterial({color:0xc9962a,metalness:.8,roughness:.25}),new THREE.MeshStandardMaterial({map:coinT,metalness:.5,roughness:.3}),new THREE.MeshStandardMaterial({map:coinT,metalness:.5,roughness:.3})]);
+coin.rotation.x=Math.PI/2;var coinG=new THREE.Group();coinG.add(coin);scene.add(coinG);
+var c70=label("+70년","#ffd166",5,90);c70.position.set(0,-4.2,0);coinG.add(c70);
+/* 나라별 막대 */
+var BARD=[["🇰🇷 한국",70,0x3a6fb0],["🇺🇸 미국",70,0x6ec3ff],["🇯🇵 일본",70,0xff6b8a],["🇫🇷 프랑스",70,0x8a6bff],["🇨🇳 중국",50,0xffb020]];
+var barsG=new THREE.Group(),bars=[];scene.add(barsG);
+var base=new THREE.Mesh(new THREE.BoxGeometry(15,.3,4),new THREE.MeshStandardMaterial({color:0x1d2a55}));base.position.y=-.15;barsG.add(base);
+BARD.forEach(function(d,i){var m=new THREE.Mesh(new THREE.BoxGeometry(1.8,1,1.8),new THREE.MeshStandardMaterial({color:d[2],roughness:.35,metalness:.2}));m.position.x=-6+i*3;barsG.add(m);
+  var a=label(d[0],"#fff",5,72);a.position.set(m.position.x,-1.1,1.6);barsG.add(a);var b=label(d[1]+"년","#ffd166",5,96);barsG.add(b);bars.push({m:m,h:d[1]/14,l:b});});
+barsG.position.set(3.5,-4.2,0);
+/* 3D 미술관 (퍼블릭 도메인 명화) */
+var ART=[["starry-night","반 고흐 「별이 빛나는 밤」","1890년 사망"],["mona-lisa","다빈치 「모나리자」","1519년 사망"],["danwon-ssireum","김홍도 「씨름」","조선 후기"],["hyewon-miindo","신윤복 「미인도」","조선 후기"],["hokusai-wave","호쿠사이 「파도」","1849년 사망"],
+ ["vermeer-pearl","페르메이르 「진주 귀걸이 소녀」","1675년 사망"],["klimt-kiss","클림트 「키스」","1918년 사망"],["monet-lilies","모네 「수련」","1926년 사망"],["beethoven","슈틸러 「베토벤」","1858년 사망"],["liszt-1843","비오 「리스트」 사진","1843년 촬영"]];
+var gal=new THREE.Group(),frames=[],loader=new THREE.TextureLoader(),loaded=0;scene.add(gal);
+ART.forEach(function(a,i){var g=new THREE.Group();var ang=i/ART.length*Math.PI*2,r=11;
+  var fr=new THREE.Mesh(new THREE.BoxGeometry(4.6,5.6,.3),new THREE.MeshStandardMaterial({color:0x8a6414,metalness:.7,roughness:.3}));g.add(fr);
+  var pic=new THREE.Mesh(new THREE.PlaneGeometry(4,5),new THREE.MeshBasicMaterial({color:0x333333}));pic.position.z=.17;g.add(pic);
+  loader.load("media/copyright/"+a[0]+".jpg",function(t){var im=t.image,ar=im.width/im.height,W=4,H=5;if(ar>W/H){H=W/ar;}else{W=H*ar;}pic.geometry=new THREE.PlaneGeometry(W,H);fr.scale.set((W+.6)/4.6,(H+.6)/5.6,1);pic.material=new THREE.MeshBasicMaterial({map:t});loaded++;});
+  var l1=label(a[1],"#fff",6,64,1);l1.position.set(0,-3.5,.3);g.add(l1);var l2=label(a[2]+" · 퍼블릭 도메인","#9fe0b0",5.2,56,1);l2.position.set(0,-4.4,.3);g.add(l2);
+  g.position.set(Math.sin(ang)*r,0,Math.cos(ang)*r);g.rotation.y=ang;gal.add(g);frames.push({g:g,a:ang,l:[l1,l2]});});
+gal.visible=false;
+/* ---------- SVG 장면 ---------- */
+var sv=$("sv"),NS="http://www.w3.org/2000/svg";
+function el(t,a,txt){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;}
+var SC={};
+function scene_(name,build){var g=el("g",{});g.style.display="none";sv.appendChild(g);SC[name]={g:g,u:build(g)};}
+/* hook */
+scene_("hook",function(g){var L=el("g",{});L.appendChild(el("rect",{x:170,y:260,width:620,height:400,rx:40,fill:"#10301f",stroke:"#1f8a4c","stroke-width":8}));L.appendChild(el("text",{x:480,y:400,"text-anchor":"middle","font-size":120},"🎹"));
+  L.appendChild(el("text",{x:480,y:510,"text-anchor":"middle","font-size":54,fill:"#fff",class:"cap"},"쇼팽 (1849년 사망)"));L.appendChild(el("text",{x:480,y:600,"text-anchor":"middle","font-size":60,fill:"#9fe0b0",class:"cap"},"✅ 마음껏 OK"));
+  var Rr=el("g",{});Rr.appendChild(el("rect",{x:1130,y:260,width:620,height:400,rx:40,fill:"#331018",stroke:"#c21f35","stroke-width":8}));Rr.appendChild(el("text",{x:1440,y:400,"text-anchor":"middle","font-size":120},"❄️"));
+  Rr.appendChild(el("text",{x:1440,y:510,"text-anchor":"middle","font-size":54,fill:"#fff",class:"cap"},"「눈이 내리네」 (1963)"));Rr.appendChild(el("text",{x:1440,y:600,"text-anchor":"middle","font-size":60,fill:"#ff9a9a",class:"cap"},"⛔ 아직 보호"));
+  var vs=el("text",{x:960,y:500,"text-anchor":"middle","font-size":110,fill:"#ffd166",class:"cap"},"VS");g.appendChild(L);g.appendChild(Rr);g.appendChild(vs);
+  var q=el("text",{x:960,y:800,"text-anchor":"middle","font-size":70,fill:"#ffd166",class:"cap"},"왜 다를까? 🤔");g.appendChild(q);
+  return function(lt,S){var a=S.lines[1].t0-S.s0;var k=lt<a?1:1-ease((lt-a)/.5);L.setAttribute("opacity",ease(lt/.4)*k);Rr.setAttribute("opacity",ease((lt-1.6)/.4)*k);vs.setAttribute("opacity",ease((lt-1)/.4)*k);q.setAttribute("opacity",ease((lt-4)/.4)*k);
+    L.setAttribute("transform","translate("+(-200*(1-back(lt/.6)))+",0)");Rr.setAttribute("transform","translate("+(200*(1-back((lt-1.6)/.6)))+",0)");};});
+/* years */
+scene_("years",function(g){var u=el("g",{});u.appendChild(el("rect",{x:260,y:130,width:1400,height:110,rx:30,fill:"#14204a",stroke:"#6ec3ff","stroke-width":5}));u.appendChild(el("text",{x:960,y:203,"text-anchor":"middle","font-size":44,fill:"#fff",class:"cap"},"🇺🇸 미국 옛 작품: 1930년 이전 발행 → 2026년 현재 자유"));g.appendChild(u);
+  var k=el("text",{x:960,y:200,"text-anchor":"middle","font-size":46,fill:"#ffd166",class:"cap"},"🇰🇷 한국 2013년 7월부터 사후 70년 (그 전엔 50년)");g.appendChild(k);
+  return function(lt,S){var a=S.lines[1].t0-S.s0,b=S.lines[2].t0-S.s0,c=S.lines[4].t0-S.s0;k.setAttribute("opacity",lt>a&&lt<c?ease((lt-a)/.4)*(lt<b+3?1:1-ease((lt-b-3)/.4)):0);u.setAttribute("opacity",ease((lt-c)/.4));};});
+/* outro */
+scene_("outro",function(g){var h=el("g",{});h.appendChild(el("text",{x:480,y:560,"text-anchor":"middle","font-size":200},"🏠"));h.appendChild(el("text",{x:480,y:680,"text-anchor":"middle","font-size":50,fill:"#9fd0ff",class:"cap"},"가족에게 남기는 보이지 않는 집"));
+  var w=el("g",{});w.appendChild(el("text",{x:1440,y:560,"text-anchor":"middle","font-size":200},"🌍"));w.appendChild(el("text",{x:1440,y:680,"text-anchor":"middle","font-size":50,fill:"#9fe0b0",class:"cap"},"70년 뒤 온 세상의 선물"));
+  var c=el("g",{});c.appendChild(el("rect",{x:310,y:760,width:1300,height:120,rx:30,fill:"#ffd166"}));c.appendChild(el("text",{x:960,y:838,"text-anchor":"middle","font-size":46,fill:"#1b1150",class:"cap"},"⚖️ 변호사 · 🧾 세무사 · 📞 한국저작권위원회 1800-5455"));
+  var l=el("text",{x:960,y:230,"text-anchor":"middle","font-size":48,fill:"#fff",class:"cap"},"📘 무료 계산기 → 설명란 링크");g.appendChild(h);g.appendChild(w);g.appendChild(c);g.appendChild(l);
+  return function(lt,S){var a=S.lines[1].t0-S.s0,b=S.lines[2].t0-S.s0,d=S.lines[3].t0-S.s0;h.setAttribute("opacity",ease(lt/.5));w.setAttribute("opacity",ease((lt-a)/.5));c.setAttribute("opacity",ease((lt-b)/.5));l.setAttribute("opacity",ease((lt-d)/.5));};});
+/* what */
+scene_("what",function(g){var items=[["🎵","노래",420],["📖","책",700],["🖼️","그림",980],["📷","사진",1260]],els=[];
+  items.forEach(function(it,i){var gg=el("g",{});gg.appendChild(el("circle",{cx:it[2],cy:430,r:110,fill:"#14204a",stroke:"#6ec3ff","stroke-width":6}));gg.appendChild(el("text",{x:it[2],y:470,"text-anchor":"middle","font-size":110},it[0]));
+    gg.appendChild(el("text",{x:it[2],y:600,"text-anchor":"middle","font-size":44,fill:"#fff",class:"cap"},it[1]));g.appendChild(gg);els.push(gg);});
+  var stamp=el("g",{});stamp.appendChild(el("rect",{x:1500,y:330,width:300,height:200,rx:30,fill:"none",stroke:"#ff5a5f","stroke-width":12}));stamp.appendChild(el("text",{x:1650,y:420,"text-anchor":"middle","font-size":64,fill:"#ff5a5f",class:"cap"},"© 저절로"));
+  stamp.appendChild(el("text",{x:1650,y:490,"text-anchor":"middle","font-size":34,fill:"#ff9a9a",class:"cap"},"등록 안 해도 OK"));g.appendChild(stamp);
+  var pd=el("g",{});pd.appendChild(el("path",{d:"M840 700 L1080 700",stroke:"#ffd166","stroke-width":10,"marker-end":""}));pd.appendChild(el("text",{x:960,y:800,"text-anchor":"middle","font-size":58,fill:"#9fe0b0",class:"cap"},"⏳ 일정 기간 뒤 → 🌍 모두의 것 (퍼블릭 도메인)"));g.appendChild(pd);
+  return function(lt,S){els.forEach(function(e,i){var k=back((lt-.3-i*.35)/.5);e.setAttribute("transform","translate("+items[i][2]+",430) scale("+Math.max(.001,k)+") translate("+(-items[i][2])+",-430)");});
+    var a=S.lines[0].t1-S.s0;stamp.setAttribute("opacity",ease((lt-a)/.4));var b=S.lines[2].t0-S.s0;pd.setAttribute("opacity",ease((lt-b)/.5));};});
+/* time */
+scene_("time",function(g){g.appendChild(el("line",{x1:200,y1:420,x2:1720,y2:420,stroke:"#55618f","stroke-width":16,"stroke-linecap":"round"}));
+  var life=el("rect",{x:200,y:405,width:0,height:30,rx:15,fill:"#3a6fb0"}),fam=el("rect",{x:700,y:405,width:0,height:30,rx:15,fill:"#c21f35"}),pub=el("rect",{x:1500,y:405,width:0,height:30,rx:15,fill:"#1f8a4c"});g.appendChild(life);g.appendChild(fam);g.appendChild(pub);
+  [[450,"✍️ 작가 생전","#9fd0ff"],[1100,"👨‍👩‍👧 가족 70년","#ff9a9a"],[1610,"🌍 모두","#9fe0b0"]].forEach(function(a){g.appendChild(el("text",{x:a[0],y:370,"text-anchor":"middle","font-size":46,fill:a[2],class:"cap"},a[1]));});
+  g.appendChild(el("text",{x:700,y:490,"text-anchor":"middle","font-size":34,fill:"#fff",class:"cap"},"세상을 떠남"));g.appendChild(el("text",{x:1500,y:490,"text-anchor":"middle","font-size":34,fill:"#fff",class:"cap"},"다음 해 1월 1일부터 70년"));
+  var walker=el("text",{x:200,y:432,"text-anchor":"middle","font-size":60},"🎵");g.appendChild(walker);
+  var c1=el("g",{});c1.appendChild(el("rect",{x:360,y:600,width:560,height:220,rx:30,fill:"#13301f",stroke:"#1f8a4c","stroke-width":6}));c1.appendChild(el("text",{x:640,y:690,"text-anchor":"middle","font-size":50,fill:"#9fe0b0",class:"cap"},"이중섭 (1956년 사망)"));c1.appendChild(el("text",{x:640,y:770,"text-anchor":"middle","font-size":52,fill:"#fff",class:"cap"},"✅ 한국에서 자유"));
+  var c2=el("g",{});c2.appendChild(el("rect",{x:1000,y:600,width:560,height:220,rx:30,fill:"#3a1018",stroke:"#c21f35","stroke-width":6}));c2.appendChild(el("text",{x:1280,y:690,"text-anchor":"middle","font-size":50,fill:"#ff9a9a",class:"cap"},"박수근 (1965년 사망)"));c2.appendChild(el("text",{x:1280,y:770,"text-anchor":"middle","font-size":52,fill:"#fff",class:"cap"},"⛔ 2035년까지 보호"));
+  var cho=el("text",{x:960,y:610,"text-anchor":"middle","font-size":54,fill:"#ffd166",class:"cap"},"🎹 쇼팽 1849년 사망 → 오래전에 모두의 것");g.appendChild(cho);g.appendChild(c1);g.appendChild(c2);
+  return function(lt,S){var k=ease(lt/3);life.setAttribute("width",500*Math.min(1,k*3));fam.setAttribute("width",800*Math.max(0,Math.min(1,k*3-1)));pub.setAttribute("width",220*Math.max(0,Math.min(1,k*3-2)));
+    walker.setAttribute("x",200+(1720-200)*((lt*.18)%1));var a=S.lines[1].t0-S.s0,b=S.lines[2].t0-S.s0;cho.setAttribute("opacity",lt>a&&lt<b?ease((lt-a)/.4):0);
+    c1.setAttribute("opacity",ease((lt-b)/.4));c2.setAttribute("opacity",ease((lt-b-2.5)/.4));};});
+/* songs */
+scene_("songs",function(g){var ok=["엘리제를 위하여 (베토벤)","캐논 (파헬벨)","고요한 밤 거룩한 밤","징글벨","애국가 (2005년 기증)"],no=["White Christmas → 2059","Last Christmas → 2086","눈이 내리네 (작곡가 생존)","고향의 봄 가사 → 2051"];
+  g.appendChild(el("rect",{x:160,y:200,width:760,height:640,rx:36,fill:"#10301f",stroke:"#1f8a4c","stroke-width":6}));g.appendChild(el("rect",{x:1000,y:200,width:760,height:640,rx:36,fill:"#331018",stroke:"#c21f35","stroke-width":6}));
+  g.appendChild(el("text",{x:540,y:280,"text-anchor":"middle","font-size":60,fill:"#9fe0b0",class:"cap"},"✅ 자유"));g.appendChild(el("text",{x:1380,y:280,"text-anchor":"middle","font-size":60,fill:"#ff9a9a",class:"cap"},"⛔ 아직 보호"));
+  var A=ok.map(function(s,i){var e=el("text",{x:200,y:380+i*92,"font-size":46,fill:"#fff",class:"cap"},"🎵 "+s);g.appendChild(e);return e;}),B=no.map(function(s,i){var e=el("text",{x:1040,y:380+i*92,"font-size":46,fill:"#fff",class:"cap"},"🔒 "+s);g.appendChild(e);return e;});
+  var rec=el("g",{});rec.appendChild(el("rect",{x:360,y:870,width:1200,height:110,rx:30,fill:"#ffd166"}));rec.appendChild(el("text",{x:960,y:942,"text-anchor":"middle","font-size":46,fill:"#1b1150",class:"cap"},"⚠️ 곡이 자유여도 유명 연주자의 녹음은 따로 권리!"));g.appendChild(rec);
+  return function(lt,S){var a=S.lines[1].t0-S.s0,b=S.lines[3].t0-S.s0,c=S.lines[4].t0-S.s0,d=S.lines[5].t0-S.s0;
+    A.forEach(function(e,i){e.setAttribute("opacity",ease((lt-a-i*(i<4?1.1:0)-(i===4?S.lines[2].t0-S.s0-a:0))/.4));});
+    B.forEach(function(e,i){e.setAttribute("opacity",ease((lt-(i<3?b+i*1.4:c))/.4));});rec.setAttribute("opacity",ease((lt-d)/.4));};});
+/* art (그림이 없는 보호 작품 카드) */
+scene_("art",function(g){var p=el("g",{});p.appendChild(el("rect",{x:120,y:130,width:760,height:200,rx:30,fill:"#331018",stroke:"#c21f35","stroke-width":6}));p.appendChild(el("text",{x:500,y:220,"text-anchor":"middle","font-size":50,fill:"#ff9a9a",class:"cap"},"🚫 피카소 → 2043년까지"));p.appendChild(el("text",{x:500,y:290,"text-anchor":"middle","font-size":34,fill:"#fff",class:"cap"},"보호 중이라 이 영상엔 그림을 넣지 않았어요"));
+  var q=el("g",{});q.appendChild(el("rect",{x:1040,y:130,width:760,height:200,rx:30,fill:"#14204a",stroke:"#6ec3ff","stroke-width":6}));q.appendChild(el("text",{x:1420,y:220,"text-anchor":"middle","font-size":48,fill:"#9fd0ff",class:"cap"},"📖 어린 왕자 (1944년 사망)"));q.appendChild(el("text",{x:1420,y:290,"text-anchor":"middle","font-size":38,fill:"#fff",class:"cap"},"🇰🇷 자유 · 🇫🇷 2032년까지 보호"));
+  g.appendChild(p);g.appendChild(q);return function(lt,S){var a=S.lines[2].t0-S.s0,b=S.lines[3].t0-S.s0;p.setAttribute("opacity",ease((lt-a)/.4));q.setAttribute("opacity",ease((lt-b)/.4));};});
+/* inherit */
+scene_("inherit",function(g){var ST=[["① 사망·상속인 확인","가족관계증명서·유언",260,260,"#6ec3ff"],["② 저절로 상속","등록 없이도 효력",760,260,"#6ec3ff"],["③ 상속인 나누기","⚖️ 변호사: 협의·분쟁·계약",1260,260,"#ff9a9a"],
+   ["④ 저작권협회 신고","저작권료 → 가족 통장",1260,520,"#6ec3ff"],["⑤ 값 매기기","🧾 세무사: 앞으로 벌 돈 추정",760,520,"#9fe0b0"],["⑥ 상속세 신고","사망한 달 말일부터 6개월",260,520,"#9fe0b0"],["⑦ 매년 저작권료","→ 소득세 신고",760,780,"#ffd166"]],E=[];
+  ST.forEach(function(s){var gg=el("g",{});gg.appendChild(el("rect",{x:s[2],y:s[3],width:420,height:170,rx:26,fill:"#0f1a3e",stroke:s[4],"stroke-width":6}));gg.appendChild(el("text",{x:s[2]+210,y:s[3]+72,"text-anchor":"middle","font-size":42,fill:"#fff",class:"cap"},s[0]));
+    gg.appendChild(el("text",{x:s[2]+210,y:s[3]+128,"text-anchor":"middle","font-size":30,fill:s[4],class:"cap"},s[1]));g.appendChild(gg);E.push(gg);});
+  var MAP=[0,1,2,3,4,5,6];
+  return function(lt,S){var tt=[S.lines[0].t0,S.lines[1].t0,S.lines[2].t0,S.lines[3].t0,S.lines[4].t0,S.lines[5].t0,S.lines[6].t0].map(function(x){return x-S.s0;});
+    E.forEach(function(e,i){var k=i<2?Math.max(ease((lt-tt[1]-i*.6)/.4),0):ease((lt-tt[i])/.4);var bb=back((lt-(i<2?tt[1]+i*.6:tt[i]))/.5);e.setAttribute("opacity",k);
+      var cx=ST[i][2]+210,cy=ST[i][3]+85;e.setAttribute("transform","translate("+cx+","+cy+") scale("+Math.max(.001,.6+.4*bb)+") translate("+(-cx)+","+(-cy)+")");});};});
+/* tax */
+scene_("tax",function(g){var RT=[["1억 이하",10],["5억 이하",20],["10억 이하",30],["30억 이하",40],["30억 초과",50]],rb=[];
+  g.appendChild(el("text",{x:420,y:250,"text-anchor":"middle","font-size":46,fill:"#ffd166",class:"cap"},"한국 상속세 세율"));
+  RT.forEach(function(r,i){var y=300+i*100;g.appendChild(el("text",{x:140,y:y+48,"font-size":36,fill:"#fff",class:"cap"},r[0]));var b=el("rect",{x:350,y:y+8,width:0,height:60,rx:12,fill:"#6ec3ff"});g.appendChild(b);var tx=el("text",{x:360,y:y+52,"font-size":38,fill:"#0b1230",class:"cap"},r[1]+"%");g.appendChild(tx);rb.push([b,tx,r[1]]);});
+  var ch=el("g",{});ch.appendChild(el("line",{x1:900,y1:820,x2:1820,y2:820,stroke:"#9aa4c4","stroke-width":4}));ch.appendChild(el("line",{x1:900,y1:560,x2:1820,y2:560,stroke:"#6ec3ff","stroke-width":5,"stroke-dasharray":"16 12"}));
+  ch.appendChild(el("text",{x:905,y:545,"font-size":32,fill:"#6ec3ff",class:"cap"},"세금 매긴 값 1억 (가상 예시)"));
+  var bars2=[[1000,"#c21f35",104,"인기 식음 → 적자 😢","4천만"],[1290,"#888",260,"예상대로 → 본전 😐","1억"],[1580,"#1f8a4c",468,"재유행 → 흑자 😄","1억 8천"]],B2=[];
+  bars2.forEach(function(b){var r=el("rect",{x:b[0],y:820,width:180,height:0,fill:b[1]});ch.appendChild(r);var l=el("text",{x:b[0]+90,y:870,"text-anchor":"middle","font-size":30,fill:"#fff",class:"cap"},b[3]);ch.appendChild(l);var v=el("text",{x:b[0]+90,y:800,"text-anchor":"middle","font-size":32,fill:"#ffd166",class:"cap"},b[4]);ch.appendChild(v);B2.push([r,b[2],v]);});
+  g.appendChild(ch);var cn=el("g",{});[["🇯🇵 일본 최고 55%",1060],["🇨🇳 중국 상속세 없음",1500]].forEach(function(a){cn.appendChild(el("rect",{x:a[1]-200,y:930,width:400,height:90,rx:24,fill:"#14204a",stroke:"#ffd166","stroke-width":4}));cn.appendChild(el("text",{x:a[1],y:990,"text-anchor":"middle","font-size":38,fill:"#fff",class:"cap"},a[0]));});g.appendChild(cn);
+  return function(lt,S){rb.forEach(function(r,i){var k=ease((lt-.3-i*.25)/.6);r[0].setAttribute("width",Math.max(1,r[2]*9*k));r[1].setAttribute("x",350+Math.max(1,r[2]*9*k)-80);r[1].setAttribute("opacity",k);});
+    var a=S.lines[1].t0-S.s0,b=S.lines[2].t0-S.s0,c=S.lines[3].t0-S.s0,d=S.lines[4].t0-S.s0;ch.setAttribute("opacity",ease((lt-a)/.4));
+    B2.forEach(function(x,i){var k=ease((lt-(i===2?c:b+i*1.2))/.8);x[0].setAttribute("y",820-x[1]*k);x[0].setAttribute("height",x[1]*k);x[2].setAttribute("y",800-x[1]*k);x[2].setAttribute("opacity",k);});cn.setAttribute("opacity",ease((lt-d)/.4));};});
+/* ---------- 그리기 ---------- */
+var cur=-1;
+function segAt(t){for(var i=SEGS.length-1;i>=0;i--)if(t>=SEGS[i].t0)return i;return -1;}
+function render(t){
+  var si=segAt(t),S=si>=0?SEGS[si]:null,sc=S?S.sc:"intro",lt=S?t-S.s0:t;
+  if(si!==cur){cur=si;for(var k in SC)SC[k].g.style.display=(S&&k===sc)?"block":"none";[].forEach.call($("dots").children,function(d,i){d.className=i<si?"done":i===si?"on":"";});
+    if(S){$("chapN").textContent=si+1;$("chapT").textContent=S.title;}}
+  $("chap").style.opacity=S&&t>S.s0-.2?1:0;
+  if(S&&SC[sc])SC[sc].u(lt,S);
+  $("panel").style.opacity=S?ease((t-S.s0)/.4):0;
+  /* 장면 제목 카드 / 시작·끝 */
+  var cd=$("card");
+  if(t<INTRO){cd.style.display="grid";cd.style.opacity=t<INTRO-.5?1:(INTRO-t)/.5;$("cardIn").innerHTML='<div class="k">35년 조율사의 공부 노트</div><div class="h">죽은 뒤에도 70년?</div><div class="s">세계 저작권과 상속 이야기</div>';}
+  else if(S&&t<S.s0){var a=t-S.t0;cd.style.display="grid";cd.style.opacity=Math.min(1,a/.3,(S.s0-t)/.3);$("cardIn").innerHTML='<div class="k">'+(si+1)+' / '+SEGS.length+'</div><div class="h" style="font-size:96px">'+S.title+'</div>';}
+  else if(t>END){cd.style.display="grid";cd.style.opacity=Math.min(1,(t-END)/.8);$("cardIn").innerHTML='<div class="h" style="font-size:80px">🎁 70년 뒤엔 모두의 선물</div><div class="s">📘 계산기·공부 페이지: poianopks.github.io/claude/copyright-guide.html</div><small>실제 상속·세금은 세무사·변호사와 상담하세요 · 무료 상담 한국저작권위원회 1800-5455<br>명화 사진: Wikimedia Commons (Public domain) · 피아노 음색: Salamander Grand Piano (CC BY 3.0)<br>ⓒ 성실피아노 · 피아노조율사 박근성</small>';}
+  else cd.style.display="none";
+  $("prog").style.width=(100*Math.min(1,t/D.total))+"%";
+  /* 3D */
+  for(var i=0;i<DP;i++){var y=((rnd(i,1)*20+t*.25*(.5+rnd(i,2)))%20)-8;dP[i*3]=(rnd(i,3)-.5)*44;dP[i*3+1]=y;dP[i*3+2]=(rnd(i,4)-.5)*20-4;}dG.attributes.position.needsUpdate=true;
+  var showCoin=sc==="intro"||sc==="hook"||sc==="what"||sc==="outro"||sc==="inherit"||sc==="tax"||sc==="time"||sc==="songs";
+  var big=sc==="intro"||(sc==="hook"&&lt>S.lines[1].t0-S.s0)||(sc==="outro"&&false);
+  coinG.visible=showCoin;coin.rotation.z=t*.9;coinG.scale.setScalar(big?1:.45);coinG.position.set(big?0:13.2,big?.8:6.6,big?0:-2);c70.visible=big;
+  if(!big&&sc==="hook"){coinG.position.set(0,-2,30);}if(sc==="outro"){coinG.scale.setScalar(.6);coinG.position.set(0,1.6,0);}if(sc==="what"||sc==="time"||sc==="songs"||sc==="inherit"||sc==="tax"){coinG.position.set(14.5,7.2,-4);}
+  barsG.visible=sc==="years";if(barsG.visible){bars.forEach(function(b,i){var k=ease((lt-.4-i*.35)/.9),h=Math.max(.01,b.h*k);b.m.scale.y=h;b.m.position.y=h/2;b.l.position.set(b.m.position.x,h+.7,0);});barsG.rotation.y=Math.sin(t*.35)*.35-.15;}
+  gal.visible=sc==="art";if(gal.visible){gal.rotation.y=-lt*.16;gal.position.set(0,-.4,-11);frames.forEach(function(f){var c=Math.cos(f.a+gal.rotation.y);f.l.forEach(function(x){x.material.opacity=Math.max(0,Math.min(1,(c-.8)/.15));});});}
+  if(sc==="years"){cam.position.set(0,2.5,22);cam.lookAt(1,0,0);}else if(sc==="art"){cam.position.set(0,0,16);cam.lookAt(0,-1.6,-6);}else{cam.position.set(0,2,22);cam.lookAt(0,1,0);}
+  R.render(scene,cam);
+}
+window.VTOTAL=D.total;window.renderVideo=render;
+var t0=performance.now();(function wait(){if(loaded<ART.length&&performance.now()-t0<15000){setTimeout(wait,200);return;}
+  if(REC){window.READY=true;render(0);return;}
+  var au=new Audio("media/copyright/cv.mp3"),pl=false;stage.addEventListener("click",function(){if(pl){au.pause();pl=false;}else{au.play();pl=true;}});
+  (function loop(){render(pl?au.currentTime:0);requestAnimationFrame(loop);})();})();
+}
+})();
+</script>
+</body>
+</html>
