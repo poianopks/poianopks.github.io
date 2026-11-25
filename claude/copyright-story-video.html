@@ -146,7 +146,7 @@ scene_("art",function(g){var p=el("g",{});p.appendChild(el("rect",{x:120,y:130,w
   var q=el("g",{});q.appendChild(el("rect",{x:1040,y:130,width:760,height:200,rx:30,fill:"#14204a",stroke:"#6ec3ff","stroke-width":6}));q.appendChild(el("text",{x:1420,y:220,"text-anchor":"middle","font-size":48,fill:"#9fd0ff",class:"cap"},"📖 어린 왕자 (1944년 사망)"));q.appendChild(el("text",{x:1420,y:290,"text-anchor":"middle","font-size":38,fill:"#fff",class:"cap"},"🇰🇷 자유 · 🇫🇷 2032년까지 보호"));
   g.appendChild(p);g.appendChild(q);return function(lt,S){var a=S.lines[2].t0-S.s0,b=S.lines[3].t0-S.s0;p.setAttribute("opacity",ease((lt-a)/.4));q.setAttribute("opacity",ease((lt-b)/.4));};});
 /* inherit */
-scene_("inherit",function(g){var ST=[["① 사망·상속인 확인","가족관계증명서·유언",260,260,"#6ec3ff"],["② 자동 상속","등록 없이도 효력",760,260,"#6ec3ff"],["③ 상속인 나누기","⚖️ 변호사: 협의·분쟁·계약",1260,260,"#ff9a9a"],
+scene_("inherit",function(g){var ST=[["① 사망·상속인 확인","가족관계증명서·유언",260,260,"#6ec3ff"],["② 저절로 상속","등록 없이도 효력",760,260,"#6ec3ff"],["③ 상속인 나누기","⚖️ 변호사: 협의·분쟁·계약",1260,260,"#ff9a9a"],
    ["④ 저작권협회 신고","저작권료 → 가족 통장",1260,520,"#6ec3ff"],["⑤ 값 매기기","🧾 세무사: 앞으로 벌 돈 추정",760,520,"#9fe0b0"],["⑥ 상속세 신고","사망한 달 말일부터 6개월",260,520,"#9fe0b0"],["⑦ 매년 저작권료","→ 소득세 신고",760,780,"#ffd166"]],E=[];
   ST.forEach(function(s){var gg=el("g",{});gg.appendChild(el("rect",{x:s[2],y:s[3],width:420,height:170,rx:26,fill:"#0f1a3e",stroke:s[4],"stroke-width":6}));gg.appendChild(el("text",{x:s[2]+210,y:s[3]+72,"text-anchor":"middle","font-size":42,fill:"#fff",class:"cap"},s[0]));
     gg.appendChild(el("text",{x:s[2]+210,y:s[3]+128,"text-anchor":"middle","font-size":30,fill:s[4],class:"cap"},s[1]));g.appendChild(gg);E.push(gg);});
