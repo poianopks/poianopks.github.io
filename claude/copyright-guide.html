@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>저작권은 몇 년? 세계 저작권과 상속 이야기</title>
+<meta name="description" content="한국·미국·일본·중국·프랑스 저작권 보호기간(음악·책·그림·사진), 저작권 상속 절차, 상속세·증여세, 변호사·세무사 역할, 유튜브 유명곡 중 저작권 끝난 곡과 남은 곡 — 왕초보 정리와 '언제부터 자유?' 계산기."/>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6015033382241125" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/genre.css?v=20261031">
+<style>
+.bio{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:760px){.bio{grid-template-columns:1fr}}
+.bio .card p{margin:6px 0 0;color:var(--sub);font-size:.95rem}
+table.t{width:100%;border-collapse:collapse;font-size:.93rem;background:var(--card)}
+table.t th,table.t td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+table.t th{background:color-mix(in srgb,var(--accent) 14%,var(--card));font-weight:900}
+.ok{color:#1f8a4c;font-weight:900}.no{color:#c21f35;font-weight:900}
+.tw{overflow-x:auto}
+#c3d{width:100%;height:clamp(300px,48vw,440px);display:block;border-radius:14px;background:#0b1430}
+svg.fig{width:100%;height:auto;display:block;background:var(--card);border-radius:14px}
+.gal{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media (max-width:760px){.gal{grid-template-columns:1fr 1fr}}
+.gal figure{margin:0}.gal img{width:100%;border-radius:10px;aspect-ratio:3/4;object-fit:cover}
+.gal figcaption{font-size:.8rem;color:var(--sub);margin-top:4px}
+.calc{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.calc input,.calc select{font:inherit;font-weight:800;border:1.5px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--card);color:var(--ink);width:110px}
+#calcOut{margin-top:10px}
+.note{font-size:.85rem;color:var(--sub)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="topbar">
+    <span class="logo">⚖️ 저작권 이야기</span>
+    <nav><a href="#years">나라별 기간</a><a href="#calc">계산기</a><a href="#songs">유명곡</a><a href="#art">그림·책</a><a href="#inherit">상속</a><a href="#tax">세금</a></nav>
+    <button class="themebtn" id="themeBtn" aria-label="밝기 전환">🌓</button>
+  </div>
+</header>
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>죽은 뒤에도 70년?<br><em>세계 저작권과 상속 이야기</em></h1>
+      <p>쇼팽·리스트 곡은 마음껏 치는데, 「눈이 내리네」는 왜 안 될까요? <b>음악·책·그림·사진</b>의 저작권이 나라마다 <b>몇 년</b> 가는지, 작가가 세상을 떠나면 <b>가족에게 어떻게 물려주고 세금은 어떻게</b> 내는지 왕초보 눈높이로 정리했어요.</p>
+      <p class="note">⚠️ 2026년 11월 기준 일반 정보예요. 실제 상속·세금·계약은 꼭 <b>세무사·변호사</b>와 상담하세요.</p>
+    </div>
+    <svg viewBox="0 0 400 260" aria-hidden="true">
+      <rect x="10" y="20" width="380" height="220" rx="28" fill="#3a6fb0" opacity=".1"/>
+      <g transform="translate(200,140)"><circle r="78" fill="none" stroke="#3a6fb0" stroke-width="10"/><text text-anchor="middle" y="18" font-size="64" font-weight="900" fill="#3a6fb0">©</text></g>
+      <text x="40" y="70" font-size="26" font-weight="900" fill="#c21f35">+70년</text><text x="290" y="230" font-size="22" font-weight="900" fill="#1f8a4c">→ 모두의 것</text>
+    </svg>
+  </div>
+
+  <section id="years">
+    <h2><span class="num">1</span>나라별 저작권 기간 — 3D로 한눈에</h2>
+    <p class="lead">대부분의 나라는 <b>작가가 세상을 떠난 해의 다음 해 1월 1일부터 70년</b> 보호해요. 중국은 50년이고, 미국은 옛날 작품에 다른 규칙이 있어요.</p>
+    <div class="card"><canvas id="c3d"></canvas><p class="note" style="margin-top:6px">막대 높이 = 작가 사망 뒤 보호하는 햇수 (개인 작가 기준)</p></div>
+    <div class="tw" style="margin-top:12px"><table class="t">
+      <tr><th>나라</th><th>음악·책·그림·사진 (개인)</th><th>회사 이름으로 낸 작품</th><th>알아 둘 점</th></tr>
+      <tr><td>🇰🇷 한국</td><td><b>사후 70년</b> (2013년 7월부터)</td><td>공표 후 70년</td><td>1962년 이전에 세상을 떠난 작가는 이미 끝났어요(당시 50년 규칙).</td></tr>
+      <tr><td>🇺🇸 미국</td><td><b>사후 70년</b> (1978년 이후 작품)</td><td>발행 후 95년 또는 창작 후 120년 중 짧은 쪽</td><td>1978년 전에 발행된 작품은 <b>발행 후 95년</b> → 2026년 현재 <b>1930년 이전 발행</b> 작품은 자유.</td></tr>
+      <tr><td>🇯🇵 일본</td><td><b>사후 70년</b> (2018년 12월부터)</td><td>공표 후 70년</td><td>1967년 이전에 세상을 떠난 작가는 이미 끝났어요(당시 50년 규칙).</td></tr>
+      <tr><td>🇨🇳 중국</td><td><b>사후 50년</b></td><td>발표 후 50년</td><td>2021년 개정으로 사진도 사후 50년.</td></tr>
+      <tr><td>🇫🇷 프랑스(유럽)</td><td><b>사후 70년</b></td><td>—</td><td>세계대전 기간만큼 늘리는 특별 연장, '프랑스를 위해 전사한' 작가는 +30년.</td></tr>
+      <tr><td>🌍 베른협약(최소)</td><td>사후 50년</td><td>—</td><td>거의 모든 나라가 가입한 국제 약속의 최소 기준.</td></tr>
+    </table></div>
+    <p class="note">• 기간은 <b>세상을 떠난 해의 12월 31일까지 계산하고 다음 해 1월 1일부터</b> 세어요. • 한국은 외국 작품이 그 나라에서 이미 끝났으면 한국에서도 보호하지 않아요(저작권법 제3조 4항).</p>
+  </section>
+
+  <section id="time">
+    <h2><span class="num">2</span>"사후 70년" 시간 여행 (SVG 애니메이션)</h2>
+    <svg class="fig" id="timeline" viewBox="0 0 900 300" role="img" aria-label="작가의 일생과 사후 70년">
+      <rect x="0" y="0" width="900" height="300" fill="#f7f9ff"/>
+      <line x1="60" y1="170" x2="850" y2="170" stroke="#9aa4c4" stroke-width="8" stroke-linecap="round"/>
+      <rect x="60" y="160" width="300" height="20" rx="10" fill="#3a6fb0"/>
+      <rect x="360" y="160" width="420" height="20" rx="10" fill="#c21f35"/>
+      <rect x="780" y="160" width="70" height="20" rx="10" fill="#1f8a4c"/>
+      <text x="210" y="145" text-anchor="middle" font-size="24" font-weight="900" fill="#3a6fb0">✍️ 작가가 살아 있는 동안</text>
+      <text x="570" y="145" text-anchor="middle" font-size="24" font-weight="900" fill="#c21f35">👨‍👩‍👧 가족이 물려받는 70년</text>
+      <text x="815" y="145" text-anchor="middle" font-size="22" font-weight="900" fill="#1f8a4c">🌍 모두</text>
+      <text x="360" y="215" text-anchor="middle" font-size="20" font-weight="800" fill="#333">세상을 떠남</text>
+      <text x="780" y="215" text-anchor="middle" font-size="20" font-weight="800" fill="#333">+70년</text>
+      <text x="450" y="270" text-anchor="middle" font-size="22" font-weight="900" fill="#444">예) 쇼팽 1849년 사망 → 70년 규칙이었어도 1920년부터 모두의 것</text>
+      <g id="walker"><circle r="18" fill="#ffd166" stroke="#333" stroke-width="3"/><text y="7" text-anchor="middle" font-size="20">🎵</text>
+        <animateMotion dur="7s" repeatCount="indefinite" path="M60 170 L850 170"/></g>
+    </svg>
+  </section>
+
+  <section id="calc">
+    <h2><span class="num">3</span>계산기 — 이 작품은 언제부터 자유?</h2>
+    <div class="card">
+      <div class="calc">
+        <label>작가 사망 연도 <input id="cDeath" type="number" value="1956"></label>
+        <label>(미국용) 처음 발행 연도 <input id="cPub" type="number" value="1950"></label>
+        <button class="btn" id="cGo">계산하기</button>
+      </div>
+      <div id="calcOut"></div>
+      <p class="note">작가가 여러 명이면 <b>가장 늦게 세상을 떠난 사람</b> 기준이에요(작곡가·작사가가 다르면 각각 따로). 살아 있는 작가는 아직 계산할 수 없어요. 특별 연장(프랑스 전쟁 연장 등)은 넣지 않은 간단 계산이에요.</p>
+    </div>
+  </section>
+
+  <section id="songs">
+    <h2><span class="num">4</span>유튜브 유명곡 — 저작권 끝난 곡 vs 남은 곡</h2>
+    <div class="tw"><table class="t">
+      <tr><th>곡</th><th>만든 사람 (사망)</th><th>한국에서</th></tr>
+      <tr><td>엘리제를 위하여·월광</td><td>베토벤 (1827)</td><td class="ok">✅ 자유</td></tr>
+      <tr><td>캐논 D장조</td><td>파헬벨 (1706)</td><td class="ok">✅ 자유</td></tr>
+      <tr><td>흑건·녹턴·즉흥환상곡</td><td>쇼팽 (1849)</td><td class="ok">✅ 자유</td></tr>
+      <tr><td>고요한 밤 거룩한 밤</td><td>그루버 (1863)</td><td class="ok">✅ 자유 (곡·원어 가사)</td></tr>
+      <tr><td>징글벨</td><td>피어폰트 (1893)</td><td class="ok">✅ 자유 (곡·원어 가사)</td></tr>
+      <tr><td>Happy Birthday to You</td><td>힐 자매 (1916·1946)</td><td class="ok">✅ 자유 (미국은 2016년 판결로 자유)</td></tr>
+      <tr><td>짐노페디 / 볼레로 / 랩소디 인 블루</td><td>사티 (1925) / 라벨 (1937) / 거슈윈 (1937)</td><td class="ok">✅ 자유</td></tr>
+      <tr><td>아리랑</td><td>전래 민요</td><td class="ok">✅ 자유</td></tr>
+      <tr><td>애국가</td><td>안익태 (1965)</td><td class="ok">✅ 2005년 유족이 나라에 기증 → 자유롭게 사용</td></tr>
+      <tr><td>고향의 봄</td><td>곡 홍난파 (1941) · 가사 이원수 (1981)</td><td>곡 <span class="ok">✅</span> / 가사 <span class="no">⛔ 2051년까지</span></td></tr>
+      <tr><td>White Christmas</td><td>어빙 벌린 (1989)</td><td class="no">⛔ 2059년까지</td></tr>
+      <tr><td>Moon River</td><td>헨리 맨시니 (1994)</td><td class="no">⛔ 2064년까지</td></tr>
+      <tr><td>Last Christmas</td><td>조지 마이클 (2016)</td><td class="no">⛔ 2086년까지</td></tr>
+      <tr><td>Tombe la neige (눈이 내리네)</td><td>아다모 (생존)</td><td class="no">⛔ 보호 중</td></tr>
+      <tr><td>All I Want for Christmas Is You / Let It Go / 강남스타일</td><td>작곡가 생존</td><td class="no">⛔ 보호 중</td></tr>
+    </table></div>
+    <div class="card" style="margin-top:12px"><b>⚠️ 곡이 자유여도 "녹음"은 따로예요!</b>
+      <p style="margin:6px 0 0">쇼팽 곡은 자유지만 <b>유명 피아니스트의 연주 녹음</b>은 그 연주자·음반사의 권리(저작인접권, 한국은 발행 후 70년)가 있어요. 유튜브에 남의 녹음을 쓰면 저작권 신고가 와요. <b>내가 직접 친 연주</b>나 <b>공개 라이선스 MIDI·악보</b>를 쓰세요. 요즘 새로 편집한 악보도 편집자 권리가 있을 수 있어 <b>오래된 판(공개 저작물)</b>이 안전해요.</p></div>
+  </section>
+
+  <section id="art">
+    <h2><span class="num">5</span>그림·책·사진도 마찬가지</h2>
+    <div class="gal">
+      <figure><img src="media/copyright/starry-night.jpg" alt="반 고흐 별이 빛나는 밤"><figcaption>반 고흐 「별이 빛나는 밤」(1889) — 1890년 사망, 퍼블릭 도메인</figcaption></figure>
+      <figure><img src="media/copyright/mona-lisa.jpg" alt="모나리자"><figcaption>다빈치 「모나리자」 — 1519년 사망, 퍼블릭 도메인</figcaption></figure>
+      <figure><img src="media/copyright/danwon-ssireum.jpg" alt="김홍도 씨름"><figcaption>김홍도 「씨름」(조선 후기) — 퍼블릭 도메인</figcaption></figure>
+      <figure><img src="media/copyright/beethoven.jpg" alt="베토벤 초상"><figcaption>슈틸러 「베토벤 초상」(1820) — 퍼블릭 도메인</figcaption></figure>
+      <figure><img src="media/copyright/liszt-1843.jpg" alt="리스트 1843년 사진"><figcaption>헤르만 비오 「리스트」 사진(1843) — 퍼블릭 도메인</figcaption></figure>
+    </div>
+    <p class="note">사진 출처: Wikimedia Commons (Public domain)</p>
+    <div class="tw" style="margin-top:10px"><table class="t">
+      <tr><th>작가 (사망)</th><th>한국에서</th><th>재미있는 점</th></tr>
+      <tr><td>김소월·윤동주·이상 시 (1934·1945·1937)</td><td class="ok">✅ 자유</td><td>교과서 속 시도 이제 모두의 것</td></tr>
+      <tr><td>이중섭 그림 (1956)</td><td class="ok">✅ 자유</td><td>1962년 이전 사망 → 50년 규칙으로 이미 끝</td></tr>
+      <tr><td>박수근 그림 (1965)</td><td class="no">⛔ 2035년까지</td><td>9년 차이로 이중섭과 운명이 갈렸어요</td></tr>
+      <tr><td>피카소 그림 (1973)</td><td class="no">⛔ 2043년까지</td><td>작품 사진을 마음대로 쓰면 안 돼요</td></tr>
+      <tr><td>생텍쥐페리 「어린 왕자」 (1944)</td><td class="ok">✅ 자유</td><td>프랑스는 전사 작가 연장으로 <b>2032년까지 보호</b> — 나라마다 달라요!</td></tr>
+    </table></div>
+  </section>
+
+  <section id="inherit">
+    <h2><span class="num">6</span>작가가 세상을 떠나면 — 가족에게 물려주는 절차 (한국)</h2>
+    <svg class="fig" viewBox="0 0 900 470" role="img" aria-label="저작권 상속 절차">
+      <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#3a6fb0"/></marker></defs>
+      <rect width="900" height="470" fill="#f7f9ff"/>
+      <g font-size="20" font-weight="800" text-anchor="middle">
+        <rect x="30" y="30" width="250" height="90" rx="16" fill="#fff" stroke="#3a6fb0" stroke-width="3"/><text x="155" y="68">① 사망·상속인 확인</text><text x="155" y="98" font-size="16" fill="#555">가족관계증명서·유언 확인</text>
+        <rect x="325" y="30" width="250" height="90" rx="16" fill="#fff" stroke="#3a6fb0" stroke-width="3"/><text x="450" y="68">② 저작권 자동 상속</text><text x="450" y="98" font-size="16" fill="#555">상속은 등록 없이도 효력</text>
+        <rect x="620" y="30" width="250" height="90" rx="16" fill="#fff" stroke="#c21f35" stroke-width="3"/><text x="745" y="68">③ 상속인끼리 나누기</text><text x="745" y="98" font-size="16" fill="#c21f35">⚖️ 변호사: 협의서·분쟁</text>
+        <rect x="620" y="190" width="250" height="90" rx="16" fill="#fff" stroke="#3a6fb0" stroke-width="3"/><text x="745" y="228">④ 협회·위원회 신고</text><text x="745" y="258" font-size="16" fill="#555">저작권협회 상속 신청·변동 등록</text>
+        <rect x="325" y="190" width="250" height="90" rx="16" fill="#fff" stroke="#1f8a4c" stroke-width="3"/><text x="450" y="228">⑤ 저작권 값 매기기</text><text x="450" y="258" font-size="16" fill="#1f8a4c">🧾 세무사: 앞으로 벌 돈 추정</text>
+        <rect x="30" y="190" width="250" height="90" rx="16" fill="#fff" stroke="#1f8a4c" stroke-width="3"/><text x="155" y="228">⑥ 상속세 신고·납부</text><text x="155" y="258" font-size="16" fill="#1f8a4c">사망한 달 말일부터 6개월 안</text>
+        <rect x="175" y="350" width="550" height="90" rx="16" fill="#fff" stroke="#3a6fb0" stroke-width="3"/><text x="450" y="388">⑦ 매년 들어오는 저작권료 → 상속인 소득세 신고</text><text x="450" y="418" font-size="16" fill="#555">사후 70년이 지나면 모두의 것 → 수입도 끝</text>
+      </g>
+      <g stroke="#3a6fb0" stroke-width="4" fill="none" marker-end="url(#ar)"><path d="M280 75 L320 75"/><path d="M575 75 L615 75"/><path d="M745 120 L745 185"/><path d="M620 235 L580 235"/><path d="M325 235 L285 235"/><path d="M155 280 L300 345"/></g>
+    </svg>
+    <div class="bio" style="margin-top:12px">
+      <div class="card"><b>⚖️ 변호사가 하는 일</b><p>유언장 만들기, 상속인 여럿이 나눌 때 <b>협의서</b>, 다툼 조정·소송, 방송사·출판사와 <b>사용 계약</b>, 해외 저작권 관리.</p></div>
+      <div class="card"><b>🧾 세무사가 하는 일</b><p>저작권 <b>값 매기기</b>(앞으로 들어올 돈을 추정), <b>상속세·증여세 신고</b>, 나눠 내기(연부연납) 신청, 매년 저작권료 <b>소득세 신고</b>.</p></div>
+      <div class="card"><b>🎵 저작권협회·위원회</b><p>음악은 한국음악저작권협회(KOMCA) 등에 상속인으로 바꾸면 저작권료가 상속인 통장으로 와요. 한국저작권위원회에 변동 등록도 할 수 있어요. 무료 상담 1800-5455.</p></div>
+      <div class="card"><b>🎁 살아 있을 때 넘기면 (증여)</b><p>증여받은 달 말일부터 <b>3개월 안에</b> 증여세 신고. 성인 자녀는 10년 동안 5천만 원까지 공제(현행).</p></div>
+    </div>
+  </section>
+
+  <section id="tax">
+    <h2><span class="num">7</span>상속세 — 왜 '적자'도 '흑자'도 될까?</h2>
+    <div class="tw"><table class="t">
+      <tr><th>과세표준(공제 뒤 금액)</th><th>세율</th></tr>
+      <tr><td>1억 원 이하</td><td>10%</td></tr><tr><td>5억 원 이하</td><td>20%</td></tr><tr><td>10억 원 이하</td><td>30%</td></tr><tr><td>30억 원 이하</td><td>40%</td></tr><tr><td>30억 원 초과</td><td>50%</td></tr>
+    </table></div>
+    <p class="note">현행 상속세·증여세 세율(누진). 일괄공제 5억 원, 배우자 공제(최소 5억 원) 등 공제가 먼저 빠져요. 개정 논의가 계속되니 신고 전 세무사 확인 필수. 상속세가 2천만 원을 넘으면 최장 10년 나눠 내기(연부연납)를 신청할 수 있어요.</p>
+    <svg class="fig" viewBox="0 0 900 380" role="img" aria-label="저작권 상속 흑자와 적자 가상 예시" style="margin-top:12px">
+      <rect width="900" height="380" fill="#f7f9ff"/>
+      <text x="450" y="38" text-anchor="middle" font-size="24" font-weight="900" fill="#222">가상 예시: 저작권 값을 '1억 원'으로 매겨 세금을 냈는데, 남은 기간 실제 수입은?</text>
+      <line x1="80" y1="300" x2="860" y2="300" stroke="#999" stroke-width="2"/>
+      <line x1="80" y1="170" x2="860" y2="170" stroke="#3a6fb0" stroke-width="3" stroke-dasharray="10 8"/><text x="84" y="160" text-anchor="start" font-size="18" font-weight="800" fill="#3a6fb0">세금 매긴 값 1억</text>
+      <g font-size="18" font-weight="900" text-anchor="middle">
+        <rect x="140" y="230" width="140" height="70" fill="#c21f35"/><text x="210" y="222" fill="#c21f35">실제 4천만 원</text><text x="210" y="335" fill="#333">😢 인기가 식음</text><text x="210" y="358" fill="#c21f35">→ 적자</text>
+        <rect x="380" y="170" width="140" height="130" fill="#888"/><text x="450" y="162" fill="#555">실제 1억</text><text x="450" y="335" fill="#333">😐 예상대로</text><text x="450" y="358" fill="#555">→ 본전</text>
+        <rect x="620" y="70" width="140" height="230" fill="#1f8a4c"/><text x="690" y="62" fill="#1f8a4c">실제 1억 8천</text><text x="690" y="335" fill="#333">😄 드라마로 재유행</text><text x="690" y="358" fill="#1f8a4c">→ 흑자</text>
+      </g>
+    </svg>
+    <div class="bio" style="margin-top:12px">
+      <div class="card"><b>📉 적자가 되는 이유</b><p>세금은 <b>앞으로 벌 돈을 미리 추정</b>해 매기는데, 노래 인기가 식으면 실제 수입이 덜 들어와요. 세금은 <b>6개월 안에 현금</b>으로 내야 하는데 저작권료는 조금씩 들어와서 당장 돈이 모자랄 수도 있어요. 남은 보호기간이 해마다 줄어드는 것도 가치를 떨어뜨려요.</p></div>
+      <div class="card"><b>📈 흑자가 되는 이유</b><p>드라마·광고·유튜브에서 옛 노래가 <b>다시 뜨면</b> 예상보다 많이 들어와요. 해외 스트리밍 수입이 늘기도 해요(해외 저작권 단체 등록이 중요). 다만 늘어난 수입에는 <b>매년 소득세</b>가 따로 붙어요.</p></div>
+    </div>
+    <div class="tw" style="margin-top:12px"><table class="t">
+      <tr><th>나라</th><th>상속세</th></tr>
+      <tr><td>🇰🇷 한국</td><td>있음 (10~50%)</td></tr>
+      <tr><td>🇯🇵 일본</td><td>있음 (최고 55%)</td></tr>
+      <tr><td>🇫🇷 프랑스</td><td>있음 (자녀 최고 45%)</td></tr>
+      <tr><td>🇺🇸 미국</td><td>연방 상속세 있지만 면제 한도가 매우 커서 대부분 가정은 내지 않음 (일부 주는 따로)</td></tr>
+      <tr><td>🇨🇳 중국</td><td>상속세 없음</td></tr>
+    </table></div>
+  </section>
+
+  <section id="sources">
+    <h2><span class="num">8</span>참고와 주의</h2>
+    <div class="card" style="font-size:.93rem"><ul style="margin:0;padding-left:18px">
+      <li>한국 저작권법(보호기간 제39~42조, 외국인 저작물 제3조, 등록 제54조), 상속세 및 증여세법 — 국가법령정보센터 law.go.kr</li>
+      <li>한국저작권위원회 copyright.or.kr (무료 상담 1800-5455) · 한국음악저작권협회 komca.or.kr · 국세청 홈택스(상속·증여세 신고)</li>
+      <li>미국 저작권청 copyright.gov · 일본 문화청 · 중국 저작권법(2021) · 프랑스 지식재산권법(CPI)</li>
+      <li>그림 사진: Wikimedia Commons, Public domain</li>
+      <li>이 글은 일반 정보예요. 실제 상속·세금·계약은 세무사·변호사와 상담하세요.</li>
+    </ul></div>
+  </section>
+  <footer><p>ⓒ 성실피아노 · 피아노조율사 박근성 · <a href="chopin-black-key.html">쇼팽 흑건 교실</a> · <a href="liszt-transcendental.html">리스트 초절기교 교실</a> · <a href="index.html">음악 공부방</a></p></footer>
+</div>
+<script>
+(function(){var b=document.getElementById("themeBtn"),r=document.documentElement;try{var t=localStorage.getItem("theme");if(t)r.dataset.theme=t;}catch(e){}
+b.onclick=function(){var n=r.dataset.theme==="dark"?"light":"dark";r.dataset.theme=n;try{localStorage.setItem("theme",n);}catch(e){}};})();
+/* 계산기 */
+(function(){var $=function(i){return document.getElementById(i);};
+function go(){var d=+$("cDeath").value,p=+$("cPub").value,now=2026,rows=[];
+  function st(y){return y<=now?'<span class="ok">✅ 이미 자유 ('+y+'년부터)</span>':'<span class="no">⛔ '+(y-1)+'년 말까지 보호 → '+y+'년 1월 1일부터 자유</span>';}
+  if(!d){$("calcOut").innerHTML='<p class="no">사망 연도를 넣어 주세요.</p>';return;}
+  rows.push(['🇰🇷 한국',d<=1962?'<span class="ok">✅ 이미 자유 (50년 규칙으로 '+(d+51)+'년부터)</span>':st(d+71)]);
+  rows.push(['🇯🇵 일본',d<=1967?'<span class="ok">✅ 이미 자유 (50년 규칙으로 '+(d+51)+'년부터)</span>':st(d+71)]);
+  rows.push(['🇨🇳 중국',st(d+51)]);
+  rows.push(['🇫🇷 프랑스',st(d+71)+' <span class="note">(특별 연장 가능)</span>']);
+  var us=p&&p<1978?(p<=1930?'<span class="ok">✅ 이미 자유 (1930년 이전 발행)</span>':st(p+96)+' <span class="note">(발행 후 95년)</span>'):st(d+71);
+  rows.push(['🇺🇸 미국',us]);
+  $("calcOut").innerHTML='<table class="t">'+rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>';}).join('')+'</table>';}
+$("cGo").onclick=go;go();})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* 3D 막대 그래프 */
+(function(){var cv=document.getElementById("c3d");if(!window.THREE||!cv)return;
+var REC=/[?&]rec=1/.test(location.search);
+var R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true,preserveDrawingBuffer:true});
+var scene=new THREE.Scene();scene.add(new THREE.AmbientLight(0xffffff,.55));var dl=new THREE.DirectionalLight(0xffffff,.8);dl.position.set(5,12,8);scene.add(dl);
+var cam=new THREE.PerspectiveCamera(40,1,.1,200);
+var D=[["🇰🇷 한국",70,0x3a6fb0],["🇺🇸 미국",70,0x6ec3ff],["🇯🇵 일본",70,0xff6b8a],["🇫🇷 프랑스",70,0x8a6bff],["🇨🇳 중국",50,0xffb020],["🌍 최소",50,0x9aa4c4]];
+function label(t,c){var cv2=document.createElement("canvas");cv2.width=512;cv2.height=160;var x=cv2.getContext("2d");x.font="900 64px sans-serif";x.textAlign="center";x.textBaseline="middle";x.fillStyle=c||"#fff";x.strokeStyle="#0b1430";x.lineWidth=10;x.strokeText(t,256,80);x.fillText(t,256,80);
+  var s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv2),transparent:true,depthTest:false}));s.scale.set(3.4,1.06,1);return s;}
+var g=new THREE.Group();scene.add(g);
+var base=new THREE.Mesh(new THREE.BoxGeometry(16,.3,5),new THREE.MeshStandardMaterial({color:0x1d2a55}));base.position.y=-.15;g.add(base);
+var bars=[];D.forEach(function(d,i){var h=d[1]/10,m=new THREE.Mesh(new THREE.BoxGeometry(1.6,1,1.6),new THREE.MeshStandardMaterial({color:d[2],roughness:.35,metalness:.2}));m.position.set(-6.5+i*2.6,0,0);g.add(m);bars.push([m,h]);
+  var l1=label(d[0]);l1.position.set(m.position.x,-1.1,1.6);g.add(l1);var l2=label(d[1]+"년","#ffd166");l2.position.set(m.position.x,h+.9,0);g.add(l2);m.userData.l2=l2;});
+function size(){var w=cv.clientWidth||900,h=cv.clientHeight||440;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();}
+size();addEventListener("resize",size);
+function draw(t){var k=Math.min(1,t/2.2);bars.forEach(function(b){var h=Math.max(.01,b[1]*(1-Math.pow(1-k,3)));b[0].scale.y=h;b[0].position.y=h/2;b[0].userData.l2.position.y=h+.9;});
+  var a=Math.sin(t*.4)*.5;cam.position.set(Math.sin(a)*17,7.5,Math.cos(a)*17);cam.lookAt(0,3,0);R.render(scene,cam);}
+window.draw3d=draw;
+if(REC)return;var t0=performance.now();(function loop(){draw((performance.now()-t0)/1000);requestAnimationFrame(loop);})();})();
+</script>
+</body>
+</html>
