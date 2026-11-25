@@ -78,7 +78,7 @@ video{width:100%;border-radius:18px;background:#000;display:block;margin:0 auto}
 <script>
 document.querySelectorAll("[data-c]").forEach(function(b){b.onclick=function(){var t=document.getElementById(b.dataset.c).textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){b.textContent="복사됨 ✓";setTimeout(function(){b.textContent="복사";},1500);},function(){var r=document.createRange();r.selectNodeContents(document.getElementById(b.dataset.c));var s=getSelection();s.removeAllRanges();s.addRange(r);});};});
 /* 유튜브에 올린 뒤 주소 (올리면 여기에 적어요) */
-var YT="";if(YT)document.getElementById("ytlink").innerHTML='▶ 유튜브에서 보기: <a href="'+YT+'">'+YT+'</a>';
+var YT="https://youtu.be/cugHGHHRQPQ";if(YT)document.getElementById("ytlink").innerHTML='▶ 유튜브에서 보기: <a href="'+YT+'">'+YT+'</a>';
 </script>
 </body>
 </html>
