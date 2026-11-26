@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4강 · 첫 파일 올리기 (맛보기) | 왕초보 카페24 공부방</title>
+<meta name="description" content="컴퓨터와 서버를 전혀 모르는 왕초보를 위한 카페24 웹호스팅 공부방. 컴퓨터 켜기부터 가입, 호스팅 신청, 파일 올리기, 다른 호스팅에서 이사하기까지 따라하기.">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header><a class="logo" href="index.html">🏠 왕초보 카페24 공부방</a>
+<nav><a href="index.html">처음</a><a href="lesson1.html">1강 개념</a><a href="lesson2.html">2강 켜기·가입</a><a href="lesson3.html">3강 호스팅 신청</a><a href="lesson4.html" class="on">4강 첫 파일 올리기</a><a href="lesson5.html">5강 이사하기</a><a href="lesson6.html">6강 내 주소 옮기기</a><a href="lesson7.html">7강 낱말·퀴즈</a></nav></header>
+<main>
+<h1>4강 · 첫 파일 올리기 (맛보기)</h1>
+
+<div class="anim"><svg id="svg" viewBox="0 0 640 300" role="img" aria-label="내 컴퓨터에서 카페24 서버로, 서버에서 손님 폰으로 파일이 가는 그림">
+<defs><path id="p1" d="M120 150 C 220 60, 300 60, 320 150"/><path id="p2" d="M320 150 C 360 240, 460 240, 530 150"/></defs>
+<use href="#p1" stroke="#9cc" stroke-width="4" fill="none" stroke-dasharray="8 8"/><use href="#p2" stroke="#9cc" stroke-width="4" fill="none" stroke-dasharray="8 8"/>
+<g><rect x="40" y="110" width="110" height="74" rx="8" fill="#2f67b0"/><rect x="50" y="120" width="90" height="52" fill="#cfe6ff"/><rect x="80" y="186" width="30" height="14" fill="#2f67b0"/><text x="95" y="230" font-size="22" text-anchor="middle" fill="#123" font-weight="bold">내 컴퓨터</text><text x="95" y="152" font-size="18" text-anchor="middle">📄 🖼️</text></g>
+<g class="bob"><rect x="270" y="80" width="100" height="140" rx="10" fill="#0f6b6b"/><rect x="284" y="98" width="72" height="16" rx="4" fill="#7fe0d4"/><rect x="284" y="124" width="72" height="16" rx="4" fill="#7fe0d4"/><rect x="284" y="150" width="72" height="16" rx="4" fill="#7fe0d4"/><circle class="blink" cx="350" cy="196" r="7" fill="#6f6"/><text x="320" y="252" font-size="22" text-anchor="middle" fill="#123" font-weight="bold">카페24 서버</text><text x="320" y="276" font-size="16" text-anchor="middle" fill="#355">(24시간 켜진 컴퓨터)</text></g>
+<g><rect x="500" y="100" width="62" height="110" rx="12" fill="#333"/><rect x="507" y="112" width="48" height="80" fill="#fff4c2"/><text x="531" y="158" font-size="22" text-anchor="middle">🏠</text><text x="531" y="236" font-size="22" text-anchor="middle" fill="#123" font-weight="bold">손님 폰</text></g>
+<text font-size="26">📦<animateMotion dur="3s" repeatCount="indefinite" rotate="0"><mpath href="#p1"/></animateMotion></text>
+<text font-size="26">📦<animateMotion dur="3s" begin="1.5s" repeatCount="indefinite"><mpath href="#p2"/></animateMotion></text>
+<text x="215" y="58" font-size="18" fill="#0b5c5c" font-weight="bold">① 올리기(FTP)</text><text x="400" y="268" font-size="18" fill="#0b5c5c" font-weight="bold">② 보여 주기</text>
+</svg><p>▲ 내 컴퓨터의 파일이 트럭(FTP)을 타고 카페24 방으로</p></div>
+<h2>① 내 첫 홈페이지 파일 만들기</h2>
+<ol class="steps"><li>바탕화면에서 마우스 <b>오른쪽 버튼</b> → <b>새로 만들기 → 텍스트 문서</b>.</li><li>이름을 <b>index.html</b> 로 바꿔요. (‘확장명 바꿀까요?’ → 예)</li><li>파일을 오른쪽 클릭 → <b>메모장으로 열기</b> → <kbd>&lt;h1&gt;성실피아노 첫 홈페이지&lt;/h1&gt;</kbd> 를 쓰고 저장(<kbd>Ctrl</kbd>+<kbd>S</kbd>).</li></ol>
+<h2>② 파일질라(트럭) 준비</h2>
+<ol class="steps"><li>크롬에서 <kbd>filezilla-project.org</kbd> 에 들어가 <b>FileZilla Client</b>를 받아 설치해요. (이미 있으면 건너뛰기)</li><li>파일질라를 열고 맨 위 칸에 넣어요:<br>· <b>호스트</b>: 카페24가 알려 준 FTP 주소 (예: sungsilpiano.mycafe24.com)<br>· <b>사용자명</b>: 호스팅 아이디<br>· <b>비밀번호</b>: FTP 비밀번호 (직접)<br>· <b>포트</b>: 21</li><li><b>빠른 연결</b>을 눌러요.</li></ol>
+<figure class="scr"><div class="bar"><i></i><i></i><i></i><span>FileZilla</span></div><div class="in"><div class="two"><div class="opt"><b>왼쪽 = 내 컴퓨터</b><br>📄 index.html</div><div class="opt on"><b>오른쪽 = 카페24 방</b><br>📁 www</div></div><p class="okline">➡️ 왼쪽 파일을 오른쪽 www 폴더로 끌어다 놓기!</p></div><figcaption>왼쪽에서 오른쪽으로 끌어다 놓으면 올라가요</figcaption></figure>
+<h2>③ 올리고 확인</h2>
+<ol class="steps"><li>오른쪽에서 <b>www</b> 폴더를 두 번 눌러 들어가요. (홈페이지 방 = www)</li><li>왼쪽의 <b>index.html</b>을 오른쪽으로 <b>끌어다 놓아요.</b></li><li>크롬에서 <kbd>sungsilpiano.mycafe24.com</kbd> 을 열어요.</li><li>🎉 “성실피아노 첫 홈페이지” 글자가 보이면 성공!</li></ol>
+<div class="box ok"><b>✅ 이것만 알면 돼요</b><p>홈페이지 올리기 = <b>왼쪽(내 컴퓨터) → 오른쪽(www)</b> 끌어다 놓기. 나호스팅과 똑같아요!</p></div>
+
+<div class="pn"><a href="lesson3.html">◀ 3강 호스팅 신청</a><a href="lesson5.html">5강 이사하기 ▶</a></div>
+</main>
+<footer>성실피아노 공부방 · 2026년 11월 기준입니다. 카페24 화면의 글자·위치·요금은 바뀔 수 있으니 <b>신청 화면에서 꼭 다시 확인</b>하세요.<br>
+화면 그림은 이해를 돕기 위해 단순하게 그린 <b>맛보기 그림</b>이에요. 카페24 공식 화면이 아니며 실제와 똑같지 않아요.<br>
+<a href="../../">poianopks.github.io</a></footer>
+</body></html>

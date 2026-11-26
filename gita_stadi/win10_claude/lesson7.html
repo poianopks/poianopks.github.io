@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>7강 · 낱말 풀이와 퀴즈 | 왕초보 카페24 공부방</title>
+<meta name="description" content="컴퓨터와 서버를 전혀 모르는 왕초보를 위한 카페24 웹호스팅 공부방. 컴퓨터 켜기부터 가입, 호스팅 신청, 파일 올리기, 다른 호스팅에서 이사하기까지 따라하기.">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header><a class="logo" href="index.html">🏠 왕초보 카페24 공부방</a>
+<nav><a href="index.html">처음</a><a href="lesson1.html">1강 개념</a><a href="lesson2.html">2강 켜기·가입</a><a href="lesson3.html">3강 호스팅 신청</a><a href="lesson4.html">4강 첫 파일 올리기</a><a href="lesson5.html">5강 이사하기</a><a href="lesson6.html">6강 내 주소 옮기기</a><a href="lesson7.html" class="on">7강 낱말·퀴즈</a></nav></header>
+<main>
+<h1>7강 · 낱말 풀이와 퀴즈</h1>
+
+<table class="t words">
+<tr><th>카페24</th><td>우리나라 인터넷 회사. 웹호스팅(방 빌려주기)을 해요</td></tr>
+<tr><th>서버</th><td>24시간 켜져 있는 큰 컴퓨터 = 건물</td></tr>
+<tr><th>웹호스팅</th><td>서버의 방 한 칸 월세</td></tr>
+<tr><th>도메인</th><td>piano1.co.kr 같은 인터넷 주소 = 문패</td></tr>
+<tr><th>네임서버</th><td>주소표의 화살표. “이 주소는 저 집으로”</td></tr>
+<tr><th>FTP · 파일질라</th><td>파일을 옮기는 트럭과 트럭 프로그램</td></tr>
+<tr><th>www 폴더</th><td>홈페이지 방. 여기 넣은 것이 인터넷에 보여요</td></tr>
+<tr><th>PHP</th><td>게시판처럼 글이 저장되게 하는 기술</td></tr>
+<tr><th>MySQL</th><td>글을 모아 두는 자료 창고(데이터베이스)</td></tr>
+<tr><th>SSL (https)</th><td>자물쇠 🔒. 내용을 잠가 주는 안전한 연결</td></tr>
+<tr><th>mycafe24.com</th><td>카페24가 공짜로 주는 기본 주소 끝부분</td></tr>
+</table>
+<h2>✏️ 복습 퀴즈 (눌러 보세요)</h2>
+<div id="quiz"><div class="q" data-a="1"><p><b>1.</b> 카페24 웹호스팅을 건물로 비유하면?</p><button data-j="0">건물 주소</button><button data-j="1">건물의 방 한 칸 월세</button><button data-j="2">짐 나르는 트럭</button><p class="ex" hidden>웹호스팅 = 서버 건물의 방 한 칸을 빌리는 것</p></div><div class="q" data-a="0"><p><b>2.</b> 홈페이지 파일은 카페24 방의 어느 폴더에 넣나요?</p><button data-j="0">www</button><button data-j="1">바탕화면</button><button data-j="2">휴지통</button><p class="ex" hidden>www 폴더가 홈페이지 방이에요</p></div><div class="q" data-a="1"><p><b>3.</b> 파일을 옮기는 트럭 프로그램은?</p><button data-j="0">메모장</button><button data-j="1">파일질라</button><button data-j="2">계산기</button><p class="ex" hidden>파일질라(FTP)로 옮겨요</p></div><div class="q" data-a="1"><p><b>4.</b> 이사 중 나호스팅은 언제 해지하나요?</p><button data-j="0">이사 시작 전</button><button data-j="1">새집 확인·주소 이전까지 다 끝난 뒤</button><button data-j="2">아무 때나</button><p class="ex" hidden>옛집은 끝날 때까지 그대로!</p></div><div class="q" data-a="1"><p><b>5.</b> 도메인(piano1.co.kr)을 새집으로 옮길 때 바꾸는 것은?</p><button data-j="0">도메인 이름</button><button data-j="1">네임서버(화살표)</button><button data-j="2">컴퓨터 비밀번호</button><p class="ex" hidden>주소는 그대로, 화살표(네임서버)만 바꿔요</p></div><div class="q" data-a="1"><p><b>6.</b> 비밀번호와 결제는 누가 넣나요?</p><button data-j="0">클로드</button><button data-j="1">선생님이 직접</button><button data-j="2">아무나</button><p class="ex" hidden>비밀번호·결제는 꼭 본인이 직접!</p></div></div>
+<p id="score" class="lead"></p>
+<script>
+var right=0,done=0;
+document.querySelectorAll('.q').forEach(function(q){q.querySelectorAll('button').forEach(function(b){b.onclick=function(){
+if(q.dataset.d)return;q.dataset.d=1;done++;var ok=b.dataset.j==q.dataset.a;if(ok)right++;
+b.className=ok?'good':'bad';q.querySelector('[data-j="'+q.dataset.a+'"]').className='good';
+var ex=q.querySelector('.ex');ex.hidden=false;ex.textContent=(ok?'⭕ 맞았어요! ':'❌ 아쉬워요. ')+ex.textContent;
+if(done==6)document.getElementById('score').textContent='🎉 6문제 중 '+right+'문제 맞혔어요!';};});});
+</script>
+
+<div class="pn"><a href="lesson6.html">◀ 6강 내 주소 옮기기</a><span></span></div>
+</main>
+<footer>성실피아노 공부방 · 2026년 11월 기준입니다. 카페24 화면의 글자·위치·요금은 바뀔 수 있으니 <b>신청 화면에서 꼭 다시 확인</b>하세요.<br>
+화면 그림은 이해를 돕기 위해 단순하게 그린 <b>맛보기 그림</b>이에요. 카페24 공식 화면이 아니며 실제와 똑같지 않아요.<br>
+<a href="../../">poianopks.github.io</a></footer>
+</body></html>

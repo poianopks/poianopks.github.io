@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>6강 · 내 주소(도메인)를 새집으로 옮기기 | 왕초보 카페24 공부방</title>
+<meta name="description" content="컴퓨터와 서버를 전혀 모르는 왕초보를 위한 카페24 웹호스팅 공부방. 컴퓨터 켜기부터 가입, 호스팅 신청, 파일 올리기, 다른 호스팅에서 이사하기까지 따라하기.">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<header><a class="logo" href="index.html">🏠 왕초보 카페24 공부방</a>
+<nav><a href="index.html">처음</a><a href="lesson1.html">1강 개념</a><a href="lesson2.html">2강 켜기·가입</a><a href="lesson3.html">3강 호스팅 신청</a><a href="lesson4.html">4강 첫 파일 올리기</a><a href="lesson5.html">5강 이사하기</a><a href="lesson6.html" class="on">6강 내 주소 옮기기</a><a href="lesson7.html">7강 낱말·퀴즈</a></nav></header>
+<main>
+<h1>6강 · 내 주소(도메인)를 새집으로 옮기기</h1>
+
+<div class="anim"><svg viewBox="0 0 640 240" role="img" aria-label="도메인 주소표가 옛집 화살표에서 새집 화살표로 바뀌는 그림">
+<rect x="230" y="20" width="180" height="70" rx="12" fill="#ffd54a"/><text x="320" y="52" font-size="22" text-anchor="middle" font-weight="bold">📮 piano1.co.kr</text><text x="320" y="78" font-size="16" text-anchor="middle">주소표 (후이즈에서 관리)</text>
+<rect x="40" y="160" width="190" height="60" rx="12" fill="#f4d9b8"/><text x="135" y="197" font-size="20" text-anchor="middle" font-weight="bold">나호스팅 옛집</text>
+<rect x="410" y="160" width="190" height="60" rx="12" fill="#dff3f1" stroke="#0f6b6b" stroke-width="3"/><text x="505" y="197" font-size="20" text-anchor="middle" font-weight="bold">카페24 새집</text>
+<line x1="320" y1="90" x2="150" y2="158" stroke="#b55" stroke-width="6"><animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.4;0.5;0.95;1" dur="6s" repeatCount="indefinite"/></line>
+<line x1="320" y1="90" x2="490" y2="158" stroke="#0f6b6b" stroke-width="6" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.45;0.5;0.95;1" dur="6s" repeatCount="indefinite"/></line>
+<text x="320" y="140" font-size="17" text-anchor="middle" fill="#355">화살표만 바꾸면 손님은 새집으로!</text>
+</svg><p>▲ 움직이는 그림: 주소표 화살표만 새집으로 바꿔요</p></div>
+<p class="lead">도메인(piano1.co.kr)은 <b>후이즈</b>에 있어요. 이사를 해도 <b>주소는 그대로</b>, 화살표만 바꿔요.</p>
+<h2>① 카페24에 “이 주소 쓸게요” 알리기</h2>
+<ol class="steps"><li>카페24 로그인 → <b>나의서비스관리</b> → <b>도메인 연결</b>(연결 도메인 추가) 메뉴.</li><li><kbd>piano1.co.kr</kbd> 과 <kbd>www.piano1.co.kr</kbd> 을 넣고 저장해요.</li><li>화면에 나오는 <b>네임서버 주소</b>(또는 IP 주소)를 수첩에 적어요.</li></ol>
+<h2>② 후이즈에서 화살표 바꾸기</h2>
+<ol class="steps"><li>크롬에서 <kbd>whois.co.kr</kbd> 에 들어가 직접 로그인해요.</li><li><b>나의 도메인</b> → piano1.co.kr → <b>네임서버 변경</b>.</li><li>카페24가 알려 준 <b>네임서버</b>로 바꾸고 저장해요.</li><li>⏳ 바뀌는 데 <b>몇 시간 ~ 하루</b> 걸려요. 그동안은 옛집이 보여도 괜찮아요(그래서 옛집을 남겨 둬요).</li></ol>
+<figure class="scr"><div class="bar"><i></i><i></i><i></i><span>whois.co.kr</span></div><div class="in"><b>piano1.co.kr</b> 네임서버 변경<div class="fld"><small>1차 네임서버</small><span>(카페24가 알려 준 주소)</span></div><div class="fld"><small>2차 네임서버</small><span>(카페24가 알려 준 주소)</span></div><span class="fbtn blue">변경하기</span></div><figcaption>맛보기 그림 — 실제 칸 이름은 다를 수 있어요</figcaption></figure>
+<h2>③ 마무리</h2>
+<ol class="steps"><li>하루 뒤 <kbd>piano1.co.kr</kbd> 을 열어 새집이 보이는지 확인해요.</li><li>카페24에서 <b>무료 SSL(자물쇠 🔒)</b>을 신청하면 https 주소가 돼요.</li><li>모든 사이트가 1~2주 잘 되면, 그때 나호스팅 <b>해지</b>를 생각해요.</li></ol>
+<div class="box tip"><b>💡 겁나면 이렇게</b><p>처음엔 <b>study.piano1.co.kr</b> 같은 <b>작은 주소</b> 하나만 옮겨서 연습하면 본 사이트는 안전해요.</p></div>
+
+<div class="pn"><a href="lesson5.html">◀ 5강 이사하기</a><a href="lesson7.html">7강 낱말·퀴즈 ▶</a></div>
+</main>
+<footer>성실피아노 공부방 · 2026년 11월 기준입니다. 카페24 화면의 글자·위치·요금은 바뀔 수 있으니 <b>신청 화면에서 꼭 다시 확인</b>하세요.<br>
+화면 그림은 이해를 돕기 위해 단순하게 그린 <b>맛보기 그림</b>이에요. 카페24 공식 화면이 아니며 실제와 똑같지 않아요.<br>
+<a href="../../">poianopks.github.io</a></footer>
+</body></html>

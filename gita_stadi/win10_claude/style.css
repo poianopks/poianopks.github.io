@@ -1,0 +1,98 @@
+*{box-sizing:border-box}
+body{margin:0;font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;font-size:21px;line-height:1.75;color:#1d2433;background:#f4f7fb;word-break:keep-all}
+header{background:#1f4e8c;color:#fff;padding:12px 16px;position:sticky;top:0;z-index:5}
+.logo{color:#fff;font-weight:bold;font-size:22px;text-decoration:none}
+nav{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+nav a{color:#fff;background:#2f67b0;padding:6px 12px;border-radius:20px;text-decoration:none;font-size:17px}
+nav a.on{background:#ffd54a;color:#1d2433;font-weight:bold}
+main{max-width:860px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:32px;line-height:1.35;color:#1f4e8c;margin:10px 0 16px}
+h2{font-size:26px;margin:36px 0 12px;padding:8px 14px;background:#e3edfa;border-left:8px solid #1f4e8c;border-radius:6px}
+h3{font-size:23px;margin:24px 0 8px}
+.lead{font-size:23px;background:#fff;padding:16px;border-radius:12px;border:2px solid #cfe0f5}
+b{color:#0d3b7a}
+a{color:#1a5fc2}
+.yt{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#000}
+.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.src{font-size:16px;color:#556}
+.jump{display:inline-block;background:#e53935;color:#fff;text-decoration:none;padding:8px 16px;border-radius:24px;font-size:18px;margin:4px 0 8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:16px 0}
+.card{display:block;background:#fff;border:2px solid #cfe0f5;border-radius:14px;padding:16px;text-decoration:none;color:#1d2433}
+a.card:hover{border-color:#1f4e8c}
+.card span{display:inline-block;background:#1f4e8c;color:#fff;border-radius:12px;padding:0 10px;font-size:16px}
+.card b{display:block;font-size:23px;margin:6px 0}
+.card small{font-size:18px;color:#445;line-height:1.6;display:block}
+.box{border-radius:12px;padding:14px 18px;margin:18px 0;border:2px solid}
+.box>b{font-size:22px;display:block}
+.box p{margin:6px 0}
+.tip{background:#fff8e1;border-color:#f3c64b}
+.ok{background:#e8f6ec;border-color:#5cb874}
+.warn{background:#fdecea;border-color:#e57373}
+.t{width:100%;border-collapse:collapse;background:#fff;margin:10px 0;font-size:19px}
+.t th,.t td{border:1px solid #c9d6e8;padding:10px;text-align:left;vertical-align:top}
+.t th{background:#eef4fc}
+.words th{width:34%;white-space:nowrap}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;background:#fff;border:2px solid #cfe0f5;border-radius:12px;padding:12px 14px 12px 64px;margin:10px 0;position:relative}
+.steps li:before{content:counter(s);position:absolute;left:14px;top:12px;width:36px;height:36px;border-radius:50%;background:#1f4e8c;color:#fff;text-align:center;line-height:36px;font-weight:bold}
+.big li{margin:8px 0}
+kbd{background:#333;color:#fff;border-radius:6px;padding:2px 8px;font-family:inherit}
+.pic{font-size:24px;background:#fff;border:2px dashed #1f4e8c;border-radius:12px;padding:16px;text-align:center;line-height:1.9}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:22px;font-weight:bold}
+.flow span{background:#1f4e8c;color:#fff;padding:8px 14px;border-radius:10px}
+.next{font-size:21px}
+.pn{display:flex;justify-content:space-between;gap:10px;margin-top:40px}
+.pn a{background:#1f4e8c;color:#fff;text-decoration:none;padding:12px 18px;border-radius:12px;font-size:20px}
+.q{background:#fff;border:2px solid #cfe0f5;border-radius:12px;padding:12px 16px;margin:14px 0}
+.q button{display:block;width:100%;text-align:left;font:inherit;font-size:20px;margin:6px 0;padding:10px 14px;border-radius:10px;border:2px solid #9fb8da;background:#f7faff;cursor:pointer}
+.q button.good{background:#c8ecd2;border-color:#2e9b4f}
+.q button.bad{background:#f9cfcb;border-color:#d84a3f}
+.ex{font-weight:bold}
+footer{text-align:center;font-size:16px;color:#556;padding:20px 16px 40px;border-top:1px solid #d5deea}
+@media (max-width:600px){body{font-size:20px}h1{font-size:28px}h2{font-size:23px}.t{font-size:17px}.words th{white-space:normal}}
+/* 카페24 공부방: 청록 테마 + SVG 애니메이션 + 3D */
+header{background:#0f6b6b}
+nav a{background:#178585}
+h1{color:#0b5c5c}
+h2{background:#dff3f1;border-left-color:#0f6b6b}
+.card span,.steps li:before,.flow span,.pn a{background:#0f6b6b}
+b{color:#0a4f4f}
+.scr{margin:16px 0;border:2px solid #b9c4d3;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 3px 10px #0001}
+.scr .bar{background:#e9edf2;padding:8px 10px;display:flex;align-items:center;gap:6px;font-size:15px}
+.scr .bar i{width:11px;height:11px;border-radius:50%;background:#f26b5b;display:inline-block}
+.scr .bar i:nth-child(2){background:#f6c343}.scr .bar i:nth-child(3){background:#54c26b}
+.scr .bar span{flex:1;background:#fff;border-radius:14px;padding:3px 12px;margin-left:6px;color:#334;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.scr .in{padding:16px;font-size:18px}
+.scr figcaption{background:#fff8e1;border-top:1px dashed #f3c64b;padding:6px 12px;font-size:16px;color:#6a5200}
+.logo24{font-weight:900;font-size:22px;color:#111;margin-bottom:6px}.logo24 em{font-style:normal;color:#e8323c}
+.fld{border:1px solid #aab;border-radius:8px;padding:4px 10px;margin:8px 0}
+.fld small{display:block;color:#667;font-size:14px}
+.fbtn{display:inline-block;padding:8px 18px;border-radius:8px;background:#dde3ea;margin:6px 4px 6px 0;font-weight:bold}
+.fbtn.blue{background:#1a5fc2;color:#fff}.fbtn.red{background:#e8323c;color:#fff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.opt{border:2px solid #ccd;border-radius:10px;padding:10px;text-align:center;font-size:17px}
+.opt.on{border-color:#0f6b6b;background:#e6f6f4}
+.okline{color:#1d7a3a;font-weight:bold}
+.pic{border-color:#0f6b6b}
+.anim{background:#fff;border:2px solid #bfe3df;border-radius:14px;padding:8px;margin:16px 0;text-align:center}
+.anim svg{width:100%;height:auto;max-height:420px}
+.anim p{margin:4px 0 0;font-size:17px;color:#355}
+.gif{display:block;max-width:100%;margin:16px auto;border-radius:14px;border:2px solid #bfe3df}
+#three{width:100%;height:380px;border-radius:14px;background:radial-gradient(#1c4a5a,#08151c);display:block;touch-action:pan-y}
+.three-cap{font-size:17px;color:#355;text-align:center;margin:4px 0 16px}
+.mode{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.mode a{background:#fff;border:2px solid #0f6b6b;color:#0f6b6b;border-radius:20px;padding:4px 14px;text-decoration:none;font-size:17px}
+/* SVG 애니메이션 */
+.pk{animation:pk 3s linear infinite}
+.pk2{animation:pk 3s linear infinite 1s}.pk3{animation:pk 3s linear infinite 2s}
+@keyframes pk{0%{offset-distance:0%;opacity:0}8%{opacity:1}92%{opacity:1}100%{offset-distance:100%;opacity:0}}
+.blink{animation:bl 1.4s ease-in-out infinite}
+@keyframes bl{50%{opacity:.25}}
+.bob{animation:bob 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes bob{50%{transform:translateY(-10px)}}
+.pop{animation:pop 6s ease-in-out infinite;transform-box:fill-box;transform-origin:center;opacity:0}
+.d1{animation-delay:0s}.d2{animation-delay:1.5s}.d3{animation-delay:3s}.d4{animation-delay:4.5s}
+@keyframes pop{0%{opacity:0;transform:scale(.6)}6%{opacity:1;transform:scale(1.06)}10%{transform:scale(1)}30%{opacity:1}100%{opacity:1}}
+.truck{animation:truck 7s ease-in-out infinite}
+@keyframes truck{0%{transform:translateX(0)}45%{transform:translateX(430px)}55%{transform:translateX(430px)}100%{transform:translateX(430px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.pk,.pk2,.pk3,.blink,.bob,.pop,.truck{animation:none;opacity:1}}
