@@ -3,41 +3,41 @@
     {
       "name": "다우존스",
       "symbol": "^DJI",
-      "value": 50060.09,
-      "change": 41.390625,
-      "changePercent": 0.082752846,
+      "value": 50182.95,
+      "change": 164.25,
+      "changePercent": 0.3283772,
       "previousClose": 50018.7
     },
     {
       "name": "S&P 500",
       "symbol": "^GSPC",
-      "value": 7136.56,
-      "change": -64.529785,
-      "changePercent": -0.896084,
+      "value": 7182.78,
+      "change": -18.310059,
+      "changePercent": -0.25426787,
       "previousClose": 7201.09
     },
     {
       "name": "나스닥",
       "symbol": "^IXIC",
-      "value": 23329.383,
-      "change": -404.15234,
-      "changePercent": -1.7028824,
+      "value": 23585.803,
+      "change": -147.73242,
+      "changePercent": -0.62246275,
       "previousClose": 23733.535
     },
     {
       "name": "러셀 2000",
       "symbol": "^RUT",
-      "value": 2678.4355,
-      "change": -6.5063477,
-      "changePercent": -0.24233922,
-      "previousClose": 2684.942
+      "value": 2704.061,
+      "change": 19.11914,
+      "changePercent": 0.7120877,
+      "previousClose": 2684.94
     },
     {
       "name": "VIX 공포지수",
       "symbol": "^VIX",
-      "value": 30.11,
-      "change": 3.75,
-      "changePercent": 14.156285,
+      "value": 28.29,
+      "change": 1.9300003,
+      "changePercent": 7.3217006,
       "previousClose": 26.36
     }
   ],
@@ -45,87 +45,87 @@
     {
       "symbol": "META",
       "name": "Meta Platforms, Inc.",
-      "price": 603.43,
-      "change": 13.609985,
-      "changePercent": 2.308166,
-      "volume": "8.55M"
-    },
-    {
-      "symbol": "V",
-      "name": "Visa Inc.",
-      "price": 422.58,
-      "change": 5.799988,
-      "changePercent": 1.3916186,
-      "volume": "2.67M"
+      "price": 609.89,
+      "change": 20.07,
+      "changePercent": 3.40273,
+      "volume": "18.56M"
     },
     {
       "symbol": "MA",
       "name": "Mastercard Incorporated",
-      "price": 655.82,
-      "change": 8.380005,
-      "changePercent": 1.2943292,
-      "volume": "1.49M"
+      "price": 659.97,
+      "change": 12.53,
+      "changePercent": 1.93531,
+      "volume": "3.54M"
+    },
+    {
+      "symbol": "V",
+      "name": "Visa Inc.",
+      "price": 424.39,
+      "change": 7.61002,
+      "changePercent": 1.82591,
+      "volume": "6.59M"
     },
     {
       "symbol": "UNH",
       "name": "UnitedHealth Group Incorporated",
-      "price": 345.595,
-      "change": 3.7149963,
-      "changePercent": 1.0866375,
-      "volume": "3.13M"
+      "price": 346.19,
+      "change": 4.31,
+      "changePercent": 1.26068,
+      "volume": "6.55M"
     },
     {
       "symbol": "PG",
       "name": "Procter & Gamble Company (The)",
-      "price": 174.185,
-      "change": 1.7149963,
-      "changePercent": 0.9943737,
-      "volume": "3.67M"
+      "price": 173.23,
+      "change": 0.759995,
+      "changePercent": 0.440653,
+      "volume": "9.66M"
     }
   ],
   "topLosers": [
     {
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
-      "price": 146.03,
-      "change": -9.350006,
-      "changePercent": -6.017509,
-      "volume": "224.94M"
-    },
-    {
-      "symbol": "TSLA",
-      "name": "Tesla, Inc.",
-      "price": 371.48,
-      "change": -13.199982,
-      "changePercent": -3.431419,
-      "volume": "19.37M"
+      "price": 149.3,
+      "change": -6.08,
+      "changePercent": -3.91299,
+      "volume": "359.53M"
     },
     {
       "symbol": "AMZN",
       "name": "Amazon.com, Inc.",
-      "price": 244.54,
-      "change": -7.75,
-      "changePercent": -3.0718617,
-      "volume": "33.30M"
+      "price": 244.43,
+      "change": -7.86,
+      "changePercent": -3.11546,
+      "volume": "61.71M"
     },
     {
       "symbol": "GOOGL",
       "name": "Alphabet Inc.",
-      "price": 271.22,
-      "change": -7.8299866,
-      "changePercent": -2.805944,
-      "volume": "22.20M"
+      "price": 273.1,
+      "change": -5.94998,
+      "changePercent": -2.13223,
+      "volume": "40.80M"
     },
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "price": 489.24,
-      "change": -6.8900146,
-      "changePercent": -1.3887519,
-      "volume": "11.70M"
+      "price": 489.93,
+      "change": -6.20001,
+      "changePercent": -1.24967,
+      "volume": "26.10M"
+    },
+    {
+      "symbol": "TSLA",
+      "name": "Tesla, Inc.",
+      "price": 380.14,
+      "change": -4.53998,
+      "changePercent": -1.1802,
+      "volume": "33.88M"
     }
   ],
-  "updatedAt": "2026-11-25T17:57:16.106Z",
-  "marketStatus": "장개장중",
-  "isRealtime": true
+  "updatedAt": "2026-11-26T05:28:21.766Z",
+  "marketStatus": "장마감",
+  "isRealtime": false
 }

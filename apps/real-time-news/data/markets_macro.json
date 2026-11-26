@@ -1,15 +1,15 @@
 {
-  "fearGreed": 42,
+  "fearGreed": 47,
   "fearGreedLabel": "중립",
-  "usdKrw": 1344.32,
-  "usdKrwChange": 0.24157758,
-  "gold": 3534.7,
-  "goldChangePercent": -1.5705534,
-  "oil": 83.5,
-  "oilChangePercent": 1.7672113,
-  "erp": -0.42,
+  "usdKrw": 1342.43,
+  "usdKrwChange": -0.06029948,
+  "gold": 3620.1,
+  "goldChangePercent": 1.5569769,
+  "oil": 84.37,
+  "oilChangePercent": 0.8245727,
+  "erp": -0.46,
   "erpLabel": "고평가",
-  "spyPE": 22.653872,
-  "yield10y": 4.836,
-  "updatedAt": "2026-11-25T17:57:17.735Z"
+  "spyPE": 22.801332,
+  "yield10y": 4.848,
+  "updatedAt": "2026-11-26T05:28:23.444Z"
 }
