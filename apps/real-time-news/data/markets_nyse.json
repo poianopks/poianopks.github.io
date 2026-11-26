@@ -30,14 +30,14 @@
       "value": 2704.061,
       "change": 19.11914,
       "changePercent": 0.7120877,
-      "previousClose": 2684.94
+      "previousClose": 2684.942
     },
     {
       "name": "VIX 공포지수",
       "symbol": "^VIX",
-      "value": 26.91,
-      "change": -1.3800011,
-      "changePercent": -4.878052,
+      "value": 26.8,
+      "change": -1.4900017,
+      "changePercent": -5.2668843,
       "previousClose": 28.29
     }
   ],
@@ -125,7 +125,7 @@
       "volume": "33.88M"
     }
   ],
-  "updatedAt": "2026-11-26T12:20:17.627Z",
+  "updatedAt": "2026-11-26T17:41:52.630Z",
   "marketStatus": "장마감",
   "isRealtime": false
 }

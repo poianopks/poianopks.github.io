@@ -4,7 +4,7 @@
     "change": 13.700195,
     "changePercent": 0.29164803,
     "previousClose": 4697.51,
-    "marketState": "POSTPOST"
+    "marketState": "PREPRE"
   },
   "kosdaq": {
     "value": 655.71,
@@ -14,7 +14,7 @@
   },
   "bondYield10y": 4.848,
   "bondYield30y": 5.2349997,
-  "vixLevel": 26.91,
+  "vixLevel": 26.8,
   "riskItems": [
     {
       "title": "미국 30년물 금리 5.23%",
@@ -27,7 +27,7 @@
       "level": "high"
     },
     {
-      "title": "VIX 공포지수 26.9",
+      "title": "VIX 공포지수 26.8",
       "detail": "불안 구간. 변동성 확대 중. 분할 매수 접근 권장, 풀베팅 자제.",
       "level": "medium"
     },
@@ -138,53 +138,53 @@
       "label": "1주일",
       "fromDate": "2026-11-20",
       "fromClose": 4870,
-      "toClose": 4711,
-      "returnPct": -3.26,
+      "toClose": 4698,
+      "returnPct": -3.54,
       "isATH": false
     },
     {
       "label": "1개월",
       "fromDate": "2026-10-28",
       "fromClose": 6012,
-      "toClose": 4711,
-      "returnPct": -21.64,
+      "toClose": 4698,
+      "returnPct": -21.87,
       "isATH": false
     },
     {
       "label": "3개월",
       "fromDate": "2026-08-28",
       "fromClose": 6789,
-      "toClose": 4711,
-      "returnPct": -30.6,
+      "toClose": 4698,
+      "returnPct": -30.81,
       "isATH": false
     },
     {
       "label": "6개월",
       "fromDate": "2026-05-29",
       "fromClose": 8476,
-      "toClose": 4711,
-      "returnPct": -44.42,
+      "toClose": 4698,
+      "returnPct": -44.58,
       "isATH": false
     },
     {
       "label": "1년",
       "fromDate": "2025-11-27",
       "fromClose": 3987,
-      "toClose": 4711,
-      "returnPct": 18.17,
+      "toClose": 4698,
+      "returnPct": 17.82,
       "isATH": false
     },
     {
       "label": "2년",
       "fromDate": "2024-11-27",
       "fromClose": 2503,
-      "toClose": 4711,
-      "returnPct": 88.22,
+      "toClose": 4698,
+      "returnPct": 87.67,
       "isATH": false
     }
   ],
   "kospiAth": 9115,
   "kospiAthDate": "2026-06-22",
-  "updatedAt": "2026-11-26T12:20:22.176Z",
+  "updatedAt": "2026-11-26T17:41:57.063Z",
   "isRealtime": false
 }

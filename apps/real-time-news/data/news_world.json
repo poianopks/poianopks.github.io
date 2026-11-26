@@ -1,16 +1,126 @@
 [
   {
-    "id": "CNBC-5-2026-11-26T11:44:19.000Z",
+    "id": "MarketWatch-0-2026-11-26T16:30:00.000Z",
+    "title": "I hate that Jensen Huang is back at Nvidia, but I love what it’s done for my 401(k). Am I a hypocrite?",
+    "description": "Doing nothing and maintaining an even temperament is often the work of gods.",
+    "url": "https://www.marketwatch.com/story/i-hate-that-jensen-huang-is-back-at-nvidia-but-i-love-what-its-done-for-my-401-k-am-i-a-hypocrite-f63c0303?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-26T16:30:00.000Z"
+  },
+  {
+    "id": "CNBC-6-2026-11-26T16:12:47.000Z",
+    "title": "Trump, NATO chief caution Russia as attacks on Ukraine’s energy infrastructure intensify",
+    "description": "Trump and NATO chief Mark Rutte urged Russia to avoid actions that could expand the war and called for a rapid peaceful resolution.",
+    "url": "https://www.cnbc.com/2026/11/26/trump-nato-rutte-russia-ukraine-war.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-26T16:12:47.000Z"
+  },
+  {
+    "id": "MarketWatch-2-2026-11-26T15:30:00.000Z",
+    "title": "We are living in perilous times if Nvidia CEO Jensen Huang dictates your 401(k) balance",
+    "description": "Why did a futurist with Huang’s prescient vision build a company where all roads lead to him?",
+    "url": "https://www.marketwatch.com/story/we-are-living-in-perilous-times-if-nvidias-jensen-huang-dictates-your-401-k-balance-e0942d1e?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-26T15:30:00.000Z"
+  },
+  {
+    "id": "CNBC-2-2026-11-26T15:28:26.000Z",
+    "title": "Spain’s Pablo Hernández de Cos set to lead European Central Bank",
+    "description": "De Cos will lead the ECB into a period of political uncertainty and choppy growth, after winning the backing needed to succeed Christine Lagarde next year.",
+    "url": "https://www.cnbc.com/2026/11/26/pablo-hernandez-de-cos-ecb-president.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-26T15:28:26.000Z"
+  },
+  {
+    "id": "MarketWatch-3-2026-11-26T15:13:00.000Z",
+    "title": "My husband secretly sends his ex-wife $1,500 a month after she lost her job. We have $2.4 million saved. Has he lied by omission?",
+    "description": "“He explained that he wasn’t trying to hide the payment, but his former wife lost her job in a medical billing company.”",
+    "url": "https://www.marketwatch.com/story/my-husband-secretly-sends-his-ex-wife-1-500-a-month-after-she-lost-her-job-we-have-2-4-million-saved-has-he-lied-by-omission-ede1972a?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-26T15:13:00.000Z"
+  },
+  {
+    "id": "MarketWatch-5-2026-11-26T14:00:00.000Z",
+    "title": "Nvidia and the whole AI trade aren’t out of the woods — not by a long shot",
+    "description": "The ‘Bank of AI’ faces a host of troubles ahead.",
+    "url": "https://www.marketwatch.com/story/nvidia-and-the-whole-ai-trade-arent-out-of-the-woods-not-by-a-long-shot-bccc0025?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-26T14:00:00.000Z"
+  },
+  {
+    "id": "MarketWatch-6-2026-11-26T13:41:00.000Z",
+    "title": "Futures point to Black Friday gains on Wall Street as global markets welcome U.S. resilience",
+    "description": "A rebound off lows for the S&P 500 on Wednesday calms bourses after the tech washout.",
+    "url": "https://www.marketwatch.com/story/futures-point-to-black-friday-gains-for-wall-street-as-global-markets-welcome-u-s-resilience-ad6bcef2?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-26T13:41:00.000Z"
+  },
+  {
+    "id": "CNBC-7-2026-11-26T13:34:51.000Z",
+    "title": "What is ‘texture-maxxing’? The food trend putting crunch on the menu",
+    "description": "Texture-maxxing is the latest food trend taking social media by storm as consumers, driven by aesthetics and taste, are now looking for a sensory experience too.",
+    "url": "https://www.cnbc.com/2026/11/26/texture-maxxing-food-trends-gen-z.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-26T13:34:51.000Z"
+  },
+  {
+    "id": "CNBC-0-2026-11-26T13:19:25.000Z",
+    "title": "Semiconductor chips are the new oil. Here's why",
+    "description": "Semiconductor exports overtook oil and gas for the first time in 2026, as the AI boom fueled chip demand.",
+    "url": "https://www.cnbc.com/2026/11/26/semiconductor-chips-are-the-new-oil-heres-why.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-26T13:19:25.000Z"
+  },
+  {
+    "id": "CNBC-14-2026-11-26T12:46:55.000Z",
     "title": "U.S. tariff-hike threats pile pressure on partners to sign trade deals",
     "description": "The U.S. planned a fresh tariff salvo on 14 trading partners, while offering some countries lower rates if they secure trade deals with Washington.",
     "url": "https://www.cnbc.com/2026/11/26/us-tariffs-hike-trade-agreement.html",
     "imageUrl": null,
     "source": "CNBC",
     "category": "글로벌",
-    "publishedAt": "2026-11-26T11:44:19.000Z"
+    "publishedAt": "2026-11-26T12:46:55.000Z"
   },
   {
-    "id": "CNBC-3-2026-11-26T11:17:39.000Z",
+    "id": "MarketWatch-9-2026-11-26T12:37:00.000Z",
+    "title": "Capital preservation rather than chasing the market is how hedge funds are negotiating this volatility",
+    "description": "After a strong first half, performance for the hedge fund sector has dipped in the second half, and Goldman Sachs expects the investor class to try and hold onto what they have for now.",
+    "url": "https://www.marketwatch.com/story/capital-preservation-rather-than-chasing-the-market-higher-is-how-hedge-funds-are-negotiating-market-volatility-f4288b71?mod=mw_rss_topstories",
+    "imageUrl": null,
+    "source": "MarketWatch",
+    "category": "글로벌",
+    "publishedAt": "2026-11-26T12:37:00.000Z"
+  },
+  {
+    "id": "CNBC-5-2026-11-26T12:22:25.000Z",
+    "title": "Global stocks rally as investors shrug off U.S. tariffs and AI jitters to 'fish for bargains'",
+    "description": "Investors appeared to have shrugged off a fresh set of tariffs unveiled by the White House on Wednesday, targeting more than a dozen major trading partners.",
+    "url": "https://www.cnbc.com/2026/11/26/stock-markets-today-.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-26T12:22:25.000Z"
+  },
+  {
+    "id": "CNBC-10-2026-11-26T11:17:39.000Z",
     "title": "Switzerland’s biggest bank set for showdown with lawmakers as capital fight intensifies amid crisis planning",
     "description": "Swiss regulator FINMA said UBS can execute its preferred crisis-resolution strategy, even as the bank faces a separate parliamentary fight over tougher capital requirements.",
     "url": "https://www.cnbc.com/2026/11/26/ubs-swiss-capital-rules-finma-crisis-plan.html",
@@ -20,47 +130,7 @@
     "publishedAt": "2026-11-26T11:17:39.000Z"
   },
   {
-    "id": "CNBC-1-2026-11-26T10:45:45.000Z",
-    "title": "Trump, NATO chief caution Russia as attacks on Ukraine’s energy infrastructure intensify",
-    "description": "Trump and NATO chief Mark Rutte urged Russia to avoid actions that could expand the war and called for a rapid peaceful resolution.",
-    "url": "https://www.cnbc.com/2026/11/26/trump-nato-rutte-russia-ukraine-war.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-26T10:45:45.000Z"
-  },
-  {
-    "id": "MarketWatch-0-2026-11-26T10:37:00.000Z",
-    "title": "Futures point to Black Friday gains for Wall Street as global markets welcome U.S. resilience.",
-    "description": "A rebound off lows for the S&P 500 on Wednesday calms bourses after AI wash out",
-    "url": "https://www.marketwatch.com/story/futures-point-to-black-friday-gains-for-wall-street-as-global-markets-welcome-u-s-resilience-ad6bcef2?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-26T10:37:00.000Z"
-  },
-  {
-    "id": "MarketWatch-1-2026-11-26T10:11:00.000Z",
-    "title": "The tech rout should bottom soon, with a 25% rally for the S&P 500 to follow, says Deutsche Bank",
-    "description": "Deutsche Bank sees the benchmark index reaching 9,000 points by the end of 2027 as focus shifts from capital expenditure to monetization from artificial intelligence.",
-    "url": "https://www.marketwatch.com/story/the-tech-rout-should-bottom-soon-with-a-25-rally-for-the-s-p-500-to-follow-says-deutsche-bank-c9070bf6?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-26T10:11:00.000Z"
-  },
-  {
-    "id": "CNBC-2-2026-11-26T09:51:40.000Z",
-    "title": "Global stocks rally as investors shrug off U.S. tariffs and AI jitters to 'fish for bargains'",
-    "description": "Investors appeared to have shrugged off a fresh set of tariffs unveiled by the White House on Wednesday, targeting more than a dozen major trading partners.",
-    "url": "https://www.cnbc.com/2026/11/26/stock-markets-today-.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-26T09:51:40.000Z"
-  },
-  {
-    "id": "CNBC-4-2026-11-26T09:02:30.000Z",
+    "id": "CNBC-13-2026-11-26T09:02:30.000Z",
     "title": "Norse Atlantic suspends all flights, warns it may file for bankruptcy after share price collapse",
     "description": "Norse Atlantic has suspended all flights and said it may it have to file for bankruptcy, a day after it warned its financial position was \"critical.\"",
     "url": "https://www.cnbc.com/2026/11/26/norse-airline-finance-business.html",
@@ -70,7 +140,7 @@
     "publishedAt": "2026-11-26T09:02:30.000Z"
   },
   {
-    "id": "CNBC-8-2026-11-26T08:59:11.000Z",
+    "id": "CNBC-17-2026-11-26T08:59:11.000Z",
     "title": "Latin America has the copper and energy the AI build-out needs. Infrastructure is the test",
     "description": "Latin America’s copper, oil, gas and rare earths could benefit from rising AI energy demand, if infrastructure and fiscal policy attract investment.",
     "url": "https://www.cnbc.com/2026/11/26/latin-america-copper-energy-ai-investment.html",
@@ -80,17 +150,7 @@
     "publishedAt": "2026-11-26T08:59:11.000Z"
   },
   {
-    "id": "CNBC-12-2026-11-26T07:45:05.000Z",
-    "title": "Taking on Starlink: Europe’s largest satellite factory opens in push to rival Musk",
-    "description": "The 20,000-square-meter mega factory will be able to produce up to 500 satellites annually, making it the world's third-largest satellite production site.",
-    "url": "https://www.cnbc.com/2026/11/26/starlink-satellites-aerospacelab-factory-belgium.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-26T07:45:05.000Z"
-  },
-  {
-    "id": "CNBC-6-2026-11-26T07:23:42.000Z",
+    "id": "CNBC-15-2026-11-26T07:23:42.000Z",
     "title": "Wealthy Europeans look beyond stocks amid AI selloff. Here’s where they’re investing",
     "description": "Goldman Sachs Alternatives' inaugural survey of high-net-worth investors found they're increasingly looking to alternatives amid turbulent markets.",
     "url": "https://www.cnbc.com/2026/11/26/wealthy-europeans-alternative-investments-ai.html",
@@ -100,17 +160,7 @@
     "publishedAt": "2026-11-26T07:23:42.000Z"
   },
   {
-    "id": "MarketWatch-2-2026-11-26T07:16:00.000Z",
-    "title": "Is the stock market open for Thanksgiving? The answer might surprise you.",
-    "description": "The answer to the question of whether the stock market is open on Thanksgiving isn’t a simple yes or no, as the major exchanges are closed, but trading of equity futures is open for part of the day.",
-    "url": "https://www.marketwatch.com/story/is-the-stock-market-open-for-thanksgiving-the-answer-might-surprise-you-e68114d4?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-26T07:16:00.000Z"
-  },
-  {
-    "id": "CNBC-0-2026-11-26T06:39:34.000Z",
+    "id": "CNBC-4-2026-11-26T06:39:34.000Z",
     "title": "SpaceX, Musk pledge to donate a share each to active Trump Accounts",
     "description": "SpaceX said it will donate one share of the company's class A stock to every active Trump Account, and CEO Elon Musk would match it.",
     "url": "https://www.cnbc.com/2026/11/25/spacex-musk-trump-account-stock.html",
@@ -120,17 +170,7 @@
     "publishedAt": "2026-11-26T06:39:34.000Z"
   },
   {
-    "id": "CNBC-15-2026-11-26T04:12:18.000Z",
-    "title": "How Trump’s latest tariff moves hand India an edge over rival Asian exporters",
-    "description": "Proposed tariffs of 18% on Bangladesh, Cambodia, Thailand, and 20% on China and Vietnam, subject to their respective trade deals, offer India a competitive advantage.",
-    "url": "https://www.cnbc.com/2026/11/26/trump-us-tariff-india-trade.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-26T04:12:18.000Z"
-  },
-  {
-    "id": "CNBC-7-2026-11-26T03:19:44.000Z",
+    "id": "CNBC-16-2026-11-26T03:19:44.000Z",
     "title": "S&P warns Nvidia credit rating could be cut over 'rising' management and governance risk",
     "description": "S&P Global Ratings said Nvidia's credit rating could be cut by one notch as it flagged \"rising\" management and governance risk at the chipmaker.",
     "url": "https://www.cnbc.com/2026/11/26/nvidia-market-governance-risk.html",
@@ -140,7 +180,7 @@
     "publishedAt": "2026-11-26T03:19:44.000Z"
   },
   {
-    "id": "CNBC-10-2026-11-26T03:13:43.000Z",
+    "id": "CNBC-11-2026-11-26T03:13:43.000Z",
     "title": "‘Your booth is waiting’: Denny’s welcomes Jensen Huang back as Nvidia CEO",
     "description": "Denny's reaffirmed its longstanding ties with Jensen Huang following his return as Nvidia CEO, revealing that a plaque had been restored.",
     "url": "https://www.cnbc.com/2026/11/26/dennys-jensen-huang-nvidia.html",
@@ -150,77 +190,7 @@
     "publishedAt": "2026-11-26T03:13:43.000Z"
   },
   {
-    "id": "CNBC-18-2026-11-26T03:09:47.000Z",
-    "title": "K-beauty stocks rally as Korean brands top Amazon bestseller lists globally ahead of Black Friday",
-    "description": "South Korean beauty stocks rose as K-beauty brands dominated Amazon's skincare rankings ahead of Black Friday.",
-    "url": "https://www.cnbc.com/2026/11/26/k-beauty-firms-amazon-sales-black-friday.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-26T03:09:47.000Z"
-  },
-  {
-    "id": "MarketWatch-3-2026-11-26T01:15:00.000Z",
-    "title": "We are living in perilous times if Nvidia’s Jensen Huang dictates your 401(k) balance",
-    "description": "Why did a futurist with Huang’s prescient vision build a company where all roads lead to him?",
-    "url": "https://www.marketwatch.com/story/we-are-living-in-perilous-times-if-nvidias-jensen-huang-dictates-your-401-k-balance-e0942d1e?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-26T01:15:00.000Z"
-  },
-  {
-    "id": "MarketWatch-4-2026-11-26T00:33:00.000Z",
-    "title": "Why this stock-market selloff is probably going to get worse before it gets better",
-    "description": "Monday’s rally helped to paper over deeper issues that must be resolved before a durable bottom can arrive.",
-    "url": "https://www.marketwatch.com/story/why-this-stock-market-selloff-is-probably-going-to-get-worse-before-it-gets-better-fce63a89?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-26T00:33:00.000Z"
-  },
-  {
-    "id": "MarketWatch-5-2026-11-25T23:30:00.000Z",
-    "title": "A 66-year-old nurse is facing down retirement with just $500 saved. Who’s to blame?",
-    "description": "“Retirement is a financial status, not an age.”",
-    "url": "https://www.marketwatch.com/story/a-66-year-old-nurse-faces-retirement-with-just-500-saved-whos-to-blame-4249a0fd?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-25T23:30:00.000Z"
-  },
-  {
-    "id": "MarketWatch-7-2026-11-25T23:00:00.000Z",
-    "title": "I’ve been married for 58 years. It’s ‘our’ money, not ‘his’ and ‘hers.’ Why do so many couples keep their finances separate?",
-    "description": "“My wife stopped working outside the home in 1970.”",
-    "url": "https://www.marketwatch.com/story/ive-been-married-for-58-years-its-our-money-not-his-and-hers-why-dont-others-feel-the-same-c5745889?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-25T23:00:00.000Z"
-  },
-  {
-    "id": "MarketWatch-8-2026-11-25T22:45:00.000Z",
-    "title": "I hate that Jensen Huang is back at Nvidia, but I love what it’s done for my 401(k). Am I a hypocrite?",
-    "description": "Doing nothing and maintaining an even temperament is often the work of gods.",
-    "url": "https://www.marketwatch.com/story/i-hate-that-jensen-huang-is-back-at-nvidia-but-i-love-what-its-done-for-my-401-k-am-i-a-hypocrite-f63c0303?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-25T22:45:00.000Z"
-  },
-  {
-    "id": "MarketWatch-9-2026-11-25T22:16:00.000Z",
-    "title": "Oracle, CoreWeave and other tech stocks bounce back after selloff",
-    "description": "Oracle, CoreWeave and other technology stocks bounced back from early losses on Wednesday, after what appeared to be a major selloff eased ahead of the market’s close.",
-    "url": "https://www.marketwatch.com/story/oracles-stock-sinks-toward-a-3-year-low-as-the-ai-trade-continues-to-unravel-d4698d77?mod=mw_rss_topstories",
-    "imageUrl": null,
-    "source": "MarketWatch",
-    "category": "글로벌",
-    "publishedAt": "2026-11-25T22:16:00.000Z"
-  },
-  {
-    "id": "CNBC-11-2026-11-25T17:28:24.000Z",
+    "id": "CNBC-12-2026-11-25T17:28:24.000Z",
     "title": "Nvidia sellers seek new buyers as U.S. curbs China AI chip access, sources tell CNBC",
     "description": "Nvidia GPU sellers are seeking new buyers after new U.S. rules tightened remote access to advanced AI chips for China-linked customers",
     "url": "https://www.cnbc.com/2026/11/25/nvidia-china-ai-chip-remote-access.html",
@@ -230,7 +200,7 @@
     "publishedAt": "2026-11-25T17:28:24.000Z"
   },
   {
-    "id": "CNBC-19-2026-11-25T16:05:25.000Z",
+    "id": "CNBC-18-2026-11-25T16:05:25.000Z",
     "title": "Anthropic's stock has been a clunker post-IPO. Why that matters for the AI trade",
     "description": "Shares of Anthropic are trading below their IPO price, creating an overhang on other artificial intelligence names.",
     "url": "https://www.cnbc.com/investingclub/2026/11/25/anthropics-stock-has-been-a-clunker-post-ipo-why-that-matters-for-the-ai-trade.html",
@@ -238,16 +208,6 @@
     "source": "CNBC",
     "category": "글로벌",
     "publishedAt": "2026-11-25T16:05:25.000Z"
-  },
-  {
-    "id": "CNBC-13-2026-11-25T16:02:52.000Z",
-    "title": "U.S. proposes new tariffs on 14 trading partners, including China and the EU",
-    "description": "The new levies seek to counter foreign trade practices deemed unfair, discriminatory or burdensome to U.S. commerce.",
-    "url": "https://www.cnbc.com/2026/11/25/us-tariffs-trump-section-301.html",
-    "imageUrl": null,
-    "source": "CNBC",
-    "category": "글로벌",
-    "publishedAt": "2026-11-25T16:02:52.000Z"
   },
   {
     "id": "CNBC-9-2026-11-25T14:17:01.000Z",
@@ -258,6 +218,16 @@
     "source": "CNBC",
     "category": "글로벌",
     "publishedAt": "2026-11-25T14:17:01.000Z"
+  },
+  {
+    "id": "CNBC-19-2026-11-25T04:06:01.000Z",
+    "title": "‘Ready for any storm’: UAE minister optimistic on economy as IMF lifts forecast",
+    "description": "The UAE is optimistic about achieving 7%-8% economic growth next year, banking on a \"different\" economic model.",
+    "url": "https://www.cnbc.com/2026/11/25/uae-iran-war-economy-oil.html",
+    "imageUrl": null,
+    "source": "CNBC",
+    "category": "글로벌",
+    "publishedAt": "2026-11-25T04:06:01.000Z"
   },
   {
     "id": "WSJ Markets-0-2025-01-27T19:26:00.000Z",
