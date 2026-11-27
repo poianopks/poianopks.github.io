@@ -1,53 +1,53 @@
 {
-  "shortTerm": "증시 보합(-0.18%) 혼조세. 엔비디아 -3.91%, 마이크론 -4.57% 반도체 방향성 탐색 중. VIX 25.65 — Fed 발언·실적 발표가 다음 방향 결정.",
-  "midTerm": "마이크론 -4.57% 약세는 메모리 재고 부담 시사. DRAM/NAND 계약가·고객사 재고 모니터링 필요. VIX 25.65 수준에서 싸이클 하락 전환 리스크 배제 어렵.",
+  "shortTerm": "뉴욕증시 +1.46% 강세 지속 중. 엔비디아 -0.05%이 AI 수요를 견인하며 기술주 모멘텀 유지. VIX 24.96으로 변동성 상승 주의.",
+  "midTerm": "엔비디아 -0.05%, 마이크론 +6.17%, 장비주 +0.85% — AI 수요와 메모리 회복 두 축 혼재. VIX 24.96 안정 구간에서 싸이클 위치 월간 체크 지속.",
   "keyRisks": [
     {
       "title": "Fed 금리 불확실성",
-      "detail": "VIX 25.65 (-4.29%) — 변동성 확대 중, 금리 인하 기대 후퇴 시 기술주 밸류에이션 압박 가속",
-      "signal": "negative"
+      "detail": "VIX 24.96 (-6.88%) — 변동성 확대 중, 금리 인하 기대 후퇴 시 기술주 밸류에이션 압박 가속",
+      "signal": "neutral"
     },
     {
       "title": "메모리 재고 리스크",
-      "detail": "마이크론 -4.57% — 현재 약세, 고객사 재고 재축적 시 DRAM/NAND 가격 하락 압력",
-      "signal": "negative"
+      "detail": "마이크론 +6.17% — 현재 강세이나 급격한 수요 둔화 시 재고 과잉 전환 주의",
+      "signal": "neutral"
     },
     {
       "title": "미·중 반도체 규제",
-      "detail": "ASML·AMAT 장비주 평균 -3.18% — 수출 통제 강화 시 중국 매출 타격 및 CAPEX 축소 파급",
-      "signal": "negative"
+      "detail": "ASML·AMAT 장비주 평균 +0.85% — 수출 통제 강화 시 중국 매출 타격 및 CAPEX 축소 파급",
+      "signal": "neutral"
     },
     {
       "title": "AI 수요 둔화 리스크",
-      "detail": "엔비디아 -3.91% — 현재 약세, 빅테크 CAPEX 집행 지연 또는 AI ROI 의문 시 GPU 수요 급감 가능",
-      "signal": "negative"
+      "detail": "엔비디아 -0.05% — 현재 약세, 빅테크 CAPEX 집행 지연 또는 AI ROI 의문 시 GPU 수요 급감 가능",
+      "signal": "neutral"
     }
   ],
   "keyOpportunities": [
     {
       "title": "AI 인프라 투자 지속",
-      "detail": "엔비디아 -3.91% — 데이터센터 GPU·AI 가속기 수요 장기 구조적 성장, Blackwell 세대 전환 모멘텀",
+      "detail": "엔비디아 -0.05% — 데이터센터 GPU·AI 가속기 수요 장기 구조적 성장, Blackwell 세대 전환 모멘텀",
       "signal": "neutral"
     },
     {
       "title": "HBM·고대역폭 메모리 수요",
-      "detail": "마이크론 -4.57% — AI 서버 HBM3E 공급 부족 구간 지속, 가격 프리미엄 유지 가능성",
-      "signal": "neutral"
+      "detail": "마이크론 +6.17% — AI 서버 HBM3E 공급 부족 구간 지속, 가격 프리미엄 유지 가능성",
+      "signal": "positive"
     },
     {
       "title": "장비주 CAPEX 사이클 회복",
-      "detail": "AMAT·ASML 평균 -3.18% — 파운드리 선단 공정 투자 재개 및 2nm/1.4nm 경쟁으로 장비 수주 증가 전망",
-      "signal": "neutral"
+      "detail": "AMAT·ASML 평균 +0.85% — 파운드리 선단 공정 투자 재개 및 2nm/1.4nm 경쟁으로 장비 수주 증가 전망",
+      "signal": "positive"
     },
     {
       "title": "저변동성 리스크온 환경",
-      "detail": "VIX 25.65 (-4.29%) — 변동성 상승 중, 저점 매수 기회 탐색 필요",
+      "detail": "VIX 24.96 (-6.88%) — 변동성 상승 중, 저점 매수 기회 탐색 필요",
       "signal": "neutral"
     }
   ],
   "overallSignal": "red",
-  "updatedAt": "2026-11-27T12:07:55.680Z",
-  "marketStatus": "프리마켓",
-  "vixLevel": 25.65,
+  "updatedAt": "2026-11-27T17:27:11.798Z",
+  "marketStatus": "장개장중",
+  "vixLevel": 24.96,
   "isRealtime": true
 }
