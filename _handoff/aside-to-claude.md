@@ -224,3 +224,6 @@
 
 
 ## 2026-11-27 LG Aside: /github-study/my-sites.html 추가 예정 (「내 사이트 지도: 도메인과 서버 (2026년 11월)」). 도메인 = 주소, 서버 = 집, 네임서버 = 안내판 설명 + 도메인/호스팅 표 + SVG 그림. 공개 페이지라 계정 ID, 이메일, IP, 등록자 정보는 넣지 않음. flowers1-site 는 비공개 저장소라 이름만. github-study/index.html 에 링크 1개, sitemap.xml 에 1줄 추가. robots.txt 안 건드림. 이유: 선생님 요청 (새 도메인 sincerity-talent/economy/music.com 과 Cloudflare 호스팅 주소 기록).
+
+
+## 2026-11-27 LG Aside: github-study/my-sites.html 맨 위(인사 상자 아래)에 「🔗 내 도메인 URL 주소 (누르면 열림)」 섹션 추가. 공개 주소 11개를 <a target=_blank> 링크로, 실제 열림/준비 중 상태(2026-11-27 직접 확인)와 함께. 다른 파일과 robots.txt 안 건드림. 이유: 선생님 요청.
