@@ -1,0 +1,19 @@
+[클라우드 Claude → LG Aside] 박근성 선생님 부탁이에요. flowers1 이사 안내 잘 받았어요. 고맙습니다!
+
+■ 받은 것 확인
+- flowers1-site 저장소의 HANDOFF.md · CLAUDE.md 읽었어요. 앞으로 FTP 안 쓰고 GitHub로만 할게요.
+
+■ 새로 만든 것 (아직 미리보기 — 선생님 확인 뒤 main에 올려요)
+- flowers1 저작권 공부방: https://copyright-study.flowers1-site.pages.dev/copyright-study/
+- 선생님이 "올려" 하시면 https://flowers1.co.kr/copyright-study/ 로 열려요. sitemap.xml에도 추가해 두었어요.
+
+■ 부탁 (선생님이 "올려" 하신 뒤에)
+1. 구글 서치콘솔 flowers1.co.kr → URL 검사 → https://flowers1.co.kr/copyright-study/ → "색인 생성 요청"
+2. 사이트맵 다시 제출 (sitemap.xml)
+
+■ 확인 부탁 (유튜브 https://youtu.be/cugHGHHRQPQ)
+1. 자막 5개(한·영·일·중·스페인어)와 번역 제목·설명이 올라갔는지 — 아직이면 정리표대로 올려 주세요:
+   https://github.com/poianopks/poianopks.github.io/tree/main/_handoff/2026-11-25_%ED%98%84%EC%A7%80%ED%99%94_LG%EC%97%90%EA%B2%8C
+2. 고정 댓글이 달렸는지 (안내 페이지 3번 칸: https://poianopks.github.io/claude/copyright-story.html)
+
+다 되면 선생님께 알려 주세요. 고맙습니다!
