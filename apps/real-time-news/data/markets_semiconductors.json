@@ -6,17 +6,17 @@
       "nameKo": "삼성전자",
       "role": "DRAM/NAND/파운드리",
       "currency": "KRW",
-      "price": 177900,
-      "change": 6600,
-      "changePercent": 3.8528898,
-      "volume": "9.63M",
+      "price": 179100,
+      "change": 7800,
+      "changePercent": 4.553415,
+      "volume": "16.01M",
       "week52High": 374500,
       "week52Low": 99900,
-      "distFromHigh": -52.49666221628838,
-      "priceToBook": 1.92,
+      "distFromHigh": -52.1762349799733,
+      "priceToBook": 1.93,
       "bps": 92903,
-      "trailingPE": 5.62,
-      "forwardPE": 3.93,
+      "trailingPE": 5.64,
+      "forwardPE": 3.94,
       "eps": 31809,
       "cnsEps": 45515
     },
@@ -26,17 +26,17 @@
       "nameKo": "SK하이닉스",
       "role": "DRAM/HBM",
       "currency": "KRW",
-      "price": 1095000,
-      "change": 52000,
-      "changePercent": 4.980843,
-      "volume": "2.14M",
+      "price": 1110000,
+      "change": 67000,
+      "changePercent": 6.4237776,
+      "volume": "3.30M",
       "week52High": 2987000,
       "week52Low": 525000,
-      "distFromHigh": -63.34114496149983,
-      "priceToBook": 2.54,
+      "distFromHigh": -62.83896886508202,
+      "priceToBook": 2.56,
       "bps": 433826,
-      "trailingPE": 4.21,
-      "forwardPE": 3.11,
+      "trailingPE": 4.25,
+      "forwardPE": 3.14,
       "eps": 261625,
       "cnsEps": 354118
     },
@@ -86,7 +86,7 @@
       "week52Low": 275.08,
       "distFromHigh": -29.772088538781883,
       "trailingPE": 22.18665,
-      "forwardPE": 14.662347
+      "forwardPE": 14.62036
     },
     {
       "symbol": "MU",
@@ -234,19 +234,19 @@
   ],
   "cyclePosition": "하락",
   "cycleSignal": "red",
-  "cycleSummary": "반도체 섹터가 52주 고점 대비 평균 45.5% 하회 중입니다. 싸이클 하락 국면 — 저가 매수 타이밍인지 추가 데이터 확인 필요.",
+  "cycleSummary": "반도체 섹터가 52주 고점 대비 평균 45.4% 하회 중입니다. 싸이클 하락 국면 — 저가 매수 타이밍인지 추가 데이터 확인 필요.",
   "signals": [
     {
       "label": "섹터 평균 등락",
-      "value": "-0.63%",
+      "value": "-0.48%",
       "signal": "yellow",
-      "description": "12종목 평균 -0.63% — 보합세, 방향성 탐색 중"
+      "description": "12종목 평균 -0.48% — 보합세, 방향성 탐색 중"
     },
     {
       "label": "52주 고점 거리",
-      "value": "평균 -45.49%",
+      "value": "평균 -45.43%",
       "signal": "green",
-      "description": "고점 45.5% 하회 — 저가 구간 진입 가능성"
+      "description": "고점 45.4% 하회 — 저가 구간 진입 가능성"
     },
     {
       "label": "상승 종목 수",
@@ -273,7 +273,7 @@
       "description": "마이크론 -4.57% 약세 — 메모리 재고 부담·가격 하락 우려"
     }
   ],
-  "updatedAt": "2026-11-27T05:21:35.235Z",
-  "marketStatus": "장개장중",
-  "isRealtime": true
+  "updatedAt": "2026-11-27T12:07:55.679Z",
+  "marketStatus": "장마감",
+  "isRealtime": false
 }
