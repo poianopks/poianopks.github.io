@@ -217,3 +217,6 @@
 ## 2026-11-22 LG Aside: economy/margin-of-safety.html 추가 (경제 이야기 15번째 레슨, 안전마진·신호등). 허브 카드, quotes.html 다음 링크, sitemap, lang.js 용어 추가. 다른 파일은 안 건드림.
 
 - 2026-11-22 (LG Aside): economy/margin-of-safety.html 에 6절 「과거로 시험해 보기 (20년)」, 7절 「오늘 나눈 질문과 답」 추가 (선생님 요청).
+
+
+## 2026-11-27 LG Aside: /used-pianos/ 추가 (중고 피아노 모델 사진 86개 모델, 522장, 크게 보기). 사진은 복사하지 않고 https://flowers1.co.kr/used-pianos/img/ 를 불러 씀 (저장소 작게 유지). 홈 index.html 메인 메뉴와 footer 에 「🎹 피아노 모델(중고)」 링크 1개씩 추가, sitemap.xml 에 1줄 추가. 이유: 선생님 요청 (옛 indexbak 중고 모델 링크를 깔끔한 사진첩으로). robots.txt 안 건드림.
