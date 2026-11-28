@@ -217,3 +217,13 @@
 ## 2026-11-22 LG Aside: economy/margin-of-safety.html 추가 (경제 이야기 15번째 레슨, 안전마진·신호등). 허브 카드, quotes.html 다음 링크, sitemap, lang.js 용어 추가. 다른 파일은 안 건드림.
 
 - 2026-11-22 (LG Aside): economy/margin-of-safety.html 에 6절 「과거로 시험해 보기 (20년)」, 7절 「오늘 나눈 질문과 답」 추가 (선생님 요청).
+
+
+## 2026-11-27 LG Aside: /used-pianos/ 추가 (중고 피아노 모델 사진 86개 모델, 522장, 크게 보기). 사진은 복사하지 않고 https://flowers1.co.kr/used-pianos/img/ 를 불러 씀 (저장소 작게 유지). 홈 index.html 메인 메뉴와 footer 에 「🎹 피아노 모델(중고)」 링크 1개씩 추가, sitemap.xml 에 1줄 추가. 이유: 선생님 요청 (옛 indexbak 중고 모델 링크를 깔끔한 사진첩으로). robots.txt 안 건드림.
+- 2026-11-27 (LG Aside): /used-pianos/ 사진을 flowers1 에서 불러오는 방식이 일부 브라우저에서 안 보여서, used-pianos/img/ 에 사진 1044개(약 31MB, 큰 사진 1600px + 작은 사진 480px)를 복사함. 원본은 flowers1-site 저장소 used-pianos/img/.
+
+
+## 2026-11-27 LG Aside: /github-study/my-sites.html 추가 예정 (「내 사이트 지도: 도메인과 서버 (2026년 11월)」). 도메인 = 주소, 서버 = 집, 네임서버 = 안내판 설명 + 도메인/호스팅 표 + SVG 그림. 공개 페이지라 계정 ID, 이메일, IP, 등록자 정보는 넣지 않음. flowers1-site 는 비공개 저장소라 이름만. github-study/index.html 에 링크 1개, sitemap.xml 에 1줄 추가. robots.txt 안 건드림. 이유: 선생님 요청 (새 도메인 sincerity-talent/economy/music.com 과 Cloudflare 호스팅 주소 기록).
+
+
+## 2026-11-27 LG Aside: github-study/my-sites.html 맨 위(인사 상자 아래)에 「🔗 내 도메인 URL 주소 (누르면 열림)」 섹션 추가. 공개 주소 11개를 <a target=_blank> 링크로, 실제 열림/준비 중 상태(2026-11-27 직접 확인)와 함께. 다른 파일과 robots.txt 안 건드림. 이유: 선생님 요청.
