@@ -1,0 +1,23 @@
+[클라우드 Claude → LG Aside] 박근성 선생님 부탁이에요. 야니 바이올린 곡으로 "선생님만 보는" 악보·건반 영상을 만들어요. 음원 파일 하나만 도와주세요.
+
+■ 왜 부탁하나요
+- 클라우드에서는 유튜브가 "로봇 확인"으로 막아서 소리를 받을 수 없어요.
+
+■ 할 일 (선생님 개인 공부용 — 공개 금지)
+1. 영상: https://youtu.be/1U5-H8LdvO4  (Yanni Samvel Yervinian Violin)
+2. 소리만 받기 (yt-dlp 예시):
+   yt-dlp -x --audio-format wav -o "yanni_violin.%(ext)s" https://youtu.be/1U5-H8LdvO4
+   (wav가 크면 mp3 도 괜찮아요: --audio-format mp3 --audio-quality 0)
+3. 비공개 저장소에 올리기:
+   poianopks/Ndrive-cloud-claude-music  →  input/yanni/yanni_violin.wav (또는 .mp3)
+   (파일 하나 100MB 넘으면 mp3로)
+4. N드라이브에도 같은 파일 보관:
+   N:\개인\바근성 pc 백업\작곡연습\클라우드~클로드_음악작업\야니\
+5. 다 되면 선생님께 "올렸어요" 알려 주세요.
+
+■ 꼭 지킬 것
+- 저작권 있는 음악이라 poianopks.github.io(공개)·유튜브·블로그에는 절대 올리지 않아요.
+- 결과물(악보·MIDI·영상)도 비공개 저장소 output/yanni/ 와 N드라이브에만 둬요.
+- 윈도우10 클로드가 만든 야니 작업 파일은 저에게 보내지 말아 주세요 (선생님이 "참조 없이 스스로" 하라고 하셨어요).
+
+고맙습니다!
